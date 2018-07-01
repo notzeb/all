@@ -1,0 +1,702 @@
+\documentclass[letterpaper,11pt]{report}
+\usepackage{amsfonts,amssymb,amsmath,amsthm,latexsym}
+\usepackage{stmaryrd}
+\usepackage[all]{xy}
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{enumitem,todonotes}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{graphicx}
+%\usepackage{fullpage}
+
+% from stack exchange
+\usepackage{sistyle}
+\SIthousandsep{,}
+
+\DeclareMathOperator\Supp{Supp}
+\DeclareMathOperator\Tr{Tr}
+
+\DeclareMathOperator{\Clo}{Clo}
+\DeclareMathOperator{\Inv}{Inv}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\CSP}{CSP}
+\DeclareMathOperator{\Sg}{Sg}
+\DeclareMathOperator{\Aut}{Aut}
+
+\DeclareMathOperator{\rad}{rad}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\inter}{int}
+
+\begin{document}
+
+\makeatletter
+\newtheorem*{rep@theorem}{\rep@title}
+\newcommand{\newreptheorem}[2]{%
+\newenvironment{rep#1}[1]{%
+ \def\rep@title{#2 \ref{##1}}%
+ \begin{rep@theorem}}%
+ {\end{rep@theorem}}}
+\makeatother
+
+\newtheorem{thm}{Theorem}
+\newreptheorem{thm}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem{lem}{Lemma}
+\newreptheorem{lem}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{conj}{Conjecture}
+\newtheorem{prob}{Problem}
+
+\theoremstyle{remark}
+\newtheorem{rem}{Remark}
+\newtheorem{ex}{Example}
+\newtheorem{exer}{Exercise}
+
+\newcommand{\Rho}{\mathrm{P}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\gk}{\kappa}
+\newcommand{\gS}{\Sigma}
+\newcommand{\gl}{\lambda}
+\newcommand{\gt}{\theta}
+
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\bA}{\mathbb{A}}
+\newcommand{\bB}{\mathbb{B}}
+\newcommand{\bC}{\mathbb{C}}
+\newcommand{\bD}{\mathbb{D}}
+\newcommand{\bE}{\mathbb{E}}
+\newcommand{\bF}{\mathbb{F}}
+\newcommand{\bI}{\mathbb{I}}
+\newcommand{\bP}{\mathbb{P}}
+\newcommand{\bS}{\mathbb{S}}
+\newcommand{\fA}{\mathbf{A}}
+\newcommand{\fB}{\mathbf{B}}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\EE}{\mathbb{E}}
+
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cO}{\mathcal{O}}
+
+\newcommand{\fp}{\mathfrak{p}}
+
+\newcommand{\dotcup}{\ensuremath{\mathaccent\cdot\cup}}
+
+\title{Notes}
+\date{}
+\author{}
+\maketitle
+
+\tableofcontents
+
+
+\chapter{Algebra}
+
+\section{Noncommutative rings}
+
+\begin{defn} If $R$ is a ring, then the \emph{Jacobson radical} $J(R)$ (sometimes written $\rad(R)$) is the intersection of the annihilators of all simple left $R$-modules.
+\end{defn}
+
+\begin{defn} A submodule $N$ of $M$ is \emph{superfluous}, written $N \subseteq_s M$ or $N \ll M$, if for all $H$ we have $N+H = M\ \implies\ H = M$.
+\end{defn}
+
+\begin{thm} We can replace ``left'' by ``right'' in the definition of the Jacobson radical of a ring. Furthermore, we have the following equivalent definitions:
+\begin{itemize}
+\item $J(R)$ is the intersection of all maximal left ideals of $R$,
+\item $J(R)$ is the sum of all superfluous left ideals of $R$,
+\item $J(R)$ is the maximal left ideal of $R$ such that for all $x \in J(R)$, $1-x$ has a left inverse,
+\item $J(R) = \{x \in R \mid 1+RxR \subseteq R^\times\}$.
+\end{itemize}
+\end{thm}
+
+\begin{lem}[Nakayama's Lemma] If $M$ is a finitely generated left $R$-module with $M = J(R)M$, then $M=0$.
+\end{lem}
+\begin{proof} Consider a minimal generating set $x_1, ..., x_n$ of $M$, and use $\sum x_i \in J(R)M$ to write $x_n$ as a linear combination of $x_1, ..., x_{n-1}$.
+\end{proof}
+
+\begin{prop} $J(R/J(R)) = 0$.
+\end{prop}
+
+\subsection{Artinian Rings}
+
+\begin{prop} If $R$, considered as a left $R$-module over itself, has a composition series of length $k$, then $J(R)^k = 0$.
+\end{prop}
+
+\begin{thm}[Hopkins' Theorem] If $M$ is a left module over a left Artinian ring, then the following are equivalent:
+\begin{itemize}
+\item $M$ is finitely generated,
+\item $M$ has finite length,
+\item $M$ is Noetherian,
+\item $M$ is Artinian.
+\end{itemize}
+\end{thm}
+
+\begin{thm}[Hopkins-Levitzki] If $R$ is \emph{semiprimary} - that is, if $R/J(R)$ is semisimple and $J(R)$ is nilpotent - then for left $R$-modules, being Noetherian, being Artinian, and having a composition series are equivalent.
+\end{thm}
+
+\begin{prop} If $J(R) = 0$, then every minimal left ideal of $R$ is a direct summand of $R$.
+\end{prop}
+
+\begin{thm} $R$ is semisimple if and only if it is left Artinian and has $J(R) = 0$.
+\end{thm}
+
+\section{Commutative Algebra}
+
+\begin{defn} If $R$ is a commutative ring, then $I \lhd R$ means that $I$ is an ideal of $R$.
+\end{defn}
+
+\begin{defn} If $I,J \lhd R$, set $(I:J) = \{r \in R \mid rJ \subseteq I\}$. If $a \in R$, we abbreviate $(I:(a))$ to $(I:a)$.
+\end{defn}
+
+\subsection{Primary Ideals}
+
+\begin{defn} $Q \lhd R$ is \emph{primary} if $\forall a,b\in R$ with $ab \in Q$, either $b \in Q$ or $\exists n$ such that $a^n \in Q$.
+\end{defn}
+
+\begin{defn} If $I \lhd R$, then $\rad(I) = \{r \in R \mid \exists n\ r^n \in I\}$.
+\end{defn}
+
+\begin{prop} $Q$ is primary if and only if $\rad(Q)$ is prime. If $Q_1, Q_2$ are primary and $\rad(Q_1) = \rad(Q_2)$, then $Q_1 \cap Q_2$ is primary. If $R$ is Noetherian and $Q \lhd R$, then $\exists n$ such that $\rad(Q)^n \subseteq Q$.
+\end{prop}
+
+\begin{thm}[Primary Decomposition] If $R$ is Noetherian and $I \lhd R$, then $\exists k$ and $Q_1, ..., Q_k \lhd R$ primary such that $I = Q_1 \cap \cdots \cap Q_k$.
+\end{thm}
+\begin{proof} By $R$ Noetherian, $\forall a\in R\ \exists n$ with $(I:a^n) = (I:a^{n+1})$, and for this $n$ we have $(I+(a^n))\cap (I:a) = I$, so either $I$ is already primary or we can write $I$ as an intersection of bigger ideals, and apply Noetherian induction.
+\end{proof}
+
+\begin{lem} If $R$ is Noetherian, then for any $I \lhd R$ and $r \in R \setminus I$, there exists $s \in R$ such that $(I:rs)$ is prime.
+\end{lem}
+
+\begin{thm}[Uniqueness of radicals] If $R$ is Noetherian, $I = Q_1 \cap \cdots \cap Q_k$ with $Q_i \lhd R$ primary and no $Q_i$ containing $\cap_{j \ne i} Q_j$, and if $\fp \lhd R$ is prime, then $\exists r \in R$ with $(I:r) = \fp$ if and only if there is an $i$ with $\rad(Q_i) = \fp$. In particular, the set $\{\rad(Q_i)\}_{i \le k}$ is uniquely determined by $I$.
+\end{thm}
+
+\begin{thm}[Uniqueness of primaries with minimal radical] If $R$ is Noetherian, $I = Q_1 \cap \cdots \cap Q_k$ with $Q_i \lhd R$ primary and $\rad(Q_i) \not\subseteq \rad(Q_1)$ for $i > 1$, then for $n$ sufficiently large we have $(I:\rad(Q_2)^n \cdots \rad(Q_k)^n) = Q_1$, so $Q_1$ is uniquely determined by $I$ and $\rad(Q_1)$.
+\end{thm}
+
+
+\chapter{Analysis}
+
+\section{Basic Facts}
+
+\subsection{Metric Spaces}
+
+\begin{defn} A metric space is \emph{complete} if every Cauchy sequence has a limit. It is \emph{totally bounded} if it can be covered by finitely many subsets of size $\epsilon$, for every $\epsilon > 0$.
+\end{defn}
+
+\begin{thm} A metric space is compact iff it is complete and totally bounded.
+\end{thm}
+
+\begin{defn} A metric space is \emph{sequentially compact} if every sequence has a bounded subsequence.
+\end{defn}
+
+\begin{thm}[Bolzano-Weierstrauss] A subset of $\RR^n$ is sequentially compact iff it is closed and bounded.
+\end{thm}
+
+\begin{prop} A closed subset of a complete space is complete, and a complete subset of a metric space is closed.
+\end{prop}
+
+\begin{thm}[Baire Category Theorem] If $M$ is either a complete metric space or a locally compact Hausdorff space, then a union of countably many nowhere dense subsets of $M$ has empty interior.
+\end{thm}
+
+\begin{defn} A space is called a \emph{Baire space} if the intersection of any countable collection of open dense sets is dense.
+\end{defn}
+
+\begin{thm}[Banach Fixed Point] Contraction mappings on complete metric spaces have unique fixed points.
+\end{thm}
+
+\begin{cor}[Picard-Lindel\"of] The initial value problem $y'(t) = f(t,y(t)), y(t_0) = y_0$ for $t \in [t_0-\epsilon,t_0+\epsilon]$ has a unique solution for some $\epsilon > 0$ if $f$ is Lipschitz continuous in $y$ and continuous in $t$.
+\end{cor}
+
+\begin{defn} If $X,Y$ are Banach spaces, $U \subseteq X$ open, then $f:U\rightarrow Y$ is called \emph{Frech\'et differentiable} at $x$ if there exists a bounded linear operator $A:X\rightarrow Y$ such that $\|f(x+h) - f(x) - Ah\|_Y = o(\|h\|_X)$ as $h \rightarrow 0$. In this case we write $Df_x = A$.
+\end{defn}
+
+\begin{cor}[Inverse Function Theorem] If $X,Y$ are Banach spaces, $U$ an open neighborhood of $0$ in $X$, $F:U\rightarrow Y$ continuously (Fr\'echet) differentiable and $DF_0:X\rightarrow Y$ a bounded isomorphism from $X$ to $Y$ (with bounded inverse), then there exists an open neighborhood $V \subseteq Y$ of $F(0)$ and a continuously differentiable map $G:V\rightarrow X$ such that $F(G(y)) = y$ for all $y \in V$.
+\end{cor}
+
+\begin{defn} A topological space is called \emph{separable} if it contains a countable dense set. It is called \emph{second countable} if its topology has a countable base.
+\end{defn}
+
+\begin{prop} Every second countable space is separable, and every separable metric space is second countable.
+\end{prop}
+
+\begin{defn} If $X,Y$ are metric spaces, then $f:X \rightarrow Y$ is called \emph{uniformly continuous} if $\forall \epsilon > 0\ \exists \delta > 0$ such that $\forall x,y \in X$ such that $d_X(x,y) < \delta$, we have $d_Y(f(x),f(y)) < \epsilon$.
+\end{defn}
+
+\begin{defn} A family of functions $F$ is called \emph{equicontinuous} at $x_0 \in X$ if $\forall \epsilon > 0\ \exists \delta > 0$ such that $\forall f \in F, x \in X$ such that $d(x_0,x) < \delta$ we have $d(f(x_0),f(x)) < \epsilon$. $F$ is \emph{uniformly equicontinuous} if $\forall \epsilon > 0\ \exists \delta > 0$ such that $\forall f \in F, x,y$ such that $d(x,y) < \delta$ we have $d(f(x),f(y)) < \epsilon$.
+\end{defn}
+
+\begin{thm}[Arzel\`a-Ascoli] If $(f_n)_{n \in \NN}$ defined on $[a,b]$ is uniformly bounded and equicontinuous, then there is a subsequence which converges uniformly.
+\end{thm}
+
+\begin{thm}[Ascoli Version 2] If $X$ is compact Hausdorff, then a subset of $C(X)$ (with the uniform norm) is compact iff it is closed, pointwise bounded, and equicontinuous.
+\end{thm}
+
+\begin{defn} The \emph{Bernstein polynomials} are defined by
+\[
+b_{\nu,n}(x) = \binom{n}{\nu} x^\nu (1-x)^{n-\nu}.
+\]
+\end{defn}
+
+\begin{thm}[Weierstrauss approximation] If $f:[a,b]\rightarrow \CC$ is continuous, then $\forall \epsilon > 0$ there exists a polynomial $p \in \CC[x]$ such that $\forall x \in [a,b]$, we have $|f(x) - p(x)| < \epsilon$.
+\end{thm}
+\begin{proof} Suppose $[a,b] = [0,1]$, and define $B_n(f)$ by
+\[
+B_n(f) = \sum_{\nu = 0}^n f(\tfrac{\nu}{n})b_{\nu,n}.
+\]
+If $k$ is the number of times we flip heads in $n$ independent random coinflips with bias $x$, then
+\[
+\EE[f(\tfrac{k}{n})] = B_n(f)(x),
+\]
+so the law of large numbers shows that $B_n(f)$ approximates $f$.
+\end{proof}
+
+\begin{thm}[Stone-Weierstrauss for $\RR$] $X$ compact Hausdorff, $A$ a subalgebra of $C(X,\RR)$ which contains a non-zero constant. Then $A$ is dense in $C(X,\RR)$ iff it separates points.
+\end{thm}
+
+\begin{thm}[Stone-Weierstrauss for $\CC$] $X$ compact Hausdorff, $S \subseteq C(X,\CC)$ separates points. Then the complex unital $*$-algebra generated by $S$ is dense in $C(X,\CC)$.
+\end{thm}
+
+\begin{thm}[Stone-Weierstrauss, Boolean ring version] If $X$ compact Hausdorff, $B \subseteq C(X,\RR)$ separates points, contains $1$, is an $\RR$-vector space, and contains $\max(f,g)$ whenever it contains $f,g$, then $B$ is dense in $C(X,\RR)$.
+\end{thm}
+
+\begin{lem}[Finite Vitali Covering Lemma] If $B_1, ..., B_n$ are balls in a metric space, then there is a subcollection $B_{j_1}, ..., B_{j_k}$ which are disjoint, and which satisfy
+\[
+B_1 \cup \cdots \cup B_n \subseteq 3B_{j_1} \cup \cdots \cup 3B_{j_k},
+\]
+where $3B_j$ is the ball with the same center as $B_j$ and three times the radius.
+\end{lem}
+\begin{proof} Keep adding the biggest ball which is disjoint from the ones you have chosen so far to your collection. Then every ball you haven't chosen will intersect a larger ball that you have chosen.
+\end{proof}
+
+\begin{lem}[Infinite Vitali Covering Lemma] If $(B_i)_{i\in I}$ is a collection of balls in a metric space such that $\sup_{i\in I} \rad(B_i) < \infty$, then for any $c > 1$ there is a subcollection $J \subseteq I$ such that the $B_j$ with $j \in J$ are disjoint, and $\cup_{i\in I} B_i \subseteq \cup_{j\in J} (1+2c)B_j$.
+\end{lem}
+\begin{proof} Let $R = \sup \rad(B_i)$, and for each $n$ choose a maximal disjoint subcollection of the balls with radius between $R/c^n$ and $R/c^{n+1}$ which are disjoint from the balls you have already chosen so far. Then every ball you haven't chosen will intersect a ball you have chosen, whose radius is at most a factor of $c$ smaller.
+\end{proof}
+
+
+\subsection{Topologies on $C(X,Y)$}
+
+\begin{defn} The \emph{compact-open} topology on $C(X,Y)$ has a subbase given by
+\[
+V(K,U) = \{f:X\rightarrow Y \mid f(K) \subseteq U\}
+\]
+for $K$ compact and $U$ open.
+\end{defn}
+
+\begin{prop} If $Y$ is a metric space then $f_n \rightarrow f$ in the compact-open topology iff $\forall K \subseteq X$ compact we have $f_n \rightarrow f$ uniformly on $K$, so in this case the compact-open topology is the ``topology of compact convergence''. If $X$ is compact as well, this becomes the uniform convergence topology.
+\end{prop}
+
+\begin{prop} If $Y$ is locally compact Hausdorff, composition $\circ : C(Y,Z) \times C(X,Y) \rightarrow C(X,Z)$ is continuous in the compact-open topology.
+\end{prop}
+
+\begin{defn} If $X,Y$ Banach spaces, $U\subseteq X$ open, $\mathcal{C}^m(U,Y)$ the $m$-times continuously Frech\'et-differentiable functions $U \rightarrow Y$, then the ``compact-open'' topology on $\mathcal{C}^m(U,Y)$ is induced by the seminorms
+\[
+\rho_K(f) = \sup\{\|D^jf_x\| \mid x \in K,\ 0 \le j \le m\}
+\]
+for $K \subseteq U$ compact.
+\end{defn}
+
+\begin{defn} The topology of \emph{compact convergence} is defined by $f_n \rightarrow f$ iff for all $K$ compact, $f_n|_K \rightarrow f|_K$ converges uniformly.
+\end{defn}
+
+\begin{prop} A set $F$ of functions is called \emph{normal} if every sequence of functions from $F$ contains a subsequence that converges compactly to a continuous function.
+\end{prop}
+
+\begin{thm}[Montel] Any uniformly bounded family of holomorphic functions defined on an open subset of $\CC$ is normal.
+\end{thm}
+
+\begin{defn} The topology of \emph{pointwise convergence} is the product topology on $Y^X$ - this has $f_n \rightarrow f$ iff $f_n(x) \rightarrow f(x)$ for all $x$.
+\end{defn}
+
+
+\subsection{Measure}
+
+\begin{defn} A set of subsets $\gS$ of $X$ is a $\sigma$-\emph{algebra} over $X$ if $\gS$ staisfies: $\emptyset \in \gS$, $\forall A \in \gS$ we have $X\setminus A \in \gS$, and for any sequence $(A_n)_{n \in \NN}$ of elements of $\gS$ we have $\cup_n A_n \in \gS$.
+\end{defn}
+
+\begin{defn} If $X$ is a topological space, the \emph{Borel} $\sigma$-algebra is the smallest $\sigma$-algebra containing the open subsets of $X$ (some authors replace ``open'' by ``compact'' in this definition).
+\end{defn}
+
+\begin{prop} If $X$ is metric, then the Borel $\sigma$-algebra can be generated from the open sets by iterating the obvious construction (taking closure under countable unions and intersections) at most $\omega_1$ times.
+\end{prop}
+\begin{proof} Every open subset of $X$ is a countable union of closed subsets of $X$, and $\omega_1$ has uncountable cofinality.
+\end{proof}
+
+\begin{cor} The Borel $\sigma$-algebra on $\RR$ has cardinality $2^{\aleph_0}$.
+\end{cor}
+
+\begin{defn} $\mu:\gS \rightarrow [0,\infty]$ is a \emph{measure} if $\mu(\emptyset) = 0$ and $\mu(\cup_{i=1}^\infty E_i) = \sum_{i=1}^\infty \mu(E_i)$ whenever $E_i \in \gS$ and $E_i \cap E_j = \emptyset$ for all $i \ne j$. $(X,\gS, \mu)$ is called a \emph{measure space} if $\gS$ is a $\sigma$-algebra over $X$ and $\mu : \gS \rightarrow [0,\infty]$ is a measure.
+\end{defn}
+
+\begin{prop} If $\mu$ is a measure and $E_1 \subseteq E_2 \subseteq \cdots$ are measurable, then $\mu(\cup_{i=1}^\infty E_i) = \sup_i \mu(E_i)$. If $F_1 \supseteq F_2 \supseteq \cdots$ are measurable and $\mu(F_1) < \infty$, then $\mu(\cap_{i=1}^\infty F_i) = \inf_i \mu(F_i)$.
+\end{prop}
+
+\begin{defn} A \emph{signed measure} is a map $\mu:\gS \rightarrow [-\infty,\infty]$ which is countably additive (and doesn't take both $\infty, -\infty$ as values).
+\end{defn}
+
+\begin{thm}[Hahn decomposition Theorem]\label{hahn-decomposition} If $\mu$ is a signed measure, then there exist measurable sets $P,N$ such that $P\cup N = X, P \cap N = \emptyset$, and for all $E \subseteq P$ measurable we have $\mu(E) \ge 0$, while for all $E \subseteq N$ measurable we have $\mu(E) \le 0$. This decomposition is unique up to null sets.
+\end{thm}
+\begin{proof} Assume WLOG that $\mu$ doesn't take the value $-\infty$. Say a measurable set is \emph{negative} if every measurable subset has measure $\le 0$. First we show that for any measurable $D$ with $\mu(D) \le 0$ there is a negative set $A \subseteq D$ with $\mu(A) \le \mu(D)$: define a sequence of sets $A_n$, $A_0 = D$, each $A_{n+1}$ given by removing a set of positive measure from $A_n$ whose measure is at least half as large as the $\sup$ of measures of subsets (if finite), or at least $1$ otherwise, and take $A = \cap_n A_n$. Next, we define N by making a sequence $N_n$ with $N_0 = \emptyset$, and $N_{n+1}$ given by adding a negative set to $N_n$ whose measure is at least half as negative as the $\inf$ of measure of subsets (if finite), or at most $-1$ otherwise, and take $N = \cup_n N_n$.
+\end{proof}
+
+\begin{thm}[Jordan decomposition Theorem] If $\mu$ is a signed measure, there is a unique decomposition $\mu = \mu^+ - \mu^-$ where $\mu^+, \mu^-$ are positive measures (at least one of which is finite), such that $\mu^+(E)$ is $0$ for any negative set $E$ and $\mu^-$ is $0$ for any positive set $E$.
+\end{thm}
+
+\begin{defn} If $\mu$ is a signed measure and $\mu = \mu^+ - \mu^-$ is its Jordan decomposition, then we set $|\mu| = \mu^+ + \mu^-$.
+\end{defn}
+
+\begin{defn} A \emph{complex measure} is a countably additive function $\mu:\gS \rightarrow \CC$. Equivalently, it is a complex combination of finite measures.
+\end{defn}
+
+\begin{defn} If $\mu, \nu$ are (possibly signed) measures, then $\mu$ is \emph{absolutely continuous} with respect to $\nu$, written $\mu \ll \nu$, if $|\nu|(A) = 0 \implies |\mu|(A) = 0$.
+\end{defn}
+
+\begin{defn} We say that two (possibly signed or complex) measures $\mu,\nu$ on $X$ are \emph{singular}, written $\mu \perp \nu$, if there are measurable sets $A,B$ with $A \cup B = X$ such that $B$ is $\mu$-null and $A$ is $\nu$-null.
+\end{defn}
+
+\begin{thm}[Lebesgue decomposition Theorem] If $\mu, \nu$ are (possibly signed) $\sigma$-finite measures over $X$, then there is a unique pair of $\sigma$-finite measure $\mu_{ac}, \mu_s$ such that $\mu = \mu_{ac} + \mu_s$, $\mu_{ac} \ll \nu$, and $\mu_s \perp \nu$.
+\end{thm}
+\begin{proof} We just need to prove this in the finite, unsigned case. Let $\cN$ be the collection of $\nu$-null sets. Define $\mu_{ac}$ by
+\[
+\mu_{ac}(A) = \inf_{N \in \cN} \mu(A\setminus N).
+\]
+$\mu_{ac}$ is clearly nonnegative and countably additive, and we clearly have $\mu_{ac} \ll \nu$. Set $\mu_s = \mu - \mu_{ac}$, taking $A = X$ and noting that the infimum must actually be attained, we see that there is a $\nu$-null set $N$ such that $\mu_s(X\setminus N) = 0$, so $\mu_s \perp \nu$.
+
+For uniqueness, suppose that $\mu = \mu_1 + \mu_2$ with $\mu_1 \ll \nu, \mu_2 \perp \nu$. Since $\mu_1 \le \mu$ and $\mu_1 \ll \nu$, we have
+\[
+\mu_1(A) = \inf_{N \in \cN} \mu_1(A\setminus N) \le \inf_{N \in \cN} \mu(A\setminus N) = \mu_{ac}(A),
+\]
+so $\mu_1 \le \mu_{ac}$. Thus $\mu_{ac} - \mu_1 = \mu_2 - \mu_s$ is both $\nu$-absolutely continuous and $\nu$-singular, so $\mu_1 = \mu_{ac}$.
+\end{proof}
+
+\subsubsection{Constructing measures}
+
+\begin{defn} On any set, the \emph{counting measure} takes every finite set to its size and every infinite set to $\infty$.
+\end{defn}
+
+\begin{defn} A measure space $(X, \gS, \mu)$ is \emph{complete} if every subset of a null set (that is, a set with measure $0$) is in $\gS$. If $Z$ is the collection of all subsets of null sets, then define $\Sigma_0$ to be the $\sigma$-algebra generated by $\Sigma$ and $Z$, and $\mu_0(C) = \inf\{\mu(D) \mid C \subseteq D \in \Sigma\}$, and define the \emph{completion} of $(X,\gS,\mu)$ to be $(X,\gS_0,\mu_0)$.
+\end{defn}
+
+\begin{prop} The completion of a measure space is always a complete measure space, and in fact $\Sigma_0 = \{A \cup B \mid A \in \Sigma, B \in Z\}$.
+\end{prop}
+
+\begin{defn} $\varphi : 2^X \rightarrow [0,\infty]$ is an \emph{outer measure} if $\varphi(\emptyset) = 0$, $A \subseteq B \implies \varphi(A) \le \varphi(B)$, and for any sequence $(A_n)_{n\in \NN}$ we have have $\varphi(\cup_{i=1}^\infty A_i) \le \sum_{i=1}^\infty \varphi(A_i)$.
+\end{defn}
+
+\begin{defn} If $\varphi$ is an outer measure over $X$, we say that $E$ is $\varphi$-\emph{measurable} if $\forall A \subseteq X$, we have $\varphi(A) = \varphi(A\cap E) + \varphi(A\cap E^c)$. We write $\gS_\varphi$ for the collection of all $\varphi$-measurable sets.
+\end{defn}
+
+\begin{thm} If $\varphi$ is an outer measure, then $\gS_\varphi$ is a $\sigma$-algebra, and the restriction of $\varphi$ to $\gS_\varphi$ is a complete measure.
+\end{thm}
+\begin{proof} If $E_i \in \gS_\varphi$ are pairwise disjoint and $E = \cup_{i=1}^\infty E_i$, then for any $A$ we have
+\[
+\varphi(A) \le \varphi(A\cap E^c) + \varphi(A\cap E) \le \varphi(A\cap E^c) + \sum_{i=1}^\infty \varphi(A\cap E_i) = \sup_n \Big(\varphi(A\cap E^c) + \sum_{i=1}^n \varphi(A\cap E_i)\Big) \le \varphi(A).
+\]
+Taking $A = E$ shows that $\varphi(E) = \sum_{i=1}^\infty \varphi(E_i)$.
+\end{proof}
+
+\begin{defn} If $X$ is a metric space and $\varphi$ is an outer measure over $X$, we say that $\varphi$ is a \emph{metric outer measure} if $d(E,F) > 0 \implies \varphi(E \cup F) = \varphi(E) + \varphi(F)$.
+\end{defn}
+
+\begin{thm} If $\varphi$ is a metric outer measure, then all Borel sets are $\varphi$-measurable.
+\end{thm}
+\begin{proof} If $U$ is open, let $U_n = \{x \in U \mid B(x,\frac{1}{n}) \subseteq U\}$, and note that for any $n$, $d(U_n, U_{n+1}^c) \ge \frac{1}{n(n+1)} > 0$. For any $A$ with $\varphi(A) < \infty$ we then have
+\[
+\sum_{n\text{ odd}} \varphi(A \cap (U_{n+1}\setminus U_n)) \le \varphi(A) < \infty,
+\]
+and similarly for $n$ even, so the tails of the sum go to zero. Then for any $A$ we have
+\[
+\varphi(A) \le \varphi(A \cap U^c) + \varphi(A \cap U) \le \inf_n \Big(\varphi(A\cap U^c) + \varphi(A\cap U_n) + \sum_{m \ge n} \varphi(A\cap (U_{m+1}\setminus U_m))\Big) \le \varphi(A).\qedhere
+\]
+\end{proof}
+
+\begin{defn} A collection of sets $S$ is a \emph{semi-ring} if $\emptyset \in S$, for any $A,B \in S$ we have $A \cap B \in S$, and for any $A, B \in S$ there exists $n$ and pairwise disjoint $C_1, ..., C_n \in S$ such that $A \setminus B = \cup_{i=1}^n C_i$.
+\end{defn}
+
+\begin{defn} If $S$ is a collection of sets, then a map $\mu : S \rightarrow [0,\infty]$ is a \emph{pre-measure} if $\mu(\emptyset) = 0$ and for any sequence $A_n$ of pairwise disjoint sets in $S$ such that $\cup_{i=1}^\infty A_i \in S$, we have $\mu(\cup_{i=1}^\infty A_i) = \sum_{i=1}^\infty \mu(A_i)$.
+\end{defn}
+
+\begin{thm}[Carath\'eodory Extension Theorem]\label{caratheodory-extension} If $S$ is a semi-ring of subsets of $X$ and $\mu_0 : S \rightarrow [0,\infty]$ is a pre-measure, then if we define $\mu^*$ by
+\[
+\mu^*(E) = \inf \Big\{\sum_{i=1}^\infty \mu_0(A_i) \mid A_i \in S,\ E \subseteq \bigcup_{i=1}^\infty A_i\Big\},
+\]
+then $\mu^*$ is an outer measure over $X$ with $\mu^*(A) = \mu_0(A)$ for all $A\in S$, and $S \subseteq \gS_{\mu^*}$.
+\end{thm}
+
+\begin{defn} A pre-measure $\mu : S \rightarrow [0,\infty]$ with $S$ a collection of subsets of $X$ is $\sigma$-\emph{finite} if there exists a sequence $A_n \in S$ with $\mu(A_i) < \infty$ and $X = \cup_{i=1}^\infty A_i$.
+\end{defn}
+
+\begin{thm}[Hahn-Kolmogorov] If $\mu_0$ is a pre-measure on a semi-ring $S$, then it extends to a measure $\mu$ on the $\sigma$-algebra $\gS$ generated by $S$. If $\mu_0$ is $\sigma$-finite, then this extension is unique.
+\end{thm}
+\begin{proof} Let $\mu^*$ be the associated outer measure from the Carath\'eodory extension theorem, and suppose $\mu'$ is a different measure extending $\mu$ on $\gS' \supseteq S$. Then for any $E \in \gS' \cap \gS_{\mu^*}$, we clearly have $\mu'(E) \le \mu^*(E)$. By $\sigma$-finiteness and the fact that $\mu'$ is countably additive, we can assume WLOG that $\mu^*(X) = \mu'(X) < \infty$, but then $\mu'(E^c) \le \mu^*(E^c)$ implies $\mu'(E) = \mu^*(E)$ since $E$ is $\mu^*$-measurable.
+\end{proof}
+
+\begin{prop} Let $\mu_0, \mu^*, \mu, S, \gS, \gS_{\mu^*}$ be as above. If $\mu_0$ is $\sigma$-finite, then $\gS_{\mu^*}$ is the completion of $\gS$ - in fact, for any $E \in \gS_{\mu^*}$, there is a countable intersection of countable unions of elements of $S$ which contains $E$ and differs from it in a null set.
+\end{prop}
+
+\begin{thm}[Lebesgue outer measure] Let $S$ be the collection of half-open intervals $[a,b)$ for $a \le b \in \RR$, and define $\gl_0 : S \rightarrow [0,\infty)$ by $\gl_0([a,b)) = b-a$. Then $S$ is a semi-ring, $\gl_0$ is a pre-measure, and the associated outer measure $\gl^*$ is a translation-invariant metric outer measure over $\RR$ with $\gl^*([0,1]) = 1$.
+\end{thm}
+\begin{proof} Suppose that $[a,b) = \cup_{i=1}^\infty A_i$, where the $A_i$ are pairwise disjoint half-open intervals. Then the set of left endpoints of the $A_i$ is well-ordered (any descending sequence must have a limit in $[a,b)$, and this limit must be contained in some $A_i$), so we can show by well-founded induction that if $A_i = [c,d)$, then $\sum_{A_j < A_i} \gl_0(A_j) = c-a$.
+
+Alternate proof: Let $A' = [a,b-\epsilon]$, and if $A_i = [c_i,d_i)$ let $A_i' = (c_i - \epsilon/2^i, d_i)$. Then by compactness, some finite subset of the $A_i'$s cover $A'$.
+\end{proof}
+
+\begin{defn} If $\gl^*$ is constructed as above, then a set is called \emph{Lebesgue-measurable} if it is in $\gS_{\gl^*}$, and $\gl^*\mid_{\gS_{\gl^*}}$ is called the \emph{Lebesgue measure}, and written as $\gl$.
+\end{defn}
+
+\begin{thm}[Lebesgue-Stieltjes measure] If $I$ is an interval and $g: I \rightarrow \RR$ is monotone increasing, set $g_-(x) = \sup_{y < x} g(y)$, then there is a unique Borel measure $\mu_g$ such that $\mu_g([a,b)) = g_-(b) - g_-(a)$.
+\end{thm}
+
+\begin{defn} If $g$ has bounded variation, then we define the \emph{signed Lebesgue-Stieltjes measure} $\mu_g$ by writing $g = g_1 - g_2$ with $g_1, g_2$ monotone increasing, and $\mu_g = \mu_{g_1} - \mu_{g_2}$.
+\end{defn}
+
+\begin{defn} A Borel measure $\mu$ is \emph{locally finite} if every point has an open neighborhood of finite measure. It is \emph{inner regular} if for every Borel set $B$, $\mu(B)$ is the supremum of $\mu(K)$ over all compact $K \subseteq B$. It is \emph{outer regular} if for all $B$, $\mu(B)$ is the infimum of $\mu(U)$ over all open $U$ containing $B$. A measure is \emph{Radon} if it is inner regular, outer regular, and locally finite.
+\end{defn}
+
+\begin{prop} Every locally finite Borel measure over $\RR$ is a Lebesgue-Stieltjes measure, and every Lebesgue-Stieltjes measure is a Radon measure. More generally, every locally finite Borel measure on $\RR^n$ is Radon.
+\end{prop}
+
+\begin{thm}[Product measures]\label{product-measure} If $\mu, \nu$ are pre-measures on semi-rings $S,T$, respectively, then the collection of rectangles $S\times T$ is a semi-ring, and $\mu\times \nu$ is a pre-measure on $S\times T$.
+\end{thm}
+\begin{proof} Suppose $E\times F \in S\times T$ is a countable union of disjoint rectangles $E_i \times F_i$. We'll show that for any $M < \mu(E)$ and $N < \nu(F)$, we have $MN \le \sum_i \mu(E_i)\nu(F_i)$. Let $A_n = \{x \in E \mid \sum_{i=1}^n 1_{x \in E_i}\cdot\nu(F_i) \ge N\}$. Each $A_n$ is a finite union of elements of $S$, and $\cup_n A_n = E$ since for each $x \in E$, the collection of $F_i$s with $x \in E_i$ is disjoint and covers $F$, so some finite subset of them must have measure at least $N$. Thus there is some $n$ such that $\mu(A_n) \ge M$, and for this $n$ we have $MN \le \sum_{i=1}^n \mu(E_i)\nu(F_i)$.
+\end{proof}
+
+\begin{thm}[Infinite products] Let $I$ be any index set. If $\mu_i$ are pre-measures on semi-rings $S_i$, such that each $S_i$ has an element $X_i$ with $\mu_i(X_i) = 1$, and if we let $S = \prod_{i\in I}' S_i$ be the set of rectangles $\prod_{i \in I} A_i$ such that $A_i = X_i$ for all but finitely many $i$ and define $\mu = \prod_i \mu_i$, then $S$ is a semi-ring and $\mu$ is a pre-measure on $S$.
+\end{thm}
+\begin{proof} Suppose that $A = \cup_{n=1}^\infty A_n$ with $A, A_n \in S$ and the $A_n$s disjoint, but that $\mu(A) > \sum_n \mu(A_n)$. Each $A_n$ only has finitely many coordinates $i$ which are not equal to $X_i$, so at most countably many coordinates in $I$ are relevant - rename these relevant coordinates as $1, 2, ...$. Write $A = E \times F$, $A_n = E_n \times F_n$, with $E, E_n \in S_1$ and $F, F_n \in \prod_{i \ne 1}' S_i$, and write $\mu^1 = \prod_{i \ne 1} \mu_i$. By the argument for the finite case, there is some $x_1 \in E$ such that $\mu^1(F) > \sum_n 1_{x_1 \in E_n}\cdot \mu^1(F_n)$. Continuing inductively, we find a sequence of coordinates $x_1, x_2, ...$ such that for each $k$, when we restrict the first $k$ coordinates to be $x_1, ..., x_k$, the two sides don't add up. But then no point with $(x_1, x_2, ...)$ as the relevant countably many coordinates can be an element of any $A_n$ (take $k$ to be larger than the finitely many coordinates $i$ of $A, A_n$ which are not equal to $X_i$), contradicting the assumption $A = \cup_n A_n$.
+\end{proof}
+
+\begin{cor}[Lebesgue measure on $\RR^n$] For every $n$, there is a translation-invariant metric outer measure $\gl^*$ on $\RR^n$ with $\gl^*([0,1]^n) = 1$. If $T$ is a linear transformation and $A \subseteq \RR^n$, then $\gl^*(T(A)) = |\det(T)|\gl^*(A)$. The associated measure $\gl$ is a Radon measure.
+\end{cor}
+\begin{proof} For the statement about linear transformations, it's enough to check this for shear and stretch transformations in the case $A$ is a box, and this can done done using a standard dissection argument (the pieces are Borel sets).
+\end{proof}
+
+\begin{defn} If $X,Y$ are measure spaces with measures $\mu, \nu$, then $X\times Y$ has a measure $\mu\times \nu$ given by applying the Carath\'eodory extension Theorem \ref{caratheodory-extension} to the product pre-measure contructed in Theorem \ref{product-measure} - this measure is called the \emph{maximal product measure} on $X\times Y$.
+\end{defn}
+
+\begin{prop}\label{product-null} If $A \subseteq X\times Y$ is $\mu\times\nu$-null, then the set of $y \in Y$ such that $A_y = \{x \in X \mid (x,y) \in A\}$ is not $\mu$-null is $\nu$-null.
+\end{prop}
+\begin{proof} Pick $\epsilon > 0$, and let $E$ be the set of $y \in Y$ such that $\mu(A_y) > \epsilon$. If $A \subseteq \cup_{n=1}^\infty R_n$ such that the $R_n$ are measurable rectangles, and $E_k$ is the set of $y$ such that $\mu((\cup_{n=1}^k R_k)_y) > \epsilon$, then $\cup_k E_k = E$, so if $\nu(E) > \delta$ then some $\nu(E_k) > \delta/2$, so $\mu\times\nu(\cup_n R_n) > \epsilon\delta/2$.
+\end{proof}
+
+\begin{thm}[Cavalieri Principle] If $X,Y$ are $\sigma$-finite measure spaces and $A,B \subseteq X\times Y$ are measurable with $\mu(A_y) = \mu(B_y)$ for $\nu$-almost every $y \in Y$, then $\mu\times\nu(A) = \mu\times\nu(B)$.
+\end{thm}
+\begin{proof} TODO: find a proof that doesn't use integrals.
+\end{proof}
+
+\begin{ex} To see $\sigma$-finiteness is necessary, take $X$ to be $[0,1]$ with counting measure, $Y$ to be $[0,1]$ with Lebesgue measure, $A$ to be $\{0\}\times Y$, and $B$ to be the diagonal.
+\end{ex}
+
+\begin{thm}[Lebesgue Density Theorem] If $E \subseteq \RR^n$, then for Lebesgue-a.e. $x$ in $E$ we have
+\[
+\lim_{r \rightarrow 0} \frac{\gl^*(E\cap B_r(x))}{\gl(B_r(x))} = 1.
+\]
+\end{thm}
+\begin{proof} Let $A_t$ be the set of points such that the left hand side (with a $\liminf$ instead) is less than $1-t$, and let $U_\epsilon$ be an open set containing $A_t$ with $\gl^*(U\setminus A) \le \epsilon$. Then for each point $x$ in $A_t$, we can find an $r$ such that the left hand side of the above is at most $1-t$ and such that $B_r(x) \subseteq U_\epsilon$. Now apply the Vitali Covering Lemma to get a collection $(B_i)_{i \in I}$ is disjoint balls contained in $U_\epsilon$ such that $A_t \subseteq \cup_i 5B_i$. Then since $\cup_i B_i \subseteq U_\epsilon$, we have
+\[
+\gl(\cup_i B_i)-\epsilon \le \gl^*(A \cap (\cup_i B_i)) \le \gl^*(E\cap (\cup_i B_i)) \le \sum_i (1-t)\gl(B_i) = (1-t)\gl(\cup_i B_i),
+\]
+so $\gl(\cup_i B_i) \le \epsilon/t$, and since $A_t \subseteq \cup_i 5B_i$ we get $\gl^*(A_t) \le 5^n\epsilon/t$. Since $\epsilon > 0$ was arbitrary, $\gl^*(A_t) = 0$.
+\end{proof}
+
+\begin{defn} If $X$ is a metric space and $S \subseteq X$, we set
+\[
+H^d_\delta(S) = \inf\Big\{\sum_{i=1}^\infty \diam(U_i)^d \mid S \subseteq \bigcup_{i=1}^\infty U_i,\ \diam(U_i) < \delta\Big\}
+\]
+and
+\[
+H^d(S) = \sup_{\delta > 0} H^d_\delta(S).
+\]
+This is a metric outer measure, called the \emph{Hausdorff measure}.
+\end{defn}
+
+\begin{thm} In $\RR^n$, we have $H^n(B) = 2^n$, where $B$ is the unit ball.
+\end{thm}
+\begin{proof} This follows from the isodiametric inequality: the volume of a set of diameter $2$ is at most the volume of the unit ball. Suppose that $K$ has diameter $2$, then $K-K \subseteq 2B$, so by Brunn-Minkowski we have $\gl(K) \le \gl(\frac{1}{2}(K-K)) \le \gl(B)$.
+\end{proof}
+
+\begin{defn} If $X$ is a locally compact Hausdorff space, then a Borel measure $\mu$ is called a \emph{Borel regular measure} if it is locally finite, outer regular, and inner regular on open sets (note that the only difference from a Radon measure is that we only require inner regularity on open sets).
+\end{defn}
+
+\begin{defn} A \emph{field} of sets is a collection of sets which is closed under finite intersections, unions and complements. A \emph{content} on a field of sets $\cA$ is a function $\lambda : \cA \rightarrow [0,\infty]$, such that $\lambda(A)$ is increasing in $A$, and such that for any $A_1, A_2 \in \cA$ disjoint, we have $\lambda(A_1 \cup A_2) = \lambda(A_1) + \lambda(A_2)$.
+\end{defn}
+
+\begin{defn} A \emph{content} on a locally compact Hausdorff space is a function $\lambda : \cK \rightarrow [0,\infty)$, where $\cK$ is the collection of compact subsets of $X$, such that $\lambda(K)$ is increasing in $K$, $\lambda(K_1 \cup K_2) \le \lambda(K_1) + \lambda(K_2)$, and such that for any $K_1, K_2 \in \cK$ disjoint, we have $\lambda(K_1 \cup K_2) = \lambda(K_1) + \lambda(K_2)$. A content $\lambda$ is \emph{regular} if for any $K \in \cK$, we have $\lambda(K) = \inf \{\lambda(L) \mid K \subseteq \inter(L)\}$.
+\end{defn}
+
+\begin{lem}\label{content-measure} For every content $\lambda$ on a locally compact Hausdorff space $X$, there is a unique Borel regular measure $\mu$ on $X$ such that for all open sets $U$ we have $\mu(U) = \sup\{\lambda(K) \mid K \subseteq U\}$. If $\lambda$ is a regular content, then $\mu$ extends $\lambda$.
+\end{lem}
+\begin{proof} Define $\mu$ on open sets as in the theorem statement, and define $\mu^* : \cP(X) \rightarrow [0,\infty]$ by $\mu^*(A) = \inf \{\mu(U) \mid A \subseteq U\}$. $\mu$ is finite on the interior of any compact set, so $\mu^*$ is locally finite.
+
+First we show that $\mu^*$ is an outer measure: If $A = \cup_{n=1}^\infty A_n$, then pick $U_n$ open with $A_n \subseteq U_n$ and $\mu^*(U_n) \le \mu^*(A_n) + \epsilon/2^n$, and let $U = \cup_n U_n$. Pick $K \subseteq U$ compact with $\mu(U) \le \lambda(K) + \epsilon$, then some finite subset of the $U_n$ cover $K$, say $U_1, ..., U_k$. We just need to show that $\lambda(K) \le \sum_{i=1}^k \mu(U_i)$, and this follows if we can construct compact $K_i \subseteq U_i$ with $K \subseteq \cup_i K_i$, and for this, we may assume that $k = 2$. Let $L_1 = K\setminus U_2, L_2 = K\setminus U_1$, then $L_1,L_2$ are disjoint compact sets of a Hausdorff space, so there are disjoint open sets $V_1, V_2$ with $L_i \subseteq V_i$. Now take $K_1 = K\setminus V_2, K_2 = K \setminus V_1$.
+
+Now we show that open sets are $\mu^*$-measurable. Let $U$ be open and $A\subseteq X$ be arbitrary. We want to show that for any open $V \supseteq A$, we have $\mu(V) \ge \mu^*(A\cap U) + \mu^*(A\cap U^c)$, so we just need to show that $\mu(V) \ge \mu(V\cap U) + \mu^*(V\setminus U)$. For any compact $K \subseteq V\cap U$, let $W = V \setminus K$, then for any compact $L \subseteq W$ we have $\mu(V) \ge \lambda(K\cup L) = \lambda(K) + \lambda(L)$, so $\mu(V) \ge \lambda(K) + \mu(W) \ge \lambda(K) + \mu^*(V\setminus U)$, so $\mu(V) \ge \mu(V\cap U) + \mu^*(V\setminus U)$.
+\end{proof}
+
+\begin{defn} If $G$ is a locally compact Hausdorff group and $\mu$ is a Borel measure on $G$, then $\mu$ is a \emph{left Haar measure} on $G$ if $\mu(gE) = \mu(E)$ for $g \in G$ and $E$ Borel, and $\mu$ is Borel regular.
+\end{defn}
+
+\begin{thm}[Haar measure] If $G$ is a locally compact Hausdorff group, then there is a unique (up to scale) left Haar measure on $G$.
+\end{thm}
+\begin{proof}[Sketch] For $K$ compact and $V$ with nonempty interior, let $(K:V)$ be the minimum number of left translates of $V$ that are needed to cover $K$. Pick $K_0$ compact with nonempty interior. For every $U$, define $\mu_U$ on compact sets by
+\[
+\mu_U(K) = \frac{(K:U)}{(K_0:U)}.
+\]
+Then for all $K,U$ we have $0 \le \mu_U(K) \le (K:K_0)$. We consider each $\mu_U$ as a point in $\prod_K [0,(K:K_0)]$. For each open $V$, let $C(V)$ be the closure of the set of $\mu_U$s with $U \subseteq V$. By compactness, there exists $\mu \in \cap_V C(V)$. For $K_1, K_2$ disjoint, find $V$ open such that $K_1V^{-1} \cap K_2V^{-1} = \emptyset$, then from $\mu \in C(V)$ we see that $\mu(K_1 \cup K_2) = \mu(K_1) + \mu(K_2)$. Thus $\mu$ defines a left-invariant content on the compact sets of $G$, so there is a left-invariant Borel regular measure on $G$ by Lemma \ref{content-measure}.
+
+To prove uniqueness, suppose $\mu, \nu$ are left Haar measures and $K,L$ are compact, $L$ with nonempty interior. Since $x \mapsto \frac{1}{\mu(Lx)}$ is integrable on compact sets (to see this, note for any continuous $g$ supported in $L$, the function $x \mapsto \int_G g(tx) d\mu(t)$ is continuous in $x$), then by a version of Fubini and left-invariance we have
+\begin{align*}
+\nu(K) &= \int_G \int_G \frac{1_{x\in K, yx \in L}}{\mu(Lx^{-1})} d\mu(y) d\nu(x)\\
+&= \int_G \int_G \frac{1_{y^{-1}x\in K, x \in L}}{\mu(Lx^{-1}y)} d\mu(y) d\nu(x)\\
+&= \int_G \int_G \frac{1_{y^{-1} \in K, x \in L}}{\mu(Ly)} d\mu(y) d\nu(x)\\
+&= \nu(L) \int_G \frac{1_{y^{-1} \in K}}{\mu(Ly)} d\mu(y),
+\end{align*}
+so $\nu(K)/\nu(L)$ does not depend on $\nu$. TODO: find a proof that doesn't require Fubini, or even integration.
+
+If $G$ is $\sigma$-compact, then we can prove uniqueness as follows instead: the Radon-Nikodym derivative $h = \frac{d\mu}{d(\mu+\nu)}$ is left-invariant up to null sets, so by Fubini applied to $\int_{G\times G} |h(gx)-h(x)|\ d(g,x)$, we see that there is some $x$ such that $h(gx) = h(x)$ for almost all $g$, so $\mu$ and $\nu$ differ by a constant factor.
+\end{proof}
+
+\subsection{Integration}
+
+\begin{defn} If $f:X\rightarrow Y$ and $\cB$ is a $\sigma$-algebra on $Y$, then $\sigma(f)$ is the $\sigma$-algebra on $X$ generated by $f^{-1}(S)$ for $S \in \cB$. We say that $f:(X,\Sigma) \rightarrow (Y,\cB)$ is $\gS$-\emph{measurable}, or just \emph{measurable} if $\gS$ is clear, if $\sigma(f) \subseteq \gS$ (if unspecified, $\cB$ is usually taken to be the Borel sets of $Y$).
+\end{defn}
+
+\begin{prop} $f:(X,\gS) \rightarrow [-\infty,\infty]$ is measurable iff $f^{-1}([-\infty,a]) \in \gS$ for all $a \in \RR$. If $f_1, ..., f_n$ are measurable and $g:\RR^n \rightarrow [-\infty,\infty]$ is Borel measurable, then $g(f_1, ..., f_n)$ is measurable. If $f_k$ is a sequence of measurable functions, then $\sup f_k$ is measurable.
+\end{prop}
+
+\begin{prop} If $f_k : X \rightarrow Y$ is a sequence of measurable functions to a metric space and $f_k \rightarrow f$ pointwise, then $f$ is measurable.
+\end{prop}
+\begin{proof} For any open set $U$ the collection of $x \in X$ such that $f_k(x)$ are eventually all in $U$ is measurable, and this set contains $f^{-1}(U)$ and is contained $f^{-1}(\overline{U})$. Since every open set in a metric space is a countable union of open subsets whose closures are contained in it, the preimage of every open set is measurable.
+\end{proof}
+
+\begin{defn} A \emph{simple function} is a function which can be written as a finite linear combination of measurable sets.
+\end{defn}
+
+\begin{defn} For $f \ge 0$ measurable (up to a null set), we define the \emph{integral} of $f$ with respect to a measure $\mu:\gS\rightarrow [0,\infty]$ to be
+\[
+\int f\ d\mu = \sup\Big\{\sum_{i = 1}^k c_i\mu(A_i) \mid c_1, ..., c_k \ge 0,\ A_1, ..., A_k \in \gS,\ \sum_{i=1}^k c_i\cdot 1_{x \in A_i} \le f(x)\Big\}.
+\]
+A measurable (up to a null set) complex-valued function $f$ is \emph{integrable} if $\int |f| d\mu < \infty$. We extend the integral to all integrable functions by linearity.
+\end{defn}
+
+\begin{prop} For $f,g \ge 0$ measurable, we have $\int f+g\ d\mu = \int f\ d\mu + \int g\ d\mu$.
+\end{prop}
+\begin{proof} For any finite $S \subset [0,\infty]$, define $f_S$ by
+\[
+f_S(x) = \max \{s \in S \mid s \le f(x)\}.
+\]
+Note $f_S$ is a simple function and $\int f\ d\mu = \sup_S \int f_S\ d\mu$. For any $S$ and any $n$, if we let $S_n = \{\frac{k}{n}s\mid k \le n,\ s\in S\}$, then $(f+g)_S \le \frac{n-1}{n}(f_{S_n}+g_{S_n})$.
+\end{proof}
+
+\begin{prop} Any Riemann integrable function $f:[0,1] \rightarrow \CC$ is Lebesgue integrable, with the same integral.
+\end{prop}
+
+\begin{prop} If $f:X \rightarrow [0,\infty]$ is measurable, then $\{(x,t) \mid 0 \le t \le f(x)\}$ is measurable in $X\times [0,\infty]$, with $\mu\times\gl$-measure $\int_X f\ d\mu = \int_0^\infty \mu(\{x \mid f(x) \ge t\})\ dt$.
+\end{prop}
+\begin{proof} For any $c > 1$, if we round positive values of $f$ up or down to the nearest $c^n$, $n \in \ZZ$, we see that the product outer measure of $\{(x,t) \mid 0 \le t \le f(x)\}$ is at most $c$ times $\int_X f\ d\mu$.
+\end{proof}
+
+\begin{thm}[Monotone Convergence Theorem]\label{monotone-convergence} If $f_k$ is a sequence of measurable functions with $0 \le f_k \le f_{k+1}$ for all $k$ and $f$ is the pointwise limit of the $f_k$, then $f$ is measurable and $\int f\ d\mu = \lim_k \int f_k\ d\mu$.
+\end{thm}
+\begin{proof} It's enough to prove this when $f$ is the characteristic function of a measurable set $A$. Fix $\epsilon > 0$, and for each $k$ set $A_k = \{x \mid f_k(x) \ge 1-\epsilon\}$, then from $\cup_k A_k = A$, we have $\lim_k \mu(A_k) = \mu(A)$, so $\lim_k \int f_k\ d\mu \ge (1-\epsilon)\mu(A)$.
+\end{proof}
+
+\begin{lem}[Fatou's Lemma] If $f_k \ge 0$ are measurable, then $\int \liminf_k f_k\ d\mu \le \liminf_k \int f_k\ d\mu$.
+\end{lem}
+\begin{proof} $\int \liminf_k f_k\ d\mu = \lim_k \int \inf_{l\ge k} f_l\ d\mu \le \liminf_k \int f_k\ d\mu$.
+\end{proof}
+
+\begin{cor} If $f_k$ measurable, $|f_k| \le g$, $g$ integrable, then
+\[
+\int \liminf f_k\ d\mu \le \liminf \int f_k\ d\mu \le \limsup \int f_k\ d\mu \le \int \limsup f_k\ d\mu.
+\]
+\end{cor}
+
+\begin{thm}[Dominated Convergence Theorem]\label{dominated-convergence} If $f_k$ measurable, $|f_k| \le g$, $g$ integrable, $f_k \rightarrow f$ pointwise, then $\lim_k \int f_k\ d\mu = \int f\ d\mu$, and $\lim_k \int |f_k - f|\ d\mu = 0$.
+\end{thm}
+
+\begin{thm}[Radon-Nikodym Theorem]\label{radon-nikodym} If $\mu, \nu$ are $\sigma$-finite measures on $X$ ($\nu$ possibly signed or complex) and $\nu \ll \mu$, then there exists a measurable function $f$ (unique up to a $\mu$-null set) such that for any measurable set $A$, $\nu(A) = \int_A f\ d\mu$.
+\end{thm}
+\begin{proof} We just need to prove this in the positive, finite case. Let $\cF$ be the family of measurable functions $f$ such that for all measurable $A$, $\nu(A) \ge \int_A f\ d\mu$. Note that $\cF$ is closed under maximum, and by the Monotone Convergence Theorem \ref{monotone-convergence} $\cF$ is closed under countable monotone limits, so there is some $f \in \cF$ with $\int_X f\ d\mu = \sup_{g \in \cF} \int_X g\ d\mu$. Let $\nu_0 = \nu - \int f\ d\mu$. If $\nu_0(X) > 0$, take $\epsilon > 0$ such that $\nu_0(X) > \epsilon \mu(X)$, and let $(N,P)$ be a Hahn decomposition \ref{hahn-decomposition} of $\nu_0 - \epsilon \mu$. But then $f + \epsilon\cdot 1_P \in \cF$ and $\mu(P) > 0$, contradicting our choice of $f$.
+\end{proof}
+
+\begin{defn} If $\mu, \nu$ have $\nu = \int f\ d\mu$, then the \emph{Radon-Nikodym derivative} $\frac{d\nu}{d\mu}$ is defined to be the equivalence class of $f$ when we quotient by $\mu$-null functions.
+\end{defn}
+
+\begin{prop} Where the relevant Radon-Nikodym derivatives make sense, we have $\frac{d(\nu+\mu)}{d\lambda} = \frac{d\mu}{d\lambda} + \frac{d\nu}{d\lambda}$, $\frac{d\nu}{d\lambda} = \frac{d\nu}{d\mu} \frac{d\mu}{d\lambda}$, $\frac{d|\nu|}{d\mu} = |\frac{d\nu}{d\mu}|$, and $\int g\ d\mu = \int g\frac{d\mu}{d\lambda}\ d\lambda$.
+\end{prop}
+
+\begin{prop}\label{tonelli-indicator} If $E \subseteq X\times Y$ is measurable and $\mu\times\nu(E) < \infty$, then for $\mu$-almost every $x \in X$ $E_x$ is measurable up to a $\nu$-null set, the function $g(x) = \mu(E_x)$ is measurable up to a $\mu$-null set, and $\int g\ d\mu = \mu\times\nu(E)$.
+\end{prop}
+\begin{proof} By definition of $\mu\times\nu$, there is an $F \supseteq E$ which is a countable decreasing intersection of countable unions of measurable rectangles, such that $\mu\times\nu(E) = \mu\times\nu(F)$. Since $\mu\times\nu(E) < \infty$, $F\setminus E$ is $\mu\times\nu$-null, so we may replace $E$ by $F$ without changing $g$ (aside from on a $\mu$-null set) by Proposition \ref{product-null} and then apply monotone \ref{monotone-convergence} and dominated \ref{dominated-convergence} convergence to reduce to the case of a finite union of measurable rectangles.
+\end{proof}
+
+\begin{thm}[Fubini's Theorem]\label{fubini} If $\int_{X\times Y} |f(x,y)|\ d(x,y) < \infty$, where $d(x,y)$ is the maximal product measure on $X\times Y$, then for a.e. $x\in X$ $f(x,y)$ is integrable in $y$, and we have $\int_{X\times Y} f(x,y)\ d(x,y) = \int_X \int_Y f(x,y)\ dy\ dx$.
+\end{thm}
+
+\begin{thm}[Tonelli's Theorem]\label{tonelli} If $X,Y$ are $\sigma$-finite, then $\int_{X\times Y} |f(x,y)|\ d(x,y) = \int_X \int_Y |f(x,y)|\ dy\ dx$.
+\end{thm}
+\begin{proof} Assume $f \ge 0$. The assumptions of either Fubini or Tonelli imply that $f$ can be written as the pointwise limit of an increasing sequence $\phi_n$ of nonnegative simple functions that each vanish outside a set of finite measure. Thus, using Proposition \ref{tonelli-indicator}, for almost every fixed $x$ the function $y\mapsto f(x,y) = \lim_n \phi_n(x,y)$ is measurable up to a null set, and by monotone convergence \ref{monotone-convergence} the function $x \mapsto \int_Y f(x,y)\ dy = \lim_n \int_Y \phi_n(x,y)\ dy$ is measurable up to a null set. Applying monotone convergence and Proposition \ref{tonelli-indicator} again, we get
+\begin{align*}
+&\int_X\int_Yf(x,y)\ dy\ dx = \lim_n \int_X\int_Y\phi_n(x,y)\ dy\ dx\\
+&= \lim_n \int_{X\times Y}\phi_n(x,y)\ d(x,y) = \int_{X\times Y}f(x,y)\ d(x,y).\qedhere
+\end{align*}
+\end{proof}
+
+
+\subsection{Banach spaces}
+
+\begin{defn} If $V$ is a vector space (over $\RR$ or $\CC$), then $p:V \rightarrow [0,\infty)$ is a \emph{seminorm} if $p(0) = 0$, $p(cv) = |c|p(v)$ for $c$ a scalar and $v\in V$, and $p(v+w) \le p(v) + p(w)$ for $v,w \in V$. $p$ is a \emph{norm} if additionally $p(v) = 0 \iff v = 0$.
+\end{defn}
+
+\begin{lem}[Zabreiko's Lemma] If $X$ is a Banach space and $p : X \rightarrow [0,\infty)$ is a seminorm such that for all absolutely convergent series $\sum_{n=1}^\infty x_n$ in $X$ we have $p(\sum_n x_n) \le \sum_n p(x_n)$, then $p$ is continuous, that is, $p(x) \ll \|x\|$.
+\end{lem}
+\begin{proof} Let $A_n = p^{-1}([0,n])$, then since $X = \cup_n \overline{A_n}$, there is some $n$ such that $\overline{A_n}$ has nonempty interior by the Baire category theorem. Since $\overline{A_n}$ is convex and symmetric, some open ball $B_R(0)$ around $0$ is contained in $\overline{A_n}$. We claim that $B_R(0) \subseteq A_n$ as well: if $\|x\| < R$, pick $0 < q < 1$ such that $\frac{\|x\|}{1-q} < R$, set $y = \frac{R}{\|x\|}x$, then since $y \in \overline{A_n}$ there exists $y_0 \in A_n$ with $\|y - y_0\| < qR$, and then inductively we find $y_0, y_1, ... \in A_n$ such that for each $k$, we have $\|y - \sum_{i<k} y_i\| < q^kR$: $y_k$ is taken to be a point in $A_n$ with $\|q^{-k}(y - \sum_{i<k} y_i) - y_k\| < qR$. Since $\|y_k\| < R + qR$ for each $k$, the sum $\sum_k q^k y_k = y$ is absolutely convergent, so by hypothesis $p(y) \le \sum_k q^kp(y_k) \le \frac{n}{1-q}$, so $p(x) \le \frac{\|x\|}{R}\frac{n}{1-q} < n$, so $x \in A_n$.
+\end{proof}
+
+\begin{thm}[Open Mapping Theorem] If $X,Y$ Banach spaces, $A:X\rightarrow Y$ surjective and continuous, then $A$ takes open sets to open sets.
+\end{thm}
+\begin{proof} For $y \in Y$, set $p(y) = \inf \{\|x\| \mid Ax = y\}$ in Zabreiko's Lemma.
+\end{proof}
+
+\begin{thm}[Bounded Inverse Theorem] If $X,Y$ Banach spaces, $A:X\rightarrow Y$ bijective and continuous, then $A^{-1}$ is also bounded.
+\end{thm}
+
+\begin{thm}[Closed Graph Theorem] If $X, Y$ Banach spaces, then $A:X\rightarrow Y$ is bounded iff the graph is closed in $X\times Y$.
+\end{thm}
+\begin{proof} For $x \in X$, set $p(x) = \|Ax\|$ in Zabreiko's Lemma.
+\end{proof}
+
+\begin{thm}[Uniform Boundedness Theorem/Banach Steinhaus] If $X$ is Banach, $Y$ a normed vector space, $F$ a set of continuous linear functions $T:X\rightarrow Y$. If $\forall x \in X\ \sup_{T\in F} \|T(x)\| < \infty$, then $\sup_{T \in F} \|T\| < \infty$.
+\end{thm}
+\begin{proof} Set $p(x) \in \sup_{T\in F} \|T(x)\|$ in Zabreiko's Lemma.
+\end{proof}
+
+\begin{cor} If a sequence of bounded operators from a Banach space to a normed space converges pointwise, then the pointwise limit is a bounded operator.
+\end{cor}
+
+
+\bibliographystyle{plain}
+\bibliography{all}
+
+\end{document}
+
