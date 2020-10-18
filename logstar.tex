@@ -1,0 +1,401 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fullpage}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+
+\DeclareMathOperator{\sech}{sech}
+
+\begin{document}
+
+\makeatletter
+\newtheorem*{rep@theorem}{\rep@title}
+\newcommand{\newreptheorem}[2]{%
+\newenvironment{rep#1}[1]{%
+ \def\rep@title{#2 \ref{##1}}%
+ \begin{rep@theorem}}%
+ {\end{rep@theorem}}}
+\makeatother
+
+\newtheorem{thm}{Theorem}
+\newreptheorem{thm}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newreptheorem{cor}{Corollary}
+\newtheorem{lem}{Lemma}
+\newreptheorem{lem}{Lemma}
+\newtheorem{quest}{Question}
+\newtheorem*{conj*}{Conjecture}
+\newtheorem*{thm*}{Theorem}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+
+\theoremstyle{remark}
+\newtheorem{rem}{Remark}
+
+\newcommand{\Rho}{\mathrm{P}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\gk}{\kappa}
+\newcommand{\gS}{\Sigma}
+\newcommand{\gl}{\lambda}
+\newcommand{\gt}{\theta}
+
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\bA}{\mathbb{A}}
+\newcommand{\bB}{\mathbb{B}}
+\newcommand{\bC}{\mathbb{C}}
+\newcommand{\bD}{\mathbb{D}}
+\newcommand{\bE}{\mathbb{E}}
+\newcommand{\bF}{\mathbb{F}}
+\newcommand{\bG}{\mathbb{G}}
+\newcommand{\bI}{\mathbb{I}}
+\newcommand{\bL}{\mathbb{L}}
+\newcommand{\bM}{\mathbb{M}}
+\newcommand{\bN}{\mathbb{N}}
+\newcommand{\bP}{\mathbb{P}}
+\newcommand{\bS}{\mathbb{S}}
+\newcommand{\fA}{\mathbf{A}}
+\newcommand{\fB}{\mathbf{B}}
+\newcommand{\fG}{\mathbf{G}}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\EE}{\mathbb{E}}
+
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cU}{\mathcal{U}}
+
+\newcommand{\fp}{\mathfrak{p}}
+
+\title{Interpolating $\log^*$}
+\author{}
+\date{}
+\maketitle
+
+Sometimes we wish to find a function perfectly in between $x$ and $e^x$. That is, we desire a function $f$ such that $f(f(x)) = e^x$, at least asymptotically. There are slight technical difficulties with finding a function which exactly satisfies $f(f(x)) = e^x$, but it turns out that we can find a nice bijective function $f : [0,\infty) \rightarrow [0,\infty)$ which satisfies
+\[
+f(f(x)) = e^x - 1.
+\]
+The advantage of using $e^x - 1$ here is that $e^0 - 1 = 0$, so we can set $f(0) = 0$.
+
+We define a pair of functions $\varepsilon(x)$ and $\ell(x)$ by
+\[
+\varepsilon(x) = e^x - 1
+\]
+and
+\[
+\ell(x) = \ln(1 + x),
+\]
+and note that $\varepsilon, \ell : [0,\infty) \rightarrow [0,\infty)$ are inverse bijections.
+
+For each $n \in \NN$, we define $\varepsilon^n(x)$ and $\ell^n(x)$ to be the $n$th iterates of $\varepsilon$ and $\ell$, so that $\varepsilon^0(x) = \ell^0(x) = x$ and $\varepsilon^{n+1}(x) = \varepsilon(\varepsilon^n(x)), \ell^{n+1}(x) = \ell(\ell^n(x))$. The strategy is to start by defining a bijective function $\ell^* : (0,\infty) \rightarrow \RR$ such that $\ell^*(1) = 0$,
+\[
+\ell^*(\varepsilon(x)) = \ell^*(x) + 1,
+\]
+and
+\[
+\ell^*(\ell(x)) = \ell^*(x) - 1.
+\]
+Intuitively, $\ell^*(x)$ is ``the number of times we have to apply $\ell$ to reach $1$''. Using $\ell^*$, we can then construct a function $\varepsilon^{1/2}$ which satisfies $\varepsilon^{1/2}(\varepsilon^{1/2}(x)) = e^x - 1$.
+
+\begin{prop} For all $x > 0$, we have $\varepsilon(x) > x$ and $\ell(x) < x$. In particular, for any $x > 0$, we have $\lim_{n \rightarrow \infty} \ell^n(x) = 0$.
+\end{prop}
+
+The intuition for computing $\ell^*(x)$ is that we may use the identity
+\[
+\ell^*(\ell^n(x)) = \ell^*(x) - n
+\]
+to reduce the computation of $\ell^*(x)$ to the computation of $\ell^*(\ell^n(x))$. Since $\ell^n(x)$ is eventually quite close to $0$, we just need to understand how $\ell$ acts on numbers close to $0$. We can approximate $\ell(x)$ for small $x$ by the Taylor series
+\[
+\ell(x) = x - \frac{x^2}{2} + O(x^3).
+\]
+Comparing $\frac{1}{\ell(x)}$ to $\frac{1}{x}$, we get the following estimate.
+
+\begin{prop} For $x$ small, we have
+\[
+\frac{1}{\ell(x)} = \frac{1}{x} + \frac{1}{2} - \frac{x}{12} + O(x^2).
+\]
+Additionally, we have
+\[
+\frac{1}{2} - \frac{x}{12} < \frac{1}{\ell(x)} - \frac{1}{x} < \frac{1}{2}
+\]
+for all $x > 0$.
+\end{prop}
+\begin{proof} The first statement follows from standard power series manipulation:
+\[
+\frac{1}{x - x^2/2 + x^3/3 - x^4/4 + x^5/5 - \cdots} = \frac{1}{x} + \frac{1}{2} - \frac{x}{12} + \frac{x^2}{24} - \frac{19x^3}{720} + \cdots.
+\]
+
+The inequality $\frac{1}{\ell(x)} - \frac{1}{x} < \frac{1}{2}$ is equivalent to
+\[
+\ell(x) > \frac{1}{1/x + 1/2} = 2 - \frac{4}{2+x},
+\]
+and since this is true for $x$ sufficiently close to $0$, we just need to check that the derivative of the left hand side is at least the derivative of the right hand side. Thus we just need to check that
+\[
+\frac{1}{1+x} > \frac{4}{(2+x)^2},
+\]
+which follows by multiplying out.
+
+We only need to check the inequality $\frac{1}{2} - \frac{x}{12} < \frac{1}{\ell(x)} - \frac{1}{x}$ in the range $0 < x < 6$, and in this range it is equivalent to
+\[
+\ell(x) < \frac{1}{1/x + 1/2 - x/12} = \frac{x}{1 + x/2 - x^2/12}.
+\]
+Again, this is true for $x$ sufficiently close to $0$, so we may compare the derivatives instead. We see that we just need to check that
+\[
+\frac{1}{1+x} < \frac{(1 + x/2 - x^2/12) - x(1/2 - x/6)}{(1 + x/2 - x^2/12)^2} = \frac{1 + x^2/12}{(1 + x/2 - x^2/12)^2}
+\]
+for $0 < x < 6$. Multiplying out, this becomes
+\[
+(1 + x/2 - x^2/12)^2 < (1+x)(1 + x^2/12),
+\]
+or
+\[
+1 + x + \frac{x^2}{12} - \frac{x^3}{12} + \frac{x^4}{144} < 1 + x + \frac{x^2}{12} + \frac{x^3}{12},
+\]
+which holds for $0 < x < 24$.
+\end{proof}
+
+\begin{cor} For $x \le 1$, we have
+\[
+\frac{5n}{12} < \frac{1}{\ell^n(x)} - \frac{1}{x} < \frac{n}{2}.
+\]
+\end{cor}
+
+\begin{cor} For $x \le 1$, we have
+\[
+\frac{1}{\ell^n(x)} = \frac{1}{x} + \frac{n}{2} - \sum_{i < n} \frac{\ell^i(x)}{12} + O(x).
+\]
+\end{cor}
+
+\begin{cor} For $x \le 1$, we have
+\[
+\frac{1}{\ell^n(x)} = \frac{1}{x} + \frac{n}{2} - O(\ln(n)).
+\]
+\end{cor}
+
+\begin{cor} For $x$ fixed and $n$ going to infinity, we have
+\[
+\frac{1}{\ell^n(x)} = \frac{n}{2} - \frac{\ln(n)}{6} + O_x(1).
+\]
+\end{cor}
+
+So one natural path to computing $\ell^*(x)$ is to try to compute
+\[
+\lim_{n \rightarrow \infty} n - \frac{\ln(n)}{3} - \frac{2}{\ell^n(x)}.
+\]
+A simpler approach is to compare $\frac{2}{\ell^n(x)}$ to $\frac{2}{\ell^n(1)}$.
+
+\begin{prop} For any $x, y > 0$, we have
+\[
+\Big|\frac{1}{x} - \frac{1}{y}\Big| \le \Big|\frac{1}{\ell(x)} - \frac{1}{\ell(y)}\Big| \le \Big|\frac{1}{x} - \frac{1}{y}\Big| + \frac{|x-y|}{12}.
+\]
+\end{prop}
+\begin{proof} We just need to show that the function $f(x) = -1/\ell(x)$ has derivative bounded below by $\frac{1}{x^2}$ and above by $\frac{1}{x^2} + \frac{1}{12}$. We have
+\[
+f'(x) = \frac{1}{1+x}\cdot \frac{1}{\ell(x)^2}.
+\]
+Thus, for the left hand inequality, we just need to check that
+\[
+\ell(x)^2 < \frac{x^2}{1+x},
+\]
+or equivalently
+\[
+\ell(x) < \frac{x}{(1+x)^{1/2}}.
+\]
+Since equality holds at $0$, it's enough to compare the derivatives: we just need to show that
+\[
+\frac{1}{1+x} < \frac{1}{(1+x)^{1/2}} - \frac{x}{2(1+x)^{3/2}}.
+\]
+Multiplying out, this becomes
+\[
+2\sqrt{1+x} < 2+x,
+\]
+and squaring both sides shows that this holds for all $x > 0$.
+
+For the right hand inequality, we need to check that
+\[
+\ell(x)^2 > \frac{x^2}{(1+x)(1+x^2/12)},
+\]
+or equivalently that
+\[
+\ell(x) > \frac{x}{(1+x)^{1/2}(1+x^2/12)^{1/2}}.
+\]
+Again, it's enough to compare the derivatives, so we just need to check that
+\[
+\frac{1}{1+x} > \frac{1}{(1+x)^{1/2}(1+x^2/12)^{1/2}} - \frac{x}{2(1+x)^{3/2}(1+x^2/12)^{1/2}} - \frac{x^2}{12(1+x)^{1/2}(1+x^2/12)^{3/2}}.
+\]
+Multiplying out, this becomes
+\[
+(1+x)^{1/2}(1+x^2/12)^{3/2} > 1 + x/2 - x^3/24,
+\]
+and on squaring both sides we get the inequality
+\[
+(1+x)(1+x^2/12)^3 > 1 + x + x^2/4 - x^3/12 - x^4/24 + x^6/24^2,
+\]
+which the reader may verify by using the inequality $x^5 + x^7 \ge 2x^6$.
+\end{proof}
+
+\begin{cor} For any $x, y > 0$, the limit
+\[
+\lim_{n \rightarrow \infty} \frac{2}{\ell^n(y)} - \frac{2}{\ell^n(x)}
+\]
+exists, and is equal to
+\[
+\lim_{n \rightarrow \infty} \frac{n^2}{2}\Big(\ell^n(x) - \ell^n(y)\Big).
+\]
+\end{cor}
+\begin{proof} To see that the limit exists, note that if $x \ge y$, then the sequence
+\[
+\frac{2}{\ell^n(y)} - \frac{2}{\ell^n(x)}
+\]
+is increasing in $n$ and is bounded above by
+\[
+\frac{2}{y} - \frac{2}{x} + \sum_{m \ge 0} \frac{\ell^m(x) - \ell^m(y)}{6} \le \frac{2}{y} - \frac{2}{x} + \frac{kx}{6},
+\]
+where $k$ is any integer which satisfies $y \ge \ell^k(x)$.
+
+For the second statement, note that
+\[
+\frac{2}{\ell^n(y)} - \frac{2}{\ell^n(x)} = \frac{2(\ell^n(x) - \ell^n(y))}{\ell^n(x)\ell^n(y)},
+\]
+and use the asymptotic
+\[
+\ell^n(x) = (1+o_x(1))\frac{2}{n}
+\]
+(and similarly for $y$) to replace the denominator by $4/n^2$.
+\end{proof}
+
+\begin{defn} For $x > 0$, we define $\ell^*(x)$ by
+\[
+\ell^*(x) = \lim_{n \rightarrow \infty} \frac{2}{\ell^n(1)} - \frac{2}{\ell^n(x)} = \lim_{n \rightarrow \infty} \frac{n^2}{2}\Big(\ell^n(x) - \ell^n(1)\Big).
+\]
+\end{defn}
+
+\begin{prop} For all $x > 0$, the function $\ell^*(x)$ satisfies
+\[
+\ell^*(e^x - 1) = \ell^*(x) + 1
+\]
+and
+\[
+\ell^*(\ln(1+x)) = \ell^*(x) - 1.
+\]
+\end{prop}
+\begin{proof} It's enough to prove the second statement. By the definition of $\ell^*$, we have
+\[
+\ell^*(x) - \ell^*(\ell(x)) = \lim_{n \rightarrow \infty} \frac{2}{\ell^{n+1}(x)} - \frac{2}{\ell^n(x)}.
+\]
+Setting $y_n = \ell^n(x)$, we have $y_n \rightarrow 0$, so the above is equal to
+\[
+\lim_{y \rightarrow 0} \frac{2}{\ell(y)} - \frac{2}{y} = 1.\qedhere%= \lim_{y_n \rightarrow 0} 1 - \frac{y_n}{6} + O(y_n^2) 
+\]
+\end{proof}
+
+For the sake of concretely approximating $\ell^*$, we have the following explicit bound.
+
+\begin{prop} If $x \ge y \ge \ell^k(x)$, then for any $n$ we have
+\[
+\frac{2}{\ell^n(y)} - \frac{2}{\ell^n(x)} \le \ell^*(x) - \ell^*(y) \le \frac{2}{\ell^n(y)} - \frac{2}{\ell^n(x)} + \frac{k\ell^n(x)}{6}.
+\]
+\end{prop}
+
+Of course, we'd like to know if the function $\ell^*$ is well-behaved: is it continuous, is it differentiable, etc. To answer this question, we use the theory of \emph{completely monotone}/\emph{Bernstein} functions.
+
+\begin{defn} A continuous function $f : [0,\infty) \rightarrow \RR$ is called \emph{completely monotone} if it satisfies
+\[
+(-1)^nf^{(n)}(x) \ge 0
+\]
+for all $x > 0$ and all $n \in \NN$.
+
+A function $g : [0,\infty) \rightarrow [0,\infty)$ whose derivative is completely monotone is called a \emph{Bernstein function}.
+\end{defn}
+
+\begin{prop} If $f,g$ are Bernstein, then the composition $f \circ g$ is also a Bernstein function. If $f$ is completely monotone and $g$ is Bernstein, then $f \circ g$ is completely monotone.
+\end{prop}
+
+\begin{cor} For every $n$, the function $\ell^n$ is a Bernstein function, and $1/\ell^n$ is a completely monotone function.
+\end{cor}
+
+\begin{prop} If $f$ is a pointwise limit of functions $f_i$ such that for each $n \ge 1$, the derivatives $f_i^{(n)}$ exist and have a fixed sign $s_n \in \{+,-\}$, then each derivative $f^{(n)}$ exists and has the same fixed sign $s_n$. In particular, any pointwise limit of Bernstein functions is a Bernstein function, and the same holds for completely monotone functions.
+\end{prop}
+
+\begin{prop} Every completely monotone function $f : (0,\infty) \rightarrow \RR$ extends to an analytic function on the halfplane $\Re(x) > 0$, as does any Bernstein function.
+\end{prop}
+
+\begin{cor} The function $\ell^*$ has completely monotone derivative, and extends to an analytic function on the halfplane $\Re(x) > 0$.
+\end{cor}
+
+We can also define a tetration function $\varepsilon^*$.
+
+\begin{defn} We define $\varepsilon^* : \RR \rightarrow (0,\infty)$ to be the inverse function to $\ell^*$.
+\end{defn}
+
+Now we can finally define the fractional compositional powers of the function $e^x - 1$.
+
+\begin{defn} For every $n \in \RR$, we define the function $\varepsilon^n : (0,\infty) \rightarrow (0,\infty)$ by
+\[
+\varepsilon^n(x) = \varepsilon^*(\ell^*(x) + n).
+\]
+We define $\ell^n$ by $\ell^n(x) = \varepsilon^{-n}(x)$.
+\end{defn}
+
+\begin{prop} For any $m,n \in \RR$ and any $x > 0$, we have
+\[
+\varepsilon^m(\varepsilon^n(x)) = \varepsilon^{m+n}(x).
+\]
+In particular, we have
+\[
+\varepsilon^{1/2}(\varepsilon^{1/2}(x)) = e^x - 1.
+\]
+\end{prop}
+
+We can also define an asymptotic measurement of ``how exponentially'' a function grows.
+
+\begin{defn} We say that a function $f:(0,\infty) \rightarrow (0,\infty)$ has \emph{exponentiality} $\alpha(f)$ if
+\[
+\alpha(f) = \lim_{x\rightarrow \infty} \ell^*(f(x)) - \ell^*(x) = \lim_{x \rightarrow \infty} \ell^*(f(\varepsilon^*(x))) - x.
+\]
+\end{defn}
+
+Under this definition, we have $\alpha(1) = -\infty$, $\alpha(x) = 0$, $\alpha(\varepsilon) = 1$, and $\alpha(\ell) = -1$. Additionally, we have $\alpha(\varepsilon^n) = n$ for all $n \in \RR$, $\alpha(\ell^*) = -\infty$, and $\alpha(\varepsilon^*) = +\infty$.
+
+\begin{prop} If $f,g : (0,\infty) \rightarrow [\epsilon,\infty)$ are functions with exponentialities $\alpha(f), \alpha(g)$, then
+\[
+\alpha(fg) = \alpha(f+g) = \max(\alpha(f),\alpha(g)).
+\]
+\end{prop}
+
+\begin{prop} If $f,g : (0,\infty) \rightarrow (0,\infty)$ have exponentialities $\alpha(f), \alpha(g) > -\infty$, then
+\[
+\alpha(f \circ g) = \alpha(f) + \alpha(g).
+\]
+\end{prop}
+\begin{proof} For any $x$, we have
+\[
+\ell^*(f(g(x))) - \ell^*(x) = \ell^*(f(g(x))) - \ell^*(g(x)) + \ell^*(g(x)) - \ell^*(x).
+\]
+Since $g(x)$ must go to $\infty$ as $x \rightarrow \infty$ if $\alpha(g) > -\infty$, we see that the limit of the above expression is $\alpha(f) + \alpha(g)$.
+\end{proof}
+
+\begin{cor} Every function which can be constructed (in finitely many steps) out of positive polynomials by addition, multiplication, exponentiation, and taking logarithms has an exponentiality in $\ZZ \cup \{-\infty\}$.
+\end{cor}
+
+\end{document}
+

@@ -1,0 +1,910 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage{amsfonts,amssymb,amsmath,amsthm,latexsym}
+\usepackage{stmaryrd}
+\usepackage[all]{xy}
+\usepackage{fullpage}
+\usepackage{hyperref}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{cor}{Corollary}
+\newtheorem{prop}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+
+\theoremstyle{remark}
+\newtheorem{ex}{Example}
+\newtheorem{rmk}{Remark}
+\newtheorem{exer}{Exercise}
+
+\begin{document}
+
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cO}{\mathcal{O}}
+
+\title{Notes on the sum product theorem}
+\date{}
+\maketitle
+
+\tableofcontents
+
+\section{The Pl\"unnecke-Ruzsa sumset calculus}
+
+\begin{defn} If $A,B$ are finite subsets of a semigroup $G$, $A$ nonempty, define the \emph{magnification ratio} of $A,B$ to be
+\[
+\mu(A,B) = \min_{\emptyset \ne X\subseteq A} \frac{|XB|}{|X|}.
+\]
+\end{defn}
+
+Note that if $\emptyset \ne X\subseteq A$ has $\frac{|XB|}{|B|} = \mu(A,B)$ then $\frac{|XB|}{|B|} = \mu(X,B)$.
+
+\begin{thm}[Petridis]\label{petridis} If $X,B$ are finite subsets of a semigroup $G$, $X$ nonempty satisfying $\frac{|XB|}{|X|} = \mu(X,B)$, then for all finite subsets $C$ of $G$ such that $|cX| = |X|$ for all $c\in C$, we have
+\[
+|CXB| \le \frac{|CX||XB|}{|X|}.
+\]
+\end{thm}
+\begin{proof} Induct on $|C|$. If $C$ is empty we are done, so suppose $C = C' \cup \{c\}$, $c \not\in C'$. Letting $Y=\{x\in X\mid cx\in C'X\}$, we have
+\begin{align*}
+|CXB| &\le |C'XB| + |c(XB\setminus YB)|\\
+&\le \frac{|C'X||XB|}{|X|} + |XB| - |YB|\\
+&\le \frac{(|CX|-|X|+|Y|)|XB|}{|X|} +|XB| - \mu(X,B)|Y|\\
+&= \frac{|CX||XB|}{|X|}.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{thm}[Ruzsa triangle inequality]\label{triangle} If $X,Y,Z$ are finite subsets of a group $G$, then $|X||YZ| \le |YX^{-1}||XZ|$.
+\end{thm}
+
+\begin{thm}[Ruzsa covering lemma] If $A,B$ are finite subsets of a group $G$ and $A$ is nonempty, then there is a set $S\subseteq B$ with $|S| \le \mu(A,B)$ and $B \subseteq A^{-1}AS$.
+\end{thm}
+\begin{proof} Let $\emptyset \ne X\subseteq A$ be such that $\frac{|XB|}{|X|} = \mu(A,B)$. Take $S$ to be a maximal subset of $B$ such that $Xs, Xs'$ are disjoint for every pair of distinct elements $s,s' \in S$. Then $|X||S| = |XS| \le |XB|$ and $B \subseteq X^{-1}XS \subseteq A^{-1}AS$.
+\end{proof}
+
+\begin{lem}[Pl\"unnecke tensor power trick]\label{tensor} If $A,B$ are finite subsets of a semigroup $G$, $A',B'$ are finite subsets of a semigroup $G'$, and $A,A'$ are nonempty, then
+\[
+\mu(A\times A',B\times B') = \mu(A,B)\mu(A',B').
+\]
+\end{lem}
+
+\begin{thm}[Pl\"unnecke-Ruzsa sumset inequality]\label{sumset} If $A,B_1, ..., B_h$ are finite subsets of an abelian semigroup $G$ with $A$ nonempty, such that for all $b \in (h-1)(B_1\cup\cdots\cup B_h)$ we have $|A+b| = |A|$, then
+\[
+\mu(A,B_1 + \cdots + B_h) \le \frac{|A+B_1|}{|A|}\cdots\frac{|A+B_h|}{|A|}.
+\]
+In particular, if $A$ is cancellative we have $|B_1 + \cdots + B_h| \le \frac{|A+B_1|}{|A|}\cdots\frac{|A+B_h|}{|A|}|A|$.
+\end{thm}
+\begin{proof} Write $\alpha_i = \frac{|A+B_i|}{|A|}$. Choose a large integer $n$ such that $\frac{n}{\alpha_i}$ is an integer for all $i$, and set $n_i = \frac{n}{\alpha_i}$. By adding copies of $\NN$ to $G$, we can assume there exist $T_1, ..., T_h\subseteq G$ with $|T_i| = n_i$ such that all sums
+\[
+y + t_1 + \cdots + t_h,\;\; y \in A+B_1+\cdots +B_h,\;\; \forall 1\le i\le h\;\; t_i\in T_i
+\]
+are distinct. Set $B = \bigcup_i (B_i+T_i)$. We have
+\[
+|A+B| \le \sum_i |A+B_i||T_i| = \sum_i n_i\alpha_i |A|,
+\]
+so $\mu(A,B) \le \sum_i n_i\alpha_i = hn$. Let $\emptyset \ne X \subseteq A$ be such that $\frac{|X+B|}{|X|} = \mu(A,B)$. Applying Theorem \ref{petridis} $h$ times, we see that $|X+hB| \le \mu(A,B)^h|X| \le (hn)^h|X|$. Thus,
+\[
+n_1\cdots n_h|X+B_1+\cdots +B_h| = |X+B_1+\cdots +B_h+T_1+\cdots +T_h| \le |X+hB| \le (hn)^h|X|,
+\]
+so
+\[
+\mu(A,B_1+\cdots +B_h) \le \frac{(hn)^h}{n_1\cdots n_h} = h^h\alpha_1\cdots \alpha_h.
+\]
+Applying the tensor power trick (Lemma \ref{tensor}), we have
+\[
+\mu(A,B_1+\cdots +B_h)^k = \mu(\times^kA,\times^kB_1+\cdots +\times^kB_h) \le h^h\alpha_1^k\cdots \alpha_h^k,
+\]
+and taking $k$ to infinity finishes the proof.
+\end{proof}
+
+\begin{prop}[Bourgain]\label{large-intersection} Let $A_1, ..., A_h, B_1, ..., B_h, C_1, ..., C_h$ be finite subsets of an abelian group $G$ such that for each $i$ $A_i\cap C_i$ is nonempty. Then
+\[
+|B_1 + \cdots + B_h| \le \frac{|B_1+C_1|}{|A_1\cap C_1|}\cdots\frac{|B_h+C_h|}{|A_h\cap C_h|}|A_1 + \cdots + A_h|.
+\]
+\end{prop}
+
+\subsection{Approximate variants}
+
+\begin{lem}\label{addone} If $A,B$ are finite subsets of an abelian group $G$, then there exist $x\in B-A, y\in A+B$ such that
+\begin{align*}
+|B\cap (A+x)| &\ge \frac{|A||B|}{|A+B|},\\
+|B\cap (-A + y)| &\ge \frac{|A||B|}{|A+B|}.
+\end{align*}
+\end{lem}
+\begin{proof} By Cauchy-Schwarz, we have
+\[
+\#\{(a,b,a',b')\in A\times B\times A\times B\mid a+b = a'+b'\} \ge \frac{|A|^2|B|^2}{|A+B|}.
+\]
+By the pigeonhole principle we can find an $x$ of the form $b-a'$ and a $y$ of the form $a+b$ with the required properties.
+\end{proof}
+
+\begin{thm}[Approximate covering lemma]\label{approx-cover} If $A,B$ are finite subsets of an abelian group $G$ with $A$ nonempty, then for any $m \ge 1$ there are sets $S_+ \subseteq B-A$, $S_- \subseteq A+B$ such that
+\begin{align*}
+|B\cap (A+S_+)| &\ge (1-1/m)|B|,\\
+|B\cap (-A+S_-)| &\ge (1-1/m)|B|,
+\end{align*}
+and
+\[
+|S_+|, |S_-| < \log(m)\mu(A,B)+1.
+\]
+\end{thm}
+\begin{proof} Assume WLOG that $\mu(A,B) = \frac{|A+B|}{|A|}$. Iteratively apply Lemma \ref{addone} and use the inequality $-\log(1-\frac{|A|}{|A+B|}) \ge \frac{|A|}{|A+B|}$.
+\end{proof}
+
+\begin{thm}[Approximate Pl\"unnecke-Ruzsa]\label{approx-pr} If $A,B_1, ..., B_h$ are finite subsets of an abelian semigroup $G$ with $A$ nonempty, such that for all $b \in (h-1)(B_1\cup\cdots\cup B_h)$ we have $|A+b| = |A|$, then for any $m \ge 1$ there is a set $X \subseteq A$ with
+\[
+|X| > (1-1/m)|A|
+\]
+and
+\[
+|X+B_1+\cdots +B_h| \le \frac{hm^{h-1}-1}{h-1}\frac{|A+B_1|}{|A|}\cdots\frac{|A+B_h|}{|A|}|X|.
+\]
+\end{thm}
+\begin{proof} We'll show that in fact we can find such $X$ with
+\[
+|X+B_1+\cdots +B_h| \le \left(m^h|X|-\left(m^h-\frac{hm^{h-1}-1}{h-1}\right)|A|\right)\frac{|A+B_1|}{|A|}\cdots\frac{|A+B_h|}{|A|}.
+\]
+Suppose for contradiction that there is some $m \ge 1$ for which we can not find such an $X$. Let $n$ be the infimum of all such $m$. Since $A$ only has finitely many subsets, we can find a set $\emptyset \ne Y\subseteq A$ with $|Y| \ge (1-1/n)|A|$ and
+\[
+|Y+B_1+\cdots +B_h| \le \left(n^h|Y|-\left(n^h-\frac{hn^{h-1}-1}{h-1}\right)|A|\right)\frac{|A+B_1|}{|A|}\cdots\frac{|A+B_h|}{|A|}.
+\]
+Note that if $|Y| > (1-1/n)|A|$ then the derivative of the right hand side of the above with respect to $n$ is positive, so by the definition of $n$ we must have $|Y| = (1-1/n)|A|$ for any set $Y$ as above.
+
+By the Pl\"unnecke-Ruzsa inequality (Theorem \ref{sumset}), we have
+\[
+\mu(A\setminus Y,B_1+\cdots +B_h) \le \frac{|A+B_1|}{|A\setminus Y|}\cdots\frac{|A+B_h|}{|A\setminus Y|} \le n^h\frac{|A+B_1|}{|A|}\cdots\frac{|A+B_h|}{|A|},
+\]
+so there is some $\emptyset \ne X'\subseteq A\setminus Y$ such that
+\[
+|X'+B_1+\cdots +B_h| \le n^h\frac{|A+B_1|}{|A|}\cdots\frac{|A+B_h|}{|A|}|X'|.
+\]
+Taking $Y' = Y\cup X'$, we have
+\begin{align*}
+|Y'+B_1+\cdots +B_h| &\le |Y+B_1+\cdots +B_h|+|X'+B_1+\cdots +B_h|\\
+&\le \left(n^h|Y|+n^h|X'|-\left(n^h-\frac{hn^{h-1}-1}{h-1}\right)|A|\right)\frac{|A+B_1|}{|A|}\cdots\frac{|A+B_h|}{|A|}\\
+&= \left(n^h|Y'|-\left(n^h-\frac{hn^{h-1}-1}{h-1}\right)|A|\right)\frac{|A+B_1|}{|A|}\cdots\frac{|A+B_h|}{|A|},
+\end{align*}
+but $|Y'| > (1-1/n)|A|$, a contradiction.
+\end{proof}
+
+\begin{thm}[Ruzsa]\label{approx-noncommute} If $A,B,C$ are finite subsets of a semigroup $G$ with $A$ nonempty, such that for any $b\in B, c\in C$ we have $|cA| = |Ab| = |A|$, then for any $m \ge 1$ there is a set $X \subseteq A$ with
+\[
+|X| > (1-1/m)|A|
+\]
+and
+\[
+|CXB| \le (2m-1)\frac{|CA|}{|A|}\frac{|AB|}{|A|}|X|.
+\]
+\end{thm}
+\begin{proof} Since left multiplication by $C$ commutes with right multiplication by $B$, we can make an auxiliary abelian semigroup $G'$ out of disjoint copies of $A,B,C,CA,AB,B\times C,CAB,\{0\}$ in an obvious way. Now apply Theorem \ref{approx-pr} to $G'$.
+\end{proof}
+
+\subsection{Energy}
+
+\begin{defn} If $A,B$ are finite subsets of a semigroup, define their \emph{energy} to be
+\[
+E(A,B) = \#\{(a,b,c,d)\in A\times B \times A\times B \mid ab = cd\}.
+\]
+When $A=B$, we abbreviate this by $E(A)$.
+\end{defn}
+
+\begin{prop}[Cauchy-Schwarz] If $A,B$ are finite nonempty subsets of a semigroup, then
+\[
+E(A,B) \ge \frac{|A|^2|B|^2}{|AB|}.
+\]
+\end{prop}
+
+\begin{defn} If $A,B$ are finite subsets of an abelian group $G$ and $x\in G$, set
+\begin{align*}
+(A*B)(x) &= \#\{(a,b)\in A\times B \mid a+b = x\},\\
+(A\circ B)(x) &= \#\{(a,b)\in A\times B \mid b-a = x\}.
+\end{align*}
+\end{defn}
+
+\begin{lem}[Sanders, Schoen]\label{sanders} If $A$ is a finite nonempty subset of an abelian group, $0 \le \alpha < 1$, and $c \ge 0$, then there is a set $X\subseteq A$ with $|X| > \alpha\frac{E(A)}{|A|^2}$ and
+\[
+\#\bigg\{(x,y)\in X\times X \mid (A\circ A)(x-y) > c\frac{E(A)}{|A|^2}\bigg\} \ge \bigg(1-\frac{c}{1-\alpha}\bigg)|X|^2.
+\]
+\end{lem}
+\begin{proof} We will choose $X = A\cap (A+d)$ for some $d\in A-A$. We have
+\[
+\sum_{(A\circ A)(d) \le \alpha\frac{E(A)}{|A|^2}} (A\circ A)(d)^2 \le \alpha\frac{E(A)}{|A|^2}\sum_d (A\circ A)(d) = \alpha E(A),
+\]
+so
+\[
+\sum_{(A\circ A)(d) > \alpha\frac{E(A)}{|A|^2}} (A\circ A)(d)^2 \ge (1-\alpha)E(A).
+\]
+Setting
+\[
+S = \bigg\{(a,b)\in A\times A \mid (A\circ A)(a-b) \le c\frac{E(A)}{|A|^2}\bigg\},
+\]
+we have
+\[
+\sum_d \#\{(a,b) \in S \mid a,b \in A+d\} = \sum_{(a,b)\in S} (A\circ A)(a-b) \le c\frac{E(A)}{|A|^2}|S| \le cE(A).
+\]
+Thus
+\[
+\sum_{(A\circ A)(d) > \alpha\frac{E(A)}{|A|^2}} (1-\alpha)\#\{(a,b) \in S \mid a,b \in A+d\} - c(A\circ A)(d)^2 \le 0,
+\]
+so there must be some $d$ with $(A\circ A)(d) > \alpha\frac{E(A)}{|A|^2}$ and
+\[
+(1-\alpha)\#\{(a,b) \in S \mid a,b \in A+d\} - c(A\circ A)(d)^2 \le 0.
+\]
+Taking $X = A\cap (A+d)$ for this $d$, we have $|X| = (A\circ A)(d)$ and
+\[
+\#\bigg\{(x,y)\in X\times X \mid (A\circ A)(x-y) > c\frac{E(A)}{|A|^2}\bigg\} = |X|^2 - \#\{(a,b) \in S \mid a,b \in A+d\}.\qedhere
+\]
+\end{proof}
+
+\begin{thm}[Balog, Gowers, Schoen, Szemer\'edi] If $A$ is a finite nonempty subset of an abelian group, then there is a set $A' \subseteq A$ with $|A'| > \frac{E(A)}{6|A|^2}$ and
+\[
+|A'-A'| < 486\frac{|A|^{10}}{E(A)^3}.
+\]
+\end{thm}
+\begin{proof} Take $\alpha = \frac{1}{2}, c = \frac{1}{9}$ in Lemma \ref{sanders} to find a set $X\subseteq A$ with $|X| > \frac{E(A)}{2|A|^2}$ and
+\[
+\#\bigg\{(x,y)\in X\times X \mid (A\circ A)(x-y) > \frac{E(A)}{9|A|^2}\bigg\} \ge \frac{7}{9}|X|^2.
+\]
+Make a graph $\mathcal{H}$ with vertex set $X$, having an edge between $x$ and $y$ exactly when $(A\circ A)(x-y) > \frac{E(A)}{9|A|^2}$. Letting $A'$ be the set of vertices in $\mathcal{H}$ having degree greater than $\frac{2}{3}|X|$, we see that $|A'| \ge \frac{|X|}{3} > \frac{E(A)}{6|A|^2}$. For any $a,b \in A'$, we can find more than $\frac{1}{3}|X|$ vertices $x \in X$ connected to both $a,b$ in $\mathcal{H}$, and for each such $x$ we can write
+\[
+a-b = (a-x) - (b-x),
+\]
+and we can write the right hand side in the form $(a_1-a_2) - (a_3-a_4)$ with $a_1, a_2, a_3, a_4 \in A$, $a_1-a_2 = a-x$, in at least $\frac{E(A)^2}{81|A|^4}$ different ways. Thus we have
+\[
+|A'-A'|\cdot \frac{1}{3}|X|\cdot \frac{E(A)^2}{81|A|^4} < |A|^4,
+\]
+so
+\[
+|A'-A'| < 486\frac{|A|^{10}}{E(A)^3}.\qedhere
+\]
+\end{proof}
+
+
+\section{The sum-product theorem}
+
+\subsection{Characteristic Zero}
+
+\begin{defn} For any distinct points $a,b\in \RR^n$, set
+\[
+D(a,b) = \Big\{p \in \RR^n \mid \angle pab \le \frac{\pi}{6}, \angle pba \le \frac{\pi}{6}\Big\}.
+\]
+\end{defn}
+
+\begin{lem}\label{geo} For any four points $a,b,c,d\in \RR^n$ with $a\ne b, c\ne d, \{a,b\}\ne \{c,d\}$, if all of the inequalities
+\[
+|ab| \le |bc|,\;\; |ab| \le |bd|,\;\; |cd| \le |ad|,\;\; |cd| \le |bd|
+\]
+hold then the interiors of $D(a,b)$ and $D(c,d)$ do not intersect.
+\end{lem}
+\begin{proof} If $|ab|+|cd| \le |bd|$, then since $D(a,b)$ is contained in the sphere of radius $|ab|$ around $b$ and $D(c,d)$ is contained in the sphere of radius $|cd|$ around $d$, their interiors can't intersect. Otherwise, we can find a point $x\in \RR^n$ such that $|bx| = |ab|, |dx| = |cd|$. Since $|ab|, |cd|$ are assumed to be at most $|bd|$, $bd$ is the longest edge of triangle $bdx$, so we must have $\angle bxd \ge \frac{\pi}{3}$. Thus we can find some point $m$ on the line segment $bd$ with $\angle mxb \ge \frac{\pi}{6}$ and $\angle mxd \ge \frac{\pi}{6}$. Since $a$ is outside the sphere of radius $|cd| = |dx|$ centered at $d$, we have $\angle abm \ge \angle xbm$, and similarly $\angle cdm \ge \angle xdm$. Thus, if we rotate the ray $mx$ around the line $bd$ we get a cone which separates the interior of $D(a,b)$ from the interior of $D(c,d)$.
+\end{proof}
+
+\begin{cor}[Gilbert, Pollak]\label{tree} Let $P$ be a finite set of points in $\RR^n$, and let $T$ be a minimum spanning tree on $P$. For any distinct edges $\{a,b\},\{c,d\}$ of $T$, the interiors of $D(a,b)$ and $D(c,d)$ do not intersect.
+\end{cor}
+\begin{proof} Since $T$ is a tree, there is a unique path in $T$ connecting the edge $\{a,b\}$ to the edge $\{c,d\}$. We may assume without loss of generality that this path connects $a$ to $c$ without passing through $b$ or $d$. Then if we replace edge $\{a,b\}$ with either $\{b,c\}$ or $\{b,d\}$ we again get a spanning tree, so by minimality we must have $|ab| \le |bc|, |bd|$. Similarly we have $|cd| \le |ad|, |bd|$. Now apply Lemma \ref{geo}.
+\end{proof}
+
+\begin{prop}\label{diamond} Suppose $a,b,c,d \in \HH^\times$ are nonzero quaternions with $\angle b0d \le \frac{\pi}{6}$. Then $(a+c)(b+d)^{-1}$ is in the interior of $D(ab^{-1},cd^{-1})$.
+\end{prop}
+\begin{proof} Writing $b=md$, we have
+\[
+(a+c)(b+d)^{-1} = (a+c)d^{-1}(m+1)^{-1} = ab^{-1} + (cd^{-1}-ab^{-1})(m+1)^{-1},
+\]
+so it's enough to check that if $\angle m01 \le \frac{\pi}{6}$ then $(m+1)^{-1}$ is in the interior of $D(0,1)$. Since $\angle (m+1)10 \ge \frac{5\pi}{6}$, we have $\angle 1(m+1)^{-1}0 \ge \frac{5\pi}{6}$, so $(m+1)^{-1}$ is in the interior of $D(0,1)$ by the fact that the angles of a triangle sum to $\pi$.
+\end{proof}
+
+\begin{thm}[Konyagin, Rudnev, Solymosi] Suppose $A \subseteq\HH^\times$ is a finite set of nonzero quaternions such that for any $a,b \in A$ we have $\angle a0b \le \frac{\pi}{6}$. Then
+\[
+|A+A|^2|AA| \ge \frac{|A|^4-|A||AA|}{\log\frac{|AA|^2}{|A|}+\gamma},
+\]
+where $\gamma$ is the Euler-Mascheroni constant.
+\end{thm}
+\begin{proof} By Cauchy-Schwarz, we have
+\[
+\#\{(a,b,c,d)\in A\times A\times A\times A\mid ab = cd\} \ge \frac{|A|^4}{|AA|}.
+\]
+Write $m(x) = \#\{(a,c) \in A\times A\mid c^{-1}a = x\}$, $n(x) = \#\{(b,d) \in A\times A\mid db^{-1} = x\}$. By Cauchy-Schwarz again, we have
+\[
+\sum_x m(x)^2\sum_y n(y)^2 \ge \Big(\sum_x m(x)n(x)\Big)^2 \ge \frac{|A|^8}{|AA|^2}.
+\]
+Thus we may assume without loss of generality that
+\[
+\sum_x n(x)^2 \ge \frac{|A|^4}{|AA|},
+\]
+since otherwise we may replace $A$ by $\bar{A}$. Choose a numbering $x_1, ..., x_{|AA^{-1}|}$ of the elements of $AA^{-1}$ such that $n(x_1) \ge n(x_2) \ge \cdots$. Choose $1 \le k \le |AA^{-1}|$ such that $(k-1)n(x_k)^2$ is maximized. Then by choice of $k$ we have
+\[
+\frac{|A|^4}{|AA|} \le \sum_{i=1}^{|AA^{-1}|} n(x_i)^2 \le |A| + (k-1)n(x_k)^2\sum_{i=2}^{|AA^{-1}|} \frac{1}{i-1},
+\]
+so
+\[
+(k-1)n(x_k)^2 \ge \frac{|A|^4-|A||AA|}{H_{|AA^{-1}|-1}|AA|},
+\]
+where $H_n = \sum_{i=1}^n \frac{1}{i}$ denotes the $n$th harmonic number. Note that by the Ruzsa triangle inequality \ref{triangle} we have $|AA^{-1}| \le \frac{|AA|^2}{|A|}$, so
+\[
+H_{|AA^{-1}|-1} \le \log\frac{|AA|^2}{|A|}+\gamma.
+\]
+Let $T$ be a minimum spanning tree on $\{x_1, ..., x_k\}$. For any edge $\{x_i,x_j\}$ in $T$, if $a,b,c,d \in A$ have $ab^{-1} = x_i$ and $cd^{-1} = x_j$, then by Proposition \ref{diamond} the ratio $(a+c)(b+d)^{-1}$ will be in the interior of $D(ab^{-1},cd^{-1})$. Thus by Corollary \ref{tree} we have an injection
+\[
+\{(\{x_i,x_j\},a,b,c,d)\in T\times A\times A\times A\times A\mid ab^{-1}=x_i, cd^{-1}=x_j\} \hookrightarrow (A+A)\times (A+A),
+\]
+taking $(\{x_i,x_j\},a,b,c,d)$ to $(a+c,b+d)$. Since $T$ has $k-1$ edges and $n(x_i) \ge n(x_k)$ for $1 \le i \le k$, we have
+\[
+|A+A|^2 \ge (k-1)n(x_k)^2 \ge \frac{|A|^4-|A||AA|}{H_{|AA^{-1}|-1}|AA|}.\qedhere
+\]
+\end{proof}
+
+\subsection{Finite fields}
+
+\begin{lem}\label{xi} If $A,B \subseteq \FF_q$, $G \subseteq \FF_q^\times$, then there is some $\xi \in G$ with
+\[
+|A+\xi B| \ge \frac{|A||B||G|}{|A||B|+|G|}.
+\]
+\end{lem}
+\begin{proof} Define a function $f:G\mapsto \NN$ by
+\[
+f(\xi) = \#\{(a,b,a',b')\in A\times B\times A\times B\mid a+\xi b = a'+\xi b'\}.
+\]
+We have
+\[
+\sum_{\xi \in G} f(\xi) \le |A|^2|B|^2 + |A||B||G|,
+\]
+so there must be some $\xi \in G$ with $f(\xi) \le \frac{|A|^2|B|^2}{|G|} + |A||B|$. By Cauchy-Schwarz, we have
+\[
+|A+\xi B| \ge \frac{|A|^2|B|^2}{f(\xi)} \ge \frac{|A||B||G|}{|A||B|+|G|}.\qedhere
+\]
+\end{proof}
+
+\begin{thm}[Bourgain, Garaev, Katz, Li, Shen, ...] If $p$ is prime and $A \subseteq \FF_p$ then
+\begin{align*}
+|A+A|^9|AA|^4 &\ge \frac{|A|^{14}}{256}\min\left(1,\frac{p}{|A|^2}\right),\\
+|A+A|^8|AA|^4 &\ge \frac{|A|^{13}}{2^{23}}\min\left(1,\frac{3^7p}{|A|^2}\right).
+\end{align*}
+\end{thm}
+\begin{proof} We'll prove the second bound (for the first bound, take $X=A$ and $Z=W=Y$ instead of using the approximate variations on the sumset calculus). By the approximate Pl\"unnecke-Ruzsa theorem (Theorem \ref{approx-pr}), we can find $X \subseteq A$ with $|X| \ge \frac{3}{4}|A|$ and
+\[
+|X+A+A+A| \le 24\frac{|A+A|^3}{|A|^3}|X|.
+\]
+By the Cauchy-Schwarz inequality, we have
+\[
+\sum_{x\in X,a\in A} |xA\cap Xa| \ge \frac{|X|^2|A|^2}{|XA|},
+\]
+so by the pigeonhole principle there is some $a_0\in A$ with
+\[
+\sum_{x\in X} |xA\cap Xa_0| \ge \frac{|X|^2|A|}{|XA|}.
+\]
+Let $X = \{x_1, ..., x_{|X|}\}$, set $n_i = |x_iA\cap Xa_0|$, and suppose WLOG that $n_1 \ge \cdots \ge n_{|X|}$. Choose $k$ maximizing the quantity $k^{3/4}n_k$, set $Y = \{x_1, ..., x_k\}$, and set $N = n_k$. We have
+\[
+\frac{|X|^2|A|}{|XA|} \le \sum_{i=1}^{|X|} n_i \le \sum_{i=1}^{|X|} i^{-3/4}k^{3/4}n_k < 4|X|^{1/4}|Y|^{3/4}N,
+\]
+so
+\[
+|Y|^3N^4 \ge \frac{|X|^7|A|^4}{256|XA|^4}.
+\]
+For any $y\in Y$ we have $|yA\cap Xa_0| \ge N$, so by Ruzsa's triangle inequality (Theorem \ref{triangle}) we have
+\[
+|yA-Xa_0| \le \frac{|yA+yA\cap Xa_0||yA\cap Xa_0+Xa_0|}{|yA\cap Xa_0|} \le \frac{|y(A+A)||(X+X)a_0|}{N} \le \frac{|A+A|^2}{N},
+\]
+and similarly by Pl\"unnecke-Ruzsa (Theorem \ref{sumset}) we have
+\[
+|yA+Xa_0| \le \frac{|yA\cap Xa_0+yA||yA\cap Xa_0+Xa_0|}{|yA\cap Xa_0|} \le \frac{|A+A|^2}{N}.
+\]
+There are now two cases.
+
+\textbf{Case 1}: If $\frac{Y-Y}{(Y-Y)\setminus\{0\}} = \FF_p$, then by Lemma \ref{xi} we can find $\xi \in \FF_p^\times$ such that $|A+\xi A| \ge \frac{1}{2}\min(|A|^2,p)$. Write $\xi = \frac{c-d}{a-b}$ with $a,b,c,d \in Y$. By Pl\"unnecke-Ruzsa, we have
+\[
+|(a-b)A+(c-d)A| \le |aA-bA+cA-dA| \le \frac{|Xa_0+aA||Xa_0-bA||Xa_0+cA||Xa_0-dA|}{|Xa_0|^3},
+\]
+so
+\[
+|A+A|^8 \ge \frac{|A|^2|X|^3N^4}{2}\min\left(1,\frac{p}{|A|^2}\right).
+\]
+Since $|X|^3N^4 \ge |Y|^3N^4 \ge \frac{|X|^7|A|^4}{256|AA|^4}$ and $|X| \ge \frac{3}{4}|A|$, we have
+\begin{align*}
+|A+A|^8|AA|^4 &\ge \frac{|X|^7|A|^6}{2^9}\min\left(1,\frac{p}{|A|^2}\right)\\
+&\ge \frac{3^7|A|^{13}}{2^{23}}\min\left(1,\frac{p}{|A|^2}\right).
+\end{align*}
+
+\textbf{Case 2}: If $\frac{Y-Y}{(Y-Y)\setminus\{0\}} \ne \FF_p$, then we can find $\xi \in \left(\frac{Y-Y}{(Y-Y)\setminus\{0\}}+1\right) \setminus \frac{Y-Y}{(Y-Y)\setminus\{0\}}$. Writing $\xi = \frac{c-d}{a-b}+1$ with $a,b,c,d \in Y$, we see that for any $Z,W \subseteq Y$ have
+\[
+|Z||W| = |Z + \xi W| \le |(a-b)Z + (a-b)W + (c-d)W|.
+\]
+In particular, if $\emptyset \ne Z'\subseteq Z$ is chosen such that $\mu((a-b)Z,(a-b)W+(c-d)W) = \frac{|(a-b)Z' + (a-b)W + (c-d)W|}{|Z'|}$, then by Pl\"unnecke-Ruzsa we have
+\[
+|Z'||W| \le |(a-b)Z' + (a-b)W + (c-d)W| \le \frac{|Z+W|}{|Z|}\frac{|(a-b)Z+(c-d)W|}{|Z|}|Z'|,
+\]
+so
+\[
+|Z|^2|W| \le |A+A||(a-b)Z+(c-d)W|.
+\]
+Applying the approximate covering lemma (Lemma \ref{approx-cover}) to $aA\cap Xa_0$, $aY$, we find a set $S$ with $|S| < 3\frac{|A+A|}{N}$ such that
+\[
+|aY \cap (Xa_0+aS)| \ge \frac{6}{7}|Y|.
+\]
+Let $Y' = Y \cap (a^{-1}Xa_0+S)$. Applying it again, we find a set $S'$ with $|S'| < 3\frac{|A+A|}{N}$ such that
+\[
+bY' \cap (-Xa_0 + bS') \ge \frac{6}{7}|Y'|,
+\]
+and let $Z = Y' \cap (-b^{-1}Xa_0+S)$. Similarly, find sets $W\subseteq Y,S'',S'''$ such that $|W| \ge \frac{6^2}{7^2}|Y|$, $cW \subseteq Xa_0+cS'', dW \subseteq -Xa_0+dS'''$, $|S''|,|S'''| \le 3\frac{|A+A|}{N}$. We have
+\begin{align*}
+|(a-b)Z+(c-d)W| &\le |aZ-bZ+cW-dW|\\
+&\le |S||S'||S''||S'''||Xa_0+Xa_0+Xa_0+Xa_0|\\
+&\le 3^4\frac{|A+A|^4}{N^4}\cdot 24\frac{|A+A|^3}{|A|^3}|X|,
+\end{align*}
+so
+\[
+|X||A+A|^8 \ge \frac{24|A|^3|Y|^3N^4}{7^6}.
+\]
+By the inequalities $|X| \ge \frac{3}{4}|A|$ and $|Y|^3N^4 \ge \frac{|X|^7|A|^4}{256|AA|^4}$ we have
+\begin{align*}
+|A+A|^8|AA|^4 &\ge \frac{3|X|^6|A|^7}{2^5\cdot 7^6}\\
+&\ge \frac{3^7|A|^{13}}{2^{17}\cdot 7^6}\\
+&\ge \frac{|A|^{13}}{2^{23}}.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{thm}[Garaev] Let $q$ be a prime power. If $A,B\subseteq \FF_q$, $C \subseteq \FF_q^\times$, then
+\[
+|A+B||AC| \ge \min\left(\frac{|A|q}{2},\frac{|A|^2|B||C|}{4q}\right).
+\]
+\end{thm}
+\begin{proof} Let
+\[
+J = \{(x,b,c,y)\in (A+B)\times B \times C\times AC\mid x = b + yc^{-1}\}.
+\]
+We have an injection $A\times B\times C\hookrightarrow J$ given by $(a,b,c)\mapsto (a+b,b,c,ac)$, so $|J| \ge |A||B||C|$. Let $\phi_0, ..., \phi_{q-1}$ be the additive characters of $\FF_q$, $\phi_0$ the trivial character. We have
+\begin{align*}
+|J| &= \frac{1}{q}\sum_{n=0}^{q-1}\sum_{x\in A+B}\sum_{b\in B}\sum_{c\in C}\sum_{y\in AC} \phi_n(b-x+yc^{-1})\\
+&\le \frac{|A+B||B||C||AC|}{q} + \frac{1}{q}\sum_{n=1}^{q-1}\left|\sum_{x\in A+B}\phi_n(x)\right|\left|\sum_{b\in B}\phi_n(b)\right|\sum_{c\in C}\Bigg|\sum_{y\in AC}\phi_n(yc^{-1})\Bigg|.
+\end{align*}
+By Cauchy-Schwarz, for $n \ne 0$ we have
+\begin{align*}
+\left(\sum_{c\in C}\Bigg|\sum_{y\in AC}\phi_n(yc^{-1})\Bigg|\right)^2 &\le |C|\sum_{d\in \FF_q}\Bigg|\sum_{y\in AC} \phi_n(dy)\Bigg|^2\\
+&= q|C||AC|,
+\end{align*}
+and applying Cauchy-Schwarz one more time we have
+\begin{align*}
+\frac{1}{q}\sum_{n=1}^{q-1}\left|\sum_{x\in A+B}\phi_n(x)\right|\left|\sum_{b\in B}\phi_n(b)\right|\sum_{c\in C}\Bigg|\sum_{y\in AC}\phi_n(yc^{-1})\Bigg| &\le \frac{\sqrt{q|C||AC|}}{q}\sum_{n=1}^{q-1}\left|\sum_{x\in A+B}\phi_n(x)\right|\left|\sum_{b\in B}\phi_n(b)\right|\\
+&\le \sqrt{q|A+B||B||C||AC|}.
+\end{align*}
+Thus
+\[
+|A||B||C| \le \frac{|A+B||B||C||AC|}{q} + \sqrt{q|A+B||B||C||AC|}.\qedhere
+\]
+\end{proof}
+
+A much better sum-product bound was recently obtained by Rudnev, using a three-dimensional variant of the Szemer\'edi-Trotter theorem due to Koll\'ar. The proof is sketched below.
+
+\begin{lem}[Koll\'ar]\label{dimension} Let $\cL$ be a set of $m$ distinct lines in $\PP^3$.
+\begin{itemize}
+\item[1)] There exists a surface $S$ of degree at most $\sqrt{6m}-2$ which contains $\cL$.
+\item[2)] For any irreducible surface $U$ of degree $g \le \sqrt{6m}$ there exists a surface $T$ of degree at most $\frac{6m}{g}$ which contains $\cL$ and does not contain $U$.
+\end{itemize}
+\end{lem}
+
+\begin{prop}[Koll\'ar] For $i = 1, ..., n-1$ let $H_i$ be a hypersurface in $\PP^n$ of degree $a_i$, and suppose their intersection $B = H_1 \cap \cdots \cap H_{n-1}$ is $1$-dimensional. Let $C\subseteq B$ be a reduced subcurve. Then the arithmetic genus of $C$ satisfies
+\[
+p_a(C) \le p_a(B) = 1 + \frac{1}{2}\bigg(\sum_i a_i - n - 1\bigg)\prod_i a_i.
+\]
+\end{prop}
+\begin{proof} By induction on $n$ together with the Kodaira vanishing theorem for $\PP^n$, one can show that $h^0(B,\cO_B) = 1$, so $p_a(B) = h^1(B,\cO_B)-h^0(B,\cO_B)+1 = h^1(B,\cO_B)$. If $J$ is the ideal sheaf of $C$ on $B$, we have
+\[
+0\rightarrow J \rightarrow \cO_B \rightarrow \cO_C \rightarrow 0,
+\]
+so by the long exact sequence of cohomology we have
+\[
+H^1(B,\cO_B) \rightarrow H^1(C,\cO_C) \rightarrow H^2(B,J),
+\]
+and $H^2(B,J) = 0$ since $B$ is $1$-dimensional. Thus
+\[
+p_a(C) = h^1(C,\cO_C) - h^0(C,\cO_C) + 1 \le h^1(B,\cO_B) = p_a(B).
+\]
+The formula for $p_a(B)$ follows by directly computing the Hilbert polynomial of $B$.
+\end{proof}
+
+\begin{prop}[Koll\'ar]\label{intersect} Let $S,T\subseteq \PP^3$ be surfaces of degrees $a,b$ with no common components, and let $C$ be a reduced curve contained in $S\cap T$. For a point $p\in C$ let $r(p)$ be the multiplicity of $C$ at $p$.
+\begin{itemize}
+\item[1)] $C$ has at most $ab$ components.
+\item[2)] $\sum_{p\in C} r(p)-1 \le \frac{ab}{2}(a+b-2)$.
+\end{itemize}
+\end{prop}
+
+Following Rudnev, we give a concrete description of Pl\"ucker coordinates for lines in $\PP^3$.
+
+\begin{defn} For a line $L$ in $\PP^3$ containing points $[q_0:q_1:q_2:q_3], [u_0:u_1:u_2:u_3]$, set
+\[
+P_{ij} = q_iu_j-q_ju_i,
+\]
+and define the Pl\"ucker coordinates of $L$ to be $[P_{01}:P_{02}:P_{03}:P_{23}:P_{31}:P_{12}]$. Writing this as $[\omega:\nu]$, if $q_0 = u_0 = 1$ and we set $q = (q_1,q_2,q_3), u = (u_1,u_2,u_3)$ then $\omega = u-q, \nu = q\times\omega$. Define the Klein quadric $\cK$ to be the $4$-dimensional hypersurface
+\[
+\cK = \{[\omega:\nu]\in \PP^5\mid \omega\cdot\nu = 0\}.
+\]
+\end{defn}
+
+\begin{prop} Two lines with Pl\"ucker coordinates $[\omega:\nu], [\omega':\nu']$ intersect if and only if
+\[
+\omega\cdot\nu' + \omega'\cdot\nu = 0,
+\]
+and this occurs if and only if the line connecting $[\omega:\nu], [\omega':\nu']$ is contained in $\cK$. Every plane contained in $\cK$ is either an $\alpha$-plane, corresponding to the set of lines through a specific point in $\PP^3$, or a $\beta$-plane, corresponding to the set of lines contained in a specific plane in $\PP^3$. Any two $\alpha$-planes meet in a point, any two $\beta$-planes meet in a point, and an $\alpha$-plane and a $\beta$-plane meet in a line if and only if the point corresponding to the $\alpha$-plane is contained in the plane corresponding to the $\beta$-plane.
+\end{prop}
+
+\begin{defn} A \emph{ruling} $\Gamma$ of a surface $S\subset \PP^3$ is a closed curve $\Gamma\subset \cK$ such that each point of $\Gamma$ corresponds to a line contained in $S$. The \emph{degree} of a ruling $\Gamma$ is defined to be its degree as a curve in $\PP^5$. A line contained in $S$ which is not contained in any ruling of $S$ is called \emph{special}.
+\end{defn}
+
+\begin{prop} For any three skew lines $L_1, L_2, L_3 \subset \PP^3$, the union of the collection of all lines which intersect all three of $L_1, L_2, L_3$ is a smooth quadric surface $S$. Conversely, every smooth quadric surface $S$ has two irreducible rulings $\Gamma_1, \Gamma_2$ of degree $2$.
+\end{prop}
+
+\begin{cor} Every irreducible ruled surface $S$ is either a plane, a cone, a smooth quadric surface, or else has a unique ruling and contains at most two special lines which do not intersect each other. If $S$ is not a plane, the degree $d$ of an irreducible ruling is equal to the degree of $S$. Any nonspecial line intersects at most $d-2$ other nonspecial lines.
+\end{cor}
+
+\begin{thm}[Cayley, Monge, Salmon, Voloch]\label{salmon} Let $S\subset \PP^3$ be a surface of degree $d$, with $d < p$ if the characteristic is $p$. If $S$ has no ruled components, then there is a surface $T$ of degree $11d-24$ such that $S$ and $T$ have no components in common, and every line contained in $S$ is contained in $S\cap T$.
+\end{thm}
+\begin{proof}[Sketch] The surface $T$ is defined by the equation cutting out those points $p$ of $S$ for which there exists a line which is triply tangent to $S$ at $p$ (such a $p$ is called a \emph{flecnodal} point). The equation for $T$ can be computed explicitly using resultants. Next, one shows that if a component of $S$ consists entirely of flecnodal points, then that component must be ruled.
+\end{proof}
+
+\begin{thm}[Koll\'ar]\label{3d} Let $\cL$ be a collection of $m$ distinct lines in $\PP^n$ such that for any three distinct lines $L_1,L_2,L_3 \in \cL$ the number of lines from $\cL$ intersecting all three of $L_1,L_2,L_3$ is at most $\sqrt{m}$. If the characteristic is $p$, suppose that $m < \frac{11}{6}p^2$. Then the total number of intersection points between lines in $\cL$ is at most
+\[
+\Bigg(\frac{\sqrt{6}}{2}+\frac{(36-\frac{1}{2})\sqrt{6}}{\sqrt{11}}\Bigg)m^{\frac{3}{2}} < \sqrt{754}m^{\frac{3}{2}}.
+\]
+\end{thm}
+\begin{proof} By choosing a generic projection to $\PP^3$, we may assume without loss of generality that $n = 3$. We may also assume that $m\ge 754$. Find a surface $S$ of degree $d \le \sqrt{6m}-2$ containing $\cL$, and assume that the degree of $S$ is minimal. Choose an ordering $S_1, ...$ of the irreducible components of $S$ such that, letting $\cL_i = \{l \in \cL \mid l \subset S_i\setminus (S_1\cup\cdots\cup S_{i-1})\}$, we have $\frac{|\cL_i|}{\deg S_i}$ nonincreasing in $i$. Write $m_i = |\cL_i|, d_i = \deg S_i$. The number of intersections between lines contained in different sets $\cL_i, \cL_j$ is at most
+\[
+\sum_{j<i} m_id_j \le \sum_{j<i} \frac{m_id_j + m_jd_i}{2} = \frac{md - \sum_i m_id_i}{2}.
+\]
+If $S_i$ is a cone, then there is at most $1$ intersection point between lines in $\cL_i$ (the cone point). If $S_i$ is a plane, then any two lines in $S_i$ intersect, so by assumption $m_i \le \sqrt{m}$, and the number of intersection points between lines in $\cL_i$ is at most
+\[
+\frac{m_i(m_i-1)}{2} \le \frac{(m_i-1)\sqrt{m}}{2}.
+\]
+If $S_i$ is a smooth quadric surface, then either one of the rulings on $S_i$ contains at most two lines from $\cL_i$ or by assumption both rulings contain at most $\sqrt{m}$ lines from $\cL_i$, so the number of intersection points between lines in $\cL_i$ is at most
+\[
+\max\bigg(m_i-1,2(m_i-2),\frac{m_i\sqrt{m}}{2}\bigg) \le \frac{m_i\sqrt{m}}{2}.
+\]
+If $S_i$ is ruled of degree at least $3$, then since there are at most two special lines in $S_i$ and since nonspecial lines meet at most $d_i-2$ other nonspecial lines, the number of intersection points between lines in $\cL_i$ is at most
+\[
+\frac{m_i(d_i-2+2)+2m_i}{2} = \frac{m_id_i}{2} + m_i.
+\]
+If $S_i$ is not ruled, then by Lemma \ref{dimension} and Theorem \ref{salmon} we can find a surface $T$ of degree at most $\min\big(11d_i-24,\frac{6m_i}{d_i}\big)$ which contains $\cL_i$ but not $S_i$ (note that if we take $\deg T = 11d_i-24$ then $d_i \le \sqrt{\frac{6}{11}m} < p$). Thus by Proposition \ref{intersect} the number of intersections between lines in $\cL_i$ is at most
+\[
+\min\left(\frac{d_i(11d_i-24)}{2}(12d_i-26), 3m_i\Big(d_i + \frac{6m_i}{d_i}-2\Big)\right) \le \frac{m_id_i}{2}+\frac{(36-\frac{1}{2})\sqrt{6}}{\sqrt{11}}m_i^{\frac{3}{2}}.
+\]
+Putting everything together, we see that the total number of intersection points between lines in $\cL$ is at most
+\[
+\frac{md}{2}+\sum_i \frac{(36-\frac{1}{2})\sqrt{6}}{\sqrt{11}}m_i\sqrt{m} \le \Bigg(\frac{\sqrt{6}}{2}+\frac{(36-\frac{1}{2})\sqrt{6}}{\sqrt{11}}\Bigg)m^{\frac{3}{2}}.\qedhere
+\]
+\end{proof}
+
+\begin{cor}[Rudnev]\label{point-plane} Suppose we have $n$ points and $n$ planes in $\PP^3$ such that no more than $\sqrt{n}$ points lie on any line and no more than $\sqrt{n}$ planes all contain a common line. Assume further that if the characteristic is $p$ we have $n \le \frac{11}{12}p^2$. Then the number of point-plane incidences is at most $\sqrt{6032}n^{\frac{3}{2}}$.
+\end{cor}
+\begin{proof} Taking Pl\"ucker coordinates, we get a collection of $n$ $\alpha$-planes and $n$ $\beta$-planes, and every incidence between a point and a plane becomes a pair of an $\alpha$-plane and a $\beta$-plane which intersect in a line. Intersecting the configuration with a general hyperplane which does not contain the intersection of any two $\alpha$-planes or the intersection of any two $\beta$-planes, we get a configuration of $2n$ lines in $\PP^4$. Call a line coming from an $\alpha$-plane an $\alpha$-line, and similarly define $\beta$-lines. Any two $\alpha$-lines do not intersect, any two $\beta$-lines do not intersect, and intersections between $\alpha$-lines and $\beta$-lines correspond to point-plane incidences. For any two $\alpha$-lines, any $\beta$-line intersecting them corresponds to a plane containing the line through the corresponding points, so at most $\sqrt{n}$ lines from the configuration intersect any pair of $\alpha$-lines. Similarly, at most $\sqrt{n}$ lines from the configuration intersecting any pair of $\beta$-lines. Thus we can apply Theorem \ref{3d} to see that the number of incidences is at most
+\[
+\sqrt{754}(2n)^{\frac{3}{2}} = \sqrt{6032}n^{\frac{3}{2}}.\qedhere
+\]
+\end{proof}
+
+\begin{thm}[Roche-Newton, Rudnev, Shkredov] If $A$ is a finite subset of the nonzero elements of a field with characteristic $p$ satisfying $|A|^2|AA| \le \frac{11}{12}p^2$, then
+\[
+|A+A|^2|AA|^3 \ge \frac{|A|^6}{6032}.
+\]
+\end{thm}
+\begin{proof} We estimate the number $N$ of solutions to the equation
+\[
+a+bcd^{-1} = e + fgh^{-1},
+\]
+with $a,b,c,d,e,f,g,h \in A$, in two ways. By taking $c=d, g=h$ and applying Cauchy-Schwarz we see that
+\[
+N \ge \frac{|A|^4}{|A+A|}|A|^2.
+\]
+Now to each tuple $(a,h,bc) \in A\times A\times AA$ we associate the point $(a,bc,h^{-1})$, and to each tuple $(d,e,fg) \in A\times A\times AA$ we associate the plane $\{(x,y,z) \mid x+d^{-1}y = e + fgz\}$. This gives us a collection of $|A|^2|AA|$ points and $|A|^2|AA|$ planes in $\PP^3$ such that at most $|AA| \le \sqrt{|A|^2|AA|}$ points (respectively planes) lie on any line. By Corollary \ref{point-plane}, we see that
+\[
+\sqrt{6032}(|A|^2|AA|)^{\frac{3}{2}} \ge N \ge \frac{|A|^6}{|A+A|}.\qedhere
+\]
+\end{proof}
+
+By a similar argument, we obtain the following.
+
+\begin{thm}[Roche-Newton, Rudnev, Shkredov] Let $A,B,C$ be finite subsets of a field of characteristic $p$. If $\max(|A|,|B|,|C|)^2 \le |A||B||C| \le \frac{11}{12}p^2$, then
+\[
+|A+BC|^2 \ge \frac{|A||B||C|}{6032}.
+\]
+\end{thm}
+
+\subsection{General rings}
+
+\begin{thm}[Katz-Tao Lemma] Let $A$ be a nonempty finite set of non-zero-divisors of a ring $R$. There is a subset $B \subseteq A$ such that
+\[
+|B| \ge \frac{|A|^2}{4|AA|}
+\]
+and such that for any natural numbers $k,l$ we have
+\[
+|kBB-lBB| \le \bigg(384\frac{|A+A|^3|AA|^7}{|A|^{10}}\bigg)^{k+l}|kA-lA|.
+\]
+\end{thm}
+\begin{proof} By Theorem \ref{approx-noncommute} we can find a subset $X\subseteq A$ with $|X| \ge \frac{|A|}{2}$ and
+\[
+|AXA| \le 3\frac{|AA|^2}{|A|^2}|X|.
+\]
+By Cauchy-Schwarz we have
+\[
+\sum_{x\in X}\sum_{y\in A} |xA\cap Xy| \ge \frac{|X|^2|A|^2}{|XA|} \ge \frac{|X|^2|A|^2}{|AA|},
+\]
+so we can pick some $y \in A$ such that
+\[
+\sum_{x\in X} |xA\cap Xy| \ge \frac{|X|^2|A|}{|AA|}.
+\]
+Setting
+\[
+B = \bigg\{x\in X\mid |xA\cap Xy| \ge \frac{|X||A|}{2|AA|}\bigg\},
+\]
+we have
+\[
+|B| \ge \frac{|X||A|}{2|AA|}.
+\]
+We now show by induction on $h$ that if $b_1, ..., b_k \in B^h$, then
+\[
+|b_1A + \cdots + b_kA| \le \bigg(\frac{4|A+A||AA|}{|A|^2}\bigg)^{hk}|kA|.
+\]
+Suppose that we have shown this already for $h$. Letting $b_1, ..., b_k \in B^h$ and $x_1, ..., x_k \in B$, since the $b_i$s and $x_i$s are non-zero-divisors we have
+\[
+|b_ix_iA + b_ix_iA| = |A+A|
+\]
+and
+\[
+|b_ix_iA\cap b_iAy| = |x_iA\cap Ay| \ge \frac{|A|^2}{4|AA|},
+\]
+so by Proposition \ref{large-intersection} we have
+\begin{align*}
+|b_1x_1A + \cdots + b_kx_kA| &\le \frac{|A+A|}{|x_1A\cap Ay|}\cdots \frac{|A+A|}{|x_kA\cap Ay|}|b_1Ay+\cdots +b_kAy|\\
+&\le \bigg(\frac{4|A+A||AA|}{|A|^2}\bigg)^{(h+1)k}|kA|,
+\end{align*}
+completing the induction. A similar statement with both additions and subtractions can be proved in the same way.
+
+Now choose an element $m \in BA$ such that, setting
+\[
+C = \{(b,a)\in B\times A\mid ba = m\},
+\]
+we have
+\[
+|C| \ge \frac{|B||A|}{|BA|} \ge \frac{|A|^2}{2|AA|^2}|X|.
+\]
+Fixing a representation $uv+tw$ for each sum in $BB+BB$, we have an injection
+\[
+(BB+BB)\times C\times C \hookrightarrow \{(c,d,s)\mid c,d \in B^3, s\in cA+dA\},
+\]
+sending $(uv+tw,(b,a),(b',a'))$ to $(uvb, twb', (uv+tw)m)$. Thus, using $|B^3| \le |AXA| \le 3\frac{|AA|^2}{|A|^2}|X|$, we have
+\begin{align*}
+|BB+BB| &\le \bigg(\frac{|B^3|}{|C|}\bigg)^2\bigg(\frac{4|A+A||AA|}{|A|^2}\bigg)^6|A+A|\\
+&\le 6^2\frac{|AA|^8}{|A|^8}\cdot 4^6\frac{|A+A|^6|AA|^6}{|A|^{12}}|A+A|\\
+&= 384^2\frac{|A+A|^6|AA|^{14}}{|A|^{20}}|A+A|.
+\end{align*}
+By the same argument, for any natural numbers $k,l$ we get
+\[
+|kBB-lBB| \le \bigg(384\frac{|A+A|^3|AA|^7}{|A|^{10}}\bigg)^{k+l}|kA-lA|.
+\]
+More generally, we even have
+\[
+|kB^h-lB^h| \le \bigg(\frac{|B^{h+1}|}{|C|}\bigg(\frac{4|A+A||AA|}{|A|^2}\bigg)^{h+1}\bigg)^{k+l}|kA-lA|.\qedhere
+\]
+\end{proof}
+
+\begin{thm}[Self-improving property]\label{self-improving} Let $A$ be a finite subset of a ring $R$, and let $D$ be a nonempty subset of $A-A$. If $x$ is an element of $R$ and $r\in R^*$ is a non-zero-divisor such that
+\[
+|xA+rA| < \frac{|A|^2}{|D|}
+\]
+then there is an element $d \in (A-A)\setminus D$ such that
+\[
+|xAA+rAA| \le \frac{|2AA-AA|}{|dA|}|3AA-2AA|.
+\]
+If we take $D$ to be the set of zero-divisors of $A-A$ and we assume that $D \ne A-A$, then we have
+\[
+|xA+rA| \le \frac{|2AA-2AA|}{|A|}|3AA-3AA|.
+\]
+\end{thm}
+\begin{proof} By Cauchy-Schwarz, we have
+\[
+\#\{(a,b,a',b')\in A\times A\times A\times A \mid xa+rb = xa'+rb'\} \ge \frac{|A|^4}{|xA+rA|},
+\]
+so
+\[
+\#\{(d,e)\in (A-A)\times (A-A) \mid xd = re\} \ge \frac{|A|^2}{|xA+rA|} > |D|.
+\]
+Since $r$ is a non-zero-divisor, each pair $(d,e)$ with $xd = re$ corresponds to a different value of $d$. Thus we can find $d \in (A-A)\setminus D$ with $xd\in r(A-A)$. By the Ruzsa covering lemma, there is a set $S \subseteq AA$ with
+\[
+|S| \le \frac{|dA+AA|}{|dA|} \le \frac{|2AA-AA|}{|dA|}
+\]
+and
+\[
+AA \subseteq dA-dA+S.
+\]
+Thus we have
+\[
+|xAA+rAA| \le |xdA-xdA+xS+rAA| \le |S||r(3AA-2AA)| \le \frac{|2AA-AA|}{|dA|}|3AA-2AA|.
+\]
+For the last claim, we apply the Ruzsa covering lemma to find $S' \subseteq AA-AA$ with
+\[
+AA-AA \subseteq dA-dA+S'
+\]
+to get
+\[
+|xA+rA| \le |(xA+rA)(A-A)| \le |xdA-xdA+xS'+rA(A-A)| \le \frac{|2AA-2AA|}{|A|}|3AA-3AA|.\qedhere
+\]
+\end{proof}
+
+From here on, we take $A$ to be a subset of a ring $R$ such that $A-A$ contains a non-zero-divisor, and we let $D$ be the set of zero-divisors in $A-A$. For any $r \in R$, we define the set $S_r$ to be
+\[
+S_r = \left\{x \in R \mid |xA+rA| < \frac{|A|^2}{|D|}\right\}.
+\]
+
+\begin{prop} $|A-A|, |A+A| \le |2AA-2AA|$.
+\end{prop}
+
+\begin{prop} If $r \in R^*$ then $|S_r| < |A-A|^2$. If we also have
+\[
+|D| \le \frac{|A|^3}{2|2AA-2AA||3AA-3AA|},
+\]
+then
+\[
+|S_r| < \frac{2|A-A|^2|2AA-2AA||3AA-3AA|}{|A|^3}.
+\]
+\end{prop}
+\begin{proof} Let $x \in S_r$. By the same argument as in Theorem \ref{self-improving}, we have
+\[
+\#\{(d,e)\in ((A-A)\setminus D)\times (A-A) \mid xd = re\} \ge \frac{|A|^2}{|xA+rA|} - |D| \ge \frac{|A|^3}{|2AA-2AA||3AA-3AA|} - |D|.
+\]
+Since for each $(d,e) \in ((A-A)\setminus D)\times (A-A)$ there is at most one $x$ such that $xd = re$, we see that
+\[
+|S_r| \le \frac{(|A-A|-|D|)|A-A|}{\frac{|A|^3}{|2AA-2AA||3AA-3AA|} - |D|}.\qedhere
+\]
+\end{proof}
+
+\begin{prop} If $r \in R^*$ and
+\[
+|D| < \frac{|A|^6}{|A+A||2AA-2AA|^2|3AA-3AA|^2},
+\]
+then $S_r$ is closed under addition (and is therefore an additive group).
+\end{prop}
+\begin{proof} For $x,y \in S_r$, we have
+\[
+|(x+y)A + rA| \le \frac{|xA+rA|}{|A|}\frac{|yA+rA|}{|A|}|A+A| \le \frac{|A+A||2AA-2AA|^2|3AA-3AA|^2}{|A|^4} < \frac{|A|^2}{|D|}.\qedhere
+\]
+\end{proof}
+
+\begin{prop} If
+\[
+|D| < \frac{|A|^8}{|A+A||2AA-2AA|^3|3AA-3AA|^3},
+\]
+then $S_1$ is closed under multiplication (and is therefore a ring).
+\end{prop}
+\begin{proof} Suppose $x,y \in S_1$. Apply the Ruzsa covering lemma to find $S \subseteq yA$ with
+\[
+|S| \le \frac{|yA+A|}{|A|}
+\]
+and
+\[
+yA \subseteq A-A+S.
+\]
+Then we have
+\[
+|xyA+A| \le |xA-xA+xS+A| \le \frac{|A+A||2AA-2AA|^3|3AA-3AA|^3}{|A|^6} < \frac{|A|^2}{|D|}.\qedhere
+\]
+\end{proof}
+
+\begin{prop} If $r \in R^*$, $a \in (A-A)\setminus D$, and
+\[
+|D| < \frac{|A|^{10}}{|A+A||2AA-2AA|^4|3AA-3AA|^4},
+\]
+then $S_rS_a \subseteq S_{ra}$.
+\end{prop}
+\begin{proof} Take $x \in S_r$ and $y \in S_a$. We have
+\[
+|yA+Aa| \le \frac{|yA+aA|}{|A|}\frac{|Aa+aA|}{|A|}|A| \le \frac{|yA+aA||2AA-2AA|}{|A|}.
+\]
+Take $S \subseteq yA$ with
+\[
+|S| \le \frac{|yA+Aa|}{|A|}
+\]
+and
+\[
+yA \subseteq Aa-Aa+S.
+\]
+Take $S' \subseteq xA-xA$ with
+\[
+|S'| \le \frac{|xA-xA+rA|}{|A|} \le \frac{|xA+rA|}{|A|}\frac{|-xA+rA|}{|A|}\frac{|A+A|}{|A|}
+\]
+and
+\[
+xA-xA \subseteq rA-rA+S'.
+\]
+Then
+\begin{align*}
+|xyA+raA| &\le |xAa-xAa+xS+raA| \le |S||rAa-rAa+S'a+raA|\\
+&\le |S||S'||Aa-Aa+aA| \le \frac{|A+A||2AA-2AA|^4|3AA-3AA|^4}{|A|^8} < \frac{|A|^2}{|D|}.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{prop} If $r,s \in R$ then $sS_r \subseteq S_{sr}$.
+\end{prop}
+
+\begin{prop} If $r \in R$ and  $|D| < \frac{|A|^2}{|A+A|}$, then $r \in S_r$.
+\end{prop}
+
+\begin{prop} If $r,s \in R$, then $r \in S_s \iff s \in S_r$.
+\end{prop}
+
+\begin{prop} If $r,s \in R^*$, $S_r \cap S_s \cap R^* \ne \emptyset$, and
+\[
+|D| < \frac{|A|^7}{|2AA-2AA|^3|3AA-3AA|^3},
+\]
+then $S_r = S_s$.
+\end{prop}
+\begin{proof} Take $t \in S_r \cap S_s \cap R^*$ and $x \in S_r$. We have
+\[
+|rA+sA| \le \frac{|tA+rA|}{|A|}\frac{|tA+sA|}{|A|}|A|.
+\]
+Then
+\[
+|xA+sA| \le \frac{|xA+rA|}{|A|}\frac{|rA+sA|}{|A|}|A| \le \frac{|2AA-2AA|^3|3AA-3AA|^3}{|A|^5} < \frac{|A|^2}{|D|}.\qedhere
+\]
+\end{proof}
+
+\begin{thm}[Inhomogeneous sum-product theorem] Let $R$ be a ring, $A \subseteq R$. If
+\[
+|(A-A)\setminus R^*| < \min\left(\frac{|A|^2}{|A+AA|}, \frac{|A|^8}{2|A+A||2AA-2AA|^3|3AA-3AA|^3}\right),
+\]
+then there is a subring $S \subseteq R$ such that $A \subseteq S$ and
+\[
+|S| < \frac{2|A-A|^2|2AA-2AA||3AA-3AA|}{|A|^3}.
+\]
+\end{thm}
+\begin{proof} We take $S = S_1$, then $A \subseteq S_1$ by the assumption $|AA+A| < \frac{|A|^2}{|D|}$. Previous propositions show that $S_1$ is a ring and give the required bound on the size of $S_1$.
+\end{proof}
+
+\begin{thm}[Homogeneous sum-product theorem with invertible element] If $R$ has a $1$, $A \subseteq R$ has an invertible element $a$, and
+\[
+|(A-A)\setminus R^*| \le \frac{|A|^8}{2|A+A||2AA-2AA|^3|3AA-3AA|^3},
+\]
+then there is a subring $S \subseteq R$ such that
+\[
+A \subseteq aS = Sa
+\]
+and
+\[
+|S| < \frac{2|A-A|^2|2AA-2AA||3AA-3AA|}{|A|^3}.
+\]
+\end{thm}
+\begin{proof} We take $S = S_1$. As before, we have $S_1$ a ring with the required size bound. We have
+\[
+|a^{-1}AA+A| = |AA+aA| \le |AA+AA| < \frac{|A|^2}{|D|}
+\]
+by our assumption, so $a^{-1}A \subseteq S$, that is, $A \subseteq aS$. Since $SS = S$, we have
+\[
+|aSa^{-1}A+A| \le |aSa^{-1}aS+aS| = |aS| \le |S| < \frac{2|2AA-2AA|^3|3AA-3AA|}{|A|^3} < \frac{|A|^2}{|D|},
+\]
+so $aSa^{-1} \subseteq S$. Since $S$ is finite, this implies that $aS = Sa$.
+\end{proof}
+
+
+\nocite{big-garaev}
+\nocite{bourgain-arbitrary}
+\nocite{complex}
+\nocite{garaev}
+\nocite{kollar}
+\nocite{petridis}
+\nocite{point-plane}
+\nocite{point-plane-app}
+\nocite{schoen}
+\nocite{slight}
+\nocite{solymosi}
+\nocite{ruzsa}
+\nocite{tao}
+\bibliography{sumproduct}
+\bibliographystyle{plain}
+
+\end{document}
+
