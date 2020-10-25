@@ -1,0 +1,1044 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage{amsfonts,amssymb,amsmath,amsthm,latexsym}
+\usepackage{stmaryrd}
+\usepackage[all]{xy}
+\usepackage{fullpage}
+\usepackage{hyperref}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{cor}{Corollary}
+\newtheorem{prop}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+
+\theoremstyle{remark}
+\newtheorem{ex}{Example}
+\newtheorem{rmk}{Remark}
+\newtheorem{exer}{Exercise}
+
+\begin{document}
+
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\RR}{\mathbb{R}}
+
+\title{Notes on Sheaf Cohomology}
+\date{}
+\maketitle
+
+\tableofcontents
+
+\section{Grothendieck Abelian Categories}
+
+The material in this section is mostly from the stacks project, specifically \cite[\href{http://stacks.math.columbia.edu/tag/05NM}{Tag 05NM}]{stacks-project}, \cite[\href{http://stacks.math.columbia.edu/tag/079A}{Tag 079A}]{stacks-project}, and \cite[\href{http://stacks.math.columbia.edu/tag/05AB}{Tag 05AB}]{stacks-project}.
+
+A note: most references are not up front about what type of categories they consider. In this paper all categories $\mathcal{C}$ under consideration will be locally small: for any two objects $A,B\in \mbox{Ob}(\mathcal{C})$, $\mbox{Mor}_\mathcal{C}(A,B)$ is a set. In an additive category, I will write $\mbox{Hom}$ instead of $\mbox{Mor}$.
+
+\begin{defn} An additive locally small category $\mathcal{C}$ is a \emph{Grothendieck Abelian Category} if it has the following four properties:
+\begin{itemize}
+\item[(AB)] $\mathcal{C}$ is an abelian category. In other words $\mathcal{C}$ has kernels and cokernels, and the canonical map from the coimage to the image is always an isomorphism.
+
+\item[(AB3)] AB holds and $\mathcal{C}$ has direct sums indexed by arbitrary sets. Note this implies that colimits over small categories exist (since colimits over small categories can be written as cokernels of direct sums over sets).
+
+\item[(AB5)] AB3 holds and filtered colimits over small categories are exact. (A colimit over a small category $\mathcal{D}$ is \emph{filtered} if any two objects $i,j\in \mbox{Ob}(\mathcal{D})$ have maps to a common object $k$, if any two maps $i\rightarrow j$, $i\rightarrow j'$ can be extended to a commutative diagram with everything mapping to another object $k$, and if for any two maps from $i$ to $j$ we can find a map from $j$ to $k$ coequalizing them. This is meant to be a generalization of a directed set.)
+
+\item[(GEN)] $\mathcal{C}$ has a generator. A generator is an object $U$ such that for any proper subobject $N \subsetneq M$ of any object $M$, we can find a map $U\rightarrow M$ that does not factor through $N$.
+\end{itemize}
+\end{defn}
+
+\begin{rmk} Tamme \cite{etale} claims that the following is an equivalent reformulation of the AB5 condition:
+\begin{itemize}
+\item[(AB5')] AB3 holds, and for each directed set of subobjects $A_i$ of an object $A$ of $\mathcal{C}$, and each system of morphisms $u_i:A_i\rightarrow B$ such that $u_i$ is induced from $u_j$ if $A_i \subseteq A_j$, there is a morphism $u:\Sigma_i A_i \rightarrow B$ inducing the $u_i$. Here $\Sigma_i A_i$ is the internal sum of the $A_i$s in $A$, i.e. $\Sigma_i A_i = \mbox{im}(\bigoplus_i A_i \rightarrow A)$.
+\end{itemize}
+I haven't worked through the proof of the equivalence, but it probably isn't too hard.
+\end{rmk}
+
+\begin{ex} If $R$ is a ring, then the category of $R$-modules forms a Grothendieck abelian category. AB5' is easy to verify, so if we believe Tamme then we only need to find a generator. One such generator is $R$, considered as an $R$-module in the obvious way.
+\end{ex}
+
+\subsection{The size of an object}
+\begin{defn} If $M$ is an object of $\mathcal{C}$, we define $|M|$ to be the cardinality of the smallest set of subobjects of $M$ containing one subobject from each equivalence class of subobjects, or $\infty$ if there is no such set.
+\end{defn}
+
+\begin{prop} Let $\mathcal{C}$ be a Grothendieck abelian category with a generator $U$. Then for any object $M$ of $\mathcal{C}$, we have
+\begin{itemize}
+\item $|M| \le 2^{\mbox{\rm \small Hom}_{\mathcal{C}}(U,M)}$
+
+\item If $|M| \le \kappa$, then there is an epimorphism $\bigoplus_\kappa U \twoheadrightarrow M$.
+\end{itemize}
+\end{prop}
+\begin{proof} For the second claim, find for every proper subobject $N$ of $M$ a map $U\rightarrow M$ not factoring through $N$. The direct sum of this collection of maps can't factor through any proper subobject of $M$, so it must be an epimorphism.
+
+For the first claim, we just have to check that since $U$ is a generator every subobject $N$ of $M$ is determined up to equivalence by the set of maps $U\rightarrow M$ which factor through $N$. This follows from the proof of the second claim, applied to $N$.
+\end{proof}
+
+We will need the following technical lemma later. Recall that the cofinality of a poset is the smallest cardinality of a cofinal subset of the poset.
+
+\begin{lem}\label{alpha-small} Let $\mathcal{C}$ be a Grothendieck abelian category, and let $M$ be an object of $\mathcal{C}$. Suppose $\alpha$ is an ordinal with cofinality greater than $|M|$, and let $\{B_\beta\}_{\beta \in \alpha}$ be a directed system such that each map $B_\beta\rightarrow B_\gamma$ is an injection for $\beta\subseteq\gamma$. Then any map $f:M\rightarrow \underset{\longrightarrow}{\lim}\;B_\beta$ factors through some $B_\beta$.
+\end{lem}
+\begin{proof} By applying AB5 to the exact sequences
+\[
+0\rightarrow B_\beta \rightarrow \underset{\longrightarrow}{\lim}B_\gamma \rightarrow (\underset{\longrightarrow}{\lim}\;B_\gamma)/B_\beta \rightarrow 0,
+\]
+\[
+0\rightarrow f^{-1}(B_\beta) \rightarrow M \rightarrow (\underset{\longrightarrow}{\lim}\;B_\gamma)/B_\beta
+\]
+we have $\underset{\longrightarrow}{\lim}\;f^{-1}(B_\beta) = M$. Since each $f^{-1}(B_{\beta})$ is a subobject of $M$, we can choose a collection of at most $|M|$ $\beta_i$s such that each $f^{-1}(B_\beta)$ is equivalent to some $f^{-1}(B_{\beta_i})$. Since the cofinality of $\alpha$ is greater than $|M|$, we can find an upper bound $\gamma\in\alpha$ of all of the $\beta_i$s. Then $f^{-1}(B_\gamma) = M$, so $f$ factors through $B_\gamma$.
+\end{proof}
+
+\subsection{Injectives}
+
+The next lemma generalizes the fact an abelian group is injective if and only if it is divisible.
+
+\begin{lem}\label{criterion} Let $\mathcal{C}$ be a Grothendieck abelian category with generator $U$. Then an object $I$ of $\mathcal{C}$ is injective if and only if we can fill in the dashed arrow in any diagram of the form
+\begin{align*}
+\xymatrix{&M \ar[r] \ar@{^{(}->}[d] & I\\
+&U \ar@{-->}[ur]}
+\end{align*}
+\end{lem}
+\begin{proof} We need to show that we can fill in the dashed arrow in any diagram of the form
+\begin{align*}
+\xymatrix{&A \ar[r] \ar@{^{(}->}[d] & I\\
+&B \ar@{-->}[ur]}
+\end{align*}
+By Zorn's lemma and AB5', we can assume without loss of generality that there is no larger subobject $A'$ of $B$ such that we can find a map $A'\rightarrow I$ extending $A\rightarrow I$. Suppose for a contradiction that $A\ne B$.
+
+Choose a map $\varphi:U\rightarrow B$ that does not factor through $A$, and set $M = \varphi^{-1}(\varphi(U)\cap A)$. By assumption we can extend the obvious map $M\rightarrow I$ to a map $U\rightarrow I$. By construction the map $U\rightarrow I$ vanishes on $\ker(U\rightarrow B)$, and the induced map $\varphi(U) \rightarrow I$ agrees with $A\rightarrow I$ on $\varphi(U)\cap A$. Thus $A\rightarrow I$ extends to a map $A+\varphi(U)\rightarrow I$, contradicting the choice of $A$.
+\end{proof}
+
+\begin{thm}[Grothendieck abelian categories have enough injectives]\label{injectives} Let $\mathcal{C}$ be a Grothendieck abelian category. Then there is a functor taking an object $M$ of $\mathcal{C}$ to a monomorphism $M\hookrightarrow I$ from $M$ to an injective object $I$.
+\end{thm}
+\begin{proof} Define the functor $J$ by taking $J(M)$ to be the pushout
+\begin{align*}
+\xymatrix{&\bigoplus_{N\subseteq U}\bigoplus_{\mbox{Hom}(N,M)}N \ar[r] \ar@{^{(}->}[d] & M \ar@{^{(}-->}[d]\\
+&\bigoplus_{N\subseteq U}\bigoplus_{\mbox{Hom}(N,M)}U \ar@{-->}[r] & J(M)}
+\end{align*}
+where here $N$ runs over a set of representatives for the subobjects of $U$, of cardinality $|U|$.
+
+Now we inductively define a sequence of functors $J_\alpha$ indexed by ordinals. Set $J_0 = J$, set $J_{\alpha+1} = J\circ J_\alpha$, and for $\alpha$ a limit ordinal set $J_\alpha = \underset{\underset{\beta\in\alpha}{\longrightarrow}}{\lim}\;J_\beta$.
+
+Pick, once and for all, an $\alpha$ with cofinality greater than $|U|$ (for instance, we can pick $\alpha$ to be the smallest infinite ordinal with cardinality greater than $|U|$). Then for any $M$ the map $M\rightarrow J_\alpha(M)$ is injective (by Zorn's lemma and AB5), so we just need to check that $J_\alpha(M)$ is injective to finish.
+
+By Lemma \ref{criterion}, we just need to check that for each subobject $N$ of $U$ we can extend any map $N\rightarrow J_\alpha(M)$ to a map $U\rightarrow J_\alpha(M)$. By Lemma \ref{alpha-small}, such a map factors through some $J_\beta(M)$ for some $\beta\in\alpha$, and by the definition of $J$ the map $N\rightarrow J_\beta(M)$ extends to a map $U\rightarrow J_{\beta+1}(M)$. Since $\alpha$ is a limit ordinal, we have $\beta+1\in \alpha$ as well, so $U\rightarrow J_{\beta+1}(M)\rightarrow J_{\alpha}(M)$ is the desired extension of $N\rightarrow J_\alpha(M)$.
+\end{proof}
+
+\section{Grothendieck Spectral Sequence}
+
+For this section we will need a few facts about Cartan-Eilenberg resolutions of complexes.
+
+\begin{exer} Let $C^\bullet$ be a complex in an abelian category $\mathcal{C}$ with enough injectives. Show that we can find a resolution
+\[
+0 \rightarrow C^\bullet \rightarrow I^{\bullet,0} \rightarrow I^{\bullet,1} \rightarrow \cdots
+\]
+such that
+\begin{itemize}
+\item each $I^{i,j}$ is injective,
+
+\item if $C^i = 0$, then $I^{i,j} = 0$ for all $j$,
+
+\item each of the sequences
+\begin{align*}
+&0 \rightarrow C^i \rightarrow I^{i,0} \rightarrow I^{i,1} \rightarrow \cdots\\
+&0 \rightarrow B^i(C^\bullet) \rightarrow B^i(I^{\bullet,0}) \rightarrow B^i(I^{\bullet,1}) \rightarrow \cdots\\
+&0 \rightarrow Z^i(C^\bullet) \rightarrow Z^i(I^{\bullet,0}) \rightarrow Z^i(I^{\bullet,1}) \rightarrow \cdots\\
+&0 \rightarrow H^i(C^\bullet) \rightarrow H^i(I^{\bullet,0}) \rightarrow H^i(I^{\bullet,1}) \rightarrow \cdots
+\end{align*}
+is an injective resolution ($B^i$ is the $i$th coboundary group, and $Z^i$ is the $i$th cocycle group).
+\end{itemize}
+Such a resolution is called a Cartan-Eilenberg resolution. Hint: apply the horseshoe lemma to the exact sequences
+\[
+0 \rightarrow B^i(C^\bullet) \rightarrow Z^i(C^\bullet) \rightarrow H^i(C^\bullet) \rightarrow 0
+\]
+and
+\[
+0 \rightarrow Z^i(C^\bullet) \rightarrow C^i \rightarrow B^{i+1}(C^\bullet) \rightarrow 0.
+\]
+\end{exer}
+
+\begin{exer} For extra credit, show that for any exact sequence of complexes
+\[
+0 \rightarrow C'^\bullet \rightarrow C^\bullet \rightarrow C''^\bullet \rightarrow 0
+\]
+we can find an exact sequence of Cartan-Eilenberg resolutions
+\[
+0 \rightarrow I'^{\bullet,\bullet} \rightarrow I^{\bullet,\bullet} \rightarrow I''^{\bullet,\bullet} \rightarrow 0.
+\]
+\end{exer}
+
+\begin{thm}[Grothendieck spectral sequence]\label{spectral} Let $F: \mathcal{C}\rightarrow \mathcal{C}'$, $G:\mathcal{C'}\rightarrow \mathcal{C''}$ be left exact additive functors of abelian categories, and let $\mathcal{C}, \mathcal{C'}$ have enough injectives. If $F$ maps injective objects of $\mathcal{C}$ to $G$-acyclic ($M$ is $G$-acyclic means $R^pG(M) = 0$ for all $p > 0$) objects of $\mathcal{C}'$, then we have a functorial spectral sequence taking $A\in \mbox{\rm Ob}(\mathcal{C})$ to
+\[
+E^{p,q}_2 = R^pG(R^qF(A)) \; \Rightarrow \; E^n = R^n(G\circ F)(A).
+\]
+\end{thm}
+\begin{proof} Choose an injective resolution $0 \rightarrow A \rightarrow I^\bullet$, and then choose a Cartan-Eilenberg resolution $0 \rightarrow F(I^\bullet) \rightarrow J^{\bullet,\bullet}$. Let $K^\bullet$ be the total complex of $G(J^{\bullet,\bullet})$.
+
+We compute the cohomology of $K^\bullet$ in two ways by means of the two spectral sequences $E,E'$ coming from the double complex $G(J^{\bullet,\bullet})$. Here $E$ is the spectral sequnce we get by first taking cohomology in the first index, and $E'$ is the spectral sequence we get by first taking cohomology in the second index. $E'$ is the easier spectral sequence: we have
+\[
+E'^{p,q}_1 = H^q(G(J^{p,\bullet})) = R^qG(F(I^p)) = \begin{cases}(G\circ F)(I^p) \mbox{ if } q = 0\\
+0 \mbox{ if } q > 0\end{cases},
+\]
+since $F(I^p)$ was assumed to be $G$-acyclic. Thus $E'^{p,q}_2 = \begin{cases}R^p(G\circ F)(A) \mbox{ if } q = 0\\ 0 \mbox{ if } q > 0\end{cases}$, and the spectral sequence abuts to $E'^n = R^n(G\circ F)(A)$.
+
+As for $E$, we have (after switching the roles of $p$ and $q$)
+\[
+E^{p,q}_1 = H^q(G(J^{\bullet,p})) = G(H^q(J^{\bullet,p})),
+\]
+since each of the exact sequences
+\[
+0 \rightarrow B^q(J^{\bullet,p}) \rightarrow Z^q(J^{\bullet,p}) \rightarrow H^q(J^{\bullet,p}) \rightarrow 0,
+\]
+\[
+0 \rightarrow Z^q(J^{\bullet,p}) \rightarrow J^{q,p} \rightarrow B^{q+1}(J^{\bullet,p}) \rightarrow 0,
+\]
+\[
+0 \rightarrow Z^q(J^{\bullet,p}) \rightarrow J^{q,p} \rightarrow J^{q+1,p}
+\]
+has all terms injective and thus remains exact when we apply the functor $G$. Since $0 \rightarrow H^q(F(I^\bullet)) \rightarrow H^q(J^{\bullet,\bullet})$ is an injective resolution and $H^q(F(I^\bullet)) = R^qF(A)$, we have
+\[
+E^{p,q}_2 = H^p(G(H^q(J^{\bullet,\bullet}))) = R^pG(H^q(F(I^\bullet))) = R^pG(R^qF(A)).
+\]
+This abuts to $E^n = H^n(K^\bullet) = E'^n = R^n(G\circ F)(A)$.
+\end{proof}
+
+\begin{cor}[Exact sequence of low degree]\label{five-term} If $F,G$ are as above, then for any $A$ we have an exact sequence
+\[
+0 \rightarrow R^1G(F(A)) \rightarrow R^1(G\circ F)(A) \rightarrow G(R^1F(A)) \rightarrow R^2G(F(A)) \rightarrow R^2(G\circ F)(A).
+\]
+\end{cor}
+
+We also have the following strengthening of the exact sequence of low degree, from \cite{etale}.
+
+\begin{cor}\label{degenerate} If $F,G$ are as above, and if $R^pG(R^qF(A)) = 0$ for $0 < q < n$, then
+\[
+R^mG(F(A)) \cong R^m(G\circ F)(A) \mbox{ for } m < n,
+\]
+and we have an exact sequence
+\[
+0 \rightarrow R^nG(F(A)) \rightarrow R^n(G\circ F)(A) \rightarrow G(R^nF(A)) \rightarrow R^{n+1}G(F(A)) \rightarrow R^{n+1}(G\circ F)(A).
+\]
+\end{cor}
+
+\begin{ex} Let $N$ be a normal subgroup of a group $G$. Then the functor $A \mapsto A^N$ takes $G$-modules to $G/N$-modules, and the functor $B \mapsto B^{G/N}$ takes $G/N$-modules to abelian groups. The category of $G$-modules satisfies AB5 and has the generator $\mathbb{Z}[G]$, so it has enough injectives by Theorem \ref{injectives}, and similarly for the category of $G/N$-modules. It's easy to check that the functor $A \mapsto A^N$ takes injective $G$-modules to injective $G/N$-modules (essentially, since every $G/N$-module can be regarded as a $G$-module invariant under $N$), so we can apply Corollary \ref{five-term} to obtain the inflation-restriction exact sequence of group cohomology:
+\[
+0 \rightarrow H^1(G/N,A^N) \stackrel{inf}{\longrightarrow} H^1(G,A) \stackrel{res}{\longrightarrow} H^1(N,A)^{G/N} \stackrel{tr}{\longrightarrow} H^2(G/N,A^N) \stackrel{inf}{\longrightarrow} H^2(G,A).
+\]
+\end{ex}
+
+\section{Sheaf Cohomology}
+
+First we recall the definition of a topology. I'm going to follow Tamme's presentation from \cite{etale}.
+
+\begin{defn} A \emph{topology} (or \emph{site}) $T$ is a small category $\mbox{cat}(T)$ (objects of $\mbox{cat}(T)$ will be called \emph{opens}) together with a set $\mbox{cov}(T)$ of families $\{U_i \stackrel{\varphi_i}{\rightarrow} U\}_{i\in I}$, called \emph{coverings} of $T$, satisfying the following axioms.
+\begin{itemize}
+\item[T1] For $\{U_i \rightarrow U\}$ any covering and any morphism $V\rightarrow U$, the fiber products $U_i \times_U V$ exist and $\{U_i \times_U V \rightarrow V\}$ is also a covering.
+
+\item[T2] For $\{U_i \rightarrow U\}$ any covering and for any family of coverings $\{V_{ij} \rightarrow U_i\}$, $\{V_{ij} \rightarrow U\}$ is also a covering.
+
+\item[T3] If $U' \rightarrow U$ is an isomorphism, then $\{U' \rightarrow U\}$ is a covering.
+\end{itemize}
+
+A \emph{morphism of topologies} is a functor taking coverings to coverings and commuting with all fiber products that show up in T1.
+\end{defn}
+
+\begin{ex} Let $X$ be a topological space. The site $T_X$ with underlying category the category of open sets of $X$ and coverings given by open coverings satisfies the axioms of a topology. If $U,V$ are open sets contained in the open set $W$, then we have $U\times_W V = U\cap V$.
+
+If $f:X\rightarrow Y$ is a continuous map, then $f^{-1} : T_Y \rightarrow T_X$ is a morphism of topologies.
+\end{ex}
+
+Our main concern is the case of a topology $T_X$, where $X$ is a scheme.
+
+\subsection{Sheaves and Presheaves}
+
+Let $\mathcal{P}$ be the category of presheaves on $T$ - that is, the category of contravariant functors from $\mbox{cat}(T)$ to the category of abelian groups. For any open $U$ we define the section functor by $\Gamma(U,F) = F(U)$, for $F$ a presheaf.
+
+\begin{prop} $\mathcal{P}$ is a Grothendieck abelian category. A sequence of presheaves is exact if and only if it is exact on each open $U$.
+\end{prop}
+\begin{proof} The only nontrivial part of this theorem is that $\mathcal{P}$ has a generator. Rather than constructing a single generator, it is convenient to construct a set of generators, that is a set of presheaves $\{Z_i\}$ such that for any $N\subsetneq M$ we can find an $i$ and a map $Z_i \rightarrow M$ which does not factor through $N$. Then we may take $Z = \bigoplus_i Z_i$ as a generator for $\mathcal{P}$.
+
+Our family of generators is defined as follows. For any open $U$, we define the presheaf $Z_U$ by
+\[
+Z_U(V) = \bigoplus_{\mbox{\small Mor}(V,U)} \mathbb{Z}.
+\]
+
+For any presheaf $F$, we have $F(U) = \mbox{Hom}(Z_U, F)$. Now it's easy to see that $\{Z_U\}_{U\in\mbox{\small Ob}(\mbox{\small cat}(T))}$ is a family of generators for $\mathcal{P}$. Note that $Z_U$ represents the section functor $\Gamma(U,\cdot)$.
+\end{proof}
+
+Now we let $\mathcal{S}$ be the category of sheaves on $T$. The objects of $\mathcal{S}$ are presheaves $F$ which satisfy the sheaf axiom, which states that for all coverings $\{U_i\rightarrow U\}$, the sequence
+\[
+0 \rightarrow F(U) \rightarrow \prod_i F(U_i) \rightrightarrows \prod_{i,j} F(U_i \times_U U_j)
+\]
+is exact. A morphism of sheaves is then defined to be a morphism of presheaves, making $\mathcal{S}$ a full subcategory of $\mathcal{P}$. Let $\iota : \mathcal{S} \rightarrow \mathcal{P}$ be the natural inclusion.
+
+Define a functor $\nmid \; : \mathcal{P} \rightarrow \mathcal{P}$ by
+\[
+F^\nmid(U) = \underset{\underset{\{U_i\rightarrow U\}}{\longrightarrow}}{\lim} \ker(\prod_i F(U_i) \rightrightarrows \prod_{i,j} F(U_i \times_U U_j)).
+\]
+The index category of the limit is the category of coverings of $U$ with morphisms given by refinements of coverings. (A \emph{refinement} $\{U'_j \rightarrow U\}_{j\in J} \rightarrow \{U_i\rightarrow U\}_{i\in I}$ is a map $\epsilon : J \rightarrow I$ together with a map $U'_j \rightarrow U_{\epsilon(j)}$ for each $j\in J$.) In the case that our site comes from a topological space, this index category is filtered, so we can conclude that $\nmid$ is a left exact functor (in general we can do some shenanigans to replace the index category with another category which is filtered - see \cite{etale} for details).
+
+\begin{defn} A presheaf is called \emph{separated} if the map $F(U) \rightarrow \prod_i F(U_i)$ is an injection for every covering $\{U_i \rightarrow U\}$.
+\end{defn}
+
+\begin{exer} Show that if $F$ is a presheaf then $F^\nmid$ is separated, and if $F$ is a separated presheaf then $F^\nmid$ is a sheaf. Show that for any sheaf $G$, any map $F\rightarrow G$ factors through $F^\nmid$.
+\end{exer}
+
+If we now define $\# = \; \nmid \circ \nmid \; : \mathcal{P} \rightarrow \mathcal{S}$, we see that $\#$ is left adjoint to $\iota$. $\#$ is called \emph{sheafification}.
+
+\begin{prop} $\mathcal{S}$ is a Grothendieck abelian category. $\iota$ is left exact and $\#$ is exact.
+\end{prop}
+\begin{proof} The presheaf kernel of a morphism of sheaves is easily seen to be a sheaf (since limits commute with limits). Using the adjointness of $\iota$ and $\#$, we see that the cokernel of a morphism of sheaves is just the sheafification of the presheaf cokernel.
+
+Since $\nmid : \mathcal{P} \rightarrow \mathcal{P}$ is left exact, and since the presheaf kernel agrees with the sheaf kernel, we see that $\#$ is left exact. The left exactness of $\#$ implies that the coimage and the image of a morphism agree (easy exercise). Thus $\mathcal{S}$ satisfies AB.
+
+That $\iota$ is left exact also follows from the fact that the presheaf kernel and the sheaf kernel agree. From the adjointness of $\iota$ and $\#$ we see that $\#$ is right exact. Combining this with the above, we see that $\#$ is exact.
+
+For AB3, note that to calculate a colimit in $\mathcal{S}$, we just calculate the colimit in $\mathcal{P}$ and then sheafify (using the adjointness of $\iota$ and $\#$). For AB5, note that if filtered colimits are exact in $\mathcal{P}$ then they remain exact in $\mathcal{S}$ (since $\#$ is exact).
+
+Finally, we must construct a family of generators for $\mathcal{S}$. We take as generators the sheaves $Z_U^\#$: for any sheaf $F$, we have
+\[
+F(U) = \mbox{Hom}_{\mathcal{P}}(Z_U,\iota(F)) = \mbox{Hom}_{\mathcal{S}}(Z_U^\#,F).
+\]
+Note that this shows that the sheaf $Z_U^\#$ represents the functor $\Gamma(U,\cdot)$.
+\end{proof}
+
+\subsection{\v{C}ech Cohomology}
+
+\v{C}ech Cohomology is most naturally defined on the category of presheaves.
+
+\begin{defn} Let $\{U_i\rightarrow U\}$ be a covering. The \emph{derived \v{C}ech Cohomology groups} of a presheaf $F$ with respect to the covering $\{U_i\rightarrow U\}$ are
+\[
+H^0(\{U_i\rightarrow U\},F) = \ker(\prod_i F(U_i) \rightrightarrows \prod_{i,j} F(U_i \times_U U_j)),
+\]
+and
+\[
+H^p(\{U_i\rightarrow U\},F) = R^pH^0(\{U_i\rightarrow U\},F).
+\]
+\end{defn}
+
+These groups can be computed by means of the \v{C}ech complex. For the sake of my sanity, we make the abbreviation $U_{i_0, ..., i_p} = U_{i_0} \times_U \cdots \times_U U_{i_p}$.
+
+\begin{defn} For $F$ a presheaf and $\{U_i\rightarrow U\}$ a covering, the \emph{\v{C}ech Complex} is given by
+\[
+C^p(\{U_i\rightarrow U\}, F) = \prod_{(i_0, ..., i_p)} F(U_{i_0, ..., i_p}),
+\]
+with differentials $d^p:C^p(\{U_i\rightarrow U\}, F) \rightarrow C^{p+1}(\{U_i\rightarrow U\}, F)$ given by
+\[
+(d^ps)_{i_0, ..., i_{p+1}} = \sum_{k=0}^{p+1} (-1)^k F(U_{i_0, ..., i_{p+1}} \rightarrow U_{i_0, ..., \widehat{i_k}, ..., i_{p+1}})(s_{i_0, ..., \widehat{i_k}, ..., i_{p+1}}),
+\]
+where the hat over a term means that that term is omitted. In the case of a topological space, this reduces to the usual definition.
+\end{defn}
+
+\begin{thm}[\v{C}ech Cohomology is a derived functor]\label{cech} For any presheaf $F$ and any covering $\{U_i\rightarrow U\}$, we have
+\[
+H^p(\{U_i\rightarrow U\},F) = H^p(C^\bullet(\{U_i\rightarrow U\},F)).
+\]
+\end{thm}
+\begin{proof} Set $Z_{\{U_i\rightarrow U\}} = \mbox{coker}(\bigoplus_{i,j} Z_{U_{i,j}}\rightrightarrows \bigoplus_i Z_{U_i})$. Then we have
+\[
+H^0(\{U_i\rightarrow U\},F) = \ker(\mbox{Hom}(\bigoplus_i Z_{U_i},F) \rightrightarrows \mbox{Hom}(\bigoplus_{i,j} Z_{U_{i,j}},F)) = \mbox{Hom}(Z_{\{U_i\rightarrow U\}},F),
+\]
+so in fact
+\[
+H^p(\{U_i\rightarrow U\},F) = \mbox{Ext}^p(Z_{\{U_i\rightarrow U\}},F).
+\]
+Furthermore, we have
+\[
+C^p(\{U_i\rightarrow U\}, F) = \mbox{Hom}(\bigoplus_{(i_0, ..., i_p)} Z_{U_{i_0, ..., i_p}}, F),
+\]
+and the maps $d^p$ are induced by maps $d_{p+1}: \bigoplus_{(i_0, ..., i_{p+1})} Z_{U_{i_0, ..., i_{p+1}}} \rightarrow \bigoplus_{(i_0, ..., i_p)} Z_{U_{i_0, ..., i_p}}$.
+
+For any open $V$ the functor $\mbox{Hom}(Z_V,\cdot) = \Gamma(V,\cdot):\mathcal{P} \rightarrow \mbox{Ab}$ is right exact, so in fact all of the presheaves $Z_V$ are projective. Thus, to show that
+\[
+\mbox{Ext}^p(Z_{\{U_i\rightarrow U\}},F) = H^p(C^\bullet(\{U_i\rightarrow U\}, F)),
+\]
+it's enough to show that the projective resolution
+\[
+0 \leftarrow Z_{\{U_i\rightarrow U\}} \leftarrow \bigoplus_i Z_{U_i} \stackrel{d_1}{\longleftarrow} \bigoplus_{i,j} Z_{U_{i,j}} \stackrel{d_2}{\longleftarrow} \cdots
+\]
+is exact. By construction, we already know that it is exact at $Z_{\{U_i\rightarrow U\}}$ and at $\bigoplus_i Z_{U_i}$.
+
+To check the exactness everywhere else, it is enough to check it is exact when we plug in any open $V$. Using $Z_U(V) = \bigoplus_{\mbox{\small Mor}(V,U)} \mathbb{Z}$, we see that we just need to prove the exactness of
+\[
+\bigoplus_i \bigoplus_{\mbox{\small Mor}(V,U_i)} \mathbb{Z} \stackrel{d_1}{\longleftarrow} \bigoplus_{i,j}\bigoplus_{\mbox{\small Mor}(V,U_{i,j})} \mathbb{Z} \stackrel{d_2}{\longleftarrow} \bigoplus_{i,j,k}\bigoplus_{\mbox{\small Mor}(V,U_{i,j,k})} \mathbb{Z} \stackrel{d_3}{\longleftarrow} \cdots
+\]
+Now we split this up into non-interacting sequences based on the overall map $\varphi : V\rightarrow U$ (note that this step is incredibly silly in the case of topological spaces). Let $S_\varphi$ be the set of commuting diagrams of the form
+\begin{align*}
+\xymatrix{&V \ar[r] \ar[dr]_{\varphi} & U_i \ar[d]\\
+& & U}
+\end{align*}
+Then the subset of $\coprod_{i_0, ..., i_p} \mbox{Mor}(V,U_{i_0, ..., i_p})$ that maps to $\varphi$ in $\mbox{Mor}(V,U)$ is identified with $S_\varphi^{p+1}$. Thus we just have to prove the exactness of the sequence
+\[
+\bigoplus_{S_\varphi} \mathbb{Z} \stackrel{d_1}{\longleftarrow} \bigoplus_{S_\varphi\times S_\varphi} \mathbb{Z} \stackrel{d_2}{\longleftarrow} \bigoplus_{S_\varphi\times S_\varphi\times S_\varphi} \mathbb{Z} \stackrel{d_3}{\longleftarrow} \cdots
+\]
+If we label the generators of the different copies of $\mathbb{Z}$ by $e_{s_0, ..., s_p}$, $s_i \in S_\varphi$, then we have
+\[
+d_p(e_{s_0, ..., s_p}) = \sum_{k=0}^p (-1)^k e_{i_0,...,\widehat{i_k}, ...,i_p}.
+\]
+Most likely, you already know a proof that this sequence is exact (probably involving an explicit chain homotopy).
+\end{proof}
+
+\begin{defn} For any presheaf $F$ and any open $U$, the \emph{\v{C}ech cohomology groups} of $F$ on the open $U$ are
+\[
+\check{H}^p(U,F) = \underset{\underset{\{U_i\rightarrow U\}}{\longrightarrow}}{\lim} H^p(\{U_i\rightarrow U\}, F).
+\]
+\end{defn}
+
+\begin{rmk} We have $\check{H}^0(U,F) = F^\nmid(U)$, and $\check{H}^p(U,F) = R^p\check{H}^0(U,F)$.
+\end{rmk}
+
+\begin{rmk} For a general site there is a subtle technical problem with the previous definition: it is possible that a cover $\{U_i\rightarrow U\}_i$ is refined by another cover $\{V_{ij}\rightarrow U\}_{ij}$ in multiple ways, since a refinement of a cover comes with a collection of maps $\varphi_{ij}:V_{ij}\rightarrow U_i$ over $U$. In order to fix this, one shows that for any two such collections of maps $\varphi_{ij}, \varphi_{ij}'$, the two induced maps from $H^p(\{U_i\rightarrow U\}_i,F)$ to $H^p(\{V_{ij}\rightarrow U\}_{ij},F)$ agree. For details see Tamme's book \cite{etale}.
+\end{rmk}
+
+\subsection{Sheaf Cohomology}
+
+\begin{defn} If $F\in\mathcal{S}$ is a sheaf, we define the \emph{sheaf cohomology groups} of $F$ on the open $U$ by
+\[
+H^p(U,F) = R^p\Gamma(U,F),
+\]
+and the \emph{sheaf cohomology presheaves} of $F$ by
+\[
+\mathcal{H}^p(F) = R^p\iota(F).
+\]
+\end{defn}
+
+\begin{rmk} Since $\iota$ is right adjoint to a left exact functor, $\iota$ takes injective objects to injective objects. Thus we may apply the Grothendieck spectral sequence to composite functors $G\circ\iota$, where $G$ is a left exact additive functor with domain $\mathcal{P}$.
+\end{rmk}
+
+Since the functor $\Gamma(U,\cdot):\mathcal{P}\rightarrow \mbox{Ab}$ is exact, and since $\Gamma(U,F) = \Gamma(U,\iota(F))$, a trivial spectral sequence shows that for every open $U$ we have $\mathcal{H}^p(F)(U) = H^p(U,F)$. The next proposition shows that the sheaf cohomology presheaves are not very sheafy for $p > 0$.
+
+\begin{prop}\label{not-sheafy} For any $F\in\mathcal{S}$ we have $\check{H}^0(U,\mathcal{H}^p(F)) = 0$ for all $p > 0$.
+\end{prop}
+\begin{proof} The map $G\rightarrow G^\nmid$ is a monomorphism for any separated presheaf $G$, so it's enough to show that $\mathcal{H}^p(F)^\# = 0$ for all $p > 0$. Since $\mbox{id}_\mathcal{S} = \#\circ\iota$ and $\#$ is exact, a trivial spectral sequence shows that $\mathcal{H}^p(F)^\# = R^p\mbox{id}_\mathcal{S}(F)$, and this is $0$ for $p>0$ since $\mbox{id}_\mathcal{S}$ is exact.
+\end{proof}
+
+\begin{thm}[\v{C}ech to derived]\label{cech-to-derived} For any sheaf $F$ we have the following spectral sequences:
+\begin{itemize}
+\item $H^p(\{U_i\rightarrow U\},\mathcal{H}^q(F)) \; \Rightarrow \; H^{p+q}(U,F)$,
+
+\item $\check{H}^p(U,\mathcal{H}^q(F)) \; \Rightarrow \; H^{p+q}(U,F)$.
+\end{itemize}
+\end{thm}
+\begin{proof} These follow from the Grothendieck spectral sequence applied to the identities
+\[
+\Gamma(U,\cdot) = H^0(\{U_i\rightarrow U\},\cdot)\circ\iota = \check{H}^0(U,\cdot)\circ\iota.\qedhere
+\]
+\end{proof}
+
+\begin{cor}\label{good-cover} If $\{U_i\rightarrow U\}$ is a covering of $U$ satisfying $H^q(U_{i_0, ..., i_r}, F) = 0$ for all $q>0$ and all $(i_0, ..., i_r)$, then the canonical map
+\[
+H^p(\{U_i\rightarrow U\},F) \rightarrow H^p(U,F)
+\]
+is an isomorphism.
+\end{cor}
+
+\begin{cor}\label{h1} The map
+\[
+\check{H}^1(U,F) \rightarrow H^1(U,F)
+\]
+is always an isomorphism, and the map
+\[
+\check{H}^2(U,F) \rightarrow H^2(U,F)
+\]
+is always a monomorphism.
+\end{cor}
+\begin{proof} Since $\check{H}^0(U,\mathcal{H}^1(F)) = 0$, the exact sequence of low degree from the spectral sequence $\check{H}^p(U,\mathcal{H}^q(F)) \; \Rightarrow \; H^{p+q}(U,F)$ is just
+\[
+0 \rightarrow \check{H}^1(U,F) \rightarrow H^1(U,F) \rightarrow 0 \rightarrow \check{H}^2(U,F) \rightarrow H^2(U,F).\qedhere
+\]
+\end{proof}
+
+\begin{prop} Suppose that for every presheaf $P$ with $P^\# = 0$ we have $\check{H}^p(X,P) = 0$ for all $p \ge 0$. Then for every presheaf $P$ and every $p\ge 0$ the natural map $\check{H}^p(X,P)\rightarrow H^p(X,P^\#)$ is an isomorphism.
+\end{prop}
+\begin{proof} Consider the exact sequence of presheaves
+\[
+0 \rightarrow P \rightarrow P^\# \rightarrow P^\#/P \rightarrow 0.
+\]
+Since sheafification is an exact functor, we see that $(P^\#/P)^\# = 0$, so by assumption we have $\check{H}^p(X,P^\#/P) = 0$ for all $p$. By the long exact sequence of \v{C}ech cohomology associated to any short exact sequence of presheaves, we see that the natural map $\check{H}^p(X,P) \rightarrow\check{H}^p(X,P^\#)$ is an isomorphism for every presheaf $P$ and every $p$.
+
+Now consider the spectral sequence $\check{H}^p(X,\mathcal{H}^q(P^\#))\rightarrow H^{p+q}(X,P^\#)$ of Theorem \ref{cech-to-derived}. By Proposition \ref{not-sheafy} we have $(\mathcal{H}^q(P^\#))^\# = 0$ for $q > 0$, so by assumption we have $\check{H}^p(X,\mathcal{H}^q(P^\#)) = 0$ for $q > 0$, and then by Corollary \ref{degenerate} the natural maps $\check{H}^p(X,P^\#) \rightarrow H^p(X,P^\#)$ are isomorphisms.
+\end{proof}
+
+\begin{exer} Use the previous Proposition to show that for every presheaf $P$ on a paracompact Hausdorff topological space $X$ the natural maps $\check{H}^p(X,P)\rightarrow H^p(X,P^\#)$ are isomorphisms. (Hint: given a \v{C}ech cocycle of a presheaf $P$ with $P^\# = 0$ which is defined on some cover, try to construct a refinement of the cover on which every component of the cocycle vanishes.)
+\end{exer}
+
+\subsection{Torsors and $H^1$}
+
+Since $H^1$ always agrees with $\check{H}^1$ for abelian sheaves, we will extend the definition of $H^1$ to noncommutative sheaves $G$ as follows.
+
+\begin{defn} Let $G$ be a sheaf of (possibly noncommutative) groups on $X$. For any open cover $\{U_i\rightarrow U\}_i$, we define a \emph{cocycle} to be an element $\varphi \in \prod_{i,j} G(U_{i,j})$ satisfying
+\[
+G(U_{i,j,k}\rightarrow U_{i,j})(\varphi_{i,j})\cdot G(U_{i,j,k}\rightarrow U_{j,k})(\varphi_{j,k}) = G(U_{i,j,k}\rightarrow U_{i,k})(\varphi_{i,k})
+\]
+for all $i,j,k$. Two cocycles $\varphi, \phi$ are \emph{equivalent} if there exists an element $g \in \prod_i G(U_i)$ satisfying
+\[
+G(U_{i,j}\rightarrow U_i)(g_i)\cdot \varphi_{i,j} = \phi_{i,j}\cdot G(U_{i,j}\rightarrow U_j)(g_j)
+\]
+for all $i,j$. The \emph{trivial} cocycle is the cocycle all of whose components are the identity of $G$. The set of cocycles up to equivalence forms a pointed set, which we call $H^1(\{U_i\rightarrow U\}_i,G)$. Finally, we set
+\[
+H^1(U,G) = \underset{\underset{\{U_i\rightarrow U\}}{\longrightarrow}}{\lim} H^1(\{U_i\rightarrow U\}, G).
+\]
+\end{defn}
+
+\begin{defn} Let $G$ be a sheaf of (possibly noncommutative) groups on $X$. A \emph{left $G$-torsor} on $X$ is a sheaf of sets $P$ with a left action $G\times P\rightarrow P$ such that there is an open cover $\{U_i\rightarrow X\}_i$ such that $P$ restricted to each $U_i$ is isomorphic, as a sheaf of sets with left $G$ action, to $G$ with the action defined by left multiplication.
+\end{defn}
+
+\begin{exer} Check that there is a natural bijection between $H^1(X,G)$ and the set of left $G$-torsors on $X$ up to isomorphism.
+\end{exer}
+
+\begin{exer} Let
+\[
+1 \rightarrow A \rightarrow B \rightarrow C \rightarrow 1
+\]
+be a short exact sequence of sheaves of groups, and suppose that $A$ is contained in the center of $B$. Show that for every open $U$ we have an exact sequence (of pointed sets)
+\[
+1 \rightarrow H^0(U,A) \rightarrow H^0(U,B) \rightarrow H^0(U,C) \rightarrow H^1(U,A) \rightarrow H^1(U,B) \rightarrow H^1(U,C) \rightarrow H^2(U,A).
+\]
+(Hint: start by constructing a map $H^1(U,C) \rightarrow \check{H}^2(U,A)$, then use the injectivity of the natural map $\check{H}^2(U,A) \rightarrow H^2(U,A)$.)
+\end{exer}
+
+\section{Flask Sheaves}
+
+The following lemma from Milne \cite{milne} explains the properties that we want from the family of flask sheaves.
+
+\begin{lem}[Acyclic Cohomology]\label{acyclic} Let $F:\mathcal{C}\rightarrow \mathcal{C}'$ be a left exact functor of abelian categories, and assume that $\mathcal{C}$ has enough injectives. Let $T$ be a class of objects in $\mathcal{C}$ such that
+\begin{itemize}
+\item[{\rm (a)}] for every object $A\in \mathcal{C}$ there is a monomorphism from $A$ to an object of $T$ (i.e. $\mathcal{C}$ has enough $T$-objects),
+
+\item[{\rm (b)}] if $A\oplus A' \in T$ then $A \in T$,
+
+\item[{\rm (c)}] if $0 \rightarrow A' \rightarrow A \rightarrow A'' \rightarrow 0$ is exact and $A', A \in T$, then  we have $A'' \in T$ and the sequence $0 \rightarrow F(A') \rightarrow F(A) \rightarrow F(A'') \rightarrow 0$ is exact.
+\end{itemize}
+Then all elements of $T$ are $F$-acyclic, and so $T$-resolutions can be used to calculate $R^pF$. Furthermore, all injective objects of $\mathcal{C}$ are in $T$.
+\end{lem}
+\begin{proof} Since every monomorphism from an injective object to an object of $T$ splits, (a) and (b) imply that every injective object of $\mathcal{C}$ is in $T$. Now let $A$ be any object in $T$, and choose an injective resolution
+\[
+0 \rightarrow A \rightarrow I^0 \rightarrow I^1 \rightarrow \cdots
+\]
+of $A$. Split this resolution up into short exact sequences
+\begin{align*}
+0 \rightarrow Z^0 \rightarrow &I^0 \rightarrow Z^1 \rightarrow 0\\
+0 \rightarrow Z^1 \rightarrow &I^1 \rightarrow Z^2 \rightarrow 0\\
+&\cdots
+\end{align*}
+where $Z^0 = A$. Then by (c) and induction on $i$, each $Z^i$ is in $T$, and so each sequence
+\[
+0 \rightarrow F(Z^p) \rightarrow F(I^p) \rightarrow F(Z^{p+1}) \rightarrow 0
+\]
+is exact in $\mathcal{C'}$. Thus $0 \rightarrow F(A) \rightarrow F(I^\bullet)$ is exact, and so $R^pF(A) = 0$ for all $p > 0$.
+\end{proof}
+
+Tamme \cite{etale} gives the following definition of flask sheaves.
+
+\begin{defn} A sheaf $F$ is \emph{flask} if for every covering $\{U_i\rightarrow U\}$ and for every $p > 0$, we have
+\[
+H^p(\{U_i\rightarrow U\},F) = 0.
+\]
+\end{defn}
+
+\begin{prop}\label{flask} The class of flask sheaves satisfies conditions {\rm (a), (b), (c)} of Lemma \ref{acyclic} for the functor $\iota : \mathcal{S} \rightarrow \mathcal{P}$. Furthermore, for any sheaf $F\in \mathcal{S}$ the following are equivalent:
+\begin{itemize}
+\item[{\rm (i)}] $F$ is flask.
+
+\item[{\rm (ii)}] $\mathcal{H}^p(F) = 0$ for all $p > 0$, or equivalently $H^p(U,F) = 0$ for all opens $U$ and all $p > 0$.
+\end{itemize}
+\end{prop}
+\begin{proof} Recall that $\iota$ takes injectives to injectives. Thus for any injective object $I$ of $\mathcal{S}$, $H^p(\{U_i\rightarrow U\},I) = R^pH^0(\{U_i\rightarrow U\},\iota(I)) = 0$ for $p > 0$, and so $I$ is flask. Since $\mathcal{S}$ has enough injectives, the class of flask sheaves satisfies condition (a).
+
+Since the functor $H^p(\{U_i\rightarrow U\},\cdot)$ commutes with finite direct sums, the class of flask sheaves also satisfies condition (b).
+
+Finally, the long exact sequence of \v{C}ech cohomology and the fact that $\check{H}^1(U,\cdot) = H^1(U,\cdot)$ (Corollary \ref{h1}) show that the class of flask sheaves satisfies condition (c).
+
+Now Lemma \ref{acyclic} shows that (i) implies (ii). The reverse implication follows from the first spectral sequence of Theorem \ref{cech-to-derived}.
+\end{proof}
+
+If we suppose that our site has the form $T_X$ for some topological space $X$, then we can make the following simpler definition.
+
+\begin{defn} A sheaf $F$ on a topological space $X$ is called \emph{flabby} if for every inclusion of opens $V\subseteq U$ the restriction map $F(V\rightarrow U)$ is surjective.
+\end{defn}
+
+\begin{prop}\label{flabbyacyclic} The class of flabby sheaves on a topological space satisfies conditions {\rm (a), (b), (c)} of Lemma \ref{acyclic} for the functor $\iota : \mathcal{S} \rightarrow \mathcal{P}$. If a sheaf $F$ on a topological space is flabby, then it is also flask.
+\end{prop}
+\begin{proof} For (a), we note that any sheaf injects into the product of the skyscraper sheaves corresponding to its stalks, and that such a product is a flabby sheaf. The condition (b) is trivial. Now suppose that
+\[
+0 \rightarrow F' \rightarrow F \rightarrow F'' \rightarrow 0
+\]
+is an exact sequence of sheaves with $F, F'$ flabby. Let $P$ be the presheaf $\iota(F)/\iota(F')$, so we have $F'' = P^\#$. An easy application of the snake lemma shows that every restriction map $P(V\rightarrow U)$ is surjective, so to check (c) we just have to check that $P$ is a sheaf, or equivalently that $P=P^\nmid$. By the long exact sequence of \v{C}ech cohomology, it suffices to check that $H^1(\{U_i\rightarrow U\}, F') = 0$ for every cover $\{U_i \rightarrow U\}_{i\in I}$.
+
+So suppose that $s=(s_{i,j}) \in C^1(\{U_i \rightarrow U\}_{i\in I}, F')$ is a coboundary. Since all three maps $U_{i,i,i} \rightarrow U_{i,i}$ defined by omitting one of the three factors are the identity in the case of a topological space, we see that
+\[
+0 = (d^1s)_{i,i,i} = s_{i,i} - s_{i,i} + s_{i,i} = s_{i,i}
+\]
+for every $i\in I$. Similarly, since the two maps $U_{i,j,i} \rightarrow U_{j,i}$ and $U_{i,j,i} \rightarrow U_{i,j}$ defined by omitting either the first or the last factor are the identity on a topological space, we have
+\[
+0 = (d^1s)_{i,j,i} = s_{j,i} - F(U_{i,j,i}\rightarrow U_{i,i})s_{i,i} + s_{i,j} = s_{j,i} + s_{i,j}
+\]
+for all $i,j\in I$. Now well-order the index set $I$. We will inductively define sections $s_i$ such that $F'(U_{j,i}\rightarrow U_i)s_i - F'(U_{j,i}\rightarrow U_j)s_j = s_{j,i}$ for all $j < i$. Let $V = \bigcup_{j<i} U_{j,i}$. Let $j,k < i$. Then we have
+\begin{align*}
+F'(U_{k,j,i}\rightarrow U_{j,i})(s_{j,i}+F'(U_{j,i}\rightarrow U_j)s_j) - F'(U_{k,j,i}\rightarrow U_{k,i})(s_{k,i}+F'(U_{k,i}\rightarrow U_k)s_k) &= \\
+F'(U_{k,j,i}\rightarrow U_{j,i})(s_{j,i}) - F'(U_{k,j,i}\rightarrow U_{k,i})(s_{k,i}) + F'(U_{k,j,i}\rightarrow U_{k,j})(s_{k,j}) = (d^1s)_{k,j,i} &= 0,
+\end{align*}
+so by the sheaf condition for $F'$ applied to the cover $\{U_{j,i}\rightarrow V\}_{j<i}$ the sections $\tilde{s}_{j,i} = s_{j,i}+F'(U_{j,i}\rightarrow U_j)s_j$ on $U_{j,i}$ glue to a section $\tilde{s}$ of $F'(V)$. Now we take $s_i$ to be any section of $F'(U_i)$ such that $F'(V\rightarrow U_i)(s_i) = \tilde{s}$.
+
+Thus we have constructed $(s_i)\in C^0(\{U_i \rightarrow U\}_{i\in I}, F')$ such that $(s_{i,j}) = d^0(s_i)$. This calculation shows that $H^1(\{U_i\rightarrow U\}, F') = 0$, and so we have verified condition (c) for the class of flabby sheaves.
+
+Now by Lemma \ref{acyclic}, a flabby sheaf $F$ is $\iota$-acyclic, and so $\mathcal{H}^p(F) = R^p\iota(F) = 0$ for every $p > 0$. Thus by Proposition \ref{flask} $F$ is flask.
+\end{proof}
+
+\begin{rmk} Even in the case of a topological space, flask does not necessarily imply flabby. For instance, if $X$ is the Sierpinski space, then all sheaves on $X$ are flask, but not all sheaves on $X$ are flabby.
+\end{rmk}
+
+\begin{rmk} Milne \cite{milne} mentions a third class of sheaves, which I will call \emph{flasque} sheaves, that satisfies the conditions of Lemma \ref{acyclic}. A sheaf $F$ is \emph{flasque} if for every sheaf of sets $S$, $F$ is acyclic for the functor $\mbox{Mor}(S,\cdot)$. Flasque sheaves are easily seen to be flask.
+\end{rmk}
+
+\section{$\mathcal{O}_X$-module cohomology}
+
+\begin{prop} Let $X$ be a scheme. The category of $\mathcal{O}_X$-modules is a Grothendieck abelian category. Injective $\mathcal{O}_X$-modules are flabby.
+\end{prop}
+\begin{proof} It's easy to check that AB5 is satisfied. Let $U$ be any open set of $X$, and let $j:U\rightarrow X$ be the inclusion. Then we can form the $\mathcal{O}_X$-module $j_!\mathcal{O}_U$, which is the sheafification of the presheaf which sends an open $V$ to $\mathcal{O}_V$ if $V\subseteq U$ and sends $V$ to $0$ otherwise. If $F$ is an $\mathcal{O}_X$-module, then we have
+\[
+\mbox{Hom}_{\mathcal{O}_X}(j_!\mathcal{O}_U, F) = \mbox{Hom}_{\mathcal{O}_U}(\mathcal{O}_U, F\mid_U) = F(U),
+\]
+so the collection $j_!\mathcal{O}_U$ forms a family of generators as $U$ varies over the open sets of $X$.
+
+To see that an injective $\mathcal{O}_X$-module $I$ is flabby, let $V\subseteq U$ be any inclusion of opens. Then the natural map $j_!\mathcal{O}_V \rightarrow j_!\mathcal{O}_U$ is a monomorphism, and so the induced map $\mbox{Hom}_{\mathcal{O}_X}(j_!\mathcal{O}_U, I) \rightarrow \mbox{Hom}_{\mathcal{O}_X}(j_!\mathcal{O}_V, I)$ must be surjective. But this map is just the restriction map $I(U) \rightarrow I(V)$.
+\end{proof}
+
+By the proposition, $\mathcal{O}_X$-module cohomology and sheaf cohomology are the same thing, since any injective resolution in the category of $\mathcal{O}_X$-modules will automatically be a flabby, hence flask resolution in the category of sheaves.
+
+\begin{lem}[Zariski Poincar\'{e} Lemma]\label{poincare} Let $F$ be a quasi-coherent sheaf on an affine scheme $X$. Then $\check{H}^p(X,F) = 0$ for all $p > 0$.
+\end{lem}
+\begin{proof} Let $X=\mbox{Spec}(A)$, and let $M = \Gamma(X,F)$, so $F = \widetilde{M}$. Since the collection of finite covers by principal open sets is cofinal in the collection of all covers, it suffices to show that if $(f_1, ..., f_n) = 1$ then $H^p(\{\mbox{Spec}(A_{f_i})\rightarrow \mbox{Spec}(A)\}_{i\in\{1,...,n\}}, \widetilde{M}) = 0$ for $p>0$.
+
+Let $s = (s_{i_0, ..., i_p}) \in Z^p(\{\mbox{Spec}(A_{f_i})\rightarrow \mbox{Spec}(A)\}_{i\in\{1,...,n\}}, \widetilde{M})$. Then we can write $s_{i_0, ..., i_p} = \frac{m_{i_0, ..., i_p}}{(f_{i_0}\cdots f_{i_p})^k}$ with $m_{i_0, ..., i_p}\in M$ for each $i_0, ..., i_p$. We may assume without loss of generality that each $k$ is $1$ by replacing the $f_i$s with large enough powers of themselves. For each $i_0, ..., i_{p+1}$ we have an identity
+\[
+0 = (d^ps)_{i_0, ..., i_{p+1}} = \sum_{k=0}^{p+1} (-1)^k s_{i_0, ..., \widehat{i_k}, ..., i_{p+1}}\mid_{\mbox{\small Spec}(A_{f_{i_0}\cdots f_{i_{p+1}}})} = \sum_{k=0}^{p+1} (-1)^k \frac{f_{i_k}m_{i_0, ..., \widehat{i_k}, ..., i_{p+1}}}{f_{i_0}\cdots f_{i_{p+1}}},
+\]
+so the numerator of the sum is killed by some power of $f_{i_0}\cdots f_{i_{p+1}}$. If we replace each $f_i$ by a sufficiently large power of itself then the numerator of the sum will actually vanish, and we obtain
+\[
+\sum_{k=0}^{p+1} (-1)^{k} f_{i_k}m_{i_0, ..., \widehat{i_k}, ..., i_{p+1}} = 0.
+\]
+Finally, replacing each $f_i$ with a multiple of itself we can assume that $\sum_{i=1}^n f_i = 1$, so that the $f_i$s form a partition of unity.
+
+Now for each $i_1, ..., i_{p}$, set $s'_{i_1, ..., i_p} = \sum_{j=1}^n \frac{m_{j, i_1, ..., i_p}}{f_{i_1}\cdots f_{i_p}}$. Morally speaking, we have
+\[
+``s'_{i_1, ..., i_p} = \sum_{j=1}^n f_js_{j, i_1, ..., i_p}",
+\]
+so $s'_{i_1, ..., i_p}$ is acting like a weighted average of the $s_{j, i_1, ..., i_p}$s. Then we have
+\begin{align*}
+(d^{p-1}s')_{i_0, ..., i_p} &= \sum_{k=0}^p (-1)^k \sum_{j=1}^n \frac{f_{i_k}m_{j, i_0, ..., \widehat{i_k} ..., i_p}}{f_{i_0}\cdots f_{i_p}}\\
+&= \sum_{j=1}^n \frac{\sum_{k=0}^p (-1)^k f_{i_k}m_{j, i_0, ..., \widehat{i_k} ..., i_p}}{f_{i_0}\cdots f_{i_p}}\\
+&= \sum_{j=1}^n \frac{f_jm_{i_0, ..., i_p}}{f_{i_0}\cdots f_{i_p}} = s_{i_0, ..., i_p}.\qedhere
+\end{align*}
+\end{proof}
+
+Finally, we have arrived at the main course.
+
+\begin{thm}\label{cech-to-sheaf} Let $X$ be a separated scheme and let $F$ be a quasicoherent sheaf on $X$. Then $H^p(X,F) = \check{H}^p(X,F)$ for all $p$.
+\end{thm}
+\begin{proof} By Corollary \ref{good-cover} and the fact that the intersection of two affine opens is affine on a separated scheme, it is enough to check that when $X$ is affine we have $H^p(X,F) = 0$ for $p > 0$. We will prove this by strong induction on $p$.
+
+By Theorem \ref{cech-to-derived} we have a spectral sequence $\check{H}^p(X,\mathcal{H}^q(F))\;\Rightarrow\;H^{p+q}(X,F)$. By Lemma \ref{poincare}, we have $\check{H}^p(X,F) = 0$ for $p>0$, and by Proposition \ref{not-sheafy} we have $\check{H}^0(X,\mathcal{H}^p(F)) = 0$ for $p > 0$. By the induction hypothesis, the presheaf $\mathcal{H}^a(F)$ vanishes on every affine open $U$ for every $0 < a < p$. Since affine covers are cofinal in the collection of all covers, we have $\check{H}^{p-a}(X,\mathcal{H}^a(F)) = 0$ for $0 < a < p$. Putting everything together we see that $\check{H}^{p-a}(X,\mathcal{H}^a(F)) = 0$ for all $a$, so by the spectral sequence we must have $H^p(X,F) = 0$.
+\end{proof}
+
+In fact, the proof gives the following (more useful for computations) result.
+
+\begin{cor} Let $X$ be a separated scheme, let $F$ be a quasicoherent sheaf on $X$, and let $\{U_i\rightarrow X\}$ be any affine cover of $X$. Then $H^p(X,F) = H^p(\{U_i\rightarrow X\},F)$ for all $p > 0$.
+\end{cor}
+
+\section{Higher pushforwards}
+
+Let $\pi : X \rightarrow Y$ be a map of schemes. Let $\mathcal{P}_X$ denote the category of presheaves on $X$, and similarly for $\mathcal{P}_Y, \mathcal{S}_X, \mathcal{S}_Y$. Then we can define two functors $\pi_p : \mathcal{P}_X \rightarrow \mathcal{P}_Y$ and $\pi_* : \mathcal{S}_X \rightarrow \mathcal{S}_Y$ by
+\[
+\pi_p(F)(U) = F(\pi^{-1}(U))
+\]
+and $\pi_* = \#\circ\pi_p\circ\iota$. Since $\#\circ\pi_p$ is a composite of two exact functors it is exact, and so a trivial spectral sequence gives
+\[
+R^p\pi_*F = (\pi_p\mathcal{H}^p(F))^\#.
+\]
+From this we see that flask sheaves are acyclic for $\pi_*$, so we may calculate $R^p\pi_*$ by taking flask resolutions (so $R^p\pi_*$ is the same as the higher direct image on the category of $\mathcal{O}_X$-modules, for instance).
+
+\begin{thm} Let $\pi:X\rightarrow Y$ be a separated map of schemes, and let $F$ be a quasicoherent sheaf on $X$. Then for every affine open $U$ of $Y$ we have $R^p\pi_*F(U) = \check{H}^p(\pi^{-1}(U),F)$. Furthermore, $R^p\pi_*F$ is a quasicoherent sheaf on $Y$.
+\end{thm}
+\begin{proof} By Theorem \ref{cech-to-sheaf} we have $\pi_p\mathcal{H}^p(F)(U) = H^p(\pi^{-1}(U),F) = \check{H}^p(\pi^{-1}(U),F)$ for every affine open $U$ on $Y$. Let $T_Y^{\rm aff}$ denote the topology of affine opens of $Y$. Since affine opens form a base of open sets on $Y$, it's enough to show that the presheaf $U\mapsto \check{H}^p(\pi^{-1}(U),F)$ is a quasicoherent sheaf on $T_Y^{\rm aff}$. This follows from the easy fact that \v{C}ech cohomology commutes with localization for quasicoherent sheaves.
+\end{proof}
+
+\section{Hypercohomology}
+
+Let $\mathcal{C}$ be an abelian category with enough injectives. Let $\mbox{Ch}^+$ denote the category of cochain complexes $C^\bullet$ of objects in $\mathcal{C}$ with $C^i = 0$ for $i < 0$.
+
+\begin{defn} A cochain map $C^\bullet \rightarrow D^\bullet$ is a \emph{quasiisomorphism} if the induced maps on cohomology are isomorphisms.
+\end{defn}
+
+\begin{defn} An \emph{injective resolution} of $C^\bullet$ is a quasiisomorphism $C^\bullet \hookrightarrow I^\bullet$ from $C^\bullet$ to a complex of injectives $I^\bullet$ such that each map $C^i \rightarrow I^i$ is a monomorphism.
+\end{defn}
+
+\begin{exer} Show that the total complex of a Cartan-Eilenberg resolution of $C^\bullet$ is an injective resolution of $C^\bullet$.
+\end{exer}
+
+\begin{thm}\label{resolution} Let $C^\bullet \hookrightarrow I^\bullet$ be a quasiisomorphism with each $C^i \rightarrow I^i$ a monomorphism, and let $\varphi^\bullet: C^\bullet \rightarrow J^\bullet$ be any cochain map from $C^\bullet$ to a complex of injectives $J^\bullet$. Then $\varphi^\bullet$ extends to a map $\psi^\bullet: I^\bullet \rightarrow J^\bullet$, and $\psi^\bullet$ is unique up to cochain homotopy.
+\end{thm}
+\begin{proof} We will construct the maps $\psi^i : I^i \rightarrow J^i$ by induction on $i$. Suppose we have already constructed $\psi^0, ..., \psi^{i-1}$. Since $\varphi^{i-1}$ induces a well-defined map $H^{i-1}(C^\bullet) \rightarrow H^{i-1}(J^\bullet)$ and since the natural map $H^{i-1}(C^\bullet) \rightarrow H^{i-1}(I^\bullet)$ is an isomorphism, we have $\psi^{i-1}(Z^{i-1}(I^\bullet)) \subseteq Z^{i-1}(J^\bullet)$. Thus there is a well-defined map $\bar\psi : B^i(I^\bullet) \rightarrow J^i$ induced by $d^{i-1}\circ\psi^{i-1}$.
+
+If we now write $B^i(I^\bullet)\cap C^i = \ker(B^i(I^\bullet)\oplus C^i \rightarrow I^i)$, then since the map $B^i(I^\bullet)\cap C^i \rightarrow H^i(I^\bullet) \cong H^i(C^\bullet)$ is trivial, and since $B^i(I^\bullet)\cap C^i \subseteq Z^i(C^\bullet)$ (by the fact that $C^{i+1}\rightarrow I^{i+1}$ is a monomorphism), we have $B^i(I^\bullet)\cap C^i = B^i(C^\bullet)$. Thus the maps $\bar\psi$ and $\varphi^i$ agree on $B^i(I^\bullet)\cap C^i$, and we can define a map $\widetilde\psi : B^i(I^\bullet)+C^i \rightarrow J^i$ that agrees with $\bar\psi$ on $B^i(I^\bullet)$ and $\varphi^i$ on $C^i$. Since $J^i$ is injective, we can extend $\widetilde\psi$ to a map $\psi^i:I^i\rightarrow J^i$.
+
+We have constructed a cochain map $\psi^\bullet$ extending $\varphi^\bullet$. To check that any two such extensions are homotopic, it's enough to check that if $\varphi^\bullet = 0$ then $\psi^\bullet$ is homotopic to $0$.
+
+We will construct a homotopy $h^\bullet : I^\bullet \rightarrow J^{\bullet-1}$ that vanishes on $C^\bullet$ inductively. Assume we've already constructed $h^0, ..., h^{i-1}$ such that $h^{i-1}(C^{i-1}) = 0$. Then
+\[
+(\psi^{i-1} - d^{i-2}\circ h^{i-1})\circ d^{i-2} = d^{i-2}\circ(\psi^{i-2} - h^{i-1}\circ d^{i-2}) = d^{i-2}\circ d^{i-3}\circ h^{i-2} = 0,
+\]
+so $\psi^{i-1} - d^{i-2}\circ h^{i-1}$ vanishes on $B^{i-1}(I^\bullet)$. Since both $\psi^{i-1}$ and $d^{i-2}\circ h^{i-1}$ vanish on $C^{i-1}$, and since $H^{i-1}(I^\bullet)\cong H^{i-1}(C^\bullet)$, we see that $\psi^{i-1} - d^{i-2}\circ h^{i-1}$ vanishes on $Z^{i-1}(I^\bullet)$. Thus the map $\psi^{i-1} - d^{i-2}\circ h^{i-1}$ descends to a well-defined map $\bar{h}:B^i(I^\bullet)\rightarrow J^{i-1}$, which vanishes on $B^i(I^\bullet)\cap C^i = B^i(C^\bullet)$ by construction. From this we construct $\widetilde{h} : B^i(I^\bullet) + C^i \rightarrow J^{i-1}$ agreeing with $\bar{h}$ on $B^i(I^\bullet)$ and with $0$ on $C^i$, and since $J^{i-1}$ is injective we can extend this to $h^i : I^i \rightarrow J^{i-1}$.
+\end{proof}
+
+\begin{defn} If $F : \mathcal{C} \rightarrow \mathcal{C}'$ is a left exact additive functor, then the \emph{hypercohomology} of a cochain complex $C^\bullet$ with respect to $F$ is given by
+\[
+\mathbb{H}^p(C^\bullet) = H^p(F(I^\bullet)),
+\]
+where $C^\bullet \hookrightarrow I^\bullet$ is any injective resolution. By Theorem \ref{resolution}, $\mathbb{H}^p$ is a well-defined functor from $\mbox{Ch}^+$ to $\mathcal{C}'$, and any quasiisomorphism $C^\bullet \rightarrow D^\bullet$ induces isomorphisms on hypercohomology.
+\end{defn}
+
+\begin{rmk} If $C^i = 0$ for all $i > 0$, then $\mathbb{H}^p(C^\bullet) = R^pF(C^0)$ for all $p$.
+\end{rmk}
+
+\begin{thm}
+\begin{itemize}
+\item[{\rm (a)}] A short exact sequence $0 \rightarrow C'^\bullet \rightarrow C^\bullet \rightarrow C''^\bullet \rightarrow 0$ induces a long exact sequence
+\[
+0 \rightarrow \mathbb{H}^0(C'^\bullet) \rightarrow \mathbb{H}^0(C^\bullet) \rightarrow \mathbb{H}^0(C''^\bullet) \rightarrow \mathbb{H}^1(C'^\bullet) \rightarrow \mathbb{H}^1(C^\bullet) \rightarrow \mathbb{H}^1(C''^\bullet) \rightarrow \cdots
+\]
+
+\item[{\rm (b)}] We have a spectral sequence $E^{p,q}_2 = R^pF(H^q(C^\bullet))\;\Rightarrow\;E^n = \mathbb{H}^n(C^\bullet)$.
+
+\item[{\rm (c)}] We have a spectral sequence $E^{p,q}_1 = R^qF(C^p)\;\Rightarrow\;E^n = \mathbb{H}^n(C^\bullet)$.
+\end{itemize}
+\end{thm}
+\begin{proof} Exercise.
+\end{proof}
+
+\begin{defn} If $C^\bullet$ is a complex of presheaves we write $\check{H}^p(U,C^\bullet)$ for the $p$th \v{C}ech hypercohomology of $C^\bullet$ on $U$, and similarly if $C^\bullet$ is a complex of sheaves we write $H^p(U,C^\bullet)$ for the $p$th sheaf hypercohomology of $C^\bullet$.
+\end{defn}
+
+\begin{exer} If $C^\bullet$ is a complex of sheaves, show there is a natural map $\check{H}^p(U,C^\bullet) \rightarrow H^p(U,C^\bullet)$.
+\end{exer}
+
+\section{Soft and fine sheaves}
+
+For this section, we only consider paracompact topological spaces.
+
+\begin{defn} A sheaf $F$ on a paracompact topological space $X$ is \emph{soft} if for every closed set $K$, the map $\Gamma(X,F) \rightarrow \Gamma(K,F|_K)$ is surjective.
+\end{defn}
+
+\begin{prop}\label{flabbysoft} If $F$ is a flabby sheaf on a paracompact topological space $X$ then $F$ is soft.
+\end{prop}
+\begin{proof} Let $K$ be a closed subset of $X$, and let $s$ be a section of $F|_K$. Write $s_p$ for the germ of $s$ at a point $p$ of $K$. Then by the definition of $F|_K$, for each point $p\in K$ we can find an open neighborhood $U_p$ and a section $s^p$ of $F$ on $U_p$ such that $s^p_q = s_q$ for all $q\in U_p\cap K$. Since $X$ is paracompact, we can find a locally finite refinement $\{X\setminus K\rightarrow X, V_i\rightarrow X\}$ of the cover $\{X\setminus K\rightarrow X, U_p\rightarrow X\}$. If $V_i\subseteq U_p$, let $s^i = s^p|_{V_i}$.
+
+Now for each point $p\in K$, if we let $i_1, ..., i_n$ be the finite set of indices $i$ such that $p\in V_i$, then each of the stalks $s^{i_j}_p$ agrees with $s_p$. Thus we can find an open neighborhood $W_p$ of $p$ such that $s^{i_1}|_{W_p} = \cdots = s^{i_n}|_{W_p}$. Thus the section $s$ extends to a section of $F$ on $\bigcup_p W_p$. Since $F$ is flabby and $\bigcup_p W_p$ is open, we can extend this to a global section of $F$.
+\end{proof}
+
+\begin{prop} Suppose $F$ is a soft sheaf on a paracompact topological space $X$. For any closed set $K\subseteq X$, section $s$ of $F|_K$, and locally finite cover $\{U_i \rightarrow X\}_i$ we can find sections $s^i\in F(X)$ with $\mbox{\rm supp}(s^i)\subseteq U_i$ and $s = \sum_i s^i|_K$.
+\end{prop}
+\begin{proof} Assume the index set of the $U_i$s is well-ordered. We will construct the $s^i$s inductively, such that for every $i$, if we write $K_i = K\setminus(\cup_{j>i}U_j)$, then we have $s|_{K_i} = \sum_{j \le i}s^j|_{K_i}$. Suppose that we have already constructed $s^j$ for all $j < i$. Then at any point $p$ of $K_i \setminus U_i$ we have $s_p = \sum_{j < i}s^j_p$ by the inductive hypothesis, since there is a maximal $j < i$ with $p\in U_j$ by the local finiteness of the cover. Now we just take $s^i\in F(X)$ to be any extension of the section of $F|_{K_i\cup (X\setminus U_i)}$ which is equal to $0$ on $X\setminus U_i$ and is equal to $s|_{K_i} - \sum_{j < i}s^j|_{K_i}$ on $K_i$.
+\end{proof}
+
+\begin{prop} The class of soft sheaves on a paracompact Hausdorff topological space $X$ satisfies conditions {\rm (a), (b), (c)} of Lemma \ref{acyclic} for $\Gamma(X,\cdot)$, so soft sheaves are acyclic for $\Gamma(X,\cdot)$.
+\end{prop}
+\begin{proof} For condition (a) we use the fact that there are enough flabby sheaves and Proposition \ref{flabbysoft}. Condition (b) is trivial.
+
+Now we show that for any soft sheaf $F$ we have $H^1(X,F) = 0$. Let $\{U_i\rightarrow X\}_{i\in I}$ be any locally finite open cover. Let $\{V_i\rightarrow X\}_i$ be a \emph{shrinking} of this cover, i.e. an open cover of $X$ such that for each $i$ we have $\overline{V}_i \subseteq U_i$ (this exists since $X$ is paracompact Hausdorff). It's enough to show that $\mbox{Im}(H^1(\{U_i\rightarrow X\}_i,F)\rightarrow H^1(\{V_i\rightarrow X\}_i,F)) = 0$. The proof of this closely mimics the proof of Proposition \ref{flabbyacyclic}, once we note that for any $J\subseteq I$ the set $\cup_{j\in J}\overline{V}_j$ is closed by local finiteness.
+
+Now let
+\[
+0 \rightarrow F' \rightarrow F \rightarrow F'' \rightarrow 0
+\]
+be an exact sequence of sheaves with $F', F$ soft. Let $K\subseteq X$ be any closed set. Then $F'|_K$ is soft, so $H^1(K,F'|_K) = 0$, and thus the sequence
+\[
+0 \rightarrow \Gamma(K,F'|_K) \rightarrow \Gamma(K,F|_K) \rightarrow \Gamma(K,F''|_K) \rightarrow 0
+\]
+is exact. Now since $F$ is soft, we see that any section of $F''|_K$ can be lifted to a section of $F|_K$ and then to a global section of $F$, so $F''$ is soft as well.
+\end{proof}
+
+\begin{defn} A sheaf $F$ is \emph{fine} if $\mathcal{H}om(F,F)$ is soft.
+\end{defn}
+
+\begin{prop}\label{fine} Let $X$ be a paracompact topological space, and let $F$ be a sheaf on $X$. The following are equivalent:
+\begin{itemize}
+\item[{\rm (a)}] $F$ is fine,
+
+\item[{\rm (b)}] for any closed disjoint sets $A,B\subseteq X$ there is an endomorphism of $F$ which restricts to the identity on $A$ and restricts to $0$ on $B$,
+
+\item[{\rm (c)}] there is a sheaf of rings $A$ acting on $F$ such that for any locally finite open cover $\{U_i \rightarrow X\}_i$ there is a collection of elements $a_i \in A(X)$ with $\mbox{\rm supp}(a_i) \subseteq U_i$ and $1 = \sum_i a_i$.
+\end{itemize}
+Furthermore, every fine sheaf is soft.
+\end{prop}
+
+\begin{prop} If $F$ is a fine sheaf on a paracompact topological space $X$, then $H^p(X,F) = 0$ for every $p > 0$.
+\end{prop}
+\begin{proof} Let $A$ be a sheaf of rings as in (c) of Proposition \ref{fine}. Then we can find an acyclic resolution
+\[
+0 \rightarrow F \rightarrow I^0 \rightarrow I^1 \rightarrow \cdots
+\]
+of $F$ such that $I^\bullet$ is a complex of $A$-modules and each map is an $A$-module map (one way to do this is to use the functoriality of the injective embeddings constructed in Theorem \ref{injectives}). Let $s \in \Gamma(X,I^p)$ with $ds = 0$, then by exactness $X$ is covered by open sets $U_i$ such that for each $i$ there is an element $t_i \in \Gamma(U_i,I^{p-1})$ with $s|_{U_i} = dt_i$. By passing to a refinement we may assume that the cover $\{U_i \rightarrow X\}_i$ is locally finite. Let $a_i \in A(X)$ be as in (c) of Proposition \ref{fine}. Then for each $i$ we have $a_it_i \in \Gamma(X,I^{p-1})$ and $a_is = d(a_it_i)$, so
+\[
+s = \sum_i a_is = d\big(\sum_i a_it_i\big).\qedhere
+\]
+\end{proof}
+
+\subsection{Sheaves on manifolds}
+
+First we show that singular cohomology and sheaf cohomology agree on a locally contractible space $X$. For any ring $R$ we associate a sheaf $R_X$, the sheaf of locally constant $R$-valued functions on $X$ (this is the sheafification of the constant presheaf which takes every open set to $R$).
+
+\begin{thm} Let $X$ be a locally contractible topological space, and let $R$ be any ring. Then for each $p \ge 0$ there is a natural isomorphism
+\[
+H^p_{\rm sing}(X,R) \simeq H^p(X,R_X).
+\]
+\end{thm}
+\begin{proof} For each open $U\subseteq X$, let $C^\bullet(U)$ be the singular cochain complex with values in $R$ associated to $U$. Let $C^\bullet$ be the associated complex of presheaves. Let $V^\bullet$ be the complex of locally vanishing cochains, where we say a cochain vanishes near $p$ if there is an open set containing $p$ such that any simplex mapping into this neighborhood is assigned the value $0$ by the cochain. The sheafification $(C^\bullet)^\#$ is then equal to $(C/V)^\bullet$. Since the complex $C^\bullet(U)$ is exact for every contractible $U$ (using the usual chain homotopy induced by taking any simplex to its image under a fixed contraction of $U$), the complex
+\[
+0 \rightarrow R_X \rightarrow (C/V)^0 \rightarrow (C/V)^1 \rightarrow \cdots
+\]
+is a flabby resolution of $R_X$. Thus we have $H^p(X,R_X) = H^p((C/V)^\bullet(X))$ for each $p$, and by the definition of singular cohomology we have $H^p_{\rm sing}(X,R) = H^p(C^\bullet(X))$.
+
+To finish, we just need to show that $C^\bullet(X) \rightarrow (C/V)^\bullet(X)$ is a quasiisomorphism, or equivalently that $V^\bullet(X)$ is exact. To see this, let $\varphi$ be a locally vanishing $i$-cocycle, and let $\sigma$ be an $i-1$-simplex. Using barycentric subdivision, construct an $i$-chain $c_\sigma$ with boundary equal to $\sigma$ plus a collection of $i-1$-simplices contained in open sets on which $\varphi$ vanishes. Note that $\varphi(c_\sigma)$ independent of $c_\sigma$: for any $c_\sigma'$ satisfying the same conditions, $c_\sigma-c_\sigma'$ is homologous to a sum of $i$-simplices contained in sets on which $\varphi$ vanishes. Thus we can use the map $\sigma \mapsto \varphi(c_\sigma)$ to define an $i-1$-cochain, the boundary of which is easily seen to be $\varphi$.
+\end{proof}
+
+Now we specialize to the case $X$ is a paracompact smooth manifold of dimension $n$. Let $\Omega^\bullet$ be the complex of sheaves of smooth differential forms. Then by the Poincar\'{e} Lemma we have an exact sequence
+\[
+0 \rightarrow \mathbb{R}_X \rightarrow \Omega^0 \stackrel{d}{\rightarrow} \Omega^1 \stackrel{d}{\rightarrow} \cdots \stackrel{d}{\rightarrow} \Omega^n \rightarrow 0,
+\]
+and each $\Omega^p$ is fine since it is a $C^\infty$-module. Setting $H^p_{\rm dR}(X,\mathbb{R}) = H^p(\Omega^\bullet(X))$, this gives the following theorem.
+
+\begin{thm}[de Rham] For a paracompact smooth manifold $X$, we have $H^p(X,\mathbb{R}_X) = H^p_{\rm dR}(X,\mathbb{R})$.
+\end{thm}
+
+Now we consider the case $X$ is a paracompact complex manifold of dimension $n$. For any $p,q$ we let $\Omega^{p,q}$ be the sheaf of complex $C^\infty$ differential forms of type $(p,q)$, and let $\Omega^r_\mathbb{C} = \Omega^r\otimes_\mathbb{R} \mathbb{C} = \oplus_{p+q=r} \Omega^{p,q}$. We let $\Omega^p_{\rm hol} \subseteq \Omega^{p,0}$ be the sheaf of holomorphic differential $p$-forms.
+
+\begin{lem}[$\bar\partial$-Poincar\'{e} Lemma] For a complex manifold $X$ of dimension $n$ and for any $p$ the sequence
+\[
+0 \rightarrow \Omega^p_{\rm hol} \rightarrow \Omega^{p,0} \stackrel{\bar\partial}{\rightarrow} \Omega^{p,1} \stackrel{\bar\partial}{\rightarrow} \cdots \stackrel{\bar\partial}{\rightarrow} \Omega^{p,n} \rightarrow 0
+\]
+is exact.
+\end{lem}
+\begin{proof} It's enough to prove this for $p=0$, since we can get the general result by tensoring with the locally free $\mathcal{O}_X$-module $\Omega^p_{\rm hol}$ (here $\mathcal{O}_X$ is the sheaf of holomorphic functions on $X$). Since exactness is a local property, we may assume that $X$ is a polydisc.
+
+First we show this for $n=1$. Recall the general Cauchy integral formula: if $D$ is a disk, $f\in C^\infty(\overline{D})$, $z\in D$, then
+\[
+2\pi if(z) = \int_{\partial D} \frac{f(w)}{w-z}dw + \int_D \frac{\partial f}{\partial \bar{w}}(w)\frac{dw\wedge d\bar{w}}{w-z},
+\]
+which follows from Stokes' Theorem applied to the form $\frac{f(w)}{w-z}dw$ and some bounds for the contribution from $w$ near $z$. Now if we set
+\[
+g(z) = \frac{1}{2\pi i}\int_D \frac{f(w)}{w-z}dw\wedge d\bar{w},
+\]
+then by writing $f$ as the sum of a function which vanishes near $z$ and a function which vanishes near $\partial D$ we can show that $g \in C^\infty(D)$, with $\bar\partial g = fd\bar{z}$ on $D$.
+
+For general $n$, we show that if a form $\omega$ which only involves $d\bar{z}^1, ..., d\bar{z}^k$ has $\bar\partial \omega = 0$, then we can find a form $\varphi$ such that $\omega - \bar\partial\varphi$ only involves $d\bar{z}^1, ..., d\bar{z}^{k-1}$. Write
+\[
+\omega = \omega_1\wedge d\bar{z}^k + \omega_2,
+\]
+with $\omega_1, \omega_2$ only involving $d\bar{z}^1, ..., d\bar{z}^{k-1}$. Then for each $l > k$ we have $\frac{\partial}{\partial \bar{z}^l} \omega_1 = 0$ since $\bar\partial \omega_2$ doesn't have any terms involving $d\bar{z}^k\wedge d\bar{z}^l$. Thus we can apply the construction for the case $n=1$ to each coefficient of $\omega_1$ to get $\varphi$.
+\end{proof}
+
+\begin{cor} For any paracompact complex manifold $X$ of dimension $n$ the sequence
+\[
+0 \rightarrow \mathbb{C}_X \rightarrow \Omega^0_{\rm hol} \stackrel{d}{\rightarrow} \Omega^1_{\rm hol} \stackrel{d}{\rightarrow} \cdots \stackrel{d}{\rightarrow} \Omega^n_{\rm hol} \rightarrow 0
+\]
+is exact. Thus $H^p(X,\mathbb{C}_X) = H^p(X,\Omega^\bullet_{\rm hol})$.
+\end{cor}
+\begin{proof} This is an immediate application of the spectral sequence associated to the double complex $\Omega^{p,q}$, since by the $\bar\partial$-Poincar\'{e} Lemma the columns are exact and by the usual Poincar\'{e} Lemma the total complex is exact.
+\end{proof}
+
+For any $p,q$, we define the Dolbeault cohomology group $H^{p,q}_{\bar\partial}(X)$ of $X$ to be the $q$th cohomology group of the complex
+\[
+0 \rightarrow \Omega^{p,0}(X) \stackrel{\bar\partial}{\rightarrow} \Omega^{p,1}(X) \stackrel{\bar\partial}{\rightarrow} \cdots \stackrel{\bar\partial}{\rightarrow} \Omega^{p,n}(X) \rightarrow 0.
+\]
+The spectral sequence of the double complex $\Omega^{p,q}$ gives us a spectral sequence
+\[
+E^{p,q}_1 = H^{p,q}_{\bar\partial}(X) \; \Rightarrow \; E^n = H^n_{dR}(X,\mathbb{R}) \otimes_\mathbb{R} \mathbb{C}.
+\]
+Since each $\Omega^{p,q}$ is fine, the $\bar\partial$-Poincar\'{e} Lemma gives the following theorem.
+
+\begin{thm}[Dolbeault] Let $X$ be a paracompact complex manifold. For every $p,q$ we have $H^q(X,\Omega^p_{\rm hol}) = H^{p,q}_{\bar\partial}(X)$.
+\end{thm}
+
+Now we specialize to the case $X$ is a compact Hermitian manifold.
+
+\section{Descent}
+
+\subsection{Galois descent}
+
+Let $L/K$ be a Galois extension of fields with Galois group $\Gamma$. If $V$ is a vector space over $L$, we say that a group action $\sigma:\Gamma\times V\rightarrow V$ is a \emph{semilinear action} of $\Gamma$ on $V$ if, setting $\sigma_g(v) = \sigma(g,v)$ for $g \in \Gamma, v\in V$, we have $\sigma_g : V \rightarrow V$ additive for every $g \in \Gamma$ and
+\[
+\sigma_g(lv) = g(l)\sigma_g(v)
+\]
+for all $g\in \Gamma, l \in L, v \in V$.
+
+\begin{thm} There is an equivalence of categories
+\[
+\{\mbox{Vect}/K\} \leftrightarrow \{(V,\sigma)\mid V \in \mbox{Vect}/L,\ \sigma: \Gamma\times V \rightarrow V \mbox{ semilinear}\}
+\]
+defined by
+\begin{align*}
+W &\mapsto (W\otimes_K L, \sigma_g: w\otimes l \mapsto w\otimes g(l)),\\
+V^\Gamma &\mapsfrom (V,\sigma).
+\end{align*}
+\end{thm}
+\begin{proof} We just need to show that for any $(V,\sigma)$ the natural map $V^\Gamma\otimes_K L \rightarrow V$ is an isomorphism.
+
+Suppose first that this map is not injective, and consider the minimal relation $\sum_i l_iw_i = 0$, $w_i\in V^\Gamma$ linearly independent over $K$, $l_i \in L$. Without loss of generality we may take $l_n = 1$. Then for every $g \in \Gamma$ we have
+\[
+\sum_i g(l_i)w_i = \sum_i \sigma_g(l_iw_i) = \sigma_g\left(\sum_i l_iw_i\right) = 0,
+\]
+so $\sum_{i<n} (g(l_i)-l_i)w_i = 0$, and by minimality we must have $l_i = g(l_i)$ for all $g \in \Gamma$, so each $l_i$ is in $K$, contradicting the independence of the $w_i$ over $K$.
+
+Now suppose that the map is not surjective, and set $V' = V/V^\Gamma\otimes_KL$. Set $\mbox{\rm Tr}(v') = \sum_{g\in\Gamma}\sigma_g(v')$. If $v' \in V'\setminus\{0\}$, then the map
+\[
+l \mapsto \mbox{\rm Tr}(lv') = \sum_{g\in\Gamma}g(l)\sigma_g(v')
+\]
+is not identically $0$ by Artin's theorem on the linear independence of characters applied to the characters (of $L^\times$) $g:L^\times \rightarrow L^\times$, $g\in\Gamma$. Choose $l$ such that $\mbox{\rm Tr}(lv') \ne 0$, and choose $v\in V$ mapping to $lv'$ in $V'$. Then we have $\mbox{\rm Tr}(v) \not\in V^\Gamma\otimes_KL$, but clearly $\mbox{\rm Tr}(v)$ is invariant under the action of $\Gamma$, a contradiction.
+\end{proof}
+
+\begin{cor} For every $n\in \mathbb{N}$ we have $H^1(\Gamma,\mbox{\rm GL}_n(L)) = 1$.
+\end{cor}
+
+\subsection{Faithfully flat descent}
+
+For a ring map $A\rightarrow B$ and an $A$-module $M$, define the \emph{Amitsur complex} to be
+\[
+0 \rightarrow M\otimes_AB \rightarrow M\otimes_AB\otimes_AB \rightarrow \cdots,
+\]
+where the $p$th differential is given by
+\[
+d^p(m\otimes b_0\otimes \cdots \otimes b_p) = \sum_{i=0}^{p+1} (-1)^i m\otimes b_0 \otimes \cdots \otimes b_{i-1} \otimes 1 \otimes b_i \otimes \cdots \otimes b_p.
+\]
+Note this is the same as the \v{C}ech complex $C^\bullet(\{\mbox{\rm Spec }B\rightarrow\mbox{\rm Spec }A\},\widetilde{M})$.
+
+\begin{lem}[Fpqc Poincar\'{e} Lemma]\label{fpqc} If the map $A \rightarrow B$ is such that either
+\begin{enumerate}
+\item[\rm{a)}] there is a section $s : B\rightarrow A$, or
+
+\item[\rm{b)}] the map $A \rightarrow B$ is faithfully flat,
+\end{enumerate}
+then the Amitsur complex $C^\bullet(\{\mbox{\rm Spec }B\rightarrow\mbox{\rm Spec }A\},\widetilde{M})$ is quasiisomorphic to the complex
+\[
+0 \rightarrow M \rightarrow 0 \rightarrow 0 \rightarrow \cdots.
+\]
+\end{lem}
+\begin{proof} We just need to show that
+\[
+0 \rightarrow M \rightarrow M\otimes_AB \rightarrow M\otimes_AB\otimes_AB \rightarrow \cdots
+\]
+is exact.
+
+In case a), we have the chain homotopy
+\begin{align*}
+\xymatrix{&0 \ar[r] &M \ar@<-0.5ex>[d]_0 \ar@<0.5ex>[d]^1 \ar[r] &M\otimes_AB \ar@<-0.5ex>[d]_0 \ar@<0.5ex>[d]^1 \ar[dl]_h \ar[r] &M\otimes_AB\otimes_AB \ar@<-0.5ex>[d]_0 \ar@<0.5ex>[d]^1 \ar[dl]_h \ar[r] &\cdots \\
+&0 \ar[r] &M \ar[r] &M\otimes_AB \ar[r] &M\otimes_AB\otimes_AB \ar[r] &\cdots}
+\end{align*}
+given by
+\[
+h(m\otimes b_0 \otimes b_1\otimes \cdots\otimes b_p) = s(b_0)m\otimes b_1 \otimes \cdots \otimes b_p.
+\]
+
+In case b), by faithful flatness it is enough to check exactness after applying the functor $B\otimes_A \cdot$. We have
+\begin{align*}
+\xymatrix{&0 \ar[r] &B\otimes_AM \ar@{=}[d] \ar[r] &B\otimes_AM\otimes_AB \ar@{=}[d] \ar[r] &B\otimes_AM\otimes_AB\otimes_AB \ar@{=}[d] \ar[r] &\cdots \\
+&0 \ar[r] &B\otimes_AM \ar[r] &(B\otimes_AM)\otimes_B(B\otimes_AB) \ar[r] &(B\otimes_AM)\otimes_B(B\otimes_AB)\otimes_B(B\otimes_AB) \ar[r] &\cdots}
+\end{align*}
+i.e. $B\otimes_A C^\bullet(\{\mbox{\rm Spec }B\rightarrow\mbox{\rm Spec }A\},\widetilde{M}) = C^\bullet(\{\mbox{\rm Spec }B\otimes_AB\rightarrow\mbox{\rm Spec }B\},\widetilde{B\otimes_AM})$, where the map $B \rightarrow B\otimes_AB$ is given by $b \mapsto 1\otimes b$. This map has the section $s:B\otimes_AB \rightarrow B$ given by $s(b\otimes b') = bb'$, so we are done by case a).
+\end{proof}
+
+\begin{ex} Suppose that $f_1, ..., f_n \in A$ are such that $(f_1, ..., f_n) = 1$. Then $\{\mbox{\rm Spec }A_{f_i} \rightarrow \mbox{\rm Spec }A\}_i$ is an open cover of $\mbox{\rm Spec }A$ by principal open sets. Setting $B = \prod_{i=1}^n A_{f_i}$, we see that $A \rightarrow B$ is faithfully flat, and we can apply the fpqc Poincar\'{e} lemma to give another proof of the Zariski Poincar\'{e} lemma.
+\end{ex}
+
+\begin{defn} A \emph{descent datum} (for a ring map $A \rightarrow B$) is a pair $(N,\varphi)$, where $N$ is a $B$ module and $\varphi: N \otimes_A B \simeq B\otimes_A N$ is an isomorphism of $B\otimes_A B$ modules such that the diagram
+\begin{align*}
+\xymatrix{&N\otimes_AB\otimes_AB \ar[rr]^{\varphi_{13}} \ar[dr]_{\varphi_{12}} & &B\otimes_AB\otimes_AN\\
+& &B\otimes_AN\otimes_AB \ar[ur]_{\varphi_{23}}}
+\end{align*}
+commutes (this is the cocycle condition).
+\end{defn}
+
+\begin{thm} If $A \rightarrow B$ is faithfully flat, we have an equivalence of categories
+\[
+\{M \in A\mbox{\rm -mod}\} \leftrightarrow \{(N,\varphi) \mbox{\rm{ descent datum}}\}
+\]
+given by
+\begin{align*}
+M &\mapsto (B\otimes_A M,\ \varphi:(b\otimes m)\otimes b' \mapsto b\otimes (b'\otimes m)),\\
+\ker(n\mapsto \varphi(n\otimes 1)-1\otimes n) &\mapsfrom (N,\varphi).
+\end{align*}
+\end{thm}
+\begin{proof} First we need to check that if we start from $M$, then go to $(N,\varphi)$, then go back we get something naturally isomorphic to $M$. This follows immediately from the exactness of
+\[
+0 \rightarrow M \rightarrow M\otimes_AB \rightrightarrows M\otimes_AB\otimes_AB.
+\]
+
+Now we check that if we start from $(N,\varphi)$, go to $M$, and go back we get something naturally isomorphic to $(N,\varphi)$. By the cocycle condition, if $\varphi(n\otimes 1) = \sum_i b_i\otimes n_i$ then $\sum_i b_i\otimes 1\otimes n_i = \sum_i b_i\otimes \varphi(n_i\otimes 1)$, so
+\[
+\varphi(n\otimes 1) \in \ker(b\otimes n \mapsto b\otimes (\varphi(n\otimes 1)-1\otimes n)),
+\]
+and the right hand side is $B\otimes_A M$ by the flatness of $A\rightarrow B$. This defines a natural map $N \stackrel{\varphi}{\rightarrow} B\otimes_AM$. For $b \in B, m \in M$ we have
+\[
+\varphi(bm\otimes 1) = (b\otimes 1)\varphi(m\otimes 1) = (b\otimes 1)(1\otimes m) = b\otimes m,
+\]
+so the composite map $B\otimes_A M \rightarrow N \stackrel{\varphi}{\rightarrow} B\otimes_AM$ is the identity, hence $N\stackrel{\varphi}{\rightarrow} B\otimes_AM$ is surjective. Since $A\rightarrow B$ is faithfully flat the natural map $N \rightarrow N\otimes_AB$ is injective, and $\varphi$ is injective by assumption, so the composite map $N\stackrel{\varphi}{\rightarrow} B\otimes_AM$ is also injective, hence an isomorphism. Finally, we have to check that the original $\varphi$ matches the new $\varphi$: for any $b,b'\in B, m \in M$, we have
+\[
+\varphi((bm)\otimes b') = (b\otimes b')\varphi(m\otimes 1) = (b\otimes b')(1\otimes m) = b\otimes (b'm).\qedhere
+\]
+\end{proof}
+
+\begin{defn} A family of maps $\{Y_i \rightarrow X\}_i$ of schemes is called an \emph{fpqc cover} (fpqc stands for ``faithfully flat quasi-compact'' in French) if each $Y_i \rightarrow X$ is flat, and if for every affine open subset $U$ of $X$ there is a finite collection of affine open subsets of the $Y_i$s which map surjectively onto $U$.
+\end{defn}
+
+\begin{rmk} It's easy to see that a family $\{Y_i \rightarrow X\}_i$ is an fpqc cover if and only if the map $\coprod_i Y_i \rightarrow X$ is an fpqc cover.
+\end{rmk}
+
+\begin{cor} Let $Y\rightarrow X$ be an fpqc cover. Let $p_1, p_2$ be the projections from $Y\times_X Y$ to $Y$, and let $\pi_1, \pi_2, \pi_3$ be the three projections from $Y\times_XY\times_XY$ to $Y$. Then we have an equivalence of categories
+\[
+\{\mathcal{F}\mbox{\rm{ qcoh}}/X\}\leftrightarrow\{(\mathcal{G},\varphi), \mathcal{G}\mbox{\rm{ qcoh}}/Y, \varphi:p_1^*\mathcal{G}\simeq p_2^*\mathcal{G} \mbox{ s.t. } \varphi_{23}\circ\varphi_{12} = \varphi_{13}:\pi_1^*\mathcal{G}\rightarrow\pi_3^*\mathcal{G}\}.
+\]
+\end{cor}
+\begin{proof} Left as an exercise.
+\end{proof}
+
+\begin{ex} We say that a cover $Y \rightarrow X$ is \emph{Galois} if there exists a finite group $\Gamma$ of automorphisms of $Y$ over $X$ such that $\Gamma\times Y \simeq Y\times_XY, (\sigma,y)\mapsto(\sigma y,y)$. Then we have $\Gamma\times\Gamma\times Y\simeq Y\times_XY\times_XY$, $(\sigma,\tau,y) \mapsto (\sigma\tau y,\tau y,y)$.
+
+In particular we can consider the case $Y = \mbox{\rm Spec }L, X = \mbox{\rm Spec }K$, $L/K$ a Galois field extension. In this case we have $L\otimes_KL \simeq \prod_{g\in\Gamma} L$ by $\prod_{g\in\Gamma} l_g \mapsto \sum_{g\in\Gamma}g(l_g)\otimes l_g$ (that this is an isomorphism follows from Artin's linear independence of characters). A descent datum $(V, \varphi)$ over $L$ is then easily seen to be the same thing as a Galois semilinear action $\sigma:\Gamma\times V\rightarrow V$ via
+\[
+\varphi(lv\otimes g(l)) = l\otimes g(l)\sigma_g(v).
+\]
+\end{ex}
+
+\begin{thm} Let $\mathcal{F}$ be a quasicoherent $\mathcal{O}_X$-module on a scheme $X$, and define a presheaf on the category of schemes over $X$ taking $\pi:Y\rightarrow X$ to $\Gamma(Y,\pi^*\mathcal{F})$. Then this presheaf is a sheaf in the fpqc topology.
+\end{thm}
+\begin{proof} Note that for any $\pi:Y\rightarrow X$ we have $\Gamma(Y,\pi^*\mathcal{F}) = \mbox{\rm Hom}_{\mathcal{O}_Y}(\mathcal{O}_Y,\pi^*\mathcal{F})$. If $\pi: Y\rightarrow X$ is any fpqc cover, the natural bijection between maps $\mathcal{O}_X \rightarrow \mathcal{F}$ and descent data for maps $\mathcal{O}_Y\rightarrow \pi^*\mathcal{F}$ shows that our presheaf satisfies the sheaf condition for this cover.
+\end{proof}
+
+\begin{thm}\label{qcoh-fpqc} Any representable functor is a sheaf of sets in the fpqc topology. In particular, every abelian group scheme represents an abelian sheaf in the fpqc topology.
+\end{thm}
+\begin{proof} We'll just prove this in the affine case. Let $A\rightarrow B$ be a faithfully flat map of rings, and let $C$ be our representing ring. We need to show that every map $\mbox{\rm Spec }B\rightarrow \mbox{\rm Spec }C$ such that the two induced maps $\mbox{\rm Spec }B\otimes_AB \rightrightarrows\mbox{\rm Spec }C$ agree is induced by a unique map $\mbox{\rm Spec }A\rightarrow\mbox{\rm Spec }C$. This follows from the exactness of the sequence
+\[
+0 \rightarrow A \rightarrow B \rightrightarrows B\otimes_AB,
+\]
+which follows from the special case $M=A$ of Lemma \ref{fpqc}.
+\end{proof}
+
+\begin{rmk} Since the category of schemes is not a small category, we technically shouldn't call the fpqc topology a ``topology'', and it doesn't necessarily make sense to define cohomology groups with respect to the fpqc topology. Instead we usually focus on small subcategories with topologies whose open covers are a subset of the fpqc covers (such as the Zariski, \'{e}tale, or fppf topologies). The above theorems clearly continue to apply to such topologies.
+\end{rmk}
+
+\begin{thm} Let $X$ be a separated scheme and let $\mathcal{F}$ be a quasicoherent sheaf on $X$. Let $T$ be a topology containing the Zariski topology on $X$, whose opens are a small subcategory of the category of schemes over $X$, such that every cover of an affine scheme over $X$ can be refined to a faithfully flat cover by a finite collection of affine schemes. Extend $\mathcal{F}$ to a sheaf on $T$ as in Theorem \ref{qcoh-fpqc}. Then for any $p \ge 0$ we have $H^p(T,X,\mathcal{F}) = \check{H}^p(X,\mathcal{F})$ (i.e. the usual Zariski \v{C}ech cohomology).
+\end{thm}
+\begin{proof} The proof is almost identical to the proof of Theorem \ref{cech-to-sheaf}, with the fpqc Poincar\'{e} lemma taking the place of the Zariski Poincar\'{e} lemma.
+\end{proof}
+
+\begin{thm} Let $X,T$ be as in the previous theorem. Then
+\[
+H^1(T,X,\mbox{\rm GL}_n) = \{\mbox{\rm rank }n\mbox{\rm{ vector bundles}}/X\}/\simeq
+\]
+for every $n\in \mathbb{N}$. In particular, $H^1(T,X,\mathbb{G}_m) = \mbox{\rm Pic}(X)$.
+\end{thm}
+
+\bibliography{sheaf-coh}
+\bibliographystyle{plain}
+
+\end{document}
+
