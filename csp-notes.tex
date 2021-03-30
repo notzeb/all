@@ -1,4 +1,4 @@
-\documentclass[letterpaper,11pt]{article}
+\documentclass[letterpaper,11pt]{report}
 \usepackage{amsfonts,amssymb,amsmath,amsthm,latexsym}
 \usepackage{stmaryrd}
 \usepackage[all]{xy}
@@ -22,6 +22,14 @@
 \usepackage{tikz}
 \usetikzlibrary{topaths,calc,decorations.pathmorphing,quotes,positioning,fit,shapes}
 
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,      
+    citecolor=blue,
+}
+
 
 \DeclareMathOperator\Supp{Supp}
 \DeclareMathOperator\Tr{Tr}
@@ -33,6 +41,7 @@
 \DeclareMathOperator{\CSP}{CSP}
 \DeclareMathOperator{\GenSAT}{GenSAT}
 \DeclareMathOperator{\Sg}{Sg}
+\DeclareMathOperator{\Cg}{Cg}
 \DeclareMathOperator{\Sig}{Sig}
 \DeclareMathOperator{\Forks}{Forks}
 \DeclareMathOperator{\Aut}{Aut}
@@ -85,6 +94,11 @@
 \newcommand{\gS}{\Sigma}
 \newcommand{\gl}{\lambda}
 \newcommand{\gt}{\theta}
+
+%hmm...
+%\newcommand{\bb}[1]{\mathbb #1}
+%\newcommand{\cal}[1]{\mathcal #1}
+%\newcommand{\bf}[1]{\mathbf #1}
 
 \newcommand{\cF}{\mathcal{F}}
 \newcommand{\cG}{\mathcal{G}}
@@ -147,6 +161,17 @@
 \maketitle
 
 \tableofcontents
+
+\section{General Outline}
+
+These notes were born from a multi-year learning seminar at MIT. Each section corresponds roughly to a one-hour talk from the seminar, with details filled in. The subsections that occur after some of the sections consist of optional extra material that wasn't covered in the learning seminar due to time constraints. The appendices consist of longer portions of optional material - summaries of famous universal algebraic theories that are useful to know about in order to navigate the literature.
+
+In the next section we give a teaser for the sorts of results we'll try to prove here, mainly to convince the reader that there are highly nontrivial results in this area, and that it is not just abstract nonsense. The text proper begins in Chapter \ref{chapter-intuition}, which consists of the foundational abstractions we need later, together with several fundamental examples illustrating three different behaviors of CSPs that need to be understood in order to understand the general case.
+
+In Chapter \ref{chapter-few-subpowers}, we go over the breakthrough theory of algebras few subpowers, which lead to the first truly nontrivial algorithmic result in this area. In Chapter \ref{chapter-bounded-width}, we go over the more technically challenging theory of absorbing subalgebras and its application to CSPs of ``bounded width'' - although the algorithms used to solve CSPs in this chapter are much simpler than the ones from the previous chapter, the algebraic machinery necessary to prove that these algorithms always succeed is much more difficult (but more broadly applicable). Chapters \ref{chapter-few-subpowers} and \ref{chapter-bounded-width} do not necessarily need to be read in order, as the algebraic approaches used are quite different. In Chapter \ref{chapter-taylor} we move to trying to understand the general case of finite Taylor algebras, starting with the simpler case of conservative Taylor algebras to introduce a few of the new ideas that will be necessary to handle the general case.
+
+Currently these notes are in an unfinished state - maybe half way through the material needed for the CSP dichotomy for finite structures, with much more planned if that is ever finished.
+
 
 \section{Introduction / Advertisement}
 
@@ -570,9 +595,93 @@ Recent results in the study of PCSPs include a result of Barto, Bulin, Opr\v{s}a
 $\operatorname{PCSP}(\fA,\fB)$ ends up being logspace equivalent to the problem of distinguishing between diagrams in the category of sets of size at most $N$ ($N$ any fixed large enough number) which have a nonempty limit (``yes'' instances), and diagrams such that the image under the minion $\Pol(\fA,\fB)$ has an empty limit (``no'' instances) (this is the ``promise satisfaction of a minor condition'' problem of \cite{pcsp-coloring-full}).
 \end{rem}
 
-%\subsection{Notation}
 
-%TODO: subdirect, Sg, simple
+\section{Incomplete list of Notation and Definitions}
+
+Most of the notation is either standard, or will be defined as it is introduced. In this section we record some of the definitions so that the reader can refer back to it if necessary.
+
+\begin{defn} A (first order) \emph{structure} $\fA$ is a tuple $(A, \{f_i\}, \{R_j\})$ such that $A$ is a set (called the \emph{underlying set} of $\fA$), each $f_i$ is a function of some arity $n_i$ on $A$, i.e. $f_i : A^{n_i} \rightarrow A$, and each $R_j$ is a relation of some arity $m_j$ on $A$, i.e. $R_j \subseteq A^{m_j}$. The \emph{signature} of a first order structure is the assignment of each function symbol $f_i$ to an arity $n_i$ together with an assignment of each relation symbol $R_j$ to some arity $m_j$. If two structures $\fA, \fB$ share the same signature, then we sometimes write $f_i^\fA$, $R_j^\fA$ to refer to the interpretations of the function and relation symbols in $\fA$, and $f_i^\fB, R_j^\fB$ to refer to the interpretations of the same function and relation symbols in $\fB$.
+
+If $\fA, \fB$ are structures with the same signature, then a \emph{homomorphism} $\varphi : \fA \rightarrow \fB$ is a map $\varphi : A \rightarrow B$ of the underlying sets, such that for each function symbol $f_i$ we have
+\[
+\varphi(f_i^\fA(a_1, ..., a_{n_i})) = f_i^\fB(\varphi(a_1), ..., \varphi(a_{n_i}))
+\]
+for all $a_1, ..., a_{n_i} \in A$, and such that for each relation symbol $R_j$ we have
+\[
+(a_1, ..., a_{m_j}) \in R_j^\fA \;\; \implies \;\; (\varphi(a_1), ..., \varphi(a_{m_j})) \in R_j^\fB
+\]
+for all $a_1, ..., a_{m_j} \in A$. A homomorphism $\varphi : \fA \rightarrow \fB$ is called an \emph{isomorphism} if there is a homomorphism $\psi : \fB \rightarrow \fA$ such that $\psi \circ \varphi = \operatorname{id}_{\fA}$ and $\varphi \circ \psi = \operatorname{id}_\fB$.
+
+A structure is called a \emph{relational structure} if it has no functions in its signature, and a structure is called an \emph{algebraic structure} or an \emph{algebra} if it is nonempty and has no relations in its signature. We usually write a relational structure with the bold font, i.e. $\fA$, while we usually write an algebraic structure with the blackboard bold font, i.e. $\bA$.
+\end{defn}
+
+When convenient, we often abuse notation to treat a structure $\fA$ like its underlying set $A$: we write $a \in \fA$ to mean that $a \in A$, we write $|\fA|$ for $|A|$, etc.
+
+\begin{defn} A \emph{subalgebra} of an algebra $\bA$ is an algebraic structure $\bB$ with the same signature such that the underlying set $B$ of $\bB$ is a subset of the underlying set $A$ of $\bA$, and such that the inclusion map $\iota : B \hookrightarrow A$ defines a homomorphism $\iota : \bB \rightarrow \bA$. In this case we write $\bB \le \bA$. If $S \subseteq A$, then we define $\Sg_\bA(S)$, the \emph{subalgebra generated by} $S$, to be the smallest subalgebra of $\bA$ whose underlying set contains $S$.
+
+If $\bA, \bB$ are structures with the same signature, then we define their \emph{product} $\bA \times \bB$ to be the structure with underlying set $A\times B$ where $A,B$ are the underlying sets of $\bA,\bB$, with each function symbol $f_i$ interpreted by
+\[
+f_i^{\bA\times\bB}\Big(\begin{bmatrix}a_1\\b_1\end{bmatrix},...,\begin{bmatrix}a_{n_i}\\b_{n_i}\end{bmatrix}\Big) = \begin{bmatrix}f_i^\bA(a_1, ..., a_{n_i})\\f_i^\bB(b_1, ..., b_{n_i})\end{bmatrix},
+\]
+and with each relation symbol $R_j$ interpreted by
+\[
+\Big(\begin{bmatrix}a_1\\b_1\end{bmatrix},...,\begin{bmatrix}a_{m_j}\\b_{m_j}\end{bmatrix}\Big) \in R_j^{\bA\times\bB} \;\; \iff \;\; (a_1, ..., a_{m_j}) \in R_j^\bA \wedge (b_1, ..., b_{m_j}) \in R_j^\bB.
+\]
+Arbitrarily large products $\prod_{i \in I} \bA_i$ of structures $\bA_i$ all having the same signature are defined similarly.
+
+A \emph{homomorphic image} of $\bA$ is defined to be any $\bB$ of the same signature such that there is a surjective homomorphism $\varphi : \bA \twoheadrightarrow \bB$. An algebraic structure $\bA$ is called \emph{simple} if every surjective homomorphism $\bA \twoheadrightarrow \bB$ is either an isomorphism, or has $|\bB| = 1$.
+\end{defn}
+
+\begin{defn} A \emph{congruence} on an algebraic structure $\bA$ is an equivalence relation $\theta$ on $\bA$ which is also a subalgebra: $\theta \le \bA^2$. The set of all congruences of $\bA$ is written as $\Con(\bA)$. If $S$ is some collection of ordered pairs $(a,b) \in \bA^2$, then the \emph{congruence generated by} $S$, written $\Cg_\bA(S)$, is the least congruence of $\bA$ which contains $S$. We generally use greek letters for congruences.
+
+If $\theta \in \Con(\bA)$ and $a \in \bA$, then we write $a/\theta$ for the \emph{congruence class} of $a$ with respect to $\theta$, that is, $a/\theta = \{b \mid (a,b) \in \theta\}$. We say that $a,b$ are \emph{congruent} with respect to $\theta$ if $(a,b) \in \theta$, and we may write this in symbols in several different ways:
+\[
+(a,b) \in \theta \;\; \iff \;\; b \in a/\theta \;\; \iff \;\; a \equiv b \pmod{\theta} \;\; \iff \;\; a \equiv_\theta b \;\; \iff \;\; a\ \theta\ b.
+\]
+
+If $\theta \in \Con(\bA)$, then we write $\bA/\theta$ for the set of equivalence classes of $\theta$ considered as an algebraic structure, with
+\[
+f_i^{\bA/\theta}(a_1/\theta, ..., a_{n_i}/\theta) = f_i^\bA(a_1, ..., a_{n_i})/\theta.
+\]
+The algebra $\bA/\theta$ is called a \emph{quotient} of $\bA$, and there is a canonical \emph{quotient map} $\bA \twoheadrightarrow \bA/\theta$ which takes each element of $\bA$ to its equivalence class in $\theta$.
+
+If $\varphi : \bA \rightarrow \bB$ is a homomorphism, then we define the \emph{kernel} of $\varphi$, written $\ker \varphi$, as the equivalence relation on $\bA$ given by $(x,y) \in \ker \varphi$ iff $\varphi(x) = \varphi(y)$. The kernel of a homomorphism is always a congruence, and if $\varphi$ is surjective then $\bA/\ker \varphi$ is isomorphic to $\bB$. In particular, every homomorphic image of $\bA$ is isomorphic to a quotient of $\bA$.
+
+For $\alpha, \beta \in \Con(\bA)$, we define their \emph{meet} $\alpha \wedge \beta$ to be their intersection, and we define their \emph{join} $\alpha \vee \beta$ to be the congruence generated by $\alpha \cup \beta$. We define the least congruence $0_\bA$ to be the equivalence relation on $\bA$ where each equivalence class is a singleton, and we define the greatest congruence $1_\bA$ to be the equivalence relation on $\bA$ consisting of just one equivalence class.
+\end{defn}
+
+\begin{defn} If $R \subseteq A_1 \times \cdots \times A_n$ is a (possibly multisorted) relation, then for any $I \subseteq \{1, ..., n\}$ we define the projection map $\pi_I : R \rightarrow \prod_{i \in I} A_i$ in the obvious way. A relation $R \subseteq A_1 \times \cdots \times A_n$ is \emph{subdirect} if $\pi_i(R) = A_i$ for all $i$.
+
+If $\bA_1, ..., \bA_n$ are algebraic structures with the same signature, then any subalgebra $\RR \le \bA_1 \times \cdots \times \bA_n$ is called a (multisorted) \emph{relation} on the $\bA_i$s. If $\pi_i(\RR) = \bA_i$ for all $i$ then we say that $\RR$ is subdirect, and we write this in symbols as $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$.
+\end{defn}
+
+\begin{defn}
+If $R \subseteq A \times B$ is a binary relation, then we define its \emph{reverse} $R^- \subseteq B\times A$ by
+\[
+R^- = \{(b,a) \mid (a,b) \in R\}.
+\]
+If $R \subseteq A \times B$ and $S \subseteq B \times C$, then we define their \emph{relational composition} $R\circ S \subseteq A\times C$ by
+\[
+R \circ S = \{(a,c) \mid \exists b\in B\text{ s.t. }(a,b) \in R \wedge (b,c) \in S\}.
+\]
+If $R \subseteq A \times B$ and $U \subseteq A$, then we define the \emph{sum} $U+R \subseteq B$ by
+\[
+U + R = \{b \mid \exists a \in U\text{ s.t. }(a,b)\in R\},
+\]
+and for $V \subseteq B$ we define the difference $V - R \subseteq A$ by $V - R = V + R^-$. Note that we have $(U + R) + S = U + (R \circ S)$ for $U \subseteq A$, $R \subseteq A \times B$, $S \subseteq B \times C$.
+\end{defn}
+
+\begin{defn} If $\{R_j\}$ is some collection of relations, then a \emph{primitive positive formula} over the $R_j$s is defined to be a formula of the form
+\[
+\exists y_1 \cdots \exists y_n\text{ s.t. }\bigwedge_{i \in I}\varphi_i(x_1, ..., x_m, y_1, ..., y_n),
+\]
+where $I$ is a finite set, and each $\varphi_i$ is either some relation $R_j$ applied to some of the variables $x_1, ..., x_m, y_1, ..., y_n$, or is the equality relation applied to some pair of variables.
+
+A relation $R$ is \emph{primitively positively definable} over the $R_j$s if there is a primitive positive formula $\varphi$ such that the elements of $R$ are exactly the tuples of values $(x_1, ..., x_m)$ that satisfy $\varphi$. For instance, the relational composition $R \circ S$ is primitively positively definable over $R$ and $S$.
+\end{defn}
+
+
+\chapter{Initial Intuition}\label{chapter-intuition}
 
 
 \section{The $\Inv$-$\Pol$ Galois connection}\label{section-inv-pol}
@@ -1027,6 +1136,10 @@ f(f^{\infty-1}(x)) \approx f^{\infty-1}(f(x)) \approx x.
 
 For those who like category theory, a $k$-ary implicit operation of a pseudovariety $\cV$ with underlying set functor $S : \cV \rightarrow \text{Set}$ is a natural transformation from $S^k$ to $S$. If a free algebra on $k$ elements exists in $\cV$, then a standard argument shows that every $k$-ary implicit operation of $\cV$ is actually \emph{explicit}, that is, a term of $\cV$. In general, every finite subset of $\cV$ will generate a locally finite subvariety of $\cV$, which shows that the restriction of any implicit operation to this subset agrees with some term of $\cV$. Reiterman \cite{pseudovarieties-implicit} puts a metric structure on the set of implicit operations of a pseudovariety such that the collection of implicit operations becomes the completion of the collection of explicit operations.
 \end{rem}
+
+
+%\subsection{The $\Inv$-$\Pol$ duality for multisorted CSPs}
+%TODO
 
 
 \section{Cores and Idempotent Reducts}
@@ -1924,7 +2037,7 @@ An unexpectedly large example of a Mal'cev variety is the variety of \emph{quasi
 
 Note that in the finite case, if $\cdot$ is a quasigroup operation, then the operations $/, \backslash$ can be defined in terms of $\cdot$ by an iteration argument (for any invertible unary function $f$ on an $n$ element set, $f^{-1} = f^{\circ (n!-1)}$). For infinite quasigroups, they have to be introduced into the language explicitly.
 
-\begin{prop} If $\bA = (A, \cdot, /, \backslash)$ is a quasigroup, then $p: (x,y,z) \mapsto (x/y)\cdot((y/y)\backslash z)$ is a Mal'cev term.
+\begin{prop}\label{prop-quasigroup-malcev} If $\bA = (A, \cdot, /, \backslash)$ is a quasigroup, then $p: (x,y,z) \mapsto (x/y)\cdot((y/y)\backslash z)$ is a Mal'cev term.
 \end{prop}
 \begin{proof} Plugging in $x=y$ we get
 \[
@@ -1946,7 +2059,7 @@ The corresponding property on the CSP side of the picture is something known as 
 \begin{defn} A binary relation $R \subseteq A\times B$ has the \emph{parallelogram property} if whenever $(a,b), (c,b), (c,d) \in R$, we also have $(a,d) \in R$. A relation of higher arity is said to have the parallelogram property if every way of grouping its coordinates into two groups gives a binary relation with the parallelogram property.
 \end{defn}
 
-\begin{thm} An algebraic structure $\bA$ has a Mal'cev term $p$ iff every relation $\RR \in \Inv(\bA)$ has the parallelogram property.
+\begin{thm} A finite algebraic structure $\bA$ has a Mal'cev term $p$ iff every relation $\RR \in \Inv(\bA)$ has the parallelogram property.
 \end{thm}
 \begin{proof} Suppose first that $\bA$ has a Mal'cev term $p$, let $\bB, \bC \in \cV(\bA)$ and let $\RR \le \bB\times \bC$ be a subalgebra of their product. Suppose that $(a,b), (c,b), (c,d) \in \RR$. Then
 \[
@@ -1963,7 +2076,7 @@ But then this $p$ is a Mal'cev term for $\bA$.
 
 If we want to test whether an algebra has a Mal'cev term, then the above result would make it seem like we need to test whether relations of arbitrarily large arity have the parallelogram property. As it turns out, for idempotent algebras we only need to test whether all binary relations have the parallelogram property.
 
-\begin{thm}[Zhuk \cite{zhuk-strong}] An idempotent algebra $\bA$ has a Mal'cev term if and only if every binary relation $\RR \in \Inv_2(\bA)$ has the parallelogram property. More explicitly, this occurs if and only if we have
+\begin{thm}[Zhuk \cite{zhuk-strong}] A finite idempotent algebra $\bA$ has a Mal'cev term if and only if every binary relation $\RR \in \Inv_2(\bA)$ has the parallelogram property. More explicitly, this occurs if and only if we have
 \[
 \begin{bmatrix}a\\ d\end{bmatrix} \in \Sg_{\bA^2}\left\{\begin{bmatrix}a\\ b\end{bmatrix}, \begin{bmatrix}c\\ b\end{bmatrix}, \begin{bmatrix}c\\ d\end{bmatrix}\right\}
 \]
@@ -2139,9 +2252,9 @@ for any choice of $m \le n$ and $a_i \in \bA_i$ for all $i$. \texttt{Fix-values}
 
 \begin{prop} \texttt{Fix-values} correctly returns a compact representation of $\RR_m = \RR \wedge (x_1 = a_1) \wedge \cdots \wedge (x_m = a_m)$ in polynomial time.
 \end{prop}
-\begin{proof} We prove by induction on $j$ that $R_j$ is a compact representation of $\RR_j$ for each $j \le m$. Note that for any $(i,a,b) \in \Sig(R_j)$, if $a \ne b$ then we must have $i > j$. For $i \le j$, we have $(i,a_i,a_i) \in \RR_j$ iff $\RR_j \ne \emptyset$ by how we initialize $\RR_j$.
+\begin{proof} We prove by induction on $j$ that $R_j$ is a compact representation of $\RR_j$ for each $j \le m$. Note that for any $(i,a,b) \in \Sig(R_j)$, if $a \ne b$ then we must have $i > j$. For $i \le j$, we have $(i,a_i,a_i) \in \Sig(R_j)$ iff $\RR_j \ne \emptyset$ by how we initialize $R_j$.
 
-If $i > j$, then $(i,a,b) \in \Sig(\RR_j)$ implies $(i,a,b) \in \Sig(\RR_{j-1})$, witnessed by some pair $t_a,t_b \in \RR_{j-1}$. Additionally, if $(i,a,b) \in \Sig(\RR_j)$, then there is certainly some $t \in \RR_j$ with $\pi_i(t) = a$, so the call to \texttt{Nonempty} inside the while loop will succeed. Then
+If $i > j$, then $(i,a,b) \in \Sig(\RR_j)$ implies $(i,a,b) \in \Sig(\RR_{j-1})$, witnessed by some pair $t_a,t_b \in R_{j-1}$. Additionally, if $(i,a,b) \in \Sig(\RR_j)$, then there is certainly some $t \in \RR_j$ with $\pi_i(t) = a$, so the call to \texttt{Nonempty} inside the while loop will succeed. Then
 \[
 \pi_{1,...,i-1}(p(t,t_a,t_b)) = \pi_{1,...,i-1}(p(t,t_a,t_a)) = \pi_{1, ..., i-1}(t),
 \]
@@ -2226,7 +2339,7 @@ Using an inductive argument with this as the base case, Feder and Vardi \cite{fe
 
 We induct on $|K|, n$. If there is an $i \ne 0$ with $i,i+1 \in K$, then $K \cap (K-i)$ also contains $0,1$, and will be strictly smaller than $K$ unless $K = K-i$, in which case we may take the quotient by $\langle i\rangle$. Thus we may assume that $i,i+1$ are not both in $K$ for any $i \ne 0$.
 
-If $K$ contains some $i$ with neither of $i,i-1$ relatively prime to $n$, then by induction $K\cap \langle i\rangle$ and $(K-1)\cap \langle i-1\rangle$ are subgroups, so $2i, 2i-1 \in K$ and we so must have $2i-1 \equiv 0 \pmod{n}$, contradicting the assumption that $i$ has a common factor with $n$.
+If $K$ contains some $i$ with neither of $i,i-1$ relatively prime to $n$, then by induction $K\cap \langle i\rangle$ and $(K-1)\cap \langle i-1\rangle$ are subgroups, so $2i, 2i-1 \in K$ and we must have $2i-1 \equiv 0 \pmod{n}$, contradicting the assumption that $i$ has a common factor with $n$.
 
 If $K$ contains $i\ne 1$ with $i$ relatively prime to $n$, then $K\cap (i-K)$ contains $0,i$ but not $1$, and we may apply the induction hypothesis to get a contradiction. Similarly, if $K$ contains $i\ne 0$ with $i-1$ relatively prime to $n$, then $(K-1)\cap (i-K)$ contains $0$ and $i-1$ but not $-1$, and we may apply the induction hypothesis.
 
@@ -2271,6 +2384,9 @@ In the case of nonabelian groups, however, we may be able to adjoin interesting 
 \begin{defn} A subset $K \subseteq \bG$ is a \emph{near subgroup} of $\bG$ if it contains $1$, and for any $b \in K^{-1}$, any $\mathbb{M} \le \bG$ and any $\mathbb{N} \lhd \mathbb{M}$ with $\mathbb{M}/\mathbb{N}$ abelian, the quotient set $(bK\cap \mathbb{M})/\mathbb{N}$ is a subgroup of $\mathbb{M}/\mathbb{N}$.
 \end{defn}
 
+\begin{prop} If $\mathbb{H} \le \bG$ is a subgroup and $K \subseteq \mathbb{H}$ is a near subgroup of $\mathbb{H}$, then $K$ is a near subgroup of $\bG$. Similarly, if $\varphi : \bG \twoheadrightarrow \mathbb{H}$ is a surjective group homomorphism and $K \subseteq \mathbb{H}$ is a near subgroup of $\mathbb{H}$, then $\varphi^{-1}(K)$ is a near subgroup of $\mathbb{H}$.
+\end{prop}
+
 \begin{thm}[Aschbacher \cite{near-subgroups-aschbacher}]\label{near-subgroups} The intersection of two near subgroups of a finite group is a near subgroup.
 \end{thm}
 
@@ -2284,7 +2400,7 @@ p(x,y,z) = yg(y^{-1}x,y^{-1}z) = xy^{-1}zc(y^{-1}x,y^{-1}z).
 \]
 That $p$ is Mal'cev follows directly from the fact that $g$ satisfies the identities $g(1,x) \approx g(x,1) \approx x$.
 
-To see that $p$ is really a polymorphism of $\mathbf{G}^*$, let $X$ be any coset of any near subgroup of $\bG^n$, and let $x,y,z \in X$. Then $y^{-1}X$ is a near subgroup of $\bG^n$. Since $g = \pi_1\pi_2c \in K$, $g$ preserves every near subgroup of $\bG^n$. Thus from $y^{-1}x, y^{-1}z \in y^{-1}X$ we have $g(y^{-1}x,y^{-1}z) \in y^{-1}X$, and $p(x,y,z) = yg(y^{-1}x,y^{-1}z) \in X$, so $p$ does indeed preserve $X$.
+To see that $p$ is really a polymorphism of $\mathbf{G}^*$, let $X$ be any coset of any near subgroup of $\bG^n$, and let $x,y,z \in X$. Then $y^{-1}X$ is a near subgroup of $\bG^n$. Since $g = \pi_1\pi_2c \in K$, $g$ preserves every near subgroup of $\bG^n$ (since for any $a,b \in \bG^n$, $K$ is contained in the near subgroup of $\bG^{\bG^2}$ obtained by taking the preimage of the map $\varphi$ from the subgroup generated by $\pi_1, \pi_2$ to $\bG^n$ which sends $\pi_1 \mapsto a, \pi_2 \mapsto b$). Thus from $y^{-1}x, y^{-1}z \in y^{-1}X$ we have $g(y^{-1}x,y^{-1}z) \in y^{-1}X$, and $p(x,y,z) = yg(y^{-1}x,y^{-1}z) \in X$, so $p$ does indeed preserve $X$.
 \end{proof}
 
 In order to prove Aschbacher's Theorem \ref{near-subgroups}, we first need a more convenient characterization of near-subgroups.
@@ -2373,7 +2489,7 @@ Then since $\bM/\bN$ is abelian and $\tau y\tau = y^{-1} \equiv_\bN y$, we have 
 
 In this section we will prove that abelian Mal'cev algebras are affine. This is an important step in the proof that problems which do not have the ``ability to count'' have bounded width. First we will carefully define what an affine algebra is, starting with the more basic concept of a quasi-affine algebra.
 
-\begin{defn} An algebra $\bA$ is called \emph{quasi-affine} if there is an abelian group $\bG = (G,0,+,-)$ with underlying set $G$ containing the underlying set of $\bA$, such that the $4$-ary relation $x+y = z+w$ is preserved by all the operations of $\bA$.
+\begin{defn} An algebra $\bA$ is called \emph{quasi-affine} if there is an abelian group $\bG = (G,0,+,-)$ with underlying set $G$ containing the underlying set of $\bA$, such that the restriction of the $4$-ary relation $x+y = z+w$ to $\bA$ is preserved by all the operations of $\bA$.
 \end{defn}
 
 We want to relate this to the more familiar concept of a module over a ring.
@@ -2390,15 +2506,19 @@ The way these concepts are related is a coarser notion than term equivalence, kn
 
 \begin{prop} An algebra $\bA$ is quasi-affine iff it is a subalgebra of a reduct of the polynomial clone of a module.% If $\bA$ has $\{0\}$ as a subalgebra, then $\bA$ is quasi-affine iff $\bA$ is a reduct of a module. If $\bA$ is Mal'cev, then $\bA$ is quasi-affine iff $\bA$ is polynomially equivalent to a module.
 \end{prop}
-\begin{proof} Let $\bA$ be a quasi-affine algebra, and let $(G,0,+,-)$ be the corresponding group. We may assume without loss of generality that $0 \in \bA$. Suppose that $f$ is any $n$-ary operation of $\bA$, and for each $i \le n$ let $\phi_i$ be the unary operation given by
+\begin{proof} Let $\bA$ be a quasi-affine algebra, and let $\bG = (G,0,+,-)$ be the corresponding group. We may assume without loss of generality that $0 \in \bA$, and that $\bG$ is the abelian group with the following presentation: the generators are the elements of $\bA\setminus\{0\}$, and the relations are given by $x+y-z-w = 0$ for every quadruple of elements $x,y,z,w \in \bA$ such that $x+y = z+w$ in $\bG$.
+
+Suppose that $f$ is any $n$-ary operation of $\bA$, and for each $i \le n$ let $\phi_i : \bA \rightarrow G$ be the unary operation given by
 \[
 \phi_i(x) = f(0,...,0,x,0,...,0) - f(0,...,0),
 \]
-with the $x$ in the $i$th position. Since $f$ preserves the relation $x+y = z+w$, we have
+with the $x$ in the $i$th position. Since $f$ preserves the relation $x+y = z+w$ on $\bA$, we have
 \[
-\phi_i(x+y) = \phi_i(x) + \phi_i(y),
+\phi_i(x) + \phi_i(y) = \phi_i(z) + \phi_i(w)
 \]
-so each $\phi_i$ distributes over addition. To finish, we just need to prove that
+for any $x,y,z,w \in \bA$ such that $x+y = z+w$ in $\bG$. Thus $\phi_i$ is compatible with the defining relations of $\bG$, so the map $\phi_i : \bA \rightarrow G$ extends to a unique homomorphism $\phi_i : \bG \rightarrow \bG$.
+
+To finish, we just need to prove that
 \[
 f(x_1, ..., x_n) = \phi_1(x_1) + \cdots + \phi_n(x_n) + f(0,...,0)
 \]
@@ -2693,7 +2813,7 @@ In particular, $\bL$ is associative, that is, $\bL$ is a group.
 \end{lem}
 \begin{proof} For those who prefer a purely algebraic proof, this follows from
 \[
-\begin{bmatrix} x_3\\ y_3\end{bmatrix} = p\left(\begin{bmatrix} x_1\\ y_1\end{bmatrix}, \begin{bmatrix} x_1\\ y_3\end{bmatrix}, \begin{bmatrix} x_3\\ y_1\end{bmatrix}\right) \equiv_{\Theta_3} p\left(\begin{bmatrix} x_2\\ y_2\end{bmatrix}, \begin{bmatrix} x_2\\ y_4\end{bmatrix}, \begin{bmatrix} x_4\\ y_2\end{bmatrix}\right) = \begin{bmatrix} x_4\\ y_4\end{bmatrix}.
+\begin{bmatrix} x_3\\ y_3\end{bmatrix} = p\left(\begin{bmatrix} x_1\\ y_3\end{bmatrix}, \begin{bmatrix} x_1\\ y_1\end{bmatrix}, \begin{bmatrix} x_3\\ y_1\end{bmatrix}\right) \equiv_{\Theta_3} p\left(\begin{bmatrix} x_2\\ y_4\end{bmatrix}, \begin{bmatrix} x_2\\ y_2\end{bmatrix}, \begin{bmatrix} x_4\\ y_2\end{bmatrix}\right) = \begin{bmatrix} x_4\\ y_4\end{bmatrix}.
 \]
 
 To see that this implies the associativity of $\bL$, let $x,y,z$ be any elements of $L$, and plug in $(x_1,x_2,x_3,x_4) = (1, y, x, x\cdot y), (y_1,y_2,y_3,y_4) = (y, 1, y\cdot z, z)$. Then we get
@@ -2830,7 +2950,7 @@ The method of visualizing algebraic arguments via the geometry of equivalence cl
 \begin{prob} Under what conditions are abelian algebras quasi-affine? Is it true that every idempotent abelian algebra is quasi-affine?
 \end{prob}
 
-It is known that if we drop idempotence, then some extra condition is needed: Quackenbush \cite{quasi-affine-quackenbush} gives an example of an infinite, non-idempotent algebra which is abelian but not quasi-affine. Quackenbush's example is a slight modification of the completely free algebra on $8$ elements with a single binary operation, where the modification is that $x_1 \cdot x_2 = x_5 \cdot x_6, x_3 \cdot x_4 = x_7 \cdot x_8, x_1\cdot x_4 = x_5 \cdot x_8$, but $x_3 \cdot x_2 \ne x_7 \cdot x_6$.
+It is known that if we drop idempotence, then some extra condition is needed: Quackenbush \cite{quasi-affine-quackenbush} gives an example of an infinite, non-idempotent algebra which is abelian but not quasi-affine. Quackenbush's example is a slight modification of the completely free algebra on $8$ elements with a single binary operation, where the modification is that $x_1 \cdot x_2 = x_5 \cdot x_6, x_3 \cdot x_4 = x_7 \cdot x_8, x_1\cdot x_4 = x_5 \cdot x_8$, but $x_3 \cdot x_2 \ne x_7 \cdot x_6$. Another example with just five elements is given in Example \ref{ex-strongly-abelian-not-quasiaffine}.
 
 Kearnes \cite{kearnes-simple} has shown that any \emph{simple} idempotent abelian algebra is quasi-affine - in fact, he shows that any simple idempotent algebra which has a skew congruence (that is, a congruence on some power $\bA^n$ which is not the kernel of some projection) either has an absorbing element (that is, an element $a$ such that every term $t$ which depends on its first variable has $t(a,...) = a$) or is a subalgebra of a simple reduct of a module.
 
@@ -2939,7 +3059,7 @@ The usual picture which is drawn to represent the term condition for $C(\alpha,\
 \end{center}
 where the positioning of the four corners matches with the way we have laid out the $2\times 2$ matrices in $\bM(\alpha,\beta)$. A mnemonic for remembering where the $\delta$ edges go is that in the term condition $C(\alpha,\beta;\delta)$, ``$\delta$ is next to $\beta$''.
 
-We now prove a few elementary properties of the commutator which hold in general, which are given as exercises in Hobby and McKenzie's book \cite{hobby-mckenzie}.
+We now list a few elementary properties of the commutator which hold in general, which are given as exercises in Hobby and McKenzie's book \cite{hobby-mckenzie}.
 
 \begin{prop}\label{gen-commutator} For $\alpha,\beta,\delta \in \Con(\bA)$, we have
 \begin{itemize}
@@ -3078,6 +3198,48 @@ From $c_2 \equiv_{[\alpha,\beta]} d_1$ and the fact that $p$ is a difference ter
 \end{proof}
 
 In fact, substantially more is true in varieties with a difference term. Kearnes \cite{kearnes-difference} shows that almost all properties of the commutator which hold in congruence modular varieties generalize to varieties with a difference term, other than $[\alpha_1 \vee \alpha_2,\beta] = [\alpha_1,\beta] \vee [\alpha_2,\beta]$. This property must be weakened, but it is at least true that if $[\alpha_1,\beta] = [\alpha_2,\beta]$ then $[\alpha_1\vee\alpha_2,\beta] = [\alpha_1,\beta]$ in varieties with difference terms.
+
+If we go beyond varieties with a difference term, the commutator may no longer be symmetric. For instance, in the algebra $\bA = (\{0,1,2,*\},\cdot)$ with $\cdot$ given by
+\begin{center}
+\begin{tabular}{c|cccc} $\cdot$ & $0$ & $1$ & $2$ & $*$\\ \hline $0$ & $0$ & $2$ & $1$ & $*$\\ $1$ & $2$ & $1$ & $0$ & $*$\\ $2$ & $1$ & $0$ & $2$ & $*$\\ $*$ & $*$ & $*$ & $*$ & $*$\end{tabular},
+\end{center}
+if we let $\theta \in \Con(\bA)$ be the congruence corresponding to the partition $\{0,1,2\},\{*\}$, then we have
+\[
+[\theta,1_\bA] = 0_\bA, \;\;\; [1_\bA,\theta] = \theta.
+\]
+The simplest way to fix this asymmetry is to make the following definition from \cite{kearnes-taylor-affine}.
+
+\begin{defn} If $\alpha, \beta \in \Con(\bA)$, then we define their \emph{symmetric commutator}, written $[\alpha,\beta]_s$, to be the least congruence $\delta$ such that both $C(\alpha,\beta;\delta)$ and $C(\beta,\alpha;\delta)$ hold.
+\end{defn}
+
+To see that $[\alpha,\beta]_s$ is well-defined, we use Proposition \ref{gen-commutator}(a) to see that the intersection of any collection of congruences that simultaneously satisfy $C(\alpha,\beta;\delta)$ and $C(\beta,\alpha;\delta)$ will also satisfy these two term conditions. Since the two-term commutator satisfies $C(\alpha,\beta;[\alpha,\beta]_2)$ and $C(\beta,\alpha;[\alpha,\beta]_2)$, we always have $[\alpha,\beta]_s \le [\alpha,\beta]_2$.
+
+We can also go in the other direction, and define a more general commutator by trying to directly think about what an algebra needs to satisfy to be quasi-affine. This leads to the following definition.
+
+\begin{defn} If $\alpha, \beta \in \Con(\bA)$, then we define their \emph{linear commutator}, written $[\alpha,\beta]_\ell$, as follows. Define a group $\bG$ with the following presentation: the generators of $\bG$ are the elements of $\bA$, and the relations are given by
+\[
+\begin{bmatrix} a & b\\ c & d\end{bmatrix} \in \bM(\alpha, \beta) \;\; \implies \;\; a+d = b+c \text{ in } \bG.
+\]
+Then we define the equivalence relation $[\alpha,\beta]_\ell$ to be the kernel of the natural map $\bA \rightarrow \bG$.
+\end{defn}
+
+\begin{prop} The linear commutator $[\alpha,\beta]_\ell$ always defines a congruence of $\bA$, we have $[\alpha,\beta]_n \le [\alpha,\beta]_\ell$ for each $n$ and $[\alpha,\beta]_\ell \le \alpha \wedge \beta$, and $[1_\bA,1_\bA]_\ell = 0_\bA$ iff $\bA$ is quasi-affine.
+\end{prop}
+\begin{proof} The linear commutator can be defined combinatorially as follows. For each matrix $M = \begin{bmatrix} a & b\\ c & d\end{bmatrix} \in \bM(\alpha, \beta)$, call $a,d$ the ``positive'' corners of the matrix $M$, and $b,c$ the ``negative'' corners of $M$. Then $(x,y) \in [\alpha,\beta]_\ell$ iff there is some collection of matrices $M_i \in \bM(\alpha, \beta)$ and a way to pair off values in the positive corners of the matrices $M_i$ to equal values in negative corners of the matrices, so that the only unpaired values are $x$ and $y$, with one occuring in a positive corner of some matrix and the other occuring in a negative corner of some matrix. This defines the linear commutator $[\alpha,\beta]_\ell$ as the union of a directed limit of relations defined by primitive positive formulas in $\bM(\alpha,\beta)$, so the equivalence relation $[\alpha, \beta]_\ell$ is compatible with the operations of $\bA$.
+
+The inequality $[\alpha,\beta]_n \le [\alpha,\beta]_\ell$ follows from the combinatorial description of $[\alpha,\beta]_n$ above (the $n$-cycle condition is a special case of the general setup of matching corners of matrices together). To prove that $[\alpha,\beta]_\ell \le \alpha \wedge \beta$, we just need to check that $[\alpha,\beta]_\ell \le \alpha$ by symmetry, and this follows by chasing equalities and congruences through the matrices in the combinatorial description of $[\alpha,\beta]_\ell$.
+
+If $\bA$ is quasi-affine, then it is easy to see that $[1_\bA,1_\bA]_\ell = 0_\bA$. Finally, if $[1_\bA,1_\bA]_\ell = 0_\bA$, then $\bA$ embeds injectively into the group $\bG$ from the definition of $[1_\bA,1_\bA]_\ell$, and we can generalize the combinatorial description of $[\alpha,\beta]_\ell$ to get a combinatorial description of the restriction of the $4$-ary relation $a+d = b+c$ to $\bA$, so this $4$-ary relation is preserved by the operations of $\bA$.
+\end{proof}
+
+We have the following relationship between the various commutators which have been defined so far:
+\[
+[\alpha,\beta] \le [\alpha,\beta]_s \le [\alpha,\beta]_2 \le [\alpha,\beta]_3 \le \cdots \le [\alpha,\beta]_\ell \le \alpha \wedge \beta,
+\]
+and among these, the commutators $[\alpha,\beta]_s, [\alpha, \beta]_2$, and $[\alpha,\beta]_\ell$ are symmetric by construction. In \cite{kearnes-taylor-affine}, Kearnes and Szendrei prove that in every Taylor variety we always have $[\alpha,\beta]_s = [\alpha,\beta]_\ell$, so almost all of the commutators collapse into a single concept in Taylor varieties (and they \emph{all} collapse in varieties with difference terms). They also give an alternative characterization of the linear commutator by showing that it is equivalent to the commutator obtained by first ``freely'' extending your variety to make the basic operations multinear inside some larger abelian group, and then computing commutators in the multilinear setting, which has a Mal'cev operation $x - y + z$.
+
+
+\chapter{Compact Representations and algebras with Few Subpowers}\label{chapter-few-subpowers}
 
 
 \section{Generalized Majority-Minority operations (motivating Few Subpowers)}
@@ -3297,7 +3459,7 @@ First we define an invariant of an algebraic structure and the variety it genera
 For the lower bound on the number of subalgebras, suppose that $a_1, ..., a_k$ are independent in $\bA^n$. Then every subset $S$ of $\{a_1, ..., a_k\}$ generates a distinct subalgebra of $\bA^n$, since $\Sg_{\bA^n}(S) \cap \{a_1, ..., a_k\} = S$ by the definition of independence. Thus $\bA^n$ has at least $2^k$ distinct subalgebras.
 \end{proof}
 
-\begin{prop} If $\bB \in HSP(\bA)$ is also finite, then $i_n(\bB) \le i_\bA(cn)$ for some constant $c$ depending only on $\bB$.
+\begin{prop} If $\bB \in HSP(\bA)$ is also finite, then $i_\bB(n) \le i_\bA(cn)$ for some constant $c$ depending only on $\bB$.
 \end{prop}
 \begin{proof} If $\bA,\bB$ are both finite, then there is some finite number $c$ such that $\bB \in HS(\bA^c)$, that is, there is a subalgebra $\bC \le \bA^c$ and a surjective homomorphism $f : \bC \rightarrow \bB$. Then every independent set in $\bB^n$ lifts to an independent set in $(\bA^c)^n = \bA^{cn}$ by choosing any section of $f$ and applying it coordinate-wise.
 \end{proof}
@@ -3436,7 +3598,7 @@ d_{|\bA|!}(d_{|\bA|!}(x,y),y) = d_{|\bA|!}(x,y)
 \]
 for all $x,y \in \bA$.
 
-To compute $s_{|\bA|!}$ efficiently from $e$, first we compute $s_1$, and then for each choice of $a_2, ..., a_k \in \bA$ we find the induced unary polynomial $f_{a_2,...,a_k} : x_1 \mapsto s_1(x_1, a_2, ..., a_k)$. To finish, we note that for every unary function $f : \bA \rightarrow \bA$ we can compute $f^{\infty} \coloneqq \lim_{n \rightarrow \infty} f^{\circ n!}$ in time $O(|\bA|)$ using a clever algorithm which we leave as an exercise to the reader.
+To compute $s_{|\bA|!}$ efficiently from $e$, first we compute $s_1$, and then for each choice of $a_2, ..., a_k \in \bA$ we find the induced unary polynomial $f_{a_2,...,a_k} : x_1 \mapsto s_1(x_1, a_2, ..., a_k)$. To finish, we note that for every unary function $f : \bA \rightarrow \bA$ we can compute $f^{\infty} \coloneqq \lim_{n \rightarrow \infty} f^{\circ n!}$ in time $O(|\bA|)$ using a clever algorithm which we will go over later, but which the reader may enjoy trying to discover now as an exercise.
 \end{proof}
 
 Now we can use the binary term $d$ to define minority pairs and signatures.
@@ -3464,12 +3626,12 @@ We define the \emph{signature} of $R$, written $\Sig(R)$, to be the set of minor
 
 \begin{thm}[Subpowers with edge terms are generated by compact representations \cite{few-subpowers}]\label{edge-gen} If $\RR \le \bA_1 \times \cdots \times \bA_n$ and the $\bA_i$ are finite algebras in a variety with a $k$-edge term $e$, then for any compact representation $S$ of $\RR$, we have $\RR = \Sg_{e}(S)$.
 \end{thm}
-\begin{proof} Let $s,p,d$ be terms as in Theorem \ref{edge-spd}. We induct on $n$. Suppose $a = (a_1, ..., a_n) \in \RR$, then by the induction hypothesis there is $b_n \in \bA_n$ with $(a_1, ..., a_{n-1}, b_n) \in \Sg_e(S)$. Then if we let $d_n = d(b_n,a_n)$ then we see that $a_n,d_n$ is a minority pair and $(a_1, ..., a_n, d_n) \in \RR$, so $(n,a_n,d_n) \in \Sig(\RR)$, from the definition of a compact representation we see that there must be some $c_1, ..., c_{n-1}$ such that
+\begin{proof} Let $s,p,d$ be terms as in Theorem \ref{edge-spd}. We induct on $n$. Suppose $a = (a_1, ..., a_n) \in \RR$, then by the induction hypothesis there is $b_n \in \bA_n$ with $(a_1, ..., a_{n-1}, b_n) \in \Sg_e(S)$. Then if we let $d_n = d(b_n,a_n)$ then we see that $a_n,d_n$ is a minority pair and $(a_1, ..., a_n, d_n) \in \RR$, so $(n,a_n,d_n) \in \Sig(\RR)$, and from the definition of a compact representation we see that there must be some $c_1, ..., c_{n-1}$ such that
 \[
 (c_1, ..., c_{n-1}, a_n), (c_1, ..., c_{n-1}, d_n) \in S.
 \]
 
-We show by an inner induction on subsets $I \subseteq \{1, ..., n\}$ that for each $I$, we have $\pi_I(a) \in \pi_I(\Sg_e(S))$. If $|I| \le k-1$ this follows from the definition of a compact representation, while if $n \not\in I$ then this follows from the outer inductive hypothesis. For the sake of notation we will assume that $I = \{1, ..., n\}$. Then by the inductive hypothesis, there are $b_1, ..., b_{n-1}$ such that for each $i$, we have
+We show by an inner induction on subsets $I \subseteq \{1, ..., n\}$ that for each $I$, we have $\pi_I(a) \in \pi_I(\Sg_e(S))$. If $|I| \le k-1$ this follows from the definition of a compact representation, while if $n \not\in I$ then this follows from the outer inductive hypothesis. For the sake of notational simplicity we will assume that $I = \{1, ..., n\}$. Then by the inductive hypothesis, there are $b_1, ..., b_{n-1}$ such that for each $i$, we have
 \[
 (a_1, ..., a_{i-1}, b_i, a_{i+1}, ..., a_n) \in \Sg_e(S).
 \]
@@ -3989,7 +4151,7 @@ The main property of subdirect rectangular relations which we need - and which h
 \[
 \RR/\prod_i \theta_i \le_{sd} \bA_1/\theta_1 \times \cdots \times \bA_k/\theta_k
 \]
-instead of studying $\RR$. The reduced relation is critical iff the original $\RR$ is critical, is still rectangular, and has trivial linking congruences on each $\bA_i/\theta_i$, so it can be viewed as the graph of a surjective homomorphism
+instead of studying $\RR$. The reduced relation is critical if the original $\RR$ is critical, is still rectangular, and has trivial linking congruences on each $\bA_i/\theta_i$, so it can be viewed as the graph of a surjective homomorphism
 \[
 \pi_{[k]\setminus\{i\}}\Big(\RR/\prod_i \theta_i\Big) \twoheadrightarrow \bA_i/\theta_i
 \]
@@ -4651,6 +4813,9 @@ To rule out the second possibility, note that if $s^l <_{lex} s$ and $(s_j^l, s_
 \end{ex}
 
 
+\chapter{Absorption and Bounded Width}\label{chapter-bounded-width}
+
+
 \section{Fourth basic example: the Rock-Paper-Scissors algebra}\label{s-rps}
 
 We're going to start building intuition for the bounded width case with a detailed investigation of a fourth basic algebra on three elements, which is sometimes called the ``rock-paper-scissors'' algebra. This algebra is $\bA = (\{a,b,c\}, \cdot)$, where $\cdot$ is the binary, commutative, idempotent operation described by the following table.
@@ -4881,7 +5046,7 @@ Now suppose that $\bA$ is simple. Since $\bA$ is Mal'cev, every binary relation 
 Varieties which are both congruence distributive and congruence permutable are known as \emph{arithmetical} varieties. The name arithmetical comes from the theory of arithmetical rings, which are rings where the ``Chinese remainder condition'' holds: for any ideals $I_1, ..., I_n$ and elements $a_1, ..., a_n$ with $a_i \equiv a_j \pmod{I_i + I_j}$ for all $i,j$, there exists some $x$ with $x \equiv a_i \pmod{I_i}$ for all $i$.
 
 
-\section{Partial semilattice operations and the digraph of semilattice subalgebras}
+\section{Partial semilattice operations and the digraph of semilattice subalgebras}\label{s-partial-semi}
 
 In this section we will go over a binary analogue of a standard result about iterating unary functions to make (compositionally) idempotent functions, that is, functions satisfying $e \circ e = e$. First we review the case of unary iteration.
 
@@ -5020,7 +5185,7 @@ for any $m,n$.
 
 The full process, going from $t$ to $f = t^\infty$ to $u(x,y) = f(x,f(y,x))$ to $s = u^\infty$, is functorial, and the final function $s : A^2 \rightarrow A$ can be computed from $t$ in time linear in $|A|^2$. Since $s$ was defined from $t$ in a nontrivial way, we get the following result.
 
-\begin{prop} If $t$ is a binary idempotent term and $a,b$ are such that $t(a,b) = t(b,a) = b$, then the partial semilattice term $s \in \Clo(t)$ defined by the above process also satisfies $s(a,b) = s(b,a) = b$.
+\begin{prop}\label{prop-semilattice-iteration} If $t$ is a binary idempotent term and $a,b$ are such that $t(a,b) = t(b,a) = b$, then the partial semilattice term $s \in \Clo(t)$ defined by the above process also satisfies $s(a,b) = s(b,a) = b$.
 
 More generally, if $B,C$ are subsets of $\bA$ such that for any $x \in B\cup C$ and any $y \in C$ we have $t(x,y), t(y,x) \in C$, then the same holds for $s$.
 \end{prop}
@@ -6903,7 +7068,7 @@ Next we switch our focus to subdirect relations $\RR \le_{sd} \bA\times\bA$. In 
 
 In the context of digraphs, the case of a \emph{subdirect} relation $\RR \le_{sd} \bA \times \bA$ is actually rather special. The assumption $\pi_1(\RR) = \bA$ means that every vertex of the digraph $\fR$ has outdegree at least one, and the assumption $\pi_2(\RR) = \bA$ means that every vertex of $\RR$ has indegree at least one.
 
-\begin{defn} A digraph $\fD = (V,E)$ is called \emph{smooth} if every vertex of $\fD$ has indegree at least one and outdegree at least one. Note that this is equivalent to the relation $E \subseteq A\times A$ being subdirect.
+\begin{defn} A digraph $\fD = (V,E)$ is called \emph{smooth} if every vertex of $\fD$ has indegree at least one and outdegree at least one. Note that this is equivalent to the relation $E \subseteq V\times V$ being subdirect.
 \end{defn}
 
 If a digraph is not smooth, it is often desirable to find a smooth digraph within it. The natural thing to do is to simply prune all of the vertice with indegree $0$ or outdegree $0$. Unfortunately, after this pruning step we may find ourselves with more vertices that need to be pruned, and so on - possibly ending up with no vertices at all! For instance, this actually occurs if our initial digraph is a finite directed path. Additionally, it may not be clear that these pruning operations are compatible with the algebraic structures which we started with. Luckily, there is a standard way to describe the result of this pruning process via a primitive positive formula, as well as a simple criterion for when the pruned digraph will be nonempty.
@@ -6944,7 +7109,7 @@ As a warmup to the full loop lemma, we will first focus on the special case wher
 Since $\bB_{sm} \lhd \bA$, we have $\bS \lhd \RR$. Since $\bS$ is smooth, we can transfer the linkedness of $\RR$ to $\bS$ using Theorem \ref{absorbing-linked}, to see that $\bS$ must also be linked. By the inductive hypothesis applied to $\bB_{sm}$, we see that $\bS$ must contain a loop, and this loop will also be contained in $\RR$ since $\bS \le \RR$.
 \end{proof}
 
-To state the full loop lemma, we need another concept from digraph theory.
+To state the full loop lemma, we need another digraph concept.
 
 \begin{defn} The \emph{algebraic length} of a weakly connected digraph $\fD$ is the least common multiple of all integers $k$ such that there is a digraph homomorphism from $\fD$ to a directed cycle of length $k$.
 \end{defn}
@@ -7447,11 +7612,14 @@ In fact, Theorem \ref{lp-p1-p2} has a converse when we restrict our attention to
 
 \begin{thm} If $\fX$ is an instance of a CSP such that the associated hypergraph of variables and relations consists of a single cycle, then $\fX$ has properties (P1) and (P2) if and only if the basic linear relaxation of $\fX$ has a solution such that for each constraint $C$ of $\fX$, the support of the corresponding probability distribution $p_C$ is exactly equal to the relation corresponding to $C$.
 \end{thm}
-\begin{proof} Let $v_1, ..., v_n$ be the variables of $\fX$ which occur in two constraints, in the order in which they appear around the cycle, and let the constraints $C_1, ..., C_n$ be numbered such that $v_i$ and $v_{i+1}$ are variables of $C_i$ for each $i$.
+\begin{proof} Let $v_1, ..., v_n$ be the variables of $\fX$ which occur in two constraints, in the order in which they appear around the cycle, and let the constraints $C_1, ..., C_n$ be numbered such that $v_i$ and $v_{i+1}$ are variables of $C_i$ for each $i$ (here we interpret the subscripts $i, i+1$ modulo $n$, so $v_{n+1} = v_1$).
 
+Consider the following directed graph on the set of pairs $(i,a)$ where $i \in \ZZ/n\ZZ$ and $a \in \bA_{v_i}$: for every element $r$ of the relation corresponding to constraint $C_i$, we make a directed edge from $(i,\pi_{v_i}(r))$ to $(i+1,\pi_{v_{i+1}}(r))$. Then conditions (P1) and (P2) guarantee that every edge of this digraph is contained in a directed cycle. Choose some finite set of directed cycles $\mathcal{C}$ of this digraph which covers each edge at least once. Then for each constraint $C_i$, we let $p_{C_i}$ be the probability distribution defined by first choosing a cycle from $\mathcal{C}$ uniformly at random, and then choosing uniformly among the elements $r$ of the relation corresponding to the constraint $C_i$ such that the edge from $(i,\pi_{v_i}(r))$ to $(i+1,\pi_{v_{i+1}}(r))$ is contained in our chosen cycle.
+\begin{comment}
 Consider the following Markov chain on the set of pairs $(i,a)$ where $i \in [n]$ and $a \in \bA_{v_i}$: from a given pair $(i,a)$, we either stay where we are with probability $1/2$ (this is just to ensure that the Markov chain is aperiodic), or we pick a random element $r$ of the relation $\RR_i$ corresponding to constraint $C_i$ such that the $v_i$-coordinate of $r$ is $a$ (choosing uniformly from the set of such $r$), and move to the pair $(i+1,b)$, where $b \in \bA_{v_{i+1}}$ is the projection of $r$ onto the $v_{i+1}$-coordinate.
 
 The condition (P1) guarantees that there is always at least one choice $r$ available, and the condition (P2) guarantees that this Markov chain is recurrent. Since we ensured that the Markov chain is aperiodic, we can apply the Perron-Frobenius theorem (\cite{perron-matrix}, \cite{frobenius-matrix}) to see that following the Markov chain will tend towards a steady state distribution. If we start by picking uniformly among the pairs $(i,a)$ and follow the Markov chain from then on, then the limiting steady state distribution gives us a solution to the linear programming relaxation with the desired properties.
+\end{comment}
 \end{proof}
 
 The condition (P3) can be rephrased to look slightly more similar to the condition for $pq$-consistency.
@@ -7986,6 +8154,9 @@ In order to extend the previous result to an algorithm for \emph{robustly} solvi
 % TODO: Hastad's result (in a subsection here, or in an appendix)
 
 
+\chapter{Finite Taylor Algebras}\label{chapter-taylor}
+
+
 \section{Cyclic terms}
 
 In this section we will prove that every finite Taylor algebra has a cyclic term.
@@ -8180,7 +8351,7 @@ q(x,x,y) &\approx q(y,x,x) \approx p(x,y,x).
 
 \section{Minimal Taylor clones}
 
-Since our main aim in these notes is to understand the most general CSPs which can be solved in polynomial time, it makes sense to study (core) relational structures $\fA$ such that $\CSP(\fA)$ is in P, but such that adding any additionaly relations to $\fA$ makes the problem NP-complete. According to the CSP dichotomy theorem of Bulatov \cite{bulatov-dichotomy} and Zhuk \cite{zhuk-dichotomy}, these maximal relational structures correspond under the $\Inv-\Pol$ Galois correspondence to \emph{minimal} Taylor clones.
+Since our main aim in these notes is to understand the most general CSPs which can be solved in polynomial time, it makes sense to study (core) relational structures $\fA$ such that $\CSP(\fA)$ is in P, but such that adding any additional relations to $\fA$ makes the problem NP-complete. According to the CSP dichotomy theorem of Bulatov \cite{bulatov-dichotomy} and Zhuk \cite{zhuk-dichotomy}, these maximal relational structures correspond under the $\Inv-\Pol$ Galois correspondence to \emph{minimal} Taylor clones.
 
 \begin{defn} A clone $\cO$ on a finite domain is called a \emph{minimal Taylor clone} if $\cO$ is Taylor and every proper subclone of $\cO$ is not Taylor. A finite algebra $\bA$ is called a \emph{minimal Taylor algebra} if $\Clo(\bA)$ is a minimal Taylor clone.
 \end{defn}
@@ -8514,6 +8685,11 @@ The following conjecture, if true, would wrap everything up quite neatly.
 \item there are proper ternary absorbing subalgebras $\bC, \bD \lhd_Z \bA$ such that $a \in \bC, b\in \bD$, $\bC \cup \bD = \bA$, and $\bC \cap \bD \ne \emptyset$.
 \end{itemize}
 \end{conj}
+
+Embarassingly, we don't know the answer to the following basic question.
+
+\begin{prob} Is there any minimal Taylor algebra which is simple, is generated by two elements, has size at least $3$, and is not affine?
+\end{prob}
 
 %TODO: examples? Here or in the next section?
 
@@ -8975,7 +9151,7 @@ Domain size & \# up to term equiv. & \# up to term equiv. and iso. \\
 
 \appendix
 
-\section{Commutator theory in congruence modular varieties}\label{a-commutator}
+\chapter{Commutator theory in congruence modular varieties}\label{a-commutator}
 
 Before diving into commutator theory, we'll review of some of the theory of modular lattices. The theory really begins with the observation that in any module, the lattice of submodules is always \emph{ranked} (so long as there are no infinite chains of submodules). In fact, not only is this lattice ranked, but also every (finite) \emph{sublattice} of the lattice of submodules is ranked as well. So it is natural to study lattices which have this property.
 
@@ -9121,7 +9297,7 @@ In particular, one can test whether a given $3$-variable lattice identity is a c
 A corresponding result for $4$ generators does not exist: the free modular lattice on $4$ generators is infinite. To see this, note that if you start with four generic points on the projective plane and repeatedly generate new points and lines, the resulting set of points and lines you obtain is infinite. Determining whether a $4$-variable lattice identity follows from the modular law is undecidable in general \cite{free-modular-undecidable}.
 
 
-\subsection{The Shifting Lemma and the Day terms}\label{s-shifting}
+\section{The Shifting Lemma and the Day terms}\label{s-shifting}
 
 We will follow Freese and McKenzie \cite{commutator-theory}, with some arguments taken from Gumm \cite{gumm-geometric} and some from \cite{commutator-notes}. The starting point for proving things in congruence modular varieties is the Shifting Lemma (this is the main place in the theory where the modular law is actually used).
 
@@ -9251,7 +9427,7 @@ The next corollary gives us a large class of examples of congruence modular vari
 So suppose that $(a,a) \equiv_{\alpha\times\gamma} (b,c) \in \Lambda$. Then $(b,c) \in \alpha \circ \gamma = \alpha$, so $(b,c) \in \alpha \cap \Lambda \subseteq \gamma$, and this implies that $(a,b) \in \gamma \circ \gamma = \gamma$. Thus $(a,a) \equiv_{\gamma\times\gamma} (b,c)$ as well, and we are done.
 \end{proof}
 
-To finish this subsection, we will prove one of Gumm's ``geometric'' results on congruence modular varieties, which generalizes the result used to prove associativity of the loop operation in the case of abelian Mal'cev algebras.
+To finish this section, we will prove one of Gumm's ``geometric'' results on congruence modular varieties, which generalizes the result used to prove associativity of the loop operation in the case of abelian Mal'cev algebras.
 
 \begin{lem}[The Cube Lemma \cite{gumm-geometric}]\label{mod-cube-lemma} Suppose every subalgebra of $\bA^2$ satisfies the Shifting Lemma. If $\alpha, \beta, \gamma \in \Con(\bA)$ with $\gamma \ge \alpha \wedge \beta$, and if $a,b,c,d,a',b',c',d' \in \bA$ with $(a,b),(c,d),(a',b'),(c',d') \in \alpha$, $(a,d),(b,c),(a',d'),(b',c') \in \beta$, and $(a,a'),(b,b'),(c,c') \in \gamma$, then $(d,d') \in \gamma$.
 \begin{center}
@@ -9285,7 +9461,7 @@ Thus, from $((b,c),(b',c')) \in \gamma \times \gamma|_\beta$, $((a,d),(a',d')) \
 \end{proof}
 
 
-\subsection{The modular commutator}
+\section{The modular commutator}
 
 First we go over a slick proof of the main properties of the commutator, using the Day terms to construct an explicit set of generators $X(\alpha,\beta)$ for the congruence $[\alpha,\beta]$ - however, as the approach feels somewhat ad-hoc, we will also prove these properties via a different approach based on the Shifting Lemma applied to congruences (as in the proof of the Cube Lemma). The definition of $X(\alpha,\beta)$ is based on the algebra of matrices $\bM(\alpha,\beta)$ used to visualize the term condition (Definition \ref{commutator-matrix}) and Lemma \ref{day-congruence}.
 
@@ -9523,9 +9699,9 @@ Suppose that $\begin{bmatrix} a & b\\ c & d\end{bmatrix}, \begin{bmatrix} c & d\
 \end{proof}
 
 
-\subsection{The Gumm difference term}
+\section{The Gumm difference term}
 
-In this subsection we prove that congruence modular varieties have a ternary term $p$, called a \emph{Gumm difference term}, which acts like a Mal'cev operation on all abelian algebras. This will imply that abelian algebras in congruence modular varieties are affine.
+In this section we prove that congruence modular varieties have a ternary term $p$, called a \emph{Gumm difference term}, which acts like a Mal'cev operation on all abelian algebras. This will imply that abelian algebras in congruence modular varieties are affine.
 
 \begin{thm}[Gumm difference term]\label{gumm-difference} For any variety with Day terms $m_0, ..., m_n$, there is a ternary term $p$ satisfying the following two properties:
 \begin{itemize}
@@ -9709,7 +9885,10 @@ p_{n+1}(x,y,y) = p_n(x,p_n(x,y,y),p_n(x,y,y))\ [[\theta]^{2^n}]^{2^n}\ x.\qedher
 %and $[[\theta]^{2^n}]^{2^n} = [\theta]^{2^{n+1}}$.
 \end{proof}
 
-The last result of this subsection is useful for understanding the center of an algebra in terms of the difference term.
+\begin{cor} Any solvable algebra in a congruence modular variety is Mal'cev.
+\end{cor}
+
+The last result of this section is useful for understanding the center of an algebra in terms of the difference term.
 
 \begin{thm}\label{difference-commutator} Suppose $p$ is a Gumm difference term for a congruence modular variety and $\alpha \ge \beta$. Then $\Delta_\beta^\alpha$ is given by
 \[
@@ -9751,7 +9930,7 @@ Using this, it's possible to show that if $\bA$ has center $\zeta$, then we can 
 As a consequence of the decomposition of an algebra via its center, nilpotent algebras in congruence modular varieties turn out to be very well-behaved (e.g. they are always Mal'cev and they have regular congruences), and after selecting an element to serve as the identity, one can define an associated nilpotent loop. See Chapter 7 of Freese and McKenzie \cite{commutator-theory} for details.
 
 
-\subsection{(Directed) J\'onsson and Gumm terms}
+\section{(Directed) J\'onsson and Gumm terms}
 
 First we give J\'onsson's \cite{jonsson-distributive} characterization of congruence distributive varieties.
 
@@ -10099,9 +10278,9 @@ and finally we set $p(x,y,z) = p_{2^{k+1}-1}(x,y,z)$.
 %TODO: make pictures of associated 1-IN-3 SAT instances
 
 
-\subsection{Subdirectly irreducible algebras, ultraproducts, and residually small varieties}\label{s-subdirectly-irred}
+\section{Subdirectly irreducible algebras, ultraproducts, and residually small varieties}\label{s-subdirectly-irred}
 
-In this subsection, we go over the proof of an extension of J\'onsson's Lemma \cite{jonsson-distributive}, which shows that subdirectly irreducible algebras in a finitely generated congruence distributive variety have bounded size, to the congruence modular case. The key technical tool is the concept of an ultraproduct, and the fact that any ultrapower of a finite algebra $\bA$ is isomorphic to $\bA$.
+In this section, we go over the proof of an extension of J\'onsson's Lemma \cite{jonsson-distributive}, which shows that subdirectly irreducible algebras in a finitely generated congruence distributive variety have bounded size, to the congruence modular case. The key technical tool is the concept of an ultraproduct, and the fact that any ultrapower of a finite algebra $\bA$ is isomorphic to $\bA$.
 
 Before we discuss ultraproducts, we first review some basic results about subdirect representations of algebras due to Birkhoff \cite{birkhoff-subdirect}. The following result is elementary.
 
@@ -10142,7 +10321,7 @@ Every congruence lattice $\Con(\bA)$ is an algebraic lattice, since for any $a,b
 \begin{cor}\label{meet-irreducible} If $\alpha < \beta$ in an algebraic lattice, then there is a meet-irreducible $\gamma$ such that $\gamma \ge \alpha$ but $\gamma \not\ge \beta$.
 \end{cor}
 
-Now we can briefly discuss ultrafilters and ultraproducts before moving on to the main result of this subsection.
+Now we can briefly discuss ultrafilters and ultraproducts before moving on to the main result of this section.
 
 \begin{defn} If $I$ is a set, then a collection of subsets $\cU \subseteq \cP(I)$ is a \emph{filter} if $\cU$ does not contain $\emptyset$, $U,V \in \cU \implies U\cap V \in \cU$, and $U \subseteq V, U \in \cU \implies V \in \cU$. We say that $\cU$ is an \emph{ultrafilter} if additionally for every $U \subseteq I$, one of $U, I\setminus U$ is in $\cU$.
 \end{defn}
@@ -10496,7 +10675,7 @@ For the other direction, note that for any $\bB \in HS(\bA)$, the Sylow subgroup
 Note that if $\bC$ centralizes $0^*$, then $0^* \le Z(\bC)$. By Proposition \ref{sylow-abelian}, we have $Z(\bC) \wedge [\bC,\bC] = 0$, so $0^* \wedge [\bC,\bC] = 0$, which implies that $[\bC,\bC] = 0$.
 \end{proof}
 
-\subsubsection{Similarity}\label{ss-similarity}
+\subsection{Similarity}\label{ss-similarity}
 
 Even if a finitely generated congruence modular variety is not residually small, we can still classify its subdirectly irreducible algebras by using the concept of \emph{similarity} from Freese and McKenzie \cite{commutator-theory}. We will use a different definition of similarity than their definition, but which they prove to be equivalent.
 
@@ -10747,6 +10926,737 @@ The relation $\delta \le (Q_8 \times \ZZ/2)^2$ is then given by
 \]
 This relation closely resembles an affine relation over $\ZZ/2$.
 \end{ex}
+
+
+%\section{More general commutator theory}\label{a-gen}
+%TODO
+
+
+%\section{Rosenberg's Completeness Theorem}\label{a-maximal}
+%TODO
+
+
+\chapter{Tame Congruence Theory}\label{a-tct}
+
+Tame congruence theory was introduced by Hobby and McKenzie \cite{hobby-mckenzie} in order to answer questions about congruence lattices of finite algebras. Since every congruence contains the diagonal, every congruence is automatically invariant under the \emph{polynomial} clone of our algebra, and in fact the congruence lattice of an algebra is completely determined by the collection of \emph{unary} polynomials of the algebra.
+
+\begin{prop} An equivalence relation $\theta$ on an algebra $\bA$ is a congruence of $\bA$ iff $\theta$ is preserved by every unary polynomial operation of $\bA$.
+\end{prop}
+
+So tame congruence theory is really about the how the identities satisfied in a (usually locally finite) variety affect the behavior of unary polynomials, and how this in turn affects the behavior of congruences. Because of the important role of polynomial operations in tame congruence theory, we will use $\Pol_n(\bA)$ to represent the set of $n$-ary polynomial operations of $\bA$ throughout this appendix (hopefully this doesn't cause any confusion with the notation for the polymorphism clone of a relational structure).
+
+The material in this appendix is mostly taken from Hobby and McKenzie's wonderful book \cite{hobby-mckenzie} (some of it is my solutions to various exercises from their book).
+
+
+\section{Shrinking algebras with unary polynomials, minimal sets, and traces}
+
+As soon as you have a unary operation $\varphi$ on a finite set, the natural thing to do with it is to iterate it until we get the compositionally idempotent operation
+\[
+\varphi^{\infty} \coloneqq \lim_{n\rightarrow \infty} \varphi^{\circ n!}.
+\]
+This gives us a large collection of (compositionally) idempotent unary polynomial operations on any finite algebra. For unary operations, I will drop the qualifier ``compositionally'' on ``idempotent'', since idempotent unary operations in the usual sense are not very interesting.
+
+\begin{defn} For any algebra $\bA$, we define $E(\bA)$ to be the set of unary polynomials $e \in \Pol_1(\bA)$ such that $e \circ e = e$. Elements of $E(\bA)$ might be called the \emph{idempotents} or \emph{projections} of $\bA$.
+\end{defn}
+
+Recall from Section \ref{s-partial-semi} that for any idempotent $e \in E(\bA)$, the clone of restrictions to $e(\bA)$ of polynomial operations of $\bA$ which preserve $e(\bA)$ is essentially the same as the clone of operations of the form
+\[
+(x_1, ..., x_n) \mapsto e(f(e(x_1), ..., e(x_n))),
+\]
+for $f \in \Pol_n(\bA)$ (strictly speaking, the $e$s on the inside are not really necessary, they are only there to stop us from caring about how $f$ behaves outside the set $e(\bA)$). This gives us a rich enough source of polynomial operations which preserve $e(\bA)$ to make it worth studying the restricted clone and introducing notation for it.
+
+\begin{defn} If $\bA$ is an algebra and $U \subseteq \bA$, then we define the restriction $\Pol(\bA)|_U$ to be the set of restrictions $f|_U$ of polynomial operations $f \in \Pol(\bA)$ which preserve the subset $U$, and we define the \emph{induced algebra} $\bA|_U$ to be $(U, \Pol(\bA)|_U)$ (up to polynomial equivalence).
+\end{defn}
+
+Restrictions are related to the congruence lattice using the following result.
+
+\begin{lem}[P\'alfy and Pudl\'ak \cite{palfy-pudlak}, \cite{hobby-mckenzie}] For any idempotent $e \in E(\bA)$, if we set $U = e(\bA)$, then the map taking the congruence $\theta \in \Con(\bA)$ to $e(\theta) = \theta|_U$ defines a surjective lattice homomorphism:
+\[
+\theta \mapsto \theta|_U : \Con(\bA) \twoheadrightarrow \Con(\bA|_U).
+\]
+More generally, if $N \subseteq U$, then:
+\begin{itemize}
+\item $\bA|_N = (\bA|_U)|_N$,
+\item if $N$ is a union of $\theta|_U$ congruence classes, then the map $\alpha \mapsto \alpha|_N$ defines a lattice homomorphism from the interval $\llbracket 0_\bA, \theta \rrbracket$ of $\Con(\bA)$ to the interval $\llbracket 0_N, \theta|_N \rrbracket$ of $\Con(\bA|_N)$, and
+\item if $N$ is equal to a congruence class of $\theta|_U$, then the map $\alpha \mapsto \alpha|_N$ is a surjective lattice homomorphism $\llbracket 0_\bA, \theta \rrbracket \twoheadrightarrow \Con(\bA|_N)$.
+\end{itemize}
+\end{lem}
+\begin{proof} (Following \cite{hobby-mckenzie}) First, we will prove the statements about the map $\theta \mapsto \theta|_U$. For any $\alpha \in \Con(\bA|_U)$, we define the equivalence relation $\hat{\alpha}$ on $\bA$ by
+\[
+\hat{\alpha} \coloneqq \{(x,y) \mid \forall f \in \Pol_1(\bA), (e(f(x)), e(f(y))) \in \alpha\}.
+\]
+Then for any $\alpha \in \Con(\bA|_U)$ and $\theta \in \Con(\bA)$ we have $\hat{\alpha} \in \Con(\bA)$, $\hat{\alpha}|_U = \alpha$, and
+\[
+\theta|_U \le \alpha \; \iff \; \theta \le \hat{\alpha}.
+\]
+Since restriction obviously preserves meets of congruences, we just need to check that it preserves joins. For this, let $\alpha = \theta_1|_U \vee \theta_2|_U$, and note that
+\[
+\theta_i|_U \le \alpha \implies \theta_i \le \hat{\alpha} \implies \theta_1 \vee \theta_2 \le \hat{\alpha} \implies (\theta_1\vee\theta_2)|_U \le \alpha,
+\]
+while the inequality $\alpha \le (\theta_1\vee\theta_2)|_U$ is obvious.
+
+To see that $\bA|_N = (\bA|_U)|_N$, note that if $f \in \Pol(\bA)$ preserves $N$, then $e\circ f$ preserves $U$ and $(e \circ f)|_N = f|_N$. Since we have $\alpha|_N = (\alpha|_U)|_N$ for $\alpha \in \Con(\bA)$, to prove the remaining claims we just need to think about the restriction map $\llbracket 0_U, \theta|_U \rrbracket \rightarrow \llbracket 0_N, \theta|_N \rrbracket$.
+
+If $N$ is a union of congruence classes of $\theta|_U$, then for any $\theta_1, \theta_2 \le \theta|_U$ neither $\theta_i$ connects any element inside $N$ to any element outside $N$, so $(\theta_1 \vee \theta_2)|_N = \theta_1|_N \vee \theta_2|_N$. Thus the map $\llbracket 0_U, \theta|_U \rrbracket \rightarrow \llbracket 0_N, \theta|_N \rrbracket$ is a lattice homomorphism.
+
+To finish, we need to show that if $N$ is a congruence class of $\theta|_U$ then this map is surjective. For this, we extend a congruence $\alpha \in \Con(\bA|_N)$ to a congruence on $\bA|_U$ by
+\[
+\check{\alpha} \coloneqq \{(x,y) \mid \forall f \in \Pol_1(\bA|_U), f(x) \in N\text{ or }f(y)\in N \implies (f(x),f(y)) \in \alpha\}.
+\]
+Since every $f \in \Pol_1(\bA|_U)$ preserves $\theta|_U$, if $f(x) \in N$ for any $x \in N$ then $f$ must preserve $N$, so we have $\check{\alpha}|_N = \alpha$.
+\end{proof}
+
+In order to get any use out of this to study an interval $\llbracket \alpha, \beta \rrbracket$ of the congruence lattice, we need to find idempotents $e$ such that $e(\alpha) \ne e(\beta)$, or equivalently such that $e(\beta) \not\subseteq \alpha$.
+
+\begin{defn} If $\alpha < \beta \in \Con(\bA)$, then we define $U_\bA(\alpha, \beta)$ to be the collection of sets of the form $f(\bA)$ for $f \in \Pol_1(\bA)$ such that $f(\beta) \not\subseteq \alpha$. We define $M_\bA(\alpha, \beta)$ to be the collection of minimal sets in $U_\bA(\alpha, \beta)$, and we call the sets in $M_\bA(\alpha, \beta)$ the $(\alpha, \beta)$-\emph{minimal sets} of $\bA$.
+\end{defn}
+
+\begin{prop} If $\beta$ is a cover of $\alpha$ in $\Con(\bA)$ and $\bA$ is finite, then for each $(\alpha,\beta)$-minimal set $U \in M_\bA(\alpha,\beta)$, there is some $e \in E(\bA)$ such that $U = e(\bA)$.
+\end{prop}
+\begin{proof} Pick any $g \in \Pol_1(\bA)$ such that $g(\bA) = U$ and $g(\beta) \not\subseteq \alpha$. Then since $\beta$ covers $\alpha$ and $g(\beta) \subseteq \beta$, the congruence generated by $g(\beta) \cup \alpha$ must be $\beta$. Thus for any $(x,y) \in \beta$, there must be some $h_i \in \Pol_1(\bA)$ and $(u_i,v_i) \in g(\beta) \cup \alpha$ such that $x = h_1(u_1)$, $h_i(v_i) = h_{i+1}(u_{i+1})$, and $h_n(v_n) = y$ for some $n$. Then if we choose $(x,y) \in \beta$ such that $(g(x),g(y)) \not\in \alpha$, we see that there must be some $i$ such that $(g(h_i(u_i)), g(h_i(v_i))) \not\in \alpha$, and for this $i$ we must have $(u_i,v_i) \in g(\beta)$. Setting $f = g\circ h_i$, we see that $f(g(\beta)) \not\in \alpha$ and $f(g(\bA)) \subseteq U$. Since $U$ is $(\alpha,\beta)$-minimal, we must have $f(g(\bA)) = U$, so $f(U) = U$. Iterating $f$ gives us $e = f^{\infty} \in E(\bA)$ with $e(\bA) = U$.
+\end{proof}
+
+We will also want to prove similar results for certain other pairs of congruences $\alpha < \beta$. Precisely stating what we are going for requires a bit more work.
+
+\begin{defn} A $0,1$-\emph{lattice} is defined to be a lattice with constants $0$ and $1$ which satisfy $0 \le x \le 1$ for all $x$. Note that every interval $\llbracket \alpha, \beta \rrbracket$ in a lattice can be regarded as a $0,1$-lattice, with $0$ interpreted as $\alpha$ and $1$ interpreted as $\beta$.
+
+A $0,1$-\emph{separating homomorphism} is a lattice homomorphism such that $f^{-1}(f(0)) = \{0\}$ and $f^{-1}(f(1)) = 1$.
+\end{defn}
+
+\begin{defn} A \emph{congruence quotient} is defined to be an ordered pair of congruences $(\alpha,\beta)$ such that $\alpha < \beta$. A congruence quotient $(\alpha,\beta)$ is called \emph{prime} if $\beta$ covers $\alpha$.
+
+A congruence quotient $(\alpha,\beta)$ is called \emph{tame} if there is some $U \in M_\bA(\alpha,\beta)$ and some $e \in E(\bA)$ such that $e(\bA) = U$, and such that the restriction homomorphism
+\[
+\llbracket \alpha, \beta \rrbracket \twoheadrightarrow \llbracket \alpha|_U, \beta|_U \rrbracket
+\]
+is a $0,1$-separating homomorphism, that is, for $\alpha \le \gamma \le \beta$ we have $\gamma|_U = \alpha|_U \implies \gamma = \alpha$ and $\gamma|_U = \beta|_U \implies \gamma = \beta$. An algebra $\bA$ is called \emph{tame} if $(0_\bA,1_\bA)$ is tame.
+\end{defn}
+
+So far we have shown that every prime quotient on a finite algebra is tame. There is a more general lattice theoretic condition that implies tameness, but first we should try to see what being tame is good for. The first important result is that all of the minimal sets for a tame quotient look the same as each other.
+
+\begin{defn} If $U,V \subseteq \bA$, then we say that $U,V$ are \emph{polynomially isomorphic} in $\bA$ if there are unary polynomials $f,g \in \Pol_1(\bA)$ such that
+\[
+f(U) = V, \; g(V) = U, \; g\circ f|_U = \operatorname{id}_U, \; f\circ g|_V = \operatorname{id}_V.
+\]
+In this case we write $f : U \simeq V$.
+\end{defn}
+
+\begin{prop} If $f : U \simeq V$ in $\bA$, then $f|_U$ defines an isomorphism from $\bA|_U$ to $\bA|_V$ (up to polynomial equivalence). Furthermore, for any $\theta \in \Con(\bA)$ we have $f|_U(\theta|_U) = \theta|_V$.
+\end{prop}
+
+\begin{prop} If $U,V \subseteq \bA$ and $\bA$ is finite, then $U \simeq V$ iff there are $f, g \in \Pol_1(\bA)$ such that $f(U) = V$ and $g(V) = U$. If additionally we have $f(\bA) = V$, then there is some idempotent $e \in E(\bA)$ such that $e(\bA) = U$.
+\end{prop}
+\begin{proof} Take $g' = (g \circ f)^{\infty - 1}\circ g$ and $e = g' \circ f = (g \circ f)^{\infty}$, so $e \in E(\bA)$. Then $g'(V) = U$, $g'\circ f|_U = \operatorname{id}_U$, $f\circ g'|_V = \operatorname{id}_V$, and if $f(\bA) = V$ then $e(\bA) = g'(f(\bA)) = g'(V) = U$.
+\end{proof}
+
+\begin{thm}[Minimal sets for tame quotients \cite{hobby-mckenzie}]\label{thm-minimal-sets} If $(\alpha,\beta)$ is a tame congruence quotient on a finite algebra $\bA$, then all of the following are true.
+\begin{itemize}
+\item[(a)] For all $U,V \in M_\bA(\alpha,\beta)$, we have $U \simeq V$ in $\bA$.
+
+\item[(b)] For all $U \in M_\bA(\alpha,\beta)$, there is some $e \in E(\bA)$ such that $e(\bA) = U$, and the restriction homomorphism $\llbracket \alpha, \beta \rrbracket \twoheadrightarrow \llbracket \alpha|_U, \beta|_U \rrbracket$ is a $0,1$-separating homomorphism.
+
+\item[(c)] For all $U \in M_\bA(\alpha, \beta)$ and $(x,y) \in \beta\setminus\alpha$, there is some $f \in \Pol_1(\bA)$ such that $f(\bA) = U$ and $(f(x),f(y)) \not\in \alpha$.
+
+\item[(d)] For all $U \in M_\bA(\alpha, \beta)$, $\beta$ is the transitive closure of $\alpha \cup \bigcup_{g \in Pol_1(\bA)} g(\beta|_U)$.
+
+\item[(e)] For all $U \in M_\bA(\alpha, \beta)$ and $f \in \Pol_1(\bA)$ such that $f(\beta|_U) \not\subseteq \alpha$, we have $f(U) \in M_\bA(\alpha, \beta)$ and $f : U \simeq f(U)$.
+
+\item[(f)] For any $f \in \Pol_1(\bA)$ such that $f(\beta) \not\subseteq \alpha$, there is some $U \in M_\bA(\alpha,\beta)$ such that $f : U \simeq f(U)$.
+
+\item[(g)] For any $(x,y) \in \beta\setminus\alpha$, there is some $U \in M_\bA(\alpha, \beta)$ and $e \in E(\bA)$ such that $e(\bA) = U$ and $(e(x), e(y)) \not\in \alpha$.
+\end{itemize}
+\end{thm}
+\begin{proof} (Following \cite{hobby-mckenzie}) By the definition of tameness, there is \emph{some} $U \in M_\bA(\alpha, \beta)$ that satisfies (b). We will first show that (c) and (d) hold for this $U$, and then use this to prove (a), which will imply that (b) is true in general. Then we will use these to prove (e), (f), and (g).
+
+Suppose that (b) holds for $U$. To prove (c), let $\gamma \in \llbracket \alpha, \beta \rrbracket$ be the congruence generated by $\alpha$ and $(x,y)$. Then since $\gamma \ne \alpha$ we must have $\gamma|_U \ne \alpha|_U$ (since restriction is $0,1$-separating). Since $\gamma|_U = e(\gamma)$, this means that $\gamma \not\subseteq e^{-1}(\alpha)$, so there must be some $g \in \Pol_1(\bA)$ such that $(g(x), g(y)) \not\in e^{-1}(\alpha)$. Taking $f = e\circ g$ proves (c).
+
+To see that (b) implies (d), let $\gamma \in \llbracket \alpha, \beta \rrbracket$ be the transitive closure of $\alpha \cup \bigcup_{g \in Pol_1(\bA)} g(\beta|_U)$. Then $\gamma|_U = \beta|_U$, so we must have $\gamma = \beta$ (since restriction is $0,1$-separating).
+
+Now suppose that $U,V \in M_\bA(\alpha, \beta)$ and that $V$ satisfies (b), (c), (d). Since $U \in M_\bA(\alpha,\beta)$, there must be some $h \in \Pol_1(\bA)$ and $(x,y) \in h(\beta) \setminus \alpha$ with $h(\bA) = U$, so by (c) applied to $V$ there is some $f \in \Pol_1(\bA)$ such that $f(\bA) = V$ and $(f(x), f(y)) \not\in \alpha$. Then from $f(h(\bA)) \subseteq V$ and $f(h(\beta)) \not\subseteq \alpha$ we have $f(h(\bA)) = V$ by $(\alpha,\beta)$-minimality of $V$, so $f(U) = V$. Next, by (d) applied to $V$ we see that there must be some $g \in \Pol_1(\bA)$ such that $g(\beta|_V) \not\subseteq h^{-1}(\alpha)$. Then if $e \in E(\bA)$ has $e(\bA) = V$, we see that $h(g(e(\beta))) \not\subseteq \alpha$ and $h(g(e(\bA))) \subseteq U$, so since $U$ is $(\alpha,\beta)$-minimal we see that $h(g(V)) = U$. Now we can apply the previous proposition to see that $f : U \simeq V$ and that $U$ satisfies (b) as well.
+
+To prove (e), we use (b) to see that there is some $e \in E(\bA)$ with $e(\bA) = U$, and note that $f(e(\beta)) = f(\beta|_U) \not\subseteq \alpha$, so $f(U) = f(e(\bA))$ must contain some minimal $V \in M_\bA(\alpha,\beta)$. By (a) we see that $|V| = |U|$, so we must in fact have $f(U) = V$ and $f : U \simeq V$.
+
+To prove (f), we apply (d) to any $V \in M_\bA(\alpha, \beta)$ to see that there is some $g \in \Pol_1(\bA)$ such that $g(\beta|_V) \not\subseteq f^{-1}(\alpha)$. Then by applying (e) twice we see that we can take $U = g(V)$.
+
+To prove (g), we apply (c) to any $V \in M_\bA(\alpha, \beta)$ to see that there is some $f \in \Pol_1(\bA)$ such that $f(\bA) = V$ and $(f(x), f(y)) \not\in \alpha$. By (f), there is some $U \in M_\bA(\alpha, \beta)$ such that $f : U \simeq f(U)$, and since $f(U) \subseteq f(\bA) = V$, we must have $f(U) = V$ by $(\alpha,\beta)$-minimality. Thus there is some $g \in \Pol_1(\bA)$ such that $g\circ f|_U = \operatorname{id}_U$, and we can take $e = g \circ f$.
+\end{proof}
+
+\begin{cor} If $(\alpha,\beta)$ is a tame congruence quotient on a finite algebra $\bA$ and $U \in M_\bA(\alpha,\beta)$, then every unary polynomial $f$ of $\bA|_U$ is either a permutation of $U$ or has $f(\beta|_U) \subseteq \alpha|_U$.
+\end{cor}
+
+If we restrict to a congruence class of $\beta|_U$, we get an even stronger result.
+
+\begin{defn} If $(\alpha,\beta)$ is a tame congruence quotient on $\bA$ and $U \in M_\bA(\alpha,\beta)$, then a set $N \subseteq U$ is called an $(\alpha,\beta)$-\emph{trace} in $U$ if $N$ is a congruence class of $\beta|_U$ which is not also a congruence class of $\alpha|_U$.
+
+We define the \emph{body} of the $(\alpha,\beta)$-minimal set $U$ to be the union of the $(\alpha,\beta)$-traces, and we define the \emph{tail} of $U$ to be the set of congruence classes of $\beta|_U$ which are also congruence classes of $\alpha|_U$.
+\end{defn}
+
+Since $\beta|_U \not\subseteq \alpha|_U$ by the definition of an $(\alpha,\beta)$-minimal set, we see that every $(\alpha,\beta)$-minimal set $U$ has a nonempty body, i.e. there is at least one $(\alpha,\beta)$-trace $N$ in $U$.
+
+\begin{cor}\label{cor-trace-permutational} If $(\alpha,\beta)$ is a tame congruence quotient on a finite algebra $\bA$ and $N$ is an $(\alpha,\beta)$-trace, then every unary polynomial $f$ of $\bA|_N$ is either a permutation, or has $f(N)$ contained in some congruence class of $\alpha|_N$. In particular, every unary polynomial of $\bA|_N/\alpha|_N$ is either a permutation or is constant.
+\end{cor}
+
+\begin{defn} We say that an algebra is \emph{permutational} or \emph{minimal} if every unary polynomial is either a permutation or is constant.
+
+More generally, if $(\alpha,\beta)$ is a congruence quotient on $\bA$, we say that $\bA$ is $(\alpha,\beta)$-\emph{minimal} if every unary polynomial $f$ of $\bA$ is either a permutation or has $f(\beta) \subseteq \alpha$. Note that in this case, $(\alpha,\beta)$ is necessarily tame.
+\end{defn}
+
+The general strategy will be to understand an algebra by first understanding the structure of the traces, and then reconstructing the algebra from the traces. When we apply unary polynomials of $\bA$ to $(\alpha,\beta)$-traces, the result will often also be an $(\alpha,\beta)$-trace.
+
+\begin{cor}\label{cor-trace-iso} If $(\alpha,\beta)$ is a tame congruence quotient on a finite algebra $\bA$ and $N$ is an $(\alpha,\beta)$-trace, then for every unary polynomial $f$ of $\bA$ either $f(N)$ is contained in some congruence class of $\alpha$, or $f(N)$ is another $(\alpha,\beta)$-trace and $f : N \simeq f(N)$.
+\end{cor}
+\begin{proof} This follows directly from Theorem \ref{thm-minimal-sets}(e).
+\end{proof}
+
+For the purpose of stitching together the traces to reconstruct the algebra, we have another consequence of Theorem \ref{thm-minimal-sets}.
+
+\begin{cor}\label{cor-trace-closure} If $(\alpha,\beta)$ is a tame congruence quotient on a finite algebra $\bA$, then $\beta$ is the transitive closure of
+\[
+\alpha \cup \{N^2 \mid N \text{ is an }(\alpha,\beta)\text{-trace}\}.
+\]
+\end{cor}
+\begin{proof} This follows from Theorem \ref{thm-minimal-sets}(d) and the previous corollary, once we note that for each $(\alpha,\beta)$-minimal set $U$, every congruence class of $\beta|_U$ is either a congruence class of $\alpha|_U$ or is an $(\alpha,\beta)$-trace.
+\end{proof}
+
+Tameness can also be derived from some of its consequences.
+
+\begin{prop} If $\alpha < \beta \in \Con(\bA)$ and there is some finite $(\alpha,\beta)$-minimal set $U$ which satisfies Theorem \ref{thm-minimal-sets}(c) and \ref{thm-minimal-sets}(d), then $(\alpha,\beta)$ is tame.
+\end{prop}
+\begin{proof} If we make a digraph on $(x,y) \in \beta|_U\setminus\alpha|_U$ with an edge from $(x,y)$ to $(u,v)$ whenever there is some $f \in \Pol_1(\bA)$ with $f(\bA) = U$ and $f(x) = u, f(y) = v$, then Theorem \ref{thm-minimal-sets}(c) for $U$ implies that every vertex in this digraph has outdegree at least one, so there must be a directed cycle. By composing the unary polymorphisms corresponding to the edges of this directed cycle, we find an $f \in \Pol_1(\bA)$ such that $f(\bA) \subseteq U$ and $f(x) = x, f(y) = y$ for some $(x,y) \in \beta|_U\setminus\alpha|_U$. Taking $e = f^\infty$, we see that $e \in E(\bA)$ with $e(\bA) \subseteq U$ and $e(\beta) \not\subseteq \alpha$. Finally, Theorem \ref{thm-minimal-sets}(c) and \ref{thm-minimal-sets}(d) for $U$ directly imply that the restriction homomorphism $\llbracket \alpha, \beta \rrbracket \twoheadrightarrow \llbracket \alpha|_U, \beta|_U \rrbracket$ is $0,1$-separating.
+\end{proof}
+
+Many of the previous results simplify if $\alpha = 0_\bA$. To relate the general case to that situation, we need to know how tameness behaves when we pass to a quotient.
+
+\begin{prop}\label{prop-tame-quotient} If $\delta \le \alpha < \beta$ are congruences on a finite algebra $\bA$, then $(\alpha,\beta)$ is tame on $\bA$ iff $(\alpha/\delta, \beta/\delta)$ is tame on $\bA/\delta$. If $(\alpha,\beta)$ is tame, then we have
+\[
+M_{\bA/\delta}(\alpha/\delta,\beta/\delta) = \{U/\delta \mid U \in M_\bA(\alpha,\beta)\}.
+\]
+In particular, the $(\alpha/\delta,\beta/\delta)$-traces are exactly the quotients of the $(\alpha,\beta)$-traces by $\delta$.
+\end{prop}
+\begin{proof} (Following \cite{hobby-mckenzie}) For any unary polynomial $f \in \Pol_1(\bA)$, we have $f(\beta) \subseteq \alpha$ iff $f(\beta/\delta) \subseteq \alpha/\delta$ in $\bA/\delta$, and for any $\gamma, \gamma' \in \llbracket \alpha, \beta \rrbracket$ we have $\gamma = \gamma' \iff \gamma/\delta = \gamma'/\delta$ and similarly for restrictions. The challenge is showing that the minimal sets correspond.% Additionally, any idemotent $e \in E(\bA/\delta)$ lifts to an idempotent $e' \in E(\bA)$ with $e'/\delta = e$, by picking an arbitrary lift and iterating it.
+
+First we show that if $U \in M_\bA(\alpha,\beta)$ and there is an $e \in E(\bA)$ with $e(\bA) = U$, then $U/\delta \in M_{\bA/\delta}(\alpha/\delta,\beta/\delta)$. To see this, suppose that some $f \in \Pol_1(\bA)$ has $f(\beta) \not\subseteq \alpha$ and $f(\bA/\delta) \subseteq U/\delta$. Then $e(f(\bA)) \subseteq U$ and $e(f(\beta)) \not\subseteq \alpha$, so $e(f(\bA)) = U$, so $f(\bA/\delta) = U/\delta$. This shows that if $(\alpha,\beta)$ is tame then $(\alpha/\delta, \beta/\delta)$ is tame.
+
+Now suppose $(\alpha/\delta, \beta/\delta)$ is tame, and let $U$ be any $(\alpha,\beta)$-minimal set. Pick $f \in \Pol_1(\bA)$ with $f(\bA) = U$ and $f(\beta) \subseteq \alpha$. By Theorem \ref{thm-minimal-sets}(f) we see that there is some $V \in M_{\bA/\delta}(\alpha/\delta, \beta/\delta)$ such that $f : V \simeq f(V)$. Pick $g \in \Pol_1(\bA)$ such that $g : f(V) \rightarrow V$ inverts $f : V \rightarrow f(V)$, then by iterating $f\circ g$ we get an idempotent $e \in E(\bA)$ with $e(f(V)) = f(V)$. Thus $e(\beta) \not\subseteq \alpha$, and from $e(\bA) \subseteq f(\bA) = U$ we get $e(\bA) = U$. Then by the previous paragraph we see that $U/\delta$ is $(\alpha/\delta,\beta/\delta)$-minimal, which allows us to conclude that the restriction homomorphism $\llbracket \alpha, \beta \rrbracket \twoheadrightarrow \llbracket \alpha|_U, \beta|_U \rrbracket$ is $0,1$-separating.
+
+To finish, we need to show that any $V \in M_{\bA/\delta}(\alpha/\delta,\beta/\delta)$ is a quotient of an $(\alpha,\beta)$-minimal set when $(\alpha,\beta)$ is tame. Pick any $U \in M_\bA(\alpha,\beta)$, then since $U/\delta$ is $(\alpha/\delta,\beta/\delta)$-minimal we can apply Theorem \ref{thm-minimal-sets}(a) to see that there is an $f \in \Pol_1(\bA)$ with $f : U/\delta \simeq V$. Then $f(\beta) \not\subseteq \alpha$, so by Theorem \ref{thm-minimal-sets}(e) we have $f(U) \in M_\bA(\alpha,\beta)$, and $V = f(U)/\delta$.
+\end{proof}
+
+\begin{comment}
+% This doesn't appear to actually be true... can we find a counterexample?
+\begin{prop} If $(\alpha,\beta)$ is a tame congruence quotient on a finite algebra $\bA$, and if $C$ is a congruence class of $\beta$ which is not also a congruence class of $\alpha$, then $\bA|_C/\alpha|_C$ is a tame algebra.
+\end{prop}
+\begin{proof} By Corollary \ref{cor-trace-closure}, there is some $(\alpha,\beta)$-trace $N$ of some $(\alpha,\beta)$-minimal set $U$ such that $N \subseteq C$. By Theorem \ref{thm-minimal-sets}(b), there is some idempotent $e \in E(\bA)$ such that $e(\bA) = U$. Since $e$ preserves $\beta$ and $e(N) = N \subseteq C$, we must have $e(C) \subseteq C$, so $e \in E(\bA|_C)$. We will prove that $N = U \cap C$ is an $(\alpha|_C,1_C)$-minimal set of $\bA|_C$, and that the restriction homomorphism $\llbracket \alpha|_C, 1_C \rrbracket \twoheadrightarrow \llbracket \alpha|_N, 1_N \rrbracket$ is $0,1$-separating - this will allow us to apply the previous proposition.
+
+If $f(C) \subseteq N$ for some $f \in \Pol_1(\bA|_C)$ such that $f(C)$ is not contained in any congruence class of $\alpha$, then by Corollary \ref{cor-trace-iso} we have $f : N \simeq f(N)$, so in fact $f(N) = N$. This proves that $N$ is an $(\alpha|_C,1_C)$-minimal set of $\bA|_C$.
+
+Now suppose that $(x,y) \in C^2 \setminus \alpha|_C$. Then by Theorem \ref{thm-minimal-sets}
+\end{proof}
+\end{comment}
+
+\begin{prop} If $\alpha \le \gamma < \beta$ and $(\alpha,\beta), (\gamma,\beta)$ are both tame quotients on a finite algebra $\bA$, then $M_\bA(\alpha,\beta) = M_\bA(\gamma,\beta)$.
+\end{prop}
+\begin{proof} If $U \in M_\bA(\alpha,\beta)$, then $\beta|_U \not\subseteq \gamma|_U$ since the restriction map is $0,1$-separating (by Theorem \ref{thm-minimal-sets}(b)). If $f(\bA) \subseteq U$ and $f(\beta) \not\subseteq \gamma$, then we have $f(\beta) \not\subseteq \alpha$, so $f(\bA) = U$ by $(\alpha,\beta)$-minimality, so $U \in M_\bA(\gamma,\beta)$. Conversely, if $V \in M_\bA(\gamma,\beta)$, then by Theorem \ref{thm-minimal-sets}(a) we have $V \simeq U$ for some $U \in M_\bA(\alpha,\beta)$, so $V \in M_\bA(\alpha,\beta)$ by Theorem \ref{thm-minimal-sets}(e).
+\end{proof}
+
+Recall that two intervals are perspective, written $\llbracket \alpha, \beta \rrbracket \searrow \llbracket \gamma, \delta \rrbracket$, if $\alpha \wedge \delta = \gamma$ and $\alpha \vee \delta = \beta$.
+
+\begin{prop} If $\llbracket \alpha, \beta \rrbracket \searrow \llbracket \gamma, \delta \rrbracket$ in $\Con(\bA)$, then $M_\bA(\alpha,\beta) = M_\bA(\gamma,\delta)$ and $M_\bA(\gamma,\beta) \subseteq M_\bA(\gamma,\alpha) \cup M_\bA(\gamma, \delta)$.
+\end{prop}
+\begin{proof} For any $f \in \Pol_1(\bA)$, we have $f(\beta) = f(\alpha \vee \delta) \subseteq \alpha$ iff $f(\alpha) \cup f(\delta) \subseteq \alpha$ iff $f(\delta) \subseteq \alpha$ iff $f(\delta) \subseteq \alpha \cap \delta = \gamma$, so $M_\bA(\alpha,\beta) = M_\bA(\gamma,\delta)$. Similarly, we have $f(\beta) \subseteq \gamma$ iff $f(\beta) \subseteq \alpha$ and $f(\beta) \subseteq \delta$, so $M_\bA(\gamma,\beta) \subseteq M_\bA(\alpha,\beta) \cup M_\bA(\delta,\beta) = M_\bA(\gamma,\alpha) \cup M_\bA(\gamma, \delta)$.
+\end{proof}
+
+\begin{cor} If $\alpha,\beta$ are congruences on a finite algebra and the interval $\llbracket \alpha, \beta \rrbracket$ is isomorphic to the diamond lattice $\cM_n$ for some $n \ge 3$, then $(\alpha, \beta)$ is tame and every congruence quotient contained in $\llbracket \alpha, \beta \rrbracket$ has the same collection of minimal sets.
+\end{cor}
+
+\begin{prop} If $(\alpha,\beta)$ is a tame congruence quotient on a finite algebra $\bA$ and $U$ is an $(\alpha,\beta)$-minimal set, then for an $\gamma' < \delta' \in \llbracket \alpha|_U ,\beta|_U \rrbracket$, there are lifts $\gamma < \delta \in \llbracket \alpha, \beta \rrbracket$ such that $\gamma|_U = \gamma', \delta|_U = \delta'$, with $(\gamma,\delta)$ a tame quotient. For any such $\gamma, \delta$ we have $M_\bA(\gamma,\delta) = M_\bA(\alpha,\beta)$.
+\end{prop}
+\begin{proof} Since any unary polynomial which collapses $\beta$ into $\alpha$ necessarily collapses $\delta$ into $\gamma$ for any $\gamma,\delta \in \llbracket \alpha, \beta \rrbracket$, we see that $U$ is $(\gamma,\delta)$-minimal for any $\gamma < \delta$ which restrict to $\gamma', \delta'$, so we just need to ensure that the restriction homomorphism from $\llbracket \gamma, \delta \rrbracket$ is $0,1$-separating. Since restriction to $U$ is a lattice homomorphism, we can take $\gamma$ to be maximal among congruences which restrict to $\gamma'$ and are $\le \beta$, and take $\delta$ to be minimal among congruences which restrict to $\delta'$ and are $\ge \gamma$. By Theorem \ref{thm-minimal-sets}(a) and \ref{thm-minimal-sets}(e) every $(\gamma,\delta)$-minimal set $V$ has $U \simeq V$ and so is also $(\alpha,\beta)$-minimal, and similarly every $(\alpha,\beta)$-minimal set is $(\gamma,\delta)$-minimal.
+\end{proof}
+
+Some basic examples to keep in mind follow.
+
+\begin{ex} If $\bA$ is a finite lattice and $\alpha < \beta \in \Con(\bA)$, then the $(\alpha,\beta)$-minimal sets all have the form $\{a,b\}$ with $a < b$ and $(a,b) \in \beta\setminus \alpha$, and any pair $\{a,b\}$ which satisfies those conditions and additionally has $b$ covering $a$ is an $(\alpha,\beta)$-minimal set. Each such set with $b$ covering $a$ is the image of the idempotent unary polynomial $x \mapsto (x \wedge b) \vee a$, however, in order for the restriction homomorphism to be $0,1$-separating, $\beta$ must be a cover of $\alpha$. Thus the tame congruence quotients of $\bA$ are exactly the same as the prime quotients. Additionally, every $(\alpha,\beta)$-minimal set consists of just a single $(\alpha,\beta)$-trace (i.e., the minimal sets have no tails), and every trace is the image of some pair $\{a,b\}$ with $b$ covering $a$ under some unary polynomial of $\bA$, and is polynomially equivalent to a two element lattice.
+\end{ex}
+
+\begin{ex} If $\bA$ is a finite module over a ring $\RR$ (which we may assume acts faithfully on $\bA$ without loss of generality) and $\alpha < \beta \in \Con(\bA)$, then we can represent the congruences $\alpha,\beta$ by the submodules $\bM_\alpha = 0/\alpha$, $\bM_\beta = 0/\beta$ of $\bA$. Every unary polynomial $f$ of $\bA$ has the form $f : x \mapsto rx + c$, and we have $f(\beta) \subseteq \alpha$ iff $r\bM_\beta \subseteq \bM_\alpha$. The set of $r \in \RR$ such that $r \bM_\beta \subseteq \bM_\alpha$ is called the \emph{annihilator} of $\bM_\beta/\bM_\alpha$, and forms a (two-sided) ideal $\bI$ of $\RR$. Then $\bM_\beta/\bM_\alpha$ is a module over $\RR/\bI$, and $\RR/\bI$ acts faithfully on $\bM_\beta/\bM_\alpha$.
+
+We will show that $(\alpha,\beta)$ is a tame congruence quotient if and only if $\bI$ is maximal among two-sided ideals of $\RR$, that is, iff $\RR/\bI$ is a simple ring. By the classification of finite simple rings, this is equivalent to proving that $\RR/\bI$ is isomorphic to a matrix ring $M_n(\bF_{p^k})$ over a finite field $\bF_{p^k}$ for some $n$ and some prime power $p^k$. Additionally, we will show that $\bM_\beta/\bM_\alpha$ is one of the modules $\bF_{p^k}^{n\times m}$ for some $m$, with the action of $\RR/\bI$ on $\bM_\beta/\bM_\alpha$ given by matrix multiplication. To prove this, it is simpler to think only about the module $\bM_\beta/\bM_\alpha$ - note that $\bM_\beta/\bM_\alpha$ is a tame algebra, with $(e\bA\cap \bM_\beta)/\bM_\alpha = e\bM_\beta/\bM_\alpha$ as a $(0,1)$-minimal set, for any $e \in \RR$ such that $e^2 = e$ and $e\bA$ is an $(\alpha,\beta)$-minimal set.
+\end{ex}
+
+\begin{prop}. Suppose that $\bM$ is a finite module over a finite ring $\RR$ which acts faithfully on $\bM$, and suppose that $\bM$ is a tame algebra. Then $\RR$ is isomorphic to a matrix ring $M_n(\bF_{p^k})$ over a finite field $\bF_{p^k}$ for some $n$ and some prime power $p^k$, and $\bM$ is $\bF_{p^k}^{n\times m}$ for some $m$.
+\end{prop}
+\begin{proof}
+By Corollary \ref{cor-trace-permutational}, every $(0_\bM,1_\bM)$-trace $N$ has $\bM|_N$ a permutational algebra. If $N = e\bM$ for some $e \in E(\bA)$, the restriction $\Pol(\bM)|_N$ consists of the linear functions with coefficients in the ring $e\RR e$, so we see that every nonzero element of the ring $e\RR e$ is invertible, that is, $e\RR e$ is a division ring. Since every finite division ring is a field by Wedderburn's little theorem, we have $e \RR e \cong \bF_{p^k}$ for some finite field $\bF_{p^k}$ (note, the rest of the argument still works over a division ring rather than a field).
+
+We claim that we can pick $e_1, ..., e_n \in \RR$ idempotent such that $\sum_i e_i = 1$, $e_ie_j = e_je_i = 0$ for $i \ne j$, and each $e_i\bM$ is $(0_\bM,1_\bM)$-minimal. Suppose that $e_1, ..., e_n$ is a maximal collection of idempotents such that $e_ie_j = e_je_i = 0$ for $i \ne j$ and each $e_i\bM$ is $(0_\bM,1_\bM)$-minimal, and let $f = 1 - \sum_i e_i$ (that such a maximal set exists and is finite follows from the fact that $e_i\bM \cap e_j\bM = \emptyset$ for $i \ne j$, since $e_ie_j = 0$). Then we have $f^2 = f$, and if $f \ne 0$ then there must be some $(0_\bM,1_\bM)$-minimal set $U \subseteq f\bM$. If $e' \in E(\bM)$ has $e'\bM = U$, then we set $e_{n+1} = e'f$, and note that we have $e_{n+1}\bM = e'\bM = U$, and $e_{n+1}e_i = e_ie_{n+1} = 0$ for each $i \le n$, contradicting the maximalilty of the collection $e_1, ..., e_n$. Therefore we must have $f = 0$, that is, $\sum_i e_i = 1$. Note that every element $x \in \bM$ has a unique decomposition
+\[
+x = \sum_i e_ix_i,
+\]
+so as a group, $\bM$ is the direct sum of the $e_i\bM$s.
+
+By Theorem \ref{thm-minimal-sets}(a), for each pair $i,j \le n$ we have $e_i\bM \simeq e_j\bM$. Pick $f_i : e_1\bM \simeq e_i\bM$ for each $i$, and pick inverses $g_i : e_i\bM \simeq e_1\bM$ to each $f_i$ (with $f_1 = g_1 = e_1$ for $i = 1$). Then for any $i,j$, define the matrix element $e_{ij}$ by
+\[
+e_{ij} = f_ig_je_j,
+\]
+and note that each $e_{ij}$ is an isomorphism $e_{ij} : e_j\bM \simeq e_i\bM$, with $e_ie_{ij} = e_{ij}$ and $e_{ij}e_j = e_{ij}$, with $e_{ij}e_{ji} = e_{ii} = e_i$, with $e_{ij}e_{jk} = e_{ik}$, and $e_{ij}e_{kl} = 0$ for $j \ne k$.
+For each $r_1 \in e_1\RR e_1$ we can additionally define the corresponding scalar $r \in \RR$ by
+\[
+r_1 \in e_1\RR e_1 \mapsto r = \sum_i e_{i1}r_1e_{1i},
+\]
+and we identify the set of such scalars $r$ with $\bF_{p^k}$, noting that $re_{ij} = e_{ij}r$ for all $r \in \bF_{p^k}$ and $i,j \le n$, and that the multiplication in $\bF_{p^k}$ is the same as the multiplication in $e_1\RR e_1$. We claim that every element $m \in \RR$ can be written uniquely in the form
+\[
+m = \sum_{i,j} r_{i,j}e_{ij}
+\]
+for some $r_{i,j} \in \bF_{p^k}$. To prove this, note that since $\sum_i e_i = 1$, we have
+\[
+m = \sum_{i,j} e_ime_j,
+\]
+and each $e_ime_j$ defines a map $e_j\bM \rightarrow e_i\bM$. If we define the element $r_{i,j} \in \bF_{p^k}$ by
+\[
+r_{i,j} \coloneqq \sum_k e_{ki}me_{jk},
+\]
+then we have
+\[
+r_{i,j}e_{ij} = \sum_k e_{ki}me_{jk}e_{ij} = e_{ii}me_{ji}e_{ij} = e_ime_j,
+\]
+so $m = \sum_{i,j} r_{i,j}e_{ij}$. For the uniqueness, note that $\sum_{i,j} r_{i,j}e_{ij} = 0$ implies that each $r_{i,j}e_{ij} = 0$, and if $r_{i,j} \ne 0$ then $r_{i,j}$ is invertible, since $\bF_{p^k}$ is a field. Thus we have an explicit isomorphism $M_n(\bF_{p^k}) \cong \RR$. Finally, $e_1\bM$ is a vector space of some dimension $m$ over $\bF_{p^k}$, and since $\bM$ is the direct sum of $n$ copies of $e_1\bM$ as a vector space over $\bF_{p^k}$ we have $\bM \cong \bF_{p^k}^{n\times m}$, with the action of $\RR$ on $\bM$ corresponding to matrix multiplication.
+\end{proof}
+
+For the sake of completeness, we include Witt's proof of Wedderburn's little theorem here.
+
+\begin{thm}[Wedderburn's little theorem]\label{thm-wedderburn-little} If $\RR$ is a finite division ring, then $\RR$ is a field.
+\end{thm}
+\begin{proof} (Following Witt \cite{witt-wedderburn-little}) Let $\RR^\times$ be the group of nonzero elements of $\RR$, and let $Z(\RR^\times)$ be the center of the group $\RR^\times$. Then $\bF = Z(\RR) = Z(\RR^\times) \cup \{0\}$ is a finite field, of some prime power order $q = p^k$. Since $\RR$ is an $\bF$-algebra, $\RR$ is in particular a vector space over $\bF$ of some dimension $n$, so $|\RR| = q^n$ and $|\RR^\times| = q^n-1$.
+
+We consider the conjugation action of $\RR^\times$ on itself: if $x \in \RR \setminus \bF$, then the centralizer $C_\RR(x) = \{r \in \RR \mid rx = xr\}$ is a proper $\bF$-subalgebra of $\RR$, so $|C_\RR(x)| = q^k$ for some $k < n$, and since $\RR$ can be thought of as a module over the division ring $C_\RR(x)$, we have $k \mid n$. Then the conjugacy class of $x$ in $\RR^\times$ has size $\frac{q^n-1}{q^k-1}$, so we have
+\[
+q^n-1 = |\RR^\times| = |Z(\RR^\times)| + \sum_{\text{conj. classes of }\RR\setminus\bF} \frac{q^n-1}{q^{k_i}-1} = q-1 + \sum_{\text{conj. classes of }\RR\setminus\bF} \frac{q^n-1}{q^{k_i}-1}.
+\]
+If we let $\Phi_n(x)$ be the $n$th cyclotomic polynomial, then we have $\Phi_n(q) \mid \frac{q^n-1}{q^{k_i}-1}$ for each conjugacy class, so $q-1$ must be a multiple of $\Phi_n(q)$. However, $|\Phi_n(q)|$ is the product of $|q-\zeta|$ over various $n$th roots of unity $\zeta$, so $|\Phi_n(q)| > q-1$ for $n > 1$, a contradiction.
+\end{proof}
+
+
+%\subsubsection{Tight intervals are tame}
+%TODO
+
+
+\section{P\'alfy's classification of finite permutational algebras: the five types}
+
+In the last section we proved that if $(\alpha,\beta)$ is a tame congruence quotient of a finite algebra $\bA$, then for every $(\alpha,\beta)$-trace $N$ the restriction $\bA|_N$ is permutational, i.e. every unary polynomial of $\bA|_N$ is either a constant or a permutation. In \cite{palfy-permutational}, P\'alfy gave a complete classification of the finite permutational algebras (up to polynomial equivalence), which was one of the key ingredients needed for tame congruence theory.
+
+The classification splits into two very different cases: algebras of size $2$, and algebras of size $\ge 3$. Since every unary operation on a set of size $2$ is either constant or is a permutation, the classification of permutational algebras on a set of size $2$ is the same as the classification of \emph{all} algebras on a set of size $2$, up to polynomial equivalence. There turn out to be exactly $7$ of these. On the other hand, the number of polynomial clones on any set of size $\ge 3$ is uncountable \cite{uncountable-polynomial-clones} - but as we will see, the permutational algebras on a set of size $\ge 3$ are all either unary or affine algebras, so they end up being much simpler than general algebras.
+
+We start by giving some definitions in order to rule out the least interesting case - the case of unary operations only.
+
+\begin{defn} An operation $f$ of arity $n$ \emph{depends on} its $i$th input if there is some tuple $a_1, ..., a_n$ and some $b_i$ such that
+\[
+f(a_1, ..., a_n) \ne f(a_1, ..., a_{i-1}, b_i, a_{i+1}, ..., a_n).
+\]
+An operation $f$ is \emph{essentially unary} if it only depends on one of its inputs - equivalently, $f$ is essentially unary if it can be written as the composition of a projection $\pi_i$ and a unary operation.
+\end{defn}
+
+If $f$ does not depend on its $i$th input, then we can express $f$ in terms of the function we get by replacing its $i$th input by some other input, such as its first input. So there is no need to ever think too deeply about functions which do not depend on all their inputs. In order to gain a foothold, it is helpful to start by considering the case of a binary operation which depends on all of its inputs - for this, we will replace one of the inputs of a higher arity polynomial with some constant to get a lower arity polynomial which also depends on all its inputs.
+
+The next result is much stronger than what we will need: all we really need is the fact that if $f$ depends on at least two of its inputs, then there is a way to plug in constants for some subset of the inputs to $f$ to get a polynomial in two variables that depends on both of its inputs.
+
+\begin{prop}[Salomaa \cite{salomaa-essential}]\label{prop-depend-inputs} If a polynomial $f$ of arity $n$ depends on all of its inputs, then it is possible to substitute a constant for one of its inputs to get a polynomial of arity $n-1$ which also depends on all of its inputs.
+
+In fact, if $n \ge 2$, then it is possible to find at least two different inputs to $f$ where constants can be substituted to get polynomials depending on all $n-1$ of their inputs.
+\end{prop}
+\begin{proof} Following \cite{hobby-mckenzie}, we write $f[a,i]$ for the polynomial we get by substituting $a$ for the $i$th input of $f$. Suppose that for some $a$ and $i,j,k$, $f[a,i]$ does not depend on the $j$th input but does depend on the $k$th input. Then for \emph{every} $b$ we see that $f[b,j]$ depends on the $k$th input, by considering the case where we plug in $a$ in the $i$th input and $b$ in the $j$th input. Additionally, since $f$ depends on all its inputs there must be some $a'$ such that $f[a',i]$ depends on its $j$th input, so there must be some $b$ such that $f[b,j]$ depends on the $i$th coordinate (consider plugging in a tuple with an $a'$ in the $i$th input such that varying the $j$th input changes the value, and note that if we change $a'$ to $a$ in the $i$th position then varying the $j$th input no longer changes the value of $f$). Thus if $f[a,i]$ does not depend on its $j$th input, then there is some $b$ such that $f[b,j]$ depends on a strictly larger subset of its inputs than $f[a,i]$ does, which proves the first claim.
+
+For the second claim, note that for each $i \le n$ and each $j \ne i$, there is some $a$ such that $f[a,j]$ depends on the $i$th input, as long as $f$ depends on its $i$th input. Then if we choose a pair $a,j$ such that $j\ne i$, $f[a,j]$ depends on the $i$th input, and $f[a,j]$ depends on as many inputs as possible subject to the previous constraints, then the argument of the previous paragraph shows that $f[a,j]$ must depend on all of its inputs.
+\end{proof}
+
+\begin{lem}\label{lem-permutational-quasigroup} Suppose that $f \in \Pol_2(\bA)$ is a binary polynomial of a finite permutational algebra $\bA$ which depends on both of its inputs, and suppose that $|\bA| \ge 3$. Then $f$ is a quasigroup operation, that is, every unary polynomial of the form $f(a,\cdot)$ or $f(\cdot, b)$ is a permutation.
+\end{lem}
+\begin{proof} Suppose for the sake of contradiction that $f$ depends on both of its inputs, but that there is some $a$ such that $f(a,\cdot)$ is constant, with $f(a,y) = e$ for all $y \in \bA$. Since $f$ depends on its second coordinate, there must be some $a' \ne a$ such that $f(a',\cdot)$ is a permutation, which implies that there is some $b \in \bA$ such that $f(a',b) = e$. Then since $f(a,b) = e = f(a',b)$, we must have $f(x,b) = e$ for all $x \in \bA$ as well.
+
+For any $a' \ne a$, if $f(a',\cdot)$ is constant, then since $f(a',b) = e$, we must have $f(a',y) = e$ for all $x \in \bA$, and then for each $y$ from $f(a',y) = e = f(a,y)$ we conclude that $f(x,y) = e$ for all $x$, so $f$ is constant. This contradicts the assumption that $f$ depends on its inputs, so for all $a' \ne a$ the unary polynomial $f(a', \cdot)$ must be a permutation.%, and similarly for each $b' \ne b$ the unary polynomial $f(\cdot, b')$ must be a permutation.
+
+So far we have not used the fact that $|\bA| \ge 3$, and we have not fully exploited the fact that $\bA$ is finite and permutational. For this, we iterate $f$ on its second argument: define $f^1 = f$, and for each $n$ define $f^{n+1}(x,y)$ by
+\[
+f^{n+1}(x,y) = f(x,f^n(x,y)),
+\]
+and take $f^\infty(x,y) = \lim_{n \rightarrow \infty} f^{n!}(x,y)$, so
+\[
+f^\infty(x,y) = f^\infty(x,f^\infty(x,y)).
+\]
+Then $f^\infty(a,\cdot)$ is constant, while for $a' \ne a$ we have $f^\infty(a',y) = y$ for all $y \in \bA$ since each $f(a',\cdot)$ is a permutation. But then for any distinct $a',a'' \ne a$, we have $f^\infty(a',y) = y = f^\infty(a'',y)$, so $f^\infty(\cdot,y)$ must be constant for all $y$, and in particular $f^\infty(a,y) = y$ for all $y$, which contradicts the fact that $f^\infty(a,\cdot)$ is constant.
+\end{proof}
+
+\begin{cor}\label{cor-permutational-malcev} Suppose $\bA$ is a finite permutational algebra with $|\bA| \ge 3$, and suppose that some operation of $\bA$ is not essentially unary. Then $\bA$ has a Mal'cev polynomial $p(x,y,z)$.
+\end{cor}
+\begin{proof} This follows from the previous lemma and Proposition \ref{prop-quasigroup-malcev}.
+\end{proof}
+
+\begin{cor}\label{cor-permutational-depend} Suppose $\bA$ is a finite permutational algebra with $|\bA| \ge 3$, and suppose $f \in \Pol_n(\bA)$ has $f(a_1, ..., a_n) = f(a_1, ..., a_{i-1}, b_i, a_{i+1}, ..., a_n)$ for some $a_1, ..., a_n$ and some $b_i \ne a_i$. Then $f$ does not depend on its $i$th coordinate.
+\end{cor}
+\begin{proof} We will show that for any $j \ne i$, any $a'_j$, and any $b'_i$, we have
+\[
+f(a_1, ..., a_{j-1}, a'_j, a_{j+1}, ..., a_n) = f(a_1, ..., a_{i-1}, b'_i, a_{i+1}, ..., a_{j-1}, a'_j, a_{j+1}, ..., a_n).
+\]
+For this, we define a two-variable polynomial from $f$ by substituting the $k$th input of $f$ with $a_k$ for all $k \ne i,j$, and apply the previous lemma to this two variable polynomial to see that it can't depend on its $i$th input. Applying this repeatedly, we can mutate the tuple $a_1, ..., a_n$ into any tuple $a'_1, ..., a'_n$, so $f$ does not depend on its $i$th coordinate.
+\end{proof}
+
+\begin{lem}\label{lem-permutational-zero} Suppose $\bA$ is a finite permutational algebra with $|\bA| \ge 3$, $f,g \in \Pol_n(\bA)$, and suppose that for some $0 \in \bA$ we have $f(x_1, ..., x_n) = g(x_1, ..., x_n)$ for all $x_1, ..., x_n \in \bA$ such that all but one $x_i$ is $0$. Then $f = g$.
+\end{lem}
+\begin{proof} If every operation of $\bA$ is essentially unary, then this is obvious. Otherwise, let $p \in \Pol_3(\bA)$ be the Mal'cev operation from Corollary \ref{cor-permutational-malcev}. Then the polynomial
+\[
+h(x_1, ..., x_n) = p(f(x_1, ..., x_n), g(x_1, ..., x_n), 0)
+\]
+is $0$ whenever $f(x_1, ..., x_n) = g(x_1, ..., x_n)$, and since any Mal'cev operation must depend on its second input, we can apply Corollary \ref{cor-permutational-depend} to $p(x,y,z)$ to see that $h(x_1, ..., x_n) = 0$ if and only if $f(x_1, ..., x_n) = g(x_1, ..., x_n)$. For any input $i$, since we have
+\[
+h(0, ..., 0, x_i, 0, ..., 0) = 0
+\]
+for all $x_i$, we can apply Corollary \ref{cor-permutational-depend} to see that $h$ does not depend on any of its inputs, so $h$ must be constantly $0$, which implies that $f = g$.
+\end{proof}
+
+\begin{thm}[P\'alfy \cite{palfy-permutational}]\label{thm-permutational-big} Suppose $\bA$ is a finite permutational algebra with $|\bA| \ge 3$, and suppose that some operation of $\bA$ is not essentially unary. Then $\bA$ is affine, and in fact $\bA$ is polynomially equivalent to a vector space over a finite field.
+\end{thm}
+\begin{proof} Let $p(x,y,z) \in \Pol_3(\bA)$ be the Mal'cev operation from Corollary \ref{cor-permutational-malcev}, pick an element to call $0$ in $\bA$, and define a binary polynomial $+ \in \Pol_2(\bA)$ by
+\[
+x + y = p(x,0,y).
+\]
+Then since $p$ is Mal'cev, we have $0 + x = x = x + 0$ for all $x$, so by Lemma \ref{lem-permutational-zero} we have $x+y = y+x$ for all $x,y$. Similarly, from
+\[
+0+(0+x) = x = (0+0)+x, \;\; 0 + (x + 0) = x = (0 + x) + 0, \;\; x + (0 + 0) = x = (x + 0) + 0,
+\]
+we can apply Lemma \ref{lem-permutational-zero} to conclude that $x + (y + z) = (x + y) + z$ for all $x,y,z$. Since $x+0 = x = 0+x$ for all $x$, $+$ depends on both of its arguments, so by Lemma \ref{lem-permutational-quasigroup}, we see that every element $x \in \bA$ has an inverse $-x$ such that $x + (-x) = 0$. Thus $+$ defines an abelian group structure on $\bA$ with identity element $0$.
+
+For any $f \in \Pol_1(\bA)$, if $f(0) = c$, then we can define $r \in \Pol_1(\bA)$ by $r(x) = f(x) - c$, so that $r(0) = 0$. We will show that any such $r$ distributes over addition: since
+\[
+r(x+0) = r(x) = r(x) + r(0), \;\; r(0+y) = r(y) = r(0) + r(y),
+\]
+we can apply Lemma \ref{lem-permutational-zero} to conclude that $r(x+y) = r(x) + r(y)$ for all $x,y$. Thus every unary polynomial $f \in \Pol_1(\bA)$ can be written in the form $f(x) = r(x) + c$, where $r$ distributes over addition and takes $0$ to $0$. Letting $\bF$ be the ring of $r \in \Pol_1(\bA)$ such that $r(0) = 0$, we see that every nonzero element of $\bF$ is invertible, so $\bF$ is a finite division ring, and therefore $\bF$ is a finite field by Wedderburn's little theorem \ref{thm-wedderburn-little}.
+
+Now suppose $f \in \Pol_n(\bA)$ is any $n$-ary polynomial. Then if we define unary polynomials $r_i$ by
+\[
+r_i(x_i) = f(0, ..., 0, x_i, 0, ..., 0) - f(0, ..., 0),
+\]
+then each $r_i$ has $r_i(0) = 0$, so $r_i \in \bF$ for all $i$. If we define $g \in \Pol_n(\bA)$ by
+\[
+g(x_1, ..., x_n) = r_1(x_1) + \cdots + r_n(x_n) + f(0, ..., 0),
+\]
+then we can apply Lemma \ref{lem-permutational-zero} to see that $f = g$, so every operation of $\bA$ is linear over the finite field $\bF$.
+\end{proof}
+
+To complete the classification, we just need to classify the polynomial clones on the two-element set $\{0,1\}$. We use $\neg$ to denote the unary negation operation on $\{0,1\}$, $\oplus$ to denote xor, and of course $\wedge, \vee$ to denote and and or.
+
+\begin{prop} If $\bA$ has underlying set $\{0,1\}$, then $\bA$ is polynomially complete iff $\neg, \wedge \in \Pol(\bA)$. Additionally, we have $\oplus \in \Pol(\bA) \implies \neg \in \Pol(\bA)$.
+\end{prop}
+
+\begin{lem}\label{lem-permutational-monotone} If $\bA$ has underlying set $\{0,1\}$ and if there is some $f \in \Pol(\bA)$ which is not monotone, then the unary negation $\neg$ is a polynomial of $\bA$.
+\end{lem}
+\begin{proof} If $f$ is not monotone, then there is some tuple $a_1, ..., a_n \in \{0,1\}$ and some $i$ such that
+\[
+f(a_1, ..., a_{i-1}, 0, a_{i+1}, ..., a_n) > f(a_1, ..., a_{i-1}, 1, a_{i+1}, ..., a_n).
+\]
+Then the left hand side of the displayed inequality must be $1$ and the right hand side must be $0$, so we have
+\[
+\neg(x) = f(a_1, ..., a_{i-1}, x, a_{i+1}, ..., a_n).\qedhere
+\]
+\end{proof}
+
+\begin{lem}\label{lem-permutational-xor} If $\bA$ has underlying set $\{0,1\}$ and $\oplus \in \Pol(\bA)$, and if there is any $f \in \Pol(\bA)$ which is not affine-linear over $\ZZ/2$, then $\wedge \in \Pol(\bA)$, so $\bA$ is polynomially complete.
+\end{lem}
+\begin{proof} By xoring with an affine-linear function over $\ZZ/2$, we may assume without loss of generality that $f(x_1, ..., x_n) = 0$ whenever at most one $x_i$ is nonzero. Since $f$ is not identically $0$, there must be some $a_1, ..., a_n \in \{0,1\}$ with $f(x_1, ..., x_n) = 1$, and we may suppose that $\sum_i a_i$ is minimal. By our assumption on $f$, the number of nonzero $a_i$ must be at least $2$, so there is some pair of coordinates $i\ne j$ such that $a_i = a_j = 1$. If we decrease either $a_i$ or $a_j$, then by the minimality assumption $f$ becomes $0$, so we have
+\[
+x \wedge y = f(a_1, ..., a_{i-1}, x, a_{i+1}, ..., a_{j-1}, y, a_{j+1}, ..., a_n).\qedhere
+\]
+\end{proof}
+
+\begin{prop} The polynomial clone of $(\{0,1\}, \wedge, \vee)$ is exactly the clone of all monotone functions.
+\end{prop}
+\begin{proof} We prove that every monotone function $f$ of arity $n$ is in the clone generated by $\wedge, \vee$ by induction on $n$:
+\[
+f(x_1, ..., x_n) = f(x_1, ..., x_{n-1}, 0) \vee (f(x_1, ..., x_{n-1}, 1) \wedge x_n).\qedhere
+\]
+\end{proof}
+
+\begin{lem}\label{lem-permutational-or} If $\bA$ has underlying set $\{0,1\}$ and $\vee \in \Pol(\bA)$, and if $f \in \Pol(\bA)$ is monotone but is not contained in the clone generated by $\vee$, then $\wedge \in \Pol(\bA)$, so $\Pol(\bA)$ contains the clone of all monotone functions.
+\end{lem}
+\begin{proof} We may suppose without loss of generailty that $f$ depends on all of its inputs. If $f$ is not contained in the clone generated by $\vee$, then in particular $f(x_1, ..., x_n) \ne x_1 \vee \cdots \vee x_n$, so since $f$ is monotone there must be some input $i$ such that $f(0, ..., 0, 1, 0, ..., 0) = 0$. Since $f$ is monotone and depends on its $i$th input, there must be some $a_1, ..., a_n \in \{0,1\}$ such that
+\[
+f(a_1, ..., a_{i-1}, 0, a_{i+1}, ..., a_n) = 0, \;\;\; f(a_1, ..., a_{i-1}, 1, a_{i+1}, ..., a_n) = 1.
+\]
+Choose the $a_1, ..., a_n$ such that $\sum_j a_j$ is minimized subject to the displayed equations above. Then there is at least one $j$ such that $a_j = 1$, by the choice of $i$, and for this $j$ we have
+\[
+x \wedge y = f(a_1, ..., a_{i-1}, x, a_{i+1}, ..., a_{j-1}, y, a_{j+1}, ..., a_n).\qedhere
+\]
+\end{proof}
+
+Putting everything together, we have the following classification of finite permutational algebras.
+
+\begin{thm} If $\bA$ is a finite permutational algebra, then up to isomorphism and polynomial equivalence, $\bA$ is one of the following:
+\begin{itemize}
+\item[(1)] a unary algebra, with the set of unary operations equal to a finite permutation group,
+
+\item[(2)] a vector space over a finite field,
+
+\item[(3)] the boolean algebra $(\{0,1\},\vee,\wedge,\neg)$,
+
+\item[(4)] the lattice $(\{0,1\},\vee,\wedge)$, or
+
+\item[(5)] the semilattice $(\{0,1\},\vee)$.
+\end{itemize}
+\end{thm}
+\begin{proof} If every polynomial of $\bA$ is essentially unary, then we are in case (1). Otherwise, by Proposition \ref{prop-depend-inputs} there is some binary polynomial $f \in \Pol_2(\bA)$ which depends on both of its inputs. If $|\bA| \ge 3$, then Theorem \ref{thm-permutational-big} shows that we are in case (2). Otherwise, we assume that the underlying set of $\bA$ is $\{0,1\}$.
+
+If $\oplus \in \Pol_2(\bA)$, then Lemma \ref{lem-permutational-xor} shows that we are either in case (2) or case (3). If $\oplus \not\in \Pol_2(\bA)$, then by Lemma \ref{lem-permutational-monotone} every polynomial operation of $\bA$ is monotone, and $f$ is either $\vee$ or $\wedge$. By possibly swapping $0$ and $1$, we may assume without loss of generality that $f = \vee$. Then Lemma \ref{lem-permutational-or} shows that we are either in case (4) or (5).
+\end{proof}
+
+\begin{cor} If $\bA$ is a finite permutational algebra, then $\Pol(\bA)$ is generated by the binary polynomials of $\bA$.
+\end{cor}
+
+The previous corollary is a general feature of tame congruence theory: most concrete computations in tame congruence theory depend only on the set of binary polynomials.
+
+\begin{defn} If $(\alpha,\beta)$ is a tame congruence quotient of a finite algebra $\bA$, and if $N$ is an $(\alpha,\beta)$-trace, then we say that $N$ has
+\begin{itemize}
+\item \emph{unary type}, or type \textbf{1}, if $\bA|_N/\alpha|_N$ is polynomially equivalent to a unary algebra,
+\item \emph{affine type}, or type \textbf{2}, if $\bA|_N/\alpha|_N$ is polynomially equivalent to a vector space over a finite field,
+\item \emph{boolean type}, or type \textbf{3}, if $\bA|_N/\alpha|_N$ is polynomially equivalent to a boolean algebra,
+\item \emph{lattice type}, or type \textbf{4}, if $\bA|_N/\alpha|_N$ is polynomially equivalent to a lattice,
+\item \emph{semilattice type}, or type \textbf{5}, if $\bA|_N/\alpha|_N$ is polynomially equivalent to a semilattice.
+\end{itemize}
+We say that the tame congruence quotient $(\alpha,\beta)$ has type \textbf{i} if there is any $(\alpha,\beta)$-trace with type \textbf{i}. As we will see in the next section, all of the traces of a tame congruence quotient $(\alpha,\beta)$ have the same type as each other.
+\end{defn}
+
+The numbering of the five types can be remembered with the following visual mnemonic lattice, where the ordering corresponds to the richness of the operations in the polynomial clone.
+
+\begin{center}
+\begin{tikzpicture}[scale=2]
+  \node (1) [label=below:unary] at (0,-1) {\textbf{1}};
+  \node (2) [label=right:affine] at (0.8,0) {\textbf{2}};
+  \node (3) [label=above:boolean] at (0,1) {\textbf{3}};
+  \node (4) [label=left:lattice] at (-0.9,0.4) {\textbf{4}};
+  \node (5) [label=left:semilattice] at (-0.9,-0.4) {\textbf{5}};
+  \draw (1) -- (2) -- (3) -- (4) -- (5) -- (1);
+\end{tikzpicture}
+\end{center}
+
+
+\section{The structure of minimal sets}
+
+So far we have classified the traces of tame congruence quotients, by classifying the permutaitonal algebras. In order to classify the minimal sets of an algebra, we note that for any $(\alpha,\beta)$-minimal set $U$, the restriction $\bA|_U$ has the property that for each unary polynomial $f \in \Pol_1(\bA|_U)$, either $f$ is a permutation or $f(\beta|_U) \subseteq \alpha|_U$. Thus the restricted algebra $\bA|_U$ is $(\alpha|_U,\beta|_U)$-minimal:
+
+\begin{defn} A finite algebra $\bA$ is called $(\alpha,\beta)$-\emph{minimal}, for $\alpha < \beta \in \Con(\bA)$, if for every unary polynomial $f \in \Pol_1(\bA)$, either $f$ is a permutation or $f(\beta) \subseteq \alpha$.
+\end{defn}
+
+By Proposition \ref{prop-tame-quotient}, an algebra $\bA$ is $(\alpha,\beta)$-minimal iff $\bA/\alpha$ is $(0_{\bA/\alpha}, \beta/\alpha)$-minimal, and for each $(\alpha,\beta)$-trace $N$ there is a corresponding $(0_{\bA/\alpha},\beta/\alpha)$-trace $N/\alpha|_N$ of the same type, so we may can oftend reduce to the case $\alpha = 0$ without loss of generality. We can simplify some of the arguments of \cite{hobby-mckenzie} about types \textbf{3}, \textbf{4}, and \textbf{5} by using the concept of a partial semilattice operation from Section \ref{s-partial-semi}.
+
+\begin{defn} We say that an idempotent binary operation $s$ is a \emph{partial semilattice} if it satisfies the identity
+\[
+s(x,s(x,y)) \approx s(s(x,y),x) \approx s(x,y).
+\]
+Equivalently, $s$ is a partial semilattice if for all $x,y$, the set $\{x,s(x,y)\}$ is closed under $s$, and acts like a semilattice subalgebra with absorbing element $s(x,y)$ under $s$.
+
+We write $a \rightarrow_s b$ if $s$ is a partial semilattice and $s(a,b) = b$.
+\end{defn}
+
+\begin{prop}\label{prop-tame-partial-semi} If $\bA$ is $(\alpha,\beta)$-minimal and has a trace $N$ of type \textbf{3}, \textbf{4}, or \textbf{5} (that is, of either boolean, lattice, or semilattice type), then $\bA$ has a partial semilattice polynomial $s \in \Pol_2(\bA)$ such that $N$ is closed under $s$, and such that $(N/\alpha|_N, s)$ is a two-element semilattice. Furthermore, if $N$ has type  \textbf{3} or \textbf{4} (i.e. boolean or lattice type), then there is another partial semilattice $s' \in \Pol_2(\bA)$ such that $(N, s, s')$ is a two-element lattice.
+
+If $s$ is a partial semilattice term and $a,b \in N$ have $s(a,b) \not\equiv_\alpha a$, then $a \rightarrow_s x$ for all $x \in \bA$ and $a/\alpha = \{a\}$.
+\end{prop}
+\begin{proof} Let $t \in \Pol_2(\bA)$ be such that $N$ is closed under $t$ and $(N/\alpha|_N, t)$ is a two-element semilattice. Since the unary polynomial $t(x,x)$ is not constant on $N/\alpha|_N$, $(\alpha,\beta)$-minimality implies the unary polynomial $t(x,x)$ must be invertible, so we may assume without loss of generality that $t$ is idempotent. Then we may apply the semilattice iteration argument from Proposition \ref{prop-semilattice-iteration} to produce a partial semilattice polynomial $s \in \Clo(t)$ such that the restriction of $s$ and $t$ to $N/\alpha|_N$ agree.
+
+For the last statement, if $a,b \in N$ have $s(a,b) \not\equiv_\alpha s(a,a) = a$, then by $(\alpha,\beta)$-minimality the unary polynomial $x \mapsto s(a,x)$ must be a permutation, and since $s(a,s(a,x)) = s(a,x)$, it must be the identity, so $s(a,x) = x$ for all $x \in \bA$. If $a' \in a/\alpha$, then the same argument shows that $s(a',x) = x$ for all $x$, so $a \rightarrow_s a'$ and $a' \rightarrow_s a$, which is only possible if $a' = a$.
+\end{proof}
+
+Hobby and McKenzie \cite{hobby-mckenzie} like to think of their semilattices as meet-semilattices, so they call the partial semilattice polynomial $s$ from Proposition \ref{prop-tame-partial-semi} a \emph{pseudo-meet} operation. If the type is \textbf{3} or \textbf{4}, then they call the second partial semilattice operation $s'$ a \emph{pseudo-join} operation. If the type is \textbf{3} (i.e. boolean), then you can additionally find a unary polynomial $f$ which preserves $N$ and swaps the elements of $N$, and any such $f$ will be invertible. We can assume without loss of generality that this $f$ has even order, and we might call such an $f$ a \emph{pseudo-negation} operation.
+
+\begin{prop} If $\bA$ is $(\alpha,\beta)$-minimal and has at least two different $(\alpha,\beta)$-traces, then all of the $(\alpha,\beta)$-traces have type \textbf{1} or \textbf{2} (that is, they all have either unary or affine type).
+\end{prop}
+\begin{proof} We assume without loss of generality that $\alpha = 0_\bA$. Suppose that $N$ is a $(0_\bA,\beta)$-trace of type \textbf{3}, \textbf{4}, or \textbf{5} (that is, of either boolean, lattice, or semilattice type). Then $N$ has two elements, call them $a,b$, and by Proposition \ref{prop-tame-partial-semi} there is some partial semilattice polynomial $s \in \Pol_2(\bA)$ such that $N = \{a,b\}$ is closed under $s$ and such that $s$ acts as a semilattice operation on $\{a,b\}$, say with $s(a,b) = b$. By the second part of Proposition \ref{prop-tame-partial-semi}, we then have $s(a,x) = s(x,a) = x$ for all $x \in \bA$.
+
+Now suppose, for the sake of a contradiction, that $K$ is a different $(0_\bA,\beta)$-trace. Since $s(a,b) = s(b,b) = b$, $(0_\bA,\beta)$-minimality implies that the unary polynomial $f : x \mapsto s(x,b)$ has $f(\beta) \subseteq 0_\bA$, so $s(K,b)$ is a singleton. Thus there must be some $c \in K$ such that $s(c,b) \ne c$. Since $s(c,a) = c \ne s(c,b)$, the unary polynomial $g : x \mapsto s(c,x)$ must be a permutation by $(0_\bA,\beta)$-minimality. However, we have $g(K) = s(c,K) \subseteq s(c,c)/\beta = c/\beta = K$ and $g(N) = s(c,N) \subseteq s(c,a)/\beta = c/\beta = K$, so $g$ can't be a permutation, which is a contradiction.
+\end{proof}
+
+\begin{prop}\label{prop-abelian-minimal-set} If $\bA$ is $(\alpha,\beta)$-minimal, then $\beta$ is abelian over $\alpha$ if and only if all of the $(\alpha,\beta)$-traces have type \textbf{1} or \textbf{2} (i.e., unary or affine type).
+\end{prop}
+\begin{proof} We assume without loss of generality that $\alpha = 0_\bA$. If some $(\alpha,\beta)$-trace $N$ has type \textbf{3}, \textbf{4}, or \textbf{5} (i.e., boolean, lattice, or semilattice), then there is a partial semilattice polynomial $s \in \Pol_2(\bA)$ which acts nontrivially on $N$ by Proposition \ref{prop-tame-partial-semi}. Since semilattices aren't abelian, $\bA|_N$ is not abelian, and therefore $\beta$ isn't abelian either (since $N$ is a congruence class of $\beta$).
+
+Now suppose for contradiction that all the traces have type \textbf{1} or \textbf{2}, but that $\beta$ is not abelian. The plan is to transport the nonabelianness of $\beta$ into one of the $(0_\bA,\beta)$-traces to contradict the fact that traces of type \textbf{1} or \textbf{2} must be abelian. Recall that $\beta$ not being abelian means that there is some polynomial $g \in \Pol(\bA)$ and some $(u,v), (a_1,b_1), ..., (a_n,b_n) \in \beta$ such that
+\[
+g(u,a_1,...,a_n) = g(u,b_1,...,b_n)
+\]
+but
+\[
+g(v,a_1,...,a_n) \ne g(v,b_1,...,b_n),
+\]
+and we may assume without loss of generality that $n$ is minimal. By the minimality of $n$, we have $a_i \ne b_i$ for all $i$ (else we could just substitute $a_i$ for the $i$th argument), and we clearly have $u \ne v$, so there are $(0_\bA,\beta)$-traces $N_0, N_1, ..., N_n$ such that $u,v \in N_0$ and $a_i,b_i \in N_i$ for each $i$. Let $K$ be the $(0_\bA,\beta)$-trace which contains $g(u,a_1,...,a_n)$, then since $g$ is compatible with $\beta$ we have
+\[
+g(N_0,N_1, ..., N_n) \subseteq K.
+\]
+The restriction of $g$ to $N_0\times N_1 \times \cdots \times N_n$ must depend on all of its inputs by the minimality of $n$, so for each $i$ there are $c_j \in N_j$ such that the unary polynomial
+\[
+f_i : x \mapsto g(c_0,...,c_{i-1},x,c_{i+1},...,c_n)
+\]
+is not constant on $N_i$. Each such $f_i$ must be a permutation by $(0_\bA,\beta)$-minimality, so we have $f_i : N_i \simeq K$ for each $i$. Then the polynomial $h$ given by
+\[
+h(x_0,...,x_n) = g(f_0^{-1}(x_0), ..., f_n^{-1}(x_n))
+\]
+preserves $K$, and we have
+\[
+h(f_0(u), f_1(a_1), ..., f_n(a_n)) = h(f_0(u), f_1(b_1), ..., f_n(b_n))
+\]
+but
+\[
+h(f_0(v), f_1(a_1), ..., f_n(a_n)) \ne h(f_0(v), f_1(b_1), ..., f_n(b_n)).
+\]
+Thus $\bA|_K$ is not abelian, so $\bA|_K$ can't be polynomially equivalent to a unary or affine algebra, which is a contradiction.
+\end{proof}
+
+The next challenge is to construct a \emph{pseudo-Mal'cev} operation when the type is \textbf{2}, and to use it to prove that all of the $(\alpha,\beta)$-traces are isomorphic when at least one of them has type \textbf{2}.
+
+\begin{lem}\label{lem-pseudo-malcev} If $\bA$ is $(\alpha,\beta)$-minimal and has an $(\alpha,\beta)$-trace $N$ of type \textbf{2}, then there is a ternary polynomial $p \in \Pol_3(\bA)$ such that, if $B$ is the union of all $(\alpha,\beta)$-traces (the ``body''), we have
+\begin{itemize}
+\item[(a)] $N$ is closed under $p$, and the restriction of $p(x,y,z)$ to $\bA|_N/\alpha|_N$ is the Mal'cev operation $x - y + z$,
+\item[(b)] $p$ is idempotent, that is $p(a,a,a) = a$ for all $a \in \bA$,
+\item[(c)] for all $a \in \bA, b \in B$ we have $p(a,b,b) = a$, and
+\item[(d)] for all $a \in \bA, b \in B$ we have $p(b,b,a) = a$.
+\end{itemize}
+\end{lem}
+\begin{proof} (Following \cite{hobby-mckenzie}) We construct $p$ in stages, in each step getting a ternary polynomial which satisfies one more of (a), (b), (c), (d). To start, since $N$ has type \textbf{2}, there is a polynomial $f \in \Pol_3(\bA)$ satisfying (a). Next, since the restriction of the unary polynomial $g(x) = f(x,x,x)$ to $\bA|_N/\alpha|_N$ is nonconstant, $(\alpha,\beta)$-minimality implies that $g(x)$ is a permutation, and since the restriction of $g$ to $\bA|_N/\alpha|_N$ is the identity, the polynomial $h(x,y,z) = g^{-1}(f(x,y,z))$ satisfies (a) and (b).
+
+{\bf Claim.} Suppose that $f$ is any polynomial satisfying (a) and (b). For any $b \in B$, the polynomials $x \mapsto f(x,b,b)$ and $x \mapsto f(b,b,x)$ are permutations.
+
+{\bf Proof of claim.} Suppose not - suppose for contradiction that the unary polynomial $x \mapsto f(x,b,b)$ is not a permutation for some $b \in B$, and let $K$ be the $(\alpha,\beta)$-trace which contains $b$. Iterate $f$ on its first argument to get $f^\infty \in \Pol_3(\bA)$ such that
+\[
+f^\infty(f^\infty(x,y,z),y,z) = f^\infty(x,y,z)
+\]
+for all $x,y,z$, define a unary polynomial $g$ by
+\[
+g(x) = f^\infty(x,b,b),
+\]
+and note that if $x \mapsto f(x,b,b)$ is not a permutation, then $g$ is also not a permutation. By (a) and $(\alpha,\beta)$-minimality, $K$ can't be $N$: for any $a \in N$, the restriction of $x \mapsto f^\infty(x,a,a)$ to $\bA|_N/\alpha|_N$ is the identity, so $(\alpha,\beta)$-minimality and the identity $f^\infty(f^\infty(x,a,a),a,a) = f^\infty(x,a,a)$ imply that
+\[
+f^\infty(x,a,a) = x
+\]
+for all $x \in \bA$ and $a \in N$. Since $g$ is not a permutation, $(\alpha,\beta)$-minimality implies that $g(K)$ is contained in a single $\alpha$-congruence class, so in particular there is some $c \in K$ such that $g(c) \not\equiv_\alpha c$. Then if we define the unary polynomial $h$ by $h(x) = f^\infty(c,x,x)$, we have
+\[
+h(c) = f^\infty(c,c,c) = c \not\equiv_\alpha g(c) = f^\infty(c,b,b) = h(b),
+\]
+so by $(\alpha,\beta)$-minimality $h$ is a permutation. But then
+\[
+h(c) = f^\infty(c,c,c) = c = f^\infty(c,a,a) = h(a)
+\]
+for any $a \in N$, so $h$ is not injective, a contradiction.
+
+Now we use the claim to upgrade an $f$ satisfying (a) and (b) to one which also satisfies (c). Let $t(x,y) = f(x,y,y)$, and iterate $t$ on its first argument, to get $t^\infty \in \Pol_2(\bA)$ with $t^\infty(t^\infty(x,y),y) = t^\infty(x,y)$. By the claim, for any $b \in B$ we have $t^\infty(x,b) = x$. Now define $g \in \Pol_3(\bA)$ by
+\[
+g(x,y,z) = t^{\infty-1}(f(x,y,z),z).
+\]
+The restriction of $t$ to $\bA|_N/\alpha|_N$ is just first projection, so $g$ satisfies (a), since $f$ is idempotent $g$ will be idempotent as well, and by construction we have $g(x,b,b) = t^\infty(x,b) = x$ for any $b \in B$.
+
+Finally, we use the claim to upgrade an $f$ satisfying (a), (b), (c) to one which also satisfies (d). By swapping the first and third inputs to $f$, this is equivalent to upgrading an $f$ which satisfies (a), (b), (d) to one which also satisfies (c). We use the exact same construction for this as in the previous step - we just have to check that the resulting $g$ also satisfies (d): for $b \in B$, we have
+\[
+g(b,b,x) = t^{\infty-1}(f(b,b,x),x) = t^{\infty-1}(x,x) = x,
+\]
+where the last step follows from idempotence.
+\end{proof}
+
+\begin{defn} If $\bA$ is $(\alpha,\beta)$-minimal and has a trace of type \textbf{2} (i.e. affine type), and if $B$ is the union of the $(\alpha,\beta)$-traces, then we call any idempotent ternary polynomial $p \in \Pol_3(\bA)$ such that $p(a,b,b) = p(b,b,a) = a$ for all $a \in \bA$ and all $b \in B$ a \emph{pseudo-Mal'cev} polynomial for $\bA$.
+\end{defn}
+
+\begin{thm} Suppose that $\bA$ is $(\alpha,\beta)$-minimal and has a trace of type \textbf{2} (i.e. affine type), let $B$ be the union of the $(\alpha,\beta)$-traces, and let $p$ be any pseudo-Mal'cev polynomial for $\bA$. Then
+\begin{itemize}
+\item for all $a,b \in B$, the unary polynomials $x \mapsto p(x,a,b), p(a,x,b), p(a,b,x)$ are all permutations,
+\item $B$ is closed under $p$ and the restriction of $p$ to $B$ is Mal'cev, and
+\item all of the $(\alpha,\beta)$-traces are polynomially isomorphic.
+\end{itemize}
+In particular, if one of the $(\alpha,\beta)$-traces has type \textbf{2} then they all do.
+\end{thm}
+\begin{proof} (Following \cite{hobby-mckenzie}) We assume without loss of generality that $\alpha = 0_\bA$. First we show that for $a,b \in B$, the unary polynomial $x \mapsto p(x,a,b)$ is a permutation iff $x \mapsto p(a,x,b)$ is. For this, let $c$ be any element of the $(0_\bA,\beta)$-trace $N = a/\beta$, and note that since $\beta$ is abelian (by Proposition \ref{prop-abelian-minimal-set}) and $(a,c) \in \beta$, we have
+\[
+p(c,a,b) = p(a,a,b) = b \;\;\; \iff \;\;\; p(a,c,b) = p(c,c,b) = b,
+\]
+so $x \mapsto p(x,a,b)$ is not a permutation iff $p(N,a,b) = \{b\}$, which happens iff $p(a,N,b) = \{b\}$, which happens iff $x \mapsto p(a,x,b)$ is not a permutation (and in fact, these all occur iff $p(N,N,b) = \{b\}$). Similarly, $x \mapsto p(a,x,b)$ is a permutation iff $x \mapsto p(a,b,x)$ is a permutation.
+
+Now suppose for a contradiction that $x \mapsto p(a,x,b)$ and $x \mapsto p(a,b,x)$ are not permutations, and consider the unary poynomial $f(x) = p(a,p(a,x,b),x)$. If $x \in N = a/\theta$, then we have
+\[
+f(x) = p(a,p(a,a,b),x) = p(a,b,x) = p(a,b,a),
+\]
+so $f$ is not a permutation. If $x \in b/\theta$, then we have
+\[
+f(x) = p(a,p(a,b,b),x) = p(a,a,x) = x,
+\]
+so by $(0_\bA,\beta)$-minimality $f$ must be a permutation, which is a contradiction.
+
+To see that $B$ is closed under $p$, let $a,b \in B$, then since the unary polynomial $x \mapsto p(a,b,x)$ is a permutation and therefore takes $(0_\bA,\beta)$-traces to $(0_\bA,\beta)$-traces, we see that it takes $B$ to $B$. Finally, if $N, K$ are two $(0_\bA,\beta)$-traces and $a \in N, b \in K$, then the unary polynomial $g(x) = p(a,x,b)$ takes $N$ to $K$ bijectively.
+\end{proof}
+
+Putting these results together, we have proved the main result of this section.
+
+\begin{thm} If $(\alpha,\beta)$ is a tame congruence of a finite algebra $\bA$, then all of the $(\alpha,\beta)$-traces have the same type. If this type is not \textbf{1}, then all of the $(\alpha,\beta)$-traces are polynomially isomorphic to each other. If the type is not \textbf{1} or \textbf{2}, then each $(\alpha,\beta)$-minimal set has just one trace, and if the type is \textbf{3} or \textbf{4} then every $(\alpha,\beta)$-trace has size two.
+\end{thm}
+
+In order to rule out type \textbf{1} in most cases, we introduce a stronger version of abelianness which is characteristic of unary algebras.
+
+\begin{defn} If $\alpha \le \beta \in \Con(\bA)$, then $\beta$ is \emph{strongly abelian} over $\alpha$ if for all $f \in \Pol(\bA)$, all $(u,v) \in \beta$ and all tuples $x, y, z$ with $x_i \equiv y_i \equiv z_i \pmod{\beta}$, we have
+\[
+f(u,x_1, ..., x_n) \equiv_\alpha f(v, y_1, ..., y_n) \;\; \implies \;\; f(u, z_1, ..., z_n) \equiv_\alpha f(v, z_1, ..., z_n).
+\]
+An algebra $\bA$ is \emph{strongly abelian} if $1_\bA$ is strongly abelian over $0_\bA$.
+\end{defn}
+
+It's easy to see that every unary algebra is strongly abelian, while any group or semilattice is not strongly abelian. We can now characterize type \textbf{1} in terms of strong abelianness.
+
+\begin{prop} If $\bA$ is $(\alpha,\beta)$-minimal, then $\beta$ is strongly abelian over $\alpha$ iff all of the $(\alpha,\beta)$-traces have type \textbf{1} (i.e. unary type).
+\end{prop}
+\begin{proof} The proof is almost identical to the proof of Proposition \ref{prop-abelian-minimal-set}.
+\end{proof}
+
+\begin{prop} Suppose that $\bA$ has a Taylor polynomial and that $\alpha < \beta \in \Con(\bA)$. Then $\beta$ is not strongly abelian over $\alpha$. As a consequence, if $\bA$ is a finite Taylor algebra then no tame congruence quotient of $\bA$ has type \textbf{1}.
+\end{prop}
+\begin{proof} Suppose for contradiction that $\beta$ is strongly abelian over $\alpha$, and pick some $(a,b) \in \beta\setminus\alpha$. Let $t$ be a Taylor term, then for each input of $t$ we have an equation of the form
+\[
+t(?, ..., ?, a, ?, ..., ?) = t(?, ..., ?, b, ?, ..., ?),
+\]
+where each $?$ is either an $a$ or a $b$, so strong abelianness of $\beta$ over $\alpha$ implies that
+\[
+t(a,...,a,a,b,...,b) \equiv_\alpha t(a,...,a,b,b,...,b)
+\]
+at each input. Stringing these equations together and using the idempotence of $t$, we get
+\[
+a = t(a,...,a) \equiv_\alpha \cdots \equiv_\alpha t(b,...,b) = b,
+\]
+which contradicts the assumption $(a,b) \not\in \alpha$.
+
+For the last statement, note that if $t$ is a Taylor polynomial for $\bA$ and $e \in E(\bA)$ has $e(\bA) = U$ for some $(\alpha,\beta)$-minimal set $U$, then $e(t(x_1, ..., x_n))$ is a Taylor polynomial for $\bA|_U$. In fact, by the idempotence of $t$, the restriction of $e\circ t$ to any $(\alpha,\beta)$-trace $N$ would be a Taylor polynomial for the unary algebra $\bA|_N/\alpha|_N$, which gives an even simpler contradiction.
+\end{proof}
+
+The following reformulation of strong abelianness from \cite{finite-forbidden-lattices} should give a more concrete idea of just how strong it is.
+
+\begin{prop} An algebra $\bA$ is strongly abelian iff, for each $n$-ary polynomial $t$ of $\bA$, there are equivalence relations $R_i$ on $\bA$ such that
+\[
+t(a_1, ..., a_n) = t(b_1, ..., b_n) \;\; \iff \;\; \forall i \le n, \; (a_i, b_i) \in R_i.
+\]
+In particular, if $\bA$ is finite and strongly abelian then every polynomial of $\bA$ depends on at most $\log_2|\bA|$ of its inputs.
+\end{prop}
+
+\begin{ex}[From \cite{strongly-abelian-hamiltonian}]\label{ex-strongly-abelian-not-quasiaffine} There is a $5$-element strongly abelian algebra $\bA = (\{a,b,c,d,e\},\cdot_1,\cdot_2)$ which is not quasiaffine. The basic binary operations of $\bA$ are given below.
+\begin{center}
+\begin{tabular}{cc}
+\begin{tabular}{c | c c c c c} $\cdot_1$ & $a$ & $b$ & $c$ & $d$ & $e$\\ \hline $a$ & $a$ & $b$ & $a$ & $b$ & $b$\\ $b$ & $a$ & $b$ & $a$ & $b$ & $b$\\ $c$ & $c$ & $d$ & $c$ & $d$ & $d$\\ $d$ & $c$ & $d$ & $c$ & $d$ & $d$\\ $e$ & $c$ & $d$ & $c$ & $d$ & $d$ \end{tabular} &
+\begin{tabular}{c | c c c c c} $\cdot_2$ & $a$ & $b$ & $c$ & $d$ & $e$\\ \hline $a$ & $a$ & $b$ & $a$ & $b$ & $b$\\ $b$ & $a$ & $b$ & $a$ & $b$ & $b$\\ $c$ & $c$ & $e$ & $c$ & $e$ & $e$\\ $d$ & $c$ & $e$ & $c$ & $e$ & $e$\\ $e$ & $c$ & $e$ & $c$ & $e$ & $e$ \end{tabular}
+\end{tabular}
+\end{center}
+This algebra fails to be quasiaffine because it fails to satisfy the two term condition:
+\[
+a\cdot_1 a = a\cdot_2 a, \;\; a\cdot_1 b = a\cdot_2 b, \;\; c\cdot_1 a = c\cdot_2 a, \;\text{ but }\; c\cdot_1 b \ne c\cdot_2 b.
+\]
+To see that it is strongly abelian, note that for each $i,j$ we have the identities
+\[
+x\cdot_i (y\cdot_j z) \approx x\cdot_i z, \;\; (x\cdot_i y)\cdot_j z \approx x\cdot_j z,
+\]
+so every term of $\bA$ is one of $x, x \cdot_i x, x \cdot_i y$ for some $i \in \{1,2\}$, up to permuting its inputs.
+\end{ex}
+
+
+%\subsection{E-minimal algebras}
+%TODO
 
 
 \end{document}
