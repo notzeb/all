@@ -11,4 +11,4 @@ A very similar project can be found at https://github.com/vEnhance/napkin - he's
 
 # CSP notes
 
-The notes I'm currently actively working on are the notes on constraint satisfaction problems, which you can download directly via the following link https://raw.githubusercontent.com/notzeb/all/master/csp-notes.pdf. These notes contain some material which hasn't been published.
+The notes I'm currently actively working on are the notes on constraint satisfaction problems, which you can download directly via the following link: https://raw.githubusercontent.com/notzeb/all/master/csp-notes.pdf. These notes contain some material which hasn't been published.
