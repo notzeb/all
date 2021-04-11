@@ -380,6 +380,43 @@ MRREVIEWER = {Solomon Friedberg},
 MRREVIEWER = {J. G. Arthur},
 }
 
+@article{indicator-instance,
+author = {Jeavons, Peter and Cohen, David and Gyssens, Marc},
+title = {Closure Properties of Constraints},
+year = {1997},
+issue_date = {July 1997},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {44},
+number = {4},
+issn = {0004-5411},
+url = {https://doi.org/10.1145/263867.263489},
+doi = {10.1145/263867.263489},
+abstract = {Many combinatorial search problems can be expressed as “constraint satisfaction problems” and this class of problems is known to be NP-complete in general. In this paper, we investigate the subclasses that arise from restricting the possible constraint types. We first show that any set of constraints that does not give rise to an NP-complete class of problems must satisfy a certain type of algebraic closure condition. We then investigate all the different possible forms of this algebraic closure property, and establish which of these are sufficient to ensure tractability. As examples, we show that all known classes of tractable constraints over finite domains can be characterized by such an algebraic closure property. Finally, we describe a simple computational procedure that can be used to determine the closure properties of a given set of constraints. This procedure involves solving a particular constraint satisfaction problem, which we call an “indicator problem.”},
+journal = {J. ACM},
+month = jul,
+pages = {527–548},
+numpages = {22},
+keywords = {complexity, NP-completeness, indicator problem, constraint satisfaction problem}
+}
+
+@phdthesis{carbonnel-thesis,
+  title={Harnessing tractability in constraint satisfaction problems},
+  author={Carbonnel, Cl{\'e}ment},
+  year={2016},
+  school={Institut National Polytechnique de Toulouse}
+}
+
+@INPROCEEDINGS{barto-kozik-bounded-width,
+  author={L. {Barto} and M. {Kozik}},
+  booktitle={2009 50th Annual IEEE Symposium on Foundations of Computer Science}, 
+  title={Constraint Satisfaction Problems of Bounded Width}, 
+  year={2009},
+  volume={},
+  number={},
+  pages={595-603},
+  doi={10.1109/FOCS.2009.32}}
+
 @article{barto,
 author = {Barto, Libor}, 
 title = {The collapse of the bounded width hierarchy},
@@ -962,6 +999,65 @@ MRREVIEWER = {Keith A. Kearnes},
    MRCLASS = {08A40 (08B10)},
   MRNUMBER = {1377351},
 MRREVIEWER = {\'Agnes Szendrei},
+}
+
+@article{tree-on-top-of-malcev,
+  title={Tree on top of {M}alcev},
+  author={Mar{\'o}ti, Mikl{\'o}s},
+  journal={Manuscript, available at \url{http://www.math.u-szeged.hu/~mmaroti/pdf/200x\%20Tree\%20on\%20top\%20of\%20Maltsev.pdf}},
+  year={2011}
+}
+
+@article{malcev-on-top,
+  title={Malcev on top},
+  author={Mar{\'o}ti, Mikl{\'o}s},
+  journal={Manuscript, available at \url{http://www.math.u-szeged.hu/~mmaroti/pdf/200x\%20Maltsev\%20on\%20top.pdf}},
+  year={2011}
+}
+
+@article{bulatov-conservative,
+author = {Bulatov, Andrei A.},
+title = {Complexity of Conservative Constraint Satisfaction Problems},
+year = {2011},
+issue_date = {July 2011},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {12},
+number = {4},
+issn = {1529-3785},
+url = {https://doi.org/10.1145/1970398.1970400},
+doi = {10.1145/1970398.1970400},
+abstract = {In a constraint satisfaction problem (CSP), the aim is to find an assignment of values to a given set of variables, subject to specified constraints. The CSP is known to be NP-complete in general. However, certain restrictions on the form of the allowed constraints can lead to problems solvable in polynomial time. Such restrictions are usually imposed by specifying a constraint language, that is, a set of relations that are allowed to be used as constraints. A principal research direction aims to distinguish those constraint languages that give rise to tractable CSPs from those that do not.We achieve this goal for the important version of the CSP, in which the set of values for each individual variable can be restricted arbitrarily. Restrictions of this type can be studied by considering those constraint languages which contain all possible unary constraints; we call such languages conservative. We completely characterize conservative constraint languages that give rise to polynomial time solvable CSP classes. In particular, this result allows us to obtain a complete description of those (directed) graphs H for which the List H-Coloring problem is solvable in polynomial time. The result, the solving algorithm, and the proofs heavily use the algebraic approach to CSP developed in Jeavons et al. [1997], Jeavons [1998], Bulatov et al. [2005], and Bulatov and Jeavons [2001b, 2003].},
+journal = {ACM Trans. Comput. Logic},
+month = jul,
+articleno = {24},
+numpages = {66},
+keywords = {Complexity, Constraint Satisfaction Problem, dichotomy theorem, homomorphism problem}
+}
+
+@INPROCEEDINGS{barto-conservative-revisited,
+  author={L. {Barto}},
+  booktitle={2011 IEEE 26th Annual Symposium on Logic in Computer Science}, 
+  title={The Dichotomy for Conservative Constraint Satisfaction Problems Revisited}, 
+  year={2011},
+  volume={},
+  number={},
+  pages={301-310},
+  doi={10.1109/LICS.2011.25}}
+
+@article{bulatov-conservative-rerevisited,
+title = {Conservative constraint satisfaction re-revisited},
+journal = {Journal of Computer and System Sciences},
+volume = {82},
+number = {2},
+pages = {347-356},
+year = {2016},
+issn = {0022-0000},
+doi = {https://doi.org/10.1016/j.jcss.2015.07.004},
+url = {https://www.sciencedirect.com/science/article/pii/S0022000015000793},
+author = {Andrei A. Bulatov},
+keywords = {Constraint satisfaction problem, Complexity, Dichotomy, Algebraic approach},
+abstract = {Conservative constraint satisfaction problems (CSPs) constitute an important particular case of the general CSP, in which the allowed values of each variable can be restricted in an arbitrary way. Problems of this type are well studied for graph homomorphisms. A dichotomy theorem characterizing conservative CSPs solvable in polynomial time and proving that the remaining ones are NP-complete was proved by Bulatov (2003) in [4]. Its proof, however, is quite long and technical. A shorter proof of this result based on the absorbing subuniverses technique was suggested by Barto (2011) in [1]. In this paper we give a short elementary proof of the dichotomy theorem for conservative CSPs.}
 }
 
 @article{strongly-abelian-hamiltonian,
@@ -2532,11 +2628,6 @@ url="https://doi.org/10.1007/BF01195141"
   author={Andrei A. Bulatov},
   journal={Electronic Colloquium on Computational Complexity (ECCC)},
   year={2002}
-}
-@inproceedings{malcev-on-top,
-  title={MALTSEV ON TOP},
-  author={Mikl{\'o}s Mar{\'o}ti},
-  year={2011}
 }
 
 @article{hypergraph-promise-hardness,

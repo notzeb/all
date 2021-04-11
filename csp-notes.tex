@@ -101,6 +101,7 @@
 %\newcommand{\bf}[1]{\mathbf #1}
 
 \newcommand{\cF}{\mathcal{F}}
+\newcommand{\cE}{\mathcal{E}}
 \newcommand{\cG}{\mathcal{G}}
 \newcommand{\cP}{\mathcal{P}}
 \newcommand{\cV}{\mathcal{V}}
@@ -613,6 +614,12 @@ for all $a_1, ..., a_{n_i} \in A$, and such that for each relation symbol $R_j$ 
 for all $a_1, ..., a_{m_j} \in A$. A homomorphism $\varphi : \fA \rightarrow \fB$ is called an \emph{isomorphism} if there is a homomorphism $\psi : \fB \rightarrow \fA$ such that $\psi \circ \varphi = \operatorname{id}_{\fA}$ and $\varphi \circ \psi = \operatorname{id}_\fB$.
 
 A structure is called a \emph{relational structure} if it has no functions in its signature, and a structure is called an \emph{algebraic structure} or an \emph{algebra} if it is nonempty and has no relations in its signature. We usually write a relational structure with the bold font, i.e. $\fA$, while we usually write an algebraic structure with the blackboard bold font, i.e. $\bA$.
+
+We define the \emph{total size} of a relational structure $\fA = (A, \{R_j\})$, written $\|\fA\|$, to be
+\[
+\|\fA\| \coloneqq \sum_j |R_j|.
+\]
+Note that the number of bits needed to describe $\fA$ is larger than $\|\fA\|$ by a factor of about $\log_2 |A|$, ignoring the overhead needed to describe the signature of $\fA$.
 \end{defn}
 
 When convenient, we often abuse notation to treat a structure $\fA$ like its underlying set $A$: we write $a \in \fA$ to mean that $a \in A$, we write $|\fA|$ for $|A|$, etc.
@@ -3334,7 +3341,7 @@ Reviewing what we've done, we have a procedure for converting proofs that compac
 
 Before we go on, we can use this algorithm to settle the dichotomy conjecture for constraint languages which contain ``swap'' relations $\{(a,b),(b,a)\}$ for every pair of elements $a,b$.
 
-\begin{thm} Suppose that $\fA = (A,\Gamma)$ is a relational structure where $\Gamma$ is a set of relations which contains the swap relation $S_{ab} = \{(a,b),(b,a)\}$ for every pair $a,b \in \fA$. Then either $\CSP(\Gamma)$ is NP-complete, or $\fA$ has a ternary generalized majority-minority polymorphism. In the second case, $\CSP(\Gamma)$ can be solved in polynomial time by Dalmau's algorithm.
+\begin{thm}\label{thm-swap-gmm} Suppose that $\fA = (A,\Gamma)$ is a relational structure where $\Gamma$ is a set of relations which contains the swap relation $S_{ab} = \{(a,b),(b,a)\}$ for every pair $a,b \in \fA$. Then either $\CSP(\Gamma)$ is NP-complete, or $\fA$ has a ternary generalized majority-minority polymorphism. In the second case, $\CSP(\Gamma)$ can be solved in polynomial time by Dalmau's algorithm.
 \end{thm}
 \begin{proof} Note that $\Gamma$ is automatically core, since any unary polymorphism of $S_{ab}$ must send $a,b$ to distinct values in $\{a,b\}$. Thus if $\CSP(\Gamma)$ is not NP-complete, then it must have a Taylor polymorphism $t$.
 
@@ -5474,7 +5481,7 @@ Thus both $a$ and $a'$ meet $(b',c') \in \pi_{23}(R)$.
 Now consider the case $n \ge 3$. If any two-variable projection $\pi_{ij}(\RR)$ is the equality relation, then we can ignore one of the coordinates $i,j$, so we may assume without loss of generality that $\pi_{i,j}(\RR) = \bA\times \bA$ for all $i,j$. Let $a$ be any element of $A$, and let $R$ be a maximal strongly connected component of $\RR$ which is reachable from $(a, ..., a)$. Then for any $i,j$ we must have $\pi_{i,j}(R) = A\times A$, so by the previous corollary we have $R = A^n$. Thus $A^n \subseteq \RR$, and from the assumption $\bA = \Sg(A)$ we see that $\RR = \bA^n$.
 \end{proof}
 
-\begin{ex} The reader may be wondering whether we can weaken the assumption that $\pi_{23}(R)$ is strongly connected from Theorem \ref{strong-ternary} to the assumption that $B,C$ are strongly connected. It seems plausible that if $B,C$ are both strongly connected and $\pi_{23}(R)$ is a subdirect product of $B$ and $C$, $\pi_{23}(R)$ might automatically be strongly connected.
+\begin{ex}\label{ex-subdirect-2-semi-not-absorption-free} The reader may be wondering whether we can weaken the assumption that $\pi_{23}(R)$ is strongly connected from Theorem \ref{strong-ternary} to the assumption that $B,C$ are strongly connected. It seems plausible that if $B,C$ are both strongly connected and $\pi_{23}(R)$ is a subdirect product of $B$ and $C$, $\pi_{23}(R)$ might automatically be strongly connected.
 
 However, there is an example of a strongly connected $2$-semilattice $\bA$ and a subdirect product $\RR \le_{sd} \bA^2$ which is \emph{not} strongly connected. The $2$-semilattice $\bA$ is pictured below.
 \begin{center}
@@ -6532,7 +6539,7 @@ The dual discriminator algebra from Example \ref{ex-dual-discriminator} shows th
 %TODO
 
 
-\section{Finding an arc-consistent absorbing subinstance}
+\section{Finding an arc-consistent absorbing subinstance}\label{s-absorbing-arc-consistent}
 
 In this section we'll go over Marcin Kozik's proof from \cite{pq-consistency} (which refined the argument from \cite{slac}) of the fact that every cycle-consistent instance has a cycle-consistent subinstance such that every domain is absorption-free. In fact, Kozik proves something stronger, involving a weaker consistency notion known as $pq$-consistency. The technique for the proof can be viewed as a generalization of the argument for the case of majority algebras, but it is much more difficult because we can't assume that all the relations involved are binary. The main idea of the proof was originally developed in \cite{nu-pathwidth}, for the sake of proving a technical lemma about absorption generalizing Theorem \ref{absorbing-diagonal} and Theorem \ref{ideal-diagonal}, which was needed to show that near-unanimity CSPs can be solved in NL (nondeterministic logspace).
 
@@ -8388,7 +8395,7 @@ The key fact that makes the theory of minimal Taylor algebras work is the follow
 In fact, if $S \subseteq \bB$ is a subset of $\bB$ (not assumed to be a subalgebra), $t \in \Clo(\bA)$ is any term of $\bA$, and $\theta$ is an equivalence relation on $S$ such that
 \begin{itemize}
 \item the set $S$ is closed under $t$,
-\item every congruence class of $\theta$ is a subalgebra of $\bB$,
+\item every equivalence class of $\theta$ is a subalgebra of $\bB$,
 \item the equivalence relation $\theta$ is a congruence of the algebraic structure $(S,t)$, and
 \item the quotient $(S,t)/\theta$ is a Taylor algebra,
 \end{itemize}
@@ -8902,7 +8909,7 @@ If we are handed a relational structure, then the next result can be useful to d
 \begin{ex} If an affine CSP is conservative, then the domain must have size two: the only conservative affine algebra is $\ZZ/2^{\aff}$, up to term equivalence.
 \end{ex}
 
-Sometimes we will want to use the following refinement of the concept of conservativative algebras.
+Sometimes we will want to use the following refinement of the concept of conservative algebras.
 
 \begin{defn} We say that a relational clone $\Gamma$ is $k$-\emph{conservative} if every unary relation $U \subseteq A$ with size $|U| \le k$ is an element of $\Gamma$, and we define $k$-conservative clones, algebras, and relational structures similarly.
 \end{defn}
@@ -9137,7 +9144,7 @@ Domain size & \# up to term equiv. & \# up to term equiv. and iso. \\
 \end{center}
 
 
-\subsection{Classification of three-element minimal Taylor algebras}
+\subsection{Classification of three-element minimal Taylor algebras}\label{ss-minimal-three}
 
 As it turns out, up to term equivalence and isomorphism there are just $24$ minimal Taylor algebras on a set of size $3$. Of these, $19$ are conservative, and the remaining $5$ are easy to describe. One of the most obvious non-conservative minimal Taylor algebras of size $3$ is the affine algebra $\ZZ/3^{\aff}$. Three more are subdirect products of two-element minimal Taylor algebras: specifically, the free semilattice on two generators (which is a subdirect product of two two-element semilattices), the subdirect product of a two-element semilattice and a two-element majority algebra, and the subdirect product of a two-element semilattice and $\ZZ/2^{\aff}$ (all three of these are quotients of the free algebra from Proposition \ref{prop-conservative-free}). There is no three-element subdirect product of a two-element majority algebra and $\ZZ/2^{\aff}$, but the final example is nearly this: it is the algebra from Example \ref{ex-few-subpowers}, which has a $3$-edge term, a $\ZZ/2^{\aff}$ quotient, and a two-element centrally absorbing algebra. In this subsection we will prove that this is the complete list of minimal Taylor algebras on a three-element set.
 
@@ -9456,7 +9463,574 @@ Putting all of the pieces together, we have completed the classification of mini
 \end{prob}
 
 
-% \section{The strands of an unlinked CSP instance, and a new recursive strategy}
+\section{The strands of an unlinked CSP instance, and a new recursive strategy}
+
+Generally speaking, in order to guarantee a polynomial running time for solving CSPs we attempt to avoid recursion. There is a form of recursion which can be safely applied, however: we can recursively solve polynomially many subproblems as long as the size of \emph{every} variable's domain is strictly reduced in each subproblem. The resulting algorithms will then have the property that the exponent in the running time will depend on the size of the largest domain of any variable. This approach seems to have been introduced with the solutions to the CSP dichotomy conjecture for conservative algebras by Bulatov \cite{bulatov-conservative}, \cite{bulatov-conservative-rerevisited} and Barto \cite{barto-conservative-revisited}, as well as Mikl\'os Mar\'oti's ``Tree on top of Malcev'' algorithm \cite{tree-on-top-of-malcev} (which used this sort of recursive strategy in a \emph{very} different way from what we will consider in this section).
+
+The challenge now is to find situations where we can usefully reduce to subproblems in which every single variable domain is reduced. The prototypical example of how this may occur is when a CSP instance is \emph{unlinked}.
+
+\begin{defn} Let $\fX$ be an instance of a CSP, with variable domains $\bA_x$ for each variable $x$. We say that $\fX$ is \emph{unlinked} at a variable $x$ of $\fX$ if there are some $a,b \in \bA_x$ such that there are \emph{no} cycles $p$ of $\fX$ from $x$ to $x$ with $b \in \{a\} + p$. We say that $\fX$ is \emph{unlinked} if it is unlinked at every variable.
+
+If an instance $\fX$ is unlinked at a variable $x$, then we define the \emph{linking relation} $\theta_\fX$ of $\fX$ at $x$ as the equivalence relation on $\bA_x$ defined by $(a,b) \in \theta_\fX$ iff there is some cycle $p$ from $x$ to $x$ such that $b \in \{a\} + p$.
+\end{defn}
+
+\begin{prop} If $\fX$ is cycle-consistent and unlinked at $x$, then the linking relation $\theta_\fX$ is a congruence of $\bA_x$.
+\end{prop}
+\begin{proof} We just need to check that $\theta_\fX$ is closed under unary polynomial operations of $\bA_x$. So suppose that $(a,b) \in \theta_\fX$, $c_1, ..., c_n \in \bA_x$, and $f$ is some $n+1$-ary polymorphism of $\bA_x$. Since $(a,b) \in \theta_\fX$, there is some cycle $p$ from $x$ to $x$ such that $b \in \{a\}+p$. By cycle-consistency, we also have $c_i \in \{c_i\} + p$ for each $i$, so if $\PP_p \le \bA_x^2$ is the binary relation corresponding to the cycle $p$, then we have
+\[
+f\left(\begin{bmatrix}a\\b\end{bmatrix},\begin{bmatrix}c_1\\c_1\end{bmatrix},\cdots,\begin{bmatrix}c_n\\c_n\end{bmatrix}\right) \in \PP_p.
+\]
+Thus we have $(f(a, c_1, ..., c_n), f(b, c_1, ..., c_n)) \in \theta_\fX$, which completes the proof.
+\end{proof}
+
+As a consequence, one way to discover unlinked subinstances of a cycle-consistent instance $\fX$ is to go through each maximal congruence $\theta$ on some variable domain $\bA_x$, and to greedily build up a subinstance $\fX'$ which is as large as possible subject to the condition $\theta_{\fX'} \le \theta$. The resulting subinstance $\fX'$ only depends on $\theta$ and not on the choices we make during the greedy construction of $\fX'$, so long as $\fX$ is cycle-consistent: if there are two paths $p,q$ from $x$ to $y$ such that $p-p$ and $q-q$ each have linking congruences contained in $\theta$, then cycle-consistency applied to $-q+p$ shows that the linking congruence of $p-q$ is also contained in $\theta$. This is the approach Zhuk used in his proof of the general CSP dichotomy conjecture \cite{zhuk-dichotomy}.
+
+\begin{prop} Suppose that we have a multisorted CSP template $\CSP(\bA_1, ..., \bA_n)$ such that the CSP template $\CSP(\bB_1, ..., \bB_m)$ can be solved in polynomial time, where $\bB_1, ..., \bB_m$ is the collection of all algebras $\bB$ which are isomorphic to a proper subalgebra of some $\bA_i$ (note that $\max |\bB_i| < \max |\bA_j|$). Then we can solve any unlinked instance $\fX$ of $\CSP(\bA_1, ..., \bA_n)$ in polynomial time.
+\end{prop}
+\begin{proof} We assume that every pair of variables of $\fX$ can be connected by some path without loss of generality, and we shrink $\fX$ by enforcing cycle-consistency (if the shrunk instance is no longer unlinked, then every single variable domain has been reduced, and we can solve the instance). Pick any variable $x$ of $\fX$, and let $\theta_\fX$ be the linking congruence on $\bA_x$. Then for each congruence class $a/\theta_\fX \in \bA_x/\theta_\fX$, if we restrict the possible values of $x$ to $a/\theta$ and enforce arc-consistency, then every other variable $y$ of $\fX$ has its domain restricted to some subset of a congruence class of $\bA_y/\theta_\fX$ (where here we interpret $\theta_\fX$ as the linking congruence of $\fX$ on $\bA_y$). Since the value of $x$ must be in \emph{some} congruence class of $\bA_x/\theta_\fX$, and since there are only a constant number of such congruence classes to check, we can solve $\fX$ by solving a constant number of instances of CSPs with templates of the form $\CSP(\bB_1, ..., \bB_m)$, where for each variable $y$ the algebra $\bB_i$ is contained in an congruence class of $\bA_y/\theta_\fX$.
+\end{proof}
+
+Of course, an entire instance being unlinked is fairly rare. Additionally, the assumption of cycle-consistency is probably unnecessarily strong. The approach used in the algorithms for the conservative CSP dichotomy is a variant of the strategy of looking for unlinked subinstances, starting from the idea of looking for \emph{any} useful way of properly restricting the domains of some subset of the variables. This will naturally lead to different consistency principles (which are likely to also be unecessarily strong).
+
+The most general thing we could do along these lines is the following. For each variable $x$, and for each element $a \in \bA_x$, restrict the domain of $x$ to the singleton $\{a\}$, and run arc-consistency (or cycle-consistency, etc.). Restrict our attention to the set $Y$ of variables $y$ whose domain has shrunk as a result of this restriction (replacing every relation which involves variables outside of $Y$ to its projection onto the variables contained in $Y$), and solve the resulting instance recursively to see if we can rule out the element $a \in \bA_x$ as a possible value for $x$.
+
+Although this scheme is readily implemented, it is hard to algebraically control what happens as a result. Instead, we will consider the digraph of implications between restrictions on the individual domains, and ask under which conditions this has a nice structure.
+
+\begin{defn} If $\fX$ is an instance of a multisorted CSP with variable domains $\bA_x$, then we define the \emph{implication digraph} to be the directed graph on $\fX$ where the vertices are pairs $(x, \bB)$ such that $x$ is a variable and $\bB \le \bA_x$, and where we have a directed edge from $(x,\bB)$ to $(y,\bC)$ if there is a path $p$ of length $1$ from $x$ to $y$ in $\fX$ such that $\bB + p = \bC$.
+
+We write $(x,\bB) \preceq (y,\bC)$ if there is a path $p$ of any length from $x$ to $y$ such that $\bB + p = \bC$. The resulting quasiorder is the \emph{implication qoset}.
+
+Let $\mathcal{E}$ be a subqoset of the implication qoset. A \emph{strand} of the subqoset $\mathcal{E}$ is just an equivalence class of $\mathcal{E}$. Often we might take $\cE$ to be the subqoset of pairs $(x,\bB)$ such that $\bB$ is a proper subalgebra of $\bA_x$ (or a proper absorbing subalgebra, etc.). We say that $\cS$ is a \emph{maximal} strand of $\mathcal{E}$ if it is a maximal equivalence class of the qoset $\cE$. If $\cE$ is not specified, then a strand can be any subset of any equivalence class of the implication qoset.
+
+A strand is called \emph{absorbing} if for all $(x,\bB) \in \cS$ we have $\bB \lhd \bA_x$. Note that as long as $\fX$ is arc-consistent, if this occurs for \emph{some} $(x,\bB) \in \cS$ then it occurs for \emph{all} $(x,\bB) \in \cS$.
+
+We define the \emph{partial restriction} of $\fX$ to the strand $\cS$ by reducing the domain of each variable $x$ to $\bigcap_{(x,\bB)\in\cS} \bB$ if some $(x,\bB) \in \cS$, and leaving the domain of $x$ unchanged otherwise.
+\end{defn}
+
+In order to restrict an instance $\fX$ to a strand $\cS$ in a way that guarantees that the restricted instance is arc-consistent, it seems like we should require that the strand $\cS$ includes at most one pair $(x,\bB)$ for each variable $x \in \fX$. This will be guaranteed as long as the instance $\fX$ is sufficiently consistent.
+
+\begin{prop} If $\fX$ is an arc-consistent instance, then each strand $\cS$ of $\fX$ includes at most one pair $(x,\bB)$ for each variable $x$ as long as $\fX$ satisfies property (P3) from Definiion \ref{defn-weak-prague}:
+\[
+\bB + p + q = \bB \;\; \implies \;\; \bB + p = \bB
+\]
+for all pairs of cycles $p,q$ from $x$ to $x$ and all $\bB \le \bA_x$. In particular, this always occurs if $\fX$ is $pq$-consistent.
+\end{prop}
+
+\begin{defn} Suppose that $\fX$ is an instance, and let $\cS$ be any strand of $\fX$ such that for each variable $x$, there is at most one $\bB_x$ such that $(x,\bB_x) \in \cS$. We define the \emph{full restriction} of $\fX$ to $\cS$ to be the instance $\fX'$ whose variable set is the set of variables $x$ such that some $(x,\bB_x) \in \cS$, with each variable domain reduced to $\bA_x$, where for each relation of $\fX$ we project it onto the set of variables in $\fX'$ and restrict each of its coordinates to $\bB_x$.
+\end{defn}
+
+In order to mimic the situation of an unlinked instance as well as possible, we might also like to have the property that for each variable $x$ such that some $(x,\bB)$ is in the strand $\cS$, we have parallel strands $\cS'$ which partition the domain $\bA_x$ into disjoint subalgebras $\bB'$ with each $(x,\bB') \in \cS'$.
+
+\begin{prop} If $\fX$ is an arc-consistent instance, then for each strand $\cS$, each $(x,\bB)$, and each $a \not\in \bB$, there is a strand $\cS'$, involving the same set of variables as $\cS$, such that $(x,\bB') \in \cS'$ for some $\bB' \le \bA_x$ with $a \in \bB'$ and $\bB \cap \bB' = \emptyset$, as long as $\fX$ also satisfies property (P2) from Definition \ref{defn-weak-prague}:
+\[
+\bB + p = \bB \;\; \implies \;\; \bB - p = \bB
+\]
+for all cycles $p$ from $x$ to $x$ and all $\bB \le \bA_x$.
+
+In this case, a more precise statement is true: for each $(x,\bB) \in \cS$ there is a congruence $\theta_\cS$ on $\bA_x$ such that $\bB$ is a union of congruence classes of $\theta_\cS$, and each congruence class $\bB'$ of $\theta_\cS$ is contained in a parallel strand $\cS'$.
+\end{prop}
+\begin{proof} Consider the set $\mathcal{C}$ of all cycles $p$ from $x$ to $x$ such that $\bB + p = \bB$. Property (P2) is the guarantee that for each $p \in \mathcal{C}$, $\bB$ will be a union of congruence classes of the linking congruence of $\PP_p$. Define $\theta_\cS$ to be the join of the collection of all linking congruences of $\PP_p$ for $p \in \mathcal{C}$. Then $\bB$ is still a union of congruence classes of $\theta_\cS$.
+
+For any congruence class $\bB'$ of $\theta_\cS$, we define the parallel strand $\cS'$ as follows: for every way of splitting some $p \in \mathcal{C}$ as $p = q + r$, where $q$ is a path from $x$ to a variable $y$, we include $(y,\bB'+q)$ in $\cS'$. Since $\bB'$ is a congruence class of $\theta_\cS$, $\bB'$ will be a union of congruence classes of the linking congruence of $\PP_p$, so $\bB' + p - p = \bB'$, so $(\bB'+q) + r-p = \bB'$, and we see that $(x,\bB')$ and $(y,\bB'+q)$ are indeed part of the same equivalence class of the implication qoset of $\fX$.
+\end{proof}
+
+To guarantee that the restriction of our instance $\fX$ to any strand is arc-consistent, we need a still stronger consistency principle. This consistency principle was used to give one of the original proofs of the fact that $(2,3)$-consistency was strong enough to ensure satisfiability of any CSP with bounded width \cite{barto}. I will define it a bit differently here, but will show that the definition given here is equivalent to the original definition by following an argument from \cite{barto-conservative-revisited}.
+
+\begin{defn} An arc-consistent instance $\fX$ is called a \emph{Prague instance} if for every $(x,\bB), (y,\bC)$ in the same equivalence class of the implication qoset, and for every path $p$ of length $1$ from $x$ to $y$, we have $\bB + p = \bC$.
+\end{defn}
+
+\begin{prop} If $\fX$ is a Prague instance, then $\fX$ satisfies conditions (P2) and (P3) of Definition \ref{defn-weak-prague}, so $\fX$ is a weak Prague instance.
+\end{prop}
+
+\begin{prop}[Barto and Kozik \cite{barto-kozik-bounded-width}, \cite{barto-conservative-revisited}]\label{prop-prague} If $\fX$ is arc-consistent, then the following are equivalent:
+\begin{itemize}
+\item[(a)] for every $(x,\bB), (y,\bC)$ in the same equivalence class of the implication qoset, and for every path $p$ of length $1$ from $x$ to $y$, we have $\bB + p \subseteq \bC$.
+\item[(b)] $\fX$ is a Prague instance,
+\item[(c)] for every variable $x$ and every pair of paths $p,q$ from $x$ to $x$ such that the variables involved in $p$ are a subset of the variables involved in $q$, if $b \in \{a\} + p$ then there is some $j \ge 0$ such that $b \in \{a\} + jq$,
+\item[(d)] for every variable $x$ and every pair of paths $p,q$ from $x$ to $x$ such that the variables involved in $p$ are a subset of the variables involved in $q$, then for every sufficiently large $j$ we have $\{a\} + p \subseteq \{a\} + jq$.
+\end{itemize}
+\end{prop}
+\begin{proof} For the implication from (a) to (b), note that from $\bB + p \subseteq \bC$ and $\bC - p \subseteq \bB$ we can immediately conclude that $\bB + p = \bC$.
+
+For (b) $\implies$ (c), let $p,q$ be as in (c). Find a $j \ge 1$ such that $\{a\} + jq = \{a\} + 2jq$, write $\bB = \{a\} + jq$, and let $\cS$ be the strand of the implication digraph containing $(x, \bB)$. Since every Prague instance satisfies property (P3), for each variable $y$ which shows up in the cycle $q$ there is a unique $\bC$ such that $(y,\bC) \in \cS$. Since every step of the cycle $p$ goes between variables involved in $\cS$ and $\fX$ is a Prague instance, we have $\bB + p = \bB$, and for the same reason we have $\bB - jq = \bB$. From
+\[
+a \in \{a\} + jq - jq = \bB - jq = \bB
+\]
+and $b \in \{a\} + p$, we get
+\[
+b \in \{a\} + p \subseteq \bB + p = \bB = \{a\} + jq.
+\]
+
+For (c) $\implies$ (d), it's enough to prove that (c) implies $a \in \{a\} + jq$ for every sufficiently large $j$. Since $\fX$ is arc-consistent, there is some $b$ such that $b \in \{a\} + q$, and since $a \in \{b\} - q$ (c) implies there is some $j \ge 0$ such that $a \in \{b\} + jq$. Since $b \in \{a\} + q$, we have $a \in \{a\} + (j+1)q$. Now set $r = (j+1)q$, and by applying (c) again we see that there is some $k \ge 0$ such that
+\[
+a \in \{b\} + kr \subseteq \{a\} + q + k(j+1)q = \{a\} + (k(j+1) + 1)q.
+\]
+Since $j+1$ and $k(j+1) + 1$ are relatively prime positive integers, every sufficiently large number can be written as a positive combination of $j+1$ and $k(j+1)+1$, which proves (d).
+
+For (d) $\implies$ (a), let $q$ be a path from $y$ to $x$ such that $\bC + q = \bB$, and let $r$ be a path from $x$ to $y$ such that $\bB + r = \bC$. Then for every $j$ we have $\bC + j(q+r) = \bC$. Since the cycle $q+p$ from $y$ to $y$ only involves a subset of the variables involved in $q+r$, by part (d) we have $\bC + (q+p) \subseteq \bC + j(q+r)$ for every sufficiently large $j$, so
+\[
+\bB + p = \bC + q+p \subseteq \bC + j(q+r) = \bC.\qedhere
+\]
+\end{proof}
+
+\begin{prop}\label{prop-prague-reduction} If $\fX$ is a Prague instance, and if $\cS$ is a strand of $\fX$, then the full restriction of $\fX$ to $\cS$ (which restricts both the set of variables and the domains) will be arc-consistent - in fact, it will also be a Prague instance.
+
+If $\cS$ is also a \emph{maximal} strand in the qoset of pairs $(x,\bB)$ such that $\bB < \bA_x$, then the partial restriction of $\fX$ to $\cS$ (which restricts the domains but not the set of variables) is also arc-consistent. If $\cS$ is additionally absorbing, then the partial restriction of $\fX$ to $\cS$ will even be a Prague instance.
+\end{prop}
+\begin{proof} The statement about the full restriction follows from the fact that for any tuple $r$ of any constraint relation $\RR \le_{sd} \bA_{x_1} \times \cdots \times \bA_{x_n}$, if $\pi_{x_i}(r) \in \bB_i$ and $(x_i,\bB_i) \in \cS$, then we necessarily have $\pi_{x_j}(r) \in \bB_j$ for any $(x_j, \bB_j) \in \cS$, by the definition of a Prague instance. For the statement about the partial restriction, suppose that some variable $x_i$ does not not occur in the strand $\cS$, and that the relation $\RR$ involves a variable $x_j$ with $(x_j, \bB_j) \in \cS$. Then by the maximality of $\cS$, we must have $\bB_j + \pi_{x_jx_i}(\RR) = \bA_{x_i}$, so for each $a \in \bA_{x_i}$, there is a tuple $r \in \RR$ with $\pi_{x_j}(r) \in \bB_j$, and then by the first part we have $\pi_{x_k}(r) \in \bB_k$ for each $(x_k, \bB_k) \in \cS$.
+
+Now suppose that $\cS$ is absorbing. By the equivalence between parts (b) and (c) of Proposition \ref{prop-prague}, it's enough to show that for every cycle $p$ from $x$ to $x$ in $\fX$, if we let $p'$ be the corresponding path in the partially restricted instance, then for any $a,b \in \bB_x$ with $(x,\bB_x) \in \cS$ and $b \in \{a\}+p$, there is some $j \ge 1$ such that $b \in \{a\} + jp'$. For this, we let $\RR = \PP_p \le \bA_x\times \bA_x$ and $\bS = \PP_{p'} \le \bB_x \times \bB_x$, and we aim to apply Corollary \ref{cor-absorbing-directed-path}.
+
+Since $\cS$ is absorbing, we have $\bS \lhd \RR$. Since the restriction of $\fX$ to $\cS$ is arc-consistent, $\bS$ is subdirect in $\bB_x \times \bB_x$. Thus, there is some directed cycle $\mathcal{C}_a$ of $\bS$ which can be reached from $a$ in $\bS$, and there is some directed cycle $\mathcal{C}_b$ of $\bS$ with a directed path from $\mathcal{C}_b$ to $b$ in $\bS$. Since $\fX$ is a Prague instance and $\mathcal{C}_a, \mathcal{C}_b$ are contained in the same weakly connected component of $\RR$, there is some directed path from $\mathcal{C}_a$ to $\mathcal{C}_b$ in $\RR$ by Proposition \ref{prop-p2}. Now we can apply Corollary \ref{cor-absorbing-directed-path} to see that there is a directed path from $\mathcal{C}_a$ to $\mathcal{C}_b$ in $\bS$, so there is a directed path from $a$ to $b$ in $\bS$, and we are done.
+\end{proof}
+
+In practice, the local consistency algorithm used to reduce general instances to Prague instances or to cycle-consistent instances actually produces an instance with an even greater level of consistency.
+
+\begin{defn} An instance $\fX$ is $(l,k)$-\emph{minimal}, for $k \ge l$, if
+\begin{itemize}
+\item every set of at most $k$ variables of $\fX$ is in the scope of some constraint, and
+\item for any set $S$ of at most $l$ variables and any pair of constraints $C_1, C_2$ of $\fX$ whose scopes contain $S$, the existential projections of $C_1$ and $C_2$ to the variables in $S$ are the same.
+\end{itemize}
+\end{defn}
+
+\begin{prop} If $\fX$ is $(2,3)$-minimal, then $\fX$ is a Prague instance, and $\fX$ is cycle-consistent.
+\end{prop}
+\begin{proof} We leave cycle-consistency to the reader, and will prove that $\fX$ is a Prague instance. By the equivalence of (a) and (b) in Proposition \ref{prop-prague}, it's enough to show that for $(x,\bB) \preceq (y,\bC)$ and $p$ a $1$ step path from $x$ to $y$, we always have $\bB + p \subseteq \bC$. Let $q$ be the path from $x$ to $y$ with $\bB + q = \bC$, and suppose that the variables which occur along the path $q$ are $x = x_0, x_1, ..., x_n = y$, and let $q = q_1 + \cdots + q_n$ be the decomposition of $q$ into single step paths. For each $i$, let $\bB_i = \bB + q_1 + \cdots + q_i$, and let $p_i$ be a single step path from $x_i$ to $y$ (which exists by $(2,3)$-minimality of $\fX$).
+
+We prove by induction on $i$ that $\bB + p \subseteq \bB_i + p_i$. For the inductive step, we need to show that $\bB_i + p_i \subseteq \bB_{i+1} + p_{i+1}$, that is, $\bB_i + p_i \subseteq \bB_i + q_{i+1} + p_{i+1}$. This follows from the fact that there is some constraint whose scope contains the three variables $x_i, x_{i+1}$, and $y$, together with the fact that the two-variable projections of this constraint onto pairs of variables from $\{x_i,x_{i+1},y\}$ agree with the binary relations $\PP_{p_i}, \PP_{q_{i+1}}, \PP_{p_{i+1}}$, by $(2,3)$-minimality.
+\end{proof}
+
+The relationships between the various types of consistency introduced so far are summarized in the Hasse diagram below.
+
+\begin{center}
+\begin{tikzpicture}[scale=2]
+  \node (1) at (0,1) {$(2,3)$-minimal};
+  \node (2) at (0.6,0.4) {Prague instance};
+  \node (3) at (0.8,-0.3) {(P1), (P2), (P3)};
+  \node (4) at (0,-1) {$pq$-consistent};
+  \node (5) at (-0.9,0) {cycle-consistent};
+  \node (6) at (0,-1.5) {(P1), (P3)};
+  \node (7) at (1.9,0.7) {SDP-relaxation};
+  \node (8) at (2.2,-0.6) {LP-relaxation};
+  \node (9) at (1.4,-1.4) {(P1), (P2)};
+  \node (10) at (0.8,-2) {arc-consistent};
+  \draw (1) -- (2) -- (3) -- (4) -- (5) -- (1);
+  \draw (4) -- (6);
+  \draw (3) -- (7) -- (8) -- (9) -- (3);
+  \draw (9) -- (10) -- (6);
+\end{tikzpicture}
+\end{center}
+
+When our instance consists of just a single relation $\RR$ (with no repeated variables), all of these consistency conditions become equivalent to subdirectness of the relation $\RR$. Studying this very special case is what leads to the main algebraic ingredient we will need for the conservative CSP dichotomy.
+
+\begin{defn}\label{defn-relation-strand} If $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$, and if $\bB_i \le \bA_i$ for all $i$, then an $(\RR,\bB)$-\emph{strand} is an equivalence class of the quasiorder $\preceq$ on $[n]$ which is the transitive closure of
+\[
+\bB_i + \pi_{ij}(\RR) = \bB_j \;\; \implies \;\; i \preceq j.
+\]
+The equivalence classes of this quasiorder are the same as the equivalence classes of the more permissive quasiorder
+\[
+i \preceq' j \;\; \iff \;\; \bB_i + \pi_{ij}(\RR) \subseteq \bB_j,
+\]
+and these quasiorders are the same in the special case where $\bB_i$ is a minimal absorbing subalgebra of $\bA_i$ for each $i$.
+\end{defn}
+
+Using either the fact that the instance consisting of just $\RR$ is cycle-consistent, or the fact that it satisfies (P1) and (P2), we have the following result.
+
+\begin{prop}\label{prop-relation-strand} If $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$, and if $\bB_i \le \bA_i$ for all $i$, then for each $(\RR,\bB)$-strand $S \subseteq [n]$ there is a congruence $\theta_i \in \Con(\bA_i)$ for each $i \in S$ such that each $\bB_i$ is a union of congruence classes of $\theta_i$, and for any $i,j \in S$, the binary relation
+\[
+\pi_{ij}(\RR)/(\theta_i\times\theta_j) \le_{sd} \bA_i/\theta_i \times \bA_j/\theta_j
+\]
+is the graph of an isomorphism.
+\end{prop}
+
+The algebraic input needed for conservative CSPs is to show that if we take the $\bB_i$s to be minimal absorbing subalgebras of the $\bA_i$s such that $\RR \cap (\bB_1 \times \cdots \times \bB_n) \ne \emptyset$, then the $(\RR,\bB)$-strands do not interact with each other. This algebraic miracle is a special property of conservative Taylor algebras - it doesn't seem to hold in general.%TODO: counterexample to the general case?
+
+
+\section{The Rectangularity Theorem for conservative Taylor algebras}
+
+There are two versions of the Rectangularity Theorem for conservative algebras: one uses the theory of absorbing subalgebras and is proved in \cite{barto-conservative-revisited}, while the other uses Bulatov's theory of affine-semilattice components (shortened to \emph{as-components}) of the colored graph and is proved in \cite{bulatov-conservative-rerevisited}. Generally speaking, the affine-semilattice components of conservative Taylor algebras (and of subdirect products of conservative Taylor algebras) tend to behave like minimal absorbing subalgebras. We will mainly focus on the absorbing subalgebra approach.
+
+First we will state both versions of the Rectangularity Theorem, before diving into the proofs.
+
+\begin{thm}[Rectangularity Theorem for conservative Taylor algebras, absorbing version \cite{barto-conservative-revisited}]\label{thm-rectangularity-conservative-absorbing} If $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$ is a subdirect product of conservative Taylor algebras $\bA_i$, and if a system of minimal absorbing subalgebras $\bB_i \llhd \bA_i$ for each $i$ satisfies
+\[
+\RR \cap (\bB_1 \times \cdots \times \bB_n) \ne \emptyset,
+\]
+then
+\[
+\RR \cap (\bB_1 \times \cdots \times \bB_n) = \prod_{S\text{ an }(\RR,\bB)\text{-strand}} \Big(\pi_S(\RR) \cap \prod_{i\in S}\bB_i\Big).
+\]
+\end{thm}
+
+The choice of absorption concept used in the Rectangularity Theorem is fairly arbitrary - we could use J\'onsson absorption or central absorption (as long as the algebras in question are minimal Taylor) instead, and it would still be true. We will use $\lhd_X$ in this section to refer to any choice of an absorption concept as in Section \ref{s-absorbing-arc-consistent} for which the Absorption Theorem \ref{absorption-theorem} applies (so if we take $\lhd_X$ to be central absorption, then we need to assume that we are in a context where binary absorption implies central absorption, such as the context of minimal Taylor algebras).
+
+\begin{defn} If $\bA$ is a subdirect product of conservative minimal Taylor algebras, then we define a quasiorder on the elements of $\bA$ by $a \preceq_{as} b$ if there is a sequence $a = a_0, a_1, ..., a_n = b$ such that for each $i$ either $\{a_i,a_{i+1}\}$ is a $\ZZ/2^{\aff}$-subalgebra or $a_i \rightarrow a_{i+1}$.
+
+We say that a subset $B \subseteq \bA$ is an \emph{as-component} of $\bA$ if $B$ is a maximal equivalence class of the quasiorder $\preceq_{as}$. We say that $\bA$ is \emph{strongly as-connected} if $\bA$ consists of a single equivalence class of the quasiorder $\preceq_{as}$.
+\end{defn}
+
+\begin{thm}[Rectangularity Theorem for conservative Taylor algebras, as-component version \cite{bulatov-conservative-rerevisited}] If $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$ is a subdirect product of conservative minimal Taylor algebras $\bA_i$, and if a system of as-components $\bB_i \subseteq \bA_i$ for each $i$ satisfies
+\[
+\RR \cap (\bB_1 \times \cdots \times \bB_n) \ne \emptyset,
+\]
+then
+\[
+\RR \cap (\bB_1 \times \cdots \times \bB_n) = \prod_{S\text{ an }(\RR,\bB)\text{-strand}} \Big(\pi_S(\RR) \cap \prod_{i\in S}\bB_i\Big).
+\]
+\end{thm}
+
+We will frequently use the following consequence of the Absorption Theorem \ref{absorption-theorem} throughout the proof. Note that every strongly as-connected algebra is certainly absorption-free, so it applies in that context as well (it's a good exercise to give a direct proof of the analogue for strongly as-connected algebras, along the lines of Theorem \ref{strong-binary} - if you can't solve it, see \cite{bulatov-conservative-rerevisited}).
+
+\begin{prop}\label{prop-absorption-free-linking} Let $\RR \le_{sd} \bA_1 \times \bA_2$ be a subdirect product of absorption-free idempotent algebras, and let $\theta_1$ be a maximal congruence on $\bA_1$. Then either $\theta_1$ contains the linking congruence of $\RR$ on $\bA_1$, in which case there is a maximal congruence $\theta_2$ on $\bA_2$ such that
+\[
+\RR/(\theta_1\times\theta_2) \le \bA_1/\theta_1 \times \bA_2/\theta_2
+\]
+is the graph of an isomorphism from $\bA_1/\theta_1 \xrightarrow{\sim} \bA_2/\theta_2$, or else we have
+\[
+(a/\theta_1) + \RR = \bA_2
+\]
+for each congruence class $a/\theta_1$ of $\theta_1$.
+\end{prop}
+\begin{proof} This is a restatement of Corollary \ref{absorption-free-binary}.
+\end{proof}
+
+The next lemma is one of the key places where conservativity is really used in the argument. Its analogue for as-components of conservative minimal Taylor algeras (replacing ``absorption-free'' with ``strongly as-connected'') is an easy exercise.
+
+\begin{lem}[Barto \cite{barto-conservative-revisited}]\label{lem-conservative-subalgebra-absorption-free} If $\bA$ is an absorption-free conservative algebra, $\theta$ is a proper congruence on $\bA$, and $\bB \le \bA$ is any subalgebra such that $\bB$ has at least one element from each congruence class of $\theta$, then $\bB$ is also absorption-free.
+\end{lem}
+\begin{proof} Suppose for contradiction that $\bC \lhd_X \bB$, with $\bC \ne \bB$. Pick some $b \in \bB\setminus\bC$ such that $\bC \not\subseteq b/\theta$ (this is possible as long as $\theta$ has at least two congruence classes), and let $\bB'$ be $(\bB \setminus (b/\theta))\cup\{b\}$, that is, $\bB'$ is the subalgebra of $\bB$ formed by removing every element which is congruent to $b$ other than $b$ itself (that $\bB'$ is a subalgebra follows from the fact that $\bB$ is conservative). Then since $\lhd_X$ is compatible with pp-formulas, if we set $\bC' = \bC \cap \bB'$, we have $\bC' \lhd_X \bB'$. Applying compatibility with pp-formulas again, we have
+\[
+\bC'/\theta \lhd_X \bB'/\theta = \bA/\theta,
+\]
+and by the construction of $\bC'$ we see that $\bC'/\theta \ne \bA/\theta$, since $b/\theta \not\in \bC'/\theta$. Therefore $\bA$ has a proper absorbing subalgebra (i.e. the preimage of $\bC'/\theta$ under the quotient homomorphism $\bA \twoheadrightarrow \bA/\theta$), which is a contradiction.
+\end{proof}
+
+The next result is also specific to conservative algebras (see Example \ref{ex-subdirect-2-semi-not-absorption-free} for a counterexample in the 2-semilattice case). An analogue for strongly as-connected algebras can be proved using the same argument (see \cite{bulatov-conservative-rerevisited}).
+
+\begin{thm}[Barto \cite{barto-conservative-revisited}]\label{thm-conservative-subdirect-absorption-free} If $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$ is a subdirect product of absorption-free conservative algebras, then $\RR$ is also absorption-free.
+\end{thm}
+\begin{proof} We induct on $n$ and on the sizes of the $\bA_i$s. Suppose that $\bS \lhd_X \RR$ - we aim to prove that $\bS = \RR$. By compatibility with pp-formulas we have $\pi_i(\bS) \lhd_X \pi_i(\RR) = \bA_i$ for each $i$, so since the $\bA_i$s are absorption-free $\bS$ is also a subdirect product of the $\bA_i$s.
+
+Let $\theta_1$ be a maximal congruence on $\bA_1$. By Proposition \ref{prop-absorption-free-linking}, for each $i$ either
+\begin{itemize}
+\item there is a maximal congruence $\theta_i \in \Con(\bA_i)$ such that $\pi_{1i}(\RR)/\theta_1\times\theta_i$ is the graph of an isomorphism between $\bA_1/\theta_1$ and $\bA_i/\theta_i$, or
+\item we have $a/\theta_1 + \pi_{1i}(\RR) = \bA_i$ for all congruence classes $a/\theta_1$ of $\theta_1$.
+\end{itemize}
+Rearrange the coordinates so that $\bA_1, ..., \bA_k$ are in the first case, with corresponding maximal congruences $\theta_i$, while $\bA_{k+1}, ..., \bA_n$ are in the second case. Define a congruence $\theta$ on the product by
+\[
+\theta = \theta_1 \times \cdots \times \theta_k \times 0_{\bA_{k+1}} \times \cdots \times 0_{\bA_n} \in \Con(\bA_1 \times \cdots \times \bA_n).
+\]
+
+First suppose that $\theta$ is the trivial congruence (i.e. each $\theta_i = 0_{\bA_i}$). In this case each $\bA_i$ with $1 < i \le k$ is a redundant coordinate (since $\pi_{1i}(\RR)$ is the graph of an isomorphism between $\bA_1$ and $\bA_i$), so we can assume without loss of generality that $k = 1$. Let $a$ be any element of $\bA$, and consider the relations $\bS_a, \RR_a$ given by
+\[
+\RR_a = \{(x_2, ..., x_n) \mid (a,x_2, ..., x_n) \in \RR\} \le \bA_2 \times \cdots \times \bA_n,
+\]
+with $\bS_a$ defined similarly. By compatibility with pp-formulas, we have $\bS_a \lhd_X \RR_a$, and since $a + \pi_{1i}(\RR) = \bA_i$ for each $i \ge 2$, $\RR_a$ is a subdirect product of $\bA_2, ..., \bA_n$. By the induction hypothesis, we then have $\bS_a = \RR_a$, and since this is true for every $a \in \bA$, we have $\bS = \RR$.
+
+Now suppose that $\theta$ is nontrivial - suppose without loss of generality that $\theta_1$ is a nontrivial congruence of $\bA_1$, with $(a,a') \in \theta_1$ for some $a \ne a'$. Let $\bB = \bA \setminus \{a\}$, and let $\bB' = \bA\setminus\{a'\}$. By Lemma \ref{lem-conservative-subalgebra-absorption-free}, each of $\bB, \bB'$ is absorption-free. Define $\RR_\bB$ by
+\[
+\RR_\bB = \{(x_2, ..., x_n) \mid \exists b \in \bB \;\; (b,x_2, ..., x_n) \in \RR\} \le \bA_2 \times \cdots \times \bA_n,
+\]
+and similarly define $\bS_\bB$, $\RR_{\bB'}, \bS_{\bB'}$. We have $\bS_\bB \lhd_X \RR_\bB$ and $\bS_{\bB'} \lhd_X \RR_{\bB'}$ by compatibility with pp-formulas. For each $i \le k$, we have
+\[
+\pi_i(\RR_\bB)/\theta_i = \pi_i(\RR_\bB/\theta) = \bB/\theta_1 + \pi_{1i}(\RR/\theta) = \bA_1/\theta_1 + \pi_{1i}(\RR/\theta) = \bA_i/\theta_i,
+\]
+so by Lemma \ref{lem-conservative-subalgebra-absorption-free}, $\pi_i(\RR_\bB)$ is absorption-free for each $i \le k$. For $i > k$, we have
+\[
+\pi_i(\RR_\bB) = \bB + \pi_{1i}(\RR) = \bA_i,
+\]
+since $\bB$ contains at least one full congruence class of $\theta_1$. Thus for each $i \in [n]$, $\pi_i(\RR_\bB)$ is absorption-free, so since $|\bB| < |\bA_1|$ we can apply the induction hypothesis to see that $\bS_\bB = \RR_\bB$. A similar argument shows that $\bS_{\bB'} = \RR_{\bB'}$, and since $\bB \cup \bB' = \bA_1$ we see that $\bS = \RR$.
+\end{proof}
+
+In order to get a foothold into the Rectangularity Theorem, we start with the case of binary relations. We will only assume that one of the algebras involved is conservative - this way we can later apply the result with the other algebra equal to a larger subdirect product of conservative algebras. Once again, an analogous argument works for as-components (we need a version of Theorem \ref{strong-binary} for as-components to push the argument through, see \cite{bulatov-conservative-rerevisited}).%TODO: prove the analogue of Theorem \ref{strong-binary} for as-components
+
+\begin{lem}[Barto \cite{barto-conservative-revisited}] Suppose $\RR \le_{sd} \bA_1 \times \bA_2$, where $\bA_1$ is conservative, $\bA_2$ is idempotent, and both are finite Taylor algebras. Suppose further that $\bB_i \llhd_X \bA_i$ for $i=1,2$, that $\RR \cap (\bB_1 \times \bB_2) \ne \emptyset$, and that there is some $(a,b) \in \RR$ with $a \in \bA_1\setminus\bB_1$ and $b \in \bB_2$. Then $\bB_1 \times \bB_2 \subseteq \RR$.
+\end{lem}
+\begin{proof} Since $(\bB_1 + \RR) \cap \bB_2$ is a nonempty absorbing subalgebra of $\bB_2$ and $\bB_2$ is absorption-free, we have $\bB_1 + \RR \supseteq \bB_2$, and similarly $\bB_1 \subseteq \bB_2 - \RR$. Thus $\RR \cap (\bB_1 \times \bB_2)$ is subdirect in $\bB_1 \times \bB_2$. Additionally, $\bB_1 \cup \{a\}$ is a subalgebra of $\bA_1$ since $\bA_1$ is conservative, so by the assumption $a \in \bB_2 - \RR$ we can assume without loss of generality that $\bA_1 = \bB_1 \cup \{a\}$ and $\bA_2 = \bB_2$.
+
+If $\RR$ is linked, then by Theorem \ref{absorbing-linked} so is $\RR \cap (\bB_1 \times \bB_2)$, and then by the Absorption Theorem \ref{absorption-theorem} we have $\bB_1 \times \bB_2 \subseteq \RR$. Otherwise, the linking congruence of $\RR$ is a proper congruence $\theta_1$ on $\bA_1$. If $c \in (\{b\} - \RR) \cap \bB_1$, then we have $(a,c) \in \theta_1$, so $\bA_1/\theta_1 = \bB_1/\theta_1$. Let
+\[
+\bA_1' = (\bA_1 \setminus (a/\theta_1)) \cup \{a\},
+\]
+then by compatibility with pp-formulas we have
+\[
+\bB_1 \setminus (a/\theta_1) = \bB_1 \cap \bA_1' \lhd_X \bA_1',
+\]
+so
+\[
+(\bB_1/\theta_1) \setminus (a/\theta_1) \lhd_X \bA_1'/\theta_1 = \bB_1/\theta_1,
+\]
+which implies that $\bB_1 \setminus (a/\theta_1) \lhd_X \bB_1$, which is a contradiction.
+\end{proof}
+
+Now we bootstrap our way up.
+
+\begin{lem}[Barto \cite{barto-conservative-revisited}] Suppose $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n \times \bA_{n+1}$, where $\bA_1, ..., \bA_n$ are conservative, $\bA_{n+1}$ is idempotent, and each $\bA_i$ is a finite Taylor algebra. Suppose that we have $\bB_i \llhd_X \bA_i$ for all $i \in [n+1]$, that
+\[
+\RR \cap (\bB_1 \times \cdots \times \bB_n \times \bB_{n+1}) \ne \emptyset,
+\]
+that $[n]$ is an $(\RR,\bB)$-strand, and that there is some $(a_1, ..., a_n, b_{n+1}) \in \RR$ such that $a_i \in \bA_i\setminus \bB_i$ for $i \in [n]$ while $b_{n+1} \in \bB_{n+1}$. Then we have
+\[
+\RR \cap (\bB_1 \times \cdots \times \bB_n \times \bB_{n+1}) = (\pi_{[n]}(\RR) \cap (\bB_1 \times \cdots \times \bB_n)) \times \bB_{n+1}.
+\]
+\end{lem}
+\begin{proof} We induct on $n$ and on the sizes of the $\bA_i$s, and note that we have already proved the case $n=1$ in the previous lemma. By Proposition \ref{prop-relation-strand} we can find maximal congruences $\theta_i \in \Con(\bA_i)$ for $i \in [n]$ such that
+\[
+\pi_{ij}(\RR)/(\theta_i \times \theta_j) \le \bA_i/\theta_i \times \bA_j/\theta_j
+\]
+is the graph of an isomorphism for all $i,j \in [n]$. If any $\theta_i$ is trivial (i.e. if $\bA_i$ is simple for some $i \in [n]$) then the $i$th coordinate of $\RR$ is redundant, so we can apply the induction hypothesis. Otherwise, we have $\theta_1 \ne 0_{\bA_1}$.
+
+Let $b_1$ be any element of $\bB_1$. Let $\bA_1'$ be any proper subalgebra of $\bA_1$ such that $b_1, a_1 \in \bA_1'$ and such that $\bA_1'/\theta_1 = \bA_1/\theta_1$, and let $\bB_1' = \bB_1 \cap \bA_1'$. For each $i \in [n+1]$ define $\bA_i', \bB_i'$ by
+\[
+\bA_i' = \bA_1' + \pi_{1i}(\RR), \;\;\; \bB_i' = \bB_i \cap \bA_i'.
+\]
+Then since $\pi_{1i}(\RR)/(\theta_1 \times \theta_i)$ is the graph of an isomorphism for each $i \in [n]$, we have $\bA_i'/\theta_i = \bA_i/\theta_i$ and $\bB_i' = \bB_1' + \pi_{1i}(\RR)$ for all $i \in [n]$. Then since each $\bB_i'/\theta_i = \bB_i/\theta_i$, we can apply Lemma \ref{lem-conservative-subalgebra-absorption-free} to see that $\bB_i'$ is absorption-free for each $i \in [n]$. Additionally, by the previous lemma (i.e., the $n=1$ case) we have
+\[
+\bB_1 \times \bB_{n+1} \subseteq \pi_{1,n+1}(\RR),
+\]
+so $\bB_{n+1}' = \bB_{n+1}$. Thus if we set
+\[
+\RR' = \RR \cap (\bA_1' \times \cdots \times \bA_n' \times \bA_{n+1}'),
+\]
+then $(a_1, ..., a_n, b_{n+1}) \in \RR'$ and we can apply the induction hypothesis to $\RR'$ to see that
+\[
+\RR' \cap (\bB_1' \times \cdots \times \bB_n' \times \bB_{n+1}) = (\pi_{[n]}(\RR') \cap (\bB_1' \times \cdots \times \bB_n')) \times \bB_{n+1}.
+\]
+In particular, any tuple in $(\pi_{[n]}(\RR) \cap \prod_{i\in [n]} \bB_i) \times \bB_{n+1}$ such that the first coordinate is $b_1$ is contained in $\RR'$, and therefore is also contained in $\RR$. Since $b_1$ was an arbitrary element of $\bB_1$, we are done.
+\end{proof}
+
+\begin{proof}[Proof of the Rectangularity Theorem \ref{thm-rectangularity-conservative-absorbing}, following \cite{barto-conservative-revisited}] We induct on $n$, the number of algebras occuring in the product. Suppose for the sake of contradiction that $\RR$ is a counterexample, i.e. that there is some
+\[
+b = (b_1, ..., b_n) \in \prod_{S\text{ an }(\RR,\bB)\text{-strand}} \Big(\pi_S(\RR) \cap \prod_{i\in S}\bB_i\Big)
+\]
+such that $b \not\in \RR$. By the induction hypothesis, we have $\pi_{[n]\setminus\{i\}}(b) \in \pi_{[n]\setminus\{i\}}(\RR)$ for each $i \in [n]$.
+
+Consider the quasiorder $\preceq$ on $[n]$ from Definition \ref{defn-relation-strand} defined by
+\[
+i \preceq j \;\; \iff \;\; \bB_i + \pi_{ij}(\RR) = \bB_j,
+\]
+and suppose without loss of generality that $[k]$ is a $\preceq$-minimal $(\RR,\bB)$-strand for some $k \le n$. If there is any tuple
+\[
+(a_1, ..., a_k, b_{k+1}', ..., b_n') \in \RR
+\]
+such that $a_i \in \bA_i\setminus \bB_i$ for $i \in [k]$ and $b_j' \in \bB_j$ for $j > k$, then we can apply the previous lemma to the situation
+\[
+\RR \le_{sd} \bA_1 \times \cdots \times \bA_k \times \pi_{[k+1,n]}(\RR)
+\]
+with
+\[
+\pi_{[k+1,n]}(\RR) \cap \prod_{j > k} \bB_j \; \llhd_X \; \pi_{[k+1,n]}(\RR),
+\]
+by compatibility with pp-formulas and Theorem \ref{thm-conservative-subdirect-absorption-free}, to finish the proof. To arrange for this situation, we consider the relation
+\[
+\RR' = \RR \cap \Big(\Big(\{(b_1, ..., b_k)\} \times \prod_{i\in [k]} (\bA_i\setminus \bB_i)\Big) \times \prod_{j>k} \bA_j \Big),
+\]
+set $\bA_i' = \pi_i(\RR')$, and set $\bB_i' = \bA_i' \cap \bB_i$ for each $i$. By the induction hypothesis applied to $\pi_{[k]\cup\{j\}}(\RR)$, we see that $\bB_j' = \bB_j$ for each $j > k$, so we have $\bB_i' \llhd_X \bA_i'$ for all $i \le n$. We will apply the induction hypothesis to $\pi_{[k+1,n]}(\RR')$, but first we need to check that $\pi_{[k+1,n]}(\RR')$ has more than one strand.
+
+Let $S \subset [n]$ be some $(\RR,\bB)$-strand which is disjoint from $[k]$. By the assumption that $[k]$ was a $\preceq$-minimal $(\RR,\bB)$-strand, there must be some $(c_1, ..., c_n) \in \RR$ such that $c_i \not\in \bB_i$ for $i \in [k]$ and $c_j \in \bB_j$ for $j \in S$. Suppose without loss of generality that there is some $m \ge k$ such that $c_j \in \bB_j$ iff $j \in [m+1,n]$. If $m = k$, then we take $(a_1, ..., a_k, b_{k+1}', ..., b_n') = c$ to finish. Otherwise, since $c$ is an element of $\RR'$, we see that every strand of $\pi_{[k+1,n]}(\RR')$ is either contained in $[k+1,m]$ or contained in $[m+1,n]$. Thus, by the induction hypothesis we have
+\[
+\pi_{[k+1,n]}(\RR') \cap \prod_{j > k} \bB_j = \Big(\pi_{[k+1,m]}(\RR') \cap \prod_{j \in [k+1,m]} \bB_j \Big) \times \Big(\pi_{[m+1,n]}(\RR') \cap \prod_{j \in [m+1,n]} \bB_j \Big).
+\]
+Since we have $\pi_{[k+1,m]}(b) \in \pi_{[k+1,m]}(\RR')$ and $\pi_{[m+1,n]}(b) \in \pi_{[m+1,n]}(\RR')$ by the induction hypothesis applied to $\pi_{[1,m]}(\RR)$ and $\pi_{[k]\cup [m+1,n]}(\RR)$, we see that $\pi_{[k+1,n]}(b) \in \RR'$. Thus either $b \in \RR$, or there are some $a_i \in \bA_i \setminus \bB_i$ for $i \in [k]$ such that
+\[
+(a_1, ..., a_k, b_{k+1}, ..., b_n) \in \RR,
+\]
+which allows us to apply the previous lemma to finish the proof.
+\end{proof}
+
+
+\section{The algorithm for conservative CSPs}
+
+In this section we present Barto's simple algorithm from \cite{barto-conservative-revisited}. Bulatov's algorithm from \cite{bulatov-conservative-rerevisited} is similar in spirit, but it relies on ideas from Mar\'oti's ``Tree on top of Malcev'' algorithm \cite{tree-on-top-of-malcev} which we haven't covered yet.
+
+The main idea of Barto's algorithm for conservative CSPs is to try to reduce to the case where all edges of the colored graphs occuring in each of the variable domains $\bA_x$ are affine. In this case, any daisy chain term will be a Mal'cev term for each variable domain, and we can solve the problem by using the algorithm for CSPs with a Mal'cev polymorphism. In Bulatov's algorithm from \cite{bulatov-conservative-rerevisited}, the main idea is to reduce to the case where there are no semilattice edges instead, in which case any daisy chain term will be a ternary generalized majority-minority operation (that a ternary generalized majority-minority operation exists in this case also follows from Theorem \ref{thm-swap-gmm}).
+
+In order to accomplish this, we aim to show that if any semilattice or majority edge occurs in any variable domain of an instance $\fX$, then we can reduce some variable domain by solving an instance where every variable domain has been strictly decreased. We assume that our instance is $(2,3)$-minimal (or perhaps just that it is a Prague instance), and we consider the subqoset $\cE$ of the implication qoset consisting of pairs $(x,\bB)$ such that that $\bB \le \bA_x$ is an algebra with at least one proper absorbing subalgebra. The qoset $\cE$ will be nonempty as long as any algebra $\bA_x$ has any non-affine edge. We pick any maximal strand $\cS$ of the qoset $\cE$, and we note that the full restriction of our instance $\fX$ to the strand $\cS$ is then a Prague instance in which every single domain has a proper absorbing subalgebra by Proposition \ref{prop-prague-reduction}. We can then repeatedly apply Proposition \ref{prop-prague-reduction} (or, alternatively, we could apply Kozik's \cite{pq-consistency} result from Section \ref{s-absorbing-arc-consistent}, using the fact that every Prague instance is $pq$-consistent), to find an arc-consistent absorbing reduction $\fX'$ of the full restriction of $\fX$ to the strand $\cS$, such that every variable domain in $\fX'$ is absorption free - and as a consequence, such that each variable domain in $\fX'$ is a proper subagebra of the corresponding variable domain in the original instance $\fX$. We can then apply the following consequence of the Rectangularity Theorem \ref{thm-rectangularity-conservative-absorbing}.
+
+\begin{thm}[Barto \cite{barto-conservative-revisited}] Suppose that $\fX$ is a Prague instance such that each variable domain $\bA_x$ is a conservative Taylor algebra. Let $\cE$ be the subqoset of the implication qoset which consists of pairs $(x,\bB)$ such that $\bB \le \bA_x$ and $\bB$ has a proper absorbing subalgebra, and let $\cS$ be any maximal strand of $\cE$.
+
+Suppose that for each $(x,\bB_x) \in \cS$ we choose a minimal absorbing subalgebra $\bC_x \llhd \bB_x$, such that the system of variable domains $\bC_x$ defines an arc-consistent reduction of the full restriction of $\fX$ to the strand $\cS$. Then one of the following is true:
+\begin{itemize}
+\item the instance $\fX$ has no solutions with any variable $x$ assigned to any value in $\bB_x$, for any $(x,\bB_x) \in \cS$,
+\item the instance $\fX'$ which we get by restricting to the variables in $\cS$ and by restricting each variable domain to the corresponding $\bC_x$ has a solution, and every solution of $\fX'$ extends to a solution of $\fX$, or
+\item for some strand $\mathcal{T}$ of the subqoset $\cC$ of $\cE$ consisting of the pairs $(x,\bC_x)$ for $x$ occuring in $\cS$, the full restriction of $\fX$ to $\mathcal{T}$ has no solutions.
+\end{itemize}
+\end{thm}
+\begin{proof} Suppose that $a \in \prod_x \bA_x$ is a solution to the instance $\fX$ such that $a_x \in \bB_x$ for some $(x,\bB_x) \in \cS$, and suppose that for each strand $\mathcal{T}$ of the subqoset $\cC$ there is a solution $c^\mathcal{T} \in \prod_{(x,\bC_x) \in \mathcal{T}} \bC_x$ of the full restriction of $\fX$ to the strand $\mathcal{T}$. We construct a tuple $b \in \prod_x \bA_x$ by stitching these solutions together:
+\[
+b_x = \begin{cases} a_x & x\text{ does not occur in the strand }\cS,\\ c^{\mathcal{T}}_x & x\text{ occurs in the strand }\mathcal{T}\text{ of the subqoset }\cC.\end{cases}
+\]
+We claim that the tuple $b$ is also a solution to the instance $\fX$. For this, we can focus our attention on any particular constraint relation
+\[
+\RR \le_{sd} \bA_{x_1} \times \cdots \times \bA_{x_n}
+\]
+of the instance $\fX$. Suppose without loss of generality that the variables $x_1, ..., x_k$ occur in the strand $\cS$ and that the variables $x_{k+1}, ..., x_n$ do not, and suppose that $k \ge 1$. For each $i \in [n]$, define $\bB_i$ by
+\[
+\bB_i = \bB_{x_1} + \pi_{1i}(\RR).
+\]
+Since $\fX$ is a Prague instance, we have $\bB_i = \bB_{x_i}$ for all $i \le k$, and since $\cS$ is a maximal strand of $\cE$ each $\bB_j$ with $j \ge k+1$ is absorption-free. Define the relation $\RR_\bB \le \RR$ by
+\[
+\RR_\bB = \RR \cap \Big(\prod_i \bB_i\Big) \le_{sd} \bB_1 \times \cdots \times \bB_n,
+\]
+where subdirectness follows from Proposition \ref{prop-prague-reduction}. Set $\bC_i = \bC_{x_i}$ for $i \le k$, and set $\bC_j = \bB_j$ for $j \ge k+1$, so we have $\bC_i \llhd \bB_i$ for all $i \in [n]$. Then since $\fX$ is a Prague instance, the $(\RR_\bB, \bC)$-strands are given by $[k+1,n]$ and by the intersections of the strands of $\cC$ to $\{x_1, ..., x_k\}$, and we have
+\[
+\RR_\bB \cap \prod_i \bC_i \ne \emptyset
+\]
+since the system of variable domains $\bC_x$ defines an arc-consistent reduction of the full restriction of $\fX$ to the strand $\cS$. Then the Rectangularity Theorem \ref{thm-rectangularity-conservative-absorbing} says that
+\[
+\RR \supseteq \prod_{T\text{ an }(\RR_\bB,\bC)\text{-strand}} \Big(\pi_T(\RR_\bB) \cap \prod_{i\in T}\bC_i\Big),
+\]
+so the tuple $b$ satisfies the constraint relation $\RR$.
+\end{proof}
+
+Using this result, we get the following algorithm for solving conservative CSPs.
+
+\begin{algorithm}\label{alg-conservative}
+\caption{Algorithm for solving an instance $\fX$ of a CSP with conservative Taylor variable domains $\bA_x$, from \cite{barto-conservative-revisited}.}
+\begin{algorithmic}[1]
+\State Run a local consistency algorithm until $\fX$ is a Prague instance.
+\State Let $\cE$ be the subqoset of the implication qoset consisting of pairs $(x,\bB)$ such that $\bB \le \bA_x$ and $\bB$ has a proper absorbing subalgebra.
+\If{$\cE$ is non-empty}
+\State Let $\cS$ be any maximal strand of $\cE$.
+\State Define $\bC_x = \bB_x$ for each $(x,\bB_x) \in \cS$.
+\While{some $\bC_x$ is not absorption-free}
+\State Let $\fX_\bC$ be the Prague instance we get by restricting to variables in $\cS$ and restricting each variable domain to $\bC_x$.
+\State Pick any maximal strand $\mathcal{T}$ of the subqoset of the implication qoset of $\fX_\bC$ consisting of $(x,\bC')$ such that $\bC' \lhd \bC_x$ and $\bC' \ne \bC_x$.
+\State Set $\bC_x \gets \bC'$ for each $(x,\bC') \in \mathcal{T}$.
+\EndWhile
+\State Let $\cC$ be the subqoset consisting of $(x,\bC_x)$ for $x$ occuring in the strand $\cS$.
+\ForAll{strands $\mathcal{T}$ of $\cC$}
+\State Let $\fX_\mathcal{T}$ be the full restriction of $\fX$ to the strand $\mathcal{T}$.
+\State Solve the instance $\fX_\mathcal{T}$ recursively. \Comment{$\bC_x < \bB_x$ for all $(x,\bC_x) \in \mathcal{T}$.}
+\If{$\fX_\mathcal{T}$ has no solutions}
+\State Set $\bA_x \gets \bA_x \setminus \bC_x$ for each $(x,\bC_x) \in \mathcal{T}$.
+\State \textbf{go to} Step 1.
+\Else
+\State Let $c^\mathcal{T}$ be a solution to the instance $\fX_\mathcal{T}$.
+\EndIf
+\EndFor
+\State Set $\bA_x \gets (\bA_x \setminus \bB_x) \cup \{c^\mathcal{T}_x\}$ for all $(x,\bB_x) \in \cS$, where $\mathcal{T}$ is the strand of $\cC$ which contains $(x,\bC_x)$.
+\State \textbf{go to} Step 1.
+\EndIf
+\State Solve $\fX$ by using the algorithm for CSPs with a Mal'cev polymorphism.
+\end{algorithmic}
+\end{algorithm}
+
+\begin{thm} Algorithm \ref{alg-conservative} correctly solves every instance $\fX$ of any multisorted CSP where each variable domain is a conservative Taylor algebra. If each variable domain has size at most $k$, then Algorithm \ref{alg-conservative} runs in time $\|\fX\|^{O(k)}$, where $\|\fX\|$ is the number of bits needed to describe the instance $\fX$.
+\end{thm}
+
+It seems plausible that a much more careful analysis of the algorithm for conservative CSPs might show that it runs in time $\|\fX\|^{O(1)}$, regardless of the sizes of the variable domains.
+
+\begin{cor} The CSP dichotomy conjecture is true for all CSP templates on a domain of size at most $3$.
+\end{cor}
+\begin{proof} By the classification of minimal Taylor algebras of size $3$ from Subsection \ref{ss-minimal-three}, every minimal Taylor algebra of size at most $3$ is either a subdirect product of conservative Taylor algebras, or has a $3$-edge term.
+\end{proof}
+
+
+\section{The meta-problem for conservative CSP templates}
+
+In this section we will go over Carbonnel's solution to the meta-problem for conservative CSPs from their thesis \cite{carbonnel-thesis}. Recall that in the meta-problem, we are given a CSP template as a relational structure $\fA = (A, \Gamma)$ (which we usually assume to be a core), and we wish to either prove that $\CSP(\fA)$ is NP-complete or to find a Taylor polymorphism of $\fA$, in time polynomial in the total size $\|\fA\|$ of the description of $\fA$, which we define as
+\[
+\|\fA\| \coloneqq \sum_{R \in \Gamma} |R|.
+\]
+In the meta-problem for conservative CSPs, we restrict our attention to CSP templates where $\Gamma$ contains the unary relation $A\setminus \{a\}$ for each $a \in A$ (in particular, any such $\fA$ is automatically a rigid core). Note that by our classification of conservative minimal Taylor algebras, if a conservative CSP template $\fA$ has a Taylor polymorphism, then it has a ternary weak near-unanimity polymorphism, i.e. an idempotent ternary polymorphism $w$ satisfying the identities
+\[
+w(x,x,y) \approx w(x,y,x) \approx w(y,x,x).
+\]
+Furthermore, we can consider the case of $3$-conservative CSP templates without any additional difficulty, since any $3$-conservative Taylor algebra has a conservative Taylor reduct (by a $3$-conservative template, we mean a CSP template such that $\Gamma$ contains every unary relation of size at most $3$). These facts were not known at the time that Carbonnel wrote their thesis, and by using them we can simplify Carbonnel's algorithm.
+
+In Carbonnel's thesis \cite{carbonnel-thesis}, the strategy for solving the meta-problem was described as being similar to a treasure hunt (or perhaps a puzzle hunt): we have a sequence of locked boxes, and a single key which opens the first box, such that each box contains the key to opening the next box. Here, the key is a metaphor for the Taylor polymorphism - once we know a Taylor polymorphism, we can use it to solve instances of our CSP. More specifically, the key is a metaphor for a \emph{partial description} of a Taylor polymorphism. In order to see how a partial description of a Taylor polymorphism can make sense, we first describe a useful rephrasing of the meta-problem for a $3$-conservative template in terms of a meta-problem for a multisorted CSP template.
+
+\begin{defn} Suppose that $\fA = (A,\Gamma)$ is a $3$-conservative CSP template. We define the \emph{associated multisorted template} $\fA_3$ to have a sort for each subset of $A$ of size at most $3$, with two types of relations:
+\begin{itemize}
+\item for each relation $R \in \Gamma$ of arity $m$, and for every triple of elements $u,v,w \in \RR$ (not necessarily distinct), we have a multisorted relation
+\[
+R \cap (\{u_1,v_1,w_1\} \times \cdots \times \{u_n,v_n,w_n\}) \subseteq \{u_1,v_1,w_1\} \times \cdots \times \{u_n,v_n,w_n\},
+\]
+\item for every $a,b,c \in A$ (not necessarily distinct), we have the binary inclusion relation
+\[
+\{(a,a), (b,b)\} \subseteq \{a,b\} \times \{a,b,c\}.
+\]
+\end{itemize}
+\end{defn}
+
+Note that the size of the associated multisorted template $\fA_3$ is bounded by
+\[
+\|\fA_3\| \le \sum_{R \in \Gamma} \sum_{u,v,w \in R} |R| + \sum_{a,b,c \in A} |\{a,b\}| \le \|\fA\|^4 + 2|A|^3.
+\]
+A polymorphism of a multisorted relational structure is defined to be an operation with a different interpretation on each sort of the structure, such that applying the operation componentwise preserves each multisorted relation.
+
+\begin{prop}\label{prop-conservative-multi-ternary} There is a bijection between conservative ternary polymorphisms of $\fA$ and ternary polymorphisms of the associated multisorted structure $\fA_3$ which preserves height $1$ identities.
+\end{prop}
+\begin{proof} There is an obvious way to convert any conservative ternary polymorphism of $\fA$ into a ternary polymorphism of $\fA_3$. Conversely, any ternary polymorphism $f$ of $\fA_3$ can be stitched together into a (necessarily conservative) ternary polymorphism $\tilde{f}$ of $\fA$: the fact that $f$ preserves the binary inclusion relations guarantees that the values of $\tilde{f}$ are well-defined on two-element sets, and for every $u,v,w \in R \in \Gamma$ the fact that $f$ preserves the multisorted relation
+\[
+R \cap (\{u_1,v_1,w_1\} \times \cdots \times \{u_n,v_n,w_n\})
+\]
+guarantees that $\tilde{f}(u,v,w) \in R$.
+\end{proof}
+
+So we have reduced the problem of determining whether a given relational structure $\fA$ has a conservative Taylor polymorphism to the problem of determining whether the associated multisorted relational structure $\fA_3$ has a weak near-unanimity polymorphism. Now we have a way to understand what a partial description of a weak near-unanimity polymorphism on $\fA_3$ should be.
+
+\begin{defn} Suppose that $\fA = (A,\Gamma)$ is a $3$-conservative CSP template, and let $\mathcal{U} \subseteq \mathcal{P}(A)$ be a collection nonempty subsets of $A$ each of size at most $3$ which is closed under taking nonempty subsets. We define the multisorted template $\fA_\mathcal{U}$ to be the template whose sorts are exactly the elements of $\mathcal{U}$, such that for each $m$-ary relation $R$ of $\fA_3$ with at least one coordinate of a sort in $\mathcal{U}$, if $S \subseteq [m]$ is the set of coordinates of $R$ which have a sort in $\mathcal{U}$, then the relation $\pi_S(R)$ is a relation of $\fA_\cU$.
+\end{defn}
+
+Later we will want to fix certain coordinates of various relations of $\fA_3$ to have certain values, before projecting to the coordinates with sorts in $\mathcal{U}$. To reassure ourselves that this will not cause unexpected problems, we have the following result.
+
+\begin{prop} Suppose that $\fA = (A,\Gamma)$ is a $3$-conservative CSP template. Let $\mathcal{U} \subseteq \cV \subseteq \mathcal{P}(A)$ be collections of nonempty subsets of $A$ each of size at most $3$ which are closed under taking nonempty subsets. Suppose that $f$ is a ternary polymorphism of the multisorted structure $\fA_\cU$, and that $R$ is an $m$-ary relation of $\fA_{\cV}$. Let $S \subseteq [m]$ be the set of coordinates of the relation $R$ with sorts from $\mathcal{U}$. Then for any $y \in \pi_{[m]\setminus S}(R)$, the relation
+\[
+R_y \coloneqq \{x \mid \exists r \in R\text{ s.t. }\pi_S(r) = x, \pi_{[m]\setminus S}(r) = y\} \subseteq \pi_S(R)
+\]
+is preserved by the polymorphism $f$.
+\end{prop}
+\begin{proof} We just need to check that for every three tuples $u,v,w \in R_y$, we have $f(u,v,w) \in R_y$. If $R$ is one of the binary inclusion relations, then this follows from the fact that $f$ is conservative on the sorts in $\cU$ (which folows from the fact that $\cU$ is closed under taking nonempty subsets). Otherwise, $R$ originally came from some relation $\tilde{R} \in \Gamma$. Then there are lifts $\tilde{u}, \tilde{v}, \tilde{w} \in \tilde{R}$ such that projecting to the coordinates of $\tilde{R}$ corresponding to $S$ gives us $u,v,w$, and such that projecting to the coordinates of $\tilde{R}$ corresponding to $[m]\setminus S$ gives us $y$ in each case. Then there is a relation $R'$ of $\fA_\cU$ given by restricting the $i$th coordinate of $\tilde{R}$ to the set $\{\tilde{u}_i, \tilde{v}_i, \tilde{w}_i\}$ for all $i$ and projecting to the coordinates corresponding to $S$, and we have
+\[
+f(u,v,w) \in R' \subseteq R_y
+\]
+since $f$ preserves $R'$.
+\end{proof}
+
+In order to find ternary weak near-unanimity polymorphisms of the structure $\fA_\cU$, we use the idea of solving an \emph{indicator instance} (we used this idea once already to solve the meta-problem for bounded width templates - this idea appears to have shown up for the first time in \cite{indicator-instance}).%TODO: go over indicator instances earlier
+
+\begin{prop}\label{prop-conservative-indicator} If $\fB = (\cU, \Gamma)$ is a multisorted relational structure with sorts $\cU$, then $\fB$ has a ternary weak near-unanimity polymorphism $f$ iff the following instance of $\CSP(\fB)$ has a solution:
+\begin{align*}
+\exists f=\{f_U \in U^{U^3}\}_{U \in \cU}\text{ s.t. } &\bigwedge_{U \in \cU} \Big(\bigwedge_{a \in U} f_U(a,a,a) \in \{a\} \wedge \bigwedge_{a,b \in U} f_U(a,a,b) = f_U(a,b,a) = f_U(b,a,a)\Big)\\
+&\wedge \bigwedge_{R \in \Gamma} \bigwedge_{u,v,w \in R} f(u,v,w) \in R.
+\end{align*}
+\end{prop}
+
+Now we can describe the treasure hunt algorithm: we iteratively build ternary weak near-unanimity polymorphisms $f_\cU$ of the multisorted structures $\fA_\cU$ for progressively larger collections $\cU$ of subsets of $\bA$ of size at most $3$. In each step, we add a single new subset $V$ of $A$ to $\cU$ to produce a larger collection $\cV$.
+
+In order to solve the indicator instance for $\fA_\cV$, we brute force over all possible ternary weak near-unanimity operations on $V$, and for each one, we check if it extends to a solution to the indicator instance, using the fact that all of the remaining variables have sorts in $\cU$. In fact, we don't need to consider \emph{all} weak near-unanimity operations on $V$ - we only need to check the $73$ specific operations from the classification of conservative minimal Taylor algebras of size $3$ (if $V$ has size $2$, we only need to consider $4$ possible operations).
+
+\begin{algorithm}\label{alg-conservative-treasure-hunt}
+\caption{Treasure hunt algorithm for solving the meta-problem for a $3$-conservative relational structure $\fA = (A, \Gamma)$, from \cite{carbonnel-thesis}.}
+\begin{algorithmic}[1]
+\State Set $n \gets \binom{|A|}{3} + \binom{|A|}{2}$.
+\State Pick a sequence $\cU_0 \subseteq \cU_1 \subseteq \cU_2 \subseteq \cdots \subseteq \cU_{n} = \{U \subseteq A \mid |U| \in [3]\}$ such that $\cU_0$ is the set of singleton subsets of $A$, each $\cU_{i+1}$ contains exactly one more subset of $A$ then $\cU_i$, and each $\cU_i$ is closed under taking nonempty subsets.
+\State Let $f_{\cU_0}$ be the unique ternary polymorphism of $\fA_{\cU_0}$, given by $f_{\{a\}}(a,a,a) = a$ for all $a \in A$.
+\For{$i \in [n]$}
+\State Let $\fX$ be the indicator instance from Proposition \ref{prop-conservative-indicator} for the multisorted structure $\fA_{\cU_i}$.
+\State Let $V$ be the new set in $\cU_i\setminus \cU_{i-1}$.
+\ForAll{ternary weak near-unanimity operations $g_V$ on $V$}% which generate a conservative minimal Taylor algebra
+\State Let $\fX'$ be the instance we get from $\fX$ by replacing each variable $f_V(a,b,c)$ of $\fX$ with sort $V$ by the constant $g_V(a,b,c)$.
+\State Solve the instance $\fX'$ by using Algorithm \ref{alg-conservative} with the Taylor operation $f_{\cU_{i-1}}$.%the algorithm for multisorted conservative CSPs
+\If{$\fX'$ has a solution}
+\State Let $f_{\cU_i}$ be any solution to $\fX'$.
+\EndIf
+\EndFor
+\If{$f_{\cU_i}$ hasn't been defined}
+\State \Return ``NP-complete''.
+\EndIf
+\EndFor
+\State Stitch $f_{\cU_n}$ into a ternary polymorphism $f$ of $\fA$ using Proposition \ref{prop-conservative-multi-ternary}.
+\State \Return $f$.
+\end{algorithmic}
+\end{algorithm}
+
+\begin{thm} If $\fA$ is a $3$-conservative relational structure, then Algorithm \ref{alg-conservative-treasure-hunt} runs in time polynomial in $\|\fA\|$, and either correctly determines that $\CSP(\fA)$ is NP-complete or produces a ternary weak near-unanimity polymorphism of $\fA$.
+\end{thm}
+\begin{proof} Given what we have already proved, the only thing left to check is that the algorithm runs in polynomial time. The only step which looks dangerous is the step where we apply Algorithm \ref{alg-conservative}, since the degree of the polynomial in the running time of that algorithm depends on the size of the largest sort which shows up as a variable domain. However, we only ever apply Algorithm \ref{alg-conservative} to multisorted structures where every sort has size at most $3$.
+\end{proof}
 
 
 \bibliographystyle{plain}
