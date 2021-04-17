@@ -11,7 +11,7 @@
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \usepackage{graphicx}
-%\usepackage{fullpage}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
 
 % from stack exchange
 \usepackage{sistyle}
@@ -132,6 +132,7 @@
 \newcommand{\fP}{\mathbf{P}}
 \newcommand{\fR}{\mathbf{R}}
 \newcommand{\fS}{\mathbf{S}}
+\newcommand{\fT}{\mathbf{T}}
 \newcommand{\fX}{\mathbf{X}}
 \newcommand{\fY}{\mathbf{Y}}
 \newcommand{\fZ}{\mathbf{Z}}
@@ -2173,7 +2174,7 @@ That this relation forms a subalgebra of $\bA^3$ is related to the fact that $\t
 \end{ex}
 
 
-\section{Mal'cev algorithm and compact representations}
+\section{Mal'cev algorithm and compact representations}\label{s-malcev-algorithm}
 
 The algorithm for solving CSPs invariant under a Mal'cev operation, due to Bulatov and Dalmau \cite{bulatov-dalmau-malcev}, is based on the fact that any Mal'cev constraint has a small generating set. More specifically, we will show that any subset of a relation $\RR$ which has the same projection to each factor and contains representatives of all of the ``forks'' of $\RR$ actually generates $\RR$.
 
@@ -5221,7 +5222,7 @@ f_s(x_1, ..., x_n) = f(s_n(x_1, ..., x_n), s_n(x_2, ..., x_n, x_1), ..., s_n(x_n
 \]
 As in the case of unary operations, we will consider the reduct $\bA_s$ with basic operations $f_s$ for every term $f$ of $\bA$. This reduct will be simpler in the sense that for any $a,b$ with $s(a,b) = s(b,a) = b$, each term $f_s$ will act like the $n$-ary semilattice operation on $\{a,b\}$. Additionally, every two-variable height $1$ identity which holds in $\bA$ will also hold in $\bA_s$.
 
-\begin{prop} Let $\bA = (A, (f^i)_{i \in I})$ be a finite idempotent algebra, and let $\Sigma$ be the set of all two-variable height $1$ identities which involve both variables on each side and are satisfied in $\bA$. Then the operations $(f^i_s)_{i \in I}$ of $\bA_s$ will also satisfy the identities in $\Sigma$.
+\begin{prop}\label{semilattice-preparation} Let $\bA = (A, (f^i)_{i \in I})$ be a finite idempotent algebra, and let $\Sigma$ be the set of all two-variable height $1$ identities which involve both variables on each side and are satisfied in $\bA$. Then the operations $(f^i_s)_{i \in I}$ of $\bA_s$ will also satisfy the identities in $\Sigma$.
 
 Additionally, if $\bB, \bC$ are subalgebras of $\bA$ such that for any $x \in \bB$ and any $y \in \bC$ we have $s(x,y), s(y,x) \in \bC$, then for any $n$-ary term $f$ of $\bA$ and any $x_1, ..., x_n \in \bB \cup \bC$ such that at least one $x_i \in \bC$, we have $f_s(x_1, ..., x_n) \in \bC$.
 \end{prop}
@@ -6913,14 +6914,14 @@ and this $x$ automatically satisfies
 since each of $x_i, x_j, x_k$ do, which completes the inductive step.
 \end{proof}
 
-\begin{cor} If $\bA$ is finite and idempotent, then there is a ternary term $t \in \Clo_3(\bA)$ such that for all finite $\bB \in HSP(\bA)$ and each $\bC \lhd_Z \bB$, $\bC$ absorbs $\bB$ with respect to the term $t$.
+\begin{cor}\label{cor-central-ternary} If $\bA$ is finite and idempotent, then there is a ternary term $t \in \Clo_3(\bA)$ such that for all finite $\bB \in HSP(\bA)$ and each $\bC \lhd_Z \bB$, $\bC$ absorbs $\bB$ with respect to the term $t$.
 \end{cor}
 \begin{proof} For any finite collection of pairs $\bC_i \lhd_Z \bB_i \in HSP(\bA)$, we can apply the previous corollary to find a term $t \in \Clo_3(\bA)$ which simultaneously witnesses all $\bC_i \lhd \bB_i$. Since there are only finitely many ternary terms $t$ of $\bA$, some $t$ must work for all pairs $\bC \lhd_Z \bB \in HSP(\bA)$.
 \end{proof}
 
 Central absorption turns out to be a good absorption concept (in the sense of the previous section), as long as we restrict ourselves to finite idempotent algebras. Unlike previous absorption concepts, in this case it is not so easy to see that $\lhd_Z$ is compatible with pp-formulas. For this, we need to consider the basic types of pp-formulas separately. The hardest case is the case of projections.
 
-\begin{prop} If $\bC \lhd_Z \bA$ with $\bA$ finite and idempotent, and if there is a surjective homomorphism $\pi : \bA \twoheadrightarrow \bB$, then $\pi(\bC) \lhd_Z \bB$.
+\begin{prop}\label{prop-central-abs-quotient} If $\bC \lhd_Z \bA$ with $\bA$ finite and idempotent, and if there is a surjective homomorphism $\pi : \bA \twoheadrightarrow \bB$, then $\pi(\bC) \lhd_Z \bB$.
 \end{prop}
 \begin{proof} Suppose there is some $b \in \bB\setminus\pi(\bC)$ such that $(b,b) \in \Sg(\pi(\bC)\times \{b\} \cup \{b\} \times \pi(\bC))$. Choose $a \in \pi^{-1}(b)$ such that the subalgebra $\Sg(\bC\cup \{a\})$ is as small as possible. Set
 \[
@@ -6964,7 +6965,7 @@ Putting these three results together, we see that central absorption is a good a
 
 In some cases central absorption implies binary absorption. To describe a criterion for when this happens, we will exploit partial semilattice operations.
 
-\begin{prop} Suppose that $\bC \lhd_Z \bA$ and that $s$ is any partial semilattice operation. Then $s(\bC,\bA) \subseteq \bC$.
+\begin{prop}\label{prop-central-closed} Suppose that $\bC \lhd_Z \bA$ and that $s$ is any partial semilattice operation. Then $s(\bC,\bA) \subseteq \bC$.
 \end{prop}
 \begin{proof} Suppose $c \in \bC$ and $a \in \bA$, and let $b = s(c,a)$. Then $s(c,b) = s(b,c) = b$ by the defining property of partial semilattice operations, so $(b,b) \in \Sg(\{b\}\times \bC \cup \bC \times \{b\})$. Thus by the definition of central absorption, we have $b \in \bC$, that is, $s(c,a) \in \bC$.
 \end{proof}
@@ -7749,7 +7750,7 @@ To see that this is not $pq$-consistent, note that there is no $j$ such that $(0
 
 Libor Barto has raised the following question.
 
-\begin{prob} Is it true that every instance of an affine-free CSP which satisfies conditions (P1) and (P3) has a solution?
+\begin{prob}\label{prob-p1-p3} Is it true that every instance of an affine-free CSP which satisfies conditions (P1) and (P3) has a solution?
 \end{prob}
 
 
@@ -8159,6 +8160,278 @@ To finish, we note that $\fX'$ is $pq$-consistent by Theorem \ref{weak-prague-pq
 In order to extend the previous result to an algorithm for \emph{robustly} solving affine-free CSPs, we need to find some approximate analogue of Lemma \ref{sdp-weak-prague}. The plan is to start by arguing as in Theorem \ref{lp-robust}, using the probabilities $p_{C,r}$ to produce an arc-consistent instance, and then to randomly cut the unit ball of possible values for the vectors $x_A$ into finitely many pieces, so that a version of Lemma \ref{sdp-weak-prague} holds when we forget what the exact values of the vectors $x_A$ are, and instead only keep track of which piece of the ball $x_A$ is contained in. I plan to write up a detailed exposition of this at some point, but for now the interested reader can find the proof in \cite{sdp}.%TODO: make good on promise
 
 % TODO: Hastad's result (in a subsection here, or in an appendix)
+
+
+\section{Stable subalgebras, and even weaker consistency for bounded width}
+
+In this section we will introduce a new concept, which is similar to absorption but which is targeted at subdirect relations rather than arbitrary relations. This allows us to unify the treatment of centrally absorbing subalgebras with congruence classes of polynomially complete absorption free quotients, eliminating most of the casework we need to deal with. We will demonstrate the usefulness of this concept by solving the (P1)-(P3) problem (Problem \ref{prob-p1-p3}).
+
+Rather than directly defining stable subalgebras, we will give an axiomatic description of what we want from a concept of ``stability''.
+
+\begin{defn}\label{defn-stability} Suppose that $\cV$ is a pseudovariety of finite algebras. We say that a binary relation $\Yleft$ on $\cV$ is a \emph{stability concept} (or just a \emph{stability}) on $\cV$ if $\Yleft$ satisfies the following axioms.
+\begin{itemize}
+\item[(Subalgebra)] If $\bB \Yleft \bA$, then $\bB \le \bA$.
+\item[(Transitivity)] If $\bC \Yleft \bB \Yleft \bA$, then $\bC \Yleft \bA$.
+\item[(Intersection)] If $\bB, \bC \Yleft \bA$ and $\bB \cap \bC \ne \emptyset$, then $\bB \cap \bC \Yleft \bB$.
+\item[(Propagation)] If $f : \bA \twoheadrightarrow \bB$ is a surjective homomorphism, then
+\begin{itemize}
+\item[(Pushforward)] if $\bC \Yleft \bA$, then $f(\bC) \Yleft \bB$, and
+\item[(Pullback)] if $\bD \Yleft \bB$, then $f^{-1}(\bD) \Yleft \bA$.
+\end{itemize}
+\item[(Helly)] If $\bB, \bC, \bD \Yleft \bA$ are such that $\bB \cap \bC \ne \emptyset$, $\bC \cap \bD \ne \emptyset$, and $\bB \cap \bD \ne \emptyset$, then $\bB \cap \bC \cap \bD \ne \emptyset$.
+\item[(Ubiquity)] If $\bA \in \cV$ has $|\bA| > 1$, then either
+\begin{itemize}
+\item there is some $\bB \Yleft \bA$ such that $\bB \ne \bA, \emptyset$, or
+\item there is some proper congruence $\theta \in \Con(\bA)$ such that $\bA/\theta$ is an affine algebra.
+\end{itemize}
+\end{itemize}
+Given a stability concept $\Yleft$ on $\cV$, we say that $\bB$ is a \emph{stable subalgebra} of $\bA$ if $\bB \Yleft \bA$. We say that an element $a \in \bA$ is a \emph{stable element} if $\{a\} \Yleft \bA$.
+\end{defn}
+
+The axioms of a stability concept imply apparently stronger versions of themselves.
+
+\begin{prop} If $\Yleft$ is a binary relation on $\cV$ which satisfies the propagation axiom from Definition \ref{defn-stability}, then for any subdirect relation $\RR \le_{sd} \bA \times \bB$ in $\cV$, we have
+\[
+\bC \Yleft \bA \;\; \implies \;\; \bC + \RR \Yleft \bB.
+\]
+\end{prop}
+\begin{proof} Let $\pi_1, \pi_2$ be the surjective projection maps from $\RR$ to $\bA$ and $\bB$, respectively. Then $\pi_1^{-1}(\bC) \Yleft \bA$ by the pullback part of the propagation axiom, so $\bC + \RR = \pi_2(\pi_1^{-1}(\bC)) \Yleft \bB$ by the pushforward part of the propagation axiom.
+\end{proof}
+
+\begin{prop} If $\Yleft$ satisfies the Helly axiom and the intersection axiom from Definition \ref{defn-stability}, then for any $n$ and any $\bB_1, ... \bB_n \Yleft \bA$ such that $\bB_i \cap \bB_j \ne \emptyset$ for all $i, j \in [n]$, we have $\bigcap_{i\in [n]} \bB_i \ne \emptyset$.
+\end{prop}
+\begin{proof} We induct on $n$ - the base case $n = 3$ is the Helly axiom. For $n > 3$, set $\bA' = \bB_n$ and $\bB_i' = \bB_i \cap \bB_n$ for $i < n$, then by the Helly axiom we have
+\[
+\bB_i' \cap \bB_j' = \bB_i \cap \bB_j \cap \bB_n \ne \emptyset
+\]
+for all $i,j < n$, and by the intersection axiom we have $\bB_i' = \bB_i \cap \bB_n \Yleft \bB_n = \bA'$ for all $i < n$, so we can apply the induction hypothesis to $\bA'$ to see that
+\[
+\bigcap_{i\in [n]} \bB_i = \bigcap_{i < n} \bB_i' \ne \emptyset.\qedhere
+\]
+\end{proof}
+
+\begin{prop}\label{prop-stable-essential} If $\Yleft$ satisfies the Helly, intersection, and propagation axioms from Definition \ref{defn-stability}, then for any subdirect relation $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$ in $\cV$, if $\bB_i \Yleft \bA_i$ for each $i$ and
+\[
+\pi_{ij}(\RR) \cap (\bB_i \times \bB_j) \ne \emptyset
+\]
+for all $i,j \in [n]$, then we have $\RR \cap \prod_{i \in [n]} \bB_i \ne \emptyset$.
+
+If $\Yleft$ additionally satisfies the transitivity axiom, then we also have
+\[
+\RR \cap \Big(\prod_{i \in [n]} \bB_i\Big) \Yleft \RR.
+\]
+\end{prop}
+\begin{proof} For each $i$, the pullback part of the propagation axiom implies that $\pi_i^{-1}(\bB_i) \Yleft \RR$, so the previous proposition implies that $\bigcap_{i\in [n]} \pi_i^{-1}(\bB_i) \ne \emptyset$.
+\end{proof}
+
+\begin{prop}\label{prop-stable-element} If $\Yleft$ satisfies the transitivity and ubiquity axioms from Definition \ref{defn-stability}, then for any idempotent bounded-width algebra $\bA \in \cV$ there is some $a \in \bA$ such that $\{a\} \Yleft \bA$.
+\end{prop}
+
+The precise choice of stability concept doesn't matter to us - we can use the following fact as a black box.
+
+\begin{thm}\label{thm-stability} If $\cV$ is an affine-free pseudovariety of finite idempotent Taylor algebras, then there is at least one stability concept $\Yleft$ on $\cV$.
+\end{thm}
+
+Before we prove Theorem \ref{thm-stability}, we will apply it to prove that a weaker form of consistency suffices for bounded width CSPs.
+
+\begin{defn} An arc-consistent instance $\fX$ of a CSP, with variable domains $\bA_x$, is called \emph{weakly consistent} if it satisfies
+\begin{itemize}
+\item[(W)] for all nonempty subsets $A \subseteq \bA_x$ and cycles $p,q$ from $x$ to $x$, we have
+\[
+A + p + q = A \;\; \implies \;\; A \cap (A + p) \ne \emptyset.
+\]
+\end{itemize}
+\end{defn}
+
+Weak consistency is clearly implied by properties (P1) and (P3) from Definition \ref{defn-weak-prague}. We can also rephrase weak consistency to make it look more similar to $pq$-consistency.
+
+\begin{prop} An arc-consistent instance $\fX$ with finite variable domains $\bA_x$ is weakly consistent if and only if it satisfies
+\begin{itemize}
+\item[(W')] for all $a \in \bA_x$ and cycles $p,q$ from $x$ to $x$, there exist $j,k \ge 0$ such that
+\[
+a \in \{a\} + j(p+q) + p - k(p+q).
+\]
+\end{itemize}
+In fact, if $\fX$ is weakly consistent then for each $x$ and each pair of cycles $p,q$ we can find some $j \ge 0$ such that $\Delta_{\bA_x} \subseteq \PP_{j(p+q) + p - j(p+q)}$.
+\end{prop}
+\begin{proof} First we prove that (W) implies (W'). By finiteness we can pick some $j \ge 1$ such that $\{a\} + j(p+q) = \{a\} + 2j(p+q)$ for all $a \in \bA_x$. Setting $A = \{a\} + j(p+q)$ and $q' = (j-1)(q+p) + q$, we have
+\[
+A + p + q' = A + j(p+q) = \{a\} + 2j(p+q) = A,
+\]
+so $A \cap A + p \ne \emptyset$, that is,
+\[
+(\{a\} + j(p+q)) \cap (a + j(p+q) + p) \ne \emptyset.
+\]
+Since this is true for all $a \in \bA_x$, we have $\Delta_{\bA_x} \subseteq \PP_{j(p+q) + p - j(p+q)}$.
+
+Next we show that (W') implies (W). Suppose that $A \subseteq \bA_x$ satisfies $A + p + q = A$, and pick any element $a \in A$. If $j,k \ge 0$ are such that $a \in \{a\} + j(p+q) + p - k(p+q)$, then we have
+\[
+A \cap (A + p) \supseteq (\{a\} + k(p+q)) \cap (\{a\} + j(p+q) + p) \ne \emptyset.\qedhere
+\]
+\end{proof}
+
+Our argument for showing that weakly consistent instances of bounded-width CSPs have solutions will follow the same general strategy as the argument for $pq$-consistent instances. First we will show that we can find an arc-consistent reduction where the reduced variable domains are all stable subalgebras of the original variable domains, and then we will try to show that any arc-consistent stable reduction is also weakly consistent. Unfortunately, we run into a snag: it is not clear that every arc-consistent stable reduction will really remain weakly consistent. To get around this, we introduce a still weaker condition which will make the strategy work.
+
+\begin{defn} An arc-consistent instance $\fX$ of a CSP, with variable domains $\bA_x$ contained in a variety $\cV$ with a stability concept $\Yleft$, is called \emph{stably consistent} if it satisfies
+\begin{itemize}
+\item[(S)] for all nonempty stable subalgebras $\bB \Yleft \bA_x$ and cycles $p,q$ from $x$ to $x$, we have
+\[
+\bB + p + q = \bB \;\; \implies \;\; \bB \cap (\bB + p) \ne \emptyset.
+\]
+\end{itemize}
+\end{defn}
+
+If all of the variable domains are finite affine-free algebras, then stable consistency is equivalent to the following:
+\begin{itemize}
+\item[(S')] for all stable elements $\{a\} \Yleft \bA_x$ and cycles $p,q$ from $x$ to $x$, there exist $j,k \ge 0$ such that
+\[
+a \in \{a\} + j(p+q) + p - k(p+q).
+\]
+\end{itemize}
+
+\begin{lem} If $\fX$ is stably consistent and the variable domains $\bA_x$ are affine free and are not all singletons, then there is some arc-consistent reduction $\fX'$ of $\fX$ such that every variable domain of $\fX'$ is a stable subalgebra of the corresponding variable domain in $\fX$, and such that at least one variable domain shrinks.
+\end{lem}
+\begin{proof} Consider the directed graph with vertices given by pairs $(x,\bB)$ such that $\bB \Yleft \bA_x$ and $\bB \ne \bA_x, \emptyset$, with an edge from $(x,\bB)$ to $(y,\bB + p)$ for each path $p$ from $x$ to $y$ such that $\bB + p \ne \bA_y$. Note that by the propagation axiom and the assumption that $\fX$ is arc-consistent, we always have
+\[
+\bB \Yleft \bA_x \;\; \implies \bB + p \Yleft \bA_y.
+\]
+Let $\cS$ be a maximal strongly connected component of this directed graph.
+
+{\bf Claim:} For any $(x,\bB) \in \cS$ and any cycle $p$ from $x$ to $x$, we have $\bB \cap (\bB + p) \ne \emptyset$.
+
+{\bf Proof of claim:} If $(x, \bB+p) \not\in \cS$, then by maximality of $\cS$ we must have $\bB + p = \bA_x$, so $\bB \cap (\bB+p) = \bB \ne \emptyset$. Otherwise, if $(x, \bB+p) \in \cS$, then there must be some cycle $q$ from $x$ to $x$ such that $\bB + p + q =\bB$. Then condition (S) from the definition of stable consistency implies that $\bB \cap (\bB + p) \ne \emptyset$.
+
+Now define the \emph{universal cover} $\fT$ of $\fX$ to be the instance whose underlying constraint hypergraph is an infinite tree with a surjective map $\pi : \fT \twoheadrightarrow \fX$ on the sets of variables, such that for every path $p$ from $x$ to $y$ in $\fX$ and every preimage $u$ of $x$ in $\fT$ there is a unique lift of the path $p$ to $\fT$ which starts at $u$. The fact that $\fX$ is arc-consistent is equivalent to the fact that the solution set to the infinite instance $\fT$ is a subdirect relation of infinite arity.
+
+Then for every pair of variables $u,v$ of $\fT$ and $\bB, \bC$ such that $(\pi(u), \bB), (\pi(v), \bC) \in \cS$, there is a unique non-backtracking path $p$ from $u$ to $v$ in $\fT$, and by the claim we have $(\bB + p) \cap \bC \ne \emptyset$. Applying Proposition \ref{prop-stable-essential}, we see that the set of solutions to $\fT$ such that $u \in \bB$ whenever $(\pi(u), \bB) \in \cS$ is a nonempty, stable subalgebra of the solution set to $\fT$ (well, every finite subinstance of $\fT$ has this property). Applying the pushforward part of the propagation axiom to this solution set, we obtain an arc-consistent stable reduction $\fX'$ of the instance $\fX$.
+\end{proof}
+
+\begin{lem} If $\fX$ is stably consistent and $\fX'$ is an arc-consistent stable reduction of $\fX$, then $\fX'$ is also stably consistent.
+\end{lem}
+\begin{proof} Let the variable domains of $\fX$ and $\fX'$ be $\bA_x, \bA_x'$, respectively. It's enough to show that if $\bB \Yleft \bA_x'$ is a nonempty stable subalgebra, and if $p$ is any cycle from $x$ to $x$ in $\fX$ such that $\bB \cap (\bB + p) \ne \emptyset$, then $\bB \cap (\bB + p')$ is also nonempty, where $p'$ is the corresponding path in $\fX'$. For this, consider the path instance $\mathbf{P}$ we get by unrolling the path $p$ in $\fX$, and let
+\[
+\RR \le_{sd} \bA_{x_0} \times \cdots \times \bA_{x_n}
+\]
+be the solution set to $\mathbf{P}$, with $x_0 = x_n = x$. Now apply Proposition \ref{prop-stable-essential} to $\RR$, setting $\bB_{x_0} = \bB_{x_n} = \bB$ and $\bB_{x_i} = \bA_{x_i}'$ for $i \ne 0,n$.
+\end{proof}
+
+Putting these results together, we see that weak consistency implies that a solution exists in bounded width CSPs.
+
+\begin{thm} If $\fX$ is a weakly consistent instance of $\CSP(\bA_1, ..., \bA_n)$, where the $\bA_i$ are finite bounded width algebras, then $\fX$ has a solution.
+\end{thm}
+
+Of course, this all hinged on the existence of a stability concept: we still need to prove Theorem \ref{thm-stability}. Our construction of a stability concept won't be particularly elegant, but it will get the job done. First we will show that we can restrict to the case where every binary absorbing algebra is centrally absorbing.
+
+\begin{prop} Suppose that $\cV$ is a pseudovariety of finite idempotent algebras, and that $\cV'$ is an affine-free reduct of $\cV$. If $\Yleft$ is a stability concept on $\cV'$, then the restriction of $\Yleft$ to $\cV$ is also a stability concept.
+\end{prop}
+\begin{proof} The only nontrivial axiom to check is ubiquity. For this, note that since $\cV'$ is affine-free, we can apply Proposition \ref{prop-stable-element} to see that every $\bA \in \cV'$ has a stable element $\{a\} \Yleft \bA$. Since $\cV$ is idempotent, we also have $\{a\} \le \bA$ in $\cV$.
+\end{proof}
+
+\begin{prop} A pseudovariety $\cV$ of finite algebras has a stability concept iff every finitely generated subvariety of $\cV$ has a stability concept.
+\end{prop}
+\begin{proof} This is an application of K\"onig's Lemma: for each algebra $\bA$ in $\cV$ with $|\bA| > 1$ which has no affine quotients, we need to choose at least one proper subalgebra $\bB$ to be a stable subalgebra of $\bA$. Since there are only a finite number of choices for $\bB$ for each finite $\bA$, if we can make a consistent set of choices for every finite collection of algebras $\bA_1, ..., \bA_n$, then there exists a globally consistent set of choices.
+\end{proof}
+
+\begin{defn} We say that a pseudovariety is \emph{strongly prepared} if every binary absorbing algebra $\bB \lhd_{bin} \bA \in \cV$ is also strongly absorbing.
+\end{defn}
+
+\begin{prop} Every locally finite variety of idempotent bounded width algebras has a strongly prepared, bounded width reduct.
+\end{prop}
+\begin{proof} This follows by repeatedly applying Proposition \ref{bin-abs-semi} and Proposition \ref{semilattice-preparation}, and using the fact that the set of two-variable terms can only be shrunk finitely many times if the free algebra on two generators is finite.
+\end{proof}
+
+To finish the proof of Theorem \ref{thm-stability}, we only need to construct stability concepts on pseudovarieties of idempotent, strongly prepared Taylor algebras.
+
+\begin{defn}\label{defn-strong-stable} If $\cV$ is a pseudovariety of finite idempotent strongly prepared Taylor algebras, then we say that $\bB \Yleft \bA$ if there is a sequence of subalgebras
+\[
+\bA = \bA_0 \ge \bA_1 \ge \cdots \ge \bA_n = \bB
+\]
+such that for each $i$, one of the following is true:
+\begin{itemize}
+\item $\bA_{i+1}$ contains a strongly absorbing subalgebra of $\bA_i$,
+\item $\bA_{i+1} \lhd_Z \bA_i$, or
+\item there is a congruence $\theta$ on $\bA_i$ such that $\bA_i/\theta$ is polynomially complete, binary absorption-free and centrally absorption-free, and such that $\bA_{i+1}$ is a congruence class of $\theta$.
+\end{itemize}
+We say that $\bB$ is \emph{stable in one step} if we can take $n = 1$ in the above. If the third bullet point above holds for $\bB$, then we say that $\bB$ is a \emph{PC subalgebra} of $\bA$ with \emph{PC congruence} $\theta$.
+\end{defn}
+
+\begin{thm} If $\cV$ is a pseudovariety of finite idempotent strongly prepared Taylor algebras, then the binary relation $\Yleft$ on $\cV$ from Definition \ref{defn-strong-stable} is a stability concept.
+\end{thm}
+\begin{proof} We just need to verify the axioms for $\Yleft$. Obviously $\Yleft$ satisfies the subalgebra axiom, and by Corollary \ref{zhuk-four-cases} and the assumption that $\cV$ is strongly prepared $\Yleft$ satisfies ubiquity as well. Transitivity holds for $\Yleft$ by construction. The remaining axioms are intersection, propagation, and the Helly property.
+
+To verify the intersection axiom, suppose that $\bB, \bC \Yleft \bA$: we need to check that $\bB \cap \bC \Yleft \bB$. Inducting on $|\bA| + |\bB| + |\bC|$, we see that it's enough to prove this when $\bB$ and $\bC$ are both stable in one step. For this, we divide into four cases: either $\bC \lhd_Z \bA$ (1), $\bC$ contains a strongly absorbing subalgebra of $\bA$ (2), $\bB$ contains a centrally absorbing subalgebra of $\bA$ and $\bC$ is a PC subalgebra (3), or each of $\bB, \bC$ is a PC subalgebra (4). Case (1) follows from $\bB \cap \bC \lhd_Z \bB$. For case (2), we need a claim which we will also use elsewhere.
+
+{\bf Claim:} If $\bS \lhd_{str} \bA$ and $\bB \Yleft \bA$, then $\bB \cap \bS \ne \emptyset$ and $\bB \cap \bS \lhd_{str} \bB$.
+
+{\bf Proof of claim:} We just need to check this when $\bB$ is stable in one step. If $\bB$ contains a strongly absorbing subalgebra of $\bA$, we can apply Proposition \ref{prepared-bin-abs}. If $\bB \lhd_Z \bA$, then we can apply Proposition \ref{prepared-bin-abs} and Proposition \ref{prop-central-closed}. If $\bB$ is a PC subalgebra with PC congruence $\theta$, then $\bS/\theta \lhd_{str} \bA/\theta$ implies that $\bS/\theta = \bA/\theta$, so $\bS$ meets every congruence class of $\theta$, and in particular $\bB \cap \bS \ne \emptyset$.
+
+{\bf Case (2) for intersection axiom:} Let $\bC'$ be a subalgebra of $\bC$ such that $\bC' \lhd_{str} \bA$. Then $\bC' \cap \bB \ne \emptyset$ and $\bB \cap \bC' \lhd_{str} \bB$, so $\bB \cap \bC$ contains a strongly absorbing subalgebra of $\bB$.
+
+{\bf Case (3) for intersection axiom:} Let $\bB'$ be a subalgebra of $\bB$ such that $\bB' \lhd_Z \bA$, and let $\theta$ be the PC congruence for $\bC$. Then $\bB'/\theta \lhd_Z \bA/\theta$ by Proposition \ref{prop-central-abs-quotient}, so since $\bA/\theta$ is central absorption-free, we must have $\bB'/\theta = \bA/\theta$. Since $\bB' \le \bB \le \bA$, we must have $\bB/\theta = \bA/\theta$ as well, so $\bC$ is a PC subalgebra of $\bB$ with PC congruence $\theta|_\bB$.
+
+{\bf Case (4) for intersection axiom:} Suppose that $\bB$ has PC congruence $\theta$ and $\bC$ has PC congruence $\psi$. We can consider $\bA/(\theta \wedge \psi)$ as a binary subdirect relation:
+\[
+\bA/(\theta \wedge \psi) \le_{sd} (\bA/\theta) \times (\bA/\psi).
+\]
+Since $\bA/\theta, \bA/\psi$ are both simple (all polynomially complete algebras are simple), this binary relation is either linked or is the graph of an isomorphism. If $\bA/(\theta \wedge \psi)$ is the graph of an isomorphism, then we must have $\theta = \psi$, so if $\bB \cap \bC \ne \emptyset$ then $\bB = \bC$. Otherwise, if $\bA/(\theta \wedge \psi)$ is linked, then by the Absorption Theorem \ref{absorption-theorem} we must have
+\[
+\bA/(\theta \wedge \psi) = (\bA/\theta) \times (\bA/\psi),
+\]
+since neither $\bA/\theta$ nor $\bA/\psi$ has a binary or centrally absorbing subalgebras. Thus $\bB/\psi = \bA/\psi$, so $\bB \cap \bC$ is a PC subalgebra of $\bB$ with PC congruence $\psi|_\bB$.
+
+That completes the proof of the intersection axiom. For the propagation axiom, the pullback part is almost immediate from the definition. For the pushforward part of the propagation axiom, we can suppose that $\bA \twoheadrightarrow \bA/\theta$ and that $\bC$ is stable in one step in $\bA$. If $\bC \supseteq \bC' \lhd_{str} \bA$, then $\bC'/\theta \lhd_{str} \bA/\theta$. If $\bC \lhd_Z \bA$, then by Proposition \ref{prop-central-abs-quotient} we have $\bC/\theta \lhd_Z \bA/\theta$. The tricky case is the case where $\bC$ is a PC subalgebra of $\bA$ with PC congruence $\psi$. In this case, we consider $\bA/(\theta \wedge \psi)$ as a binary subdirect relation:
+\[
+\bA/(\theta \wedge \psi) \le_{sd} (\bA/\theta) \times (\bA/\psi).
+\]
+Since $\bA/\psi$ is simple, this binary relation is either the graph of a homomorphism $(\bA/\theta) \twoheadrightarrow (\bA/\psi)$ or is linked. If it is the graph of a homomorphism, then we must have $\theta \le \psi$, so $\bC/\theta$ is a PC subalgebra of $\bA/\theta$ with PC congruence $\psi/\theta$. Now suppose that it is linked, and let $\bS$ be a minimal strongly absorbing subalgebra of $\bA/\theta$, which exists by Proposition \ref{prepared-bin-abs}. Then by Theorem \ref{absorbing-linked}, the binary relation
+\[
+\bA/(\theta \wedge \psi) \cap (\bS \times (\bA/\psi)) \le_{sd} \bS \times (\bA/\psi)
+\]
+is also linked, and then by the Absorption Theorem \ref{absorption-theorem} it must be the full relation, since $\bS$ has no binary absorbing subalgebras and $\bA/\psi$ has no binary/centrally absorbing subalgebras. This means that $\bC/\theta$ contains $\bS$, so $\bC/\theta$ is a stable subalgebra of $\bA/\theta$.
+
+To finish, we just need to verify the Helly axiom, which states that if $\bB,\bC,\bD \Yleft \bA$ and each pair has a nonempty intersection, then $\bB \cap \bC \cap \bD \ne \emptyset$. We induct on
+\[
+|\bA| + |\bA\setminus \bB| + |\bA \setminus \bC| + |\bA \setminus \bD|.
+\]
+Suppose that one of $\bB,\bC,\bD$ is not stable in one step, say $\bB$. Then there is some $\bA'$ with $\bB \Yleft \bA' \Yleft \bA$ such that $|\bA \setminus \bA'| < |\bA \setminus \bB|$ and $|\bA'| < |\bA|$. By the induction hypothesis, we have $\bA' \cap \bC \cap \bD \ne \emptyset$. Set $\bC' = \bA' \cap \bC$, $\bD' = \bA' \cap \bD$, and $\bB' = \bB$. Then by the intersection property we have $\bB', \bC', \bD' \Yleft \bA'$, and we have
+\[
+\bC' \cap \bD' = \bA' \cap \bC \cap \bD \ne \emptyset,
+\]
+while
+\[
+\bB' \cap \bC' = \bB \cap \bC \ne \emptyset
+\]
+and similarly $\bB' \cap \bD' \ne \emptyset$. Applying the induction hypothesis again, we see that
+\[
+\bB \cap \bC \cap \bD = \bB' \cap \bC' \cap \bD' \ne \emptyset.
+\]
+So we only need to check the Helly property when each of $\bB, \bC, \bD$ is stable in one step.
+
+Suppose that one of $\bB, \bC, \bD$ contains a strongly absorbing subalgebra $\bS \lhd_{str} \bA$, say $\bB \supseteq \bS$. Then $\bS \cap \bC$ is a nonempty strongly absorbing subalgebra of $\bC$ by the earlier claim, and applying that claim again together with the fact that $\bC \cap \bD \Yleft \bD$, we see that $\bS \cap \bC \cap \bD \ne \emptyset$. So we may assume that each of $\bB, \bC, \bD$ is either centrally absorbing or is a PC subalgebra.
+
+If all three of $\bB, \bC, \bD$ are centrally absorbing, then by Corollary \ref{cor-central-ternary} there is a ternary term $t$ such that each of $\bB, \bC, \bD$ absorbs $\bA$ with respect to $t$. If we pick $x \in \bB \cap \bC, y \in \bC \cap \bD, z \in \bB \cap \bD$, then we must have $t(x,y,z) \in \bB \cap \bC \cap \bD$.
+
+If two of $\bB,\bC,\bD$ are centrally absorbing, suppose that $\bB, \bC$ are centrally absorbing and $\bD$ is a PC subalgebra with PC congruence $\theta$. Then $\bB \cap \bC \lhd_Z \bA$, so we must have $(\bB\cap \bC)/\theta \lhd_Z \bA/\theta$, so $(\bB \cap \bC)/\theta = \bA/\theta$. Thus $\bB \cap \bC$ intersects $\bD$.
+
+If one of $\bB,\bC,\bD$ is centrally absorbing, we may suppose that $\bB \lhd_Z \bA$ and that $\bC, \bD$ are PC subalgebras with PC congruences $\theta, \psi$. As before, we must have $\bB/\theta = \bA/\theta$ and $\bB/\psi = \bA/\psi$. Considering $\bA/(\theta \wedge \psi)$ as a subdirect binary relation on $(\bA/\theta)\times (\bA/\psi)$, we see that it must be linked if $\bC \ne \bD$, since both of $\bA/\theta, \bA/\psi$ are simple. Then by Theorem \ref{absorbing-linked}, the binary relation
+\[
+\bB/(\theta \wedge \psi) \le_{sd} (\bA/\theta) \times (\bA/\psi)
+\]
+is also linked, so by the Absorption Theorem \ref{absorption-theorem} it must be the full relation. Thus we have $\bB \cap \bC \cap \bD \ne \emptyset$.
+
+Finally, suppose that all three of $\bB, \bC, \bD$ are PC subalgebras, with PC congruences $\theta, \psi, \eta$. Then we can think of $\bA/(\theta\wedge \psi \wedge \eta)$ as a ternary subdirect relation:
+\[
+\bA/(\theta\wedge \psi \wedge \eta) \le_{sd} (\bA/\theta) \times (\bA/\psi) \times (\bA/\eta).
+\]
+If no two of $\bB, \bC, \bD$ are equal to each other, then every binary projection of this relation is linked, so every binary projection is full by the Absorption Theorem \ref{absorption-theorem}. If this ternary relation is the full relation, then we have $\bB \cap \bC \cap \bD \ne \emptyset$. Otherwise, pick some $x \in \bA/\theta$ such that the binary relation
+\[
+\pi_{23}(\bA/(\theta\wedge \psi \wedge \eta) \cap (\{x\} \times (\bA/\psi) \times (\bA/\eta))) \le_{sd} (\bA/\psi) \times (\bA/\eta)
+\]
+is not the full relation. Applying the Absorption Theorem \ref{absorption-theorem} again, we see that the binary relation above must be the graph of an isomorphism between $\bA/\psi$ and $\bA/\eta$. A similar argument shows that $\bA/\theta$ is isomorphic to $\bA/\psi$. Thus we can apply Theorem \ref{absorption-free} to show that all three of $\bA/\theta, \bA/\psi, \bA/\eta$ are affine, which contradicts the assumption that they are polynomially complete.
+\end{proof}
+
+\begin{prob} Is there a less ad-hoc stability concept?
+\end{prob}
 
 
 \chapter{Finite Taylor Algebras}\label{chapter-taylor}
@@ -9500,12 +9773,17 @@ Although this scheme is readily implemented, it is hard to algebraically control
 
 We write $(x,\bB) \preceq (y,\bC)$ if there is a path $p$ of any length from $x$ to $y$ such that $\bB + p = \bC$. The resulting quasiorder is the \emph{implication qoset}.
 
-Let $\mathcal{E}$ be a subqoset of the implication qoset. A \emph{strand} of the subqoset $\mathcal{E}$ is just an equivalence class of $\mathcal{E}$. Often we might take $\cE$ to be the subqoset of pairs $(x,\bB)$ such that $\bB$ is a proper subalgebra of $\bA_x$ (or a proper absorbing subalgebra, etc.). We say that $\cS$ is a \emph{maximal} strand of $\mathcal{E}$ if it is a maximal equivalence class of the qoset $\cE$. If $\cE$ is not specified, then a strand can be any subset of any equivalence class of the implication qoset.
+Let $\mathcal{E}$ be a subdigraph of the implication digraph, and consider $\cE$ as a subqoset of the implication qoset by taking its transitive closure. A \emph{strand} of $\mathcal{E}$ is just an equivalence class of $\mathcal{E}$. Often we might take $\cE$ to be the subdigraph of pairs $(x,\bB)$ such that $\bB$ is a proper subalgebra of $\bA_x$ (or a proper absorbing subalgebra, etc.). We say that $\cS$ is a \emph{maximal} strand of $\mathcal{E}$ if it is a maximal equivalence class of the qoset $\cE$. If $\cE$ is not specified, then a strand can be any subset of any equivalence class of the implication qoset.
 
 A strand is called \emph{absorbing} if for all $(x,\bB) \in \cS$ we have $\bB \lhd \bA_x$. Note that as long as $\fX$ is arc-consistent, if this occurs for \emph{some} $(x,\bB) \in \cS$ then it occurs for \emph{all} $(x,\bB) \in \cS$.
 
 We define the \emph{partial restriction} of $\fX$ to the strand $\cS$ by reducing the domain of each variable $x$ to $\bigcap_{(x,\bB)\in\cS} \bB$ if some $(x,\bB) \in \cS$, and leaving the domain of $x$ unchanged otherwise.
 \end{defn}
+
+\begin{prop}\label{prop-cycle-strand-finding} If $\fX$ is cycle-consistent, $\cE$ is a subdigraph of the implication digraph, and we are given some $(x,\bB) \in \cE$, then we can find a maximal strand of $\cE$ in polynomial time.
+\end{prop}
+\begin{proof} We start from any element of $\cE$ and keep following single-step paths until we stabilize at a maximal strand. To see that this takes only polynomially many steps, note that if $(x,\bB) \preceq (x,\bC)$, then cycle-consistency implies that $\bB \le \bC$, so if $\bB \ne \bC$ then $|\bC| \ge |\bB|+1$.
+\end{proof}
 
 In order to restrict an instance $\fX$ to a strand $\cS$ in a way that guarantees that the restricted instance is arc-consistent, it seems like we should require that the strand $\cS$ includes at most one pair $(x,\bB)$ for each variable $x \in \fX$. This will be guaranteed as long as the instance $\fX$ is sufficiently consistent.
 
@@ -9607,17 +9885,18 @@ The relationships between the various types of consistency introduced so far are
   \node (1) at (0,1) {$(2,3)$-minimal};
   \node (2) at (0.6,0.4) {Prague instance};
   \node (3) at (0.8,-0.3) {(P1), (P2), (P3)};
-  \node (4) at (0,-1) {$pq$-consistent};
+  \node (4) at (0,-0.8) {$pq$-consistent};
   \node (5) at (-0.9,0) {cycle-consistent};
-  \node (6) at (0,-1.5) {(P1), (P3)};
+  \node (6) at (0,-1.3) {(P1), (P3)};
   \node (7) at (1.9,0.7) {SDP-relaxation};
   \node (8) at (2.2,-0.6) {LP-relaxation};
   \node (9) at (1.4,-1.4) {(P1), (P2)};
-  \node (10) at (0.8,-2) {arc-consistent};
+  \node (10) at (0.8,-2.2) {arc-consistent};
+  \node (11) at (0, -1.8) {weakly consistent};
   \draw (1) -- (2) -- (3) -- (4) -- (5) -- (1);
   \draw (4) -- (6);
   \draw (3) -- (7) -- (8) -- (9) -- (3);
-  \draw (9) -- (10) -- (6);
+  \draw (9) -- (10) -- (11) -- (6);
 \end{tikzpicture}
 \end{center}
 
@@ -9646,7 +9925,7 @@ is the graph of an isomorphism.
 The algebraic input needed for conservative CSPs is to show that if we take the $\bB_i$s to be minimal absorbing subalgebras of the $\bA_i$s such that $\RR \cap (\bB_1 \times \cdots \times \bB_n) \ne \emptyset$, then the $(\RR,\bB)$-strands do not interact with each other. This algebraic miracle is a special property of conservative Taylor algebras - it doesn't seem to hold in general.%TODO: counterexample to the general case?
 
 
-\section{The Rectangularity Theorem for conservative Taylor algebras}
+\section{The rectangularity theorem for conservative Taylor algebras}
 
 There are two versions of the Rectangularity Theorem for conservative algebras: one uses the theory of absorbing subalgebras and is proved in \cite{barto-conservative-revisited}, while the other uses Bulatov's theory of affine-semilattice components (shortened to \emph{as-components}) of the colored graph and is proved in \cite{bulatov-conservative-rerevisited}. Generally speaking, the affine-semilattice components of conservative Taylor algebras (and of subdirect products of conservative Taylor algebras) tend to behave like minimal absorbing subalgebras. We will mainly focus on the absorbing subalgebra approach.
 
@@ -9822,16 +10101,17 @@ with
 \pi_{[k+1,n]}(\RR) \cap \prod_{j > k} \bB_j \; \llhd_X \; \pi_{[k+1,n]}(\RR),
 \]
 by compatibility with pp-formulas and Theorem \ref{thm-conservative-subdirect-absorption-free}, to finish the proof. To arrange for this situation, we consider the relation
-\[
-\RR' = \RR \cap \Big(\Big(\{(b_1, ..., b_k)\} \times \prod_{i\in [k]} (\bA_i\setminus \bB_i)\Big) \times \prod_{j>k} \bA_j \Big),
-\]
+\begin{align*}
+\RR' &= \RR \cap \Big(\Big(\prod_{i\in [k]} (\bA_i\setminus \bB_i)\cup\{b_i\}\Big) \times \prod_{j>k} \bA_j \Big),\\
+&= \RR \cap \Big(\Big(\{(b_1, ..., b_k)\} \cup \prod_{i\in [k]} (\bA_i\setminus \bB_i)\Big) \times \prod_{j>k} \bA_j \Big),
+\end{align*}
 set $\bA_i' = \pi_i(\RR')$, and set $\bB_i' = \bA_i' \cap \bB_i$ for each $i$. By the induction hypothesis applied to $\pi_{[k]\cup\{j\}}(\RR)$, we see that $\bB_j' = \bB_j$ for each $j > k$, so we have $\bB_i' \llhd_X \bA_i'$ for all $i \le n$. We will apply the induction hypothesis to $\pi_{[k+1,n]}(\RR')$, but first we need to check that $\pi_{[k+1,n]}(\RR')$ has more than one strand.
 
 Let $S \subset [n]$ be some $(\RR,\bB)$-strand which is disjoint from $[k]$. By the assumption that $[k]$ was a $\preceq$-minimal $(\RR,\bB)$-strand, there must be some $(c_1, ..., c_n) \in \RR$ such that $c_i \not\in \bB_i$ for $i \in [k]$ and $c_j \in \bB_j$ for $j \in S$. Suppose without loss of generality that there is some $m \ge k$ such that $c_j \in \bB_j$ iff $j \in [m+1,n]$. If $m = k$, then we take $(a_1, ..., a_k, b_{k+1}', ..., b_n') = c$ to finish. Otherwise, since $c$ is an element of $\RR'$, we see that every strand of $\pi_{[k+1,n]}(\RR')$ is either contained in $[k+1,m]$ or contained in $[m+1,n]$. Thus, by the induction hypothesis we have
 \[
 \pi_{[k+1,n]}(\RR') \cap \prod_{j > k} \bB_j = \Big(\pi_{[k+1,m]}(\RR') \cap \prod_{j \in [k+1,m]} \bB_j \Big) \times \Big(\pi_{[m+1,n]}(\RR') \cap \prod_{j \in [m+1,n]} \bB_j \Big).
 \]
-Since we have $\pi_{[k+1,m]}(b) \in \pi_{[k+1,m]}(\RR')$ and $\pi_{[m+1,n]}(b) \in \pi_{[m+1,n]}(\RR')$ by the induction hypothesis applied to $\pi_{[1,m]}(\RR)$ and $\pi_{[k]\cup [m+1,n]}(\RR)$, we see that $\pi_{[k+1,n]}(b) \in \RR'$. Thus either $b \in \RR$, or there are some $a_i \in \bA_i \setminus \bB_i$ for $i \in [k]$ such that
+Since we have $\pi_{[k+1,m]}(b) \in \pi_{[k+1,m]}(\RR')$ and $\pi_{[m+1,n]}(b) \in \pi_{[m+1,n]}(\RR')$ by the induction hypothesis applied to $\pi_{[1,m]}(\RR)$ and $\pi_{[k]\cup [m+1,n]}(\RR)$, we see that $\pi_{[k+1,n]}(b) \in \pi_{[k+1,n]}(\RR')$. Thus either $b \in \RR$, or there are some $a_i \in \bA_i \setminus \bB_i$ for $i \in [k]$ such that
 \[
 (a_1, ..., a_k, b_{k+1}, ..., b_n) \in \RR,
 \]
@@ -9845,9 +10125,9 @@ In this section we present Barto's simple algorithm from \cite{barto-conservativ
 
 The main idea of Barto's algorithm for conservative CSPs is to try to reduce to the case where all edges of the colored graphs occuring in each of the variable domains $\bA_x$ are affine. In this case, any daisy chain term will be a Mal'cev term for each variable domain, and we can solve the problem by using the algorithm for CSPs with a Mal'cev polymorphism. In Bulatov's algorithm from \cite{bulatov-conservative-rerevisited}, the main idea is to reduce to the case where there are no semilattice edges instead, in which case any daisy chain term will be a ternary generalized majority-minority operation (that a ternary generalized majority-minority operation exists in this case also follows from Theorem \ref{thm-swap-gmm}).
 
-In order to accomplish this, we aim to show that if any semilattice or majority edge occurs in any variable domain of an instance $\fX$, then we can reduce some variable domain by solving an instance where every variable domain has been strictly decreased. We assume that our instance is $(2,3)$-minimal (or perhaps just that it is a Prague instance), and we consider the subqoset $\cE$ of the implication qoset consisting of pairs $(x,\bB)$ such that that $\bB \le \bA_x$ is an algebra with at least one proper absorbing subalgebra. The qoset $\cE$ will be nonempty as long as any algebra $\bA_x$ has any non-affine edge. We pick any maximal strand $\cS$ of the qoset $\cE$, and we note that the full restriction of our instance $\fX$ to the strand $\cS$ is then a Prague instance in which every single domain has a proper absorbing subalgebra by Proposition \ref{prop-prague-reduction}. We can then repeatedly apply Proposition \ref{prop-prague-reduction} (or, alternatively, we could apply Kozik's \cite{pq-consistency} result from Section \ref{s-absorbing-arc-consistent}, using the fact that every Prague instance is $pq$-consistent), to find an arc-consistent absorbing reduction $\fX'$ of the full restriction of $\fX$ to the strand $\cS$, such that every variable domain in $\fX'$ is absorption free - and as a consequence, such that each variable domain in $\fX'$ is a proper subagebra of the corresponding variable domain in the original instance $\fX$. We can then apply the following consequence of the Rectangularity Theorem \ref{thm-rectangularity-conservative-absorbing}.
+In order to accomplish this, we aim to show that if any semilattice or majority edge occurs in any variable domain of an instance $\fX$, then we can reduce some variable domain by solving an instance where every variable domain has been strictly decreased. We assume that our instance is $(2,3)$-minimal (or perhaps just that it is a Prague instance), and we consider the subdigraph $\cE$ of the implication digraph consisting of pairs $(x,\bB)$ such that that $\bB \le \bA_x$ is an algebra with at least one proper absorbing subalgebra. The digraph $\cE$ will be nonempty as long as any algebra $\bA_x$ has any non-affine edge. We pick any maximal strand $\cS$ of the digraph $\cE$, and we note that the full restriction of our instance $\fX$ to the strand $\cS$ is then a Prague instance in which every single domain has a proper absorbing subalgebra by Proposition \ref{prop-prague-reduction}. We can then repeatedly apply Proposition \ref{prop-prague-reduction} (or, alternatively, we could apply Kozik's \cite{pq-consistency} result from Section \ref{s-absorbing-arc-consistent}, using the fact that every Prague instance is $pq$-consistent), to find an arc-consistent absorbing reduction $\fX'$ of the full restriction of $\fX$ to the strand $\cS$, such that every variable domain in $\fX'$ is absorption free - and as a consequence, such that each variable domain in $\fX'$ is a proper subagebra of the corresponding variable domain in the original instance $\fX$. We can then apply the following consequence of the Rectangularity Theorem \ref{thm-rectangularity-conservative-absorbing}.
 
-\begin{thm}[Barto \cite{barto-conservative-revisited}] Suppose that $\fX$ is a Prague instance such that each variable domain $\bA_x$ is a conservative Taylor algebra. Let $\cE$ be the subqoset of the implication qoset which consists of pairs $(x,\bB)$ such that $\bB \le \bA_x$ and $\bB$ has a proper absorbing subalgebra, and let $\cS$ be any maximal strand of $\cE$.
+\begin{thm}[Barto \cite{barto-conservative-revisited}]\label{thm-rectangularity-application} Suppose that $\fX$ is a Prague instance such that each variable domain $\bA_x$ is a conservative Taylor algebra. Let $\cE$ be the subdigraph of the implication digraph which consists of pairs $(x,\bB)$ such that $\bB \le \bA_x$ and $\bB$ has a proper absorbing subalgebra, and let $\cS$ be any maximal strand of $\cE$.
 
 Suppose that for each $(x,\bB_x) \in \cS$ we choose a minimal absorbing subalgebra $\bC_x \llhd \bB_x$, such that the system of variable domains $\bC_x$ defines an arc-consistent reduction of the full restriction of $\fX$ to the strand $\cS$. Then one of the following is true:
 \begin{itemize}
@@ -9885,17 +10165,17 @@ so the tuple $b$ satisfies the constraint relation $\RR$.
 
 Using this result, we get the following algorithm for solving conservative CSPs.
 
-\begin{algorithm}\label{alg-conservative}
-\caption{Algorithm for solving an instance $\fX$ of a CSP with conservative Taylor variable domains $\bA_x$, from \cite{barto-conservative-revisited}.}
+\begin{algorithm}
+\caption{Algorithm for solving an instance $\fX$ of a CSP with conservative Taylor variable domains $\bA_x$, from \cite{barto-conservative-revisited}.}\label{alg-conservative}
 \begin{algorithmic}[1]
-\State Run a local consistency algorithm until $\fX$ is a Prague instance.
-\State Let $\cE$ be the subqoset of the implication qoset consisting of pairs $(x,\bB)$ such that $\bB \le \bA_x$ and $\bB$ has a proper absorbing subalgebra.
+\State Run a local consistency algorithm until $\fX$ is a cycle-consistent Prague instance.
+\State Let $\cE$ be the subdigraph of the implication digraph consisting of pairs $(x,\bB)$ such that $\bB \le \bA_x$ and $\bB$ has a proper absorbing subalgebra.
 \If{$\cE$ is non-empty}
-\State Let $\cS$ be any maximal strand of $\cE$.
+\State Let $\cS$ be any maximal strand of $\cE$. \Comment{Proposition \ref{prop-cycle-strand-finding}.}
 \State Define $\bC_x = \bB_x$ for each $(x,\bB_x) \in \cS$.
 \While{some $\bC_x$ is not absorption-free}
-\State Let $\fX_\bC$ be the Prague instance we get by restricting to variables in $\cS$ and restricting each variable domain to $\bC_x$.
-\State Pick any maximal strand $\mathcal{T}$ of the subqoset of the implication qoset of $\fX_\bC$ consisting of $(x,\bC')$ such that $\bC' \lhd \bC_x$ and $\bC' \ne \bC_x$.
+\State Let $\fX_\bC$ be the cycle-consistent Prague instance we get by restricting to variables in $\cS$ and restricting each variable domain to $\bC_x$. \Comment{Theorem \ref{arc-consistent-cycles} and Proposition \ref{prop-prague-reduction}}
+\State Pick any maximal strand $\mathcal{T}$ of the subqoset of the implication qoset of $\fX_\bC$ consisting of $(x,\bC')$ such that $\bC' \lhd \bC_x$ and $\bC' \ne \bC_x$. \Comment{Proposition \ref{prop-cycle-strand-finding}.}
 \State Set $\bC_x \gets \bC'$ for each $(x,\bC') \in \mathcal{T}$.
 \EndWhile
 \State Let $\cC$ be the subqoset consisting of $(x,\bC_x)$ for $x$ occuring in the strand $\cS$.
@@ -9909,10 +10189,10 @@ Using this result, we get the following algorithm for solving conservative CSPs.
 \State Let $c^\mathcal{T}$ be a solution to the instance $\fX_\mathcal{T}$.
 \EndIf
 \EndFor
-\State Set $\bA_x \gets (\bA_x \setminus \bB_x) \cup \{c^\mathcal{T}_x\}$ for all $(x,\bB_x) \in \cS$, where $\mathcal{T}$ is the strand of $\cC$ which contains $(x,\bC_x)$.
+\State Set $\bA_x \gets (\bA_x \setminus \bB_x) \cup \{c^\mathcal{T}_x\}$ for all $(x,\bB_x) \in \cS$, where $\mathcal{T}$ is the strand of $\cC$ which contains $(x,\bC_x)$. \Comment{Theorem \ref{thm-rectangularity-application}}
 \State \textbf{go to} Step 1.
 \EndIf
-\State Solve $\fX$ by using the algorithm for CSPs with a Mal'cev polymorphism.
+\State Solve $\fX$ by using the algorithm for CSPs with a Mal'cev polymorphism. \Comment{Section \ref{s-malcev-algorithm}}
 \end{algorithmic}
 \end{algorithm}
 
@@ -9920,6 +10200,9 @@ Using this result, we get the following algorithm for solving conservative CSPs.
 \end{thm}
 
 It seems plausible that a much more careful analysis of the algorithm for conservative CSPs might show that it runs in time $\|\fX\|^{O(1)}$, regardless of the sizes of the variable domains.
+
+\begin{prob} Given as input an instance $\fX$ of any CSP together with a conservative ternary weak near-unanimity polymorphism which preserves the relations of $\fX$, can we solve the instance $\fX$ in time polynomial in $\|\fX\|$?
+\end{prob}
 
 \begin{cor} The CSP dichotomy conjecture is true for all CSP templates on a domain of size at most $3$.
 \end{cor}
@@ -9937,7 +10220,7 @@ In the meta-problem for conservative CSPs, we restrict our attention to CSP temp
 \[
 w(x,x,y) \approx w(x,y,x) \approx w(y,x,x).
 \]
-Furthermore, we can consider the case of $3$-conservative CSP templates without any additional difficulty, since any $3$-conservative Taylor algebra has a conservative Taylor reduct (by a $3$-conservative template, we mean a CSP template such that $\Gamma$ contains every unary relation of size at most $3$). These facts were not known at the time that Carbonnel wrote their thesis, and by using them we can simplify Carbonnel's algorithm.
+Furthermore, we can consider the case of $3$-conservative CSP templates without any additional difficulty, since any $3$-conservative Taylor algebra has a conservative Taylor reduct (by a $3$-conservative template, we mean a CSP template such that $\Gamma$ contains every unary relation of size at most $3$). These facts were not known at the time that Carbonnel wrote their thesis, and by using them we can make Carbonnel's algorithm more concrete.
 
 In Carbonnel's thesis \cite{carbonnel-thesis}, the strategy for solving the meta-problem was described as being similar to a treasure hunt (or perhaps a puzzle hunt): we have a sequence of locked boxes, and a single key which opens the first box, such that each box contains the key to opening the next box. Here, the key is a metaphor for the Taylor polymorphism - once we know a Taylor polymorphism, we can use it to solve instances of our CSP. More specifically, the key is a metaphor for a \emph{partial description} of a Taylor polymorphism. In order to see how a partial description of a Taylor polymorphism can make sense, we first describe a useful rephrasing of the meta-problem for a $3$-conservative template in terms of a meta-problem for a multisorted CSP template.
 
@@ -10002,8 +10285,8 @@ Now we can describe the treasure hunt algorithm: we iteratively build ternary we
 
 In order to solve the indicator instance for $\fA_\cV$, we brute force over all possible ternary weak near-unanimity operations on $V$, and for each one, we check if it extends to a solution to the indicator instance, using the fact that all of the remaining variables have sorts in $\cU$. In fact, we don't need to consider \emph{all} weak near-unanimity operations on $V$ - we only need to check the $73$ specific operations from the classification of conservative minimal Taylor algebras of size $3$ (if $V$ has size $2$, we only need to consider $4$ possible operations).
 
-\begin{algorithm}\label{alg-conservative-treasure-hunt}
-\caption{Treasure hunt algorithm for solving the meta-problem for a $3$-conservative relational structure $\fA = (A, \Gamma)$, from \cite{carbonnel-thesis}.}
+\begin{algorithm}
+\caption{Treasure hunt algorithm for solving the meta-problem for a $3$-conservative relational structure $\fA = (A, \Gamma)$, from \cite{carbonnel-thesis}.}\label{alg-conservative-treasure-hunt}
 \begin{algorithmic}[1]
 \State Set $n \gets \binom{|A|}{3} + \binom{|A|}{2}$.
 \State Pick a sequence $\cU_0 \subseteq \cU_1 \subseteq \cU_2 \subseteq \cdots \subseteq \cU_{n} = \{U \subseteq A \mid |U| \in [3]\}$ such that $\cU_0$ is the set of singleton subsets of $A$, each $\cU_{i+1}$ contains exactly one more subset of $A$ then $\cU_i$, and each $\cU_i$ is closed under taking nonempty subsets.
