@@ -328,7 +328,7 @@ In this case, however, they could have asked for more. Hubie Chen \cite{chen-few
 \begin{conj} For any constraint language $\Gamma$, the logarithm of the number of distinct $n$-variable relations which can be defined by primitive positive formulas over $\Gamma$ always either grows as a polynomial or an exponential function. In the case of polynomial growth this class of relations is efficiently learnable and the associated CSP can be solved in polynomial time.
 \end{conj}
 
-This conjecture was solved via the theory of algebras with ``few subpowers'', which classifies CSPs such that the solution sets always have ``compact representations'', and gives general procedures for manipulating these compact representations.
+This conjecture was resolved via the theory of algebras with ``few subpowers'', which classifies CSPs such that the solution sets always have ``compact representations'', and gives general procedures for manipulating these compact representations.
 
 In order to approach these questions, the key conceptual ingredient turned out to be a Galois duality from universal algebra, relating a family of relations to the set of operations which ``preserve'' the relations. This allows us to view CSPs as algebraic structures in disguise, and to use algebraic techniques to study the structure of their solution sets and to design algorithms. However, the algebraic structures we end up studying are much less structured than groups or lattices - they are in a sense the most basic algebraic structures that have any good properties at all.
 
@@ -1108,7 +1108,7 @@ m(m(x,y,z),u,v) &\approx m(x,m(y,u,v),m(z,u,v)).
 \end{align*}
 The identity $m(x,y,z) \approx m(y,z,x)$ can't be satisfied by assigning $m$ to one of the projections $\pi_1, \pi_2, \pi_3$.
 
-An algebra in $\cV(\mathcal{T}_{med})$ is called a \emph{median algebra}. A finite median algebra corresponds to a \emph{median graph}, that is, a graph with the property that for every three vertices $x,y,z$ there exists a unique vertex which lies on a shortest path connecting every pair of $x,y,z$. Examples of median graphs are paths, trees, planar grids, ``squaregraphs'', hypercubes, Hasse diagrams of distributive lattices, and the graph $\cM_n$ of maximal intersecting families from the last section. For more about the theory of median algebras, see \cite{median-poc}.
+An algebra in $\cV(\mathcal{T}_{med})$ is called a \emph{median algebra}. A finite median algebra corresponds to a \emph{median graph}, that is, a graph with the property that for every three vertices $x,y,z$ there exists a unique vertex which lies on a shortest path connecting every pair of $x,y,z$ (to recover the graph structure, we draw an edge from $x$ to $y$ whenever $m(x,y,z) \in \{x,y\}$ for all $z$). Examples of median graphs are paths, trees, planar grids, ``squaregraphs'', hypercubes, Hasse diagrams of distributive lattices, and the graph $\cM_n$ of maximal intersecting families from the last section. For more about the theory of median algebras, see \cite{median-poc}.
 
 One of the most famous examples of median algebras is the case of distributive lattices. It isn't hard to show that in any distributive lattice, the following identity holds:
 \[
@@ -1148,6 +1148,10 @@ For those who like category theory, a $k$-ary implicit operation of a pseudovari
 
 %\subsection{The $\Inv$-$\Pol$ duality for multisorted CSPs}
 %TODO
+
+
+%\subsection{Indicator instances}
+%TODO (also, where should this go?)
 
 
 \section{Cores and Idempotent Reducts}
@@ -7541,7 +7545,7 @@ If $\bA$ is affine, then by definition $\bA$ is polynomially equivalent to some 
 
 \subsection{Weak Prague instances}
 
-The original proofs of the bounded width conjecture (i.e., that affine-free CSPs have bounded width) didn't use the concepts of $pq$-consistency or cycle-consistency. Bulatov's argument \cite{bulatov-bounded} used $(2,3)$-consistency, and leveraged a local structure theory of bounded width algebras in terms of two element semilattice and majority subalgebras. The early arguments due to Barto and Kozik \cite{barto}, \cite{local-consistency} used simpler algebraic ingredients, but used a more complicated consistency condition satisfied by instances called \emph{Prague instances}, which were then simplified to \emph{weak Prague instances}. We won't go over the original Prague instance concept, but weak Prague instances have a nice definition.
+The original proofs of the bounded width conjecture (i.e., that affine-free CSPs have bounded width) didn't use the concepts of $pq$-consistency or cycle-consistency. Bulatov's argument \cite{bulatov-bounded} used $(2,3)$-consistency, and leveraged a local structure theory of bounded width algebras in terms of two element semilattice and majority subalgebras. The early arguments due to Barto and Kozik \cite{barto}, \cite{local-consistency} used simpler algebraic ingredients, but used a more complicated consistency condition satisfied by instances called \emph{Prague instances}, which were then simplified to \emph{weak Prague instances}. We won't go over the original Prague instance concept until later, but weak Prague instances have a nice definition.
 
 \begin{defn}\label{defn-weak-prague} An instance $\fX$ of a CSP with variable domains $\bA_x$ is called a \emph{weak Prague instance} if it satisfies the following three conditions.
 \begin{itemize}
@@ -7752,6 +7756,8 @@ Libor Barto has raised the following question.
 
 \begin{prob}\label{prob-p1-p3} Is it true that every instance of an affine-free CSP which satisfies conditions (P1) and (P3) has a solution?
 \end{prob}
+
+We will solve this problem later in these notes.
 
 
 \section{Terms for bounded width and the meta-problem}
@@ -8164,7 +8170,7 @@ In order to extend the previous result to an algorithm for \emph{robustly} solvi
 
 \section{Stable subalgebras, and even weaker consistency for bounded width}
 
-In this section we will introduce a new concept, which is similar to absorption but which is targeted at subdirect relations rather than arbitrary relations. This allows us to unify the treatment of centrally absorbing subalgebras with congruence classes of polynomially complete absorption free quotients, eliminating most of the casework we need to deal with. We will demonstrate the usefulness of this concept by solving the (P1)-(P3) problem (Problem \ref{prob-p1-p3}).
+In this section we will introduce a new concept, which is similar to absorption but which is targeted at subdirect relations rather than arbitrary relations. This allows us to unify the treatment of centrally absorbing subalgebras with congruence classes of polynomially complete absorption free quotients, eliminating most of the casework we need to deal with. We will demonstrate the usefulness of this concept by solving the (P1)-(P3) problem (Problem \ref{prob-p1-p3}). The approach used in this section is based on Zhuk's theory of ``strong subalgebras'' \cite{zhuk-strong}.
 
 Rather than directly defining stable subalgebras, we will give an axiomatic description of what we want from a concept of ``stability''.
 
@@ -8349,11 +8355,13 @@ To finish the proof of Theorem \ref{thm-stability}, we only need to construct st
 such that for each $i$, one of the following is true:
 \begin{itemize}
 \item $\bA_{i+1}$ contains a strongly absorbing subalgebra of $\bA_i$,
-\item $\bA_{i+1} \lhd_Z \bA_i$, or
-\item there is a congruence $\theta$ on $\bA_i$ such that $\bA_i/\theta$ is polynomially complete, binary absorption-free and centrally absorption-free, and such that $\bA_{i+1}$ is a congruence class of $\theta$.
+\item $\bA_{i+1}$ centrally absorbs $\bA_i$, or
+\item there is a congruence $\theta$ on $\bA_i$ such that $\bA_i/\theta$ is polynomially complete, binary absorption-free and central absorption-free, and such that $\bA_{i+1}$ is a congruence class of $\theta$.
 \end{itemize}
 We say that $\bB$ is \emph{stable in one step} if we can take $n = 1$ in the above. If the third bullet point above holds for $\bB$, then we say that $\bB$ is a \emph{PC subalgebra} of $\bA$ with \emph{PC congruence} $\theta$.
 \end{defn}
+
+Algebras which are stable in one step are almost the same thing as what Zhuk calls \emph{strong} subalgebras in \cite{zhuk-strong} - the only difference is in how we handle the case of binary absorption.
 
 \begin{thm} If $\cV$ is a pseudovariety of finite idempotent strongly prepared Taylor algebras, then the binary relation $\Yleft$ on $\cV$ from Definition \ref{defn-strong-stable} is a stability concept.
 \end{thm}
