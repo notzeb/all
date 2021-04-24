@@ -7138,7 +7138,7 @@ Furthermore, there exists a digraph homomorphism from $\fD$ to a directed cycle 
 \begin{prop} If $\fD = (V,E)$ is a smooth, weakly connected digraph of algebraic length $k$, then the digraph $\fD^{\circ m} = (V,E^{\circ m})$ has $\gcd(k,m)$ weakly connected components, and each weakly connected component of $\fD^{\circ m}$ has algebraic length $\frac{k}{\gcd(k,m)}$.
 \end{prop}
 
-\begin{prop} If $\fD = (V,E)$ is smooth and weakly connected, then $\fD$ has algebraic length $1$ if and only if there is some $m \ge 0$ such that the relation $E^{\circ m}$ is linked.
+\begin{prop}\label{prop-alg-length-linked} If $\fD = (V,E)$ is smooth and weakly connected, then $\fD$ has algebraic length $1$ if and only if there is some $m \ge 0$ such that the relation $E^{\circ m}$ is linked.
 \end{prop}
 
 \begin{cor} If $\fD = (V,E)$ is smooth and has a weakly connected component $C \subseteq V$ of algebraic length $1$, and if $v \in C$, then the set $C$ can be defined by a primitive positive formula using the singleton unary relation $\{v\}$ and the binary relation $E$.
@@ -8448,7 +8448,7 @@ Unsatisfyingly, even weak consistency is too demanding to directly prove the exi
 
 In this subsection, we are mainly concerned with the following question: given an instance $\fX$ whose variable domains and relations are not assumed to be closed under the basic operations of our bounded width algebra, under what circumstances can we guarantee that $\Sg(\fX)$ has a solution? If the variable domains of $\fX$ consist of generating sets for free algebras, then this question is equivalent to asking which systems of height $1$ identities can be solved in every finite bounded width algebra. We will show that if the instance $\fX$ has a ``vague'' solution, then $\Sg(\fX)$ is guaranteed to have a solution in any finite bounded width algebra which contains the variable domains of $\fX$.
 
-\begin{defn} Let $\cP_\emptyset(A)$ be the set of non-empty subsets of a set $A$. A \emph{vague element} of $A$ is defined to be a total quasiorder $\preceq$ on $\cP_\emptyset(A)$ such that there is no pair of disjoint subsets $S, T \subset A$ with $S \preceq T$ and $T \preceq S$.
+\begin{defn} Let $\cP_\emptyset(A)$ be the set of non-empty subsets of a set $A$. A \emph{vague element} of $A$ is defined to be a total quasiorder $\preceq$ on $\cP_\emptyset(A)$ such that there is no pair of disjoint subsets $S, T \subset A$ with $S \sim T$, where $S \sim T$ means that $S \preceq T$ and $T \preceq S$.
 
 If $R \subseteq_{sd} A_1 \times \cdots \times A_n$ is subdirect, then we say that a collection of vague elements $\preceq_i$ of the $A_i$s \emph{vaguely satisfies} the relation $R$ if there exists a total quasiorder $\preceq_R$ on the disjoint union
 \[
@@ -8461,7 +8461,7 @@ S \preceq_R S+\pi_{ij}(R).
 If $\fX$ is an arc-consistent instance with variable domains $A_x$, then a collection of vague elements $\preceq_x$ of the $A_x$s is a \emph{vague solution} to $\fX$ if it vaguely satisfies every relation of $\fX$.
 \end{defn}
 
-Total quasiorders are also known as \emph{preference relations} - so intuitively, we can think of a vague element of $A$ as a preference relation on the nonempty subsets of $A$, which avoids being caught out as incoherent by requiring that any pair of equally preferable subsets has a nonempty intersection. Vague solutions are closely connected to weak consistency.
+Total quasiorders are also known as \emph{preference relations} - so intuitively, we can think of a vague element of $A$ as a preference relation on the nonempty subsets of $A$ which our hypothetical element might live in, which avoids being caught out as incoherent by requiring that any pair of equally preferable subsets has a nonempty intersection. Vague solutions are closely connected to weak consistency.
 
 \begin{prop} Every weakly consistent instance has a vague solution.
 \end{prop}
@@ -8492,30 +8492,31 @@ and $\{x\} \cap \{z\} = \emptyset$. Nevertheless, the Siggers instance does have
 \]
 To see that $(\preceq_u,\preceq_u)$ vaguely satisfies $R$, use the following total quasiorder $\preceq_R$ on $[2] \times \cP_\emptyset(A_u)$:
 \begin{align*}
-\{y\}_1 &\prec_R \{y\}_2 \prec_R \{x\}_1 \prec_R \{x\}_2 \sim_R \{z\}_1 \prec_R \{z\}_2\\
-&\prec_R \{x,y\}_2 \prec_R \{x,y\}_1 \sim_R \{y,z\}_2 \prec_R \{y,z\}_1 \prec_R \{x,z\}_2 \prec_R \{x,z\}_1 \prec \cdots.
+(1,\{y\}) &\prec_R (2,\{y\}) \prec_R (1,\{x\}) \prec_R (2,\{x\}) \sim_R (1,\{z\}) \prec_R (2,\{z\})\\
+&\prec_R (2,\{x,y\}) \prec_R (1,\{x,y\}) \sim_R (2,\{y,z\}) \prec_R (1,\{y,z\}) \prec_R (2,\{x,z\}) \prec_R (1,\{x,z\})\\
+&\prec_R (1,\{x,y,z\}) \sim_R (2,\{x,y,z\}).
 \end{align*}
 \end{ex}
 
-In order to show that vaguely solvable instances have solutions (after taking the closure by algebraic operations), we will construct a very large weakly consistent instance with many copies of each variable and relation from the original instance. In fact, by K\"onig's Lemma we may even allow ourselves to build an infinitely large weakly consistent instance (although we will only truly need a finite portion of it). Roughly speaking, we will take the variables and relations of this instance to be indexed by subsets of $\mathbb{Z}$ of certain fixed sizes, which will put us in a position to apply Ramsey's theorem for hypergraphs.
+In order to show that vaguely solvable instances have solutions (after taking the closure by algebraic operations), we will construct a very large weakly consistent instance with many copies of each variable and relation from the original instance. In fact, by K\"onig's Lemma we may even allow ourselves to build an infinitely large weakly consistent instance (although we will only truly need a finite portion of it). Roughly speaking, we will take the variables and relations of this instance to be indexed by subsets of $\NN$ of certain fixed sizes, which will put us in a position to apply Ramsey's theorem for hypergraphs.
 
-\begin{defn} If $f : S \rightarrow \ZZ$ is any function, then we define the \emph{associated total quasiorder} $\preceq_f$ on $S$ by
+\begin{defn} If $f : S \rightarrow \NN$ is any function, then we define the \emph{associated total quasiorder} $\preceq_f$ on $S$ by
 \[
 a \preceq_f b \;\; \iff \;\; f(a) \le f(b).
 \]
-If $\preceq$ is a vague element of $A$, then we say that a function $f : \cP_\emptyset(A) \rightarrow \ZZ$ is \emph{compatible} with $\preceq$ if $\preceq_f = \preceq$.
+If $\preceq$ is a vague element of $A$, then we say that a function $f : \cP_\emptyset(A) \rightarrow \NN$ is \emph{compatible} with $\preceq$ if $\preceq_f = \preceq$.
 
 More generally, if $R \subseteq_{sd} A_1 \times \cdots \times A_n$ is a subdirect relation with a vague solution $(\preceq_1, ..., \preceq_n)$, then we say that a function
 \[
-f : \bigsqcup_i \cP_\emptyset(A_i) \rightarrow \ZZ
+f : \bigsqcup_i \cP_\emptyset(A_i) \rightarrow \NN
 \]
 is \emph{compatible} with $R$ and $(\preceq_1, ..., \preceq_n)$ if $\preceq_f$ can be used as the total quasiorder $\preceq_R$ from the definition of vague satisfaction.
 \end{defn}
 
 \begin{defn} If $\fX$ is an arc-consistent instance with a vague solution given by vague elements $\preceq_x$ of the variable domains $A_x$, then we define the \emph{associated weakly consistent instance} $\fX^*$ as follows:
 \begin{itemize}
-\item for each variable $x$ of $\fX$ and each $f : \cP_\emptyset(A_x) \rightarrow \ZZ$ which is compatible with $\preceq_x$, we have a variable $(x,f)$ of $\fX^*$, and
-\item for each constraint relation $R \subseteq_{sd} A_{x_1} \times \cdots \times A_{x_n}$ of $\fX$ and each $f : \bigsqcup_i \cP_\emptyset(A_{x_i}) \rightarrow \ZZ$ which is compatible with $R$ and $(\preceq_{x_1}, ..., \preceq_{x_n})$, we impose
+\item for each variable $x$ of $\fX$ and each $f : \cP_\emptyset(A_x) \rightarrow \NN$ which is compatible with $\preceq_x$, we have a variable $(x,f)$ of $\fX^*$, and
+\item for each constraint relation $R \subseteq_{sd} A_{x_1} \times \cdots \times A_{x_n}$ of $\fX$ and each $f : \bigsqcup_i \cP_\emptyset(A_{x_i}) \rightarrow \NN$ which is compatible with $R$ and $(\preceq_{x_1}, ..., \preceq_{x_n})$, we impose
 \[
 ((x_1,f|_{\cP_\emptyset(A_{x_1})}), ..., (x_n,f|_{\cP_\emptyset(A_{x_n})})) \in R
 \]
@@ -8536,22 +8537,90 @@ f(S) \le f(S+p) \le f(S+p+q) = f(S)
 implies that $f(S) = f(S+p)$. Then since $f$ is compatible with $\preceq_x$ we must have $S \sim_x S+p$, so $S \cap (S+p) \ne \emptyset$ since $\preceq_x$ is a vague element.
 \end{proof}
 
-\begin{prop} If $\fX^*$ is weakly consistent and its variable domains are contained in a finite bounded width algebra, then $\Sg(\fX^*)$ has a solution.
+\begin{prop} If $\fX^*$ is weakly consistent and its variable domains are contained in a finite bounded width algebra, then $\Sg(\fX^*)$ has a stable solution.
 \end{prop}
-\begin{proof} By Proposition \ref{prop-weakly-consistent-cycle}, an instance is weakly consistent if and only if certain cycles take every element of the variable domain back to themselves, so if $\fX^*$ is weakly consistent then so is $\Sg(\fX^*)$. By K\"onig's Lemma, in order to check that $\Sg(\fX^*)$ has a solution we just need to check that every finite subinstance of $\Sg(\fX^*)$ has a solution, and for this we can apply the main result of the previous section.
+\begin{proof} By Proposition \ref{prop-weakly-consistent-cycle}, an instance is weakly consistent if and only if certain cycles take every element of the variable domain back to themselves, so if $\fX^*$ is weakly consistent then so is $\Sg(\fX^*)$. By K\"onig's Lemma, in order to check that $\Sg(\fX^*)$ has a solution we just need to check that every finite subinstance of $\Sg(\fX^*)$ has a stable solution, and for this we can apply the main result of the previous section.
 \end{proof}
 
-\begin{thm} If $\fX$ is an arc-consistent instance which has a vague solution, and if the variable domains of $\fX$ are contained in a finite bounded width algebra, then $\Sg(\fX)$ has a solution.
+\begin{thm} If $\fX$ is an arc-consistent instance which has a vague solution, and if the variable domains of $\fX$ are contained in a finite bounded width algebra, then $\Sg(\fX)$ has a stable solution.
 \end{thm}
-\begin{proof} Let $\fX^*$ be the associated weakly consistent instance. By the previous proposition, $\Sg(\fX^*)$ has a solution. Fix one particular solution to $\Sg(\fX^*)$.
+\begin{proof} Let $\fX^*$ be the associated weakly consistent instance. By the previous proposition, $\Sg(\fX^*)$ has a stable solution. Fix one particular stable solution to $\Sg(\fX^*)$.
 
-To finish, we imagine ``coloring'' the compatible functions $f : \cP_\emptyset(A_x) \rightarrow \ZZ$ by the values that the variables $(x,f)$ are assigned to in some solution of $\Sg(\fX^*)$. Since the variable domains in the instance $\Sg(\fX^*)$ are finite, we only have finitely many colors to choose from, so Ramsey's theorem for hypergraphs implies that there is an infinite subset $S \subseteq \ZZ$ such that each compatible function $f : \cP_\emptyset(A_x) \rightarrow S$ has the same color. Iterating this for each variable $x$ of the instance $\fX$, we finally find an infinite subset $U \subseteq \ZZ$ such that for each variable $x$ of $\fX$ and each compatible $f : \cP_\emptyset(A_x) \rightarrow U$, the value assigned to $(x,f)$ in our solution to $\Sg(\fX^*)$ only depends on $x$ and does not depend on $f$.
+To finish, we imagine ``coloring'' the compatible functions $f : \cP_\emptyset(A_x) \rightarrow \NN$ by the values that the variables $(x,f)$ are assigned to in our solution of $\Sg(\fX^*)$. Since the variable domains in the instance $\Sg(\fX^*)$ are finite, we only have finitely many colors to choose from, so Ramsey's theorem for hypergraphs implies that there is an infinite subset $S \subseteq \NN$ such that each compatible function $f : \cP_\emptyset(A_x) \rightarrow S$ has the same color. Iterating this for each variable $x$ of the instance $\fX$, we finally find an infinite subset $U \subseteq \NN$ such that for each variable $x$ of $\fX$ and each compatible $f : \cP_\emptyset(A_x) \rightarrow U$, the value assigned to $(x,f)$ in our solution to $\Sg(\fX^*)$ only depends on $x$ and does not depend on $f$.
 
-We claim that assigning the variable $x$ of $\fX$ to the value assigned to any such $(x,f)$ (with $f : \cP_\emptyset(A_x) \rightarrow U$ compatible with $\preceq_x$) in our solution to $\Sg(\fX^*)$ solves the instance $\Sg(\fX)$. To see this, let $R \subseteq A_{x_1} \times \cdots \times A_{x_n}$ be any constraint relation of $\fX$. Then since $(\preceq_{x_1}, ..., \preceq_{x_n})$ vaguely satisfies $R$, there is some total quasiorder $\preceq_R$ as in the definition of vague satisfaction. Since $U \subseteq \ZZ$ is infinite (or just sufficiently large), we can then find a function $f : \bigsqcup_i \cP_\emptyset(A_{x_i}) \rightarrow U$ such that $\preceq_f = \preceq_R$, and for this $f$ we see that
+We claim that assigning the variable $x$ of $\fX$ to the value assigned to any such $(x,f)$ (with $f : \cP_\emptyset(A_x) \rightarrow U$ compatible with $\preceq_x$) in our solution to $\Sg(\fX^*)$ solves the instance $\Sg(\fX)$. To see this, let $R \subseteq A_{x_1} \times \cdots \times A_{x_n}$ be any constraint relation of $\fX$. Then since $(\preceq_{x_1}, ..., \preceq_{x_n})$ vaguely satisfies $R$, there is some total quasiorder $\preceq_R$ as in the definition of vague satisfaction. Since $U \subseteq \NN$ is infinite (or just sufficiently large), we can then find a function $f : \bigsqcup_i \cP_\emptyset(A_{x_i}) \rightarrow U$ such that $\preceq_f = \preceq_R$, and for this $f$ we see that
 \[
 ((x_1,f|_{\cP_\emptyset(A_{x_1})}), ..., (x_n,f|_{\cP_\emptyset(A_{x_n})})) \in \Sg(R)
 \]
 is a constraint of $\Sg(\fX^*)$. Therefore, the tuple of values assigned to $(x_1, ..., x_n)$ by this procedure satisfies the constraint $\Sg(R)$ of the instance $\Sg(\fX)$.
+\end{proof}
+
+We can use stability to upgrade this result further: we don't need to find a vague solution to the full instance $\fX$, it's enough to find a vague solution to just the binary part of $\fX$.
+
+\begin{defn} If $\fX$ is an instance, then we define the \emph{binary part} of $\fX$ to be the instance $\fX^{bin}$ given by replacing each $k$-ary constraint relation $R \subseteq A_{x_1} \times \cdots \times A_{x_k}$ by the collection of binary relations $\pi_{ij}(R) \subseteq A_{x_i} \times A_{x_j}$ for $i,j \in [k]$.
+\end{defn}
+
+\begin{cor} If $\fX$ is an arc-consistent instance such that $\fX^{bin}$ has a vague solution, and if the variable domains of $\fX$ are contained in a finite bounded width algebra, then $\Sg(\fX)$ has a stable solution.
+\end{cor}
+\begin{proof} By Proposition \ref{prop-stable-essential} and arc-consistency, any stable solution to $\Sg(\fX^{bin})$ is also a stable solution to $\Sg(\fX)$.
+\end{proof}
+
+\begin{prob} Is there any instance $\fX$ such that $\fX^{bin}$ has a vague solution but $\fX$ does not?
+\end{prob}
+
+\begin{prob} If the sizes of the variable domains in $\fX$ are bounded by a constant (perhaps just $3$), how hard is it to determine whether $\fX^{bin}$ has a vague solution?
+\end{prob}
+
+To illustrate the theory, we will show how the loop lemma can be proved for finite bounded width algebras by constructing suitable vague solutions.
+
+\begin{thm} If $R \subseteq A_x \times A_x$ is a smooth, weakly connected digraph of algebraic length $1$, then the instance $\fX$ which consists of only the variable $x$ and the constraint $(x,x) \in R$ has a vague solution. As a consequence, the instance $\Sg(\fX)$ has a stable solution in any finite bounded width algebra.
+\end{thm}
+\begin{proof} We will attempt to find a function $f : [2] \times \cP_\emptyset(A_x) \rightarrow \QQ$ such that for each proper nonempty $S \subset A_x$ we have
+\[
+|f(1,S) - f(2,S)| = 1,
+\]
+along with
+\[
+f(1,S) \le f(2,S+R)
+\]
+and
+\[
+f(2,S) \le f(1,S-R).
+\]
+To this end, we define a weighted directed graph $\cG$ with vertices corresponding to proper nonempty subsets $S \subset A_x$, and with an edge of weight $+1$ from $S$ to $S+R$ and an edge of weight $-1$ from $S$ to $S-R$ for each such $S$ (assuming $S+R, S-R \ne A_x$). We will handle each strongly connected component of $\cG$ separately.
+
+We call a directed cycle of $\cG$ \emph{positive} if the sum of the weights along the cycle is strictly greater than $0$, and we define negative cycles similarly. For each positive directed cycle of $\cG$ from a vertex $S \subset A_x$ to $S$, there is a corresponding cycle $p$ of the instance $\fX$ which has strictly more $+\RR$ steps than $-\RR$ steps, with $S+p = S$, and we call such a cycle $p$ ``positive'' as well.
+
+{\bf Claim.} No strongly connected component of $\cG$ contains both a positive directed cycle and a negative directed cycle.
+
+{\bf Proof of claim.} Suppose otherwise. Then we can find a vertex $S \subset A_x$ of $\cG$, a positive cycle $p$, and a negative cycle $q$, such that
+\[
+S = S+p = S+q.
+\]
+We may assume without loss of generality that the total weights of $p$ and $q$ are opposite to each other, so $p+q$ has total weight $0$. Then we have
+\[
+S + R^{\circ j} - R^{\circ j} \subseteq S + jp + jq = S
+\]
+for all $j \ge 0$, so $S$ must be a union of linked components of $R^{\circ j}$ for all $j$. This contradicts Proposition \ref{prop-alg-length-linked}: some $R^{\circ j}$ must be linked if $R$ has algebraic length $1$.
+
+Now suppose that $\cC$ is a strongly connected component of $\cG$ which does not contain any positive directed cycles. We will define the restriction of $f$ to $\cC$ such that
+\[
+f(2,S) = f(1,S) - 1
+\]
+for all $S \in \cC$. To do this, we pick any $S_0 \in \cC$ and any constant $c_\cC$, and define $f(1,T)$ to be $c_\cC$ plus the maximum total weight of any directed path from $S_0$ to $T$, for all $T \in \cC$. That this maximum total weight is well-defined follows from the fact that $\cC$ does not contain any positive directed cycles together with the finiteness of $\cC$. This definition is easily seen to satisfy
+\begin{align*}
+f(1,T) &\le f(2,T+R) = f(1,T+R)-1,\\
+f(1,T)-1 &= f(2,T) \le f(1,T-R),
+\end{align*}
+so long as $T+R, T-R$ are in $\cC$. Additionally, if $f(1,T) = f(1,U)$ for some $T,U \in \cC$, then there is some $k$ such that $S_0$ has paths of total weight $k$ to each of $T$ and $U$ - in this case, we see that
+\[
+S + kR \subseteq T \cap U,
+\]
+so $T \cap U \ne \emptyset$.
+
+We handle strongly connected components which do not have any negative directed cycles similarly, looking at the negative of the minimum total weight instead of the maximum total weight, and taking $f(2,S) = f(1,S) + 1$ on such components.
+
+To finish, we pick any total order on the strongly connected components of $\cG$ which extends the reachability order, and we choose the constants $c_{\cC}$ for the various connected components $\cC$ according to this order, with sufficient distance between them that there is no interaction between the various strongly connected components of $\cG$.
 \end{proof}
 
 \begin{comment}
