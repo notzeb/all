@@ -7748,7 +7748,7 @@ Thus we have $A = A+p$.
 
 To see that this is not $pq$-consistent, note that there is no $j$ such that $(0,0) \in \RR^{\circ j}$. To see that this instance satisfies condition (P3), we use the following total ordering on $\cP(\{0,1,2\})$:
 \[
-\emptyset \preceq \{0\} \preceq \{0,1\} \preceq \{0,2\} \preceq \{1\} \preceq \{2\} \preceq \{1,2\} \preceq \{0,1,2\}.
+\emptyset \preceq \{0\} \preceq \{0,1\} \preceq \{1\} \preceq \{0,2\} \preceq \{2\} \preceq \{1,2\} \preceq \{0,1,2\}.
 \]
 \end{ex}
 
@@ -8251,7 +8251,7 @@ A + p + q = A \;\; \implies \;\; A \cap (A + p) \ne \emptyset.
 
 Weak consistency is clearly implied by properties (P1) and (P3) from Definition \ref{defn-weak-prague}. We can also rephrase weak consistency to make it look more similar to $pq$-consistency.
 
-\begin{prop} An arc-consistent instance $\fX$ with finite variable domains $\bA_x$ is weakly consistent if and only if it satisfies
+\begin{prop}\label{prop-weakly-consistent-cycle} An arc-consistent instance $\fX$ with finite variable domains $\bA_x$ is weakly consistent if and only if it satisfies
 \begin{itemize}
 \item[(W')] for all $a \in \bA_x$ and cycles $p,q$ from $x$ to $x$, there exist $j,k \ge 0$ such that
 \[
@@ -8323,7 +8323,7 @@ be the solution set to $\mathbf{P}$, with $x_0 = x_n = x$. Now apply Proposition
 
 Putting these results together, we see that weak consistency implies that a solution exists in bounded width CSPs.
 
-\begin{thm} If $\fX$ is a weakly consistent instance of $\CSP(\bA_1, ..., \bA_n)$, where the $\bA_i$ are finite bounded width algebras, then $\fX$ has a solution.
+\begin{thm} If $\fX$ is a weakly consistent instance of $\CSP(\bA_1, ..., \bA_n)$, where the $\bA_i$ are finite bounded width algebras, then $\fX$ has a solution. In fact, in this case $\fX$ has a \emph{stable} solution (i.e. a solution in which each variable $x$ is assigned to a stable element of its variable domain $\bA_x$).
 \end{thm}
 
 Of course, this all hinged on the existence of a stability concept: we still need to prove Theorem \ref{thm-stability}. Our construction of a stability concept won't be particularly elegant, but it will get the job done. First we will show that we can restrict to the case where every binary absorbing algebra is centrally absorbing.
@@ -8440,6 +8440,137 @@ is not the full relation. Applying the Absorption Theorem \ref{absorption-theore
 
 \begin{prob} Is there a less ad-hoc stability concept?
 \end{prob}
+
+
+\subsection{Ramsey-theoretic upgrade: vague solutions imply solvability}
+
+Unsatisfyingly, even weak consistency is too demanding to directly prove the existence of a $4$-ary Siggers term satisfying the identity $t(x,x,y,z) \approx t(y,z,z,x)$. Using Ramsey's theorem, we can cure this particular defect.
+
+In this subsection, we are mainly concerned with the following question: given an instance $\fX$ whose variable domains and relations are not assumed to be closed under the basic operations of our bounded width algebra, under what circumstances can we guarantee that $\Sg(\fX)$ has a solution? If the variable domains of $\fX$ consist of generating sets for free algebras, then this question is equivalent to asking which systems of height $1$ identities can be solved in every finite bounded width algebra. We will show that if the instance $\fX$ has a ``vague'' solution, then $\Sg(\fX)$ is guaranteed to have a solution in any finite bounded width algebra which contains the variable domains of $\fX$.
+
+\begin{defn} Let $\cP_\emptyset(A)$ be the set of non-empty subsets of a set $A$. A \emph{vague element} of $A$ is defined to be a total quasiorder $\preceq$ on $\cP_\emptyset(A)$ such that there is no pair of disjoint subsets $S, T \subset A$ with $S \preceq T$ and $T \preceq S$.
+
+If $R \subseteq_{sd} A_1 \times \cdots \times A_n$ is subdirect, then we say that a collection of vague elements $\preceq_i$ of the $A_i$s \emph{vaguely satisfies} the relation $R$ if there exists a total quasiorder $\preceq_R$ on the disjoint union
+\[
+\cP_\emptyset(A_1) \sqcup \cdots \sqcup \cP_\emptyset(A_n)
+\]
+such that the restriction of $\preceq_R$ to $\cP_\emptyset(A_i)$ is $\preceq_i$ for each $i$, and such that for each $i,j \in [n]$ and each nonempty $S \subseteq A_i$, we have
+\[
+S \preceq_R S+\pi_{ij}(R).
+\]
+If $\fX$ is an arc-consistent instance with variable domains $A_x$, then a collection of vague elements $\preceq_x$ of the $A_x$s is a \emph{vague solution} to $\fX$ if it vaguely satisfies every relation of $\fX$.
+\end{defn}
+
+Total quasiorders are also known as \emph{preference relations} - so intuitively, we can think of a vague element of $A$ as a preference relation on the nonempty subsets of $A$, which avoids being caught out as incoherent by requiring that any pair of equally preferable subsets has a nonempty intersection. Vague solutions are closely connected to weak consistency.
+
+\begin{prop} Every weakly consistent instance has a vague solution.
+\end{prop}
+\begin{proof} Suppose $\fX$ is a weakly consistent instance with variable domains $A_x$, and define a quasiorder $\preceq_0$ on
+\[
+\bigsqcup_x \cP_\emptyset(A_x)
+\]
+by
+\[
+S \preceq_0 S+p
+\]
+for every path $p$ in $\fX$. Let $\preceq$ be any extension of $\preceq_0$ to a total quasiorder which does not identify any pair of sets which were not already identified by $\preceq_0$. Then if we take $\preceq_x$ to be the restriction of $\preceq$ to $\cP_\emptyset(A_x)$ for each variable $x$, we see that each $\preceq_x$ is a vague element of $A_x$ (since $\fX$ is weakly consistent) and that the collection of vague elements $\preceq_x$ is a vague solution to $\fX$.
+\end{proof}
+
+The converse isn't true - there are instances which have vague solutions, but which are not weakly consistent.
+
+\begin{ex} Consider the Siggers instance, which has one variable $u$ with domain $A_u = \{x,y,z\}$, and one binary relation $R \subseteq_{sd} A_u \times A_u$ given by
+\[
+R = \left\{\begin{bmatrix}x\\y\end{bmatrix},\begin{bmatrix}x\\z\end{bmatrix},\begin{bmatrix}y\\z\end{bmatrix},\begin{bmatrix}z\\x\end{bmatrix}\right\}.
+\]
+This instance is \emph{not} weakly consistent: we have
+\[
+\{z\} + R = \{x\}, \;\; \{x\} - R = \{z\}
+\]
+and $\{x\} \cap \{z\} = \emptyset$. Nevertheless, the Siggers instance does have a vague solution: take $\preceq_u$ to be the total order
+\[
+\{y\} \prec_u \{x\} \prec_u \{z\} \prec_u \{x,y\} \prec_u \{y,z\} \prec_u \{x,z\} \prec_u \{x,y,z\}.
+\]
+To see that $(\preceq_u,\preceq_u)$ vaguely satisfies $R$, use the following total quasiorder $\preceq_R$ on $[2] \times \cP_\emptyset(A_u)$:
+\begin{align*}
+\{y\}_1 &\prec_R \{y\}_2 \prec_R \{x\}_1 \prec_R \{x\}_2 \sim_R \{z\}_1 \prec_R \{z\}_2\\
+&\prec_R \{x,y\}_2 \prec_R \{x,y\}_1 \sim_R \{y,z\}_2 \prec_R \{y,z\}_1 \prec_R \{x,z\}_2 \prec_R \{x,z\}_1 \prec \cdots.
+\end{align*}
+\end{ex}
+
+In order to show that vaguely solvable instances have solutions (after taking the closure by algebraic operations), we will construct a very large weakly consistent instance with many copies of each variable and relation from the original instance. In fact, by K\"onig's Lemma we may even allow ourselves to build an infinitely large weakly consistent instance (although we will only truly need a finite portion of it). Roughly speaking, we will take the variables and relations of this instance to be indexed by subsets of $\mathbb{Z}$ of certain fixed sizes, which will put us in a position to apply Ramsey's theorem for hypergraphs.
+
+\begin{defn} If $f : S \rightarrow \ZZ$ is any function, then we define the \emph{associated total quasiorder} $\preceq_f$ on $S$ by
+\[
+a \preceq_f b \;\; \iff \;\; f(a) \le f(b).
+\]
+If $\preceq$ is a vague element of $A$, then we say that a function $f : \cP_\emptyset(A) \rightarrow \ZZ$ is \emph{compatible} with $\preceq$ if $\preceq_f = \preceq$.
+
+More generally, if $R \subseteq_{sd} A_1 \times \cdots \times A_n$ is a subdirect relation with a vague solution $(\preceq_1, ..., \preceq_n)$, then we say that a function
+\[
+f : \bigsqcup_i \cP_\emptyset(A_i) \rightarrow \ZZ
+\]
+is \emph{compatible} with $R$ and $(\preceq_1, ..., \preceq_n)$ if $\preceq_f$ can be used as the total quasiorder $\preceq_R$ from the definition of vague satisfaction.
+\end{defn}
+
+\begin{defn} If $\fX$ is an arc-consistent instance with a vague solution given by vague elements $\preceq_x$ of the variable domains $A_x$, then we define the \emph{associated weakly consistent instance} $\fX^*$ as follows:
+\begin{itemize}
+\item for each variable $x$ of $\fX$ and each $f : \cP_\emptyset(A_x) \rightarrow \ZZ$ which is compatible with $\preceq_x$, we have a variable $(x,f)$ of $\fX^*$, and
+\item for each constraint relation $R \subseteq_{sd} A_{x_1} \times \cdots \times A_{x_n}$ of $\fX$ and each $f : \bigsqcup_i \cP_\emptyset(A_{x_i}) \rightarrow \ZZ$ which is compatible with $R$ and $(\preceq_{x_1}, ..., \preceq_{x_n})$, we impose
+\[
+((x_1,f|_{\cP_\emptyset(A_{x_1})}), ..., (x_n,f|_{\cP_\emptyset(A_{x_n})})) \in R
+\]
+as a constraint in $\fX^*$.
+\end{itemize}
+\end{defn}
+
+\begin{prop} If $\fX$ has a vague solution, then the associated weakly consistent instance $\fX^*$ is indeed weakly consistent.
+\end{prop}
+\begin{proof} By the construction of $\fX^*$, if there is a path $p$ from $(x,f)$ to $(y,g)$ in $\fX^*$ and if $S \subseteq A_x$, then we have
+\[
+f(S) \le g(S+p).
+\]
+Thus if we have $S + p + q = S$ and $p,q$ are cycles from $(x,f)$ to $(x,f)$, then
+\[
+f(S) \le f(S+p) \le f(S+p+q) = f(S)
+\]
+implies that $f(S) = f(S+p)$. Then since $f$ is compatible with $\preceq_x$ we must have $S \sim_x S+p$, so $S \cap (S+p) \ne \emptyset$ since $\preceq_x$ is a vague element.
+\end{proof}
+
+\begin{prop} If $\fX^*$ is weakly consistent and its variable domains are contained in a finite bounded width algebra, then $\Sg(\fX^*)$ has a solution.
+\end{prop}
+\begin{proof} By Proposition \ref{prop-weakly-consistent-cycle}, an instance is weakly consistent if and only if certain cycles take every element of the variable domain back to themselves, so if $\fX^*$ is weakly consistent then so is $\Sg(\fX^*)$. By K\"onig's Lemma, in order to check that $\Sg(\fX^*)$ has a solution we just need to check that every finite subinstance of $\Sg(\fX^*)$ has a solution, and for this we can apply the main result of the previous section.
+\end{proof}
+
+\begin{thm} If $\fX$ is an arc-consistent instance which has a vague solution, and if the variable domains of $\fX$ are contained in a finite bounded width algebra, then $\Sg(\fX)$ has a solution.
+\end{thm}
+\begin{proof} Let $\fX^*$ be the associated weakly consistent instance. By the previous proposition, $\Sg(\fX^*)$ has a solution. Fix one particular solution to $\Sg(\fX^*)$.
+
+To finish, we imagine ``coloring'' the compatible functions $f : \cP_\emptyset(A_x) \rightarrow \ZZ$ by the values that the variables $(x,f)$ are assigned to in some solution of $\Sg(\fX^*)$. Since the variable domains in the instance $\Sg(\fX^*)$ are finite, we only have finitely many colors to choose from, so Ramsey's theorem for hypergraphs implies that there is an infinite subset $S \subseteq \ZZ$ such that each compatible function $f : \cP_\emptyset(A_x) \rightarrow S$ has the same color. Iterating this for each variable $x$ of the instance $\fX$, we finally find an infinite subset $U \subseteq \ZZ$ such that for each variable $x$ of $\fX$ and each compatible $f : \cP_\emptyset(A_x) \rightarrow U$, the value assigned to $(x,f)$ in our solution to $\Sg(\fX^*)$ only depends on $x$ and does not depend on $f$.
+
+We claim that assigning the variable $x$ of $\fX$ to the value assigned to any such $(x,f)$ (with $f : \cP_\emptyset(A_x) \rightarrow U$ compatible with $\preceq_x$) in our solution to $\Sg(\fX^*)$ solves the instance $\Sg(\fX)$. To see this, let $R \subseteq A_{x_1} \times \cdots \times A_{x_n}$ be any constraint relation of $\fX$. Then since $(\preceq_{x_1}, ..., \preceq_{x_n})$ vaguely satisfies $R$, there is some total quasiorder $\preceq_R$ as in the definition of vague satisfaction. Since $U \subseteq \ZZ$ is infinite (or just sufficiently large), we can then find a function $f : \bigsqcup_i \cP_\emptyset(A_{x_i}) \rightarrow U$ such that $\preceq_f = \preceq_R$, and for this $f$ we see that
+\[
+((x_1,f|_{\cP_\emptyset(A_{x_1})}), ..., (x_n,f|_{\cP_\emptyset(A_{x_n})})) \in \Sg(R)
+\]
+is a constraint of $\Sg(\fX^*)$. Therefore, the tuple of values assigned to $(x_1, ..., x_n)$ by this procedure satisfies the constraint $\Sg(R)$ of the instance $\Sg(\fX)$.
+\end{proof}
+
+\begin{comment}
+Does this lead to new ternary terms?
+Have two paradigms for quasiorder on subsets of {x,y,z}:
+{} < {x} < {y} < {z} < {x,y} < {x,z} < {y,z} < {x,y,z}, or
+{} < {x} < {y} ~ {x,y} < {z} ~ {x,z} < {y,z} < {x,y,z}.
+For first paradigm:
+- can't take {y} to {x}, so y always meets y or z
+- can't take {z} to {x} or {y}, so either z meets z or z meets both x and y
+- can't take any pair to any singleton
+enough to keep track of four states: {x}, {y}, {z}, and "not singleton"
+For second paradigm:
+- can't take {y} to {x}, so y always meets y or z
+- can't take {z} to any subset of {x,y}, so z always meets z
+- {y,z} can only go to {y,z} or {x,y,z}, so one of y or z meets y (automatic if you look at the reversed relation)
+so just need y to meet y or z and z to meet z to be safe.
+enough to keep track of three states: {x}, "{y} or {x,y}", "contains z": state is max of elements
+\end{comment}
 
 
 \chapter{Finite Taylor Algebras}\label{chapter-taylor}
