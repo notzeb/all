@@ -7146,13 +7146,13 @@ Furthermore, there exists a digraph homomorphism from $\fD$ to a directed cycle 
 
 With these preliminaries out of the way, we can finally state the full version of the loop lemma for finite Taylor algebras.
 
-\begin{thm}[Loop Lemma \cite{cyclic}] If $\bA$ is a finite Taylor algebra and $\RR \le_{sd} \bA\times \bA$ corresponds to a smooth digraph $\fR = (\bA,\RR)$ which has a weakly connected component of algebraic length $1$, then $\RR$ has a loop, i.e. $\RR \cap \Delta_{\bA} \ne \emptyset$.
+\begin{thm}[Loop Lemma \cite{cyclic}]\label{loop-lemma} If $\bA$ is a finite Taylor algebra and $\RR \le_{sd} \bA\times \bA$ corresponds to a smooth digraph $\fR = (\bA,\RR)$ which has a weakly connected component of algebraic length $1$, then $\RR$ has a loop, i.e. $\RR \cap \Delta_{\bA} \ne \emptyset$.
 \end{thm}
 \begin{proof} We prove this by induction on $|\bA|$. We may assume that $\bA$ is idempotent without loss of generality. We may also assume that $\fR$ is weakly connected by restricting to a weakly connected component of algebraic length $1$ (which forms a subalgebra of $\bA$ by the results above). Let $m$ be minimal such that $\RR^{\circ m}$ is linked. We split into cases based on whether $\RR^{\circ m} = \bA \times \bA$ or not.
 
 If $\RR^{\circ m} \ne \bA\times \bA$, then by the Absorption Theorem \ref{absorption-theorem} we see that $\bA$ must have some proper absorbing subalgebra. By a similar argument to the linked case (Lemma \ref{loop-linked}), we see that there is some proper absorbing $\bB \lhd \bA$ such that $\bS = \RR \cap (\bB\times \bB)$ is subdirect in $\bB \times \bB$. Then since $\bS^{\circ m} \lhd \RR^{\circ m}$, we can apply Theorem \ref{absorbing-linked} to see that $\bS^{\circ m}$ is linked, so the smooth digraph $\fS = (\bA,\bS)$ has algebraic length $1$ and $\bS$ has a loop by the inductive hypothesis.
 
-If $\RR^{\circ m} = \bA\times \bA$, then we let $\bB$ be any linked component of $\RR^{\circ (m-1)}$ (note that $\RR^{\circ (m-1)}$ is not linked by the choice of $m$, so $\bB$ is a proper subalgebra of $\bA$). First we will show that $\bB \subseteq \bB-\RR$. To see this, let $b \in \bB$ be arbitrary, pick any $c \in b + \RR^{\circ (m-1)}$. Then since $\RR^{\circ m} = \bA \times \bA$, we have
+If $\RR^{\circ m} = \bA\times \bA$, then we let $\bB$ be any linked component of $\RR^{\circ (m-1)}$ on the first coordinate (note that $\RR^{\circ (m-1)}$ is not linked by the choice of $m$, so $\bB$ is a proper subalgebra of $\bA$). First we will show that $\bB \subseteq \bB-\RR$. To see this, let $b \in \bB$ be arbitrary, pick any $c \in b + \RR^{\circ (m-1)}$. Then since $\RR^{\circ m} = \bA \times \bA$, we have
 \[
 c \in b+\RR^{\circ m},
 \]
@@ -7752,6 +7752,24 @@ To see that this is not $pq$-consistent, note that there is no $j$ such that $(0
 \]
 \end{ex}
 
+We can use weak Prague instances to see that there is a sense in which the linear programming relaxation \emph{almost} solves general CSPs of bounded width.
+
+\begin{defn} We say that a probability distribution $\mu$ on a finite set $A$ is \emph{in general position} if we have $\mu(S) \ne \mu(T)$ for every pair of disjoint subsets $S,T \subseteq A$ with $\mu(S), \mu(T) \ne 0$. We say that a solution to the linear relaxation of an instance $\fX$ is in general position if the probability distribution which it assigns to each variable domain is in general position.
+\end{defn}
+
+\begin{prop} If there is a solution to the linear programming relaxation of $\fX$ which is in general position, then the instance we get by restricting each variable domain and relation to the support of this solution is a weak Prague instance (and is therefore $pq$-consistent as well).
+\end{prop}
+\begin{proof} We just need to verify condition (P3). Suppose that the solution to the linear relaxation assigns each variable $x$ to the probability distribution $\mu_x$ on the variable domain $A_x$. If $S \subseteq A_x$ is contained in the support of $\mu_x$ and $p,q$ are cycles from $x$ to $x$ such that $S + p + q = S$, then we have
+\[
+\mu_x(S) \le \mu_x(S+p) \le \mu_x(S+p+q) = \mu_x(S),
+\]
+so $\mu_x(S) = \mu_x(S+p)$. Thus we have
+\[
+\mu_x(S \setminus (S+p)) = \mu_x((S+p) \setminus S),
+\]
+so the assumption that $\mu_x$ is in general position implies that $S = S+p$.
+\end{proof}
+
 Libor Barto has raised the following question.
 
 \begin{prob}\label{prob-p1-p3} Is it true that every instance of an affine-free CSP which satisfies conditions (P1) and (P3) has a solution?
@@ -7963,7 +7981,7 @@ and a polynomial time algorithm that takes as input an instance $\fX$ of $\CSP(\
 
 Before we dive into our main topic, we first give evidence that certain CSPs are \emph{not} robustly solvable. We won't prove the next result here.
 
-\begin{thm}[H\r{a}stad \cite{hastad-optimal}] Let $\fA$ be the affine CSP template with domain $\bA$, where $\bA$ is the idempotent reduct of any finite abelian group, and with relations given by $\RR_c = \{(x,y,z) \mid x+y+z = c\} \le_{sd} \bA^3$ for every possible $c \in \bA$.
+\begin{thm}[H\r{a}stad \cite{hastad-optimal}] Let $\fA$ be the affine CSP template with domain $\bA$, where $\bA$ is the idempotent reduct of any finite abelian group, with relations given by $\RR_c = \{(x,y,z) \mid x+y+z = c\} \le_{sd} \bA^3$ for every possible $c \in \bA$.
 
 Then for every fixed $\epsilon > 0$, it is NP-hard to solve the following problem: given an instance $\fX$ of $\CSP(\fA)$ such that there exists an assignment satisfying at least a $1-\epsilon$ fraction of the constraints, find an assignment which satisfies at least a $\frac{1}{|\bA|} + \epsilon$ fraction of the constraints.
 \end{thm}
@@ -8358,7 +8376,7 @@ such that for each $i$, one of the following is true:
 \item $\bA_{i+1}$ centrally absorbs $\bA_i$, or
 \item there is a congruence $\theta$ on $\bA_i$ such that $\bA_i/\theta$ is polynomially complete, binary absorption-free and central absorption-free, and such that $\bA_{i+1}$ is a congruence class of $\theta$.
 \end{itemize}
-We say that $\bB$ is \emph{stable in one step} if we can take $n = 1$ in the above. If the third bullet point above holds for $\bB$, then we say that $\bB$ is a \emph{PC subalgebra} of $\bA$ with \emph{PC congruence} $\theta$.
+We say that $\bB$ is \emph{stable in one step} if we can take $n = 1$ in the above. Following \cite{zhuk-strong}, if the third bullet point above holds for $\bB$, then we say that $\bB$ is a \emph{PC subalgebra} of $\bA$ with \emph{PC congruence} $\theta$.
 \end{defn}
 
 Algebras which are stable in one step are almost the same thing as what Zhuk calls \emph{strong} subalgebras in \cite{zhuk-strong} - the only difference is in how we handle the case of binary absorption.
@@ -8415,7 +8433,7 @@ and similarly $\bB' \cap \bD' \ne \emptyset$. Applying the induction hypothesis 
 \]
 So we only need to check the Helly property when each of $\bB, \bC, \bD$ is stable in one step.
 
-Suppose that one of $\bB, \bC, \bD$ contains a strongly absorbing subalgebra $\bS \lhd_{str} \bA$, say $\bB \supseteq \bS$. Then $\bS \cap \bC$ is a nonempty strongly absorbing subalgebra of $\bC$ by the earlier claim, and applying that claim again together with the fact that $\bC \cap \bD \Yleft \bD$, we see that $\bS \cap \bC \cap \bD \ne \emptyset$. So we may assume that each of $\bB, \bC, \bD$ is either centrally absorbing or is a PC subalgebra.
+Suppose that one of $\bB, \bC, \bD$ contains a strongly absorbing subalgebra $\bS \lhd_{str} \bA$, say $\bB \supseteq \bS$. Then $\bS \cap \bC$ is a nonempty strongly absorbing subalgebra of $\bC$ by the earlier claim, and applying that claim again together with the fact that $\bC \cap \bD \Yleft \bC$, we see that $\bS \cap \bC \cap \bD \ne \emptyset$. So we may assume that each of $\bB, \bC, \bD$ is either centrally absorbing or is a PC subalgebra.
 
 If all three of $\bB, \bC, \bD$ are centrally absorbing, then by Corollary \ref{cor-central-ternary} there is a ternary term $t$ such that each of $\bB, \bC, \bD$ absorbs $\bA$ with respect to $t$. If we pick $x \in \bB \cap \bC, y \in \bC \cap \bD, z \in \bB \cap \bD$, then we must have $t(x,y,z) \in \bB \cap \bC \cap \bD$.
 
@@ -8444,7 +8462,7 @@ is not the full relation. Applying the Absorption Theorem \ref{absorption-theore
 
 \subsection{Ramsey-theoretic upgrade: vague solutions imply solvability}
 
-Unsatisfyingly, even weak consistency is too demanding to directly prove the existence of a $4$-ary Siggers term satisfying the identity $t(x,x,y,z) \approx t(y,z,z,x)$. Using Ramsey's theorem, we can cure this particular defect.
+Unsatisfyingly, even weak consistency is too demanding to directly prove the existence of a $4$-ary Siggers term satisfying the identity $t(x,x,y,z) \approx t(y,z,z,x)$. Using Ramsey's theorem, we can cure this particular defect. The material in this subsection is based on the theory developed in \cite{brady-chromatic}.
 
 In this subsection, we are mainly concerned with the following question: given an instance $\fX$ whose variable domains and relations are not assumed to be closed under the basic operations of our bounded width algebra, under what circumstances can we guarantee that $\Sg(\fX)$ has a solution? If the variable domains of $\fX$ consist of generating sets for free algebras, then this question is equivalent to asking which systems of height $1$ identities can be solved in every finite bounded width algebra. We will show that if the instance $\fX$ has a ``vague'' solution, then $\Sg(\fX)$ is guaranteed to have a solution in any finite bounded width algebra which contains the variable domains of $\fX$.
 
@@ -8463,7 +8481,7 @@ If $\fX$ is an arc-consistent instance with variable domains $A_x$, then a colle
 
 Total quasiorders are also known as \emph{preference relations} - so intuitively, we can think of a vague element of $A$ as a preference relation on the nonempty subsets of $A$ which our hypothetical element might live in, which avoids being caught out as incoherent by requiring that any pair of equally preferable subsets has a nonempty intersection. Vague solutions are closely connected to weak consistency.
 
-\begin{prop} Every weakly consistent instance has a vague solution.
+\begin{prop} Every weakly consistent instance has a vague solution. In fact, there is always a vague solution where each vague element $\preceq_x$ extends the inclusion order $\subseteq$ on $\cP_\emptyset(A_x)$ (possibly identifying some subsets with each other as well).
 \end{prop}
 \begin{proof} Suppose $\fX$ is a weakly consistent instance with variable domains $A_x$, and define a quasiorder $\preceq_0$ on
 \[
@@ -8474,6 +8492,12 @@ by
 S \preceq_0 S+p
 \]
 for every path $p$ in $\fX$. Let $\preceq$ be any extension of $\preceq_0$ to a total quasiorder which does not identify any pair of sets which were not already identified by $\preceq_0$. Then if we take $\preceq_x$ to be the restriction of $\preceq$ to $\cP_\emptyset(A_x)$ for each variable $x$, we see that each $\preceq_x$ is a vague element of $A_x$ (since $\fX$ is weakly consistent) and that the collection of vague elements $\preceq_x$ is a vague solution to $\fX$.
+
+For the second claim, we note that if we add additional tuples to any relation of a weakly consistent instance then it remains weakly consistent by Proposition \ref{prop-weakly-consistent-cycle}. If we add extra equality relations from a variable to itself then clearly the instance remains weakly consistent as well, so we see that we may add in the binary relation
+\[
+\Delta_{A_x} \cup \{(a,b)\} \subseteq_{sd} A_x \times A_x
+\]
+for any $a,b \in A_x$ without causing the instance to stop being weakly consistent. If we add all such binary relations in, then we see that the quasiorder $\preceq_0$ has $(x,S) \preceq_0 (x,T)$ for any $S \subseteq T$, so the same will be true in the extension $\preceq$ of $\preceq_0$.
 \end{proof}
 
 The converse isn't true - there are instances which have vague solutions, but which are not weakly consistent.
@@ -8555,12 +8579,15 @@ We claim that assigning the variable $x$ of $\fX$ to the value assigned to any s
 is a constraint of $\Sg(\fX^*)$. Therefore, the tuple of values assigned to $(x_1, ..., x_n)$ by this procedure satisfies the constraint $\Sg(R)$ of the instance $\Sg(\fX)$.
 \end{proof}
 
+\begin{rem} The same Ramsey argument can be used to show that if an instance has a vague solution, then it has a vague solution where each vague element $\preceq_x$ extends the inclusion order $\subseteq$ on $\cP_\emptyset(A_x)$. A refinement of this argument shows that we can also assume that our vague elements $\preceq_x$ have the following property: whenever $S \preceq_x T$, we also have $A_x\setminus T \preceq_x A_x \setminus S$.
+\end{rem}
+
 We can use stability to upgrade this result further: we don't need to find a vague solution to the full instance $\fX$, it's enough to find a vague solution to just the binary part of $\fX$.
 
 \begin{defn} If $\fX$ is an instance, then we define the \emph{binary part} of $\fX$ to be the instance $\fX^{bin}$ given by replacing each $k$-ary constraint relation $R \subseteq A_{x_1} \times \cdots \times A_{x_k}$ by the collection of binary relations $\pi_{ij}(R) \subseteq A_{x_i} \times A_{x_j}$ for $i,j \in [k]$.
 \end{defn}
 
-\begin{cor} If $\fX$ is an arc-consistent instance such that $\fX^{bin}$ has a vague solution, and if the variable domains of $\fX$ are contained in a finite bounded width algebra, then $\Sg(\fX)$ has a stable solution.
+\begin{cor}\label{cor-vague-bin} If $\fX$ is an arc-consistent instance such that $\fX^{bin}$ has a vague solution, and if the variable domains of $\fX$ are contained in a finite bounded width algebra, then $\Sg(\fX)$ has a stable solution.
 \end{cor}
 \begin{proof} By Proposition \ref{prop-stable-essential} and arc-consistency, any stable solution to $\Sg(\fX^{bin})$ is also a stable solution to $\Sg(\fX)$.
 \end{proof}
@@ -8571,7 +8598,94 @@ We can use stability to upgrade this result further: we don't need to find a vag
 \begin{prob} If the sizes of the variable domains in $\fX$ are bounded by a constant (perhaps just $3$), how hard is it to determine whether $\fX^{bin}$ has a vague solution?
 \end{prob}
 
-To illustrate the theory, we will show how the loop lemma can be proved for finite bounded width algebras by constructing suitable vague solutions.
+We can at least make it a bit simpler for ourselves to check that a particular assignment of vague elements really gives us a vague solution.
+
+\begin{prop} If $R \subseteq_{sd} A_x \times A_y$ and $\preceq_x, \preceq_y$ are vague elements of $A_x, A_y$, respectively, then the pair $(\preceq_x,\preceq_y)$ vaguely satisfies $R$ iff the following implication holds for all $S \subseteq A_x, T \subseteq A_y$:
+\[
+S + R \preceq_y T \;\; \wedge \;\; T - R \preceq_x S \;\; \implies \;\; S + R \sim_y T \;\; \wedge \;\; T - R \sim_x S.
+\]
+\end{prop}
+\begin{proof} Consider the digraph on $\cP_\emptyset(A_x) \sqcup \cP_\emptyset(A_y)$ with an edge from $S \subseteq A_x$ to $T \subseteq A_y$ whenever $S + R \preceq_y T$, and similarly with an edge from $T \subseteq A_y$ to $S \subseteq A_x$ whenever $T - R \preceq_x S$. We just need to check that every cycle $(S_1, T_1, S_2, T_2, ..., S_k, T_k)$ of this digraph, all $S_i$s are related by $\sim_x$ and all $T_j$s are related by $\sim_y$. For this, suppose that $S_i$ is $\preceq_x$-minimal and that $T_j$ is $\preceq_y$-minimal. Then from
+\[
+S_j + R \preceq_y T_j \preceq_y T_{i-1}
+\]
+and
+\[
+T_{i-1} - R \preceq_x S_i \preceq_x S_j,
+\]
+we see that $S_i \sim_x S_j$ and $T_{i-1} \sim_y T_j$, so $S_j$ is $\preceq_x$-minimal and $T_{i-1}$ is $\preceq_y$-minimal. Applying the same reasoning to $S_j, T_{i-1}$, we see that $S_{i-1}$ is $\preceq_x$-minimal and $T_{j-1}$ is $\preceq_y$-minimal. Continuing in this fashion, we see that all of the $S$s are related by $\sim_x$ and all of the $T$s are related by $\sim_y$, which is what we had to check.
+\end{proof}
+
+\begin{comment}
+Does weak consistency lead to new ternary terms?
+Have two paradigms for quasiorder on subsets of {x,y,z}:
+{} < {x} < {y} < {z} < {x,y} < {x,z} < {y,z} < {x,y,z}, or
+{} < {x} < {y} ~ {x,y} < {z} ~ {x,z} < {y,z} < {x,y,z}.
+For first paradigm:
+- can't take {y} to {x}, so y always meets y or z
+- can't take {z} to {x} or {y}, so either z meets z or z meets both x and y
+- can't take any pair to any singleton
+enough to keep track of four states: {x}, {y}, {z}, and "not singleton"
+For second paradigm:
+- can't take {y} to {x}, so y always meets y or z
+- can't take {z} to any subset of {x,y}, so z always meets z
+- {y,z} can only go to {y,z} or {x,y,z}, so one of y or z meets y (automatic if you look at the reversed relation)
+so just need y to meet y or z and z to meet z to be safe.
+enough to keep track of three states: {x}, "{y} or {x,y}", "contains z": state is max of elements
+
+How much of this generalizes to the vague situation?
+- {x,y,z} is strictly maximal
+- still have a strict total order on singletons, suppose wlog we have {x} < {y} < {z}
+- extends the inclusion order
+- complementation reverses it
+- {x} must be the (strictly) minimal element
+- if any pair is identified, then we have {x} < {y} ~ {x,y} < {z} ~ {x,z} < {y,z} < {x,y,z}.
+only new possibility is {x} < {y} < {x,y} < {z} < {x,z} < {y,z} < {x,y,z}, exhaustive casework shows this can always be replaced with second paradigm for size three stuff
+- what about higher numbers of variables? Can we still make the substitution?
+\end{comment}
+
+As our first illustration of the theory, we can show the existence of a Siggers term which satisfies a strong collection of additional identities.
+
+\begin{prop} A finite algebra $\bA$ has bounded relational width if and only if it has a $4$-ary term $t$ which satisfies the identities
+\[
+t(x,x,y,z) \approx t(y,z,z,x) \approx t(z,x,y,x)
+\]
+and
+\[
+t(x,y,x,z) \approx t(x,z,y,x) \approx t(y,z,x,x)
+\]
+simultaneously.
+\end{prop}
+\begin{proof} It is easy to see that the identities satisfied by $t$ imply that the ternary terms $f, g$ defined by
+\[
+g(x,y,z) \coloneqq t(x,x,y,z), \;\;\; f(x,y,z) \coloneqq t(x,y,x,z)
+\]
+satisfy the equations
+\[
+g(x,x,y) \approx g(x,y,x) \approx g(y,x,x) \approx f(x,x,y) \approx f(x,y,x) \approx f(x,y,y).
+\]
+from Theorem \ref{bounded-width-terms}, so if such a $t$ exists then $\bA$ has bounded relational width.
+
+Now suppose that $\bA$ has bounded relational width. Let $R$ be the following $6$-ary relation on $\{x,y,z\}$:
+\[
+R = \left\{\begin{bmatrix}x\\y\\z\\x\\x\\y\end{bmatrix},\begin{bmatrix}x\\z\\x\\y\\z\\z\end{bmatrix},\begin{bmatrix}y\\z\\y\\x\\y\\x\end{bmatrix},\begin{bmatrix}z\\x\\x\\z\\x\\x\end{bmatrix}\right\}.
+\]
+Consider the following instance $\fX$ on the six variables $a,b,c,d,e,f$:
+\[
+(a,b,c,d,e,f) \in R \;\; \wedge \;\; a = b = c \;\; \wedge \;\; d = e = f.
+\]
+If we consider the domain $\{x,y,z\}$ as a subset of the free algebra $\cF_\bA(x,y,z) \le \bA^{\bA^3}$ in the natural way, then we just need to show that $\Sg(\fX)$ has a solution. Since $\fX$ is arc-consistent, by Corollary \ref{cor-vague-bin} we just need to find a vague solution to the binary part $\fX^{bin}$. We assign the variables $a,b,c$ to the vague element $\preceq_g$ given by
+\[
+\{y\} \prec_g \{z\} \prec_g \{x\} \prec_g \{y,z\} \prec_g \{x,y\} \prec_g \{x,z\} \prec_g \{x,y,z\},
+\]
+and we assign the variables $d,e,f$ to the vague element $\preceq_f$ given by
+\[
+\{y\} \prec_f \{z\} \sim_f \{y,z\} \prec_f \{x\} \sim_f \{x,y\} \prec_f \{x,z\} \prec_f \{x,y,z\}.
+\]
+The reader may check that this assignment vaguely satisfies every binary projection of the relation $R$.
+\end{proof}
+
+As another illustration of the theory, we will show how the Loop Lemma \ref{loop-lemma} can be proved for finite bounded width algebras by constructing suitable vague solutions.
 
 \begin{thm} If $R \subseteq A_x \times A_x$ is a smooth, weakly connected digraph of algebraic length $1$, then the instance $\fX$ which consists of only the variable $x$ and the constraint $(x,x) \in R$ has a vague solution. As a consequence, the instance $\Sg(\fX)$ has a stable solution in any finite bounded width algebra.
 \end{thm}
@@ -8622,24 +8736,6 @@ We handle strongly connected components which do not have any negative directed 
 
 To finish, we pick any total order on the strongly connected components of $\cG$ which extends the reachability order, and we choose the constants $c_{\cC}$ for the various connected components $\cC$ according to this order, with sufficient distance between them that there is no interaction between the various strongly connected components of $\cG$.
 \end{proof}
-
-\begin{comment}
-Does this lead to new ternary terms?
-Have two paradigms for quasiorder on subsets of {x,y,z}:
-{} < {x} < {y} < {z} < {x,y} < {x,z} < {y,z} < {x,y,z}, or
-{} < {x} < {y} ~ {x,y} < {z} ~ {x,z} < {y,z} < {x,y,z}.
-For first paradigm:
-- can't take {y} to {x}, so y always meets y or z
-- can't take {z} to {x} or {y}, so either z meets z or z meets both x and y
-- can't take any pair to any singleton
-enough to keep track of four states: {x}, {y}, {z}, and "not singleton"
-For second paradigm:
-- can't take {y} to {x}, so y always meets y or z
-- can't take {z} to any subset of {x,y}, so z always meets z
-- {y,z} can only go to {y,z} or {x,y,z}, so one of y or z meets y (automatic if you look at the reversed relation)
-so just need y to meet y or z and z to meet z to be safe.
-enough to keep track of three states: {x}, "{y} or {x,y}", "contains z": state is max of elements
-\end{comment}
 
 
 \chapter{Finite Taylor Algebras}\label{chapter-taylor}
@@ -10460,7 +10556,7 @@ R \cap (\{u_1,v_1,w_1\} \times \cdots \times \{u_n,v_n,w_n\})
 guarantees that $\tilde{f}(u,v,w) \in R$.
 \end{proof}
 
-So we have reduced the problem of determining whether a given relational structure $\fA$ has a conservative Taylor polymorphism to the problem of determining whether the associated multisorted relational structure $\fA_3$ has a weak near-unanimity polymorphism. Now we have a way to understand what a partial description of a weak near-unanimity polymorphism on $\fA_3$ should be.
+So we have reduced the problem of determining whether a given relational structure $\fA$ has a conservative Taylor polymorphism to the problem of determining whether the associated multisorted relational structure $\fA_3$ has a ternary weak near-unanimity polymorphism. Now we have a way to understand what a partial description of a ternary weak near-unanimity polymorphism on $\fA_3$ should be.
 
 \begin{defn} Suppose that $\fA = (A,\Gamma)$ is a $3$-conservative CSP template, and let $\mathcal{U} \subseteq \mathcal{P}(A)$ be a collection nonempty subsets of $A$ each of size at most $3$ which is closed under taking nonempty subsets. We define the multisorted template $\fA_\mathcal{U}$ to be the template whose sorts are exactly the elements of $\mathcal{U}$, such that for each $m$-ary relation $R$ of $\fA_3$ with at least one coordinate of a sort in $\mathcal{U}$, if $S \subseteq [m]$ is the set of coordinates of $R$ which have a sort in $\mathcal{U}$, then the relation $\pi_S(R)$ is a relation of $\fA_\cU$.
 \end{defn}
