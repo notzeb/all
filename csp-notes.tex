@@ -1542,7 +1542,7 @@ m(x,y) \approx m*m(x,y,0,0) \approx m*m(x,0,y,0) \approx \cdots \approx m*m(0,0,
 \]
 where in each $m*m$ we always have the $x$ occuring to the left of the $y$. Additionally, since $m*m : \bA^4 \rightarrow \bA$ is a homomorphism, for any $n$-ary operation $t$ of $\bA$ we can evaluate $(m*m)*t$ on a $4\times n$ matrix of variables in two different ways: we may either start by applying $t$ to the rows and then apply $m*m$ to the resulting column vector, \emph{or} we may first apply $m*m$ to the columns and then apply $t$ to the resulting row vector - either way gives the same result.
 
-Using these two observations together with the Taylor identities for an $n$-ary Taylor term $t$, we prove that $m$ is commutative by writing $m(x,y)$ as $(m*m)*t$ applied to a $4\times n$ matrix of $e$s, $x$s, and $y$s where every column has an $x$ above a $y$, and manipulate this expression until every $y$ is above an $x$. The strategy is to always keep the $x$s in the middle two rows and the $y$s in the top or bottom, and to move a $y$ up a column whenever that column is free of $x$s. To temporarily move $x$s out of the way, we apply the Taylor identities for $t$ to swap them with $0$s, possibly shifting the $x$s up and down between the middle two rows to get to a configuration where the Taylor identities will apply. A similar argument with $m*m*m$ in the place of $m*m$ can be used to prove associativity. If $t$ is a $6$-ary weak 3-cube term, for instance, then a portion of the proof of the commutativity of $m$ goes as follows:
+Using these two observations together with the Taylor identities for an $n$-ary Taylor term $t$, we prove that $m$ is commutative by writing $m(x,y)$ as $(m*m)*t$ applied to a $4\times n$ matrix of $0$s, $x$s, and $y$s where every column has an $x$ above a $y$, and manipulate this expression until every $y$ is above an $x$. The strategy is to always keep the $x$s in the middle two rows and the $y$s in the top or bottom, and to move a $y$ up a column whenever that column is free of $x$s. To temporarily move $x$s out of the way, we apply the Taylor identities for $t$ to swap them with $0$s, possibly shifting the $x$s up and down between the middle two rows to get to a configuration where the Taylor identities will apply. A similar argument with $m*m*m$ in the place of $m*m$ can be used to prove associativity. If $t$ is a $6$-ary weak 3-cube term, for instance, then a portion of the proof of the commutativity of $m$ goes as follows:
 %\begin{align*}
 %m\left(\begin{bmatrix} x\\ y \end{bmatrix}\right) &= m*t\left(\begin{bmatrix} x & x & x & x & x & x \\ y & y & y & y & y & y\end{bmatrix}\right) = (m(m(\cdot,\cdot),\cdot))*t\left(\begin{bmatrix} x & e & e & e & x & x \\ e & x & x & x & e & e \\ y & y & y & y & y & y\end{bmatrix}\right)\\
 %&= (m(m(\cdot,\cdot),\cdot))*t\left(\begin{bmatrix} e & e & x & x & x & e \\ e & x & x & x & e & e \\ y & y & y & y & y & y\end{bmatrix}\right) = (m(m(\cdot,\cdot),\cdot))*t\left(\begin{bmatrix} y & e & x & x & x & y \\ e & x & x & x & e & e \\ e & y & y & y & y & e\end{bmatrix}\right)\\
@@ -2088,13 +2088,13 @@ But then this $p$ is a Mal'cev term for $\bA$.
 
 If we want to test whether an algebra has a Mal'cev term, then the above result would make it seem like we need to test whether relations of arbitrarily large arity have the parallelogram property. As it turns out, for idempotent algebras we only need to test whether all binary relations have the parallelogram property.
 
-\begin{thm}[Zhuk \cite{zhuk-strong}] A finite idempotent algebra $\bA$ has a Mal'cev term if and only if every binary relation $\RR \in \Inv_2(\bA)$ has the parallelogram property. More explicitly, this occurs if and only if we have
+\begin{thm}[\cite{horowitz-complexity-malcev-conditions}, \cite{deciding-some-malcev-conditions}, \cite{deciding-n-permutable}, \cite{deciding-minority}, \cite{zhuk-strong}] A finite idempotent algebra $\bA$ has a Mal'cev term if and only if every binary relation $\RR \in \Inv_2(\bA)$ has the parallelogram property. More explicitly, this occurs if and only if we have
 \[
 \begin{bmatrix}a\\ d\end{bmatrix} \in \Sg_{\bA^2}\left\{\begin{bmatrix}a\\ b\end{bmatrix}, \begin{bmatrix}c\\ b\end{bmatrix}, \begin{bmatrix}c\\ d\end{bmatrix}\right\}
 \]
 for all $a,b,c,d \in \bA$.
 \end{thm}
-\begin{proof} Suppose that $\bA$ is not Mal'cev, and consider a relation $\RR \in \Inv(\bA)$ of minimal arity $n$ among those which do not have the parallelogram property. If $n=2$, we are done. Otherwise, we will try to use $\RR$ to define a relation of lower arity which also fails to have the parallelogram property.
+\begin{proof} (Following \cite{zhuk-strong}) Suppose that $\bA$ is not Mal'cev, and consider a relation $\RR \in \Inv(\bA)$ of minimal arity $n$ among those which do not have the parallelogram property. If $n=2$, we are done. Otherwise, we will try to use $\RR$ to define a relation of lower arity which also fails to have the parallelogram property.
 
 Suppose that $\RR$ fails to have the parallelogram property when considered as a binary relation on $\bA^k \times \bA^{n-k}$, and assume without loss of generality that $k \ge 2$. Since $\RR$ fails to have the parallelogram property, there are tuples $a,c \in \bA^k$ and tuples $b,d \in \bA^{n-k}$ such that $(a,b), (c,b), (c,d) \in \RR$ but $(a,d) \not\in \RR$. Write $a_1 = \pi_1(a)$ and $a' = \pi_{2, ..., k}(a)$, and define $c_1, c'$ similarly. Define $\RR' \le \bA^{k-1}\times \bA^{n-k}$ by
 \[
@@ -2106,7 +2106,27 @@ Then we have $(a',b), (c',b), (c',d) \in \RR'$, so if $\RR'$ has the parallelogr
 \]
 Then we have $(a_1,b), (e_1,b), (e_1,d) \in \RR''$, so if $\RR''$ has the parallelogram property then we must have $(a_1,d) \in \RR''$, which means that $(a,d) \in \RR$, a contradiction.
 \end{proof}
-%TODO: check references to see if Zhuk was first to prove this
+
+\begin{rem} In \cite{deciding-minority}, the authors give an explicit polynomial time procedure to construct a Mal'cev term out of a collection of idempotent ``local Mal'cev terms'' $t_{abcd}$ satisfying
+\[
+t_{abcd}(a,b,b) = a, \;\; t_{abcd}(c,c,d) = d.
+\]
+The construction consists of two stages. In the first stage we construct, for each $a,b$, a term $t_{ab}$ which satisfies
+\[
+t_{ab}(a,b,b) = a, \;\; t_{ab}(y,y,x) \approx x.
+\]
+To do this, we pick an ordering $(c_i,d_i)$ of the set of ordered pairs $(c,d)$, and inductively define terms $t_{ab}^i$ by $t_{ab}^0(x,y,z) \coloneqq x$ and
+\[
+t_{ab}^{i+1}(x,y,z) \coloneqq t_{abu_id_i}(t_{ab}^i(x,y,z), t_{ab}^i(y,y,z), z),
+\]
+where $u_i = t_{ab}^i(c_i,c_i,d_i)$. These terms will satisfy $t_{ab}^i(a,b,b) = a$ and $t_{ab}^i(c_j,c_j,d_j) = d_j$ for all $j < i$. We finish the first stage by taking $t_{ab} \coloneqq t_{ab}^{n^2}$, where $n$ is the number of elements in our algebra.
+
+The second stage of the construction is similar. We first pick an ordering $(a_i,b_i)$ of the set of ordered pairs $(a,b)$, and then inductively define terms $t_i$ by $t_0(x,y,z) \coloneqq z$ and
+\[
+t_{i+1}(x,y,z) \coloneqq t_{a_iv_i}(x,t_i(x,y,y),t_i(x,y,z)),
+\]
+where $v_i = t_i(a_i,b_i,b_i)$. These terms will satisfy $t_i(y,y,x) \approx x$ and $t_i(a_j,b_j,b_j) = a_j$ for all $j < i$. The term $p(x,y,z) \coloneqq t_{n^2}(x,y,z)$ will then be a Mal'cev term.
+\end{rem}
 
 \begin{defn} If $\RR \le_{sd} \bA\times \bB$ is a subdirect binary relation, then the \emph{linking congruence} of $\RR$ can refer to any of the following three congruences: the congruence $\ker \pi_1 \vee \ker \pi_2$ on $\RR$, the congruence $\alpha$ on $\bA$ generated by pairs $a,a' \in \bA$ such that there exists a $b \in \bB$ with $(a,b), (a',b) \in \RR$, or the similar congruence $\beta$ defined on $\bB$. The relation $\RR$ is called \emph{linked} if these congruences are full.
 \end{defn}
@@ -2129,7 +2149,7 @@ Despite the trivial nature of binary relations with the parallelogram property, 
 
 \begin{ex} Consider the affine algebra $\bA = (\ZZ/p, x-y+z)$, and let $\RR \le_{sd} \bA^n$ be the relation $x_1 + \cdots + x_n \equiv 0\pmod{p}$. Then if we think of $\RR$ as a (subdirect) binary relation on $\bA\times \bA^{n-1}$, it is the graph of the homomorphism $\bA^{n-1} \rightarrow \bA$ given by $(x_2, ..., x_n) \mapsto -x_2-\cdots -x_n\pmod{p}$.
 
-More generally, for any $i$, if we think of $\RR$ as a subdirect binary relation on $\bA^i\times \bA^{n-i}$, then the linking congruence gives homomorphisms $\bA^i \rightarrow \bA \leftarrow \bA^{n-i}$: $(x_1, ..., x_i)\mapsto x_1 + \cdots + x_i\pmod{p}$ and $(x_{n-i+1}, ..., x_n) \mapsto -x_{n-i+1}-\cdots - x_n\pmod{p}$.
+More generally, for any $i$, if we think of $\RR$ as a subdirect binary relation on $\bA^i\times \bA^{n-i}$, then the linking congruence gives homomorphisms $\bA^i \rightarrow \bA \leftarrow \bA^{n-i}$: $(x_1, ..., x_i)\mapsto x_1 + \cdots + x_i\pmod{p}$ and $(x_{i+1}, ..., x_n) \mapsto -x_{i+1}-\cdots - x_n\pmod{p}$.
 \end{ex}
 
 Ternary relations on simple Mal'cev algebras have a particularly interesting structure.
@@ -4239,7 +4259,7 @@ Since $\RR^*$ is contained in the relation
 \]
 and $\RR$ is reduced, we have $(u_i,v_i) \in 0_{\bA_i}^*$. Let $p(x,y,z)$ be a Gumm difference term as in Theorem \ref{gumm-difference}, i.e. a term such that $p(y,y,x) \approx x$, and such that for $(x,y) \in \theta$ and $\theta$ any congruence we have $p(x,y,y)\ [\theta, \theta]\ x$. Then taking $\theta = 0_{\bA_i}^*$, we have $p(u_i,v_i,v_i) = u_i$ by part (c), so we can take $t = p(u,v,w)$.
 
-For the last claim, suppose that we view $\RR^*$ as a binary relation on $\bA_I \times \bA_{[n]\setminus I}$, where we set $\bA_I = \prod_{i \in I} \bA_i$, and that we have $(a,b), (c,b), (c,d) \in \RR^*$. Pick some $i \in I$ and $j \not\in I$. Then there is some $a'$ such that $\pi_{I\setminus\{i\}}(a') = \pi_{I\setminus\{i\}}(a)$, $a_i' \equiv_{0^*_{\bA_i}} a_i$, and $(a',b) \in \RR$. Similarly find $c'$ which only differs from $c$ in the $i$th coordinate, has $c_i' \equiv_{0^*_{\bA_i}} a_i$, and has $(c',b) \in \RR$. Then $(c',d) \in \RR^*$ by part (d), so we can find $d'$ which only differs from $d$ in the $j$th coordinate, has $d_i' \equiv_{0^*_{\bA_j}} d_i$, and has $(c',d') \in \RR$. Then by the parallelogram property for $\RR$, we have $(a',d') \in \RR$, so by part (d) we have $(a,d) \in \RR^*$.
+For the last claim, suppose that we view $\RR^*$ as a binary relation on $\bA_I \times \bA_{[n]\setminus I}$, where we set $\bA_I = \prod_{i \in I} \bA_i$, and that we have $(a,b), (c,b), (c,d) \in \RR^*$. Pick some $i \in I$ and $j \not\in I$. Then there is some $a'$ such that $\pi_{I\setminus\{i\}}(a') = \pi_{I\setminus\{i\}}(a)$, $a_i' \equiv_{0^*_{\bA_i}} a_i$, and $(a',b) \in \RR$. Similarly find $c'$ which only differs from $c$ in the $i$th coordinate, has $c_i' \equiv_{0^*_{\bA_i}} c_i$, and has $(c',b) \in \RR$. Then $(c',d) \in \RR^*$ by part (d), so we can find $d'$ which only differs from $d$ in the $j$th coordinate, has $d_i' \equiv_{0^*_{\bA_j}} d_i$, and has $(c',d') \in \RR$. Then by the parallelogram property for $\RR$, we have $(a',d') \in \RR$, so by part (d) we have $(a,d) \in \RR^*$.
 \end{proof}
 
 \begin{ex}\label{gmm-ex-2-critical} Consider the generalized majority-minority algebra $\bA = (\{a,b,c\}, \varphi_2)$ from Example \ref{gmm-ex-2}, which is subdirectly irreducible with abelian monolith $0_{\bA}^*$ corresponding to the partition $\{a\}, \{b,c\}$ of its elements, and has $\bA/0_\bA^*$ isomorphic to a two element majority algebra. We can check that the monolith $0_{\bA}^*$ of $\bA$ is equal to its own centralizer by verifying that $[1_{\bA}:0_\bA^*] = 0_\bA^*$ and $[0_\bA^*,0_\bA^*] = 0_\bA$: to see this, note that
@@ -8592,8 +8612,17 @@ We can use stability to upgrade this result further: we don't need to find a vag
 \begin{proof} By Proposition \ref{prop-stable-essential} and arc-consistency, any stable solution to $\Sg(\fX^{bin})$ is also a stable solution to $\Sg(\fX)$.
 \end{proof}
 
-\begin{prob} Is there any instance $\fX$ such that $\fX^{bin}$ has a vague solution but $\fX$ does not?
-\end{prob}
+\begin{ex} There is an arc-consistent instance $\fX$ such that $\fX^{bin}$ has a vague solution but $\fX$ does not: take the $5$-ary relation $R \subseteq_{sd} \{a,b,c,d\}^5$ given by
+\[
+%R = \left\{\begin{bmatrix}b\\c\\a\\a\\a\end{bmatrix},\begin{bmatrix}a\\b\\c\\a\\a\end{bmatrix},\begin{bmatrix}a\\a\\b\\c\\a\end{bmatrix},\begin{bmatrix}a\\a\\a\\b\\c\end{bmatrix},\begin{bmatrix}c\\a\\a\\a\\b\end{bmatrix}\right\},
+R = \left\{\begin{bmatrix}a\\a\\b\\c\\d\end{bmatrix},\begin{bmatrix}a\\b\\c\\d\\a\end{bmatrix},\begin{bmatrix}b\\c\\d\\a\\a\end{bmatrix},\begin{bmatrix}c\\d\\a\\a\\b\end{bmatrix},\begin{bmatrix}d\\a\\a\\b\\c\end{bmatrix}\right\},
+\]
+and let $\fX$ be the instance with a single variable $x$ which is supposed to satisfy the constraint $(x,x,x,x,x) \in R$. To see that $\fX$ has no vague solution, it's enough to consider the relative order of the singleton sets $\{b\}$ and $\{c\}$. On the other hand, $\fX^{bin}$ has a vague solution where all five vague elements are given by
+\[
+\{d\} \prec \{c\} \prec \{b\} \prec \{c,d\} \prec \{b,d\} \prec \{a\} \prec \{b,c\} \prec \{a,d\} \sim \cdots \sim \{a,b,c,d\}.
+\]
+The fact that examples like this exist seems to be a hint that vague solutions are nowhere near to being the last word on bounded width CSPs.
+\end{ex}
 
 \begin{prob} If the sizes of the variable domains in $\fX$ are bounded by a constant (perhaps just $3$), how hard is it to determine whether $\fX^{bin}$ has a vague solution?
 \end{prob}
@@ -9540,7 +9569,7 @@ Thus, from now on we imagine that all conservative minimal Taylor algebras live 
 w(x,x,y) \approx w(x,y,x) \approx w(y,x,x).
 \]
 
-\begin{prop}\label{prop-conservative-free} The free algebra $\cF_\cV(x,y)$ on two generators in the variety $\cV$ generated by minimal Taylor algebras has size $6$: its elements are $x, y, f(x,y), f(y,x), s(x,y), s(y,x)$ (defined as in the previous proposition). The colored graph of the algebra $\cF_\cV(x,y)$ is as follows.
+\begin{prop}\label{prop-conservative-free} The free algebra $\cF_\cV(x,y)$ on two generators in the variety $\cV$ generated by conservative minimal Taylor algebras has size $6$: its elements are $x, y, f(x,y), f(y,x), s(x,y), s(y,x)$ (defined as in the previous proposition). The colored graph of the algebra $\cF_\cV(x,y)$ is as follows.
 \begin{center}
 \begin{tikzpicture}[scale=1.5,baseline=0.5cm]
   \node (x) at (-2.5,0) {$x$};
@@ -10040,7 +10069,7 @@ Putting all of the pieces together, we have completed the classification of mini
 \end{prob}
 
 
-\section{The strands of an unlinked CSP instance, and a new recursive strategy}
+\section{The strands of an unlinked CSP instance, and a safe recursive strategy}
 
 Generally speaking, in order to guarantee a polynomial running time for solving CSPs we attempt to avoid recursion. There is a form of recursion which can be safely applied, however: we can recursively solve polynomially many subproblems as long as the size of \emph{every} variable's domain is strictly reduced in each subproblem. The resulting algorithms will then have the property that the exponent in the running time will depend on the size of the largest domain of any variable. This approach seems to have been introduced with the solutions to the CSP dichotomy conjecture for conservative algebras by Bulatov \cite{bulatov-conservative}, \cite{bulatov-conservative-rerevisited} and Barto \cite{barto-conservative-revisited}, as well as Mikl\'os Mar\'oti's ``Tree on top of Malcev'' algorithm \cite{tree-on-top-of-malcev} (which used this sort of recursive strategy in a \emph{very} different way from what we will consider in this section).
 
@@ -12415,7 +12444,7 @@ This relation closely resembles an affine relation over $\ZZ/2$.
 
 Tame congruence theory was introduced by Hobby and McKenzie \cite{hobby-mckenzie} in order to answer questions about congruence lattices of finite algebras. Since every congruence contains the diagonal, every congruence is automatically invariant under the \emph{polynomial} clone of our algebra, and in fact the congruence lattice of an algebra is completely determined by the collection of \emph{unary} polynomials of the algebra.
 
-\begin{prop} An equivalence relation $\theta$ on an algebra $\bA$ is a congruence of $\bA$ iff $\theta$ is preserved by every unary polynomial operation of $\bA$.
+\begin{prop} An equivalence relation $\theta$ on an algebra $\bA$ is a congruence of $\bA$ iff $\theta$ is preserved by every unary polynomial operation of $\bA$. More generally, a quasiorder $\preceq$ on $\bA$ is a subalgebra of $\bA^2$ if and only if $\preceq$ is preserved by every unary polynomial of $\bA$.
 \end{prop}
 
 So tame congruence theory is really about the how the identities satisfied in a (usually locally finite) variety affect the behavior of unary polynomials, and how this in turn affects the behavior of congruences. Because of the important role of polynomial operations in tame congruence theory, we will use $\Pol_n(\bA)$ to represent the set of $n$-ary polynomial operations of $\bA$ throughout this appendix (hopefully this doesn't cause any confusion with the notation for the polymorphism clone of a relational structure).
@@ -13120,9 +13149,24 @@ In particular, if $\bA$ is finite and strongly abelian then every polynomial of 
 
 \begin{cor} Every finite, idempotent, strongly abelian algebra can be written as a product of algebras where every operation is a projection.
 \end{cor}
-%TODO: should I prove this? leave it as an exercise?
+\begin{proof} Let $t$ be any $m$-ary operation of $\bA$, and let the equivalence relations $R_i$ be as in the previous proposition. If $t$ is idempotent, then $t$ is the graph of a bijection between $\prod_i \bA/R_i$ and $\bA$: the inverse map takes $a \in \bA$ to $(a/R_1, ..., a/R_m)$. If any $R_i$ is $0_\bA$, then $t$ must be the $i$th projection, otherwise each $\bA/R_i$ is smaller than $\bA$. To finish the proof, we just need to verify that each $R_i$ is a congruence of $\bA$. It's enough to prove this for $R_1$.
 
-\begin{ex}[From \cite{strongly-abelian-hamiltonian}]\label{ex-strongly-abelian-not-quasiaffine} There is a $5$-element strongly abelian algebra $\bA = (\{a,b,c,d,e\},\cdot_1,\cdot_2)$ which is not quasiaffine. The basic binary operations of $\bA$ are given below.
+Let $s$ be any other operation of $\bA$, say of arity $n$, and consider the term
+\[
+t(s(y_1, ..., y_n), x_2, ..., x_m).
+\]
+Then by the previous proposition, there are equivalence relations $S_1, ..., S_n$ on $\bA$ such that
+\[
+t(s(a_1, ..., a_n), c_2, ..., c_m) = t(s(b_1, ..., b_n), d_2, ..., d_m)
+\]
+iff each $(a_i,b_i) \in S_i$ and each $(c_j,d_j) \in R_j$. Taking all $a_i$ to be equal to $a$ and all $b_i$ to be equal to $b$, by idempotence we see that $(a,b) \in R_1$ iff $(a,b) \in S_i$ for all $i$. In particular, we have $(a,b) \in R_1 \implies (a,b) \in S_i$, so
+\[
+\forall i \;\; (a_i,b_i) \in R_1 \;\; \implies \;\; \forall i \;\; (a_i,b_i) \in S_i \;\; \implies \;\; (s(a_1, ..., a_n), s(b_1, ..., b_n)) \in R_1.
+\]
+Since $s$ was arbitrary, $R_1$ is a congruence of $\bA$.
+\end{proof}
+
+\begin{ex}[From \cite{strongly-abelian-hamiltonian}]\label{ex-strongly-abelian-not-quasiaffine} There is a $5$-element strongly abelian algebra $\bA = (\{a,b,c,d,e\},\cdot_1,\cdot_2)$ which is not quasiaffine (of course, this algebra is not idempotent). The basic binary operations of $\bA$ are given below.
 \begin{center}
 \begin{tabular}{cc}
 \begin{tabular}{c | c c c c c} $\cdot_1$ & $a$ & $b$ & $c$ & $d$ & $e$\\ \hline $a$ & $a$ & $b$ & $a$ & $b$ & $b$\\ $b$ & $a$ & $b$ & $a$ & $b$ & $b$\\ $c$ & $c$ & $d$ & $c$ & $d$ & $d$\\ $d$ & $c$ & $d$ & $c$ & $d$ & $d$\\ $e$ & $c$ & $d$ & $c$ & $d$ & $d$ \end{tabular} &
@@ -13138,6 +13182,17 @@ To see that it is strongly abelian, note that for each $i,j$ we have the identit
 x\cdot_i (y\cdot_j z) \approx x\cdot_i z, \;\; (x\cdot_i y)\cdot_j z \approx x\cdot_j z,
 \]
 so every term of $\bA$ is one of $x, x \cdot_i x, x \cdot_i y$ for some $i \in \{1,2\}$, up to permuting its inputs.
+\end{ex}
+
+\begin{ex} The free $2$-cyclic groupoid on two generators $a,b$ (see \cite{plonka-p-cyclic} for the theory of $p$-cyclic groupoids for arbitrary primes $p$) is the idempotent algebra $\bA = (\{a,b,c,d\}, \cdot)$ with basic operation $\cdot$ given below.
+\begin{center}
+\begin{tabular}{c | c c c c} $\cdot$ & $a$ & $b$ & $c$ & $d$\\ \hline $a$ & $a$ & $c$ & $a$ & $c$\\ $b$ & $d$ & $b$ & $d$ & $b$\\ $c$ & $c$ & $a$ & $c$ & $a$\\ $d$ & $b$ & $d$ & $b$ & $d$ \end{tabular}
+\end{center}
+This algebra has a congruence $\theta$ corresponding to the partition $\{a,c\}, \{b,d\}$, such that $\cdot$ on $\bA/\theta$ is first projection - in particular, $1_\bA$ is strongly abelian over $\theta$. Additionally, $\theta$ is strongly abelian over $0_\bA$, so $\bA$ is strongly solvable. The algebra $\bA$ is $(0_\bA,\theta)$-minimal, and the $(0_\bA,\theta)$-traces are $\{a,c\}$ and $\{b,d\}$. The reader may check that the $(0_\bA,\theta)$-traces $\{a,c\}$ and $\{b,d\}$ are \emph{not} polynomially isomorphic in $\bA$. The algebra $\bA|_{\{a,c\}}$ is polynomially equivalent to the unary algebra with the unary operation which swaps $a$ and $c$, corresponding to the polynomial $x \mapsto x\cdot b$.
+
+The reader may check that $\bA$ is abelian (and even quasiaffine) as well. If we let $\eta$ be the congruence corresponding to the partition $\{a\}, \{c\}, \{b,d\}$, however, then we see that $\bA/\eta$ is \emph{not} abelian - so quotients of idempotent abelian algebras are not necessarily abelian. This is one of the senses in which type \textbf{1} can be pathological.
+
+More generally, the free $p$-cyclic groupoid on $n$ generators is (up to isomorphism) the subalgebra of $((\ZZ/p^2)^n, x + p(y-x))$ generated by $(1,0,...,0), (0,1,...,0), ..., (0,...,0,1)$ - this algebra has $np^{n-1}$ elements. The free $p$-cyclic groupoid on $n$ generators is always quasiaffine and strongly solvable in $2$ steps via the congruence corresponding to reduction modulo $p$, and for $p,n \ge 2$ it always has a quotient which is \emph{not} abelian.
 \end{ex}
 
 %TODO: say something about the rectangular commutator? Here or elsewhere?
