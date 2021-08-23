@@ -1,3 +1,4 @@
+\begin{comment}
 \documentclass[letterpaper,11pt]{article}
 \usepackage{hyperref}
 \usepackage{enumitem,todonotes}
@@ -284,6 +285,7 @@
 \maketitle
 
 \tableofcontents
+\end{comment}
 
 \section{Introduction}
 
@@ -1066,8 +1068,9 @@ Z(X,T) = \frac{P_1(T)}{(1-T)(1-qT)}
 where $P_1(T) \in \ZZ[T]$ is of degree $2g$.
 \end{thm}
 We mention that functional equation can be argued in a bare-hand way along this line, while Riemann Hypothesis would be more involved.
-\subsection{Dwork's proof for rationality of zeta function for quasi-projective variety over $\FF_q$}
+%\subsection{Dwork's proof for rationality of zeta function for quasi-projective variety over $\FF_q$}
 
+\begin{comment}
 \subsection{References}
 \renewcommand{\refname}{General background of zeta function for varieties over $\FF_p$}
 \begin{thebibliography}{3}
@@ -1101,6 +1104,7 @@ Terry Tao,
 \textit{Blog post on Dwork's proof},
 \url{https://terrytao.wordpress.com/2014/05/13/dworks-proof-of-rationality-of-the-zeta-function-over-finite-fields/}
 \end{thebibliography}
+\end{comment}
 
 
 \section{Weil bound for curves}
@@ -1656,9 +1660,9 @@ We will actually present (3) first, even though it relies on the first two point
 
 The $P_i$ in Weil's conjecture are essentially characteristic polynomials of Frobenius acting on \'{e}tale cohomology. The intuition to keep in mind is that \'{e}tale cohomology with coefficients in a \emph{constant} (torsion) sheaf (or more generally, a torsion local system) behaves ``like singular cohomology''. As we will shortly see, the familiar fundamental results of classical singular cohomology, once phrased invariantly enough, become theorems in \'{e}tale cohomology. 
 
-\begin{remark}
+\begin{rem}
 For \emph{quasi-coherent} sheaves, \'{e}tale cohomology coincides with coherent cohomology. These won't come up in our discussion. 
-\end{remark}
+\end{rem}
 
 \subsubsection{The orientation sheaf}
 Here's an example of what I mean. It's commonly said that complex manifolds are canonically oriented, but from an algebraic perspective that's not quite true - you have to choose an orientation for $\CC$. This amounts to a choice of $\pm i$, which can be thought of as a choice of embedding of $\Q/\Z$ into the roots of unity. 
@@ -1676,8 +1680,8 @@ For any $n$, we define $\Q_{\ell}(n) = \Q_{\ell}(1)^{\otimes n}$. For negative $
 \Q_{\ell}(n) := \Q_{\ell}(-n)^{\vee}.
 \]
 
-\begin{remark} For varieties over finite fields, you can think of this in the following way. $\Q_{\ell}(n)$ is a $\Q_{\ell}$-vector space with a natural action of $\Gal(\ol{\F_q}/\F_q)$, where Frobenius acts as multiplication by $q$. However, my Frobenius $F$ will always be the \emph{geometric} Frobenius $x \mapsto x^{q^{-1}}$, which acts as multiplication by $q^{-1}$. \\
-\end{remark}
+\begin{rem} For varieties over finite fields, you can think of this in the following way. $\Q_{\ell}(n)$ is a $\Q_{\ell}$-vector space with a natural action of $\Gal(\ol{\F_q}/\F_q)$, where Frobenius acts as multiplication by $q$. However, my Frobenius $F$ will always be the \emph{geometric} Frobenius $x \mapsto x^{q^{-1}}$, which acts as multiplication by $q^{-1}$. \\
+\end{rem}
 
 \subsubsection{Properties of \'{e}tale cohomology}
  Let $X$ be a smooth variety of pure dimension $n$  over an algebraically closed field. (In terms of earlier notation, think $X = (X_0)_{\ol{\F}_q}$.) 
@@ -1753,9 +1757,9 @@ If we have an embedding
 \]
 then $RH(\mrm{H}^i(X')) \implies RH(\mrm{H}^i(X))$. 
 
-\begin{example}
+\begin{ex}
 If $X' \rightarrow X$ the blowup along a closed subvariety $Z \subset X$, then we get such an embedding. We will use the special case where $Z$ is the section by a codimension-2 plane. 
-\end{example}
+\end{ex}
 
 If we have a surjection
 \[
@@ -1825,15 +1829,15 @@ Armed with this knowledge, we can immediately dispose of a couple terms of the s
 \]
 Now, the result follows from induction on the dimension of $X$. 
 
-\begin{remark}
+\begin{rem}
 Actually, it turns out that we need to induct on \emph{even} dimension (for reasons having to do with the Picard-Lefschetz description of monodromy). We can address this issue by taking another hyperplane section of $X_u$.
-\end{remark}
+\end{rem}
 
 
 
 The other term $\mrm{H}^2(\PS^1, R^{n-2} f_* \Q_{\ell})$ is basically dual to the one just discussed. 
 
-\begin{remark}
+\begin{rem}
 There is a difference between $\mrm{H}^i(U, R^n f_* \Q_{\ell})$ and $\mrm{H}^i(\PS^1 ,R^n f_* \Q_{\ell})$, and it will typically happen that $R^n f_* \Q_{\ell}$ is not a local system, while its restriction to $U$ is a local system. But that's not really an issue, because for any $\Cal{F}$ on $X$ we have a short exact sequence 
 \[
 0 \rightarrow j_! (\Cal{F}|_U)  \rightarrow \Cal{F} \rightarrow \text{(sum of skyscrapers)} \rightarrow 0.
@@ -1843,7 +1847,7 @@ which induces a surjection
 \mrm{H}_c^1(U, \Cal{F}) \rightarrow \mrm{H}^1(\PS^1, j_* \Cal{F}) \rightarrow 0.
 \]
 Therefore, for our purposes is really is enough to consider the restriction to $U$. 
-\end{remark}
+\end{rem}
 
 The last case $\mrm{H}^1(\PS^1, R^{n-1} f_* \Q_{\ell})$ is the most subtle. For now we'll just say that there is a short exact sequence 
 \begin{equation}\label{vanishing_sequence}
@@ -1875,9 +1879,9 @@ which is smooth over $U_0 \subset \PS^1$, with everything defined over $\F_q$.
 \begin{defn} A local system $\Cal{F}_0$ on $X_0$ is said to have \emph{weight} $\beta$ if for all $x \in |X_0|$, the (geometric) Frobenius $F_x^*$ acting on $\Cal{F}_x$ has eigenvalues which are algebraic with absolute value $q_x^{\beta/2}$ under every complex embedding.
 \end{defn}
 
-\begin{example}
+\begin{ex}
  In particular, $\Q_{\ell}(r)$ has weight $-2r$. 
- \end{example}
+ \end{ex}
  
 
 \begin{thm}\label{fundamental}
@@ -1893,9 +1897,9 @@ Suppose $\Cal{E}_0$ is a sheaf on $U_0$ satisfying the following conditions:
 Then $\Cal{E}_0$ has weight $\beta$. 
 \end{thm}
 
-\begin{remark}
+\begin{rem}
 One can imagine that $\Cal{E}_0$ is essentially sheaf of vanishing cycles as in \eqref{vanishing_sequence}. (Then $\beta=n-1$.) This is not quite how the argument goes, because we don't know a priori that the restriction of the symplectic form to $\Cal{E}$ is non-degenerate. (This is true, but only by deduction a posteriori.) This can be easily rectified by considering the filtration by the \emph{constant} sheaf $\Cal{E} \cap \Cal{E}^{\perp}$. 
-\end{remark}
+\end{rem}
 
 The inspiration from the following argument is said to come from ideas of Rankin attacking the Ramanujan conjecture (one of the consequences of Deligne's work). 
 
@@ -2042,9 +2046,9 @@ Here are the essential facts:
 \item For $x \in \mrm{H}^n(X_t, \CC)$, $\gamma$ acts by $x \mapsto x \pm (x, \delta) \delta$. 
 \end{itemize}
 
-\begin{remark}
+\begin{rem}
 The $\pm$ depends on $n$ mod $4$.
-\end{remark}
+\end{rem}
 
 
 It is straightforward to write down the algebro-geometric analogue. We replace $D$ by the spectrum of a (strictly henselian) DVR, with special point $s$ and generic point $\eta$, so we have maps 
@@ -2201,12 +2205,12 @@ Of course, $Z_b(t)$ is the term that we are interested in showing has rational c
 Now, the local systems appearing in $Z_s(t)$ are not quite constant, but they are constant after base change to $\ol{\F}_q$. It is worth recording an observation about this situation:
 
 
-\begin{lemma}
+\begin{lem}
 Let $\Cal{G}_0$ be a $\Q_{\ell}$-local system on $\epsilon \colon U_0 \rightarrow \F_q$ whose base change to $U$ is constant. Then there are units $\alpha_i \in \Q_{\ell}$ such that for all $x \in |U_0|$, we have 
 \[
 \det (1-F_u^*t, \Cal{G}_0) = \prod_i (1-\alpha_i^{\deg x} t).
 \]
-\end{lemma}
+\end{lem}
 
 \begin{proof}
 Indeed, the hypothesis implies that $\Cal{G}_0$ is pulled back from a sheaf $G_0$ on $\Spec \F_q$, namely $G_0 := \epsilon_* \Cal{G}_0$ (since the hypothesis says that $\epsilon^* \epsilon_* \Cal{G}_0 \rightarrow \Cal{G}_0$ is an isomorphism after base change to $\ol{\F}_q$). 
@@ -2250,9 +2254,9 @@ In the next subsection we will complete the proof of rationality \emph{assuming}
 As discussed, Proposition \ref{tech_lemma} gives an \emph{intrinsic characterization} of the set $\{(\beta_j^{\deg u})_j\}_u$ in terms of the family $\{P_u(t)\}_u$, which we know to have rational coefficients. A slightly subtle point is to show that this actually pins down $\{\beta_j\}$, which is the content of the following Lemma. Once we know that, it will show that $\beta_j \in \Q$. 
 
 
-\begin{lemma}
+\begin{lem}
 Let $K$ be any finite set of integers not containing $1$ and $(\delta_j)_{1 \leq j \leq Q}, (\epsilon_j)_{1 \leq j \leq Q}$ two families of elements of a field. If for all sufficiently large $n$ not divisible by the members of $K$ we have $\{\delta_j^n\} = \{\epsilon_j^n\}$ then $\{\delta_j \} = \{\epsilon_j\}$. 
-\end{lemma}
+\end{lem}
 
 
 \begin{proof}
@@ -2326,17 +2330,17 @@ Let
 \]
 denote this representation, and let $\mrm{H}_1$ be the image of $\rho_1$. 
 
-\begin{lemma}
+\begin{lem}
 The image $\mrm{H}_1$ of $\rho_1$ is open in $H$. 
-\end{lemma}
+\end{lem}
 
 \begin{proof}
 We know that $\mrm{H}_1$ surjects onto $\wh{\Z}$, and by Theorem \ref{big_image} the image of the geometric monodromy subgroup in $\Sp(\Cal{F}_{\ol{u}})$ is open. 
 \end{proof}
 
-\begin{lemma}
+\begin{lem}
 For any $\delta \in \ol{\Q}_{\ell}$, the set $Z$ of $(n,g) \in \mrm{H}_1$ such that $\delta^n$ is an eigenvalue of $g$ is closed of measure $0$. 
-\end{lemma}
+\end{lem}
 
 \begin{proof}
 The closedness is obvious. Fix $n \in \wh{\Z}$, and let $\mrm{GSp}(\Cal{F}_{\ol{u}})_n$ denote the subset of $g$ such that $\mu(g) = q^n$. This is a torsor for $\mrm{Sp}(\Cal{F}_{\ol{u}})$. It is easily verified that $Z_n := Z \cap \mrm{GSp}(\Cal{F}_{\ol{u}})_n$ is the points of a closed algebraic subvariety, which is necessarily of density $0$. Thus, we have verified that ``fiberwise over $\wh{\Z}$ the subset $Z$ has density $0$. The result then follows from Fubini's Theorem. 
@@ -2353,10 +2357,10 @@ is obviously closed under addition and multiplication, hence forms an ideal in $
 
 
 
-\renewcommand{\refname}{References}
+%\renewcommand{\refname}{References}
 
-\bibliography{weil}
-\bibliographystyle{plain}
+%\bibliography{weil}
+%\bibliographystyle{plain}
 
-\end{document}
+%\end{document}
 

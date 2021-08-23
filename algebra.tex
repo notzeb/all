@@ -1,0 +1,89 @@
+\section{Noncommutative rings}
+
+\begin{defn} If $R$ is a ring, then the \emph{Jacobson radical} $J(R)$ (sometimes written $\rad(R)$) is the intersection of the annihilators of all simple left $R$-modules.
+\end{defn}
+
+\begin{defn} A submodule $N$ of $M$ is \emph{superfluous}, written $N \subseteq_s M$ or $N \ll M$, if for all $H$ we have $N+H = M\ \implies\ H = M$.
+\end{defn}
+
+\begin{thm} We can replace ``left'' by ``right'' in the definition of the Jacobson radical of a ring. Furthermore, we have the following equivalent definitions:
+\begin{itemize}
+\item $J(R)$ is the intersection of all maximal left ideals of $R$,
+\item $J(R)$ is the sum of all superfluous left ideals of $R$,
+\item $J(R)$ is the maximal left ideal of $R$ such that for all $x \in J(R)$, $1-x$ has a left inverse,
+\item $J(R) = \{x \in R \mid 1+RxR \subseteq R^\times\}$.
+\end{itemize}
+\end{thm}
+
+\begin{lem}[Nakayama's Lemma] If $M$ is a finitely generated left $R$-module with $M = J(R)M$, then $M=0$.
+\end{lem}
+\begin{proof} Consider a minimal generating set $x_1, ..., x_n$ of $M$, and use $\sum x_i \in J(R)M$ to write $x_n$ as a linear combination of $x_1, ..., x_{n-1}$.
+\end{proof}
+
+\begin{prop} $J(R/J(R)) = 0$.
+\end{prop}
+
+\subsection{Artinian Rings}
+
+\begin{prop} If $R$, considered as a left $R$-module over itself, has a composition series of length $k$, then $J(R)^k = 0$.
+\end{prop}
+
+\begin{thm}[Hopkins' Theorem] If $M$ is a left module over a left Artinian ring, then the following are equivalent:
+\begin{itemize}
+\item $M$ is finitely generated,
+\item $M$ has finite length,
+\item $M$ is Noetherian,
+\item $M$ is Artinian.
+\end{itemize}
+\end{thm}
+
+\begin{thm}[Hopkins-Levitzki] If $R$ is \emph{semiprimary} - that is, if $R/J(R)$ is semisimple and $J(R)$ is nilpotent - then for left $R$-modules, being Noetherian, being Artinian, and having a composition series are equivalent.
+\end{thm}
+
+\begin{prop} If $J(R) = 0$, then every minimal left ideal of $R$ is a direct summand of $R$.
+\end{prop}
+
+\begin{thm} $R$ is semisimple if and only if it is left Artinian and has $J(R) = 0$.
+\end{thm}
+
+% TODO: Schur-Weyl, maybe via https://mathoverflow.net/questions/255492/how-to-constructively-combinatorially-prove-schur-weyl-duality
+
+
+
+
+
+\section{Commutative Algebra}
+
+\begin{defn} If $R$ is a commutative ring, then $I \lhd R$ means that $I$ is an ideal of $R$.
+\end{defn}
+
+\begin{defn} If $I,J \lhd R$, set $(I:J) = \{r \in R \mid rJ \subseteq I\}$. If $a \in R$, we abbreviate $(I:(a))$ to $(I:a)$.
+\end{defn}
+
+\subsection{Primary Ideals}
+
+\begin{defn} $Q \lhd R$ is \emph{primary} if $\forall a,b\in R$ with $ab \in Q$, either $b \in Q$ or $\exists n$ such that $a^n \in Q$.
+\end{defn}
+
+\begin{defn} If $I \lhd R$, then $\rad(I) = \{r \in R \mid \exists n\ r^n \in I\}$.
+\end{defn}
+
+\begin{prop} $Q$ is primary if and only if $\rad(Q)$ is prime. If $Q_1, Q_2$ are primary and $\rad(Q_1) = \rad(Q_2)$, then $Q_1 \cap Q_2$ is primary. If $R$ is Noetherian and $Q \lhd R$, then $\exists n$ such that $\rad(Q)^n \subseteq Q$.
+\end{prop}
+
+\begin{thm}[Primary Decomposition] If $R$ is Noetherian and $I \lhd R$, then $\exists k$ and $Q_1, ..., Q_k \lhd R$ primary such that $I = Q_1 \cap \cdots \cap Q_k$.
+\end{thm}
+\begin{proof} By $R$ Noetherian, $\forall a\in R\ \exists n$ with $(I:a^n) = (I:a^{n+1})$, and for this $n$ we have $(I+(a^n))\cap (I:a) = I$, so either $I$ is already primary or we can write $I$ as an intersection of bigger ideals, and apply Noetherian induction.
+\end{proof}
+
+\begin{lem} If $R$ is Noetherian, then for any $I \lhd R$ and $r \in R \setminus I$, there exists $s \in R$ such that $(I:rs)$ is prime.
+\end{lem}
+
+\begin{thm}[Uniqueness of radicals] If $R$ is Noetherian, $I = Q_1 \cap \cdots \cap Q_k$ with $Q_i \lhd R$ primary and no $Q_i$ containing $\cap_{j \ne i} Q_j$, and if $\fp \lhd R$ is prime, then $\exists r \in R$ with $(I:r) = \fp$ if and only if there is an $i$ with $\rad(Q_i) = \fp$. In particular, the set $\{\rad(Q_i)\}_{i \le k}$ is uniquely determined by $I$.
+\end{thm}
+
+\begin{thm}[Uniqueness of primaries with minimal radical] If $R$ is Noetherian, $I = Q_1 \cap \cdots \cap Q_k$ with $Q_i \lhd R$ primary and $\rad(Q_i) \not\subseteq \rad(Q_1)$ for $i > 1$, then for $n$ sufficiently large we have $(I:\rad(Q_2)^n \cdots \rad(Q_k)^n) = Q_1$, so $Q_1$ is uniquely determined by $I$ and $\rad(Q_1)$.
+\end{thm}
+
+% TODO: Group theory! Nielsen reduction, Frobenius groups, Frattini subgroups, Frattini's argument, primitive groups, CFSG, ...
+

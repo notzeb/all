@@ -1,3 +1,4 @@
+\begin{comment}
 \documentclass[letterpaper,11pt]{article}
 \usepackage{amsfonts,amssymb,amsmath,amsthm,latexsym}
 \usepackage[all]{xy}
@@ -35,6 +36,7 @@
 \maketitle
 
 \tableofcontents
+\end{comment}
 
 \section{Projective Geometry and Cross ratios}
 
@@ -127,6 +129,9 @@ To check your understanding, calculate the cross ratio of four parallel lines in
 \[
 \frac{AQ}{QN} = \frac{1}{2}\frac{AP}{PM}.
 \]
+\end{exer}
+
+\begin{exer} Suppose a painter is painting a square-tiled floor which he is looking at from an angle. Given that the painter draws the four corners of one of the squares at the four points $ABCD$, construct the rest of the points that the painter draws using only a straightedge. If the next two points that the painter draws along the line $AB$ are $X$ and $Y$, compute the value of the cross ratio $(A,B;X,Y)$.
 \end{exer}
 
 \begin{exer}
@@ -276,7 +281,7 @@ Our first application of the cross ratio on a conic is to give a short proof of 
 Thus $L = MN\cap BC$, so $L$ is on the line $MN$.
 \end{proof}
 
-\begin{exer}\label{conicline}
+\begin{exer}\label{conicline}\hspace{2em}
 \begin{itemize}
 \item[(a)] Given points $A,B,C,D,E$ and a line $l$ through $A$ construct, using only a straightedge, the second point of intersection $F$ between the line $l$ and the conic through the points $A,B,C,D,E$.
 
@@ -471,7 +476,7 @@ so the directed angles $\angle CAD$ and $\angle CBD$ are congruent modulo $\pi$.
 In particular, if $A,B$ are diametrically opposite then $A,B,\fish,\bar\fish$ are harmonic.
 \end{cor}
 
-\begin{exer} Say that four distinct points $A,B,C,D$ on a line are \emph{melodic} if we have
+\begin{exer}\label{melodic} Say that four distinct points $A,B,C,D$ on a line are \emph{melodic} if we have
 \[
 (A,B;C,D) = (A,D;B,C),
 \]
@@ -581,7 +586,7 @@ Now suppose the line $l$ is tangent to $\omega$. Let $M$ be any point not on $l$
 \caption{A self-polar triangle (Exercise \ref{selfpolar})}
 \end{figure}
 
-\begin{exer}\label{selfpolar}
+\begin{exer}\label{selfpolar}\hspace{2em}
 \begin{itemize}
 \item[(a)] Let $ABCD$ be a quadrilateral inscribed in a conic $\omega$. Let $E = AB\cap CD, F = AD\cap BC$ be the intersections of the opposite sides, and let $G = AC\cap BD$ be the intersection of the diagonals. Prove that the triangle $EFG$ is \emph{self-polar} with respect to $\omega$, that is, that the polars of $E,F,G$ are $FG,GE,EF$, respectively.
 
@@ -620,8 +625,8 @@ so $C = f(f(C))$ and $f$ is a harmonic conjugation in a pair of points $\{M,N\}$
 \]
 \end{defn}
 
-\begin{rmk} Most geometers use the phrase ``quadrangular hexad'' to describe a collection of six coharmonic points.
-\end{rmk}
+\begin{rem} Most geometers use the phrase ``quadrangular hexad'' to describe a collection of six coharmonic points.
+\end{rem}
 
 \begin{thm}[Main theorem of coharmonic points]\label{coharmonic} Let $A,B,C,X,Y,Z$ be on a line, no three the same, and suppose $A\ne X$. The following are equivalent:
 \begin{itemize}
@@ -669,13 +674,16 @@ Finally, to see that (d) implies (b), note that for any $A,B,C,X,Y$ there is a u
 
 \begin{exer}
 \begin{itemize}
-\item[(a)] Let $\omega$ be a conic, and let $P$ be a point not on $\omega$, and let $A,B,C$ be three points on $\omega$. Let $X,Y,Z$ be the second  intersections of the lines $PA,PB,PC$ with $\omega$. Show that the three pairs $\{A,X\}, \{B,Y\}, \{C,Z\}$ are coharmonic with respect to the conic $\omega$. (Hint: see Exercise 5.)
+\item[(a)] Let $\omega$ be a conic, and let $P$ be a point not on $\omega$, and let $A,B,C$ be three points on $\omega$. Let $X,Y,Z$ be the second intersections of the lines $PA,PB,PC$ with $\omega$. Show that the three pairs $\{A,X\}, \{B,Y\}, \{C,Z\}$ are coharmonic with respect to the conic $\omega$. (Hint: see Exercise 5.)
 \item[(b)] Suppose that $ABCDEF$ is a convex hexagon inscribed in a circle $\omega$. Show, using part (a), that the lines $AD, BE, CF$ meet in a point if and only if
 \[
 |AB||CD||EF| = |BC||DE||FA|.
 \]
 (Hint: define $(A,E,C;D,B,F)_{\omega}$ for any conic $\omega$, and calculate it in the special case that $\omega$ is a circle.) How is this related to the trigonometric form of Ceva's Theorem?
 \end{itemize}
+\end{exer}
+
+\begin{exer} Suppose that $A,B,C,X,Y,Z$ are six points on a conic $\omega$. Let $U$ be the intersection between the line $BC$ and the tangent to $\omega$ at $X$, and similarly let $V$ be the intersection between $AC$ and the tangent to $\omega$ at $Y$, and $W$ the intersection between $AB$ and the tangent to $\omega$ at $Z$. Show that if $\{A,X\},\{B,Y\},\{C,Z\}$ are coharmonic with respect to $\omega$, then $U,V,W$ are collinear. Is the converse true?
 \end{exer}
 
 \begin{exer} Apply the Three Conic Law to give a second proof of the projective Butterfly Theorem: if $\omega$ is a conic, $PQ$ is a chord on $\omega$, $M$ is a point on $PQ$, $AB$ and $CD$ are two more chords of $\omega$ passing through $M$, and $X = AD\cap PQ, Y = BC\cap PQ$, then $(P,Q;M,X) = (Q,P;M,Y)$. (Hint: show that $\{P,Q\}, \{M,M\}, \{X,Y\}$ are coharmonic.)
@@ -743,7 +751,7 @@ Let $X$ be the intersection of lines $KP$ and $IJ$. Applying Pascal's Theorem to
 \begin{defn} Let $M = \left(\begin{array}{ccc}a & b & c\\ d & e & f\\ g & h & i\end{array}\right)$ be a three by three matrix with nonzero determinant. The map $f_M:\PP^2\rightarrow \PP^2$ defined by $f([x:y:z]) = [ax+by+cz:dx+ey+fz:gx+hy+iz]$ is called a \emph{projective transformation} of the plane.
 \end{defn}
 
-\begin{exer}\label{projective-trans}
+\begin{exer}\label{projective-trans}\hspace{2em}
 \begin{itemize}
 \item[(a)] Show that every projective transformation sends straight lines to straight lines, sends conics to conics, and preserves cross ratios.
 
@@ -756,7 +764,7 @@ Let $X$ be the intersection of lines $KP$ and $IJ$. Applying Pascal's Theorem to
 \begin{defn} A bijection $f:\PP^2 \rightarrow \PP^2$ is a \emph{collineation} if it takes straight lines to straight lines.
 \end{defn}
 
-\begin{exer}\label{cr-arithmetic}
+\begin{exer}\label{cr-arithmetic}\hspace{2em}
 \begin{itemize}
 \item[(a)] Let $A,B,C,D,E,F$ be six distinct points on a line. Show that $\{A,B\},\{C,D\},\{E,F\}$ are coharmonic if and only if
 \[
@@ -797,10 +805,10 @@ To finish, note that by Exercise \ref{projective-trans} we may assume without lo
 so $f(X) = X$. Thus if $l$ is any line through $C$, and $X = l \cap AB$, then $f(l) = f(C)f(X) = CX = l$, so every line through $C$ is sent to itself. Similarly, every line through $A$ or $B$ is sent to itself. Since any point $E$ is determined by the three lines $AE,BE,CE$, every point $E$ must be sent to itself, and we are done.
 \end{proof}
 
-\begin{rmk} A collineation of $\CC\PP^2$ might not preserve cross ratios: for instance, the map $[x:y:z] \mapsto [\bar{x}:\bar{y}:\bar{z}]$ taking every point to its complex conjugate sends every cross ratio to its complex conjugate. More generally, if $\tilde{f}:\CC\rightarrow\CC$ satisfies $\tilde{f}(1) = 1, \tilde{f}(xy) = \tilde{f}(x)\tilde{f}(y), \tilde{f}(x+y) = \tilde{f}(x)+\tilde{f}(y)$, then the map $[x:y:z] \mapsto [\tilde{f}(x):\tilde{f}(y):\tilde{f}(z)]$ is called an \emph{automorphic collineation}, and sends a set of four points on a line with cross ratio $c$ to a set of four points with cross ratio $\tilde{f}(c)$.
+\begin{rem} A collineation of $\CC\PP^2$ might not preserve cross ratios: for instance, the map $[x:y:z] \mapsto [\bar{x}:\bar{y}:\bar{z}]$ taking every point to its complex conjugate sends every cross ratio to its complex conjugate. More generally, if $\tilde{f}:\CC\rightarrow\CC$ satisfies $\tilde{f}(1) = 1, \tilde{f}(xy) = \tilde{f}(x)\tilde{f}(y), \tilde{f}(x+y) = \tilde{f}(x)+\tilde{f}(y)$, then the map $[x:y:z] \mapsto [\tilde{f}(x):\tilde{f}(y):\tilde{f}(z)]$ is called an \emph{automorphic collineation}, and sends a set of four points on a line with cross ratio $c$ to a set of four points with cross ratio $\tilde{f}(c)$.
 
 The same argument as above can be used to show that every collineation of $\CC\PP^2$ can be written as the composition of an automorphic collineation and a projective transformation.
-\end{rmk}
+\end{rem}
 
 \begin{defn} Let $P$ be a point and $l$ be a line not passing through $P$. Define the \emph{projective reflection} $r_{P,l}$ by sending a point $Q \ne P$ to the harmonic conjugate of $Q$ with respect to $P, PQ \cap l$ along the line $PQ$, and sending $P$ to $P$.
 \end{defn}
@@ -843,6 +851,40 @@ The same argument as above can be used to show that every collineation of $\CC\P
 \end{exer}
 
 % central collineations, homologies, elations?
+
+One rather boring way to use symmetries of the plane is to choose a coordinate system in which four points $A,B,C,D$ in general position are assigned the coordinates $[1:0:0], [0:1:0], [0:0:1], [1:1:1]$. If a geometric configuration is completely determined by the locations of five points $A,B,C,D,E$, then every other point has coordinates given by homogenous algebraic functions of the coordinates $[x:y:z]$ of the point $E$. Problems involving such configurations can then be straightforwardly transformed into simple algebra problems, which typically will state that if one homogenous polynomial of the coordinates $[x:y:z]$ of $E$ vanishes, then so does another (often these polynomials will be linear or quadratic). Many problems in triangle geometry have this form: the five relevant points are the vertices $A,B,C$ of the triangle, and the two circle points $\fish$ and $\bar\fish$.
+
+\begin{thm} If $A,B,C,D,E$ are five points in general position, and if we choose a coordinate system where $A,B,C,D,E$ are assigned the coordinates $[1:0:0], [0:1:0], [0:0:1], [1:1:1], [x:y:z]$, respectively, then we have
+\[
+\frac{y}{z} = (AB,AC;AD,AE)
+\]
+and
+\[
+\frac{x}{z} = (BA,BC;BD,BE).
+\]
+In particular, the pair of values of these two cross ratios completely determines which statements of projective geometry are true of the configuration $ABCDE$.
+\end{thm}
+\begin{proof} We will only prove the first equality, the second one is similar. We have
+\begin{align*}
+(AB,AC;AD,AE) &= (B,C;AD\cap BC, AE\cap BC)\\
+&= ([0:1:0],[0:0:1];[0:1:1],[0:y:z]) = (\infty,0;1,y/z) = y/z.\qedhere
+\end{align*}
+\end{proof}
+
+In the special case where $A,B,C$ are the vertices of a triangle and $D,E$ are the circle points $\fish,\bar\fish$, the previous theorem becomes the statement that every triangle $ABC$ is determined up to direct similarity by the ordered pair of directed angles $\angle BAC$ and $\angle ABC$ modulo $\pi$. So for instance, the correct projective generalization of the concept of an isosceles triangle is a configuration of five points $ABCDE$, no three on a line, which satisfies the symmetry
+\[
+r_{(A\;B)(D\;E)}(C) = C,
+\]
+and the projective analogue of an equilateral triangle will additionally satisfy the symmetry
+\[
+r_{(A\;C)(D\;E)}(B) = B.
+\]
+
+\begin{exer} Show that if no three of $A,B,C,D,E$ are on a line, and if the configuration $ABCDE$ satisfies the symmetries $r_{(A\;B)(D\;E)}(C) = C$ and $r_{(A\;C)(D\;E)}(B) = B$, then it also satisfies the symmetry $r_{(B\;C)(D\;E)}(A) = A$. Show that in this case, the cross ratio $(EA,EB;EC,ED)$ is \emph{melodic} in the sense of Exercise \ref{melodic}.
+\end{exer}
+
+\begin{exer} Show that if no three of $A,B,C,D,E$ are on a line, and if the configuration $ABCDE$ satisfies the symmetries $r_{(B\;E)(C\;D)}(A) = A$ and $r_{(A\;C)(D\;E)}(B) = B$, then it also satisfies the symmetry $r_{(A\;E)(B\;D)}(C) = C$. Show that in this case, the cross ratio $(EA,EB;EC,ED)$ is either the golden ratio $\phi$ or its algebraic conjugate $-1/\phi$.
+\end{exer}
 
 \subsection{The Cross Cross Ratio}
 
@@ -959,7 +1001,7 @@ Thus $(A,B;C,D;\omega,\Omega) = -1$ if and only if $P = Q$.
 \caption{Exercise \ref{cevaconic}(a)}
 \end{figure}
 
-\begin{exer}\label{cevaconic}
+\begin{exer}\label{cevaconic}\hspace{2em}
 \begin{itemize}
 \item[(a)] Let $ABC$ be a triangle, let $D$ be a point on $BC$, let $E$ be a point on $CA$, and let $F$ be a point of $AB$. Show that the lines $AD,BE,CF$ meet in a point if and only if there is a conic $\omega$ which is tangent to $BC$ at $D$, tangent to $CA$ at $E$, and tangent to $AB$ at $F$.
 \item[(b)] Let $ABC$ be a triangle and let $P$ be a point not lying on any edge of $ABC$. Let $U,X$ be points on $BC$ with $X = r_{(A)(P)(B\;C)}(U)$, let $V,Y$ be points on $CA$ with $Y = r_{(B)(P)(A\;C)}(V)$, and let $W,Z$ be points on $AB$ with $Z = r_{(C)(P)(A\;B)}(W)$. Show that $U,V,W,X,Y,Z$ lie on a conic.
@@ -980,7 +1022,7 @@ Thus $(A,B;C,D;\omega,\Omega) = -1$ if and only if $P = Q$.
 \caption{Exercise \ref{conictangents}}
 \end{figure}
 
-\begin{exer}\label{conictangents}
+\begin{exer}\label{conictangents}\hspace{2em}
 \begin{itemize}
 \item[(a)] Given points $A,B,C,D$ and a line $e$, there are two conics $\omega,\Omega$ passing through $A,B,C,D$ and tangent to $e$. Construct the other three common tangent lines $f,g,h$ to the conics $\omega,\Omega$ using only the points $A,B,C,D$, the line $e$, and a straightedge.
 
@@ -1050,8 +1092,8 @@ f_{ABCD}(P) = \begin{cases}([aq:ap:-bp],(0:b:a),(d:0:c),(f:e:0)) & \mbox{if }p\n
 Checking that this is well-defined, along with checking the other claims of the proposition, is left as an easy exercise to the reader.
 \end{proof}
 
-\begin{rmk} More generally, for any three homogeneous polynomials $f(p,q,r),g(p,q,r),h(p,q,r)$ of the same degree having no common factor we can define a map $[p:q:r] \rightarrow [f(p,q,r):g(p,q,r):h(p,q,r)]$, which is well-defined whenever $f,g,h$ are not simultaneously zero. Such a map is called a \emph{rational map}. It is called \emph{birational} if it is usually one-to-one - in this case you can write down a rational function which inverts it whenever both are defined. Noether and Castelnuovo have proved that every birational map $\PP^2\rightarrow \PP^2$ can be built out of projective transformations and Cremona involutions.
-\end{rmk}
+\begin{rem} More generally, for any three homogeneous polynomials $f(p,q,r),g(p,q,r),h(p,q,r)$ of the same degree having no common factor we can define a map $[p:q:r] \rightarrow [f(p,q,r):g(p,q,r):h(p,q,r)]$, which is well-defined whenever $f,g,h$ are not simultaneously zero. Such a map is called a \emph{rational map}. It is called \emph{birational} if it is usually one-to-one - in this case you can write down a rational function which inverts it whenever both are defined. Noether and Castelnuovo have proved that every birational map $\PP^2\rightarrow \PP^2$ can be built out of projective transformations and Cremona involutions.
+\end{rem}
 
 \begin{prop} Let $A,B,C,D,E,F,G$ be such that $A = DE\cap FG, B = DF\cap EG, C = DG\cap EF$, and suppose that $f_{ABCD}(P) = Q$. Then we have
 \[
@@ -1107,6 +1149,9 @@ so $f(R)$ lies on the conic $\omega$ through $A,B,C,f(P),f(Q)$. The converse is 
 \]
 \end{exer}
 
+\begin{exer} Let $A,B,C,D$ be in general position, and let $\omega$ be a conic passing through $A$, $B$, and $C$. Let $X$ be the second intersection of the line $AD$ with the conic $\omega$, and let $U$ be the intersection between the line $BC$ and the tangent to $\omega$ at $X$. Show that $U \in f_{ABCD}(\omega)$. In particular, if we define points $V \in AC, W \in AB$ similarly, then $U,V,W$ are collinear.
+\end{exer}
+
 \begin{thm}\label{cremona-two} If $\omega$ is a conic which passes through $B$ and $C$ but not $A$, then $f_{ABCD}(\omega)$ is also a conic passing through $B$ and $C$ but not $A$. We have $f_{ABCD}(\omega) = \omega$ if and only if $\omega$ either passes through $D$ and $E$ or passes through $F$ and $G$.
 \end{thm}
 \begin{proof} Write $f = f_{ABCD}$, and let $P,Q,R,S$ be any four points on $\omega$. By Corollary \ref{cremona-cross}, we have
@@ -1155,11 +1200,226 @@ In particular, any two curves in $\PP^2$ meet in at least one point. $\Bl_{ABC}\
 %\subsubsection{Inversion and spherical geometry}
 
 
-%\subsection{Hyperbolic geometry}
+\subsection{Hyperbolic geometry}
 
-%\subsubsection{Upper halfplane model}
+There are many models of hyperbolic geometry. The easiest ones to understand are the models which live inside disks in the inversive plane $\CC\PP^1$.
 
-%\subsubsection{Poincare disc model}
+\begin{defn} A \emph{disk} in $\CC\PP^1$ is a circle or line $\Omega \subseteq \CC\PP^1$, together with a choice of one of the two connected components of $\CC\PP^1 \setminus \Omega$, which we call the \emph{interior} of the disk (the other connected component of $\CC\PP^1$ is called the \emph{exterior} of the disk). The circle $\Omega$ is the \emph{boundary} of the disk.
+\end{defn}
+
+Note that the choice of which region of $\CC\PP^1\setminus\Omega$ should be the interior and which should be the exterior is arbitrary, since an inversion around the center of $\Omega$ (or a reflection across $\Omega$, if $\Omega$ is a line) interchanges these two regions. So we really need to explicitly specify which region should be considered the interior of the disk in order to be unambiguous. When $\Omega$ is a circle, generally people take the interior of $\Omega$ to be the region of $\CC\PP^1$ which does not contain the point at infinity - this way, the disk can be drawn using a finite amount of paper.
+
+\begin{defn} Let $D$ be a disk in $\CC\PP^1$ with boundary $\Omega$. The associated \emph{disk model} of hyperbolic geometry works as follows:
+\begin{itemize}
+\item the \emph{points} of the disk model consist of the points in the interior of $D$,
+\item for every circle $\omega$ which intersects $\Omega$ at a $90$-degree angle, the set $\omega \cap D$ is a \emph{hyperbolic line} of the disk model, and
+\item every point on the boundary $\Omega$ is a \emph{point at infinity} (aka a \emph{rimpoint}) of the disk model.
+\end{itemize}
+The \emph{angle} between hyperbolic lines $\omega_1\cap D, \omega_2\cap D$ are computed in the disk model by computing the ordinary angle between $\omega_1$ and $\omega_2$ at their point of intersection inside $D$; distances are more complicated and will be defined later. The \emph{symmetries} of the disk model are defined to be the set of M\"obius transformations and complex conjugates of M\"obius transformations of $\CC\PP^1$ which send $D$ bijectively to itself (note that these are all angle-preserving, so our definition of angles is compatible with our definition of symmetries).
+\end{defn}
+
+In order to be a legitimate geometry, our model should satisfy some basic properties.
+
+\begin{prop}\label{hyperbolic-lines} Suppose $D$ is a disk in $\CC\PP^1$, and let $P \ne Q$ be points in $D$. Then there is a unique hyperbolic line $\ell = \omega \cap D$ which goes through $P$ and $Q$.
+\end{prop}
+\begin{proof} We can assume without loss of generality that the boundary $\Omega$ of $D$ is a straight line, by inverting around a point on $\Omega$ if necessary. Let $p$ be the perpendicular bisector of $PQ$: if $p$ intersects $\Omega$ at a finite point $O$ then $\omega$ must be the circle with center $O$ and radius $OP$. If $p$ is parallel to $\Omega$, then $\omega$ must be the line $PQ$.
+\end{proof}
+
+\begin{prop} If $D$ is a disk in $\CC\PP^1$ and $\ell, m$ are hyperbolic lines of $D$, then $\ell$ and $m$ intersect in at most one point of $D$.
+
+If $\ell$ meets the boundary of $D$ at $X$ and $Y$, and $m$ meets the boundary of $D$ at $U$ and $V$, then $\ell$ and $m$ intersect in the interior of $D$ if and only if $(X,Y;U,V) < 0$.
+\end{prop}
+\begin{proof} Suppose that $P \in \ell \cap m$, and that $\ell = \alpha \cap D$ and $m = \beta \cap D$, where $\alpha, \beta$ are circles or lines in $\CC\PP^1$. Then inversion around the center of the disk $D$ (or reflecting across its boundary, if the boundary is a line) sends $\alpha$ and $\beta$ to themselves by Proposition \ref{hyperbolic-lines}, so it sends $P$ to the second intersection point between $\alpha$ and $\beta$. As a consequence, the second intersection point of $\alpha$ and $\beta$ is either on the exterior of $D$, or is $P$ itself (if $P$ is on the boundary of $D$).
+
+There are two very different ways to prove the second statement. The straightforward way is to apply a M\"obius transformation which takes $X$ to $0$, $Y$ to $\infty$, and $U$ to $1$, at which point the statement becomes obvious. The more visual way is to note that $(X,Y;U,V) < 0$ exactly when $X$ and $Y$ \emph{separate} the points $U$ and $V$ along the boundary of the disk $D$. Therefore, if $(X,Y;U,V) < 0$, then the number of intersection points (counted with multiplicity) between \emph{any} smooth path connecting $X$ to $Y$ within $D$ and any smooth path connecting $U$ to $V$ within $D$ must be odd, for purely topological reasons, while if $(X,Y;U,V) > 0$ then the number of intersection points within $D$ must be even. Since the number of intersection points within $D$ is at most one, this proves the second claim.
+\end{proof}
+
+\begin{prop} Suppose $D$ is a disk in $\CC\PP^1$, $P,Q$ are points in the interior of $D$, and $\ell, m$ are hyperbolic lines with $P \in \ell$ and $Q \in m$. Then there are exactly four symmetries of the disk model which take $P$ to $Q$ and $\ell$ to $m$.
+\end{prop}
+\begin{proof} Let $\Omega$ be the boundary of $D$, let $A$ and $B$ be the intersections of $\ell$ with $\Omega$, and let $C$ and $D$ be the intersections of $m$ with $\Omega$. Then there is a unique M\"obius transformation $f$ which takes $A$ to $C$, $B$ to $D$, and $P$ to $Q$. Thus we have $f(\ell) = m$ and $f(P) = Q$, and we need to check that $f(\Omega) = \Omega$. By the Proposition \ref{hyperbolic-lines}, $\Omega$ is the unique circle or line which is perpendicular to $\ell$ at $A$ and $B$. Therefore $f(\Omega)$ is the unique circle or line which is perpendicular to $m$ at $C$ and $D$, which is also $\Omega$. The other symmetries which take $P$ to $Q$ and $\ell$ to $m$ are the M\"obius transformation which takes $A$ to $D$, $B$ to $C$, and $P$ to $Q$, and the variants of these which involve complex conjugation.
+\end{proof}
+
+A consequence of the last proposition is that there are no symmetries of the hyperbolic plane which fix a point and a line through it, but rescale \emph{distances} by a positive amount. So unlike Euclidean geometry and projective geometry, in hyperbolic geometry all symmetries will end up being distance-preserving, once we get around to defining what hyperbolic distance \emph{is}.
+
+The main advantages of the disk model of hyperbolic geometry are that angles are not distorted, and that the symmetries are easy to describe. A disadvantage is that if a painter was living in a three-dimensional hyperbolic space (defined as the interior of a three-dimensional ball in a similar way to the disk model), and if they were to paint what they saw as they looked at a geometric configuration in some two-dimensional hyperbolic plane (which would be a portion of a sphere which is perpendicular to the ball they lived within), then the hyperbolic lines in the picture they would paint would be perfectly straight, not curved. Of course, when a painter paints a picture of a plane, angles will generally \emph{not} be preserved in their painting. So the true \emph{projective} model of hyperbolic space will consist of the interior of a conic section, where the hyperbolic lines are perfectly straight - this is called the \emph{Klein model} of hyperbolic space, and we will go over it later.
+
+We will start investigating the geometry of hyperbolic space by looking at the least elegant model: the upper halfplane model. The reason for starting with this model is that the calculations involving distances and areas are easiest to describe in the upper halfplane.
+
+\subsubsection{Upper halfplane model}
+
+The upper halfplane is a disk in $\CC\PP^1$, with boundary equal to the real line and interior corresponding to the points with positive imaginary parts. The hyperbolic lines of the upper halfplane model are just the upright semicircles which have their centers on the real line, together with the upright half-lines which are perpendicular to the real line. Points $P$ of the upper halfplane model are often written in the form $x + iy$, where $x \in \RR$ and $y > 0$.
+
+What are the symmetries of the upper half-plane? Any M\"obius transformation that takes the real line to itself must have the form $f : z \mapsto \frac{az + b}{cz + d}$, where $a,b,c,d$ are all real numbers, with $ad \ne bc$. To see whether such a M\"obius transformation takes the upper halfplane to itself, we just need to check whether it takes the point $i$ to a point with positive imaginary part:
+\[
+f(i) = \frac{ai+b}{ci+d} = \frac{(ai+b)(-ci+d)}{c^2+d^2} = \frac{ac+bd + (ad - bc)i}{c^2 + d^2}.
+\]
+Since $c^2 + d^2 > 0$, we see that $f(i)$ has positive imaginary part if and only if $ad - bc > 0$. Since multiplying all of $a,b,c,d$ by the same thing doesn't change the M\"obius transformation but does scale the value of $ad - bc$ by a square, people usually normalize the symmetries of the upper halfplane by assuming that $ad - bc = 1$ (this is still slightly redundant: if we negate all of $a,b,c,d$, we get the same M\"obius transformation, and $ad - bc$ is still $1$). This gives us a three-dimensional family of symmetries - just enough for the symmetries to be able to take any point and line through it to any other point and line through it.
+
+Let's dig a little deeper into the symmetries of the upper halfplane. Suppose that $f : z \mapsto \frac{az + b}{cz + d}$ with $a,b,c,d \in \RR$ and $ad - bc = 1$. What are the fixed points of $f$? Solving the equation
+\[
+z = \frac{az+b}{cz+d},
+\]
+we get
+\[
+cz^2 + (d-a)z - b = 0,
+\]
+so
+\[
+z = \frac{a-d \pm \sqrt{(a-d)^2 + 4bc}}{2c} = \frac{a-d \pm \sqrt{(a+d)^2 - 4}}{2c}.
+\]
+We get three different cases, depending on whether or not $|a+d|$ is greater than $2$, less than $2$, or equal to $2$.
+
+If $|a+d| > 2$, then the fixed points of $f$ are both \emph{real}, that is, they are \emph{points at infinity} in the upper halfplane model. The hyperbolic line connecting these fixed points is then preserved by $f$. To understand this case better, we may as well assume that the fixed points of $f$ are at $0$ and $\infty$ (by applying a different M\"obius transformation, if necessary). In this case we must have $b = c = 0$, and $d = 1/a$, so our M\"obius transformation is just the map
+\[
+z \mapsto a^2z.
+\]
+The fact that this map is supposed to preserve hyperbolic distances gives us a hint that along the hyperbolic line from $0$ to $\infty$ (i.e., the positive part of the imaginary axis), distances will be related to the \emph{logarithm} of the imaginary part.
+
+If $|a+d| = 2$, then the M\"obius transformation $f$ has exactly one real fixed point, at $\frac{a-d}{2c}$. Again, we may as well assume that this fixed point is at $\infty$, in which case we must have $c = 0$ and $a = d = \pm 1$. If we take $a = d = +1$ (by negating $b$ if necessary), then our M\"obius transformation $f$ is just the map
+\[
+z \mapsto z + b.
+\]
+
+Finally, if $|a+d| < 2$, then the M\"obius transformation $f$ has a pair of complex fixed points, which are conjugates of each other. Exactly one of these fixed points will be in the upper halfplane. We may as well assume that this fixed point is $i$, in which case the formula for $f(i)$ we had earlier implies that $c^2 + d^2 = 1$ and $ac + bd = 0$. A little algebra shows that we must have $a = d$ and $b = -c$, so we can write
+\[
+\begin{bmatrix}a & b\\ c & d\end{bmatrix} = \begin{bmatrix}\cos(\theta) & \sin(\theta)\\ -\sin(\theta) & \cos(\theta)\end{bmatrix}
+\]
+for some angle $\theta$. This can be thought of as the hyperbolic geometry analogue of a counterclockwise rotation around $i$ - but it will be a rotation of angle $2\theta$, not $\theta$, since flipping the signs of all of the entries $a,b,c,d$ does not change the M\"obius transformation. Note that if we take $\theta = \pi/2$, so that $2\theta = \pi$, then we see that the analogue of a $180$ degree rotation around $i$ is the M\"obius transformation
+\[
+z \mapsto -1/z.
+\]
+Since rotations around $i$ should certainly preserve the distance to $i$, this gives us another hint that hyperbolic distances along the positive part of the imaginary axis will be related to logarithms. In fact, we can now justify the claim that the scaling map $z \mapsto az$ should preserve hyperbolic distances: we can build this map by composing the $180$ degree rotation $z \mapsto -1/z$ around $i$ with the $180$ degree rotation $z \mapsto -a/z$ around $ai$.
+
+Now let's think seriously about how distances should be defined in hyperbolic geometry. Let's start by thinking about infinitesimal distances: we start from a point $x + iy$, and change $x$ by $dx$ and $y$ by $dy$. Let $ds$ be the corresponding infinitesimal amount of hyperbolic distance that we travel. In ordinary Euclidean geometry, we would have $ds^2 = dx^2 + dy^2$ by the Pythagorean theorem. In a general ``smooth'' geometry, we might instead have
+\[
+ds^2 = \alpha(x,y)\ dx^2 + 2\beta(x,y)\ dx\ dy + \gamma(x,y)\ dy^2,
+\]
+where $\alpha, \beta, \gamma$ could be any (smooth) functions we like of $x$ and $y$, subject to the conditions $\alpha > 0, \gamma > 0$, and $\alpha\gamma > \beta^2$ (to guarantee that the right hand side is always positive). Since $z \mapsto z+b$ is a symmetry of our geometry, we immediately see that the functions $\alpha, \beta, \gamma$ can't depend on $x$, and are only functions of $y$:
+\[
+ds^2 = \alpha(y)\ dx^2 + 2\beta(y)\ dx\ dy + \gamma(y)\ dy^2.
+\]
+Since the map $z\mapsto az$ is a symmetry of our geometry which should preserve distances, we see that in fact $\alpha(y), \beta(y), \gamma(y)$ should all be proportional to $1/y^2$, so we can write
+\[
+ds^2 = \frac{\alpha\ dx^2 + 2\beta\ dx\ dy + \gamma\ dy^2}{y^2}
+\]
+for some constants $\alpha, \beta, \gamma$. To compute $\alpha, \beta, \gamma$, we may as well assume that $x + iy = i$, that is, $x = 0$ and $y = 1$. Since the negated complex conjugation $z \mapsto -\bar{z}$ is a symmetry of the upper halfplane, we see that when $x+iy = i$ the map $(dx,dy) \mapsto (dx,-dy)$ has to preserve distances, so $\beta = 0$. To figure out the relationship between $\alpha$ and $\gamma$, we consider the hyperbolic $90$ degree rotation around $i$, which is given by
+\[
+z \mapsto \frac{1+z}{1-z}.
+\]
+Plugging in $z = dx + i$ (and $dy = 0$) and expanding to first order in $dx$ (i.e. ignoring larger powers of $dx$), we get
+\[
+\frac{1 + dx + i}{1-dx - i} = \frac{(1+dx+i)(1-dx+i))}{1 + (1-dx)^2} = \frac{2i}{2-2dx} = i(1 + dx),
+\]
+so this $90$ degree rotation turns an infinitesimal step in the real direction into an infinitesimal step in the imaginary direction of the same length. This shows that we must have $\alpha = \gamma$, and we may as well take $\alpha = 1$, in which case our formula for infinitesimal distances becomes
+\[
+ds = \frac{\sqrt{dx^2 + dy^2}}{y}.
+\]
+Let's check that this formula really is compatible with our symmetries.
+
+\begin{prop} Suppose that $x+iy$ is in the upper halfplane, and let $f : z \mapsto \frac{az + b}{cz + d}$ be a M\"obius transformation with $a,b,c,d \in \RR$ and $ad - bc = 1$. If
+\[
+f(x+ dx +i(y + dy)) = u + du + i(v + dv)
+\]
+to first order, then we have
+\[
+\frac{\sqrt{dx^2 + dy^2}}{y} = \frac{\sqrt{du^2 + dv^2}}{v}.
+\]
+\end{prop}
+\begin{proof} First we find $u$ and $v$:
+\[
+\frac{a(x+iy) + b}{c(x+iy) + d} = \frac{(ax+b)(cx+d) + acy^2 + i(ad - bc)y}{(cx+d)^2 + c^2y^2} = \frac{(ax+b)(cx+d) + acy^2}{(cx+d)^2+c^2y^2} + \frac{iy}{(cx+d)^2+c^2y^2}.
+\]
+In particular, we have
+\[
+v = \frac{y}{(cx+d)^2 + c^2y^2}.
+\]
+Now let $z = x+iy$, so to first order we have
+\[
+\frac{az+b+a\ dz}{cz+d + c\ dz} = \frac{az+b}{cz+d} + \frac{a(cz+d) - (az+b)c}{(cz+d)^2}\ dz = u + iv + \frac{dz}{(cz+d)^2}.
+\]
+Expanding out the last term, we get
+\[
+du + i\ dv = \frac{dx + i\ dy}{(cx+d + icy)^2},
+\]
+so
+\[
+|du + i\ dv| = \frac{|dx + i\ dy|}{(cx+d)^2 + c^2y^2}.
+\]
+Thus we have
+\[
+\frac{\sqrt{du^2 + dv^2}}{v} = \frac{\sqrt{dx^2+dy^2}}{(cx+d)^2 + c^2y^2}\Big/\frac{y}{(cx+d)^2 + c^2y^2} = \frac{\sqrt{dx^2 + dy^2}}{y}.\qedhere
+\]
+\end{proof}
+
+Intuitively, the formula for infinitesimal distances can be thought of as saying the following:
+\begin{center}
+As you get closer to the real line, you become smaller, in proportion to the imaginary part of your current position.
+\end{center}
+In particular, if we were to try to walk directly towards the real line, we would find ourselves shrinking as we did so, and as a result we would never be able to actually reach the real line. This is why we can think of the real line as the collection of ``points at infinity'' of the hyperbolic plane. Additionally, the shortest path between two points with the same imaginary parts could contain a detour through points with larger imaginary part: when we walk away from the real line, we get larger, so we can travel more quickly.
+
+Now that we've figured out what infinitesimal distances should look like, we can figure out what the shortest path between more distant points looks like. We start by considering the easiest case: distances along the positive part of the imaginary axis.
+
+\begin{prop} If infinitesimal distances are given by $ds = \frac{\sqrt{dx^2 + dy^2}}{y}$, then the shortest path from $ai$ to $bi$ travels directly along the positive imaginary axis and has length $|\log(b/a)|$.
+\end{prop}
+\begin{proof} Moving the real part back and forth on a path from $ai$ to $bi$ obviously can only increase the total distance traveled, so it's always best to travel directly along the positive imaginary axis. If $b > a$, then the length of this path is given by
+\[
+\int_a^b \frac{dy}{y} = \log(b) - \log(a).\qedhere
+\]
+\end{proof}
+
+Using the fact that infinitesimal distances are preserved by symmetries, we can now understand the general case of shortest paths in hyperbolic space.
+
+\begin{thm} If infinitesimal distances are given by $ds = \frac{\sqrt{dx^2 + dy^2}}{y}$, then the shortest path from $P$ to $Q$ travels directly along the hyperbolic line $\ell$ connecting $P$ to $Q$. If $\ell$ meets the real line at $X$ and $Y$, then the length of this path is equal to
+\[
+\Big|\log\Big((P,Q;X,Y)\Big)\Big|.
+\]
+\end{thm}
+\begin{proof} Let $f$ be a M\"obius transformation which takes the upper halfplane to itself, maps $P$ to $i$, and maps $\ell$ to the positive imaginary axis. Since $Q \in \ell$, $Q$ is mapped to $ai$ for some real number $a$. Since $f$ preserves infinitesimal distances, $f$ turns a shortest path from $P$ to $Q$ into a shortest path from $i$ to $ai$, and the length of these shortest paths are equal. Since the shortest path from $i$ to $ai$ travels directly along $f(\ell)$, the shortest path from $P$ to $Q$ must travel directly along $\ell$. Since $f$ preserves cross ratios, the length of this path is given by
+\[
+|\log(a)| = \Big|\log\Big((i,ai;0,\infty)\Big)\Big| = \Big|\log\Big((f(P),f(Q);f(X),f(Y))\Big)\Big| = \Big|\log\Big((P,Q;X,Y)\Big)\Big|.\qedhere
+\]
+\end{proof}
+
+Now we can make the result of the previous theorem into a definition.
+
+\begin{defn} If $D$ is a disk in $\CC\PP^1$, points $P,Q$ are in the interior of $D$, and the hyperbolic line $\ell$ through $P$ and $Q$ meets the boundary of $D$ at points $X$ and $Y$, then the \emph{hyperbolic distance} from $P$ to $Q$ is defined to be
+\[
+\delta_D(P,Q) = \Big|\log\Big((P,Q;X,Y)\Big)\Big|.
+\]
+\end{defn}
+
+\begin{cor} If $D$ is a disk in $\CC\PP^1$ and points $P,Q,R$ are in the interior of $D$, then the hyperbolic distances between $P,Q,$ and $R$ satisfy the triangle inequality:
+\[
+\delta_D(P,R) \le \delta_D(P,Q) + \delta_D(Q,R).
+\]
+\end{cor}
+
+\begin{exer} Prove the triangle inequality for hyperbolic distance directly from its definition.
+\end{exer}
+
+We can also relate \emph{angles} in hyperbolic geometry to cross ratios between points at infinity.
+
+\begin{thm} If $\ell, m$ are intersecting hyperbolic lines in the upper halfplane model such that $\ell$ meets the real line at $X$ and $Y$ and $m$ meets the real line at $U$ and $V$, and if $\ell$ is directed from $X$ to $Y$ and $m$ is directed from $U$ to $V$, then the angle $\theta$ between $\ell$ and $m$ satisfies
+%\[
+%\tan^2(\theta/2) = -(X,Y;U,V)
+%\]
+%and
+\[
+\cos(\theta) = \frac{1+(X,Y;U,V)}{1-(X,Y;U,V)}.
+\]
+In particular, the hyperbolic lines $\ell$ and $m$ meet at a right angle if and only if $X,Y,U,V$ are harmonic.
+\end{thm}
+\begin{proof} We may assume without loss of generality that $X$ and $Y$ are $0$ and $\infty$, i.e. that $\ell$ is the positive part of the imaginary axis. Let $u,v$ be the real numbers corresponding to the points $U$ and $V$, and note that $\ell$ and $m$ intersect if and only if $u$ and $v$ have opposite signs. Computing the power of the point $0$ with respect to the circle with diameter $UV$ in two different ways, we see that $\ell$ and $m$ intersect in the point $i\sqrt{-uv}$. Some angle chasing reveals that the angle $\theta$ between $\ell$ and the tangent to $m$ at $i\sqrt{-uv}$ is equal to twice the angle of the right triangle formed by $U, V$, and $i\sqrt{-uv}$ at $V$, which is also equal to the angle of the right triangle formed by $0$, $V$, and $i\sqrt{-uv}$ at $V$. Thus we have
+\[
+|\tan(\theta/2)| = \frac{\sqrt{-uv}}{|v|} = \sqrt{-\frac{u}{v}} = \sqrt{-(0,\infty;u,v)} = \sqrt{-(X,Y;U,V)}.
+\]
+To finish, we apply the formula
+\[
+\cos(\theta) = \frac{1 - \tan^2(\theta/2)}{1 + \tan^2(\theta/2)}.\qedhere
+\]
+\end{proof}
+
+%\subsubsection{Poincar\'e disk model}
 
 %\subsubsection{Klein model}
 
@@ -1191,8 +1451,8 @@ In particular, any two curves in $\PP^2$ meet in at least one point. $\Bl_{ABC}\
 %three conic theorem!!!
 
 \nocite{geo}
-\bibliography{cross}
-\bibliographystyle{plain}
+%\bibliography{cross}
+%\bibliographystyle{plain}
 
-\end{document}
+%\end{document}
 

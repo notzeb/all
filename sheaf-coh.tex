@@ -1,3 +1,4 @@
+\begin{comment}
 \documentclass[letterpaper,11pt]{article}
 \usepackage{amsfonts,amssymb,amsmath,amsthm,latexsym}
 \usepackage{stmaryrd}
@@ -15,7 +16,7 @@
 
 \theoremstyle{remark}
 \newtheorem{ex}{Example}
-\newtheorem{rmk}{Remark}
+\newtheorem{rem}{Remark}
 \newtheorem{exer}{Exercise}
 
 \begin{document}
@@ -28,6 +29,7 @@
 \maketitle
 
 \tableofcontents
+\end{comment}
 
 \section{Grothendieck Abelian Categories}
 
@@ -47,12 +49,12 @@ A note: most references are not up front about what type of categories they cons
 \end{itemize}
 \end{defn}
 
-\begin{rmk} Tamme \cite{etale} claims that the following is an equivalent reformulation of the AB5 condition:
+\begin{rem} Tamme \cite{etale} claims that the following is an equivalent reformulation of the AB5 condition:
 \begin{itemize}
 \item[(AB5')] AB3 holds, and for each directed set of subobjects $A_i$ of an object $A$ of $\mathcal{C}$, and each system of morphisms $u_i:A_i\rightarrow B$ such that $u_i$ is induced from $u_j$ if $A_i \subseteq A_j$, there is a morphism $u:\Sigma_i A_i \rightarrow B$ inducing the $u_i$. Here $\Sigma_i A_i$ is the internal sum of the $A_i$s in $A$, i.e. $\Sigma_i A_i = \mbox{im}(\bigoplus_i A_i \rightarrow A)$.
 \end{itemize}
 I haven't worked through the proof of the equivalence, but it probably isn't too hard.
-\end{rmk}
+\end{rem}
 
 \begin{ex} If $R$ is a ring, then the category of $R$-modules forms a Grothendieck abelian category. AB5' is easy to verify, so if we believe Tamme then we only need to find a generator. One such generator is $R$, considered as an $R$-module in the obvious way.
 \end{ex}
@@ -383,11 +385,11 @@ Most likely, you already know a proof that this sequence is exact (probably invo
 \]
 \end{defn}
 
-\begin{rmk} We have $\check{H}^0(U,F) = F^\nmid(U)$, and $\check{H}^p(U,F) = R^p\check{H}^0(U,F)$.
-\end{rmk}
+\begin{rem} We have $\check{H}^0(U,F) = F^\nmid(U)$, and $\check{H}^p(U,F) = R^p\check{H}^0(U,F)$.
+\end{rem}
 
-\begin{rmk} For a general site there is a subtle technical problem with the previous definition: it is possible that a cover $\{U_i\rightarrow U\}_i$ is refined by another cover $\{V_{ij}\rightarrow U\}_{ij}$ in multiple ways, since a refinement of a cover comes with a collection of maps $\varphi_{ij}:V_{ij}\rightarrow U_i$ over $U$. In order to fix this, one shows that for any two such collections of maps $\varphi_{ij}, \varphi_{ij}'$, the two induced maps from $H^p(\{U_i\rightarrow U\}_i,F)$ to $H^p(\{V_{ij}\rightarrow U\}_{ij},F)$ agree. For details see Tamme's book \cite{etale}.
-\end{rmk}
+\begin{rem} For a general site there is a subtle technical problem with the previous definition: it is possible that a cover $\{U_i\rightarrow U\}_i$ is refined by another cover $\{V_{ij}\rightarrow U\}_{ij}$ in multiple ways, since a refinement of a cover comes with a collection of maps $\varphi_{ij}:V_{ij}\rightarrow U_i$ over $U$. In order to fix this, one shows that for any two such collections of maps $\varphi_{ij}, \varphi_{ij}'$, the two induced maps from $H^p(\{U_i\rightarrow U\}_i,F)$ to $H^p(\{V_{ij}\rightarrow U\}_{ij},F)$ agree. For details see Tamme's book \cite{etale}.
+\end{rem}
 
 \subsection{Sheaf Cohomology}
 
@@ -401,8 +403,8 @@ and the \emph{sheaf cohomology presheaves} of $F$ by
 \]
 \end{defn}
 
-\begin{rmk} Since $\iota$ is right adjoint to a left exact functor, $\iota$ takes injective objects to injective objects. Thus we may apply the Grothendieck spectral sequence to composite functors $G\circ\iota$, where $G$ is a left exact additive functor with domain $\mathcal{P}$.
-\end{rmk}
+\begin{rem} Since $\iota$ is right adjoint to a left exact functor, $\iota$ takes injective objects to injective objects. Thus we may apply the Grothendieck spectral sequence to composite functors $G\circ\iota$, where $G$ is a left exact additive functor with domain $\mathcal{P}$.
+\end{rem}
 
 Since the functor $\Gamma(U,\cdot):\mathcal{P}\rightarrow \mbox{Ab}$ is exact, and since $\Gamma(U,F) = \Gamma(U,\iota(F))$, a trivial spectral sequence shows that for every open $U$ we have $\mathcal{H}^p(F)(U) = H^p(U,F)$. The next proposition shows that the sheaf cohomology presheaves are not very sheafy for $p > 0$.
 
@@ -584,11 +586,11 @@ Thus we have constructed $(s_i)\in C^0(\{U_i \rightarrow U\}_{i\in I}, F')$ such
 Now by Lemma \ref{acyclic}, a flabby sheaf $F$ is $\iota$-acyclic, and so $\mathcal{H}^p(F) = R^p\iota(F) = 0$ for every $p > 0$. Thus by Proposition \ref{flask} $F$ is flask.
 \end{proof}
 
-\begin{rmk} Even in the case of a topological space, flask does not necessarily imply flabby. For instance, if $X$ is the Sierpinski space, then all sheaves on $X$ are flask, but not all sheaves on $X$ are flabby.
-\end{rmk}
+\begin{rem} Even in the case of a topological space, flask does not necessarily imply flabby. For instance, if $X$ is the Sierpinski space, then all sheaves on $X$ are flask, but not all sheaves on $X$ are flabby.
+\end{rem}
 
-\begin{rmk} Milne \cite{milne} mentions a third class of sheaves, which I will call \emph{flasque} sheaves, that satisfies the conditions of Lemma \ref{acyclic}. A sheaf $F$ is \emph{flasque} if for every sheaf of sets $S$, $F$ is acyclic for the functor $\mbox{Mor}(S,\cdot)$. Flasque sheaves are easily seen to be flask.
-\end{rmk}
+\begin{rem} Milne \cite{milne} mentions a third class of sheaves, which I will call \emph{flasque} sheaves, that satisfies the conditions of Lemma \ref{acyclic}. A sheaf $F$ is \emph{flasque} if for every sheaf of sets $S$, $F$ is acyclic for the functor $\mbox{Mor}(S,\cdot)$. Flasque sheaves are easily seen to be flask.
+\end{rem}
 
 \section{$\mathcal{O}_X$-module cohomology}
 
@@ -697,8 +699,8 @@ so $\psi^{i-1} - d^{i-2}\circ h^{i-1}$ vanishes on $B^{i-1}(I^\bullet)$. Since b
 where $C^\bullet \hookrightarrow I^\bullet$ is any injective resolution. By Theorem \ref{resolution}, $\mathbb{H}^p$ is a well-defined functor from $\mbox{Ch}^+$ to $\mathcal{C}'$, and any quasiisomorphism $C^\bullet \rightarrow D^\bullet$ induces isomorphisms on hypercohomology.
 \end{defn}
 
-\begin{rmk} If $C^i = 0$ for all $i > 0$, then $\mathbb{H}^p(C^\bullet) = R^pF(C^0)$ for all $p$.
-\end{rmk}
+\begin{rem} If $C^i = 0$ for all $i > 0$, then $\mathbb{H}^p(C^\bullet) = R^pF(C^0)$ for all $p$.
+\end{rem}
 
 \begin{thm}
 \begin{itemize}
@@ -859,7 +861,7 @@ Since each $\Omega^{p,q}$ is fine, the $\bar\partial$-Poincar\'{e} Lemma gives t
 \begin{thm}[Dolbeault] Let $X$ be a paracompact complex manifold. For every $p,q$ we have $H^q(X,\Omega^p_{\rm hol}) = H^{p,q}_{\bar\partial}(X)$.
 \end{thm}
 
-Now we specialize to the case $X$ is a compact Hermitian manifold.
+%TODO: Now we specialize to the case $X$ is a compact Hermitian manifold.
 
 \section{Descent}
 
@@ -989,8 +991,8 @@ so the composite map $B\otimes_A M \rightarrow N \stackrel{\varphi}{\rightarrow}
 \begin{defn} A family of maps $\{Y_i \rightarrow X\}_i$ of schemes is called an \emph{fpqc cover} (fpqc stands for ``faithfully flat quasi-compact'' in French) if each $Y_i \rightarrow X$ is flat, and if for every affine open subset $U$ of $X$ there is a finite collection of affine open subsets of the $Y_i$s which map surjectively onto $U$.
 \end{defn}
 
-\begin{rmk} It's easy to see that a family $\{Y_i \rightarrow X\}_i$ is an fpqc cover if and only if the map $\coprod_i Y_i \rightarrow X$ is an fpqc cover.
-\end{rmk}
+\begin{rem} It's easy to see that a family $\{Y_i \rightarrow X\}_i$ is an fpqc cover if and only if the map $\coprod_i Y_i \rightarrow X$ is an fpqc cover.
+\end{rem}
 
 \begin{cor} Let $Y\rightarrow X$ be an fpqc cover. Let $p_1, p_2$ be the projections from $Y\times_X Y$ to $Y$, and let $\pi_1, \pi_2, \pi_3$ be the three projections from $Y\times_XY\times_XY$ to $Y$. Then we have an equivalence of categories
 \[
@@ -1022,8 +1024,8 @@ In particular we can consider the case $Y = \mbox{\rm Spec }L, X = \mbox{\rm Spe
 which follows from the special case $M=A$ of Lemma \ref{fpqc}.
 \end{proof}
 
-\begin{rmk} Since the category of schemes is not a small category, we technically shouldn't call the fpqc topology a ``topology'', and it doesn't necessarily make sense to define cohomology groups with respect to the fpqc topology. Instead we usually focus on small subcategories with topologies whose open covers are a subset of the fpqc covers (such as the Zariski, \'{e}tale, or fppf topologies). The above theorems clearly continue to apply to such topologies.
-\end{rmk}
+\begin{rem} Since the category of schemes is not a small category, we technically shouldn't call the fpqc topology a ``topology'', and it doesn't necessarily make sense to define cohomology groups with respect to the fpqc topology. Instead we usually focus on small subcategories with topologies whose open covers are a subset of the fpqc covers (such as the Zariski, \'{e}tale, or fppf topologies). The above theorems clearly continue to apply to such topologies.
+\end{rem}
 
 \begin{thm} Let $X$ be a separated scheme and let $\mathcal{F}$ be a quasicoherent sheaf on $X$. Let $T$ be a topology containing the Zariski topology on $X$, whose opens are a small subcategory of the category of schemes over $X$, such that every cover of an affine scheme over $X$ can be refined to a faithfully flat cover by a finite collection of affine schemes. Extend $\mathcal{F}$ to a sheaf on $T$ as in Theorem \ref{qcoh-fpqc}. Then for any $p \ge 0$ we have $H^p(T,X,\mathcal{F}) = \check{H}^p(X,\mathcal{F})$ (i.e. the usual Zariski \v{C}ech cohomology).
 \end{thm}
@@ -1037,8 +1039,8 @@ H^1(T,X,\mbox{\rm GL}_n) = \{\mbox{\rm rank }n\mbox{\rm{ vector bundles}}/X\}/\s
 for every $n\in \mathbb{N}$. In particular, $H^1(T,X,\mathbb{G}_m) = \mbox{\rm Pic}(X)$.
 \end{thm}
 
-\bibliography{sheaf-coh}
-\bibliographystyle{plain}
+%\bibliography{sheaf-coh}
+%\bibliographystyle{plain}
 
-\end{document}
+%\end{document}
 

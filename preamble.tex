@@ -1,0 +1,307 @@
+\documentclass[letterpaper,11pt]{report}
+\usepackage{amsfonts,amssymb,amsmath,amsthm,amsopn,latexsym}
+\usepackage{stmaryrd}
+\usepackage[all]{xy}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+\usepackage{hyperref}
+\usepackage{enumitem,todonotes}
+\usepackage{verbatim}
+\usepackage{mathdots}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{graphicx}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+%\usepackage{fullpage}
+
+% from stack exchange
+\usepackage{sistyle}
+\usepackage{mathtools}
+\usepackage{stmaryrd}
+\SIthousandsep{,}
+
+\usepackage{tikz}
+\usetikzlibrary{topaths,calc,decorations.pathmorphing,quotes,positioning,fit,shapes}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,      
+    citecolor=blue,
+}
+
+\usepackage{appendix}
+
+\makeatletter
+  \@addtoreset{chapter}{part}
+  \@addtoreset{@ppsaveapp}{part}
+\makeatother
+
+\newcommand{\fish}{\reflectbox{$\alpha$}}
+
+\DeclareMathOperator{\tw}{tw}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\Frob}{Frob}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Nm}{Nm}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Div}{Div}
+\DeclareMathOperator{\divf}{div}
+\DeclareMathOperator{\Pic}{Pic}
+
+\DeclareMathOperator\Supp{Supp}
+\DeclareMathOperator\Tr{Tr}
+
+\DeclareMathOperator{\Clo}{Clo}
+\DeclareMathOperator{\Pol}{Pol}
+\DeclareMathOperator{\Inv}{Inv}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\CSP}{CSP}
+\DeclareMathOperator{\GenSAT}{GenSAT}
+\DeclareMathOperator{\Sg}{Sg}
+\DeclareMathOperator{\Cg}{Cg}
+\DeclareMathOperator{\Sig}{Sig}
+\DeclareMathOperator{\Forks}{Forks}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Con}{Con}
+\DeclareMathOperator{\Hom}{Hom}
+
+\DeclareMathOperator{\rad}{rad}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\inter}{int}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\maj}{maj}
+\DeclareMathOperator{\aff}{aff}
+
+\newcommand{\F}{\mathbf{F}}
+% \newcommand{\RR}{\mathbf{R}}
+% \newcommand{\CC}{\mathbf{C}}
+\newcommand{\G}{\mathbf{G}}
+\newcommand{\tr}[0]{\operatorname{tr}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\frob}[0]{\operatorname{Frob}}
+\newcommand{\card}[0]{\#}
+\newcommand{\pmat}[4]{\begin{pmatrix}#1 & #2 \\ #3 & #4\end{pmatrix}}
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\leg}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\nm}{\operatorname{N}_{K/\Q}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\sgn}{\operatorname{sgn}}
+% \newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\Mat}{\operatorname{Mat}}
+\newcommand{\cl}{\overline}
+%\newcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbf{R}}
+%\newcommand{\HH}{\mathbf{H}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\wh}[1]{\widehat{#1}}
+%\newcommand{\scr}[1]{\mathscr{#1}}
+\newcommand{\PS}{\mathbf{P}}
+\newcommand{\mbb}[1]{\mathbf{#1}}
+\newcommand{\newpar}[1]{\noindent\textbf{#1}}
+\newcommand{\Cal}[1]{\mathcal{#1}}
+\newcommand{\A}{\mathbf{A}}
+\DeclareMathOperator{\et}{\acute{e}t}
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\newcommand{\rmono}[2]{\underset{#2}{\stackrel{#1}{\hookrightarrow}}}
+\newcommand{\lmono}[2]{\underset{#2}{\stackrel{#1}{\hookleftarrow}}}
+\newcommand{\rrat}[2]{\underset{#2}{\stackrel{#1}{\dashrightarrow}}}
+\newcommand{\lrat}[2]{\underset{#2}{\stackrel{#1}{\dashleftarrow}}}
+\newcommand{\bu}{\bullet}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\mrm}[1]{\mathrm{#1}}
+
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+% \DeclareMathOperator{\Frob}{Frob}
+\DeclareMathOperator{\ab}{ab}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\cyc}{cyc}
+\DeclareMathOperator{\N}{\mathbf{N}}
+% \DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Enc}{Enc}
+\DeclareMathOperator{\Dec}{Dec}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\Ort}{O}
+%\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Ima}{Im\,}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Jac}{Jac}
+% \DeclareMathOperator{\ord}{ord}
+% \DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Rep}{Rep}
+% \DeclareMathOperator{\Nm}{Nm}
+% \DeclareMathOperator{\Spec}{Spec\,}
+\DeclareMathOperator{\Art}{Art}
+\DeclareMathOperator{\Lie}{Lie}
+%\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Isom}{Isom}
+\DeclareMathOperator{\Inn}{Inn}
+\DeclareMathOperator{\Out}{Out}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\Ver}{Ver}
+\DeclareMathOperator{\Br}{Br}
+\DeclareMathOperator{\unr}{unr}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Frac}{Frac}
+% \DeclareMathOperator{\Div}{Div}
+\DeclareMathOperator{\cusp}{cusp}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Bun}{Bun}
+\DeclareMathOperator{\Ext}{Ext}
+% \DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\ch}{ch\,}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\Ad}{Ad}
+\DeclareMathOperator{\Gr}{Gr}
+\DeclareMathOperator{\Shtuka}{Shtuka}
+\DeclareMathOperator{\Quot}{Quot}
+\DeclareMathOperator{\Jet}{Jet}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\bfet}{\textbf{f\'{e}t}}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\Span}{Span}
+\DeclareMathOperator{\cond}{cond}
+% \DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\val}{val}
+\DeclareMathOperator{\reg}{reg}
+\DeclareMathOperator{\Rat}{Rat}
+\DeclareMathOperator{\Hilb}{Hilb}
+\DeclareMathOperator{\Def}{Def}
+\DeclareMathOperator{\Chow}{Chow}
+\DeclareMathOperator{\Proj}{Proj}
+\DeclareMathOperator{\vir}{vir}
+\DeclareMathOperator{\ob}{ob}
+\DeclareMathOperator{\Ob}{Ob}
+\DeclareMathOperator{\intr}{intr}
+\DeclareMathOperator{\virdim}{vir. dim}
+\DeclareMathOperator{\red}{red}
+%\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\Bl}{Bl}
+\DeclareMathOperator{\cone}{cone}
+\DeclareMathOperator{\Ball}{Ball}
+\DeclareMathOperator{\genus}{genus}
+\DeclareMathOperator{\measure}{measure}
+\DeclareMathOperator{\dR}{dR}
+
+\begin{document}
+
+\makeatletter
+\newtheorem*{rep@theorem}{\rep@title}
+\newcommand{\newreptheorem}[2]{%
+\newenvironment{rep#1}[1]{%
+ \def\rep@title{#2 \ref{##1}}%
+ \begin{rep@theorem}}%
+ {\end{rep@theorem}}}
+\makeatother
+
+\newtheorem{thm}{Theorem}[section]
+\newreptheorem{thm}{Theorem}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newreptheorem{lem}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{claim}{Claim}
+\newtheorem{conj}{Conjecture}[section]
+\newtheorem{prob}{Problem}[section]
+
+\theoremstyle{remark}
+\newtheorem{rem}{Remark}[section]
+\newtheorem{ex}{Example}[section]
+\newtheorem{exer}{Exercise}[section]
+
+\newcommand{\llhd}{{\mathrlap{<}\;\lhd}}
+
+\newcommand{\Rho}{\mathrm{P}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\gk}{\kappa}
+\newcommand{\gS}{\Sigma}
+\newcommand{\gl}{\lambda}
+\newcommand{\gt}{\theta}
+
+%hmm...
+%\newcommand{\bb}[1]{\mathbb #1}
+%\newcommand{\cal}[1]{\mathcal #1}
+%\newcommand{\bf}[1]{\mathbf #1}
+
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\bA}{\mathbb{A}}
+\newcommand{\bB}{\mathbb{B}}
+\newcommand{\bC}{\mathbb{C}}
+\newcommand{\bD}{\mathbb{D}}
+\newcommand{\bE}{\mathbb{E}}
+\newcommand{\bF}{\mathbb{F}}
+\newcommand{\bG}{\mathbb{G}}
+\newcommand{\bI}{\mathbb{I}}
+\newcommand{\bL}{\mathbb{L}}
+\newcommand{\bM}{\mathbb{M}}
+\newcommand{\bN}{\mathbb{N}}
+\newcommand{\bP}{\mathbb{P}}
+\newcommand{\bS}{\mathbb{S}}
+\newcommand{\bX}{\mathbb{X}}
+\newcommand{\fA}{\mathbf{A}}
+\newcommand{\fB}{\mathbf{B}}
+\newcommand{\fC}{\mathbf{C}}
+\newcommand{\fD}{\mathbf{D}}
+\newcommand{\fG}{\mathbf{G}}
+\newcommand{\fP}{\mathbf{P}}
+\newcommand{\fR}{\mathbf{R}}
+\newcommand{\fS}{\mathbf{S}}
+\newcommand{\fT}{\mathbf{T}}
+\newcommand{\fX}{\mathbf{X}}
+\newcommand{\fY}{\mathbf{Y}}
+\newcommand{\fZ}{\mathbf{Z}}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\EE}{\mathbb{E}}
+
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cU}{\mathcal{U}}
+
+\newcommand{\fp}{\mathfrak{p}}
+
+\newcommand{\dotcup}{\ensuremath{\mathaccent\cdot\cup}}
+
+\newcommand{\rvline}{\hspace*{-\arraycolsep}\vline\hspace*{-\arraycolsep}}
+
