@@ -7,7 +7,7 @@ However, if every mathematician were to write out their own personal Bourbaki fr
 
 My personal style of writing notes probably won't fit most people's tastes. If you think that my notes would be improved by being more verbose, or being more organized, or by including more examples, or better pictures: please feel free to copy them and change them to your liking!
 
-A very similar project can be found at https://github.com/vEnhance/napkin - he's done a much better job than me, actually (mine are at best 10% of the way to where I want them, his seem almost finished - thankfully it isn't a competition). Another similar project is the stacks project: https://github.com/stacks/stacks-project - it certainly seems like people find github a natural repository for these things!
+A very similar project can be found at https://github.com/vEnhance/napkin - he's done a much better job than me, actually (mine are at best 10% of the way to where I want them, his seem almost finished - thankfully it isn't a competition). Another similar project is the stacks project: https://github.com/stacks/stacks-project - it certainly seems like people find github a natural repository for these things! (Yet another one, this time for logic: https://openlogicproject.org/)
 
 # CSP notes
 
