@@ -3,6 +3,7 @@
 \usepackage{fullpage}
 \usepackage{verbatim}
 \usepackage{mathrsfs}
+\usepackage{mathtools}
 
 \DeclareMathOperator{\sech}{sech}
 
@@ -325,6 +326,8 @@ Of course, we'd like to know if the function $\ell^*$ is well-behaved: is it con
 for all $x > 0$ and all $n \in \NN$.
 
 A function $g : [0,\infty) \rightarrow [0,\infty)$ whose derivative is completely monotone is called a \emph{Bernstein function}.
+
+A function $h$ such that $h^{(n)}(x) \ge 0$ for all $x$ and all $n \in \NN$ is called \emph{absolutely monotone}. If $h$ is absolutely monotone on $(-\infty, 0]$, then $h(-x)$ is completely monotone, and conversely.
 \end{defn}
 
 \begin{prop} If $f,g$ are Bernstein, then the composition $f \circ g$ is also a Bernstein function. If $f$ is completely monotone and $g$ is Bernstein, then $f \circ g$ is completely monotone.
@@ -333,23 +336,215 @@ A function $g : [0,\infty) \rightarrow [0,\infty)$ whose derivative is completel
 \begin{cor} For every $n$, the function $\ell^n$ is a Bernstein function, and $1/\ell^n$ is a completely monotone function.
 \end{cor}
 
-\begin{prop} If $f$ is a pointwise limit of functions $f_i$ such that for each $n \ge 1$, the derivatives $f_i^{(n)}$ exist and have a fixed sign $s_n \in \{+,-\}$, then each derivative $f^{(n)}$ exists and has the same fixed sign $s_n$. In particular, any pointwise limit of Bernstein functions is a Bernstein function, and the same holds for completely monotone functions.
+The next result follows easily from standard facts about divided differences, but I haven't seen it explicitly stated anywhere (aside from the special cases we use here).
+
+\begin{prop} If $f$ is a pointwise limit of functions $f_i$ such that for each $n \ge 1$, the derivatives $f_i^{(n)}$ exist and have a fixed sign $s_n \in \{+,-\}$ not depending on $i$, then each derivative $f^{(n)}$ exists and has the same fixed sign $s_n$. In particular, any pointwise limit of Bernstein functions is a Bernstein function, and the same holds for completely monotone functions.
 \end{prop}
 
-\begin{prop} Every completely monotone function $f : (0,\infty) \rightarrow \RR$ extends to an analytic function on the halfplane $\Re(x) > 0$, as does any Bernstein function.
+\begin{prop}[\cite{laplace}] Every completely monotone function $f : (0,\infty) \rightarrow \RR$ extends to an analytic function on the halfplane $\Re(x) > 0$, as does any Bernstein function.
 \end{prop}
 
 \begin{cor} The function $\ell^*$ has completely monotone derivative, and extends to an analytic function on the halfplane $\Re(x) > 0$.
 \end{cor}
 
-We can also define a tetration function $\varepsilon^*$.
+Using the functional equation $\ell^*(x) = \ell^*(\ell(x)) - 1$, we can extend $\ell^*$ to an analytic function on $\CC \setminus (-\infty,0]$. For this to make sense, we need to first extend $\ell$ to an analytic function on $\CC\setminus(-\infty,-1]$ - we do this in the usual way, by integrating $x \mapsto \frac{1}{1+x}$ along paths contained in the region $\CC\setminus(-\infty,-1]$. This extension of $\ell$ takes the halfplane $\Re(x) > 0$ into itself, satisfies
+\[
+\ell\big(\CC \setminus (-\infty,0]\big) \subseteq \CC \setminus (-\infty,0],
+\]
+and satisfies
+\[
+|\Im(\ell(x))| < \pi
+\]
+for all $x \in \CC \setminus (-\infty,0]$.
+
+\begin{prop} The function $\ell^*$ extends to an anaytic function on $\CC \setminus (-\infty,0]$, which satisfies the functional equation $\ell(x) = \ell^*(\ell(x)) + 1$ for all $x \in \CC \setminus (-\infty,0]$.
+\end{prop}
+\begin{proof} Since we already have an extension of $\ell^*$ to the halfplane $\Re(x) > 0$, we just need to check that for every $x \in \CC\setminus(-\infty,0]$, there is some $n \in \NN$ such that $\Re(\ell^n(x)) > 0$. For $x$ such that $|1+x| > 1$, we have
+\[
+\Re(\ell(x)) = \ln|1+x| > 0,
+\]
+so we just need to check that for every $x$ there is some $n$ with $|1+\ell^n(x)| > 1$. To prove this, we will first show that for $|1 + x| \le 1$ and $\Im(x) \ne 0$, we always have
+\[
+|\Im(\ell(x))| > |\Im(x)|.
+\]
+To see this, suppose that $\Im(x) > 0$, and consider the right triangle with vertices $-1$, $\Re(x)$, and $x$ in the complex plane. If $\theta$ is the angle of this triangle at the vertex $-1$, then we have $\Im(\ell(x)) = \theta$, and
+\[
+\Im(x) = |1+x|\sin(\theta) \le \sin(\theta) \le \theta = \Im(\ell(x)),
+\]
+with equality only when $\theta = 0$.
+
+Now suppose for a contradiction that $|1 + \ell^n(x)| \le 1$ for all $n$. Suppose without loss of generality that $\Im(x) > 0$. Then the sequence $n \mapsto \Im(\ell^n(x))$ is an increasing sequence, so all of the points $\ell^n(x)$ are contained in the compact region
+\[
+C = \{z : |1+z| \le 1, \Im(z) \ge \Im(x) > 0\}.
+\]
+In particular, the sequence of points $\ell^n(x)$ must have some limit point $z \in C$, and since $\ell$ is continuous we must then have $\ell(z) = z$. But this is impossible, since we've proved that $\Im(\ell(z)) > \Im(z)$ for all $z \in C$. The contradiction proves that there must be some $n \in \NN$ such that $|1+\ell^n(x)| > 1$, and then we have $\Re(\ell^{n+1}(x)) > 0$ for the same $n$.
+\end{proof}
+
+This extension of $\ell^*$ has
+\[
+\lim_{\epsilon \rightarrow 0} \ell^*(\varepsilon^n(-1) + i\epsilon) = +\infty
+\]
+for each $n \in \NN$, and since the sequence $\varepsilon^n(-1)$ approaches $0$ from below, we see that $\ell^*$ has an essential singularity at $0$.
+
+The essential singularity of $\ell^*$ at $0$ implies that there is no Laurent series which computes $\ell^*$ (or any of its derivatives) in any punctured disk around $0$. Nevertheless, we will show that there is an asymptotic series for the derivative of $\ell^*$ around $0$, beginning with
+\[
+\frac{d}{dx}\ell^*(x) = \frac{2}{x^2} + \frac{1}{3x} - \frac{1}{36} + \frac{x}{270} + \frac{x^2}{2592} - \frac{71x^3}{108864} + \frac{8759x^4}{32659200} + \frac{31x^5}{3499200} + O(x^6)
+\]
+for $x > 0$. Further terms of the asymptotic series can be computed by expanding the functional equation
+\[
+(\ell^*)'(x) = \frac{(\ell^*)'(\ell(x))}{1+x}
+\]
+as if both sides were power series and equating coefficients. Explicit error terms in the asymptotic series can be computed using the theory of divided differences - this can be useful for numerically computing $\ell^*$ to high accuracy.
+
+\begin{prop} For each $k \in \NN$, define $A_k(x)$ by
+\[
+A_k(x) \coloneqq \sum_{i=1}^k \frac{i}{x - \ell^i(x)}\prod_{\substack{j \le k \\ j\ne i}}\frac{x-\ell^j(x)}{\ell^i(x)-\ell^j(x)}.
+\]
+Then for every $k \in \NN$ we have
+\[
+(\ell^*)'(x) = A_k(x) + O(x^{k-2})
+\]
+as $x$ approaches $0$ from above, and for all $x \in (0,\infty)$ we have
+\[
+A_{2k}(x) \le (\ell^*)'(x) \le A_{2k+1}(x).
+\]
+In particular, since each $A_k(x)$ has a Laurent series with rational coefficients which converges in a punctured disk around $0$ of positive radius, $(\ell^*)'(x)$ has an asymptotic series with rational coefficients as $x$ approaches $0$ from above.
+\end{prop}
+\begin{proof} We use the theory of divided differences. For $f$ a function on $(0,\infty)$, we set $f[x] \coloneqq f(x)$, and recursively
+\[
+f[x_1, ..., x_{n+1}] \coloneqq \frac{f[x_1, ..., x_{n-1},x_n] - f[x_1, ..., x_{n-1},x_{n+1}]}{x_n - x_{n+1}}.
+\]
+If two entries $x_i, x_j$ are equal, then we define the divided difference by taking a suitable limit (this will be well-defined as long as $f$ is sufficiently differentiable). Using $\ell^*(x) - \ell^*(\ell^i(x)) = i$, a standard computation gives
+\[
+\ell^*[x,x,\ell(x),...,\ell^k(x)] = \frac{(\ell^*)'(x)}{\prod_{i=1}^k(x-\ell^i(x))} - \sum_{i=1}^k \frac{i}{(x - \ell^i(x))^2\prod_{j\ne i}(\ell^i(x) - \ell^j(x))}.
+\]
+\begin{comment}
+and
+\[
+\ell^*[\varepsilon(x),x,x,\ell(x),...,\ell^{k-1}(x)] = -\frac{(\ell^*)'(x)}{(\varepsilon(x)-x)\prod_{i=1}^{k-1}(x-\ell^i(x))} + \frac{-1}{(\varepsilon(x)-x)^2\prod_{j}(\varepsilon(x) - \ell^j(x))} - \sum_{i=1}^{k-1} \frac{i}{(\varepsilon(x)-\ell^i(x))(x - \ell^i(x))^2\prod_{j\ne i}(\ell^i(x) - \ell^j(x))} \ge 0.
+\]
+\end{comment}
+By the mean value theorem for divided differences and the fact that $(\ell^*)'$ is completely monotone, we have
+\[
+(-1)^k\ell^*[x,x,\ell(x),...,\ell^k(x)] \ge 0,
+\]
+so depending on whether $k$ is even or odd, $(\ell^*)'(x)$ is either bounded below or above by
+\[
+A_k(x) \coloneqq \sum_{i=1}^k \frac{i}{x - \ell^i(x)}\prod_{j\ne i}\frac{x-\ell^j(x)}{\ell^i(x)-\ell^j(x)}.
+\]
+To prove the existence of the asymptotic expansion of $(\ell^*)'(x)$ around $0$, we just need to check that $A_k(x) - A_{k+1}(x) = O(x^{k-2})$ for each $k$.
+
+Since each $A_k(x)$ is an honest Laurent series around $0$, if $A_k(x) - A_{k+1}(x)$ is \emph{not} $O(x^{k-2})$, then we must have $A_k(x) - A_{k+1}(x) = \Omega(x^{k-3})$ as $x$ approaches $0$. Since
+\[
+A_{k+1}(x) - A_k(x) = \ell^*[x,x,\ell(x),...,\ell^k(x)]\prod_{i=1}^k(x-\ell^i(x)) - \ell^*[x,x,\ell(x),...,\ell^{k+1}(x)]\prod_{i=1}^{k+1}(x-\ell^i(x))
+\]
+and $x - \ell^i(x) \propto x^2$ for each $i$, we see that if $A_k(x) - A_{k+1}(x) = \Omega(x^{k-3})$, then
+\[
+\max\Big(\big|\ell^*[x,x,\ell(x),...,\ell^k(x)]\big|x^{2k}, \big|\ell^*[x,x,\ell(x),...,\ell^{k+1}(x)]\big|x^{2k+2}\Big) = \Omega(x^{k-3}).
+\]
+By the mean value theorem for divided differences and the fact that $\ell^*$ is completely monotone, this implies that at each $x$ either $(\ell^*)^{(k+1)}(x) = \Omega(x^{-k-3})$ or $(\ell^*)^{(k+2)}(x) = \Omega(x^{-k-5})$. By complete monotonicity again, we see that if $(\ell^*)^{(k+2)}(x) = \Omega(x^{-k-5})$ then $(\ell^*)^{(k+1)}(x/2) = \Omega(x^{-k-4})$, so we must in fact have
+\[
+(\ell^*)^{(k+1)}(x) = \Omega(x^{-k-3})
+\]
+for all sufficiently small $x$. But then integrating this repeatedly gives $\ell^*(x) = \Omega(x^{-2})$, which contradicts $\ell^n(1) \propto 1/n$. This contradiction proves that we must in fact have
+\[
+(\ell^*)'(x) = A_k(x) + O(x^{k-2})
+\]
+for all $k$.
+\end{proof}
+
+We can also prove a uniqueness result for $\ell^*$, using only the assumption of concavity together with the functional equation.
+
+\begin{comment}
+\begin{prop}[\cite{completely-monotone-uniqueness}] If $f, g$ are completely monotone and $f(x_n) = g(x_n)$ for a sequence $x_n$ such that $\sum_n 1/x_n$ diverges, then $f = g$. The same holds for functions with completely monotone derivatives. %TODO: is the extension to functions with completely monotone derivatives actually true??
+\end{prop}
+
+\begin{cor} If $f$ is a function with a completely monotone derivative which satisfies $f(\ell^n(1)) = -n$ for all $n \in \NN$, then $f = \ell^*$.
+\end{cor}
+\end{comment}
+
+\begin{prop} If $f : (0,\infty) \rightarrow \RR$ is a concave function which satisfies $f(\ell(x)) = f(x) - 1$ for all $x > 0$ and $f(1) = 0$, then $f = \ell^*$.
+\end{prop}
+\begin{proof} By the functional equation, it's enough to show that $f(x) - \ell^*(x) = O(x)$ as $x$ approaches $0$ from above. Since $f(\ell^n(1)) = -n = \ell^*(\ell^n(1))$ for $n \in \NN$, it's enough to show that the difference between $f(x) - f(y)$ and $\ell^*(x) - \ell^*(y)$ is $O(x)$ for $x > y > \ell(x)$. By the concavity of $f$, we have
+\[
+f[x,y,\ell(x)] \le 0
+\]
+and
+\[
+f[\varepsilon(x),x,y] \le 0,
+\]
+and expanding these inequalities out in the case $x > y > \ell(x)$ we get
+\[
+\frac{f(\varepsilon(x)) - f(x)}{\varepsilon(x) - x} \le \frac{f(x) - f(y)}{x-y} \le \frac{f(x) - f(\ell(x))}{x - \ell(x)}.
+\]
+By the functional equation $f(\ell(x)) = f(x) - 1$, we get
+\[
+\frac{1}{\varepsilon(x) - x} \le \frac{f(x) - f(y)}{x-y} \le \frac{1}{x - \ell(x)},
+\]
+and expanding the upper and lower bounds as Laurent series in $x$, we get
+\[
+\frac{f(x) - f(y)}{x-y} = \frac{2}{x^2} + O(1/x)
+\]
+as $x$ approaches $0$ from above. Since
+\[
+x-y \le x - \ell(x) = O(x^2),
+\]
+we have
+\[
+f(x) - f(y) = \frac{2(x-y)}{x^2} + O(x).
+\]
+Since the same reasoning applies to $\ell^*$ as well, we have $f(x) - f(y) = \ell^*(x) - \ell^*(y) + O(x)$ for all $x > y > \ell(x)$.
+\end{proof}
+
+We now define a real-analytic tetration function $\varepsilon^*$.
 
 \begin{defn} We define $\varepsilon^* : \RR \rightarrow (0,\infty)$ to be the inverse function to $\ell^*$.
 \end{defn}
 
+Some of the nice properties of $\ell^*$ immediately imply nice properties of $\varepsilon^*$. Since $\ell^*$ is increasing and concave, $\varepsilon^*$ will be increasing and convex. Since $\ell^*(x)$ extends to a complex analytic function on $\CC\setminus (-\infty,0]$ which satisfies the functional equation $\ell^*(x) = \ell^*(\ell(x)) + 1$, $\varepsilon^*$ extends to a complex analytic function on some neighborhood of $\RR$ which satisfies the functional equation
+\[
+\varepsilon^*(x+1) = \varepsilon(\varepsilon^*(x)).
+\]
+The uniqueness property of $\ell^*$ implies that $\varepsilon^*$ is the unique positive, convex function on $\RR$ which satisfies this functional equation together with the initial condition $\varepsilon^*(0) = 1$.
+
+\begin{prop} For every $x \in \RR$, we have
+\[
+\varepsilon^*(x) = \lim_{n \rightarrow \infty} \varepsilon^{n}\Big(\frac{2}{\frac{2}{\ell^n(1)} - x}\Big).
+\]
+\end{prop}
+\begin{proof} If $y = \varepsilon^*(x)$, then from $\ell^*(y) = x$ we see that
+\[
+\lim_{n \rightarrow \infty} \frac{2}{\ell^n(1)} - \frac{2}{\ell^n(y)} = x.
+\]
+By induction on $k$, using the inequality $|1/a - 1/b| \le |1/\ell(a) - 1/\ell(b)|$ which we proved earlier, we have
+\[
+\Big|\frac{2}{\ell^{n-k}(y)} - \frac{2}{\varepsilon^k(\frac{2}{\frac{2}{\ell^n(1)} - x})}\Big| \le \Big|\frac{2}{\ell^n(y)} - \Big(\frac{2}{\ell^n(1)} - x\Big)\Big|,
+\]
+so in particular we have
+\[
+\Big|\frac{2}{y} - \frac{2}{\varepsilon^n(\frac{2}{\frac{2}{\ell^n(1)} - x})}\Big| \le \Big|\frac{2}{\ell^n(y)} - \Big(\frac{2}{\ell^n(1)} - x\Big)\Big| = \Big|x - \Big(\frac{2}{\ell^n(1)} - \frac{2}{\ell^n(y)}\Big)\Big|.
+\]
+Taking the limit of both sides as $n \rightarrow \infty$ proves that
+\[
+\frac{2}{\varepsilon^*(x)} = \frac{2}{y} = \lim_{n\rightarrow \infty}\frac{2}{\varepsilon^n(\frac{2}{\frac{2}{\ell^n(1)} - x})}.\qedhere
+\]
+\end{proof}
+
+\begin{cor} The function $\varepsilon^*$ is absolutely monotone, that is, $(\varepsilon^*)^{(n)}(x) \ge 0$ for every $n \in \NN$ and every $x \in \RR$.
+\end{cor}
+\begin{proof} From the fact that the function $x \mapsto \frac{2}{c-x}$ is absolutely monotone on $(-\infty, c)$ for every constant $c$, the fact that $\varepsilon(x)$ is absolutely monotone on $(0,\infty)$, and the fact that compositions of absolutely monotone functions are absolutely monotone, each function
+\[
+\varepsilon^{n}\Big(\frac{2}{\frac{2}{\ell^n(1)} - x}\Big)
+\]
+is absolutely monotone on $(-\infty, 2/\ell^n(1))$. Since pointwise limits of absolutely monotone functions are absolutely monotone, we see that $\varepsilon^*$ is absolutely monotone as well.
+\end{proof}
+
+\begin{cor} The function $\varepsilon^*$ extends to an entire function on $\CC$ which satisfies the functional equation $\varepsilon^*(x+1) = \varepsilon(\varepsilon^*(x))$.
+\end{cor}
+
 Now we can finally define the fractional compositional powers of the function $e^x - 1$.
 
-\begin{defn} For every $n \in \RR$, we define the function $\varepsilon^n : (0,\infty) \rightarrow (0,\infty)$ by
+\begin{defn} For every $n \in \CC$, we define the function $\varepsilon^n : \CC \setminus (-\infty,0] \rightarrow \CC$ by
 \[
 \varepsilon^n(x) = \varepsilon^*(\ell^*(x) + n).
 \]
@@ -366,7 +561,7 @@ In particular, we have
 \]
 \end{prop}
 
-We can also define an asymptotic measurement of ``how exponentially'' a function grows.
+Just for fun, we can also define an asymptotic measurement of ``how exponentially'' a function grows.
 
 \begin{defn} We say that a function $f:(0,\infty) \rightarrow (0,\infty)$ has \emph{exponentiality} $\alpha(f)$ if
 \[
@@ -396,6 +591,9 @@ Since $g(x)$ must go to $\infty$ as $x \rightarrow \infty$ if $\alpha(g) > -\inf
 
 \begin{cor} Every function which can be constructed (in finitely many steps) out of positive polynomials by addition, multiplication, exponentiation, and taking logarithms has an exponentiality in $\ZZ \cup \{-\infty\}$.
 \end{cor}
+
+\bibliographystyle{plain}
+\bibliography{all}
 
 \end{document}
 
