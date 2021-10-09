@@ -705,6 +705,125 @@ Since $g(x)$ must go to $\infty$ as $x \rightarrow \infty$ if $\alpha(g) > -\inf
 \begin{cor} Every function which can be constructed (in finitely many steps) out of positive polynomials by addition, multiplication, exponentiation, and taking logarithms has an exponentiality in $\ZZ \cup \{-\infty\}$.
 \end{cor}
 
+\section{A slight generalization of the construction}
+
+Now that we have defined $\ell^*$ and $\varepsilon^*$, it's tempting to try to iterate these functions as well. Perhaps we can find a half-tetration function? Immediately we run into the problem that $\ell^*(\ell^*(x))$ is not defined for $x = 1$, $x = \varepsilon^*(-1)$, etc. Actually, we had the same problem with iterating $\ln$ - we got around this problem by shifting the input by a convenient constant, to define the function $\ell$.
+
+Since ${\ell^*}' : (0,\infty) \rightarrow (0,\infty)$ is a strictly decreasing continuous function with ${\ell^*}'(0+) = \infty$ and ${\ell^*}'(\infty) = 0$, there is a unique $x_0 \in (0,\infty)$ such that
+\[
+{\ell^*}'(x_0) = 1.
+\]
+Define a new function $\ell_0^*$ by
+\[
+\ell_0^*(x) = \ell^*(x + x_0) - \ell^*(x_0).
+\]
+Then $\ell_0^*$ has the following properties:
+\begin{itemize}
+\item $\ell_0^*(0) = 0$,
+\item ${\ell_0^*}'(0) = 1$,
+\item $\ell_0^*$ is a bijection from $(0,\infty)$ to itself,
+\item $\ell_0^*$ is a Bernstein function,
+\item the inverse function $\varepsilon_0^*$ to $\ell_0^*$ is given by
+\[
+\varepsilon_0^*(x) = \varepsilon^*(x + \ell^*(x_0)) - x_0,
+\]
+\item the function $\varepsilon_0^*$ is a bijection from $(-\infty,\infty)$ to $(-x_0,\infty)$,
+\item the function $\varepsilon_0^*$ has an absolutely monotone derivative on $(-\infty,\infty)$.
+\end{itemize}
+These properties mirror the properties of $\ell, \varepsilon$ which were needed in order to iterate them.
+
+\begin{comment}
+f(g(x)) = x, and g has absolutely monotone derivative
+then
+g'f'(g) = 1 -> f' > 0
+g''f'(g) + g'^2f''(g) = 0 -> f'' < 0
+g'''f'(g) + 3g''g'f''(g) + g'^3f'''(g) = 0 -> ?
+(g'''-3g''^2/g')f'(g) + g'^3f'''(g) = 0
+\end{comment}
+
+\begin{defn} Say that a pair of real functions $(f,g)$ is \emph{nicely iterable} if $f,g$ have the following properties:
+\begin{itemize}
+\item $g$ is defined on all of $\RR$,
+\item $f$ is defined on the interval $(g(-\infty),\infty)$,
+\item $f(g(x)) = x$ for all $x \in \RR$,
+\item $f(0) = g(0) = 0$ and $f'(0) = g'(0) = 1$,
+\item $f$ has a completely monotone derivative on its domain,
+\item $g$ has an absolutely monotone derivative,
+\item $f,g$ are not linear.
+\end{itemize}
+\end{defn}
+We will write $f^n, g^n$ for the compositional powers of $f$ and $g$ (we will write ordinary powers of $f,g$ as $f(x)^n, g(x)^n$).
+
+\begin{prop} Suppose that $(f,g)$ are nicely iterable. Then for every $x > 0$, we have $0 < f(x) < x$ and $\lim_{n\rightarrow\infty} f^n(x) = 0$.
+\end{prop}
+\begin{proof} That $f(x) \le x$ follows from $f'(0) = 1$ and $f$ concave. Suppose for contradiction that $f(x) = x$ for some $x > 0$, then we must have $f''(y) = 0$ for all $0 < y < x$, and since $f''$ is increasing and nonpositive, this implies that $f'' = 0$ on $(0,\infty)$. Since $f$ is analytic on its domain, this would imply that $f'' = 0$ identically, contradicting the assumption that $f$ is not linear.
+\end{proof}
+
+\begin{prop} Suppose that $(f,g)$ are nicely iterable. Then for $x,y > 0$ we have
+\[
+\frac{1}{f(x)} - \frac{1}{f(y)} = \frac{1}{x} - \frac{1}{y} + O(x-y).
+\]
+\end{prop}
+\begin{proof} We just need to compare derivatives - more precisely, we need to check that
+\[
+\frac{f'(x)}{f(x)^2} = \frac{1}{x^2} + O(1).
+\]
+Since the left hand side is decreasing as a function of $x$, we only need to check this as $x$ approaches $0$. Since $f'$ is smooth in a neighborhood of $0$ and $f(0) = 0, f'(0) = 1$, we have
+\[
+f(x) = x - ax^2 + O(x^3)
+%f(x) = x - ax^2 + bx^3 + O(x^4)
+\]
+for some $a$. Expanding, we have
+\[
+\frac{f'(x)}{f(x)^2} = \frac{1 - 2ax + O(x^2)}{x^2 - 2ax^3 + O(x^4)} = \frac{1}{x^2} + O(1).\qedhere
+%\frac{f'(x)}{f(x)^2} = \frac{1 - 2ax + 3bx^2 + O(x^3)}{x^2 - 2ax^3 + (a^2+2b)x^4 + O(x^5)} = \frac{1}{x^2} + b-a^2 + O(x).\qedhere
+\]
+\end{proof}
+
+\begin{cor} If $(f,g)$ are nicely iterable, then for $x > y > f^k(x) > 0$ and $n \ge 0$ we have
+\[
+\frac{1}{f^n(y)} - \frac{1}{f^n(x)} = \frac{1}{y} - \frac{1}{x} + O(kx),
+\]
+where the implied constant only depends on $f,g$. In particular, for any $x,y > 0$ the sequence
+\[
+n \mapsto \frac{1}{f^n(y)} - \frac{1}{f^n(x)}
+\]
+is a Cauchy sequence.
+\end{cor}
+
+\begin{prop} If $(f,g)$ are nicely iterable, then there is a unique concave function $f^*:(0,\infty) \rightarrow (-\infty,\infty)$ such that $f^*(1) = 0$ and
+\[
+f^*(x) = f^*(f(x)) + 1
+\]
+for all $x > 0$. This $f^*$ is given explicitly by the formula
+\[
+f^*(x) = \frac{2}{g''(0)}\lim_{n\rightarrow\infty} \frac{1}{f^{n}(1)} - \frac{1}{f^{n}(x)}.
+\]
+\end{prop}
+
+\begin{prop} If $(f,g)$ are nicely iterable, then there is a unique convex function $g^*:(-\infty,\infty) \rightarrow (0,\infty)$ such that $g^*(0) = 1$ and
+\[
+g^*(x+1) = g(g^*(x))
+\]
+for all $x$. This $g^*$ is given explicitly by the formula
+\[
+g^*(x) = \lim_{n\rightarrow\infty} g^n\Big(\frac{2}{\frac{2}{f^n(1)} - g''(0)x}\Big).
+\]
+\end{prop}
+
+\begin{prop} If $(f,g)$ are nicely iterable and $f^*, g^*$ are as in the previous results, then there is some $x_0 \in (0,\infty)$ such that if we define
+\[
+f_0^*(x) = f^*(x + x_0) - f^*(x_0)
+\]
+and
+\[
+g_0^*(x) = g^*(x + f^*(x_0)) - x_0,
+\]
+then the pair $(f_0^*,g_0^*)$ is nicely iterable as well.
+\end{prop}
+
+If we start with $(\ell,\varepsilon)$ and repeatedly apply the previous result, we get a sequence of absolutely monotone functions with growth rates climbing through the hierarchy of primitive recursive functions.
+
 \bibliographystyle{plain}
 \bibliography{all}
 
