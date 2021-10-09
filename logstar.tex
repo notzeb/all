@@ -91,7 +91,7 @@
 \date{}
 \maketitle
 
-Sometimes we wish to find a function perfectly in between $x$ and $e^x$. That is, we desire a function $f$ such that $f(f(x)) = e^x$, at least asymptotically. There are slight technical difficulties with finding a function which exactly satisfies $f(f(x)) = e^x$, but it turns out that we can find a nice bijective function $f : [0,\infty) \rightarrow [0,\infty)$ which satisfies
+Imagine that we wish to find a function perfectly in between $x$ and $e^x$. That is, we desire a function $f$ such that $f(f(x)) = e^x$, at least asymptotically. There are slight technical difficulties with finding a function which exactly satisfies $f(f(x)) = e^x$, but it turns out that we can find a nice bijective function $f : [0,\infty) \rightarrow [0,\infty)$ which satisfies
 \[
 f(f(x)) = e^x - 1.
 \]
@@ -338,14 +338,35 @@ A function $h$ such that $h^{(n)}(x) \ge 0$ for all $x$ and all $n \in \NN$ is c
 
 The next result follows easily from standard facts about divided differences, but I haven't seen it explicitly stated anywhere (aside from the special cases we use here).
 
-\begin{prop} If $f$ is a pointwise limit of functions $f_i$ such that for each $n \ge 1$, the derivatives $f_i^{(n)}$ exist and have a fixed sign $s_n \in \{+,-\}$ not depending on $i$, then each derivative $f^{(n)}$ exists and has the same fixed sign $s_n$. In particular, any pointwise limit of Bernstein functions is a Bernstein function, and the same holds for completely monotone functions.
+\begin{prop} If $f$ is a pointwise limit of functions $f_i$ such that for each $n \ge 1$, the derivatives $f_i^{(n)}$ exist and have a fixed sign $s_n \in \{+,-\}$ not depending on $i$, then each derivative $f^{(n)}$ exists and has the same fixed sign $s_n$. In this case, we even have
+\[
+f^{(n)}(x) = \lim_{i\rightarrow \infty} f_i^{(n)}(x).
+\]
+In particular, any pointwise limit of Bernstein functions is a Bernstein function, and the same holds for completely monotone functions.
 \end{prop}
 
-\begin{prop}[\cite{laplace}] Every completely monotone function $f : (0,\infty) \rightarrow \RR$ extends to an analytic function on the halfplane $\Re(x) > 0$, as does any Bernstein function.
+%One of the main results about completely monotone functions is that they can be represented as Laplace transforms of positive measures on $(0,\infty)$. Using this fact together with the fact that the exponential function extends to the complex plane, we can extend any completely monotone function to a function which takes complex arguments.
+
+Using direct arguments, one can show that if $f$ is completely monotone on $(0,\infty)$ then for every $x > 0$, the Taylor series of $f$ around $x$ has radius of convergence at least as large as $x$, and converges to $f$ on the interval $(0,x]$. This quickly leads to the following result.
+
+\begin{prop}[\cite{laplace}] Every completely monotone function $f : (0,\infty) \rightarrow \RR$ extends to an analytic function on the halfplane $\Re(x) > 0$, as does any Bernstein function. If $f$ is completely monotone on $(0,\infty)$ and $\Re(x) > 0$, then $|f(x)| \le f(\Re(x))$.
 \end{prop}
 
-\begin{cor} The function $\ell^*$ has completely monotone derivative, and extends to an analytic function on the halfplane $\Re(x) > 0$.
+\begin{cor} The function $\ell^*$ has completely monotone derivative, and extends to an analytic function on the halfplane $\Re(x) > 0$. For all $n \ge 1$ and $\Re(x) > 0$, we have
+\[
+|\ell^{*(n)}(x)| \le (-1)^{n-1}\ell^{*(n)}(\Re(x)).
+\]
 \end{cor}
+
+Using standard facts about Taylor series, we can show that if $f(x) = \lim_{i\rightarrow \infty} f_i(x)$ is a pointwise limit of completely monotone (or Bernstein) functions $f_i$ on $(0,\infty)$, and if we extend each $f_i$ to a complex analytic function on $\Re(x) > 0$, then the extension of $f$ to an analytic function on $\Re(x) > 0$ also satisfies
+\[
+f(x) = \lim_{i\rightarrow \infty} f_i(x),
+\]
+and the convergence is uniform on compact subsets of the halfplane $\Re(x) > 0$. As a consequence, we get the formula
+\[
+\ell^*(x) = \lim_{n\rightarrow \infty} \frac{2}{\ell^n(1)} - \frac{2}{\ell^n(x)}
+\]
+for all complex $x$ with $\Re(x) > 0$.
 
 Using the functional equation $\ell^*(x) = \ell^*(\ell(x)) - 1$, we can extend $\ell^*$ to an analytic function on $\CC \setminus (-\infty,0]$. For this to make sense, we need to first extend $\ell$ to an analytic function on $\CC\setminus(-\infty,-1]$ - we do this in the usual way, by integrating $x \mapsto \frac{1}{1+x}$ along paths contained in the region $\CC\setminus(-\infty,-1]$. This extension of $\ell$ takes the halfplane $\Re(x) > 0$ into itself, satisfies
 \[
@@ -357,7 +378,11 @@ and satisfies
 \]
 for all $x \in \CC \setminus (-\infty,0]$.
 
-\begin{prop} The function $\ell^*$ extends to an anaytic function on $\CC \setminus (-\infty,0]$, which satisfies the functional equation $\ell(x) = \ell^*(\ell(x)) + 1$ for all $x \in \CC \setminus (-\infty,0]$.
+\begin{prop} The function $\ell^*$ extends to an anaytic function on $\CC \setminus (-\infty,0]$, which satisfies the functional equation $\ell^*(x) = \ell^*(\ell(x)) + 1$ for all $x \in \CC \setminus (-\infty,0]$. This extension of $\ell^*$ is still given by the formula
+\[
+\ell^*(x) = \lim_{n\rightarrow \infty} \frac{2}{\ell^n(1)} - \frac{2}{\ell^n(x)}
+\]
+on $\CC \setminus (-\infty,0]$.
 \end{prop}
 \begin{proof} Since we already have an extension of $\ell^*$ to the halfplane $\Re(x) > 0$, we just need to check that for every $x \in \CC\setminus(-\infty,0]$, there is some $n \in \NN$ such that $\Re(\ell^n(x)) > 0$. For $x$ such that $|1+x| > 1$, we have
 \[
@@ -380,21 +405,52 @@ C = \{z : |1+z| \le 1, \Im(z) \ge \Im(x) > 0\}.
 In particular, the sequence of points $\ell^n(x)$ must have some limit point $z \in C$, and since $\ell$ is continuous we must then have $\ell(z) = z$. But this is impossible, since we've proved that $\Im(\ell(z)) > \Im(z)$ for all $z \in C$. The contradiction proves that there must be some $n \in \NN$ such that $|1+\ell^n(x)| > 1$, and then we have $\Re(\ell^{n+1}(x)) > 0$ for the same $n$.
 \end{proof}
 
-This extension of $\ell^*$ has
+The extension of $\ell^*$ to $\CC \setminus (-\infty,0]$ has
+\begin{align*}
+\lim_{\epsilon \rightarrow 0} \ell^*(-1 + i\epsilon) &= 1 + \lim_{x \rightarrow \infty} \ell^*\Big(-x + \frac{\pi i}{2}\Big)\\
+&= 2 + \lim_{x \rightarrow \infty} \ell^*(x + (\pi + o(1)) i)\\
+&= 2 + \lim_{x \rightarrow \infty} \ell^*(x) + O({\ell^*}'(x))\\
+&= +\infty.
+\end{align*}
+Using the functional equation $\ell^*(x) = \ell^*(\ell(x)) + 1$, we get
 \[
 \lim_{\epsilon \rightarrow 0} \ell^*(\varepsilon^n(-1) + i\epsilon) = +\infty
 \]
 for each $n \in \NN$, and since the sequence $\varepsilon^n(-1)$ approaches $0$ from below, we see that $\ell^*$ has an essential singularity at $0$.
 
-The essential singularity of $\ell^*$ at $0$ implies that there is no Laurent series which computes $\ell^*$ (or any of its derivatives) in any punctured disk around $0$. Nevertheless, we will show that there is an asymptotic series for the derivative of $\ell^*$ around $0$, beginning with
+The function $\ell^*$ can be further extended to a multivalued function on
+\[
+\CC \setminus (\{0\}\cup\{\varepsilon^n(-1) : n \in \NN\}).
+\]
+More precisely, we can extend $\ell^*$ to an analytic function on a infinitely branched cover of $\CC$ with branch points lying above $\varepsilon^n(-1)$ for $n \in \NN$ (we make branch cuts along $(-\infty,-1), (-1,\varepsilon(-1)), ...$). One way to make this precise is to consider the set of continuous paths
+\[
+p : [0,1] \rightarrow \CC\setminus \{\varepsilon^n(-1) : n \in \NN\}
+\]
+with $p(0) \in (0,\infty)$ and $p(1) = x$ instead of just points $x$. We can apply $\ell$ to any such path $p$ to get another such path $\ell(p)$, and as we will soon see, if we apply $\ell$ sufficiently many times then eventually the path $\ell^n(p)$ will be entirely contained in the halfplane $\Re(x) > 0$.
+
+As it turns out the set of paths $p$ we have to consider (or equivalently, the set of sheets of the branched cover) is simpler than expected: if a path $p$ starts out by looping counterclockwise around $-1$ even one time, we will have $\Im(\ell(p)) > \pi$ from there on, so
+\[
+\ell^*(p) = \ell^*(\ell(p)) + 1
+\]
+can be defined straightforwardly from that point on without worrying about $p$ hitting any other branch points. Similar reasoning applied to $\ell^n(p)$ shows that if $p$ begins by looping counterclockwise around any $\varepsilon^n(-1)$, we don't have to worry about hitting any $\varepsilon^{n+k}(-1)$ for any $k \ge 1$, although we do still have to worry about hitting $\varepsilon^m(-1)$ for $m \le n$. Representative paths $p$ for the various sheets of the cover can be described by sequences
+\[
+(w_0, w_1, ..., w_n, 0, ...)
+\]
+of integer winding numbers which are eventually $0$, with the following interpretation: if $w_n$ is the last nonzero winding number in the sequence, then the sequence of winding numbers describes the path that \emph{first} winds $w_n$ times counterclockwise around $\varepsilon^n(-1)$, \emph{second} winds $w_{n-1}$ times counterclockwise around $\varepsilon^{n-1}(-1)$, ..., and \emph{finally} winds $w_0$ times counterclockwise around $-1$. When we apply $\ell$ to a path $p$, the winding number sequence simplifies:
+\[
+p \leftrightarrow (w_0, w_1, w_2, ..., w_n, 0, ...) \;\; \implies \;\; \ell(p) \leftrightarrow (w_1, w_2, ..., w_n, 0, 0, ...).
+\]
+To see this, just note that $\Im(x)$ and $\Im(\ell(x))$ always have the same sign as long as we stay in the halfplane $\Re(x) > -1$, so every loop of $p$ around $\varepsilon^n(-1)$ gets mapped by $\ell$ to a loop of $\ell(p)$ around $\varepsilon^{n-1}(-1)$. After applying $\ell$ to $p$ exactly $n+1$ times, we get a path $\ell^{n+1}(p)$ which is entirely contained in $\CC \setminus (-\infty,0]$, and we have already extended $\ell^*$ to an analytic function on this region.
+
+Now we turn to the task of computing values of $\ell^*$ to higher accuracy. Since applying $\ell$ repeatedly always takes us close to $0$, and since we have the reference values $\ell^*(\ell^n(1)) = -n$, we just need to find more accurate approximations to ${\ell^*}'(x)$ for $x$ close to $0$. Unfortunately, the essential singularity of $\ell^*$ at $0$ implies that there is no Laurent series which computes $\ell^*$ (or any of its derivatives) in any punctured disk around $0$. Nevertheless, we will show that there is an asymptotic series for the derivative of $\ell^*$ around $0$, beginning with
 \[
 \frac{d}{dx}\ell^*(x) = \frac{2}{x^2} + \frac{1}{3x} - \frac{1}{36} + \frac{x}{270} + \frac{x^2}{2592} - \frac{71x^3}{108864} + \frac{8759x^4}{32659200} + \frac{31x^5}{3499200} + O(x^6)
 \]
 for $x > 0$. Further terms of the asymptotic series can be computed by expanding the functional equation
 \[
-(\ell^*)'(x) = \frac{(\ell^*)'(\ell(x))}{1+x}
+{\ell^*}'(x) = \frac{{\ell^*}'(\ell(x))}{1+x}
 \]
-as if both sides were power series and equating coefficients. Explicit error terms in the asymptotic series can be computed using the theory of divided differences - this can be useful for numerically computing $\ell^*$ to high accuracy.
+as if both sides were formal Laurent series and equating coefficients. Explicit error terms in the asymptotic series can be computed using the theory of divided differences - this can be useful for getting the most accurate possible approximation when numerically computing $\ell^*$.
 
 \begin{prop} For each $k \in \NN$, define $A_k(x)$ by
 \[
@@ -402,37 +458,61 @@ A_k(x) \coloneqq \sum_{i=1}^k \frac{i}{x - \ell^i(x)}\prod_{\substack{j \le k \\
 \]
 Then for every $k \in \NN$ we have
 \[
-(\ell^*)'(x) = A_k(x) + O(x^{k-2})
+{\ell^*}'(x) = A_k(x) + O(x^{k-2})
 \]
 as $x$ approaches $0$ from above, and for all $x \in (0,\infty)$ we have
 \[
-A_{2k}(x) \le (\ell^*)'(x) \le A_{2k+1}(x).
+A_{2k}(x) \le {\ell^*}'(x) \le A_{2k+1}(x).
 \]
-In particular, since each $A_k(x)$ has a Laurent series with rational coefficients which converges in a punctured disk around $0$ of positive radius, $(\ell^*)'(x)$ has an asymptotic series with rational coefficients as $x$ approaches $0$ from above.
+In particular, since each $A_k(x)$ has a Laurent series with rational coefficients which converges in a punctured disk around $0$ of positive radius, ${\ell^*}'(x)$ has an asymptotic series with rational coefficients as $x$ approaches $0$ from above.
 \end{prop}
 \begin{proof} We use the theory of divided differences. For $f$ a function on $(0,\infty)$, we set $f[x] \coloneqq f(x)$, and recursively
 \[
 f[x_1, ..., x_{n+1}] \coloneqq \frac{f[x_1, ..., x_{n-1},x_n] - f[x_1, ..., x_{n-1},x_{n+1}]}{x_n - x_{n+1}}.
 \]
-If two entries $x_i, x_j$ are equal, then we define the divided difference by taking a suitable limit (this will be well-defined as long as $f$ is sufficiently differentiable). Using $\ell^*(x) - \ell^*(\ell^i(x)) = i$, a standard computation gives
+If two entries $x_i, x_j$ are equal, then we define the divided difference by taking a suitable limit (this will be well-defined as long as $f$ is sufficiently differentiable).
+
+Using $\ell^*(x) - \ell^*(\ell^i(x)) = i$, a standard computation gives
 \[
-\ell^*[x,x,\ell(x),...,\ell^k(x)] = \frac{(\ell^*)'(x)}{\prod_{i=1}^k(x-\ell^i(x))} - \sum_{i=1}^k \frac{i}{(x - \ell^i(x))^2\prod_{j\ne i}(\ell^i(x) - \ell^j(x))}.
+\ell^*[x,x,\ell(x),...,\ell^k(x)] = \frac{{\ell^*}'(x)}{\prod_{i=1}^k(x-\ell^i(x))} - \sum_{i=1}^k \frac{i}{(x - \ell^i(x))^2\prod_{j\ne i}(\ell^i(x) - \ell^j(x))}.
 \]
 \begin{comment}
 and
 \[
-\ell^*[\varepsilon(x),x,x,\ell(x),...,\ell^{k-1}(x)] = -\frac{(\ell^*)'(x)}{(\varepsilon(x)-x)\prod_{i=1}^{k-1}(x-\ell^i(x))} + \frac{-1}{(\varepsilon(x)-x)^2\prod_{j}(\varepsilon(x) - \ell^j(x))} - \sum_{i=1}^{k-1} \frac{i}{(\varepsilon(x)-\ell^i(x))(x - \ell^i(x))^2\prod_{j\ne i}(\ell^i(x) - \ell^j(x))} \ge 0.
+\ell^*[\varepsilon(x),x,x,\ell(x),...,\ell^{k-1}(x)] = -\frac{{\ell^*}'(x)}{(\varepsilon(x)-x)\prod_{i=1}^{k-1}(x-\ell^i(x))} + \frac{-1}{(\varepsilon(x)-x)^2\prod_{j}(\varepsilon(x) - \ell^j(x))} - \sum_{i=1}^{k-1} \frac{i}{(\varepsilon(x)-\ell^i(x))(x - \ell^i(x))^2\prod_{j\ne i}(\ell^i(x) - \ell^j(x))} \ge 0.
 \]
 \end{comment}
-By the mean value theorem for divided differences and the fact that $(\ell^*)'$ is completely monotone, we have
+By the mean value theorem for divided differences, there is some $\xi \in [\ell^k(x),x]$ such that
 \[
-(-1)^k\ell^*[x,x,\ell(x),...,\ell^k(x)] \ge 0,
+\ell^*[x,x,\ell(x),...,\ell^k(x)] = {\ell^*}^{(k+1)}(\xi).
 \]
-so depending on whether $k$ is even or odd, $(\ell^*)'(x)$ is either bounded below or above by
+By the fact that ${\ell^*}'$ is completely monotone, we have
+\[
+(-1)^k\ell^*[x,x,\ell(x),...,\ell^k(x)] = (-1)^k{\ell^*}^{(k+1)}(\xi) \ge 0,
+\]
+so depending on whether $k$ is even or odd, ${\ell^*}'(x)$ is either bounded below or above by
 \[
 A_k(x) \coloneqq \sum_{i=1}^k \frac{i}{x - \ell^i(x)}\prod_{j\ne i}\frac{x-\ell^j(x)}{\ell^i(x)-\ell^j(x)}.
 \]
-To prove the existence of the asymptotic expansion of $(\ell^*)'(x)$ around $0$, we just need to check that $A_k(x) - A_{k+1}(x) = O(x^{k-2})$ for each $k$.
+To finish the proof, we just need to check that
+\[
+{\ell^*}'(x) - A_k(x) = \ell^*[x,x,\ell(x),...,\ell^k(x)]\cdot\prod_{i=1}^k(x-\ell^i(x))
+\]
+is $O(x^{k-2})$. Since $x - \ell^i(x) \propto x^2$, this is equivalent to proving that
+\[
+\ell^*[x,x,\ell(x),...,\ell^k(x)] = {\ell^*}^{(k+1)}(\xi) \stackrel{?}{=} O(x^{-k-2}).
+\]
+By complete monotonicity of ${\ell^*}'$, we have
+\[
+{\ell^*}'(\xi/2) \ge \big|{\ell^*}^{(k+1)}(\xi)\big| \cdot \frac{(\xi/2)^k}{k!},
+\]
+and we already know that ${\ell^*}'(\xi/2) = O(\xi^{-2})$ by the concavity of $\ell^*$ and the fact that $\ell^n(1) =  \frac{2+o(1)}{n}$. Since $\xi = x - O(x^2)$, we have
+\[
+\big|{\ell^*}^{(k+1)}(\xi)\big| = O(\xi^{-k-2}) = O(x^{-k-2}),
+\]
+so we are done.
+\begin{comment}
+$A_k(x) - A_{k+1}(x) = O(x^{k-2})$ for each $k$.
 
 Since each $A_k(x)$ is an honest Laurent series around $0$, if $A_k(x) - A_{k+1}(x)$ is \emph{not} $O(x^{k-2})$, then we must have $A_k(x) - A_{k+1}(x) = \Omega(x^{k-3})$ as $x$ approaches $0$. Since
 \[
@@ -442,15 +522,16 @@ and $x - \ell^i(x) \propto x^2$ for each $i$, we see that if $A_k(x) - A_{k+1}(x
 \[
 \max\Big(\big|\ell^*[x,x,\ell(x),...,\ell^k(x)]\big|x^{2k}, \big|\ell^*[x,x,\ell(x),...,\ell^{k+1}(x)]\big|x^{2k+2}\Big) = \Omega(x^{k-3}).
 \]
-By the mean value theorem for divided differences and the fact that $\ell^*$ is completely monotone, this implies that at each $x$ either $(\ell^*)^{(k+1)}(x) = \Omega(x^{-k-3})$ or $(\ell^*)^{(k+2)}(x) = \Omega(x^{-k-5})$. By complete monotonicity again, we see that if $(\ell^*)^{(k+2)}(x) = \Omega(x^{-k-5})$ then $(\ell^*)^{(k+1)}(x/2) = \Omega(x^{-k-4})$, so we must in fact have
+By the mean value theorem for divided differences and the fact that $\ell^*$ is completely monotone, this implies that at each $x$ either ${\ell^*}^{(k+1)}(x) = \Omega(x^{-k-3})$ or ${\ell^*}^{(k+2)}(x) = \Omega(x^{-k-5})$. By complete monotonicity again, we see that if ${\ell^*}^{(k+2)}(x) = \Omega(x^{-k-5})$ then ${\ell^*}^{(k+1)}(x/2) = \Omega(x^{-k-4})$, so we must in fact have
 \[
-(\ell^*)^{(k+1)}(x) = \Omega(x^{-k-3})
+{\ell^*}^{(k+1)}(x) = \Omega(x^{-k-3})
 \]
 for all sufficiently small $x$. But then integrating this repeatedly gives $\ell^*(x) = \Omega(x^{-2})$, which contradicts $\ell^n(1) \propto 1/n$. This contradiction proves that we must in fact have
 \[
-(\ell^*)'(x) = A_k(x) + O(x^{k-2})
+{\ell^*}'(x) = A_k(x) + O(x^{k-2})
 \]
 for all $k$.
+\end{comment}
 \end{proof}
 
 We can also prove a uniqueness result for $\ell^*$, using only the assumption of concavity together with the functional equation.
@@ -463,7 +544,7 @@ We can also prove a uniqueness result for $\ell^*$, using only the assumption of
 \end{cor}
 \end{comment}
 
-\begin{prop} If $f : (0,\infty) \rightarrow \RR$ is a concave function which satisfies $f(\ell(x)) = f(x) - 1$ for all $x > 0$ and $f(1) = 0$, then $f = \ell^*$.
+\begin{prop} If $f : (0,\infty) \rightarrow \RR$ is a concave function which satisfies $f(\ell(x)) = f(x) - 1$ for all $x > 0$, and if $f(1) = 0$, then $f = \ell^*$.
 \end{prop}
 \begin{proof} By the functional equation, it's enough to show that $f(x) - \ell^*(x) = O(x)$ as $x$ approaches $0$ from above. Since $f(\ell^n(1)) = -n = \ell^*(\ell^n(1))$ for $n \in \NN$, it's enough to show that the difference between $f(x) - f(y)$ and $\ell^*(x) - \ell^*(y)$ is $O(x)$ for $x > y > \ell(x)$. By the concavity of $f$, we have
 \[
@@ -505,7 +586,7 @@ Some of the nice properties of $\ell^*$ immediately imply nice properties of $\v
 \[
 \varepsilon^*(x+1) = \varepsilon(\varepsilon^*(x)).
 \]
-The uniqueness property of $\ell^*$ implies that $\varepsilon^*$ is the unique positive, convex function on $\RR$ which satisfies this functional equation together with the initial condition $\varepsilon^*(0) = 1$.
+The uniqueness property of $\ell^*$ implies that $\varepsilon^*$ is the unique convex function on $\RR$ which satisfies this functional equation together with the initial condition $\varepsilon^*(0) = 1$.
 
 \begin{prop} For every $x \in \RR$, we have
 \[
@@ -530,7 +611,7 @@ Taking the limit of both sides as $n \rightarrow \infty$ proves that
 \]
 \end{proof}
 
-\begin{cor} The function $\varepsilon^*$ is absolutely monotone, that is, $(\varepsilon^*)^{(n)}(x) \ge 0$ for every $n \in \NN$ and every $x \in \RR$.
+\begin{cor} The function $\varepsilon^*$ is absolutely monotone, that is, ${\varepsilon^*}^{(n)}(x) \ge 0$ for every $n \in \NN$ and every $x \in \RR$.
 \end{cor}
 \begin{proof} From the fact that the function $x \mapsto \frac{2}{c-x}$ is absolutely monotone on $(-\infty, c)$ for every constant $c$, the fact that $\varepsilon(x)$ is absolutely monotone on $(0,\infty)$, and the fact that compositions of absolutely monotone functions are absolutely monotone, each function
 \[
@@ -539,8 +620,32 @@ Taking the limit of both sides as $n \rightarrow \infty$ proves that
 is absolutely monotone on $(-\infty, 2/\ell^n(1))$. Since pointwise limits of absolutely monotone functions are absolutely monotone, we see that $\varepsilon^*$ is absolutely monotone as well.
 \end{proof}
 
-\begin{cor} The function $\varepsilon^*$ extends to an entire function on $\CC$ which satisfies the functional equation $\varepsilon^*(x+1) = \varepsilon(\varepsilon^*(x))$.
+\begin{cor} The function $\varepsilon^*$ extends to an entire function on $\CC$ which satisfies the functional equation $\varepsilon^*(x+1) = \varepsilon(\varepsilon^*(x))$. For all $x \in \CC$, we have
+\[
+\varepsilon^*(x) = \lim_{n \rightarrow \infty} \varepsilon^{n}\Big(\frac{2}{\frac{2}{\ell^n(1)} - x}\Big).
+\]
 \end{cor}
+
+By Picard's little theorem, $\varepsilon^*$ can only avoid a single value on $\CC$, and since $\varepsilon(x) = e^x-1 \ne -1$ for all $x \in \CC$, the functional equation for $\varepsilon^*$ shows that
+\[
+\varepsilon^*(x) \ne -1
+\]
+for all $x \in \CC$ as well. Interestingly, this implies that $\varepsilon^*$ must instead take values such as $0$ and $\varepsilon(-1)$ - and in fact, Picard's great theorem implies that $\varepsilon^*$ takes these values infinitely often. This may not be such a surprise if you think back to our description of the extension of $\ell^*$ to a function on a branched cover of $\CC$ with infinitely many sheets, and use the fact that
+\[
+\varepsilon^*(\ell^*(x)) = x.
+\]
+For instance, the zeros of $\varepsilon^*$ are in one-to-one correspondence with the set of sheets of this branched covering, excluding the single starting sheet where $\ell^*$ has an essential singularity at $0$.
+
+\begin{comment}
+\[
+|\frac{d}{dx}\frac{1}{e^{1/x}-1}| = |\frac{e^{1/x}}{x^2(e^{1/x}-1)^2}| < 1?
+|e^{1/x}| < |x(e^{1/x}-1)|^2?
+1 < |x^2(e^{1/x}-2+e^{-1/x})|?
+|e^x + e^{-x} - 2| > |x|^2?
+|x^2 + x^4/12 + ...| > |x|^2?
+|1 + x^2/12 + ...| > 1?
+\]
+\end{comment}
 
 Now we can finally define the fractional compositional powers of the function $e^x - 1$.
 
@@ -561,6 +666,14 @@ In particular, we have
 \]
 \end{prop}
 
+We can compute $\varepsilon^m$ with a direct limit formula, using the fact that the limit formulas for $\ell^*$ and $\varepsilon^*$ converge uniformly on compact subsets of their domains.
+
+\begin{prop} For $m \in \CC$ and $x \in \CC \setminus (-\infty,0]$, we have
+\[
+\varepsilon^m(x) = \lim_{n \rightarrow \infty} \varepsilon^n\Big(\frac{2}{\frac{2}{\ell^n(x)} - m}\Big).
+\]
+\end{prop}
+
 Just for fun, we can also define an asymptotic measurement of ``how exponentially'' a function grows.
 
 \begin{defn} We say that a function $f:(0,\infty) \rightarrow (0,\infty)$ has \emph{exponentiality} $\alpha(f)$ if
@@ -569,7 +682,7 @@ Just for fun, we can also define an asymptotic measurement of ``how exponentiall
 \]
 \end{defn}
 
-Under this definition, we have $\alpha(1) = -\infty$, $\alpha(x) = 0$, $\alpha(\varepsilon) = 1$, and $\alpha(\ell) = -1$. Additionally, we have $\alpha(\varepsilon^n) = n$ for all $n \in \RR$, $\alpha(\ell^*) = -\infty$, and $\alpha(\varepsilon^*) = +\infty$.
+Under this definition, we have $\alpha(1) = -\infty$, $\alpha(x) = 0$, $\alpha(\varepsilon) = 1$, and $\alpha(\ell) = -1$. Additionally, we have $\alpha(\varepsilon^n) = n$ for all $n \in \RR$, $\alpha{\ell^*} = -\infty$, and $\alpha(\varepsilon^*) = +\infty$.
 
 \begin{prop} If $f,g : (0,\infty) \rightarrow [\epsilon,\infty)$ are functions with exponentialities $\alpha(f), \alpha(g)$, then
 \[
