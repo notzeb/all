@@ -7822,224 +7822,6 @@ s(x,s(x,y)) \approx s(s(x,y),x) \approx s(x,y).
 % TODO
 
 
-\section{Semidefinite Programming robustly solves bounded width CSPs}
-
-In this section we finally touch on a difficult topic: trying to maximize the number of satisfied constraints in a CSP instance which has no perfect solution. We consider only a very special case of this problem here: the problem of trying to approximately solve a CSP when we are promised that there exists a way to satisfy all but a tiny fraction of the constraints. This problem was considered by Guruswami and Zhou in \cite{robust-horn-gap}.
-
-\begin{defn} We say that $\CSP(\fA)$ is \emph{robustly solvable} if there is a function $f : [0,1] \rightarrow [0,1]$ such that
-\[
-\lim_{\epsilon \rightarrow 0} f(\epsilon) = 0,
-\]
-and a polynomial time algorithm that takes as input an instance $\fX$ of $\CSP(\fA)$, and outputs an assignment to the variables of $\fX$ such that if it is possible to satisfy a $1-\epsilon$ fraction of the constraints of $\fX$, then the assignment found by the algorithm satisfies at least a $1-f(\epsilon)$ fraction of the constraints of $\fX$.
-\end{defn}
-
-Before we dive into our main topic, we first give evidence that certain CSPs are \emph{not} robustly solvable. We won't prove the next result here.
-
-\begin{thm}[H\r{a}stad \cite{hastad-optimal}] Let $\fA$ be the affine CSP template with domain $\bA$, where $\bA$ is the idempotent reduct of any finite abelian group, with relations given by $\RR_c = \{(x,y,z) \mid x+y+z = c\} \le_{sd} \bA^3$ for every possible $c \in \bA$.
-
-Then for every fixed $\epsilon > 0$, it is NP-hard to solve the following problem: given an instance $\fX$ of $\CSP(\fA)$ such that there exists an assignment satisfying at least a $1-\epsilon$ fraction of the constraints, find an assignment which satisfies at least a $\frac{1}{|\bA|} + \epsilon$ fraction of the constraints.
-\end{thm}
-
-Note that for the affine CSP defined above, randomly guessing values for variables will produce an assignment which satisfies a $\frac{1}{|\bA|}$ fraction of the constraints, on average. So H\r{a}stad's result tells us that it's NP-hard to find any improvement on randomly guessing, for affine CSPs which are not perfectly solvable.
-
-\begin{cor} If $\CSP(\fA)$ is robustly solvable and $P \ne NP$, then $\fA$ must be affine-free (and therefore $\fA$ has bounded width).
-\end{cor}
-
-The best known approach to approximately solving CSPs, based on semidefinite programming, was laid out in Raghavendra's thesis \cite{raghavendra-thesis} (see \cite{raghavendra-optimal} for a short overview of the results). Under the Unique Games Conjecture, Raghavendra proved that this approach is actually optimal. The strategy is as follows.
-
-As in the linear programming relaxation of a CSP, we imagine that we are looking for a probability distribution over solutions to the CSP. We do not give a full description of this unknown probability distribution: we only describe the marginal distribution over assignments to tuples of variables belonging to constraints of the CSP, as well as the marginal distribution over assignments to each pair of variables in the CSP. We impose compatibility conditions between the marginal distributions over each tuples of variables $(v_1, ..., v_m)$ belonging to some constraint and the marginal distribution over each pair $(v_i,v_j)$ for $i,j \le m$.
-
-So far all the conditions given can be described by a system of linear inequalities. The semidefinite aspect comes from the following observation: every covariance matrix of any collection of random variables must be positive semidefinite.
-
-To be more concrete, for each pair of variables $x,y$ and each pair of values $a \in \bA_x, b \in \bA_y$, we have some variable $p_{(x,a),(y,b)}$ between $0$ and $1$, describing the probability that $x$ is assigned the value $a$ and $y$ is assigned the value $b$. We create a matrix $M_p$ with rows and columns indexed by ordered pairs $(x,a)$ with $a \in \bA_x$, and fill the $(x,a),(y,b)$ entry with $p_{(x,a),(y,b)}$ (I like to imagine $M_p$ as a block matrix, with each block of rows or columns corresponding to a particular variable $x$). Then the matrix $M_p$ must be positive semidefinite if these probabilities come from an actual probability distribution.
-
-Before defining everything formally, we give an example.
-
-\begin{ex} Consider the following instance of 2-SAT: we have three variables $x,y,z$, and each pair of variables has a $\ne$ constraint imposed between them. This instance has no perfect solution, but the standard linear programming relaxation is incapable of noticing this. Let's see how the semidefinite relaxation does.
-
-The matrix $M_p$ has six rows and six columns, corresponding to the pairs $(x,0),(x,1),(y,0)$, $(y,1),(z,0),(z,1)$, in that order. If $M_p$ comes from a probability distribution over perfect solutions to this instance of 2-SAT, then it must have the following shape:
-\[
-M_p = \begin{pmatrix}\begin{matrix} * & 0\\ 0 & *\end{matrix} & \rvline & \begin{matrix} 0 & *\\ * & 0\end{matrix} & \rvline & \begin{matrix} 0 & *\\ * & 0\end{matrix}\\
-\hline \begin{matrix} 0 & *\\ * & 0\end{matrix} & \rvline & \begin{matrix} * & 0\\ 0 & *\end{matrix} & \rvline & \begin{matrix} 0 & *\\ * & 0\end{matrix}\\
-\hline \begin{matrix} 0 & *\\ * & 0\end{matrix} & \rvline & \begin{matrix} 0 & *\\ * & 0\end{matrix} & \rvline & \begin{matrix} * & 0\\ 0 & *\end{matrix}\end{pmatrix}.
-\]
-Additionally, the entries in each block of $M_p$ must sum to $1$ (and be $\ge 0$), and for each fixed row or column of $M_p$, the sum of the entries in the intersection of the row/column with any block must only depend on the row/column. Putting these linear constraints together, we quickly see that every nonzero entry of $M_p$ must actually be equal to $\frac{1}{2}$. So far, this is exactly what the linear programming relaxation will guess.
-
-The matrix $M_p$ found above, with all nonzero entries equal to $\frac{1}{2}$, is \emph{not} positive semidefinite. To see this, note that we have
-\[
-\begin{pmatrix}1 & -1 & \rvline & 1 & -1 & \rvline & 1 & -1\end{pmatrix}
-\begin{pmatrix}\begin{matrix} \tfrac{1}{2} & 0\\ 0 & \tfrac{1}{2}\end{matrix} & \rvline & \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix} & \rvline & \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix}\\
-\hline \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix} & \rvline & \begin{matrix} \tfrac{1}{2} & 0\\ 0 & \tfrac{1}{2}\end{matrix} & \rvline & \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix}\\
-\hline \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix} & \rvline & \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix} & \rvline & \begin{matrix} \tfrac{1}{2} & 0\\ 0 & \tfrac{1}{2}\end{matrix}\end{pmatrix}
-\begin{pmatrix} 1\\ -1\\ \hline 1\\ -1\\ \hline 1\\ -1\end{pmatrix} = -3 < 0.
-\]
-So the semidefinite relaxation of the problem can detect that we can't perfectly solve this instance of 2-SAT.
-
-Now suppose that we give up on finding a perfect solution, and instead look for an approximate solution. This means that some of the entries of $M_p$ which were required to be $0$ before are instead required to be \emph{small}. One choice of $M_p$ that works is
-\[
-M_p = \frac{1}{8}\begin{pmatrix}\begin{matrix} 4 & 0\\ 0 & 4\end{matrix} & \rvline & \begin{matrix} 1 & 3\\ 3 & 1\end{matrix} & \rvline & \begin{matrix} 1 & 3\\ 3 & 1\end{matrix}\\
-\hline \begin{matrix} 1 & 3\\ 3 & 1\end{matrix} & \rvline & \begin{matrix} 4 & 0\\ 0 & 4\end{matrix} & \rvline & \begin{matrix} 1 & 3\\ 3 & 1\end{matrix}\\
-\hline \begin{matrix} 1 & 3\\ 3 & 1\end{matrix} & \rvline & \begin{matrix} 1 & 3\\ 3 & 1\end{matrix} & \rvline & \begin{matrix} 4 & 0\\ 0 & 4\end{matrix}\end{pmatrix},
-\]
-which the reader may verify is positive semidefinite. This seems to satisfy each particular constraint with a probability of $\frac{3}{4}$. So the semidefinite relaxation thinks it might be possible to satisfy a $\frac{3}{4}$ fraction of the constraints. An easy brute force search reveals that the best we can do in reality is to satisfy a $\frac{2}{3}$ fraction of the constraints.
-\end{ex}
-
-There is one further step we will take to analyze the semidefinite relaxation, based on a standard fact from linear algebra about positive semidefinite matrices.
-
-\begin{prop} If $M$ is an $n\times n$ positive semidefinite matrix, then there is a collection of vectors $x_1, ..., x_n \in \RR^n$ such that $M_{ij} = x_i\cdot x_j$ for all $i,j \le n$. Such a collection of vectors $x_1, ..., x_n$ can be computed from $M$ in polynomial time.
-\end{prop}
-\begin{proof} Perhaps the simplest approach is to compute a Cholesky decomposition of $M$, writing $M = LL^T$ for some lower triangular matrix $L$. The columns of $L^T$ can then be used as the vectors $x_1, ..., x_n$.
-\end{proof}
-
-\begin{ex} The matrix $M_p$ from the end of the previous example is positive semidefinite, so there should exist vectors $x_0, x_1, y_0, y_1, z_0, z_1 \in \RR^6$ whose matrix of dot products is equal to $M_p$. Since $M_p$ has rank $3$, we should even be able to find such vectors in $\RR^3$. One particularly satisfying choice of vectors that works is
-\[
-x_0 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2} - \sqrt{3}\\ \sqrt{2}\\ \sqrt{2}+\sqrt{3}\end{bmatrix}, x_1 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2} + \sqrt{3}\\ \sqrt{2}\\ \sqrt{2}-\sqrt{3}\end{bmatrix}, y_0 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2}\\ \sqrt{2}+\sqrt{3}\\ \sqrt{2} - \sqrt{3}\end{bmatrix}, y_1 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2}\\ \sqrt{2}-\sqrt{3}\\ \sqrt{2} + \sqrt{3}\end{bmatrix}, 
-%z_0 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2}+\sqrt{3}\\ \sqrt{2} - \sqrt{3}\\ \sqrt{2}\end{bmatrix}, z_1 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2}\\ \sqrt{2}-\sqrt{3}\\ \sqrt{2} + \sqrt{3}\end{bmatrix}.
-\]
-with $z_0, z_1$ defined similarly by cyclically shifting $y_0, y_1$.
-\end{ex}
-
-Now we can give the definition of the basic semidefinite relaxation of a CSP (this is the LC relaxation from \cite{raghavendra-thesis}).
-
-\begin{defn} Given an instance $\fX$ of a CSP, with variable domains $\bA_v$ and constraints $C$ imposing relations $\RR_C \le \prod_{i \le m_C} \bA_{v_{C,i}}$ on the variables $v_{C,1}, ..., v_{C,m}$, the \emph{basic semidefinite relaxation} of $\fX$ is the following optimization problem. We wish to find a system of ``probabilities'' $p_{C,r}$ for $r \in \prod_{i \le m_C} \bA_{v_{C,i}}$, such that
-\[
-\sum_{r} p_{C,r} = 1
-\]
-for each constraint $C$ and
-\[
-p_{C,r} \ge 0
-\]
-for each $C,r$, and to find vectors
-\[
-x_a \in \RR^N
-\]
-for each variable $x$ and value $a \in \bA_x$, where $N = \sum_x |\bA_x|$ is the number of pairs $(x,a)$, such that for each $C$ and each pair $i,j \le m_C$ we satisfy the compatibility condition
-\[
-(v_{C,i})_a \cdot (v_{C,j})_b = \sum_{r_i = a, r_j = b} p_{C,r}.
-\]
-These vectors must also satisfy the following constraints, for each pair of variables $x,y$ of $\fX$.
-\begin{itemize}
-\item For all $a \ne b \in \bA_x$, we have $x_a \cdot x_b = 0$.
-\item We have $\sum_{a \in \bA_x} \|x_a\|^2 = \|\sum_{a \in \bA_x} x_a\|^2 = 1$.
-\item For all $a \in \bA_x, b \in \bA_y$, we have $x_a \cdot y_b \ge 0$.
-\item We have $\sum_{a \in \bA_x, b \in \bA_y} x_a \cdot y_b = 1$.
-\end{itemize}
-Note that these constraints are slightly redundant - if every pair of variables shows up in the scope of some constraint $C$, then they are implied by the compatibility conditions between the probabilities $p_{C,r}$ and the dot products of the vectors.
-
-Our goal is to find such a system of probabilities $p_{C,r}$ and vectors $x_a$ such that the quantity
-\[
-\tfrac{1}{\#C}\sum_C \sum_{r \in \RR_C} p_{C,r}
-\]
-is maximized. The maximum possible value of that sum is called the \emph{value} of the semidefinite relaxation. If the value of the semidefinite relaxation is equal to $1$, then we say that the system of probabilities $p_{C,r}$ and vectors $x_a$ \emph{perfectly solves} the semidefinite relaxation.
-\end{defn}
-
-% TODO: throw in the Guruswami-Zhou example of a gap instance of Horn-SAT: the "simultaneous induction" instance, with x_0 = y_0 = 1, x_n = y_n = 0, and (x_i and y_i implies x_{i+1}), (x_i and y_i implies y_{i+1}) for each 0 <= i < n. This instance has SDP-value 1 - 1/2^{\Omega(n)}.
-
-Note that the constraints we make on the vectors $x_a$ only involve their dot products, and that they are always linear equalities/inequalities in terms of these dot products. We can deduce from these constraints a result which involves the vectors directly.
-
-\begin{prop} Suppose that a system of probabilities $p_{C,r}$ and vectors $x_a$ are as in the basic semidefinite relaxation of a CSP instance $\fX$. Then for any variables $x,y$ of $\fX$, we have
-\[
-\sum_{a \in \bA_x} x_a = \sum_{b \in \bA_y} y_b.
-\]
-\end{prop}
-\begin{proof} Let $x_{\bA_x} = \sum_{a \in \bA_x} x_a$ and similarly let $y_{\bA_y} = \sum_{b \in \bA_y} y_b$. Then we have $\|x_{\bA_x}\|^2 = \|y_{\bA_y}\|^2 = x_{\bA_x}\cdot y_{\bA_y} = 1$, so by the equality case of Cauchy-Schwarz we must have $x_{\bA_x} = y_{\bA_y}$.
-\end{proof}
-
-A useful generalization of the notation for the vectors $x_a$ was used heavily in \cite{sdp}.
-
-\begin{defn} Suppose we are in the setup of the basic semidefinite relaxation of a CSP instance $\fX$. If $x$ is a variable of $\fX$ and $A \subseteq \bA_x$, then we define the vector $x_A$ by
-\[
-x_A = \sum_{a \in A} x_a.
-\]
-\end{defn}
-
-Note that since the vectors $x_a$ are pairwise orthogonal for a fixed variable $x$, we have
-\[
-\|x_A\|^2 = \sum_{a \in A} \|x_a\|^2 = x_A \cdot x_{\bA_x}.
-\]
-Additionally, for each pair of variables $x,y$, we have
-\[
-x_A \cdot y_B = \sum_{a \in A, b \in B} x_a\cdot y_b
-\]
-by the distributive law.
-
-Before explaining how to use the basic semidefinite relaxation to robustly solve affine-free CSPs, we will first show that if an instance $\fX$ of an affine-free CSP has a perfect solution to its basic semidefinite relaxation, then in fact $\fX$ has a solution. The main idea is to prove that the set of values $a \in \bA_x$ such that the vectors $x_a$ are nonzero can be used to restrict the instance to get a weak Prague instance, which will then be $pq$-consistent by Theorem \ref{weak-prague-pq}. The crucial computation is analyzing what happens to the vector $x_A$ when we take a single step along a path.
-
-\begin{lem}\label{sdp-weak-prague} Suppose we are in the setup of the basic semidefinite relaxation of a CSP instance $\fX$. Let $x,y$ be variables of $\fX$, and define a binary relation $P \subseteq \bA_x \times \bA_y$ by
-\[
-(a,b) \in P \;\; \iff \;\; x_a \cdot y_b > 0.
-\]
-Then for any set $A \subseteq \bA_x$, we have
-\[
-\|x_A\|^2 \le \|y_{A+P}\|^2,
-\]
-with equality only when $x_A = y_{A+P}$. In fact, we have
-\[
-x_A \cdot (y_{A+P} - x_A) = 0,
-\]
-that is, $y_{A+P}$ is the sum of $x_A$ with a vector which is perpendicular to $x_A$.
-\end{lem}
-\begin{proof} We have $x_A\cdot x_A = x_A \cdot x_{\bA_x}$, and by the definition of $P$ we have
-\[
-x_A \cdot y_{A+P} = \sum_{a\in A, b \in A+P} x_a \cdot y_b = \sum_{a\in A, b \in \bA_y} x_a \cdot y_b = x_A \cdot y_{\bA_y}.
-\]
-Since $x_{\bA_x} = y_{\bA_y}$, we have
-\[
-x_A \cdot x_A = x_A \cdot x_{\bA_x} = x_A \cdot y_{\bA_y} = x_A \cdot y_{A+P},
-\]
-so $x_A$ is orthogonal to $y_{A+P} - x_A$.
-
-From the orthogonality of $x_A$ with $y_{A+P} - x_A$, we have
-\[
-\|y_{A+P}\|^2 = \|x_A + (y_{A+P} - x_A)\|^2 = \|x_A\|^2 + \|y_{A+P} - x_A\|^2 \ge \|x_A\|^2,
-\]
-with equality exactly when $y_{A+P} = x_A$.
-\end{proof}
-
-\begin{thm} Suppose $\fX$ is an instance of an affine-free CSP, and that there is a system of probabilities $p_{C,r}$ and vectors $x_a$ which perfectly solves the basic semidefinite relaxation of $\fX$. Then $\fX$ has a solution.
-\end{thm}
-\begin{proof} We define a restriction $\fX'$ of $\fX$ by restricting each relation $\RR_C$ to the support $R_C'$ of the marginal distribution $p_{C,r}$, and restricting each variable domain $\bA_x$ to the set $A_x'$ of $a \in \bA_x$ such that $\|x_a\|^2 \ne 0$. Note that each $R_C'$ will be contained in the original relation $\RR_C$ if we have a perfect solution to the basic semidefinite relaxation. Additionally, for each constraint $C$ and each $i,j \le m_C$, the binary projection $\pi_{i,j}(R_C')$ will be equal to the set of ordered pairs $(a,b) \in A_{v_{C,i}}' \times A_{v_{C,j}}'$ such that $(v_{C,i})_a \cdot (v_{C,j})_b \ne 0$, by the compatibility between the probabilities $p_{C,r}$ and the vectors $x_a$.
-
-We will check that $\fX'$ is a weak Prague instance (see Definition \ref{defn-weak-prague}). Arc-consistency (aka condition (P1)) of $\fX'$ follows from the compatibility between the probabilities and the vectors. To check (P2) and (P3), we use Lemma \ref{sdp-weak-prague}. Let $A \subseteq A_x'$ and let $p$ be a cycle from $x$ to $x$ in the instance $\fX'$, with $p_1$ from $x$ to $y$ the first step of the cycle $p$. If we have
-\[
-A+p = A,
-\]
-then by Lemma \ref{sdp-weak-prague} we have
-\[
-\|x_A\|^2 \le \|y_{A+p_1}\|^2 \le \|x_{A+p}\|^2 = \|x_A\|^2,
-\]
-so by the equality case of Lemma \ref{sdp-weak-prague} we must have
-\[
-x_A = y_{A+p_1}.
-\]
-Thus for any $a' \not\in A$, we must have $x_{a'} \cdot y_{A+p_1} = x_{a'} \cdot x_A = 0$, so we have
-\[
-A+p_1-p_1 = A.
-\]
-Thus by Proposition \ref{prop-p2*} we see that $\fX'$ satisfies condition (P2). We could have also checked condition (P2) using only the system of probabilities $p_{C,r}$, without mentioning the vectors $x_a$, by Theorem \ref{lp-p1-p2}.
-
-To check (P3), let $A \subseteq A_x'$, and let $p,q$ be cycles from $x$ to $x$ in the instance $\fX'$, with
-\[
-A+p+q = A.
-\]
-Then by Lemma \ref{sdp-weak-prague} we have
-\[
-\|x_A\|^2 \le \|x_{A+p}\|^2 \le \|x_{A+p+q}\|^2 = \|x_A\|^2,
-\]
-so by the equality case of Lemma \ref{sdp-weak-prague} we must have
-\[
-x_A = x_{A+p}.
-\]
-In particular, we must have $A = A+p$, which proves (P3).
-
-To finish, we note that $\fX'$ is $pq$-consistent by Theorem \ref{weak-prague-pq}, so $\Sg(\fX')$ is also $pq$-consistent by Proposition \ref{pq-algebraic-closure}, and $\Sg(\fX')$ is a restriction of the instance $\fX$ since $\fX = \Sg(\fX)$. Thus $\Sg(\fX')$ has a solution by Theorem \ref{affine-free-pq} and its corollaries, which is also a solution to the original instance $\fX$.
-\end{proof}
-
-In order to extend the previous result to an algorithm for \emph{robustly} solving affine-free CSPs, we need to find some approximate analogue of Lemma \ref{sdp-weak-prague}. The plan is to start by arguing as in Theorem \ref{lp-robust}, using the probabilities $p_{C,r}$ to produce an arc-consistent instance, and then to randomly cut the unit ball of possible values for the vectors $x_A$ into finitely many pieces, so that a version of Lemma \ref{sdp-weak-prague} holds when we forget what the exact values of the vectors $x_A$ are, and instead only keep track of which piece of the ball $x_A$ is contained in. I plan to write up a detailed exposition of this at some point, but for now the interested reader can find the proof in \cite{sdp}.%TODO: make good on promise
-
-% TODO: Hastad's result (in a subsection here, or in an appendix)
-
-
 \section{Stable subalgebras, and even weaker consistency for bounded width}
 
 In this section we will introduce a new concept, which is similar to absorption but which is targeted at subdirect relations rather than arbitrary relations. This allows us to unify the treatment of centrally absorbing subalgebras with congruence classes of polynomially complete absorption free quotients, eliminating most of the casework we need to deal with. We will demonstrate the usefulness of this concept by solving the (P1)-(P3) problem (Problem \ref{prob-p1-p3}). The approach used in this section is based on Zhuk's theory of ``strong subalgebras'' \cite{zhuk-strong}.
@@ -8195,7 +7977,7 @@ be the solution set to $\mathbf{P}$, with $x_0 = x_n = x$. Now apply Proposition
 
 Putting these results together, we see that weak consistency implies that a solution exists in bounded width CSPs.
 
-\begin{thm} If $\fX$ is a weakly consistent instance of $\CSP(\bA_1, ..., \bA_n)$, where the $\bA_i$ are finite bounded width algebras, then $\fX$ has a solution. In fact, in this case $\fX$ has a \emph{stable} solution (i.e. a solution in which each variable $x$ is assigned to a stable element of its variable domain $\bA_x$).
+\begin{thm}\label{thm-weakly-consistent} If $\fX$ is a weakly consistent instance of $\CSP(\bA_1, ..., \bA_n)$, where the $\bA_i$ are finite bounded width algebras, then $\fX$ has a solution. In fact, in this case $\fX$ has a \emph{stable} solution (i.e. a solution in which each variable $x$ is assigned to a stable element of its variable domain $\bA_x$).
 \end{thm}
 
 Of course, this all hinged on the existence of a stability concept: we still need to prove Theorem \ref{thm-stability}. Our construction of a stability concept won't be particularly elegant, but it will get the job done. First we will show that we can restrict to the case where every binary absorbing algebra is centrally absorbing.
@@ -8599,6 +8381,581 @@ We handle strongly connected components which do not have any negative directed 
 
 To finish, we pick any total order on the strongly connected components of $\cG$ which extends the reachability order, and we choose the constants $c_{\cC}$ for the various connected components $\cC$ according to this order, with sufficient distance between them that there is no interaction between the various strongly connected components of $\cG$.
 \end{proof}
+
+
+\section{Semidefinite Programming robustly solves bounded width CSPs}
+
+In this section we finally touch on a difficult topic: trying to maximize the number of satisfied constraints in a CSP instance which has no perfect solution. We consider only a very special case of this problem here: the problem of trying to approximately solve a CSP when we are promised that there exists a way to satisfy all but a tiny fraction of the constraints. This problem was considered by Guruswami and Zhou in \cite{robust-horn-gap}.
+
+\begin{defn}\label{defn-robust} We say that $\CSP(\fA)$ is \emph{robustly solvable} if there is a function $f : [0,1] \rightarrow [0,1]$ such that
+\[
+\lim_{\epsilon \rightarrow 0} f(\epsilon) = 0,
+\]
+and a polynomial time algorithm that takes as input an instance $\fX$ of $\CSP(\fA)$, and outputs an assignment to the variables of $\fX$ such that if it is possible to satisfy a $1-\epsilon$ fraction of the constraints of $\fX$, then the assignment found by the algorithm satisfies at least a $1-f(\epsilon)$ fraction of the constraints of $\fX$.
+\end{defn}
+
+Before we dive into our main topic, we first give evidence that certain CSPs are \emph{not} robustly solvable. We won't prove the next result here.
+
+\begin{thm}[H\r{a}stad \cite{hastad-optimal}] Let $\fA$ be the affine CSP template with domain $\bA$, where $\bA$ is the idempotent reduct of any finite abelian group, with relations given by $\RR_c = \{(x,y,z) \mid x+y+z = c\} \le_{sd} \bA^3$ for every possible $c \in \bA$.
+
+Then for every fixed $\epsilon > 0$, it is NP-hard to solve the following problem: given an instance $\fX$ of $\CSP(\fA)$ such that there exists an assignment satisfying at least a $1-\epsilon$ fraction of the constraints, find an assignment which satisfies at least a $\frac{1}{|\bA|} + \epsilon$ fraction of the constraints.
+\end{thm}
+
+Note that for the affine CSP defined above, randomly guessing values for variables will produce an assignment which satisfies a $\frac{1}{|\bA|}$ fraction of the constraints, on average. So H\r{a}stad's result tells us that it's NP-hard to find any improvement on randomly guessing, for affine CSPs which are not perfectly solvable.
+
+\begin{cor} If $\CSP(\fA)$ is robustly solvable and $P \ne NP$, then $\fA$ must be affine-free (and therefore $\fA$ has bounded width).
+\end{cor}
+
+The best known approach to approximately solving CSPs, based on semidefinite programming, was laid out in Raghavendra's thesis \cite{raghavendra-thesis} (see \cite{raghavendra-optimal} for a short overview of the results). Under the Unique Games Conjecture, Raghavendra proved that this approach is actually optimal. The strategy is as follows.
+
+As in the linear programming relaxation of a CSP, we imagine that we are looking for a probability distribution over solutions to the CSP. We do not give a full description of this unknown probability distribution: we only describe the marginal distribution over assignments to tuples of variables belonging to constraints of the CSP, as well as the marginal distribution over assignments to each pair of variables in the CSP. We impose compatibility conditions between the marginal distributions over each tuples of variables $(v_1, ..., v_m)$ belonging to some constraint and the marginal distribution over each pair $(v_i,v_j)$ for $i,j \le m$.
+
+So far all the conditions given can be described by a system of linear inequalities. The semidefinite aspect comes from the following observation: every covariance matrix of any collection of random variables must be positive semidefinite.
+
+To be more concrete, for each pair of variables $x,y$ and each pair of values $a \in \bA_x, b \in \bA_y$, we have some variable $p_{(x,a),(y,b)}$ between $0$ and $1$, describing the probability that $x$ is assigned the value $a$ and $y$ is assigned the value $b$. We create a matrix $M_p$ with rows and columns indexed by ordered pairs $(x,a)$ with $a \in \bA_x$, and fill the $(x,a),(y,b)$ entry with $p_{(x,a),(y,b)}$ (I like to imagine $M_p$ as a block matrix, with each block of rows or columns corresponding to a particular variable $x$). Then the matrix $M_p$ must be positive semidefinite if these probabilities come from an actual probability distribution.
+
+Before defining everything formally, we give an example.
+
+\begin{ex} Consider the following instance of 2-SAT: we have three variables $x,y,z$, and each pair of variables has a $\ne$ constraint imposed between them. This instance has no perfect solution, but the standard linear programming relaxation is incapable of noticing this. Let's see how the semidefinite relaxation does.
+
+The matrix $M_p$ has six rows and six columns, corresponding to the pairs $(x,0),(x,1),(y,0)$, $(y,1),(z,0),(z,1)$, in that order. If $M_p$ comes from a probability distribution over perfect solutions to this instance of 2-SAT, then it must have the following shape:
+\[
+M_p = \begin{pmatrix}\begin{matrix} * & 0\\ 0 & *\end{matrix} & \rvline & \begin{matrix} 0 & *\\ * & 0\end{matrix} & \rvline & \begin{matrix} 0 & *\\ * & 0\end{matrix}\\
+\hline \begin{matrix} 0 & *\\ * & 0\end{matrix} & \rvline & \begin{matrix} * & 0\\ 0 & *\end{matrix} & \rvline & \begin{matrix} 0 & *\\ * & 0\end{matrix}\\
+\hline \begin{matrix} 0 & *\\ * & 0\end{matrix} & \rvline & \begin{matrix} 0 & *\\ * & 0\end{matrix} & \rvline & \begin{matrix} * & 0\\ 0 & *\end{matrix}\end{pmatrix}.
+\]
+Additionally, the entries in each block of $M_p$ must sum to $1$ (and be $\ge 0$), and for each fixed row or column of $M_p$, the sum of the entries in the intersection of the row/column with any block must only depend on the row/column. Putting these linear constraints together, we quickly see that every nonzero entry of $M_p$ must actually be equal to $\frac{1}{2}$. So far, this is exactly what the linear programming relaxation will guess.
+
+The matrix $M_p$ found above, with all nonzero entries equal to $\frac{1}{2}$, is \emph{not} positive semidefinite. To see this, note that we have
+\[
+\begin{pmatrix}1 & -1 & \rvline & 1 & -1 & \rvline & 1 & -1\end{pmatrix}
+\begin{pmatrix}\begin{matrix} \tfrac{1}{2} & 0\\ 0 & \tfrac{1}{2}\end{matrix} & \rvline & \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix} & \rvline & \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix}\\
+\hline \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix} & \rvline & \begin{matrix} \tfrac{1}{2} & 0\\ 0 & \tfrac{1}{2}\end{matrix} & \rvline & \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix}\\
+\hline \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix} & \rvline & \begin{matrix} 0 & \tfrac{1}{2}\\ \tfrac{1}{2} & 0\end{matrix} & \rvline & \begin{matrix} \tfrac{1}{2} & 0\\ 0 & \tfrac{1}{2}\end{matrix}\end{pmatrix}
+\begin{pmatrix} 1\\ -1\\ \hline 1\\ -1\\ \hline 1\\ -1\end{pmatrix} = -3 < 0.
+\]
+So the semidefinite relaxation of the problem can detect that we can't perfectly solve this instance of 2-SAT.
+
+Now suppose that we give up on finding a perfect solution, and instead look for an approximate solution. This means that some of the entries of $M_p$ which were required to be $0$ before are instead required to be \emph{small}. One choice of $M_p$ that works is
+\[
+M_p = \frac{1}{8}\begin{pmatrix}\begin{matrix} 4 & 0\\ 0 & 4\end{matrix} & \rvline & \begin{matrix} 1 & 3\\ 3 & 1\end{matrix} & \rvline & \begin{matrix} 1 & 3\\ 3 & 1\end{matrix}\\
+\hline \begin{matrix} 1 & 3\\ 3 & 1\end{matrix} & \rvline & \begin{matrix} 4 & 0\\ 0 & 4\end{matrix} & \rvline & \begin{matrix} 1 & 3\\ 3 & 1\end{matrix}\\
+\hline \begin{matrix} 1 & 3\\ 3 & 1\end{matrix} & \rvline & \begin{matrix} 1 & 3\\ 3 & 1\end{matrix} & \rvline & \begin{matrix} 4 & 0\\ 0 & 4\end{matrix}\end{pmatrix},
+\]
+which the reader may verify is positive semidefinite. This seems to satisfy each particular constraint with a probability of $\frac{3}{4}$. So the semidefinite relaxation thinks it might be possible to satisfy a $\frac{3}{4}$ fraction of the constraints. An easy brute force search reveals that the best we can do in reality is to satisfy a $\frac{2}{3}$ fraction of the constraints.
+\end{ex}
+
+There is one further step we will take to analyze the semidefinite relaxation, based on a standard fact from linear algebra about positive semidefinite matrices.
+
+\begin{prop} If $M$ is an $n\times n$ positive semidefinite matrix, then there is a collection of vectors $x_1, ..., x_n \in \RR^n$ such that $M_{ij} = x_i\cdot x_j$ for all $i,j \le n$. Such a collection of vectors $x_1, ..., x_n$ can be computed from $M$ in polynomial time.
+\end{prop}
+\begin{proof} Perhaps the simplest approach is to compute a Cholesky decomposition of $M$, writing $M = LL^T$ for some lower triangular matrix $L$. The columns of $L^T$ can then be used as the vectors $x_1, ..., x_n$.
+\end{proof}
+
+\begin{ex} The matrix $M_p$ from the end of the previous example is positive semidefinite, so there should exist vectors $x_0, x_1, y_0, y_1, z_0, z_1 \in \RR^6$ whose matrix of dot products is equal to $M_p$. Since $M_p$ has rank $3$, we should even be able to find such vectors in $\RR^3$. One particularly satisfying choice of vectors that works is
+\[
+x_0 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2} - \sqrt{3}\\ \sqrt{2}\\ \sqrt{2}+\sqrt{3}\end{bmatrix}, x_1 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2} + \sqrt{3}\\ \sqrt{2}\\ \sqrt{2}-\sqrt{3}\end{bmatrix}, y_0 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2}\\ \sqrt{2}+\sqrt{3}\\ \sqrt{2} - \sqrt{3}\end{bmatrix}, y_1 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2}\\ \sqrt{2}-\sqrt{3}\\ \sqrt{2} + \sqrt{3}\end{bmatrix}, 
+%z_0 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2}+\sqrt{3}\\ \sqrt{2} - \sqrt{3}\\ \sqrt{2}\end{bmatrix}, z_1 = \frac{1}{\sqrt{24}}\begin{bmatrix}\sqrt{2}\\ \sqrt{2}-\sqrt{3}\\ \sqrt{2} + \sqrt{3}\end{bmatrix}.
+\]
+with $z_0, z_1$ defined similarly by cyclically shifting $y_0, y_1$.
+\end{ex}
+
+Now we can give the definition of the basic semidefinite relaxation of a CSP (this is the LC relaxation from \cite{raghavendra-thesis}).
+
+\begin{defn} Given an instance $\fX$ of a CSP, with variable domains $\bA_v$ and constraints $C$ imposing relations $\RR_C \le \prod_{i \le m_C} \bA_{v_{C,i}}$ on the variables $v_{C,1}, ..., v_{C,m}$, the \emph{basic semidefinite relaxation} of $\fX$ is the following optimization problem. We wish to find a system of ``probabilities'' $p_{C,r}$ for $r \in \prod_{i \le m_C} \bA_{v_{C,i}}$, such that
+\[
+\sum_{r} p_{C,r} = 1
+\]
+for each constraint $C$ and
+\[
+p_{C,r} \ge 0
+\]
+for each $C,r$, and to find vectors
+\[
+x_a \in \RR^N
+\]
+for each variable $x$ and value $a \in \bA_x$, where $N = \sum_x |\bA_x|$ is the number of pairs $(x,a)$, such that for each $C$ and each pair $i,j \le m_C$ we satisfy the compatibility condition
+\[
+(v_{C,i})_a \cdot (v_{C,j})_b = \sum_{r_i = a, r_j = b} p_{C,r}.
+\]
+These vectors must also satisfy the following constraints, for each pair of variables $x,y$ of $\fX$.
+\begin{itemize}
+\item For all $a \ne b \in \bA_x$, we have $x_a \cdot x_b = 0$.
+\item We have $\sum_{a \in \bA_x} \|x_a\|^2 = \|\sum_{a \in \bA_x} x_a\|^2 = 1$.
+\item For all $a \in \bA_x, b \in \bA_y$, we have $x_a \cdot y_b \ge 0$.
+\item We have $\sum_{a \in \bA_x, b \in \bA_y} x_a \cdot y_b = 1$.
+\end{itemize}
+Note that these constraints are slightly redundant - if every pair of variables shows up in the scope of some constraint $C$, then they are implied by the compatibility conditions between the probabilities $p_{C,r}$ and the dot products of the vectors.
+
+Our goal is to find such a system of probabilities $p_{C,r}$ and vectors $x_a$ such that the quantity
+\[
+\tfrac{1}{\#C}\sum_C \sum_{r \in \RR_C} p_{C,r}
+\]
+is maximized. The maximum possible value of that sum is called the \emph{value} of the semidefinite relaxation. If the value of the semidefinite relaxation is equal to $1$, then we say that the system of probabilities $p_{C,r}$ and vectors $x_a$ \emph{perfectly solves} the semidefinite relaxation.
+\end{defn}
+
+Note that the constraints we make on the vectors $x_a$ only involve their dot products, and that they are always linear equalities/inequalities in terms of these dot products. We can deduce from these constraints a result which involves the vectors directly.
+
+\begin{prop} Suppose that a system of probabilities $p_{C,r}$ and vectors $x_a$ are as in the basic semidefinite relaxation of a CSP instance $\fX$. Then for any variables $x,y$ of $\fX$, we have
+\[
+\sum_{a \in \bA_x} x_a = \sum_{b \in \bA_y} y_b.
+\]
+\end{prop}
+\begin{proof} Let $x_{\bA_x} = \sum_{a \in \bA_x} x_a$ and similarly let $y_{\bA_y} = \sum_{b \in \bA_y} y_b$. Then we have $\|x_{\bA_x}\|^2 = \|y_{\bA_y}\|^2 = x_{\bA_x}\cdot y_{\bA_y} = 1$, so by the equality case of Cauchy-Schwarz we must have $x_{\bA_x} = y_{\bA_y}$.
+\end{proof}
+
+A useful generalization of the notation for the vectors $x_a$ was used heavily in \cite{sdp}.
+
+\begin{defn} Suppose we are in the setup of the basic semidefinite relaxation of a CSP instance $\fX$. If $x$ is a variable of $\fX$ and $A \subseteq \bA_x$, then we define the vector $x_A$ by
+\[
+x_A = \sum_{a \in A} x_a.
+\]
+\end{defn}
+
+Note that since the vectors $x_a$ are pairwise orthogonal for a fixed variable $x$, we have
+\[
+\|x_A\|^2 = \sum_{a \in A} \|x_a\|^2 = x_A \cdot x_{\bA_x}.
+\]
+Additionally, for each pair of variables $x,y$, we have
+\[
+x_A \cdot y_B = \sum_{a \in A, b \in B} x_a\cdot y_b
+\]
+by the distributive law.
+
+Before explaining how to use the basic semidefinite relaxation to robustly solve affine-free CSPs, we will first show that if an instance $\fX$ of an affine-free CSP has a perfect solution to its basic semidefinite relaxation, then in fact $\fX$ has a solution. The main idea is to prove that the set of values $a \in \bA_x$ such that the vectors $x_a$ are nonzero can be used to restrict the instance to get a weak Prague instance, which will then be $pq$-consistent by Theorem \ref{weak-prague-pq}. The crucial computation is analyzing what happens to the vector $x_A$ when we take a single step along a path.
+
+\begin{lem}\label{sdp-weak-prague} Suppose we are in the setup of the basic semidefinite relaxation of a CSP instance $\fX$. Let $x,y$ be variables of $\fX$, and define a binary relation $P \subseteq \bA_x \times \bA_y$ by
+\[
+(a,b) \in P \;\; \iff \;\; x_a \cdot y_b > 0.
+\]
+Then for any set $A \subseteq \bA_x$, we have
+\[
+\|x_A\|^2 \le \|y_{A+P}\|^2,
+\]
+with equality only when $x_A = y_{A+P}$. In fact, we have
+\[
+x_A \cdot (y_{A+P} - x_A) = 0,
+\]
+that is, $y_{A+P}$ is the sum of $x_A$ with a vector which is perpendicular to $x_A$. Furthermore, we have $x_A = y_{A+P}$ if and only if $A + P - P \subseteq A$.
+\end{lem}
+\begin{proof} Before diving into the algebraic details of the proof, it may be helpful to note that the dot products $x_a \cdot y_b$ define a probability distribution $\mu$ supported on $P \subseteq \bA_x \times \bA_y$ such that for $A \subseteq \bA_x, B \subseteq \bA_y$ we have $\mathbb{P}_\mu[A\times B] = x_A \cdot y_B$, and such that the marginal distributions $\mu_x, \mu_y$ on $\bA_x, \bA_y$ have probabilities given by $\mathbb{P}_{\mu_x}[A] = \|x_A\|^2$, $\mathbb{P}_{\mu_y}[B] = \|y_B\|^2$. It's possible to argue purely in terms of the probability distribution $\mu$, but the proof we give below won't directly refer to $\mu$ at all.
+
+We have $x_A\cdot x_A = x_A \cdot x_{\bA_x}$, and by the definition of $P$ we have
+\[
+x_A \cdot y_{A+P} = \sum_{a\in A, b \in A+P} x_a \cdot y_b = \sum_{a\in A, b \in \bA_y} x_a \cdot y_b = x_A \cdot y_{\bA_y}.
+\]
+Since $x_{\bA_x} = y_{\bA_y}$, we have
+\[
+x_A \cdot x_A = x_A \cdot x_{\bA_x} = x_A \cdot y_{\bA_y} = x_A \cdot y_{A+P},
+\]
+so $x_A$ is orthogonal to $y_{A+P} - x_A$.
+
+From the orthogonality of $x_A$ with $y_{A+P} - x_A$, we have
+\[
+\|y_{A+P}\|^2 = \|x_A + (y_{A+P} - x_A)\|^2 = \|x_A\|^2 + \|y_{A+P} - x_A\|^2 \ge \|x_A\|^2,
+\]
+with equality exactly when $y_{A+P} = x_A$.
+
+For the last statement, note that we have $\|x_A\|^2 \le \|y_{A+P}\|^2 \le \|x_{A+P-P}\|^2$, so we just need to check the implication $x_A = y_{A+P} \implies x_{A+P-P} = x_A$. Under the assumption $x_A = y_{A+P}$, we have
+\[
+x_A \cdot y_{A+P} = \|y_{A+P}\|^2 = y_{\bA_y} \cdot y_{A+P} = x_{\bA_x} \cdot y_{A+P}.
+\]
+Suppose for contradiction that there was some $a \in (A+P-P) \setminus A$. Then by the definition of $A+P-P$ there would be some $b \in A+P$ such that $(a,b) \in P$, that is, such that $x_a \cdot y_b > 0$. But then we would have
+\[
+x_{\bA_x} \cdot y_{A+P} \ge x_a \cdot y_b + x_A \cdot y_{A+P} > x_A \cdot y_{A+P},
+\]
+which contradicts the assumption $x_A = y_{A+P}$.
+\end{proof}
+
+\begin{thm} Suppose $\fX$ is an instance of an affine-free CSP, and that there is a system of probabilities $p_{C,r}$ and vectors $x_a$ which perfectly solves the basic semidefinite relaxation of $\fX$. Then $\fX$ has a solution.
+\end{thm}
+\begin{proof} We define a restriction $\fX'$ of $\fX$ by restricting each relation $\RR_C$ to the support $R_C'$ of the marginal distribution $p_{C,r}$, and restricting each variable domain $\bA_x$ to the set $A_x'$ of $a \in \bA_x$ such that $\|x_a\|^2 \ne 0$. Note that each $R_C'$ will be contained in the original relation $\RR_C$ if we have a perfect solution to the basic semidefinite relaxation. Additionally, for each constraint $C$ and each $i,j \le m_C$, the binary projection $\pi_{i,j}(R_C')$ will be equal to the set of ordered pairs $(a,b) \in A_{v_{C,i}}' \times A_{v_{C,j}}'$ such that $(v_{C,i})_a \cdot (v_{C,j})_b \ne 0$, by the compatibility between the probabilities $p_{C,r}$ and the vectors $x_a$.
+
+We will check that $\fX'$ is a weak Prague instance (see Definition \ref{defn-weak-prague}). Arc-consistency (aka condition (P1)) of $\fX'$ follows from the compatibility between the probabilities and the vectors. To check (P2) and (P3), we use Lemma \ref{sdp-weak-prague}. Let $A \subseteq A_x'$ and let $p$ be a cycle from $x$ to $x$ in the instance $\fX'$, with $p_1$ from $x$ to $y$ the first step of the cycle $p$. If we have
+\[
+A+p = A,
+\]
+then by Lemma \ref{sdp-weak-prague} we have
+\[
+\|x_A\|^2 \le \|y_{A+p_1}\|^2 \le \|x_{A+p}\|^2 = \|x_A\|^2,
+\]
+so by the equality case of Lemma \ref{sdp-weak-prague} we must have
+\[
+x_A = y_{A+p_1}.
+\]
+Thus for any $a' \not\in A$, we must have $x_{a'} \cdot y_{A+p_1} = x_{a'} \cdot x_A = 0$, so we have
+\[
+A+p_1-p_1 = A.
+\]
+Thus by Proposition \ref{prop-p2*} we see that $\fX'$ satisfies condition (P2). We could have also checked condition (P2) using only the system of probabilities $p_{C,r}$, without mentioning the vectors $x_a$, by Theorem \ref{lp-p1-p2}.
+
+To check (P3), let $A \subseteq A_x'$, and let $p,q$ be cycles from $x$ to $x$ in the instance $\fX'$, with
+\[
+A+p+q = A.
+\]
+Then by Lemma \ref{sdp-weak-prague} we have
+\[
+\|x_A\|^2 \le \|x_{A+p}\|^2 \le \|x_{A+p+q}\|^2 = \|x_A\|^2,
+\]
+so by the equality case of Lemma \ref{sdp-weak-prague} we must have
+\[
+x_A = x_{A+p}.
+\]
+In particular, we must have $A = A+p$, which proves (P3).
+
+To finish, we note that $\fX'$ is $pq$-consistent by Theorem \ref{weak-prague-pq}, so $\Sg(\fX')$ is also $pq$-consistent by Proposition \ref{pq-algebraic-closure}, and $\Sg(\fX')$ is a restriction of the instance $\fX$ since $\fX = \Sg(\fX)$. Thus $\Sg(\fX')$ has a solution by Theorem \ref{affine-free-pq} and its corollaries, which is also a solution to the original instance $\fX$.
+\end{proof}
+
+In order to extend the previous result to an algorithm for \emph{robustly} solving affine-free CSPs, we need to find some approximate analogue of Lemma \ref{sdp-weak-prague}. The plan is to start by arguing as in Theorem \ref{lp-robust}, using the probabilities $p_{C,r}$ to produce an arc-consistent instance with variable domains $A_x'$ and constraint relations $R'$, such that each tuple $r \in R'$ has probability above some (random) threshold $\theta$. Then we will randomly cut the unit ball of possible values for the vectors $x_A$ into finitely many pieces, so that a version of Lemma \ref{sdp-weak-prague} holds when we forget what the exact values of the vectors $x_A$ are, and instead only keep track of which piece of the ball $x_A$ is contained in.
+
+The proof becomes slightly simpler if we use the concept of weak consistency, from the previous section, instead of condition (P3). The simplification we get by aiming for weak consistency instead of (P3) is that when we have
+\[
+A + p + q = A,
+\]
+we only have to ensure that
+\[
+x_A \cdot x_{A+p} > 0 \;\; (\implies A \cap (A+p) \ne \emptyset),
+\]
+rather than needing to ensure that $x_A = x_{A+p}$. This means we only need to make sure that we chop the ball into fine enough pieces to separate each pair $x_A, x_B$ with $x_A \cdot x_B = 0$, instead of needing to separate each pair $x_A, x_B$ with $x_A \ne x_B$.
+
+In order to produce our weakly consistent instance, we will define a quasiorder $\preceq$ (with an associated strict partial order $\prec$ and equivalence relation $\sim$) on the ball. We will first choose a (randomized) sequence of radii $r_1, r_2, ...$, and a (random) collection of hyperplanes $\mathcal{H}_i$ such that for every variable $x$, any pair of vectors $x_A, x_B$ which are orthogonal are (with high probability) separated from each other by at least one of the hyperplanes $\mathcal{H}_i$. The plan is to define $\preceq$ by
+\[
+u \prec v \;\; \iff \;\; \exists i \text{ s.t. } \|u\| < r_i \le \|v\|
+\]
+and
+\[
+u \sim v \;\; \iff \;\; (\forall i \; \|u\| < r_i \iff \|v\| < r_i) \wedge (\forall j \; u, v \text{ are on the same side of }\mathcal{H}_j).
+\]
+The plan is to throw away any constraint relation $R'$ which is incompatible with the quasiorder $\preceq$, where we say that $R'$ is incompatible with $\preceq$ if there are variables $x,y$ and some $A \subseteq A_x'$ such that
+\[
+x_A \not\preceq y_{A + \pi_{xy}(R')}.
+\]
+We will choose the radii $r_i$ to guarantee that
+\[
+A + \pi_{xy}(R') - \pi_{xy}(R') \ne A \;\; \implies \;\; x_A \prec y_{A + \pi_{xy}(R')},
+\]
+by taking $r_{i+1}^2 < r_i^2 + \theta$.
+On the other hand, if
+\[
+A + \pi_{xy}(R') - \pi_{xy}(R') = A,
+\]
+then $x_A$ will be very close to $y_{A + \pi_{xy}(R')}$. In this case, we will ensure that the $r_i$ are spaced widely enough to make it unlikely that
+\[
+y_{A + \pi_{xy}(R')} \prec x_A.
+\]
+We also need to rule out the possibility that $x_A$ and $y_{A + \pi_{xy}(R')}$ are separated by some hyperplane $\mathcal{H}_i$. The chance that a particular random hyperplane separates $x_A$ and $y_{A + \pi_{xy}(R')}$ is proportional to the angle between $x_A$ and $y_{A + \pi_{xy}(R')}$, which will be low as long as $x_A$ is sufficiently close to $y_{A + \pi_{xy}(R')}$. All we have left to do is to carefully work out the details.
+
+\begin{thm}[Slight refinement of \cite{sdp}]\label{refined-sdp} If $\Gamma$ is a finite constraint language and $\fA = (A, \Gamma)$ has bounded relational width, then the basic SDP relaxation can be used to \emph{robustly} solve $\CSP(\fA)$.
+
+More precisely, if we are given an instance $\fX$ such that the basic SDP relaxation is $1 - \epsilon$ satisfiable, then we can efficiently find a solution which satisfies a
+\[
+1 - O\Big(\frac{\log(\log(\log(1/\epsilon)))}{\log(1/\epsilon)}\Big)
+\]
+fraction of the constraints.
+\end{thm}
+\begin{proof} Suppose we have a system of probabilities $p_{C,r}$ and vectors $x_a$ which solves the basic SDP relaxation of our instance $\fX$ with value at least $1-\epsilon$, that is, such that
+\[
+\tfrac{1}{\#C}\sum_C \sum_{r \in \RR_C} p_{C,r} \ge 1 - \epsilon.
+\]
+As an initial simplification to the problem, we will preemptively give up on any constraint $C$ such that
+\[
+\sum_{r \in \RR_C} p_{C,r} < 1 - \sqrt{\epsilon}.
+\]
+This gives up on at most a $\sqrt{\epsilon} = O(1/\log(1/\epsilon))$ fraction of the constraints of $\fX$, and allows us to focus on solving the problem in the special case where every individual constraint $C$ satisfies
+\begin{equation}
+\sum_{r \in \RR_C} p_{C,r} \ge 1 - \sqrt{\epsilon}.\label{sdp-cons-ineq}
+\end{equation}
+The advantage of this step is that from here on, we can look for a randomized algorithm which has a high probability of satisfying each constraint relation in isolation.
+
+Let $N = \log(1/\sqrt{\epsilon})$, and assume for simplicity that $N$ is an integer. We will make a series of randomized choices in order to produce a weakly consistent instance $\fX'$, and after each choice we will give up on some of the constraints of our original instance $\fX$. At each step, we just need to confirm that for each constraint $C$ which satisfies \eqref{sdp-cons-ineq}, the chance of giving up on the constraint $C$ is at most
+\[
+O\Big(\frac{\log(\log(N))}{N}\Big).
+\]
+
+First we will try to produce an arc-consistent instance. Choose a threshold $\theta$ uniformly at random from $\exp(-1), \exp(-2), ..., \exp(-N) = \sqrt{\epsilon}$. For each constraint $C$ with corresponding constraint relation $\RR_C$, we define the reduced relation $R_C'$ by
+\[
+R_C' = \{r \in \RR_C \mid p_{C,r} \ge 2\theta\}.
+\]
+For each variable $x$, we define the reduced variable domain $A_x'$ by
+\[
+A_x' = \{a \in \bA_x \mid \|x_a\|^2 \ge \theta\}.
+\]
+Our reduced instance $\fX'$ will have variable domains $A_x'$ and constraint relations $R_C'$ for all of the constraints $C$ which we do not choose to give up on by the end of our randomized procedure.
+In order to ensure arc-consistency of $\fX'$, we preemptively give up on any constraint $C$ which does not satisfy
+\begin{equation}
+\sum_{r \not\in R_C'} p_{C,r} < \theta.\label{sdp-cons-arc}
+\end{equation}
+
+{\bf Claim 1.} If a constraint $C$ with $R_C' \subseteq A_{x_1}' \times \cdots \times A_{x_m}'$ satisfies \eqref{sdp-cons-arc}, then we have
+\[
+\pi_{x_i}(R_C') = A_{x_i}'
+\]
+for each $i \in \{1, ..., m\}$.
+
+{\bf Proof of Claim 1.} Let $x = x_i$. First, note that for any $r \in R_C'$, if we set $a = \pi_x(r)$, then we have $\|x_a\|^2 \ge p_{C,r} \ge \theta$, so $a \in A_x'$. Thus we have $\pi_x(R_C') \subseteq A_x'$.
+
+Conversely, if $a \not\in \pi_x(R_C')$ then we have
+\[
+\|x_a\|^2 = \sum_{\pi_x(r) = a} p_{C,r} \le \sum_{r \not\in R_C'} p_{C,r} < \theta
+\]
+by \eqref{sdp-cons-arc}, so $a \not\in \pi_x(R_C') \implies a \not\in A_x'$. Thus $\pi_x(R_C') \supseteq A_x'$, so $\pi_x(R_C') = A_x'$.
+
+{\bf Claim 2.} If a constraint $C$ satisfies \eqref{sdp-cons-ineq}, and if $\theta$ is chosen uniformly randomly among $\exp(-1), \exp(-2), ..., \exp(-N) = \sqrt{\epsilon}$, then the chance that $C$ fails to satisfy \eqref{sdp-cons-arc} is $O(1/N)$, where the implied constant depends only on the number of tuples in the constraint relation $\RR_C$.
+
+{\bf Proof of Claim 2.} By \eqref{sdp-cons-ineq}, we always have
+\begin{align*}
+\sum_{r \not\in R_C'} p_{C,r} &= \sum_{r \not\in \RR_C} p_{C,r} + \sum_{\substack{r \in \RR_C\\ p_{C,r} < 2\theta}} p_{C,r}\\
+&< \sqrt{\epsilon} + |\RR_C|\max\{p_{C,r} \mid p_{C,r} < 2\theta\}.
+\end{align*}
+As we vary the choice of $\theta$, we see that there are at most $|\RR_C|+1$ possible values of
+\[
+m_\theta = \max(2\sqrt{\epsilon}, \; \max\{p_{C,r} \mid p_{C,r} < 2\theta\}),
+\]
+and for each value of $m_\theta$, the number of bad choices of $\theta$ with $m_\theta \le 2\theta < (2|\RR_C|+1)m_\theta$ is at most $\log(2|\RR_C|+1)$. Thus the chance of choosing a bad $\theta$ is at most
+\[
+\frac{(|\RR_C|+1)\log(2|\RR_C|+1)}{N} = O(1/N).
+\]
+
+Next we slice the ball $\mathcal{B}$ containing the $x_A$s into shells in order to ensure that the consistency condition (P2) is satisfied (note that (P2) is not required in the definition of weak consistency - however, enforcing it makes the rest of the proof simpler). To do this, we choose a second threshold $\theta_2$ uniformly at random from the interval $[0,\theta]$, and define radii $r_i$ by
+\[
+r_i^2 = i\theta + \theta_2.
+\]
+We define the strict partial order $\prec$ on the ball $\mathcal{B}$ by
+\begin{align*}
+u \prec v \;\; &\iff \;\; \exists i \text{ s.t. } \|u\| < r_i \le \|v\|\\
+&\iff \;\; \Big\lfloor \frac{\|u\|^2 - \theta_2}{\theta} \Big\rfloor < \Big\lfloor \frac{\|v\|^2 - \theta_2}{\theta} \Big\rfloor.
+\end{align*}
+In order to ensure that (P2) is satisfied, we will preemptively give up on any constraint $C$ such that there is a pair of variables $x,y$ involved in the constraint $C$ which do not satisfy
+\begin{equation}
+\forall A \subseteq A_x', \;\; y_{A + \pi_{xy}(R_C')} \not\prec x_A.\label{sdp-cons-shells}
+\end{equation}
+By the next claim, we will only need to check \eqref{sdp-cons-shells} in the special case where $A + \pi_{xy}(R_C') - \pi_{xy}(R_C') = A$.
+
+{\bf Claim 3.} If $A \subseteq A_x'$ has $A + \pi_{xy}(R_C') - \pi_{xy}(R_C') \ne A$, and if the constraint $C$ satisfies \eqref{sdp-cons-arc}, then we automatically have
+\[
+x_A \prec y_{A + \pi_{xy}(R_C')}.
+\]
+
+{\bf Proof of Claim 3.} We just need to prove that
+\[
+\|y_{A + \pi_{xy}(R_C')}\|^2 \ge \|x_A\|^2 + \theta.
+\]
+If $A + \pi_{xy}(R_C') - \pi_{xy}(R_C') \ne A$, then there must be some $a \not\in A$ and some $b \in A + \pi_{xy}(R_C')$ with $(a,b) \in \pi_{xy}(R_C')$. Picking $r \in R_C'$ with $\pi_{xy}(r) = (a,b)$, we see that
+\[
+x_a \cdot y_b \ge p_{C,r} \ge 2\theta
+\]
+by the definition of $R_C'$. Since
+\[
+\|y_{A + \pi_{xy}(R_C')}\|^2 = x_{\bA_x} \cdot y_{A + \pi_{xy}(R_C')} \ge x_A \cdot y_{A + \pi_{xy}(R_C')} + x_a \cdot y_b,
+\]
+we just need to check that
+\[
+x_A \cdot y_{A + \pi_{xy}(R_C')} \ge \|x_A\|^2 - \theta.
+\]
+For this, we just note that
+\begin{align*}
+\|x_A\|^2 - x_A \cdot y_{A + \pi_{xy}(R_C')} &= x_A \cdot y_{\bA_y} - x_A \cdot y_{A + \pi_{xy}(R_C')}\\
+&= \sum_{\substack{\pi_x(r) \in A\\ \pi_y(r) \not\in A + \pi_{xy}(R_C')}} p_{C,r}\\
+&\le \sum_{r \not\in R_C'} p_{C,r} < \theta.
+\end{align*}
+
+In order to put a bound on the probability that \eqref{sdp-cons-shells} fails to hold when $A + \pi_{xy}(R_C') - \pi_{xy}(R_C') = A$, we need to show that the expected value of
+\[
+\frac{\Big|\|x_A\|^2 - \|y_{A + \pi_{xy}(R_C')}\|^2\Big|}{\theta}
+\]
+is small when $\theta$ is chosen uniformly among $\exp(-1), ..., \exp(-N)$. In this case we have
+\begin{align*}
+\Big|\|x_A\|^2 - \|y_{A + \pi_{xy}(R_C')}\|^2\Big| &\le \max\Big(\|x_A\|^2 - x_A \cdot y_{A + \pi_{xy}(R_C')}, \; \|y_{A+\pi_{xy}(R_C')}\|^2 - x_A \cdot y_{A + \pi_{xy}(R_C')}\Big)\\
+&\le \sum_{r \not\in R_C'} p_{C,r},
+\end{align*}
+so we just need a bound on the expected value of
+\[
+\frac{1}{\theta} \sum_{r \not\in R_C'} p_{C,r}.
+\]
+
+{\bf Claim 4.} If $\theta$ is chosen uniformly among $\exp(-1), ..., \exp(-N)$, then
+\[
+\EE\Big[\frac{1}{\theta} \sum_{r \not\in R_C'} p_{C,r}\Big] = O(1/N),
+\]
+and the implied constant only depends on the number of tuples in the constraint $\RR_C$.
+As a consequence, the probability that \eqref{sdp-cons-shells} fails to hold for any given constraint $C$ is $O(1/N)$.
+
+{\bf Proof of Claim 4.} We have
+\begin{align*}
+\EE\Big[\frac{1}{\theta} \sum_{r \not\in R_C'} p_{C,r}\Big] &= \frac{1}{N} \sum_{\theta} \frac{1}{\theta} \sum_{r \not\in R_C'} p_{C,r}\\
+&= \frac{1}{N} \sum_{r \not\in \RR_C} p_{C,r} \sum_\theta \frac{1}{\theta} + \frac{1}{N} \sum_{r \in \RR_C} p_{C,r} \sum_{2\theta > p_{C,r}} \frac{1}{\theta}\\
+&\le \frac{1}{N} \sum_\theta \frac{\sqrt{\epsilon}}{\theta} + \frac{1}{N} \sum_{r \in \RR_C} \sum_{2\theta > p_{C,r}} \frac{p_{C,r}}{\theta}\\
+&< \frac{1}{N} \frac{1}{1-\exp(-1)} + \frac{1}{N} \sum_{r \in \RR_C} \frac{2}{1 - \exp(-1)}\\
+&< \frac{2(2|\RR_C| + 1)}{N}.
+\end{align*}
+
+So far, everything we have done could have been phrased in terms of the linear relaxation rather than the semidefinite relaxation. The next step, where we enforce weak consistency, is the step where we finally use the full power of the semidefinite relaxation. Set
+\[
+M = \log_2(N),
+\]
+and independently pick $M$ uniformly random hyperplanes $\cH_1, ..., \cH_M$. Now define the equivalence relation $\sim$ on $\cB$ by
+\[
+u \sim v \;\; \iff \;\; (\forall i \; \|u\| < r_i \iff \|v\| < r_i) \wedge (\forall j \; u, v \text{ are on the same side of }\mathcal{H}_j).
+\]
+In order to guarantee weak consistency, we need to preemptively give up on any variable $x$ (along with any constraint involving $x$) which does not satisfy
+\begin{equation}
+\forall A, B \subseteq A_x', \; A,B \ne \emptyset, \;\;\;  x_A \sim x_B \;\; \implies \;\; A \cap B \ne \emptyset \label{sdp-vars-weak}
+\end{equation}
+and we need to preemptively give up on every constraint $C$ such that there is a pair of variables $x,y$ involved in the constraint $C$ which do not satisfy
+\begin{equation}
+\forall A \subseteq A_x', \;\; A + \pi_{xy}(R_C') - \pi_{xy}(R_C') = A \;\; \implies \;\; y_{A + \pi_{xy}(R_C')} \sim x_A.\label{sdp-cons-weak}
+\end{equation}
+
+{\bf Claim 5.} The chance that any particular variable $x$ fails to satisfy \eqref{sdp-vars-weak} is at most $\frac{3^{|A_x'|}}{2^M} = O(1/N)$. As a consequence, the chance that we give up on any particular constraint $C$ due to \eqref{sdp-vars-weak} is also $O(1/N)$ by the union bound.
+
+{\bf Proof of Claim 5.} There are less than $3^{|A_x'|}$ pairs of disjoint, nonempty subsets $A,B$ of $A_x'$. For any particular pair $A,B$, the chance that any particular random hyperplane $\cH_i$ separates $x_A$ from $x_B$ is exactly $1/2$, since $x_A \cdot x_B = 0$. Thus the chance that none of the $M$ independent random hyperplanes $\cH_1, ..., \cH_M$ separate $x_A$ from $x_B$ is $1/2^M = 1/N$.
+
+To finish the argument, we need to find an upper bound on the probability that \eqref{sdp-cons-weak} is violated. For a given $A \subseteq A_x'$ with $A + \pi_{xy}(R_C') - \pi_{xy}(R_C') = A$, this probability depends mainly on the angle $\alpha$ between $x_A$ and $y_{A + \pi_{xy}(R_C')}$. From
+\[
+\max\Big(\|x_A\|^2 - x_A \cdot y_{A + \pi_{xy}(R_C')}, \; \|y_{A+\pi_{xy}(R_C')}\|^2 - x_A \cdot y_{A + \pi_{xy}(R_C')}\Big) \le \sum_{r \not\in R_C'} p_{C,r}
+\]
+we get
+\[
+x_A \cdot y_{A + \pi_{xy}(R_C')} \ge \|x_A\| \|y_{A + \pi_{xy}(R_C')}\| - \sum_{r \not\in R_C'} p_{C,r}.
+\]
+Using the fact that $\|x_A\|^2, \|y_{A + \pi_{xy}(R_C')}\|^2 \ge \theta$, we get
+\[
+\cos(\alpha) \ge 1 - \frac{1}{\theta}\sum_{r \not\in R_C'} p_{C,r},
+\]
+so
+\[
+\alpha^2 = O\Big(\frac{1}{\theta}\sum_{r \not\in R_C'} p_{C,r}\Big).
+\]
+The chance that at least one of the $M$ hyperplanes $\cH_i$ separates $x_A$ from $y_{A + \pi_{xy}(R_C')}$ is then given by
+\begin{align*}
+1 - \Big(1 - \frac{\alpha}{\pi}\Big)^M &\le \max\Big(1, \frac{M\alpha}{\pi}\Big)\\
+&\ll \max\Big(1, M\Big(\frac{1}{\theta}\sum_{r \not\in R_C'} p_{C,r}\Big)^{1/2}\Big).
+\end{align*}
+To finish the proof, we just need to verify one final claim.
+
+{\bf Claim 6.} If $\theta$ is chosen uniformly among $\exp(-1), ..., \exp(-N)$, then
+\[
+\EE\Big[\max\Big(1, M\Big(\frac{1}{\theta}\sum_{r \not\in R_C'} p_{C,r}\Big)^{1/2}\Big)\Big] = O\Big(\frac{\log(M)}{N}\Big).
+\]
+
+{\bf Proof of Claim 6.} The argument is similar to the proof of Claim 4, just slightly more involved. First, we use the inequality $\sqrt{a+b} \le \sqrt{a} + \sqrt{b}$ to get the bound
+\[
+\max\Big(1, M\Big(\frac{1}{\theta}\sum_{r \not\in R_C'} p_{C,r}\Big)^{1/2}\Big) \le \max\Big(1, M\sqrt{\frac{\sqrt{\epsilon}}{\theta}}\Big) + \sum_{\substack{r \in \RR_C'\\ p_{C,r} < \theta}} \max\Big(1, M\sqrt{\frac{p_{C,r}}{\theta}}\Big).
+\]
+We then bound the contribution of each summand individually. Each $\max$ takes the value $1$ for $2\log(M)$ values of $\theta$, and from then on takes values from a geometric series which decreases by a factor of $\exp(-1/2)$ with each step, so the total expectation ends up being $O(\log(M)/N)$.
+
+Thus, after preemptively giving up on at most a
+\[
+O\Big(\frac{\log(M)}{N}\Big) = O\Big(\frac{\log(\log(N))}{N}\Big) = O\Big(\frac{\log(\log(\log(1/\epsilon)))}{\log(1/\epsilon)}\Big)
+\]
+fraction of the constraints, we finally manage to construct a weakly consistent instance $\fX'$. Then $\Sg(\fX') \subseteq \fX$ will also be weakly consistent, so it will have a solution by Theorem \ref{thm-weakly-consistent}.
+\end{proof}
+
+The bound given in Theorem \ref{refined-sdp} is slightly better than the bound from \cite{sdp}, which only guaranteed that we could find a solution of quality
+\[
+1 - O\Big(\frac{\log(\log(1/\epsilon))}{\log(1/\epsilon)}\Big).
+\]
+We can improve this further, getting rid of the unsightly $\log(\log(\log(1/\epsilon)))$ factor entirely, if we try to construct a vague solution (to the binary part) instead of aiming for weak consistency.
+
+\begin{thm}[Perfected form of \cite{sdp}]\label{perfected-sdp} Suppose $\Gamma$ is a finite constraint language such that $\fA = (A, \Gamma)$ has bounded relational width. If we are given an instance $\fX$ such that the basic SDP relaxation is $1 - \epsilon$ satisfiable, then we can efficiently find a solution which satisfies a
+\[
+1 - O\Big(\frac{1}{\log(1/\epsilon)}\Big)
+\]
+fraction of the constraints. In other words, the function $f$ from Definition \ref{defn-robust} satisfies $f(\epsilon) = O(1/\log(1/\epsilon))$.
+\end{thm}
+\begin{proof} We argue as in the proof of Theorem \ref{refined-sdp}, using the same notation, up to the point where we obtained an arc-consistent instance $\fX'$ which satisfied (P2). From here on, we modify the argument: instead of trying to define an equivalence relation $\sim$ on the shell of the ball $\cB$ between radius $r_i$ and $r_{i+1}$, we extend $\prec$ to a (nearly) total order. We do this by picking a uniformly random unit vector $U$, and setting
+\[
+\forall \|u\|, \|v\| \in (r_i, r_{i+1}], \;\; u \prec v \iff U\cdot(u-v) < 0.
+\]
+Now we use the (almost) total order $\prec$ to define a vague element $\prec_x$ for each variable $x$, by setting
+\[
+A \prec_x B \;\; \iff \;\; x_A \prec x_B.
+\]
+Note that with probability $1$, each $\prec_x$ will be a total order on $\cP_\emptyset(A_x')$, so $\prec_x$ is indeed a vague element of $A_x'$.
+
+We will now preemptively give up on any constraint relation $C$ if there is any pair of variables $x,y$ such that the vague elements $\prec_x, \prec_y$ fail to vaguely satisfy the binary relation $\pi_{xy}(R_C')$. We need to find an upper bound on the probability that we will give up on any particular constraint $C$ due to the pair of variables $x,y$. Set $R' = \pi_{xy}(R_C')$ to simplify the notation.
+
+We begin trying to construct a quasiorder $\preceq_{R'}$ extending $\prec_x, \prec_y$ on $\cP_\emptyset(A_x') \sqcup \cP_\emptyset(A_y')$ by setting
+\[
+x_A \prec_{R'} y_B \text{ when } \exists i \; \|x_A\| < r_i \le \|y_B\|,
+\]
+and similarly with the roles of $x$ and $y$ reversed. This ensures that
+\[
+A \ne A + R' - R' \;\; \implies \;\; x_A \prec_{R'} y_{A + R'},
+\]
+and similarly with the roles of $x$ and $y$ reversed. So far we encounter no problems with the construction of $\preceq_{R'}$.
+
+We will also need to require that
+\[
+A = A + R' - R' \;\; \implies \;\; x_A \sim_{R'} y_{A + R'},
+\]
+and this is the step which could potentially cause an issue. Note that if we haven't already given up on the constraint $C$ while ensuring that (P2) holds, then in this case we have the guarantee that $x_A$ and $y_{A + R'}$ are contained in the same shell of the ball $\cB$.
+
+Since the different shells of $\cB$ don't interact in any of the orderings $\prec_x, \prec_y, \preceq_{R'}$, we can focus on just one particular shell of $\cB$ corresponding to a pair of adjacent radii $r_i, r_{i+1}$. Within such a shell, all $\preceq_{R'}$ does is identify certain vectors $x_A$ with corresponding vectors $y_{A+R'}$. The only way we could run into trouble is if there was some pair $A,B \subseteq A_x'$ with
+\begin{align*}
+A + R' - R' &= A,\\
+B + R' - R' &= B,\\
+A &\prec_x B,
+\end{align*}
+but
+\[
+B + R' \prec_y A + R'.
+\]
+In other words, we only need to preemptively give up on the constraint $C$ due to the pair $x,y$ if we can find such a pair of sets $A,B \subseteq A_x'$ with
+\[
+U\cdot (x_A - x_B) < 0 < U \cdot (y_{A+R'} - y_{B+R'}).
+\]
+For a randomly chosen $U$, the probability of this occuring is proportional to the angle between the vector $x_A - x_B$ and the vector $y_{A+R'} - y_{B+R'}$.
+
+Since $A, B$ are different subsets of $A_x'$, at least one coordinate of $x_A - x_B$ must have absolute value at least $\sqrt{\theta}$, so we have $\|x_A - x_B\|^2 \ge \theta$, and similarly $\|y_{A+R'} - y_{B+R'}\|^2 \ge \theta$. As in the proof of Theorem \ref{refined-sdp}, we have
+\[
+\|x_A - y_{A+R'}\|^2, \|x_B - y_{B+R'}\|^2 \le \sum_{r \not\in R_C'} p_{C,r},
+\]
+so the angle between $x_A - x_B$ and $y_{A+R'} - y_{B+R'}$ is
+\[
+O\Big(\frac{1}{\sqrt{\theta}}\sqrt{\sum_{r \not\in R_C'} p_{C,r}}\Big).
+\]
+By Claim 6 of Theorem \ref{refined-sdp}, the average value of this upper bound is at most
+\[
+O(1/N) = O(1/\log(1/\epsilon)),
+\]
+so we only need to give up on $O(1/N)$ of our constraints in order to get an arc-consistent instance $\fX'$ whose binary part has a vague solution. Then by Corollary \ref{cor-vague-bin} the instance $\Sg(\fX') \subseteq \fX$ has a solution, which finishes the proof.
+\end{proof}
+
+\begin{rem} The algorithm from Theorem \ref{perfected-sdp} can be derandomized without too much effort using the method of conditional expectations. After throwing away constraints which are violated by more than a $\sqrt{\epsilon}$ fraction, we pick $\theta$ among $\exp(-1), ..., \exp(-N)$ such that
+\[
+\frac{1}{\#C} \sum_C \frac{1}{\sqrt{\theta}}\sqrt{\sum_{r \not\in R_C'} p_{C,r}}
+\]
+is minimized - the minimum is guaranteed to be $O(1/N)$. Then we use $\theta$ to do the first bit of rounding to get to an arc-consistent instance. Next we pick $\theta_2 \in [0,\theta]$ to minimize the number of problems we run into while ensuring that (P2) is satisfied - we only need to try values of $\theta_2$ which are just above or just below a remainder of some $\|x_A\|^2$ modulo $\theta$, so this can be done efficiently.
+
+For the final step, we want to pick a unit vector $U$ which is dual to a hyperplane which separates as few pairs of vectors $x_A - x_B$, $y_{A+R'} - y_{B+R'}$ with $A + R' - R' = A, B + R' - R' = B$ as possible. This step is trickier, but in Appendix C of \cite{sdp} they cite the paper \cite{karnin2012explicit}, which shows that you can find a $U$ which is worse by at most $O(1/N)$ compared to what you would get with a uniformly random choice, using a deterministic algorithm which runs in time $\|\fX\|^{O(1)}$ times $2^{\log(N)^2} = O(1/\epsilon)$.
+\end{rem}
+
+We may naturally wonder whether $f(\epsilon) = O(\frac{1}{\log(1/\epsilon)})$ is really the best possible asymptotic one can get in Theorem \ref{perfected-sdp}. The next example shows that at least for HORN-SAT, it is impossible to improve the asymptotic.
+
+\begin{ex}[Guruswami and Zhou \cite{robust-horn-gap}] For every $n$, consider the following ``simultaneous induction'' instance of HORN-SAT, on the $2n+2$ variables $x_0, ..., x_n, y_0, ..., y_n$:
+\begin{align*}
+&(x_0 = 1) \wedge (y_0 = 1) \wedge\\
+&(x_0 \wedge y_0 \implies x_1) \wedge (x_0 \wedge y_0 \implies y_1) \wedge\\
+&\cdots\\
+&(x_{n-1} \wedge y_{n-1} \implies x_n) \wedge (x_{n-1} \wedge y_{n-1} \implies y_n) \wedge\\
+&(x_n = 0) \wedge (y_n = 0).
+\end{align*}
+This instance has $2n+4$ constraints, and it is possible to satisfy at most $2n+3$ of them. However, the basic SDP relaxation of this instance thinks it can satisfy a $1 - 1/2^{\Omega(n)}$ fraction of the constraints!
+
+Checking that the SDP relaxation has such a solution (for all $n$) is fairly tricky. One simplification which helps quite a bit is to note that the variables $x_i, y_i$ only interact with $x_{i\pm 1}, y_{i \pm 1}$, so we just need to completely analyze the set of solutions to the SDP relaxation for the four-variable HORN-SAT instance
+\[
+(x \wedge y \implies z) \wedge (x \wedge y \implies w)
+\]
+in order to understand the possible behavior in the general case where we string together many of these ``simultaneous induction'' steps.
+\end{ex}
+
+As a consequence of this example, we can't hope for improved asymptotics for any relational structure $\fA$ which can pp-construct HORN-SAT. On the other hand, it is certainly possible to get better asymptotics for 2-SAT! Under the Unique Games Conjecture, the best possible function $f$ as in Definition \ref{defn-robust} for 2-SAT is given by $f(\epsilon) \sim \sqrt{\epsilon}$ (see \cite{dalmau-robust-framework} for references and discussion).% TODO: cite better asymptotics for 2-SAT start looking at stuff cited in \cite{dalmau-robust-framework}
+
+\begin{prob}[From \cite{dalmau-robust-framework}] Suppose that a finite relational structure $\fA$ has bounded width and does not pp-construct HORN-SAT. Is it necessarily the case that there is some $k$ such that $\CSP(\fA)$ can be robustly solved with the function $f$ from Definition \ref{defn-robust} satisfying $f(\epsilon) = O(\epsilon^{1/k})$?
+\end{prob}
+
+% TODO: Hastad's result (in a subsection here, or in an appendix)
 
 
 \chapter{Finite Taylor Algebras}\label{chapter-taylor}
@@ -10053,19 +10410,21 @@ The relationships between the various types of consistency introduced so far are
   \node (2) at (0.6,0.4) {Prague instance};
   \node (3) at (0.8,-0.3) {(P1), (P2), (P3)};
   \node (4) at (0,-0.8) {$pq$-consistent};
-%  \node (5) at (-0.9,0) {cycle-consistent};
-  \node (5a) [style={align=center}] at (-0.9,0.4) {singleton\\ arc-consistent};
-  \node (5b) [style={align=center}] at (-2,1) {subdirect\\ solution set};
-  \node (5) at (-0.9,-0.3) {cycle-consistent};
+  \node (5) at (-0.9,0) {cycle-consistent};
+%  \node (5) at (-0.9,-0.3) {cycle-consistent};
+%  \node (5a) [style={align=center}] at (-0.9,0.4) {singleton\\ arc-consistent};
+%  \node (5b) [style={align=center}] at (-2,1) {subdirect\\ solution set};
   \node (6) at (0,-1.3) {(P1), (P3)};
   \node (7) at (1.9,0.7) {SDP-relaxation};
   \node (8) at (2.2,-0.6) {LP-relaxation};
   \node (9) at (1.4,-1.4) {(P1), (P2)};
   \node (10) at (0.8,-2.2) {arc-consistent};
   \node (11) at (0, -1.8) {weakly consistent};
-  \draw (1) -- (2) -- (3) -- (4) -- (5) -- (5a) -- (1);
+  \draw (1) -- (2) -- (3) -- (4) -- (5) -- (1);
+%  \draw (1) -- (2) -- (3) -- (4) -- (5) -- (5a) -- (1);
   \draw (4) -- (6);
-  \draw (5a) -- (5b);
+%  \draw (5) -- (5b);
+%  \draw (5a) -- (5b);
   \draw (3) -- (7) -- (8) -- (9) -- (3);
   \draw (9) -- (10) -- (11) -- (6);
 \end{tikzpicture}
@@ -10144,7 +10503,7 @@ for each congruence class $a/\theta_1$ of $\theta_1$.
 \begin{proof} This is a restatement of Corollary \ref{absorption-free-binary}.
 \end{proof}
 
-The next lemma is one of the key places where conservativity is really used in the argument. Its analogue for as-components of conservative minimal Taylor algeras (replacing ``absorption-free'' with ``strongly as-connected'') is an easy exercise.
+The next lemma is one of the key places where conservativity is really used in the argument. Its analogue for as-components of conservative minimal Taylor algebras (replacing ``absorption-free'' with ``strongly as-connected'') is an easy exercise.
 
 \begin{lem}[Barto \cite{barto-conservative-revisited}]\label{lem-conservative-subalgebra-absorption-free} If $\bA$ is an absorption-free conservative algebra, $\theta$ is a proper congruence on $\bA$, and $\bB \le \bA$ is any subalgebra such that $\bB$ has at least one element from each congruence class of $\theta$, then $\bB$ is also absorption-free.
 \end{lem}
@@ -10290,6 +10649,10 @@ which allows us to apply the previous lemma to finish the proof.
 \end{proof}
 
 
+%subsection{Affine/semilattice-closed components of minimal conservative Taylor algebras}
+%TODO: show that in context of minimal conservative Taylor, B absorbs A iff B Jonsson absorbs A iff B is closed under affine and semilattice edges, and under medians of three-element median subalgebras, try to develop theory of as-closed subalgebras analogously to theory of absorption
+
+
 \section{The algorithm for conservative CSPs}
 
 In this section we present Barto's simple algorithm from \cite{barto-conservative-revisited}. Bulatov's algorithm from \cite{bulatov-conservative-rerevisited} is similar in spirit, but it relies on ideas from Mar\'oti's ``Tree on top of Malcev'' algorithm \cite{tree-on-top-of-malcev} which we haven't covered yet.
@@ -10323,7 +10686,7 @@ Since $\fX$ is a Prague instance, we have $\bB_i = \bB_{x_i}$ for all $i \le k$,
 \[
 \RR_\bB = \RR \cap \Big(\prod_i \bB_i\Big) \le_{sd} \bB_1 \times \cdots \times \bB_n,
 \]
-where subdirectness follows from Proposition \ref{prop-prague-reduction}. Set $\bC_i = \bC_{x_i}$ for $i \le k$, and set $\bC_j = \bB_j$ for $j \ge k+1$, so we have $\bC_i \llhd \bB_i$ for all $i \in [n]$. Then since $\fX$ is a Prague instance, the $(\RR_\bB, \bC)$-strands are given by $[k+1,n]$ and by the intersections of the strands of $\cC$ to $\{x_1, ..., x_k\}$, and we have
+where subdirectness follows directly from the definition of the $\bB_i$s. Set $\bC_i = \bC_{x_i}$ for $i \le k$, and set $\bC_j = \bB_j$ for $j \ge k+1$, so we have $\bC_i \llhd \bB_i$ for all $i \in [n]$. Then since $\fX$ is a Prague instance, the $(\RR_\bB, \bC)$-strands are given by $[k+1,n]$ and by the intersections of the strands of $\cC$ to $\{x_1, ..., x_k\}$, and we have
 \[
 \RR_\bB \cap \prod_i \bC_i \ne \emptyset
 \]
@@ -10343,10 +10706,11 @@ Using this result, we get the following algorithm for solving conservative CSPs.
 \State Let $\cE$ be the subdigraph of the implication digraph consisting of pairs $(x,\bB)$ such that $\bB \le \bA_x$ and $\bB$ has a proper absorbing subalgebra.
 \If{$\cE$ is non-empty}
 \State Let $\cS$ be any maximal strand of $\cE$. \Comment{Proposition \ref{prop-cycle-strand-finding}.}
-\State Define $\bC_x = \bB_x$ for each $(x,\bB_x) \in \cS$.
+\State Define $\bC_x = \bB_x$ for each $(x,\bB_x) \in \cS$.% TODO: idea: take each C_x to be the union of minimal absorbing subalgebras of B_x
 \While{some $\bC_x$ is not absorption-free}
-\State Let $\fX_\bC$ be the cycle-consistent Prague instance we get by restricting to variables in $\cS$ and restricting each variable domain to $\bC_x$. \Comment{Theorem \ref{arc-consistent-cycles} and Proposition \ref{prop-prague-reduction}}
-\State Pick any maximal strand $\mathcal{T}$ of the subqoset of the implication qoset of $\fX_\bC$ consisting of $(x,\bC')$ such that $\bC' \lhd \bC_x$ and $\bC' \ne \bC_x$. \Comment{Proposition \ref{prop-cycle-strand-finding}.}
+%\State Let $\fX_\bC$ be the cycle-consistent Prague instance we get by restricting to variables in $\cS$ and restricting each variable domain to $\bC_x$. \Comment{Theorem \ref{arc-consistent-cycles} and Proposition \ref{prop-prague-reduction}}% TODO: Theorem \ref{arc-consistent-cycles} only applies once we reach minimal absorbing. How to fix this?
+\State Let $\fX_\bC$ be the Prague instance we get by restricting to variables in $\cS$ and restricting each variable domain to $\bC_x$. \Comment{Proposition \ref{prop-prague-reduction}}
+\State Pick any maximal strand $\mathcal{T}$ of the subqoset of the implication qoset of $\fX_\bC$ consisting of $(x,\bC')$ such that $\bC' \lhd \bC_x$ and $\bC' \ne \bC_x$.% \Comment{Proposition \ref{prop-cycle-strand-finding}.}
 \State Set $\bC_x \gets \bC'$ for each $(x,\bC') \in \mathcal{T}$.
 \EndWhile
 \State Let $\cC$ be the subqoset consisting of $(x,\bC_x)$ for $x$ occuring in the strand $\cS$.
@@ -10370,15 +10734,43 @@ Using this result, we get the following algorithm for solving conservative CSPs.
 \begin{thm} Algorithm \ref{alg-conservative} correctly solves every instance $\fX$ of any multisorted CSP where each variable domain is a conservative Taylor algebra. If each variable domain has size at most $k$, then Algorithm \ref{alg-conservative} runs in time $\|\fX\|^{O(k)}$, where $\|\fX\|$ is the number of bits needed to describe the instance $\fX$.
 \end{thm}
 
+\begin{cor} The CSP dichotomy conjecture is true for all CSP templates on a domain of size at most $3$.
+\end{cor}
+\begin{proof} By the classification of minimal Taylor algebras of size $3$ from Subsection \ref{ss-minimal-three}, every minimal Taylor algebra of size at most $3$ is either a subdirect product of conservative Taylor algebras, or has a $3$-edge term.
+\end{proof}
+
 It seems plausible that a much more careful analysis of the algorithm for conservative CSPs might show that it runs in time $\|\fX\|^{O(1)}$, regardless of the sizes of the variable domains.
 
 \begin{prob}\label{conservative-uniform} Given as input an instance $\fX$ of any CSP together with a conservative ternary weak near-unanimity polymorphism which preserves the relations of $\fX$, can we solve the instance $\fX$ in time polynomial in $\|\fX\|$?
 \end{prob}
 
-\begin{cor} The CSP dichotomy conjecture is true for all CSP templates on a domain of size at most $3$.
-\end{cor}
-\begin{proof} By the classification of minimal Taylor algebras of size $3$ from Subsection \ref{ss-minimal-three}, every minimal Taylor algebra of size at most $3$ is either a subdirect product of conservative Taylor algebras, or has a $3$-edge term.
-\end{proof}
+The method we have been using to encode relations up to this point has been to explicitly list out the tuples contained in the relation. An alternate way of describing constraint relations on the domain $\{0,1\}$ via ``extension oracles'' was introduced in \cite{partial-poly-seth}, and this way of describing constraint relations seems to generalize naturally to conservative CSPs. I will use the phrase ``restriction oracle'' instead of ``extension oracle'' for the generalization I have in mind.
+
+\begin{defn} A \emph{restriction oracle} $\mathcal{O}_R$ for a relation $R \subseteq A_1 \times \cdots \times A_n$ is defined as a black-box function which takes as input a tuple of subsets $B_i \subseteq A_i$, and returns ``true'' if and only if we have
+\[
+R \cap (B_1 \times \cdots \times B_n) \ne \emptyset.
+\]
+\end{defn}
+
+The idea behind a restriction oracle is that it is the bare minimum which is needed to be able to run the (generalized) arc-consistency algorithm. It's easy to see how we could use restriction oracle descriptions of constraint relations to establish cycle-consistency, but it is not clear if it is possible to use restriction oracles to establish $(2,3)$-minimality, or even to reduce to a subinstance which satisfies condition (P2).
+
+\begin{ex} A concrete example of a high-arity relation which has an efficient restriction oracle is the \emph{all-different} relation $\bigwedge_{i \ne j} x_i \ne x_j$. This relation occurs naturally in Sudoku and its generalizations. For any sets $B_1, ..., B_n$, we can determine whether or not
+\[
+\{x \mid \forall i \ne j, x_i \ne x_j\} \cap (B_1 \times \cdots \times B_n) \ne \emptyset
+\]
+as follows. We start by drawing a bipartite graph with parts $A = \{1, ..., n\}$ and $B = \bigcup_i B_i$, with an edge from $i \in A$ to $b \in B$ exactly when $b \in B_i$. Then we use the standard augmenting path algorithm to find a maximum matching in this graph - if there is a matching of size $n$, then the edges of this matching can be viewed as an assignment from variables $x_i$ to values in $B_i$ which are all different.
+\end{ex}
+
+\begin{prob} Consider the problem where we are given an instance $\fX$ of a CSP together with a conservative ternary weak near-unanimity polymorphism which is promised to preserve the relations of $\fX$, but instead of having explicit descriptions of the constraint relations, the constraint relations are given to us implicitly in terms of restriction oracles. Is there an algorithm which determines whether $\fX$ has a solution and makes only polynomially many calls to the restriction oracles which describe the constraint relations?
+\end{prob}
+
+When we leave the context of conservative CSPs, restriction oracles become a less natural concept. The trouble is that it's only natural to call the restriction oracle when the sets $B_i$ are subalgebras of the variable domains. The next example shows how this can become an issue for the algebra $\ZZ/3^{\aff}$.
+
+\begin{ex} We can efficiently describe high-arity relations $R$ on $\ZZ/3^{\aff}$ by writing down systems of linear equations. If we could convert a description of $R$ as the solution set of a system of linear equations into an efficient restriction oracle $\mathcal{O}_R$, however, then we would be able to solve 1-IN-3 SAT. To see this, note that for $x,y,z \in \ZZ/3^{\aff}$ we have
+\[
+(x,y,z) \in \{(0,0,1),(0,1,0),(1,0,0)\} \;\; \iff \;\; x,y,z \in \{0,1\} \; \wedge \; x+y+z \equiv 1 \pmod{3}.
+\]
+\end{ex}
 
 
 \section{The meta-problem for conservative CSP templates}
