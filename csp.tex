@@ -266,13 +266,15 @@ Early results focused on generalizing these basic examples, and developing the a
 
 \item Already in Feder and Vardi's work \cite{feder-vardi}, it was shown that a CSP has strict width $l$ iff it has an $l+1$-ary ``near-unanimity'' polymorphism, that is, an operation such that whenever all but one of the inputs are equal, their common value is the output. This fact is closely connected to a result in universal algebra known as the Baker-Pixley theorem \cite{baker-pixley}.
 
-\item Bulatov and Dalmau \cite{bulatov-dalmau-malcev} gave an algorithm generalizing Gaussian elimination as well as the algorithm for the general subgroup problem introduced by Feder and Vardi to the case of CSPs with a \emph{Mal'cev polymorphism} $m(x,y,z)$, that is, a polymorphism satisfying the identity $m(x,y,y) = x = m(y,y,x)$ for all $x,y$. In the case of groups such an operation is given by $(x,y,z) \mapsto xy^{-1}z$, but such operations also exist in quasigroups, making this a very wide generalization.
+\item Bulatov and Dalmau \cite{bulatov-dalmau-malcev} gave an algorithm generalizing Gaussian elimination as well as the algorithm for the general subgroup problem introduced by Feder and Vardi to the case of CSPs with a \emph{Mal'cev polymorphism} $p(x,y,z)$, that is, a polymorphism satisfying the identity $p(x,y,y) = x = p(y,y,x)$ for all $x,y$. In the case of groups such an operation is given by $(x,y,z) \mapsto xy^{-1}z$, but such operations also exist in quasigroups, making this a very wide generalization.
 
 \item One can restrict to the case where $\Gamma$ contains a unary relation for every singleton subset of the domain. On the algebraic side, this corresponds to restricting to the case of idempotent algebras (that is, algebras where every singleton subset forms a subalgebra).
 
 \item At this point multiple authors started to realize that whether a CSP is hard or not doesn't depend on the particular polymorphisms, but rather on the \emph{identities} that are satisfied by the polymorphisms. One of the first papers to point this out was a paper by Bulatov and Jeavons \cite{bulatov-jeavons-varieties} which also introduced a notion of polymorphisms for \emph{multisorted} relations, as well as the use of ``tame congruence theory'' from universal algebra.
 
 \item In particular, it was shown that if no finite subset of the identities satisfied by the polymorphisms imply that the polymorphisms can't be unary, then $\CSP(\Gamma)$ is NP-hard by a gadget reduction from NAE-SAT or $k$-coloring. It was conjectured that this is an if and only if, that is, if a CSP has a family of polymorphisms that satisfy a nontrivial set of identities, then the CSP can always be solved in polynomial time.
+
+\item Identities which do not involve composing functions with each other were singled out as special (such identities are called \emph{linear} identities, or identities of \emph{height at most} $1$). In \cite{indicator-instance}, a simple procedure was given to transform the search for polymorphisms of $\Gamma$ into an equivalent \emph{indicator instance} of $\CSP(\Gamma)$ - and a simple modification of this procedure can be used to search for the polymorphisms which satisfy a given collection of linear identities. In order to attack the \emph{meta-problem} (which takes the set of relations $\Gamma$ as input, and determines whether a given type of algorithm can solve $\CSP(\Gamma)$ as output), one then only has to find a way to solve the corresponding type of indicator instance.
 \end{itemize}
 
 The first big result was a comprehensive generalization of Gaussian elimination, generalizing the algorithm for Mal'cev operations as far as was reasonably possible. The basic idea here is to represent the solution space of all the constraints processed so far by giving a small generating set for that solution space, considered as a subalgebra of a power of the domain. In order for any algorithm along these lines to exist, there must first be a guarantee that every subalgebra of any power of the domain actually \emph{has} a small generating set.
@@ -283,7 +285,7 @@ The first big result was a comprehensive generalization of Gaussian elimination,
 
 \item every subalgebra of $\bA^n$ has a (nice) generating set of size $O(n^k)$ for some fixed $k$, called a \emph{compact representation},
 
-\item $\bA$ has a $k$-\emph{edge term} for some $k$, that is, a term satisfying the identity
+\item $\bA$ has a $k$-\emph{edge term} for some $k$, that is, a term satisfying the ``shepherd's crook'' identity
 \[
 f\left(\begin{bmatrix}y & y & x & x & \cdots & x\\ y & x & y & x & \cdots & x\\ x & x & x & y & \cdots & x\\ \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\ x & x & x & x & \cdots & y \end{bmatrix}\right) = \begin{bmatrix}x\\ x\\ x\\ \vdots \\ x\end{bmatrix},
 \]
@@ -366,7 +368,7 @@ It is well known that submodular cost functions can be minimized using a linear 
 
 Finally, the biggest result of all was recently proved independently by Bulatov and by Zhuk.
 
-\begin{thm}[CSP Dichotomy \cite{bulatov-dichotomy}, \cite{zhuk-dichotomy}] A finite algebra $\bA$ has a cyclic term iff $\CSP(\bA)$ is in P.
+\begin{thm}[CSP Dichotomy \cite{bulatov-dichotomy}, \cite{zhuk-dichotomy}] A finite algebra $\bA$ has a cyclic term iff $\CSP(\bA)$ is in P (assuming P $\ne$ NP).
 \end{thm}
 
 A major open problem is whether one can test if $\CSP(\Gamma)$ is in P in time polynomial in the size of the description of the constraints of $\Gamma$ (given that $\Gamma$ contains all singleton unary relations). Zhuk tells me that he conjectures it to be NP-hard to test for the existence of cyclic terms. If so, perhaps this could lead to a new form of public key cryptography, where the private key is a cyclic term, and the public key is a CSP template which is preserved by that cyclic term...
@@ -520,6 +522,106 @@ and for $V \subseteq B$ we define the difference $V - R \subseteq A$ by $V - R =
 where $I$ is a finite set, and each $\varphi_i$ is either some relation $R_j$ applied to some of the variables $x_1, ..., x_m, y_1, ..., y_n$, or is the equality relation applied to some pair of variables.
 
 A relation $R$ is \emph{primitively positively definable} over the $R_j$s if there is a primitive positive formula $\varphi$ such that the elements of $R$ are exactly the tuples of values $(x_1, ..., x_m)$ that satisfy $\varphi$. For instance, the relational composition $R \circ S$ is primitively positively definable over $R$ and $S$.
+
+A \emph{relational clone} is a collection of relations (on a common domain) which is closed under primitive positive definitions. The smallest relational clone which contains $\{R_i\}$ is written as $\langle\{R_i\}\rangle$.
+\end{defn}
+
+The algebraic analogue of primitive positive formulas is the concept of \emph{terms}.
+
+\begin{defn} If $\{f_i\}$ is a collection of function symbols in some fixed signature, then we define a \emph{term} inductively as follows:
+\begin{itemize}
+\item each variable $x_j$ is a term, corresponding to the operation $\pi_j$, and
+
+\item if $f_i$ is function symbol of arity $k$ and $t_1, ..., t_k$ are terms, then $f_i(t_1, ..., t_k)$ is also a term, corresponding to the operation $f_i \circ (t_1, ..., t_k)$.
+\end{itemize}
+For instance, if $f$ is binary and $g$ is ternary, then the expression
+\[
+f(g(x,y,f(x,z)), f(u,v))
+\]
+is a term. Every term can be visualized as a labeled ordered tree, where every leaf is labeled by a variable and where every internal vertex is labeled by a function whose arity is equal to the number of children of that vertex. The \emph{height} of a term is the largest distance between the root of this tree and any leaf.
+
+In some cases, it may be more efficient to visualize terms via directed acyclic graphs, to avoid repeatedly drawing many copies of a common subtree - to distinguish these points of view, a tree representation of a term is called a \emph{formula}, while a directed acyclic graph representation of a term is called a \emph{circuit}.% TODO: draw the tree corresponding to the term described above
+
+The collection of all terms in a given signature $\sigma$ defines the \emph{term algebra} $\cF_\sigma(\{x_j\})$, with each function symbol $f_i$ of arity $k$ interpreted as the operation
+\[
+f_i^{\cF_{\sigma}(\{x_j\})}(t_1, ..., t_k) \coloneqq f_i(t_1, ..., t_k),
+\]
+where the right hand side is interpreted as an abstract term. The term algebra is also called the \emph{absolutely free algebra} in the signature $\sigma$.
+\end{defn}
+
+\begin{defn} An \emph{identity} is just a pair of terms $s, t$ with the symbol $\approx$ in between them:
+\[
+s \approx t.
+\]
+The identity $s\approx t$ has \emph{height 1} if both terms $s$ and $t$ have height 1, and the identity $s \approx t$ is called \emph{linear} if both $s$ and $t$ have height at most 1.
+
+An algebraic structure \emph{satisfies} the identity $s \approx t$, written $\bA \models s \approx t$, if
+\[
+\forall x_1, ..., x_k \in \bA, \;\; s^\bA(x_1, ..., x_k) = t^\bA(x_1, ..., x_k),
+\]
+where $x_1, ..., x_k$ is a list of all of the variables which occur in $s$ or $t$.
+\end{defn}
+
+\begin{defn} If $\cT$ is a set of identities in the signature $\sigma$, then we define the \emph{variety} $\cV(\cT)$ to be the collection of all algebraic structures $\bA$ with signature $\sigma$ such that $\bA \models \cT$.
+
+If $\{\bA_i\}$ is a collection of algebraic structures in the signature $\sigma$, then the \emph{variety generated by} $\{\bA_i\}$, written $\cV(\{\bA_i\})$, is the variety $\cV(\cT)$ where $\cT$ is the collection of all identities $s \approx t$ which are satisfied in every single $\bA_i$.
+\end{defn}
+
+\begin{defn} If $\cV = \cV(\cT)$ is a variety with signature $\sigma$ and defining identities $\cT$, then we define the congruence $\approx_\cV$ on the absolutely free algebra $\cF_\sigma(\{x_j\})$ to be the congruence generated by the set of pairs of terms $(s \circ (u_1, ..., u_k), t \circ (u_1, ..., u_k))$ such that $s \approx t \in \cT$, where $u_1, ..., u_k$ is an arbitrary list of terms which we use to replace the variables $x_1, ..., x_k$ which occur in $s$ and $t$. The algebraic structure
+\[
+\cF_\sigma(\{x_j\}) /\!\! \approx_\cV
+\]
+is called the \emph{free algebra on the generators} $\{x_j\}$ in the variety $\cV$, and is written as $\cF_\cV(\{x_j\})$. By construction, the free algebra $\cF_\cV(\{x_j\})$ satisfies every identity in $\cT$. In the language of category theory, the functor
+\[
+\cF_\cV : S \mapsto \cF_{\cV}(\{x_j\}_{j \in S})
+\]
+is adjoint to the forgetful functor from algebras in $\cV$ to their underlying sets:
+\[
+\Hom_{\text{Set}}(S, A) = \Hom_{\cV}(\cF_\cV(S), \bA)
+\]
+when $\bA \in \cV$ is an algebraic structure with underlying set $A$.
+
+We define a \emph{term operation} of a variety $\cV$ to be an equivalence class $t/\!\!\approx_{\cV}$ together with a set of variables containing all variables which occur in $t$. If $\bA$ is an algebraic structure, then we define the \emph{term operations} of $\bA$ to be the collection of interpretations $t^\bA$ of terms $t$ as operations on $\bA$ - these are easily seen to correspond with the term operations of the variety $\cV(\bA)$ generated by $\bA$.
+
+Viewing each $k$-ary term operation $t^\bA : \bA^k \rightarrow \bA$ as an element of $\bA^{\bA^k}$, we get an alternative construction of the free algebra $\cF_{\cV(\bA)}(x_1, ..., x_k)$:
+\begin{align*}
+\cF_{\cV(\bA)}(x_1, ..., x_k) &= \{k\text{-ary term operations }t\text{ of }\cV(\bA)\}\\
+&\cong \{k\text{-ary term operations }t^\bA\text{ of }\bA\}\\
+&\cong \Sg_{\bA^{\bA^k}}\{\pi_1, ..., \pi_k\}.
+\end{align*}
+More generally, if $\cV = \cV(\{\bA_i\}_{i \in I})$, then $\cF_\cV(x_1, ..., x_k)$ is isomorphic to a subalgebra of $\prod_{i \in I} \bA_i^{\bA_i^k}$.
+\end{defn}
+
+\begin{defn} If $\bA$ is an algebraic structure, then the \emph{clone} of $\bA$, written as $\Clo(\bA)$, is the collection of all term operations of $\bA$. If $\{f_i\}$ is a collection of operations on the domain $A$, then we write $\langle \{f_i\} \rangle$ for the clone of the algebraic structure $(A, \{f_i\})$. Alternatively, a \emph{clone} on a domain $A$ is just a collection of operations of $A$ which is closed under composition.
+
+If $\cV$ is a variety, then the \emph{clone} of $\cV$, written as $\Clo(\cV)$, is defined to be the collection of free algebras
+\[
+\cF_\cV(x_1, ..., x_k),
+\]
+together with the rules for composing a $k$-ary term operation $t \in \cF_\cV(x_1, ..., x_k)$ with $k$-tuples of $m$-ary term operations $u_1, ..., u_k \in \cF_\cV(x_1, ..., x_m)$ to produce the $m$-ary term operation $t \circ (u_1, ..., u_k)$.
+
+An \emph{abstract clone} is a collection of function symbols $\{f_i\}$ in a signature $\sigma$ which is closed under a composition law $\circ$ which takes a function symbol $f$ of arity $k$ and a $k$-tuple of function symbols $g_1, ..., g_k$ of arity $m$ as input and produces a function symbol $f\circ (g_1, ..., g_k)$ of arity $m$ as output, satisfying a generalized associativity law:
+\[
+(f\circ(g_1, ..., g_k)) \circ (h_1, ..., h_m) = f \circ (g_1 \circ (h_1, ..., h_m), ..., g_k \circ (h_1, ..., h_m)),
+\]
+with special ``projection'' function symbols $\pi_i^k$ of every arity $k$ which satisfy
+\[
+\pi_i^k \circ (g_1, ..., g_k) = g_i
+\]
+and
+\[
+f \circ (\pi_1^k, ..., \pi_k^k) = f.
+\]
+Note that in any abstract clone, the collection of function symbols of arity $1$ always forms a semigroup under $\circ$ with identity element $\pi_1^1$.
+
+A \emph{clone homomorphism} is a map $\xi$ from the function symbols of one abstract clone to the function symbols of another abstract clone which preserves arities, sends the projections $\pi_i^k$ to themselves, and respects composition:
+\[
+\xi(f \circ (g_1, ..., g_k)) = \xi(f) \circ (\xi(g_1), ..., \xi(g_k)).
+\]
+A \emph{height 1 clone homomorphism}, also known as a \emph{minion homomorphism}, is a map $\xi$ which preserves arities and respects composition with projections:
+\[
+\xi(f \circ (\pi_{i_1}^m, ..., \pi_{i_k}^m)) = \xi(f) \circ (\pi_{i_1}^m, ..., \pi_{i_k}^m).
+\]
 \end{defn}
 
 
@@ -617,7 +719,7 @@ Since $f \in \Pol(\Inv(\cO))$ and $\cF(k) \in \Inv(\cO)$, we must have $f \rhd \
 \begin{cor} There is an order reversing bijection between clones and relational clones, given by the operations $\Inv$ and $\Pol$.
 \end{cor}
 
-\begin{rem} The map $\{1, ..., k\} \rightarrow D^{D^k}$ given by $i \mapsto \pi_i$, where $\pi_i : D^k \rightarrow D$ is given by $\pi_i(x_1, ..., x_k) = x_i$, shows up in the theory of approximation algorithms as the \emph{long code}, which is the longest way of encoding $\{1, ..., k\}$ over the alphabet $D$ that doesn't have any redundant coordinates.
+\begin{rem} The map $\{1, ..., k\} \rightarrow D^{D^k}$ given by $i \mapsto \pi_i$, where $\pi_i : D^k \rightarrow D$ is given by $\pi_i(x_1, ..., x_k) = x_i$, shows up in the theory of approximation algorithms as the \emph{long code}, which is the longest way of encoding $\{1, ..., k\}$ over the alphabet $D$ which doesn't have any redundant coordinates.
 \end{rem}
 
 \begin{ex} In the next section we will prove the following three correspondences between clones and relational clones on the domain $\{0,1\}$:
@@ -732,7 +834,7 @@ where the $...$ always represent the remaining $k-3$ variables. To see this, not
 \[
 f(0,1,1,...) \ge f(0,1,0, ...) \ge f(0,0,0,...),
 \]
-so the majority of these three values will be $f(0,1,0,...) = f(x,y,z,...)$.
+so the median of these three values will be $f(0,1,0,...) = f(x,y,z,...)$, and the majority is equal to the median on $\{0,1\}$.
 \end{proof}
 
 Examining the proof, we see that every $n$-ary monotone self-dual function $f$ can be written in terms of $\maj$ as a term of depth at most $n-2$, such that every subterm is obtained by identifying some of the variables of $f$.
@@ -1005,6 +1107,12 @@ As the example shows, non-surjective endomorphisms provide trivial ways to simpl
 \begin{defn} A relational structure on a finite domain $\fA$ is called a \emph{core} if every endomorphism of $\fA$ is also an automorphism of $\fA$. If $\fA$ is not a core, then $\fB$ is called a \emph{core of} $\fA$ if $\fB$ is a core and $\fB$ is homomorphically equivalent to $\fA$.
 \end{defn}
 
+\begin{ex} Every complete graph $K_n = ([n], \ne)$ is a core.
+\end{ex}
+
+\begin{ex} If $G$ is a bipartite graph with at least one edge, then the core of $G$ is $K_2$, the complete graph on two vertices.
+\end{ex}
+
 \begin{rem} In the infinite case, the definition of a core must be modified: an infinite relational structure is called a core if every endomorphism is an \emph{embedding}, i.e. an injective map that is an isomorphism onto the restriction of the target relational structure to its image. An example of an infinite core is $(\mathbb{Q},<)$. See section 3.6 of \cite{bodirsky-thesis} for more information about cores of infinite structures.
 \end{rem}
 
@@ -1035,7 +1143,7 @@ The next main idea comes from ``self-reducibility'': often, when solving a CSP, 
 We can also give a direct proof, by unraveling the proof of the $\Inv$-$\Pol$ connection in this special case, as follows. Define a CSP with a variable $f_a$ for each $a \in D$. For every relation $R \subseteq D^m$ of $\fA$ and every tuple $(a_1, ..., a_m) \in R$, we impose the constraint $R(f_{a_1}, ..., f_{a_m})$ on our CSP. Now the solution-set to our CSP exactly corresponds to the set of endomorphisms of $\fA$, and if $\fA$ is a rigid core then existentially projecting onto the variable $f_a$ produces the unary relation $\{a\}$.
 \end{proof}
 
-So it is very desirable to restrict our attention to rigid cores. Most of the example CSPs from the introduction were rigid cores, with the notable exceptions of $k$-coloring and NAE-SAT. The $k$-coloring problem is an excellent toy example: the reader may be already be aware of the fact that $\CSP(\{1, ..., k\}, \ne)$ (the $k$-coloring problem) is logspace equivalent to $\CSP(\{1,...,k\}, \ne, \{0\}, ..., \{k\})$ - the rigid core obtained by adjoining the unary singleton relations to $k$-coloring. It is worth examining the proof of that equivalence and understanding how the next result generalizes it.
+So it is very desirable to restrict our attention to rigid cores. Most of the example CSPs from the introduction were rigid cores, with the notable exceptions of $k$-coloring and NAE-SAT. The $k$-coloring problem is an excellent toy example: the reader may be already be aware of the fact that $\CSP(\{1, ..., k\}, \ne)$ (the $k$-coloring problem) is logspace equivalent to $\CSP(\{1,...,k\}, \ne, \{1\}, ..., \{k\})$ - the rigid core obtained by adjoining the unary singleton relations to $k$-coloring. It is worth examining the proof of that equivalence and understanding how the next result generalizes it.
 
 \begin{thm}\label{rigid-core-reduction} Suppose that $\fA = (D, \Gamma)$ is a core on a finite domain $D$, and let $\fA^{rig}$ be the rigid core obtained by adjoining all singleton unary relations to $\fA$. Then $\CSP(\fA)$ is equivalent to $\CSP(\fA^{rig})$ under logspace reductions.
 \end{thm}
@@ -1135,13 +1243,25 @@ Alternatively, we could have shown that $\Pol(K_3^{rig})$ is trivial by instead 
 
 \subsection{Reflections and Height 1 Identities}
 
-Barto, Opr{\v{s}}al, and Pinsker \cite{barto-reflections} find it unsatisfactory to have so many unrelated methods of proving reductions between CSPs (that is, firstly the algebraic HSP operations together with another operation E for expansions, secondly homomorphic equivalence, and thirdly adding unary singleton relations to cores), and looked for a single framework that could encompass all known techniques for proving reductions. They show that every single method of proving a reduction between $\CSP(\fA)$ and $\CSP(\fB)$ introduced so far can be described by combining just two basic cases:
+Let's recap the various methods we have used to reduce different CSPs to each other:
+\begin{itemize}
+\item Reduce the set of basic relations $\Gamma$ of a relational structure $\fA = (A, \Gamma)$ to some collection of relations $\Gamma' \subseteq \langle \Gamma \rangle$. Equivalently, expand the collection of basic operations $\cO$ in an algebraic structure $\bA = (A, \cO)$ to a collection of operations $\cO'$ with $\cO \subseteq \langle \cO' \rangle$. The collection of algebraic structures $\bA' = (A,\cO')$ with $\cO \subseteq \cO'$ is called the collection of \emph{expansions} of $\bA$, and we use the notation $E(\{\bA\})$ for it in analogy with Birkhoff's HSP operations.
+
+\item Each of Birkhoff's algebraic HSP operations, on the algebraic side: we can replace an algebraic structure $\bA$ by any power $\bA^n$, any subalgebra $\bB \le \bA$, or any quotient $\bA/\!\!\sim$ to get a CSP which is no harder than $\CSP(\bA)$.
+
+\item Homomorphic equivalence of relational structures: when there are homomorphisms $\fA \rightarrow \fB$ and $\fB \rightarrow \fA$, then $\CSP(\fA) = \CSP(\fB)$, since a relational structure $\fX$ will have a homomorphism to $\fA$ iff $\fX$ has a homomorphism to $\fB$. We mainly use this to reduce the general case to the case where $\fA$ is a core relational structure.
+
+\item Starting from a core relational structure $\fA$, we showed that the rigidification $\fA^{rig}$ which we get by adding each singleton unary relation to the basic relations of $\fA$ has $\CSP(\fA^{rig})$ no harder than $\CSP(\fA)$. On the algebraic side, this lets us reduce the general case to the case where every basic operation of $\bA$ is idempotent.
+\end{itemize}
+% (that is, firstly the algebraic HSP operations together with another operation E for expansions, secondly homomorphic equivalence, and thirdly adding unary singleton relations to cores)
+
+Barto, Opr{\v{s}}al, and Pinsker \cite{barto-reflections} find it unsatisfactory to have so many unrelated methods of proving reductions between CSPs, and looked for a single framework which could encompass all known techniques for proving reductions. They show that every single method of proving a reduction between $\CSP(\fA)$ and $\CSP(\fB)$ introduced so far can be described by combining just two basic cases:
 \begin{itemize}
 \item if $\fB$ is a ``pp-power'' (defined below) of $\fA$, then $\CSP(\fB)$ has a logspace reduction to $\CSP(\fA)$, and
 
 \item if $\fB$ is homomorphically equivalent to $\fA$ then $\CSP(\fB) = \CSP(\fA)$.
 \end{itemize}
-Furthermore, they show that one can always assume that the pp-power step is taken before the homomorphic equivalence step.
+Furthermore, they show that even if we chain several such reductions together, we can always find an equivalent reduction where the pp-power step is taken before the homomorphic equivalence step.
 
 \begin{defn} A \emph{pp-power} of a relational structure $\fA$ is a relational structure $\fB$ with domain $\fA^n$ for some $n$, such that every relation of $\fB$ can be defined by a primitive positive formula using the relations of $\fA$ (note that the signatures of $\fA$ and $\fB$ will generally be different).
 \end{defn}
@@ -1152,9 +1272,11 @@ Furthermore, they show that one can always assume that the pp-power step is take
 \begin{defn}\label{defn-pp-construct} We say that $\fA$ \emph{pp-constructs} $\fB$ if $\fB$ is homomorphically equivalent to some pp-power of $\fA$.
 \end{defn}
 
-For instance, here is how we can go about adding a singleton unary relation $\{a\}$ to a core $\fA$ in the pp-constructability framework. Let $\fB$ be the relational structure which has the new unary relation $\{a\}$ (along with all of the original relations which $\fA$ had). We will define a relational structure $\mathbf{C}$ which will be a pp-power of $\fA$ having domain $\fA^2$, and show that $\mathbf{C}$ is homomorphically equivalent to $\fB$.
+For most of the reductions we have described so far, it is easy to see how we can express them in the pp-constructability framework. For instance, in order to simulate the relational structure corresponding to $\bA/\!\!\sim$, we first construct the relational structure $\fA'$ whose basic relations consist of all subpowers $\RR \le \bA^m$ which are compatible with the congruence $\sim$ (using the special case of the pp-power construction where the power $n$ is equal to $1$), and then we follow up with a homomorphic equivalence from $\fA'$ to a relational structure where each equivalence class of $\sim$ is collapsed to a single element. The only really tricky reduction is the last one: adding singleton unary relations to a core structure.
 
-Let $O$ be the orbit of $a$ under $\Aut(\fA)$ - note that $O$ is in the relational clone defined by $\fA$ - and for every $m$-ary relation $R$ of $\fA^2$, make a corresponding relation $\tilde{R}$ of $\mathbf{C}$ by
+Here is how we can go about adding a singleton unary relation $\{a\}$ to a core $\fA$ in the pp-constructability framework. Let $\fB$ be the relational structure which has the new unary relation $\{a\}$ (along with all of the original relations which $\fA$ had). We will define a relational structure $\mathbf{C}$ which will be a pp-power of $\fA$ having domain $\fA^2$, and show that $\mathbf{C}$ is homomorphically equivalent to $\fB$.
+
+Let $O$ be the orbit of $a$ under $\Aut(\fA)$ - note that $O$ is in the relational clone defined by $\fA$ - and for every $m$-ary relation $R$ of $\fA$, make a corresponding relation $\tilde{R}$ of $\mathbf{C}$ by
 \[
 ((x_1,y_1), ..., (x_m,y_m)) \in \tilde{R} \iff (x_1, ..., x_m) \in R \wedge y_1 = \cdots = y_m \in O.
 \]
@@ -1163,6 +1285,23 @@ For the relation $\{a\}$ of $\fB$, we make a corresponding relation $S$ of $\mat
 (x,y) \in S \iff x = y \in O.
 \]
 To show that $\fB$ and $\mathbf{C}$ are homomorphically equivalent, we just need to exhibit a pair of homomorphisms between them. The homomorphism $\fB \rightarrow \mathbf{C}$ is given by $x \mapsto (x,a)$. To define the homomorphism from $\mathbf{C}$ to $\fB$, we need to choose an automorphism $g_y$ of $\fA$ with $g_y(y) = a$ for every $y \in O$. Then the homomorphism $\mathbf{C} \rightarrow \fB$ is given by $(x,y) \mapsto g_y(x)$ if $y \in O$ (and $(x,y)$ maps to an arbitrary element if $y \not\in O$).
+
+Now let's check that pp-constructability is transitively closed.
+
+\begin{prop}[From \cite{barto-reflections}] If $\fA$ pp-constructs $\fB$ and $\fB$ pp-constructs $\fC$, then $\fA$ pp-constructs $\fC$.
+\end{prop}
+\begin{proof} It's easy to check that homomorphic equivalence is an equivalence relation, and that a pp-power of a pp-power is a pp-power of the original structure. We just need to check that if $\fA$ is homomorphically equivalent to $\fB$ and $\fC$ is a pp-power of $\fB$, then there is some $\fC'$ such that $\fC'$ is a pp-power of $\fA$ and $\fC'$ is homomorphically equivalent to $\fC$.
+
+Suppose that $\fC$ is a pp-power of $\fB$ with power $n$, so that the underlying set $C$ of $\fC$ is equal to $B^n$. We will construct the pp-power $\fC'$ of $\fA$ using the same power $n$, with the same relational signature as $\fC$, as follows. For each $m$-ary relation symbol $R$ of $\fC$, by the definition of a pp-power there is some primitive positive formula in terms of relations $S_i$ of $\fB$ which defines $R$ as an $mn$-ary relation on $B$:
+\[
+x = (x_1, ..., x_m) = ((x_{11}, ..., x_{1,n}), ..., (x_{m1}, ..., x_{mn})) \in R \iff \exists y_1, ..., y_k \in B \text{ s.t. } \bigwedge_i \pi_{I_i}(x, y) \in S_i.
+\]
+Then since $\fA$ and $\fB$ have the same relational signature (this is part of our assumption that they are homomorphically equivalent), we can interpret each relation symbol $S_i$ in $\fA$ to define an $mn$-ary relation on $A$, which we will use to give an interpretation of the relation symbol $R$ in $\fC'$:
+\[
+x = (x_1, ..., x_m) = ((x_{11}, ..., x_{1,n}), ..., (x_{m1}, ..., x_{mn})) \in R^{\fC'} \iff \exists y_1, ..., y_k \in A \text{ s.t. } \bigwedge_i \pi_{I_i}(x, y) \in S_i^{\fA}.
+\]
+It is now easy to check that any homomorphism $\varphi: \fA \rightarrow \fB$ defines a homomorphism $\varphi^n : \fC' \rightarrow \fC$ by simply letting $\varphi$ act componentwise on elements of $C' = A^n$. Similarly, any homomorphism $\fB \rightarrow \fA$ defines a homomorphism $\fC \rightarrow \fC'$, so $\fC$ and $\fC'$ are homomorphically equivalent.
+\end{proof}
 
 Barto, Opr{\v{s}}al, and Pinsker \cite{barto-reflections} also characterize what happens on the algebraic side of the picture when one relates two relational structures by a pp-power or a homomorphic equivalence. The new thing here is really the homomorphic equivalence: if $g : \fA \rightarrow \fB$ and $h : \fB \rightarrow \fA$, then there is a relationship between $\Pol(\fA)$ and $\Pol(\fB)$ which they call a \emph{reflection}, which takes a function $f \in \Pol_k(\fA)$ to the operation
 \[
@@ -1187,9 +1326,20 @@ By definition, $\tilde{R}$ is the closure of $h(R)$ under $\Pol(\fA)$, so $\tild
 
 \begin{thm}[ERP Theorem \cite{barto-reflections}]\label{erp-thm} $\Pol(\fB)$ contains a reflection of $\Pol(\fA)^n$ for some $n$ iff there is a height 1 clone homomorphism $\Pol(\fA) \rightarrow \Pol(\fB)$.
 \end{thm}
-\begin{proof} We prove the non-obvious direction. Let $\bA = (A,\Pol(\fA))$ be the algebraic structure corresponding to $\fA$, and suppose $\xi : \Pol(\fA) \rightarrow \Pol(\fB)$ is a height 1 clone homomorphism. Let $\cF$ be the subalgebra of $\bA^{\bA^B}$ generated by the functions $\pi_b : \bA^B \rightarrow \bA$ given by $\pi_b : f \mapsto f(b)$. Note that $\cF$ is secretly the free algebra over $\bA$ on $|B|$ generators.
+\begin{proof} We prove the non-obvious direction. Let $\bA = (A,\Pol(\fA))$ be the algebraic structure corresponding to $\fA$, and suppose $\xi : \Pol(\fA) \rightarrow \Pol(\fB)$ is a height 1 clone homomorphism. Let $\cF$ be the subalgebra of $\bA^{\bA^B}$ generated by the operations $\pi_b : \bA^B \rightarrow \bA$ given by $\pi_b : x \mapsto x_b$. Note that $\cF$ is secretly the free algebra over $\bA$ on $|B|$ generators.
 
-Define maps $g : \bA^{\bA^B} \rightarrow B$ and $h : B \rightarrow \bA^{\bA^B}$ by $h(b) = \pi_b$ and $g(f(\pi_{b_1}, ..., \pi_{b_k})) = \xi(f)(b_1, ..., b_k)$ for $f \in \Pol_k(\fA)$, and define $g(x)$ arbitrarily for $x \not\in \cF$. To see that $g$ is well-defined, note that if $f_0(\pi_{b_1}, ..., \pi_{b_k}) = f_1(\pi_{c_1}, ..., \pi_{c_l})$, then $f_0, f_1$ are related by a height 1 identity in $\bA$ which implies that $\xi(f_0)(b_1, ..., b_k) = \xi(f_1)(c_1, ..., c_l)$. Finally, we see that $g,h$ induce $\xi$ as a reflection from $\bA^{\bA^B}$: $\xi(f)(b_1, ..., b_k) = g(f(\pi_{b_1}, ..., \pi_{b_k})) = g(f(h(b_1), ..., h(b_k)))$.
+Define maps $g : \bA^{\bA^B} \rightarrow B$ and $h : B \rightarrow \bA^{\bA^B}$ by $h(b) = \pi_b$ and
+\[
+g(f(\pi_{b_1}, ..., \pi_{b_k})) = \xi(f)(b_1, ..., b_k)
+\]
+for $f \in \Pol_k(\fA)$, and define $g(x)$ arbitrarily for $x \not\in \cF$. To see that $g$ is well-defined, note that if $f_0(\pi_{b_1}, ..., \pi_{b_k}) = f_1(\pi_{c_1}, ..., \pi_{c_l})$, then $f_0, f_1$ are related by a height 1 identity in $\bA$ which implies that
+\[
+\xi(f_0)(b_1, ..., b_k) = \xi(f_1)(c_1, ..., c_l).
+\]
+Finally, we see that $g,h$ induce $\xi$ as a reflection from $\bA^{\bA^B}$:
+\[
+\xi(f)(b_1, ..., b_k) = g(f(\pi_{b_1}, ..., \pi_{b_k})) = g(f(h(b_1), ..., h(b_k))).\qedhere
+\]
 \end{proof}
 
 As a consequence, we see that the complexity of a CSP only depends on the set of height 1 identities satisfied by its polymorphisms, and that identities involving composition of functions are in a sense superfluous. We also have the following result.
@@ -1197,7 +1347,36 @@ As a consequence, we see that the complexity of a CSP only depends on the set of
 \begin{cor} Let $\fA$ be a relational structure with core $\fB$, and let $\fB^{rig}$ be $\fB$ together with any finite collection of singleton unary relations. Then a system of height 1 identities can be satisfied in $\Pol(\fA)$ iff it can be satisfied in $\Pol(\fB^{rig})$.
 \end{cor}
 
-\begin{rem} A height 1 clone homomorphism $\Pol(\fA) \rightarrow \Pol(\fB)$ is completely determined by its restriction to polymorphisms of $\fA$ of arity at most $|\fB|$. So there are only finitely many candidates for maps that show $\fA$ pp-constructs $\fB$: if the underlying sets are $A,B$, then there are at most $\left|B^{\Pol_{|B|}(\fA)}\right| \le \left|B^{A^{A^B}}\right|$ candidates. If $\fB$ has only finitely many basic relations, then we can test each candidate pp-construction in finite time, so whether or not $\fA$ pp-constructs $\fB$ is decidable.
+\begin{rem} A height 1 clone homomorphism $\Pol(\fA) \rightarrow \Pol(\fB)$ is completely determined by its restriction to polymorphisms of $\fA$ of arity at most $|B|$, since every operation $f : B^k \rightarrow B$ is determined by its $|B|$-ary minors. So there are only finitely many candidates for height 1 clone homomorphisms from $\Pol(\fA)$ to $\Pol(\fB)$: if the underlying sets are $A,B$, then there are at most
+\[
+\left|\Pol_{|B|}(\fB)^{\Pol_{|B|}(\fA)}\right| \le |B|^{|B|^{|B|} \cdot |A|^{|A|^{|B|}}}
+\]
+candidates. Less obviously, requiring that these candidates respect minors of arity $\le |B|$ brings the number of candidates down to just
+\[
+\left|B^{\Pol_{|B|}(\fA)}\right| \le |B|^{|A|^{|A|^{|B|}}}.
+\]
+Unwinding the proofs of the ERP Theorem \ref{erp-thm} and Proposition \ref{erp-prop}, each of these corresponds to a candidate pp-construction of $\fB$.
+
+More explicitly, suppose that
+\[
+\xi_{|B|} : \Pol_{|B|}(\fA) \rightarrow \Pol_{|B|}(\fB)
+\]
+defines our candidate height 1 homomorphism and respects minors. Then we define maps $g : \bA^{\bA^B} \rightarrow B$ and $h : B \rightarrow \bA^{\bA^B}$ as in the proof of the ERP Theorem \ref{erp-thm}, but with the definition of $g$ slightly modified: we set
+\[
+g(f(\pi_{b_1}, ..., \pi_{b_{|B|}})) = \xi_{|B|}(f)(b_1, ..., b_{|B|})
+\]
+for $|B|$-ary polymorphisms $f \in \Pol_{|B|}(\fA)$, with $b_1, ..., b_{|B|}$ a fixed enumeration of the elements of $B$. For each basic $m$-ary relation $R$ of $\fB$, we define the corresponding relation
+\begin{align*}
+\tilde{R} \subseteq \Big(\bA^{\bA^B}\Big)^m &= \{f(h(r_1), ..., h(r_k)) \mid f \in \Pol_k(\fA), r_1, ..., r_k \in R\}\\
+&= \Sg_{(\bA^{\bA^B})^m}\{h(r) \mid r \in R\},
+\end{align*}
+exactly as in the proof of Proposition \ref{erp-prop}. Each $\tilde{R}$ is pp-definable from the basic relations of $\fA$, so the relational structure $\fC$ with underlying set $\bA^{\bA^B}$ and basic relations given by the $\tilde{R}$s is a pp-power of $\fA$ with the same relational signature as $\fB$. By construction, the map $h : \fB \rightarrow \fC$ will be a homomorphism, so the only challenge is to check whether or not $g : \fC \rightarrow \fB$ is actually a homomorphism, that is, to check whether or not
+\[
+g(\tilde{R}) \stackrel{?}{\subseteq} R
+\]
+for each basic relation $R$ of $\fB$. In fact, we can forget about the height 1 homomorphism $\xi_{|B|}$ and just search for $g : \fC \rightarrow \fB$ - in other words, we treat $\fC$ as an instance of $\CSP(\fB)$ with $|\Pol_{|B|}(\fA)|$ variables that actually participate in any constraints, and $\fA$ will pp-construct $\fB$ if and only if the instance $\fC$ has a solution.
+
+If $\fB$ has only finitely many basic relations, then we can test each candidate pp-construction in finite time, so in this case there is an effective procedure to decide whether or not $\fA$ pp-constructs $\fB$. (Note that each $\tilde{R}$ is determined by the collection of $|R|$-ary polymorphisms of $\fA$, so this argument also shows that in order to check that $\xi_{|B|}$ extends to a height 1 clone homomorphism from $\Pol(\fA)$ to $\Pol(\fB)$, we just need to check that it extends to a height 1 clone homomorphism from $\Pol_k(\fA)$ to $\Pol_k(\fB)$ for $k = \max |R|$ over the basic relations $R$ of $\fB$.)
 \end{rem}
 
 
@@ -1271,13 +1450,15 @@ When $\bA$ is not Taylor, the above result lets us conclude that there is some t
 \begin{defn} An algebra $\bA$ is called \emph{strictly simple} if $\bA$ is simple and every subalgebra of $\bA$ either has size $1$ or is equal to $\bA$.
 \end{defn}
 
-\begin{lem}\label{strictly-simple-hs} If $\bA$ is an idempotent algebra and $\bB \in HSP(\bA)$ is strictly simple, then $\bB \in HS(\bA)$.
+\begin{lem}\label{strictly-simple-hs} If $\bA$ is an idempotent algebra and $\bB \in HSP_{fin}(\bA)$ is strictly simple, then $\bB \in HS(\bA)$. Note that if $\bA, \bB$ are both finite, then $\bB \in HSP_{fin}(\bA)$ iff $\bB \in HSP(\bA)$.
+
+More generally, if $\bA_i$ are idempotent for all $i \in I$ and if $\bB \in HSP_{fin}(\{\bA_i\}_{i \in I})$ is strictly simple, then $\bB \in HS(\bA_i)$ for some $i \in I$.
 \end{lem}
-\begin{proof} (Following Zhuk \cite{zhuk-strong}) Pick $n$ minimal such that there is some $\bS \le \bA^n$ and some $\sigma \in \Con(\bS)$ with $\bS/\sigma \cong \bB$. If there is any pair $r,s \in \bS$ such that $\pi_1(r) = \pi_1(s)$ but $r/\sigma \ne s/\sigma$, then if we set $a = \pi_1(r)$ and
+\begin{proof} (Following Zhuk \cite{zhuk-strong}) We prove the first statement - the proof of the general case is nearly identical, just slightly more notationally involved. Pick $n$ minimal such that there is some $\bS \le \bA^n$ and some $\sigma \in \Con(\bS)$ with $\bS/\sigma \cong \bB$. If there is any pair $r,s \in \bS$ such that $\pi_1(r) = \pi_1(s)$ but $r/\sigma \ne s/\sigma$, then if we set $a = \pi_1(r)$ and
 \[
 \bS' = \pi_{\{2, ..., n\}}(\bS \cap (\{a\} \times \bA^{n-1})) \le \bA^{n-1},
 \]
-and define $\sigma' \in \Con(\bS')$ by restricting $\sigma$ in the obvious way, then $r' = \pi_{\{2, ..., n\}}(r)$ and $s' = \pi_{\{2, ..., n\}}(s)$ have $r'/\sigma' \ne s'/\sigma'$. Thus $\bS'/\sigma'$ is isomorphic to a subalgebra of $\bB$ of size at least $2$, so $\bS'/\sigma' \cong \bB$, contradicting the minimality of $n$.
+and define $\sigma' \in \Con(\bS')$ by restricting $\sigma$ in the obvious way, then $r' = \pi_{\{2, ..., n\}}(r)$ and $s' = \pi_{\{2, ..., n\}}(s)$ have $r'/\sigma' \ne s'/\sigma'$. Thus $\bS'/\sigma'$ is isomorphic to a subalgebra of a quotient of $\bB$ of size at least $2$, so $\bS'/\sigma' \cong \bB$, contradicting the minimality of $n$.
 
 Otherwise, if there is no such pair $r,s$, then there is a congruence $\sigma_1 \in \Con(\pi_1(\bS))$ such that for all $r \in \bS$, the congruence class $r/\sigma$ is completely determined by $\pi_1(r)/\sigma_1$. But then we have
 \[
@@ -1286,10 +1467,10 @@ Otherwise, if there is no such pair $r,s$, then there is a congruence $\sigma_1 
 \end{proof}
 %TODO: check references to see if Zhuk was first to prove this
 
-\begin{cor} If $\bA$ is idempotent, then either $\bA$ has a Taylor term, or there is some two element algebra $\bB \in HS(\bA)$ with no nontrivial operations.
+\begin{cor} If $\bA$ is finite and idempotent, then either $\bA$ has a Taylor term, or there is some two element algebra $\bB \in HS(\bA)$ with no nontrivial operations.
 \end{cor}
 
-\begin{cor} If $\bA$ is idempotent and has no Taylor term, then there are nonempty subalgebras $\bB, \bC \le \bA$ such that $\bB \cap \bC = \emptyset$ and $(\bB \cup \bC)^3 \setminus (\bB^3 \cup \bC^3) \le \bA^3$. In particular, $\CSP(\bA)$ can simulate NAE-SAT in a trivial way.
+\begin{cor} If $\bA$ is finite, idempotent, and has no Taylor term, then there are nonempty subalgebras $\bB, \bC \le \bA$ such that $\bB \cap \bC = \emptyset$ and $(\bB \cup \bC)^3 \setminus (\bB^3 \cup \bC^3) \le \bA^3$. In particular, $\CSP(\bA)$ can simulate NAE-SAT in a trivial way.
 \end{cor}
 
 \begin{rem} A recent result of Ol{\v{s}}{\'a}k simplifies the identities we need to consider even further. Ol{\v{s}}{\'a}k \cite{olsak-weak} proves that in any Taylor algebra, whether finite or infinite, there is always a $6$-ary \emph{weak 3-cube} term $t$, that is, an idempotent term satisfying the identity
@@ -1298,12 +1479,41 @@ t(x,y,y,y,x,x) \approx t(y,x,y,x,y,x) \approx t(y,y,x,x,x,y).
 \]
 The weak 3-cube term may be understood as saying that the ternary relation on the free algebra $\cF_{\cV}(x,y)$ which is generated by the ternary Not-All-Equal relation on $\{x,y\}$ has a diagonal element.
 
-Ol{\v{s}}{\'a}k's proof that such a term exists first uses the theory of absorbing subalgebras to produce a $12$-ary term which he calls a double loop term, and then simplifies it down to a weak $3$-cube term by using an intricate collection of identities that are satisfied by binary idempotent operations.
+Ol{\v{s}}{\'a}k's proof that such a term exists first uses the theory of absorbing subalgebras to produce a $12$-ary term which he calls a double loop term, and then simplifies it down to a weak $3$-cube term by using an intricate collection of identities which are satisfied by binary idempotent operations.
 \end{rem}
 
 \begin{rem} There is a curious connection between systems of two-variable height 1 identities on ternary functions and the problem 1-IN-3 SAT. Suppose that you are given such a system of identities $\cT$ on ternary functions $f_1, ..., f_n$, and that you want to determine whether these identities rule out projections.
+\begin{center}
+\begin{tikzpicture}
+    \node[label=above:{$f(y,x,y)$}] (v1) at (0,2) {};
+    \node[label=below:{$f(x,y,y)$}] (v2) at (-2,0) {};
+    \node[label=below:{$f(y,y,x)$}] (v3) at (2,0) {};
+    \node[label=left:{$g(x,y)$}] (v4) at (4,1) {};
+    \node[label=right:{$g(y,x)$}] (v5) at (5,1) {};
 
-Define a set of binary functions $f_i^j(x,y)$, $j \le 3$, by $f_i^1(x,y) = f_i(x,y,y), f_i^2 = f_i(y,x,y), f_i^3(x,y) = f_i(y,y,x)$, and identify any pair of $f_i^j$s which are indentified by $\cT$. Make a drawing of a hypergraph with a vertex for every equivalence class of $f_i^j$s, with an edge connecting any pair of vertices $g,h$ with $g(x,y) \approx h(y,x)$ under $\cT$, and with a hyperedge for each $f_i$ connecting it to $f_i^1, f_i^2, f_i^3$. An assignment of projections $\pi_j$ to the functions $f_i$ is the same as a choice $j$ of 1-IN-3 of the vertices on the hyperedge $f_i$ to be granted the value $\pi_1$, while every edge of the hypergraph corresponds to a $\ne$ constraint. (Ol{\v{s}}{\'a}k's paper \cite{olsak-weak} has one such picture, and I've found the technique enormously helpful for visualizing large systems of identities on ternary functions.)
+    \begin{scope}[fill opacity=0.2]
+    \filldraw[fill=blue!50] ($(v1)$) 
+        to[out=225,in=45] ($(v2)$) 
+        to[out=0,in=180] ($(v3)$)
+        to[out=135,in=-45] ($(v1)$);
+    \end{scope}
+    
+    \draw[decorate, decoration={zigzag,segment length=1mm,amplitude=0.5mm}] ($(v4)$) to[out=0,in=180] ($(v5)$); 
+
+    \foreach \v in {1,2,...,5} {
+        \fill (v\v) circle (0.1);
+    }
+    
+    \node at (0,0.8) {$f$};
+\end{tikzpicture}
+\end{center}
+Define a set of binary functions $f_i^j(x,y)$, $j \le 3$, by
+\begin{align*}
+f_i^1(x,y) &= f_i(x,y,y),\\
+f_i^2(x,y) &= f_i(y,x,y),\\
+f_i^3(x,y) &= f_i(y,y,x),
+\end{align*}
+and identify any pair of $f_i^j$s which are indentified by $\cT$. Make a drawing of a hypergraph with a vertex for every equivalence class of $f_i^j$s, with a zigzag edge connecting any pair of vertices $g,h$ with $g(x,y) \approx h(y,x)$ under $\cT$, and with a hyperedge for each $f_i$ connecting it to $f_i^1, f_i^2, f_i^3$. An assignment of projections $\pi_j$ to the functions $f_i$ is the same as a choice $j$ of 1-IN-3 of the vertices on the hyperedge $f_i$ to be granted the value $\pi_1$, while every zigzag edge of the hypergraph corresponds to a $\ne$ constraint. (Ol{\v{s}}{\'a}k's paper \cite{olsak-weak} has one such picture, and I've found the technique enormously helpful for visualizing large systems of identities on ternary functions.)
 
 As a concrete example, take following collection of four ternary terms $p,q,r,s$ defined in terms of Ol\v{s}\'ak's weak 3-cube term:
 \begin{align*}
@@ -1513,7 +1723,7 @@ and let $f_k$ be the associated totally symmetric polymorphism of arity $k$. The
 \[
 R_k(x_0, ..., x_k) \coloneqq \bigwedge_{i < j} (x_i + x_j \ge 0) \wedge (x_0, ..., x_k) \ne (0, ..., 0).
 \]
-Then it is easy to check that $R_k$ is preserved by $f_k$, but is not preserved by $f_{k+1}$. To see that $\langle f_k \rangle$ does not have width 1, define $R_k^-$ similarly to $R_k$, but with $x_i + x_j \ge 0$ replaced by $x_i + x_j \le 0$. Then for $k\ge 2$ the instance
+Then it is easy to check that $R_k$ is preserved by $f_k$, but is not preserved by $f_{k+1}$. To see that $\langle f_k \rangle$ does not have width 1, define $R_k^-$ similarly to $R_k$, but with each $x_i + x_j \ge 0$ replaced by $x_i + x_j \le 0$. Then for $k\ge 2$ the instance
 \[
 R_k(x_0, ..., x_k) \wedge R_k^-(x_0, ..., x_k)
 \]
@@ -1669,10 +1879,22 @@ This instance may be solved in polynomial time by the strict width $l$ algorithm
 
 The good news is that whether the structure is given as a finite relational structure or a finite algebraic structure, the existence of a near unanimity term is at least \emph{decidable} \cite{near-unanimity-maroti}, \cite{near-unanimity-congruence-distributive}, \cite{near-unanimity-zhuk}. The bad news is that the minimal arity of a near-unanimity term may be very large.
 
-\begin{thm}[Zhuk, Barto, Draganov \cite{near-unanimity-minimal}, \cite{near-unanimity-zhuk}] Every relational structure $\fA$ with $|\fA| = n$ and maximal arity of any relation $m$ which has bounded strict width, has strict width at most $\frac{1}{2}(2m-2)^{3^n}$. For each $m \ge 3$ and $n \ge 2$, there is a relational structure with bounded strict width which has no near-unanimity polymorphism of arity at most $(m-1)^{2^{n-2}}$, and for $m = 2, n \ge 3$ there is an example with no near-unanimity polymorphism of arity at most $2^{2^{n-3}}$.
+\begin{thm}[Zhuk, Barto, Draganov \cite{near-unanimity-minimal}, \cite{near-unanimity-zhuk}] For any relational structure $\fA$ with $|\fA| = n$ such that every basic relation of $\fA$ has arity at most $m$, if $\fA$ has bounded strict width, then $\fA$ has strict width at most
+\[
+\frac{1}{2}(2m-2)^{3^n}.
+\]
+
+Conversely, for each $m \ge 3$ and $n \ge 2$, there is an example of a relational structure with bounded strict width such that every basic relation of $\fA$ has arity at most $m$, which has no near-unanimity polymorphism of arity at most
+\[
+(m-1)^{2^{n-2}},
+\]
+and for $m = 2, n \ge 3$ there is an example with no near-unanimity polymorphism of arity at most
+\[
+2^{2^{n-3}}.
+\]
 \end{thm}
 
-Luckily, it is possible to determine whether a relational structure has bounded strict width without actually exhibiting a near-unanimity polymorphism. For instance, in \cite{deciding-absorption-relational} a nondeterministic polynomial time algorithm which only tests for the existence of certain chains of ternary polymorphisms of $\fA$ is given for deciding whether a given subset of $\fA$ is an absorbing subalgebra (defined later). Using the fact that cycle consistency solves CSPs which have bounded width (which we will prove later), this can be converted into a polynomial time algorithm for testing whether $\fA$ has bounded strict width.
+Luckily, it is possible to determine whether a relational structure has bounded strict width without actually exhibiting a near-unanimity polymorphism. For instance, in \cite{deciding-absorption-relational} a nondeterministic polynomial time algorithm, which only tests for the existence of certain chains of ternary polymorphisms of $\fA$, is given for deciding whether a given subset of $\fA$ is an absorbing subalgebra (defined later). Using the fact that cycle consistency solves CSPs which have bounded width (which we will prove later), this can be converted into a polynomial time algorithm for testing whether $\fA$ has bounded strict width.
 
 
 \subsection{The Basic LP relaxation of a CSP}\label{subsection-lp}
@@ -1735,7 +1957,7 @@ we see that there must be some $r \in R$ with $r_i = a$ and $p_{C,r} \ge p_{v_i,
 To finish the proof, we choose $\theta$ uniformly at random from the set $\{\frac{1}{|\fA|}, \frac{1}{|\fA|T}, ... \frac{1}{|\fA|T^b}\}$, where $T$ is twice the maximum number of tuples in any relation $R$ and $b = \lfloor \log(1/2|A|\sqrt{\epsilon})/\log(T) \rfloor$. Note that $b$ grows like $\log(1/\epsilon)$, that's the only important thing to keep track of in the mess. Then every constraint of arity $m$ which we hadn't given up on is satisfied with probability at least $1 - m|A|/b$ (since there are at most $m|A|$ bad choices of $\theta$ where the claim doesn't apply), and asymptotically that looks like $1 - O(1/\log(1/\epsilon))$.
 \end{proof}
 
-\begin{rem} The dependence of the error in $1 - O(1/\log(1/\epsilon))$ on $\epsilon$ in the previous theorem is best possible in the case of HORN-SAT: Guruswami and Zhou \cite{robust-horn-gap} show that there are integrality gap instances even for the SDP relaxation, and by a fundamental result of Raghavendra \cite{raghavendra-optimal} they deduce that under the Unique Games conjecture it is NP-hard to find an assignment satisfying a $1-o(1/\log(1/\epsilon))$ fraction of the constraints.
+\begin{rem} The dependence of the error in $1 - O(1/\log(1/\epsilon))$ on $\epsilon$ in the previous theorem is best possible in the case of HORN-SAT: Guruswami and Zhou \cite{robust-horn-gap} show that there are integrality gap instances even for the SDP relaxation (see Example \ref{ex-simul-ind}), and by a fundamental result of Raghavendra \cite{raghavendra-optimal} they deduce that under the Unique Games conjecture it is NP-hard to find an assignment satisfying a $1-o(1/\log(1/\epsilon))$ fraction of the constraints.
 \end{rem}
 
 \begin{rem} In \cite{lp-width-1}, it is also claimed that the basic LP solves every instance of $\CSP(\fA)$ if and \emph{only if} $\fA$ has width 1. The proof has a subtle error, however. The following counterexample, due to Kun, can be found in \cite{dalmau-approximation}.
@@ -2120,7 +2342,7 @@ for any choice of $m \le n$ and $a_i \in \bA_i$ for all $i$. \texttt{Fix-values}
 \end{prop}
 \begin{proof} We prove by induction on $j$ that $R_j$ is a compact representation of $\RR_j$ for each $j \le m$. Note that for any $(i,a,b) \in \Sig(R_j)$, if $a \ne b$ then we must have $i > j$. For $i \le j$, we have $(i,a_i,a_i) \in \Sig(R_j)$ iff $\RR_j \ne \emptyset$ by how we initialize $R_j$.
 
-If $i > j$, then $(i,a,b) \in \Sig(\RR_j)$ implies $(i,a,b) \in \Sig(\RR_{j-1})$, witnessed by some pair $t_a,t_b \in R_{j-1}$. Additionally, if $(i,a,b) \in \Sig(\RR_j)$, then there is certainly some $t \in \RR_j$ with $\pi_i(t) = a$, so the call to \texttt{Nonempty} inside the while loop will succeed. Then
+If $i > j$, then $(i,a,b) \in \Sig(\RR_j)$ implies $(i,a,b) \in \Sig(\RR_{j-1})$, witnessed by some pair $t_a,t_b \in R_{j-1}$. Additionally, if $(i,a,b) \in \Sig(\RR_j)$, then there is certainly some $t \in \RR_j$ with $\pi_i(t) = a$, so the call to \texttt{Nonempty} inside the loop will succeed. Then
 \[
 \pi_{1,...,i-1}(p(t,t_a,t_b)) = \pi_{1,...,i-1}(p(t,t_a,t_a)) = \pi_{1, ..., i-1}(t),
 \]
@@ -2260,7 +2482,7 @@ In the case of nonabelian groups, however, we may be able to adjoin interesting 
 \end{cor}
 \begin{proof} Consider the ``free near subgroup generated by two elements'', that is, the smallest near subgroup $K$ of $\bG^{\bG^2}$ which contains $\pi_1, \pi_2$ (a smallest such near subgroup exists since the intersection of all of them is guaranteed to be a near subgroup as well). Let $\mathbb{N}$ be the commutator subgroup of the group generated by $\pi_1, \pi_2$. Since $\langle \pi_1,\pi_2\rangle / \mathbb{N}$ is abelian, there must be some $c \in \mathbb{N}$ with $\pi_1\pi_2c \in K$ by the definition of a near subgroup.
 
-We define a binary polymorphism $g$ by $g = \pi_1\pi_2c$, that is, $g(x,y) = xyc(x,y)$, where $c \in \bG^{\bG^2}$ is interpreted as a function $c : \bG^2 \rightarrow \bG$. Since for all $x,y$ we know that $c(x,y)$ is contained in the commutator subgroup of $\langle x, y\rangle$, we have $c(x,1) = c(1,x) = 1$ for all $x$, so $g(x,1) = g(1,x) = x$. Now we define a Mal'cev operation $p$ by
+We define a binary operation $g$ by $g = \pi_1\pi_2c$, that is, $g(x,y) = xyc(x,y)$, where $c \in \bG^{\bG^2}$ is interpreted as a function $c : \bG^2 \rightarrow \bG$. Since for all $x,y$ we know that $c(x,y)$ is contained in the commutator subgroup of $\langle x, y\rangle$, we have $c(x,1) = c(1,x) = 1$ for all $x$, so $g(x,1) = g(1,x) = x$. Now we define a Mal'cev operation $p$ by
 \[
 p(x,y,z) = yg(y^{-1}x,y^{-1}z) = xy^{-1}zc(y^{-1}x,y^{-1}z).
 \]
@@ -3946,7 +4168,7 @@ r_{m}(x,y,z,u_1,...,u_k) = t_{m-1}(t_{m-1}(x,y,z,u_1,...,u_k),t_{m-1}(y,y,z,z,..
 
 To understand what parallelogram terms tell us, it is necessary to restrict to certain special relations, known as \emph{critical} relations.
 
-\begin{defn} A subalgebra $\RR \in \bA_1 \times \cdots \times \bA_n$ is \emph{critical} if it is $\cap$-irreducible, that is, if it can't be written as an intersection of strictly larger subalgebras, and if furthermore the relation $\RR$ has no dummy variables (that is, it depends on all of its inputs).
+\begin{defn} A subalgebra $\RR \le \bA_1 \times \cdots \times \bA_n$ is \emph{critical} if it is $\cap$-irreducible, that is, if it can't be written as an intersection of strictly larger subalgebras, and if furthermore the relation $\RR$ has no dummy variables (that is, it depends on all of its inputs).
 \end{defn}
 
 A standard result in the theory of algebraic lattices (Proposition \ref{meet-irreducible-rep} from Appendix \ref{a-commutator}) shows that every relation can be written as an intersection of critical relations (possibly of lower arity). The following result shows that every relation in an algebra with $k$-parallelogram terms can be written as an intersection of relations of arity less than $k$ and relations with the parallelogram property.
@@ -4684,7 +4906,7 @@ To rule out the second possibility, note that if $s^l <_{lex} s$ and $(s_j^l, s_
 
 \section{Fourth basic example: the Rock-Paper-Scissors algebra}\label{s-rps}
 
-We're going to start building intuition for the bounded width case with a detailed investigation of a fourth basic algebra on three elements, which is sometimes called the ``rock-paper-scissors'' algebra. This algebra is $\bA = (\{a,b,c\}, \cdot)$, where $\cdot$ is the binary, commutative, idempotent operation described by the following table.
+We're going to start building intuition for the bounded width case with a detailed investigation of a fourth basic algebra on three elements, which is sometimes called the ``rock-paper-scissors'' algebra. This algebra is $\bA_{rps} = (\{a,b,c\}, \cdot)$, where $\cdot$ is the binary, commutative, idempotent operation described by the following table.
 \begin{center}
 \begin{tabular}{cc}%{p{4.0cm} p{3.4cm}}
 \begin{tabular}{c|ccc} $\cdot$ & $a$ & $b$ & $c$\\ \hline $a$ & $a$ & $b$ & $a$\\ $b$ & $b$ & $b$ & $c$\\ $c$ & $a$ & $c$ & $c$\end{tabular} & 
@@ -4696,17 +4918,17 @@ We're going to start building intuition for the bounded width case with a detail
 \end{tikzpicture}
 \end{tabular}
 \end{center}
-The algebra $\bA$ is not a semilattice, but every two-element subset of $\bA$ is a semilattice. Thus, the binary operation $\cdot$ satisfies the following identities:
+The algebra $\bA_{rps}$ is not a semilattice, but every two-element subset of $\bA_{rps}$ is a semilattice. Thus, the binary operation $\cdot$ satisfies the following identities:
 \[
 xx \approx x, \;\;\; xy \approx yx, \;\;\; x(xy) \approx xy.
 \]
-Any binary operation satisfying the above identities is known as a 2-\emph{semilattice} operation, and the algebra $\bA$ is the smallest 2-semilattice which is not a semilattice.
+Any binary operation satisfying the above identities is known as a 2-\emph{semilattice} operation, and the algebra $\bA_{rps}$ is the smallest 2-semilattice which is not a semilattice.
 
 As we will see, the corresponding relational clone is generated by the binary relation $\{(a,b), (b,c), (c,a)\}$ (which corresponds to the fact that the algebra has a cyclic automorphism) and the ternary relation $R_{a,b}$ given by the formula
 \[
 R_{a,b}(x,y,z) \coloneqq (x \in \{a,b\}) \wedge (x = a \implies y = z).
 \]
-The ternary relation $R_{a,b}$ has a special role, which is closely connected to the fact that $\{a,b\}$ is a semilattice subalgebra of $\bA$.
+The ternary relation $R_{a,b}$ has a special role, which is closely connected to the fact that $\{a,b\}$ is a semilattice subalgebra of $\bA_{rps}$.
 
 \begin{prop} If $\RR, \bS \subseteq \bA^n$ are any $n$-ary relations with $\bS \subseteq \RR$, then the $n+1$-ary relation
 \[
@@ -4720,31 +4942,31 @@ can be defined by a primitive positive formula in $\RR,\bS$, and $R_{a,b}$.
 \]
 \end{proof}
 
-\begin{prop}\label{rps-decompose} If $\RR \le_{sd} \bA^n$ is a subdirect $n$-ary relation, then $\RR$ is the intersection of its two-variable projections, each of which is either a full relation or the graph of an automorphism of $\bA$ which is either the identity or is cyclic. In particular, there is some subset of the coordinates $I \subseteq \{1, ..., n\}$ such that the projection $\pi_I$ is an isomorphism from $\RR$ to $\bA^I$.
+\begin{prop}\label{rps-decompose} If $\RR \le_{sd} \bA_{rps}^n$ is a subdirect $n$-ary relation, then $\RR$ is the intersection of its two-variable projections, each of which is either a full relation or the graph of an automorphism of $\bA_{rps}$ which is either the identity or is cyclic. In particular, there is some subset of the coordinates $I \subseteq \{1, ..., n\}$ such that the projection $\pi_I$ is an isomorphism from $\RR$ to $\bA_{rps}^I$.
 \end{prop}
-\begin{proof} We prove this by induction on $n$. The base case, $n = 2$, is easily verified: since $\bA$ is simple, every subdirect binary relation on $\bA$ is either the graph of an automorphism or is linked, and we can check that every connected subgraph of the complete bipartite graph $K_{3,3}$ either contains a bipartite matching or is a tree with two leaves on both parts (e.g. using Hall's Marriage Lemma). Therefore up to automorphisms of $\bA$ we just need to consider relations which contain $\{(a,a),(a,b),(b,b),(c,c)\}$, $\{(a,a),(b,c),(c,b)\}$, or $\{(a,b),(a,c),(b,a),(c,a)\}$, and all three of these generate $\bA^2$.
+\begin{proof} We prove this by induction on $n$. The base case, $n = 2$, is easily verified: since $\bA_{rps}$ is simple, every subdirect binary relation on $\bA_{rps}$ is either the graph of an automorphism or is linked, and we can check that every connected subgraph of the complete bipartite graph $K_{3,3}$ either contains a bipartite matching or is a tree with two leaves on both parts (e.g. using Hall's Marriage Lemma). Therefore up to automorphisms of $\bA_{rps}$ we just need to consider relations which contain $\{(a,a),(a,b),(b,b),(c,c)\}$, $\{(a,a),(b,c),(c,b)\}$, or $\{(a,b),(a,c),(b,a),(c,a)\}$, and all three of these generate $\bA_{rps}^2$.
 
-Now consider the case $n > 2$. By the induction hypothesis, we may assume without loss of generality that $\pi_{[n]\setminus \{i\}}(\RR) = \bA^{n-1}$ for every $i \le n$. Suppose for contradiction that $\RR \ne \bA^n$.
+Now consider the case $n > 2$. By the induction hypothesis, we may assume without loss of generality that $\pi_{[n]\setminus \{i\}}(\RR) = \bA_{rps}^{n-1}$ for every $i \le n$. Suppose for contradiction that $\RR \ne \bA_{rps}^n$.
 
-Since the automorphism group of $\bA$ is transitive, we may assume without loss of generality that $(a,...,a) \not\in \RR$. Since $\bA$ is idempotent, the set $\RR'$ of triples $(x,y,z)$ such that $(x,y,z,a,...,a) \in \RR$ is a subalgebra of $\bA^3$, and by the inductive hypothesis every projection of $\RR'$ onto any pair of coordinates is full. So we can reduce to the case $n = 3$.
+Since the automorphism group of $\bA_{rps}$ is transitive, we may assume without loss of generality that $(a,...,a) \not\in \RR$. Since $\bA_{rps}$ is idempotent, the set $\RR'$ of triples $(x,y,z)$ such that $(x,y,z,a,...,a) \in \RR$ is a subalgebra of $\bA_{rps}^3$, and by the inductive hypothesis every projection of $\RR'$ onto any pair of coordinates is full. So we can reduce to the case $n = 3$.
 
 If any two of $(a,a,c), (a,c,a), (c,a,a)$ are in $\RR$, then we can combine them to obtain $(a,a,a)$. So we may suppose that $(a,a,b) \in \RR$. If we consider the binary relation consisting of pairs $(y,z)$ with $(a,y,z) \in \RR$, then by the $n = 2$ case, we must have $(a,c,a) \in \RR$. Similar reasoning with the roles of the first and second coordinates reversed then shows that we must have $(c,a,a) \in \RR$, a contradiction.
 \end{proof}
 
-\begin{prop}\label{rps-absorb} If $\RR \le_{sd} \bA^n\times \{a,b\}^k$ has full projection onto $\bA^n$, then we have $\bA^n\times \{(b,...,b)\} \subseteq \RR$.
+\begin{prop}\label{rps-absorb} If $\RR \le_{sd} \bA_{rps}^n\times \{a,b\}^k$ has full projection onto $\bA_{rps}^n$, then we have $\bA_{rps}^n\times \{(b,...,b)\} \subseteq \RR$.
 \end{prop}
-\begin{proof} For any $x \in \bA^n$, let $x^-$ be the tuple obtained from $x$ by applying the cyclic permutation $(a\ c\ b)$ componentwise. Then it's easy to check that for any $x,y \in \bA^n$, we have
+\begin{proof} For any $x \in \bA_{rps}^n$, let $x^-$ be the tuple obtained from $x$ by applying the cyclic permutation $(a\ c\ b)$ componentwise. Then it's easy to check that for any $x,y \in \bA_{rps}^n$, we have
 \[
 (xy^-)y = y.
 \]
 
-By multiplying all of the elements of $\RR$ together in any order (with parentheses placed arbitrarily), we see that there is some $x \in \bA^n$ such that $(x_1, ..., x_n, b, ..., b) \in \RR$. For any $y \in \bA^n$, there are tuples $c,d \in \{a,b\}^n$ such that $(y,c), (y^-,d) \in \RR$ by the assumption $\pi_{[n]}(\RR) = \bA^n$. Thus
+By multiplying all of the elements of $\RR$ together in any order (with parentheses placed arbitrarily), we see that there is some $x \in \bA_{rps}^n$ such that $(x_1, ..., x_n, b, ..., b) \in \RR$. For any $y \in \bA_{rps}^n$, there are tuples $c,d \in \{a,b\}^n$ such that $(y,c), (y^-,d) \in \RR$ by the assumption $\pi_{[n]}(\RR) = \bA_{rps}^n$. Thus
 \[
 (y,b) = ((x,b)\cdot(y^{-},d))\cdot (y,c) \in \RR.\qedhere
 \]
 \end{proof}
 
-The previous two propositions are enough to describe an algorithm which solves $\CSP(\bA)$. The algorithm first establishes arc-consistency, reducing some of the domains of the variables until every constraint relation becomes subdirect. Then for each variable with a two element domain, the last proposition shows that we may as well take that variable equal to the top/absorbing element of that domain. After this restriction, if we consider the remaining variables, each relation decomposes into binary relations, each of which is either an equality relation or the graph of a cyclic automorphism. This final problem can be solved by checking that no cycle of binary relations implies that any variable is related to itself by a nontrivial cyclic automorphism.
+The previous two propositions are enough to describe an algorithm which solves $\CSP(\bA_{rps})$. The algorithm first establishes arc-consistency, reducing some of the domains of the variables until every constraint relation becomes subdirect. Then for each variable with a two element domain, the last proposition shows that we may as well take that variable equal to the top/absorbing element of that domain. After this restriction, if we consider the remaining variables, each relation decomposes into binary relations, each of which is either an equality relation or the graph of a cyclic automorphism. This final problem can be solved by checking that no cycle of binary relations implies that any variable is related to itself by a nontrivial cyclic automorphism.
 
 \begin{defn} An instance of a CSP is \emph{cycle-consistent} if for every sequence of variables $v_1, ..., v_n$ and relations $R_1, ..., R_n$ and pairs of coordinates $(i_k,j_k)$ such that $v_k, v_{k+1}$ are related by $\pi_{(i_k,j_k)}(R_k)$ for each $k$ (indices taken modulo $n$), the composition
 \[
@@ -4753,17 +4975,17 @@ The previous two propositions are enough to describe an algorithm which solves $
 contains the equality relation on the domain of the variable $v_1$.
 \end{defn}
 
-\begin{cor} Any cycle-consistent instance of $\CSP(\bA)$ has a solution.
+\begin{cor} Any cycle-consistent instance of $\CSP(\bA_{rps})$ has a solution.
 \end{cor}
 
-If we want to understand the complete structure of a general relation $\RR \le \bA^n$, things become more complicated. A typical relation we need to consider has the form
+If we want to understand the complete structure of a general relation $\RR \le \bA_{rps}^n$, things become more complicated. A typical relation we need to consider has the form
 \begin{align*}
 x_1 \in &\{a,b\} \wedge (x_1 = a \implies x_2 \in \{a,b\}) \wedge (x_1 = x_2 = a \implies x_3 \in \{a,b\})\\
 &\wedge \cdots \wedge (x_1 = \cdots = x_k = a \implies y=z).
 \end{align*}
-The final $y=z$ in the last implication can also be replaced with any unary relation on $y$, and for any subset of the variables we can apply a cyclic automorphism of $\bA$. We call any such relation a \emph{basic relation} on $\bA$.
+The final $y=z$ in the last implication can also be replaced with any unary relation on $y$, and for any subset of the variables we can apply a cyclic automorphism of $\bA_{rps}$. We call any such relation a \emph{basic relation} on $\bA_{rps}$.
 
-\begin{thm} Suppose $\RR \le \bA^n$. Then $x \in \RR$ iff $x$ satisfies every basic relation on $\bA$ which contains $\RR$. In particular, $\RR$ is contained in the relational clone generated by $\{(a,b), (b,c), (c,a)\}$ and $R_{a,b}$.
+\begin{thm} Suppose $\RR \le \bA_{rps}^n$. Then $x \in \RR$ iff $x$ satisfies every basic relation on $\bA_{rps}$ which contains $\RR$. In particular, $\RR$ is contained in the relational clone generated by $\{(a,b), (b,c), (c,a)\}$ and $R_{a,b}$.
 \end{thm}
 \begin{proof} Suppose $x \in \RR$. Let $I = \{i_1, ..., i_k\} \subseteq [n]$ be maximal such that, after applying cyclic automorphisms to coordinates in $I$, we have $x_{i_j} = a$ for all $j \le k$, and such that the basic relation
 \begin{align*}
@@ -4774,7 +4996,7 @@ contains $\RR$. Assume without loss of generality that the coordinates are order
 \[
 (y_1, ..., y_{n-k}) \in \RR' \iff (y_1, ..., y_{n-k}, a, ..., a) \in \RR
 \]
-has $\RR' \le_{sd} \bA^m\times \{a,b\}^{n-m-k}$ for some $m$ (possibly after further applications of cyclic automorphisms). Then by the maximality of $I$, we have $x = (x_1, ..., x_m, b, ..., b, a, ..., a)$. By Propositions \ref{rps-decompose}, \ref{rps-absorb}, and our assumption that $x$ satisfies all basic relations containing $\RR$, we have $(x_1, ..., x_m) \in \pi_{[m]}(\RR')$ and $\pi_{[m]}(\RR')\times \{(b,...,b)\} \subseteq \RR'$, so $(x_1, ..., x_m, b, ..., b) \in \RR'$, so $x \in \RR$.
+has $\RR' \le_{sd} \bA_{rps}^m\times \{a,b\}^{n-m-k}$ for some $m$ (possibly after further applications of cyclic automorphisms). Then by the maximality of $I$, we have $x = (x_1, ..., x_m, b, ..., b, a, ..., a)$. By Propositions \ref{rps-decompose}, \ref{rps-absorb}, and our assumption that $x$ satisfies all basic relations containing $\RR$, we have $(x_1, ..., x_m) \in \pi_{[m]}(\RR')$ and $\pi_{[m]}(\RR')\times \{(b,...,b)\} \subseteq \RR'$, so $(x_1, ..., x_m, b, ..., b) \in \RR'$, so $x \in \RR$.
 \end{proof}
 
 \begin{rem} The intricate yet understandable structure of the basic relations considered above is at the heart of the uncountable region found by Zhuk \cite{zhuk-selfdual} in the lattice of clones on a three-element domain. Each of the clones in Zhuk's uncountable region properly contains the clone of the rock-paper-scissors algebra, so the generating relations for the corresponding relational clones can be written in terms of the basic relations considered above.
@@ -4791,16 +5013,16 @@ Let $y, z \in \bA^n$ be any pair of tuples with $y_i = z_i$ whenever $x_i = a$. 
 so $f(y) = f(z)$.
 \end{proof}
 
-\begin{thm} An $n$-ary operation $f$ is contained in $\Clo_n(\bA)$ iff it preserves the relations $\{(a,b),(b,c),(c,a)\}$ and $R_{a,b}$. If $f$ depends on all its inputs, this occurs iff $f$ preserves the cyclic automorphism of $\bA$ and $f|_{\{a,b\}}$ is the $n$-ary semilattice operation on $\{a,b\}$.
+\begin{thm} An $n$-ary operation $f$ is contained in $\Clo_n(\bA_{rps})$ iff it preserves the relations $\{(a,b),(b,c),(c,a)\}$ and $R_{a,b}$. If $f$ depends on all its inputs, this occurs iff $f$ preserves the cyclic automorphism of $\bA_{rps}$ and $f|_{\{a,b\}}$ is the $n$-ary semilattice operation on $\{a,b\}$.
 \end{thm}
-\begin{proof} We just need to check this in the case where $f$ depends on all of its inputs. Let $\cF = \cF_{\cV(\bA)}(x_1, ..., x_n) \le \bA^{\bA^n}$ be the subalgebra generated by $\pi_1, ..., \pi_n : \bA^n \rightarrow \bA$. The projection $\pi_x(\cF)$ of $\cF$ onto the coordinate of $\bA^{\bA^n}$ corresponding to $x \in \bA^n$ is the subalgebra of $\bA$ generated by $\{\pi_1(x), ..., \pi_n(x)\} = \{x_1, ..., x_n\}$.
+\begin{proof} We just need to check this in the case where $f$ depends on all of its inputs. Let $\cF = \cF_{\cV(\bA_{rps})}(x_1, ..., x_n) \le \bA_{rps}^{\bA_{rps}^n}$ be the subalgebra generated by $\pi_1, ..., \pi_n : \bA_{rps}^n \rightarrow \bA_{rps}$. The projection $\pi_x(\cF)$ of $\cF$ onto the coordinate of $\bA_{rps}^{\bA_{rps}^n}$ corresponding to $x \in \bA_{rps}^n$ is the subalgebra of $\bA_{rps}$ generated by $\{\pi_1(x), ..., \pi_n(x)\} = \{x_1, ..., x_n\}$.
 
-If $x$ is a diagonal tuple, say $x = (a,...,a)$, then $\pi_x(\cF) = \{a\}$, corresponding to the fact that any $f \in \cF$ must be idempotent, with $f(a,...,a) = a$. If exactly two elements of $\bA$ occur in $x$, say $x \in \{a,b\}^n$, then $\pi_x(\cF) = \{a,b\}$, and if $f$ depends on all its inputs and preserves $R_{a,b}$, this implies that we must have $f(x) = b$, i.e. $\pi_x(f) = b$. Thus, if $I \subseteq \bA^n$ is the set of $x$ such that all three of $a,b,c$ show up in the coordinates of $x$, we see that $\pi_I(\cF) \le_{sd} \bA^I$, and by Proposition \ref{rps-absorb} we have $f \in \cF \iff \pi_I(f) \in \pi_I(\cF)$.
+If $x$ is a diagonal tuple, say $x = (a,...,a)$, then $\pi_x(\cF) = \{a\}$, corresponding to the fact that any $f \in \cF$ must be idempotent, with $f(a,...,a) = a$. If exactly two elements of $\bA_{rps}$ occur in $x$, say $x \in \{a,b\}^n$, then $\pi_x(\cF) = \{a,b\}$, and if $f$ depends on all its inputs and preserves $R_{a,b}$, this implies that we must have $f(x) = b$, i.e. $\pi_x(f) = b$. Thus, if $I \subseteq \bA_{rps}^n$ is the set of $x$ such that all three of $a,b,c$ show up in the coordinates of $x$, we see that $\pi_I(\cF) \le_{sd} \bA_{rps}^I$, and by Proposition \ref{rps-absorb} we have $f \in \cF \iff \pi_I(f) \in \pi_I(\cF)$.
 
-By Proposition \ref{rps-decompose}, $\pi_I(\cF)$ is the intersection of its two-variable projections, each of which is either full or the graph of a cyclic automorphism of $\bA$. A two variable projection $\pi_{x,y}(\cF)$ will only be the graph of a cyclic automorphism $\sigma \in \Aut(\bA)$ if $(\pi_i(x),\pi_i(y))$ is in the graph of $\sigma$ for all $i$, that is, if $y_i = \sigma(x_i)$ for all $i$. Thus, $\pi_I(f) \in \pi_I(\cF)$ iff whenever $y = \sigma(x)$, we have $f(y) = \sigma(f(x))$.
+By Proposition \ref{rps-decompose}, $\pi_I(\cF)$ is the intersection of its two-variable projections, each of which is either full or the graph of a cyclic automorphism of $\bA_{rps}$. A two variable projection $\pi_{x,y}(\cF)$ will only be the graph of a cyclic automorphism $\sigma \in \Aut(\bA_{rps})$ if $(\pi_i(x),\pi_i(y))$ is in the graph of $\sigma$ for all $i$, that is, if $y_i = \sigma(x_i)$ for all $i$. Thus, $\pi_I(f) \in \pi_I(\cF)$ iff whenever $y = \sigma(x)$, we have $f(y) = \sigma(f(x))$.
 \end{proof}
 
-Note that one of the key steps behind the analysis of the rock-paper-scissors algebra was Proposition \ref{rps-decompose} which classified the subdirect powers of the algebra, and that the method of proof depended only on checking properties of subdirect binary and ternary relations on $\bA$. The general pattern behind this is best understood in terms of a property of the polynomial clone known as \emph{polynomial completeness}.
+Note that one of the key steps behind the analysis of the rock-paper-scissors algebra was Proposition \ref{rps-decompose} which classified the subdirect powers of the algebra, and that the method of proof depended only on checking properties of subdirect binary and ternary relations on $\bA_{rps}$. The general pattern behind this is best understood in terms of a property of the polynomial clone known as \emph{polynomial completeness}.
 
 \begin{defn} An algebra is \emph{polynomially complete} if its polynomial clone is the clone of all operations, that is, if every operation on the underlying set can be expressed using the basic operations of the algebra together with the constant operations.
 \end{defn}
@@ -4817,7 +5039,7 @@ Note that we have shown that the relational clone corresponding to the polynomia
 \begin{cor} The rock-paper-scissors algebra is polynomially complete.
 \end{cor}
 
-As far as relations go, the main impact of polynomial completeness is that it strongly constrains subdirect relations where each factor is polynomially complete. As we have seen, if some factors are not polynomially complete, then the structure of an arbitrary relation can be quite intricate. In the case of the rock-paper-scissors algebra, we are able to side-step this intricacy by restricting each factor which is a proper subalgebra of $\bA$ to its top/absorbing element. This is a general strategy that can be used in the study of bounded width algebras, as well as finite Taylor algebras.
+As far as relations go, the main impact of polynomial completeness is that it strongly constrains subdirect relations where each factor is polynomially complete. As we have seen, if some factors are not polynomially complete, then the structure of an arbitrary relation can be quite intricate. In the case of the rock-paper-scissors algebra, we are able to side-step this intricacy by restricting each factor which is a proper subalgebra of $\bA_{rps}$ to its top/absorbing element. This is a general strategy that can be used in the study of bounded width algebras, as well as finite Taylor algebras.
 
 We conclude this section with a few classical results about polynomial completeness.
 
@@ -6472,7 +6694,7 @@ As in the argument for majority algebras, we now pick a maximal component $\cC$ 
 
 A worst case scenario would be that there exist $\bB_1, \bB_2$ with $(x,\bB_i) \in \cC$ such that $\bB_1 \cap \bB_2 = \emptyset$: in this case, we would have no hope of using $\cC$ to define an arc-consistent reduction, because no matter which $(y,\bC) \in \cC$ we pick, there exist tree patterns $p_1, p_2$ from $y$ to $x$ with $\bC + p_i = \bB_i$, so reducing the domain $\bA_y$ to $\bC$ and imposing arc-consistency would make it impossible to assign any value to $x$. The main step of the proof is ruling out this scenario.
 
-\begin{lem} If $\cC$ is a maximal component of $(\cB,\preceq)$, and if $(x,\bB), (x,\bC) \in \cC$, then $\bB \cap \bC \ne \emptyset$.
+\begin{lem}\label{lem-absorbing-reduction} If $\cC$ is a maximal component of $(\cB,\preceq)$, and if $(x,\bB), (x,\bC) \in \cC$, then $\bB \cap \bC \ne \emptyset$.
 \end{lem}
 
 Before proving the lemma, we'll show how we can use it to finish the proof of Theorem \ref{absorbing-reduction}. This step won't use the fact that the instance $\fX$ is $pq$-consistent, or the fact that $\lhd_X$ transfers connectivity: the lemma is where these crucial facts are used.
@@ -6546,9 +6768,161 @@ Additionally, by following paths of $\bS$ backwards sufficiently many times, we 
 
 To finish the analysis of bounded width algebras, we just need to understand the case where all the domains are absorption free. For this we need two main ingredients: first is that binary relations are forced to be boring unless some absorption occurs, and second is that if a simple algebra has an exciting ternary relation whose binary projections are boring, then the algebra must be affine and therefore does not have bounded width.
 
-% \subsection{Absorption constants}
 
-% TODO
+\subsection{Absorption constants}
+
+In this subsection, we'll go over the proof of an interesting generalization of the Theorem \ref{absorbing-diagonal} to higher arity relations, from \cite{nu-pathwidth}, which we mentioned at the beginning of the last section. Since the proof of this result is so similar to the proof of Kozik's result from the last section, this seems like an appropriate place to cover the argument.
+
+We will need some notation for the diagonal of a power $\bA^n$. One option is to use the notation $\Delta_\bA^n$, but this looks very similar to the notation we use in the appendix on commutator theory (Appendix \ref{a-commutator}). Another notation some authors use is $0_\bA^n$, so that when $n = 2$ we get the least congruence $0_\bA$, but I am not a big fan of this notation either. Yet another possibility is $=_\bA^n$. I decided on a fourth option, which allows me to refer to specific elements of the diagonal without too much ugliness, and which emphasizes the fact that the diagonal is isomorphic to $\bA$.
+
+\begin{defn} For any $n$, define the \emph{diagonal subalgebra} of arity $n$ to be the subalgebra $\bA^{(n)} \le_{sd} \bA^n$, given by
+\[
+\bA^{(n)} = \{(a, ..., a) \mid a \in \bA\}.
+\]
+Additionally, for each $a \in \bA$, we define the corresponding \emph{constant tuple} to be
+\[
+a^{(n)} = (a, ..., a) \in \bA^{(n)}.
+\]
+\end{defn}
+
+\begin{thm}[Theorem 6 of \cite{nu-pathwidth}] If $\bA$ is finite, $\RR \le_{sd} \bA^n$ is subdirect, and $\RR$ J\'onsson absorbs the diagonal $\bA^{(n)}$, then $\RR \cap \bA^{(n)} \ne \emptyset$.
+\end{thm}
+\begin{proof} The proof strategy is similar to the proof of Theorem \ref{absorbing-diagonal}. We assume without loss of generality that $\bA$ is idempotent, and we induct on $|\bA|$. It's enough to show that there is some proper subalgebra $\bB \le \bA$ such that
+\[
+\RR \cap \bB^n \le_{sd} \bB^n,
+\]
+since $\RR \cap \bB^n$ will automatically J\'onsson absorb $\bB^{(n)}$.
+
+Similarly to the proof of Theorem \ref{absorbing-reduction}, we define the a quasiordered set $(\cB, \preceq)$ to be the set of subalgebras $\bB \le \bA$ with $\bB \ne \emptyset, \bA$, with the quasiorder defined by $\bB \preceq \bC$ if there is a tree pattern $p$ built out of copies of the relation $\RR$ such that $\bB + p = \bC$.
+
+Pick some maximal component $\cC$ of $(\cB, \preceq)$. Note that if $\bB, \bC \in \cC$ have $\bB \cap \bC \ne \emptyset$, then we can splice together tree patterns to see that $\bB \cap \bC \in \cC$ as well.
+
+First suppose that every pair $\bB, \bC \in \cC$ have $\bB \cap \bC \ne \emptyset$. Then there is some $\bB \in \cC$ which is contained in all other elements of $\cC$. We claim that in this case, we have
+\[
+\RR \cap \bB^n \le_{sd} \bB^n,
+\]
+which will allow us to complete the proof. To check this, we prove by induction on $i$ that
+\[
+\bB \subseteq \pi_i(\RR \cap \bB^{i-1}\times\bA^{n-i+1}).
+\]
+For $i = 1$ this follows from the assumption that $\RR$ is subdirect. For the induction step, note that the induction hypothesis implies that
+\[
+\pi_i(\RR \cap \bB^{i-1}\times\bA^{n-i+1}) \ne \emptyset,
+\]
+so
+\[
+\pi_i(\RR \cap \bB^{i-1}\times\bA^{n-i+1}) \in \cC \cup \{\bA\},
+\]
+and either way it contains $\bB$.
+
+Now suppose, for the sake of contradiction, that there are $\bB, \bC \in \cC$ with $\bB \cap \bC = \emptyset$. As in the proof of Lemma \ref{lem-absorbing-reduction}, we take $\bC \in \cC$ maximal under inclusion such that there exists some $\bB \in \cC$ with $\bB \cap \bC = \emptyset$, and we let $\bB_1, ..., \bB_k$ be the set of minimal (under inclusion) $\bB$s such that $\bB \in \cC$ and $\bB \cap \bC = \emptyset$.
+
+We continue following the proof of Lemma \ref{lem-absorbing-reduction}, defining tree patterns $p_i, q, r$ built out of copies of the relation $\RR$ such that $\bB_i + p_i = \bB_{i+1}$, $\bC + q = \bB_1$, $\bB_k + r = \bC$, and defining $p$ by
+\[
+p = q + p_1 + \cdots + p_k + r.
+\]
+Then we prune the inputs of the pattern $p$ to make a pattern $p'$ with as few inputs as possible such that
+\[
+\bC + p' = \bC,
+\]
+and let $p''$ be the pattern we get from $p'$ by removing one additional input $s$ from the input set, and define
+\[
+\bS \le \bA \times \bA
+\]
+as the set of possible pairs of values for the pruned input $s$ and the output of the pattern $p''$ which extend to assignments where every remaining input of $p''$ is given a value in $\bC$, as in the proof of Lemma \ref{lem-absorbing-reduction}.
+
+By the exact same argument from Lemma \ref{lem-absorbing-reduction}, we have
+\[
+\bC + \bS = \bC + p' = \bC
+\]
+and
+\[
+\cup_i \bB_i + \bS \supseteq \cup_i \bB_i,
+\]
+so every element $c \in \bC$ is reachable from a directed cycle of $\bS$ which is entirely contained in $\bC$, and $\cup_i\bB_i$ contains a directed cycle of $\bS$.
+
+Now we finally deviate slightly from the proof of Lemma \ref{lem-absorbing-reduction}. Define a pattern $p_=$ by replacing each occurence of $\RR$ by $\RR \cup \bA^{(n)}$ in the pattern $p$, and similarly define $p_=', p_=''$, and define
+\[
+S_= \subseteq \bA \times \bA
+\]
+as the set of possible pairs of values for the pruned input $s$ and the output of the pattern $p_=''$ which extend to assignments where every remaining input of $p_=''$ is given a value in $\bC$. The $\bS \subseteq S_=$ and $\bS$ J\'onsson absorbs $S_=$. Additionally, for each $i$ we have
+\[
+\bC + p_= \supseteq \bC + q + p_1 + \cdots + p_{i-1} = \bB_i,
+\]
+since we can simply feed a bunch of equal copies of an element $b \in \bB_i$ to each of the remaining levels of the tree pattern. Thus we have
+\[
+\bC + S_= \supseteq \cup_i \bB_i.
+\]
+Thus we can find a directed path in $S_=$ from some element $c \in \bC$ which is contained in a directed cycle of $\bS$ to some element of $\cup_i \bB_i$ which is contained in a directed cycle of $\bS$. This allows us to apply Corollary \ref{cor-absorbing-directed-path} to conclude that there is some directed path from $\bC$ to $\cup_i\bB_i$ in $\bS$, which gives us our contradiction.
+\begin{comment}
+Thus if we let $\bB_1, ..., \bB_k$ be the minimal (under inclusion) elements of $\cC$, then we have
+\[
+\bB_i \cap \bB_j = \emptyset
+\]
+for all $i \ne j$. Our strategy is to show that $k = 1$.
+
+Suppose for the sake of contradiction that $k > 1$, and for each $i$ pick a tree pattern $p_i$ built out of copies of the relation $\RR$ such that $\bB_i + p_i = \bB_{i+1}$, with $i+1$ taken modulo $k$. Define the tree pattern $p$ by
+\[
+p = p_1 + \cdots + p_k,
+\]
+and note that
+\[
+\bB_1 + p = \bB_1.
+\]
+Additionally, define a tree pattern $p'$ by replacing every copy of $\RR$ in $p$ with $\RR \cup \bA^{(n)}$.
+
+Let $X$ be the union of the $\bB_i$s. Then the construction of $p$ and $p'$ easily imply that
+\[
+\bB_1 + p' \supseteq X.
+\]
+We also have
+\[
+\bB_i \subseteq \pi_j(\RR \cap X^n)
+\]
+for all $j \in [n]$ by an argument similar to the way we proved Theorem \ref{absorbing-reduction}, given Lemma \ref{lem-absorbing-reduction}. Thus we have
+\[
+X + p \supseteq X.
+\]
+Now let $d_1, ..., d_m$ be a J\'onsson absorption chain witnessing the fact that $\RR$ J\'onnson absorbs $\RR \cup \bA^{(n)}$. Recall that this means we have
+\begin{align*}
+d_1(x,x,y) &\approx x,\\
+d_i(x,y,y) &\approx d_{i+1}(x,x,y),\\
+d_n(x,y,y) &\approx y,\\
+d_i(\RR, \RR\cup \bA^{(n)}, \RR) &\subseteq \RR.
+\end{align*}
+We will show by induction on $i$ that we have
+\[
+d_i(\bB_1, X, X) \subseteq \bB_1,
+\]
+where the base case is $i = 0$ with $d_0(x,y,z) = x$.
+
+d_{i+1}(b,b,x) \in \bB_1
+d_{i+1}(b+p, b+p', x+p) \in \bB_1
+\end{comment}
+\end{proof}
+
+Ross Willard points out the following consequence of this result.
+
+\begin{cor} If $\bA$ is a finite algebra, then there is at least one element $a \in \bA$ such that, for all subdirect relations $\RR \le_{sd} \bA^n$, we have
+\[
+\RR \lhd_J \Sg_{\bA^n}(\RR \cup \bA^{(n)}) \;\; \implies \;\; a^{(n)} \in \RR.
+\]
+The set of such elements $a$ forms a J\'onsson absorbing subalgebra of $\bA$.
+\end{cor}
+
+\begin{defn} Say that $a$ is an \emph{absorption constant} of $\bA$ with respect to the absorption concept $\lhd_X$ if
+\[
+\RR \lhd_X \Sg_{\bA^n}(\RR \cup \bA^{(n)}) \;\; \implies \;\; a^{(n)} \in \RR
+\]
+for all subdirect relations $\RR \le_{sd} \bA^n$. Let
+\[
+\operatorname{Abs}_X(\bA) \lhd_X \bA
+\]
+be the set of absorption constants of $\bA$ with respect to $\lhd_X$.
+\end{defn}
+
+\begin{prob}[Ross Willard] Can we give an independent characterization of the canonical absorbing subalgebra $\operatorname{Abs}(\bA)$? What can we do with it?
+\end{prob}
 
 
 \section{Zhuk's centers and ternary absorption}
@@ -6620,7 +6994,7 @@ f(a,b) = t(b,v_2(a,b),...,v_k(a,b)) \in t(\bB,\bA,...,\bA) \subseteq \bB,
 \]
 and
 \[
-f(b,a) = t(b,u_2(a,b),...,u_k(a,b)) \in t(\bB,\bA,...,\bA) \subseteq \bB.\qedhere
+f(b,a) = t(b,u_2(b,a),...,u_k(b,a)) \in t(\bB,\bA,...,\bA) \subseteq \bB.\qedhere
 \]
 \end{proof}
 
@@ -6858,7 +7232,7 @@ as required.
 % TODO
 
 
-\section{Binary relations in Taylor algebras: the absorption theorem and the loop lemma}
+\section{Binary relations in Taylor algebras: the Absorption Theorem and the Loop Lemma}
 
 In this section we'll go over two of the main results from Barto and Kozik's paper \cite{cyclic} about absorption, known as the ``absorption theorem'' and the ``loop lemma''. The first of these results can be used to constrain the possible subdirect binary relations in simple absorption free algebras, while the second result makes no direct mention of absorption, but combines the theory of absorbing subalgebras with an elementary argument in the absorption free case to give a criterion for a subdirect binary relation to intersect the diagonal.
 
@@ -7291,14 +7665,14 @@ The missing ingredient is an analogue of Theorem \ref{strong-ternary}.
 
 Note that by the Absorption Theorem \ref{absorption-theorem}, we just need to prove that if we consider $\RR$ as a subdirect binary relation $\RR \le_{sd} \bA \times \pi_{23}(\RR)$, then $\RR$ is linked. If not, then the linking congruence of $\RR$ on $\bA$ is contained in some maximal congruence $\theta \in \Con(\bA)$, and if we replace $\RR$ by the quotient $\RR/\theta \le_{sd} \bA/\theta \times \bB \times \bC$, then we have a smaller counterexample to Theorem \ref{absorption-free-ternary} such that $\bA$ is simple. So we just need to rule out the case where $\bA$ is simple and $\RR$ is the graph of a homomorphism $f : \pi_{23}(\RR) \twoheadrightarrow \bA$. For this, we will use a consequence of the linked case of the Loop Lemma \ref{loop-linked}.
 
-\begin{lem} If $\RR, \bS \le_{sd} \bA \times \bB$ and the linking congruences of $\RR$ on $\bA$ and $\bB$ contain the corresponding linking congruences of $\bS$, then $\RR \cap \bS \ne \emptyset$.
+\begin{lem} If $\bA, \bB$ are finite Taylor algebras, $\RR, \bS \le_{sd} \bA \times \bB$, and the linked components of $\RR$ on $\bA \sqcup \bB$ contain the corresponding linked components of $\bS$, then $\RR \cap \bS \ne \emptyset$.
 \end{lem}
 \begin{proof} Let $\bA' \le \bA, \bB' \le \bB$ be corresponding linked components of $\RR$, with $\RR \cap (\bA'\times\bB') \ne \emptyset$. By replacing $\bA,\bB$ with $\bA',\bB'$ and shrinking $\RR,\bS$, we may assume without loss of generality that $\RR$ is linked. Then $\RR \circ \bS^{-} \le_{sd} \bA \times \bA$ is also linked, so by the linked case of the Loop Lemma \ref{loop-linked}, there is some $a \in \bA$ such that $(a,a) \in \RR \circ \bS^-$. By the definition of $\RR \circ \bS^-$, this means that there is some $b \in \bB$ such that $(a,b) \in \RR$ and $(b,a) \in \bS^-$, so $(a,b) \in \RR\cap \bS$.
 \end{proof}
 
 \begin{proof}[Proof of Theorem \ref{absorption-free-ternary}] Write $\bS = \pi_{23}(\RR) \le_{sd} \bB \times \bC$. Assume for the sake of contradiction that $\bA$ is simple and that $\RR$ is the graph of a homomorphism $f : \bS \twoheadrightarrow \bA$. Note that by the idempotence of $\bA$, for each $a \in \bA$ the set $f^{-1}(a) \subseteq \bS$ is a subalgebra of $\bS$, and let $\bS_a \coloneqq f^{-1}(a)$. The assumptions $\pi_{12}(\RR) = \bA \times \bB, \pi_{13}(\RR) = \bA \times \bC$ are equivalent to each $\bS_a = f^{-1}(a)$ being a subdirect relation on $\bB \times \bC$.
 
-If we can show that there are $a \ne a' \in \bA$ such that $\bS_a, \bS_{a'} \le_{sd} \bB \times \bC$ have the same linking congruences on $\bB, \bC$, then we can apply the lemma to see that $f^{-1}(a) \cap f^{-1}(a') = \bS_a \cap \bS_{a'} \ne \emptyset$, which will give us a contradiction. To accomplish this, we will show that each $\bS_a$ has the same linking congruences on $\bB, \bC$ as $\bS$. In fact, we will show that for every $a \in \bA$, we have $\bS \subseteq \bS_a\circ \bS_a^{-} \circ \bS_a$.
+If we can show that there are $a \ne a' \in \bA$ such that $\bS_a, \bS_{a'} \le_{sd} \bB \times \bC$ have the same linked components on $\bB \sqcup \bC$, then we can apply the lemma to see that $f^{-1}(a) \cap f^{-1}(a') = \bS_a \cap \bS_{a'} \ne \emptyset$, which will give us a contradiction. To accomplish this, we will show that each $\bS_a$ has the same linked components on $\bB \sqcup \bC$ as $\bS$. In fact, we will show that for every $a \in \bA$, we have $\bS \subseteq \bS_a\circ \bS_a^{-} \circ \bS_a$.
 
 Let $(b,c)$ be any element of $\bS$. Define a subalgebra $\bX_{bc} \le \bA\times \bA\times \bA$ by
 \[
@@ -7312,7 +7686,7 @@ Since each $\bS_a$ is subdirect, we have $(b,b) \in \bS_a\circ \bS_a^-$ and $(c,
 \[
 \begin{bmatrix}a\\a\\f(b,c)\end{bmatrix}, \begin{bmatrix}f(b,c)\\a\\a\end{bmatrix} \in \bX_{bc},
 \]
-so $\bX_{bc}$ is subdirect in $\bA^3$, and for each $i \ne j \le 3$ the projection $\pi_{ij}(\bX_{bc})$ is not the graph of an automorphism of $\bA$. Thus by Theorem \ref{absorption-free}, we see that $\bX_{bc} = \bA^3$, so in particular we have $(a,a,a) \in \bX_{bc}$ for all $a \in \bA$. Since this holds for every $(b,c) \in \bS$, we see that $\bS \subseteq \bS_a\circ \bS_a^{-} \circ \bS_a$ for all $a \in \bA$, so each $\bS_a$ has the same linking congruences on $\bB,\bC$ as $\bS$, which completes the contradiction.
+so $\bX_{bc}$ is subdirect in $\bA^3$, and for each $i \ne j \le 3$ the projection $\pi_{ij}(\bX_{bc})$ is not the graph of an automorphism of $\bA$. Thus by Theorem \ref{absorption-free}, we see that $\bX_{bc} = \bA^3$, so in particular we have $(a,a,a) \in \bX_{bc}$ for all $a \in \bA$. Since this holds for every $(b,c) \in \bS$, we see that $\bS \subseteq \bS_a\circ \bS_a^{-} \circ \bS_a$ for all $a \in \bA$, so each $\bS_a$ has the same linked components on $\bB \sqcup \bC$ as $\bS$, which completes the contradiction.
 \end{proof}
 
 \begin{cor}\label{cor-abs-free-arc} If $\bA_1, ..., \bA_n$ are finite idempotent Taylor algebras with no proper binary or centrally absorbing subalgebras such that all but at most two of the $\bA_i$s have no affine quotients, and if $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$ is a subdirect relation such that each $\pi_{ij}(\RR)$ is full, then $\RR = \bA_1 \times \cdots \times \bA_n$.
@@ -7377,7 +7751,7 @@ In fact, we have the following slight strengthening of Kozik's result.
 
 As a curiously roundabout consequence, we see that we can't build an affine (or even abelian) algebra out of affine-free algebras.
 
-\begin{cor}\label{affine-free-variety} If $\bA_1, ..., \bA_n$ are finite, idempotent, Taylor, and affine-free, then the variety $\cV(\bA_1, ..., \bA_n)$ which they generate does not contain any nontrivial abelian algebras.
+\begin{cor}[A special case of Lemma \ref{strictly-simple-hs}]\label{affine-free-variety} If $\bA_1, ..., \bA_n$ are finite, idempotent, Taylor, and affine-free, then the variety $\cV(\bA_1, ..., \bA_n)$ which they generate does not contain any nontrivial abelian algebras.
 \end{cor}
 \begin{proof} Since the variety $\cV(\bA_1, ..., \bA_n)$ is finitely generated, it is locally finite, so any nontrivial abelian algebra in this variety must contain a finite abelian algebra $\bB$ with $|\bB| > 1$. Since $\bB$ is finite, Taylor, and abelian, we see that $\bB$ is affine by Theorem \ref{taylor-abelian}. But then $\bB$ is a subquotient of some finite product of $\bA_i$s, so $\CSP(\prod_i \bA_i^k)$ fails to have bounded width for some finite $k$, which contradicts the fact that $\CSP(\bA_1, ..., \bA_n)$ is solved by $pq$-consistency.
 \end{proof}
@@ -7387,7 +7761,7 @@ Using commutator theory, we have the following consequence (see Corollary \ref{c
 \begin{cor} If $\bA$ is a finite idempotent algebra, then $\bA$ is Taylor and affine-free if and only if the variety $\cV(\bA)$ is congruence meet-semidistributive.
 \end{cor}
 
-Using the language of pp-construcability (see Definition \ref{defn-pp-construct}), we can rephrase Theorem \ref{affine-free-pq} as follows.
+Using the language of pp-constructability (see Definition \ref{defn-pp-construct}), we can rephrase Theorem \ref{affine-free-pq} as follows.
 
 \begin{cor} A relational structure $\fA$ with a finite domain has $\CSP(\fA)$ solved by $pq$-consistency if and only if $\fA$ does not pp-construct any of the relational structures $(\ZZ/p,\{1\},x+y=z)$, $p$ prime.
 \end{cor}
@@ -7551,7 +7925,7 @@ a \in A = A + p = \{a\} + j(p+q) + p.\qedhere
 \]
 \end{proof}
 
-\begin{ex} Here we give an example of a $pq$-consistent instance which is not a weak Prague instance. Consider the instance of 2-SAT with just one variable $x$, domain $\bA_x = (\{0,1\}, \maj)$, and a binary constraint relation $\RR \le_{sd} \bA_x\times \bA_x$ imposed on $(x,x)$ given by $\RR = \{(0,0),(0,1),(1,1)\}$ (that is, $\RR$ is the binary relation $\le$).
+\begin{ex} Here we give an example of a $pq$-consistent instance (in fact, even a singleton arc-consistent instance!) which is not a weak Prague instance. Consider the instance of 2-SAT with just one variable $x$, domain $\bA_x = (\{0,1\}, \maj)$, and a binary constraint relation $\RR \le_{sd} \bA_x\times \bA_x$ imposed on $(x,x)$ given by $\RR = \{(0,0),(0,1),(1,1)\}$ (that is, $\RR$ is the binary relation $\le$).
 
 Since $\Delta_{\{0,1\}} \subseteq \RR$, we see that this instance is $pq$-consistent. However, this instance does not satisfy property (P2) of a weak Prague instance: we have
 \[
@@ -8474,18 +8848,19 @@ for each $C,r$, and to find vectors
 \[
 x_a \in \RR^N
 \]
-for each variable $x$ and value $a \in \bA_x$, where $N = \sum_x |\bA_x|$ is the number of pairs $(x,a)$, such that for each $C$ and each pair $i,j \le m_C$ we satisfy the compatibility condition
+for each variable $x$ and value $a \in \bA_x$, where $N = \sum_x |\bA_x|$ is the number of pairs $(x,a)$, such that for each $C$ and each pair of variables $x = v_{C,i}, y = v_{C,j}$ involved in the constraint $C$, we satisfy the compatibility condition
 \[
-(v_{C,i})_a \cdot (v_{C,j})_b = \sum_{r_i = a, r_j = b} p_{C,r}.
+x_a \cdot y_b = \sum_{r_i = a, r_j = b} p_{C,r}.
 \]
-These vectors must also satisfy the following constraints, for each pair of variables $x,y$ of $\fX$.
+
+For each pair of variables $x,y$ of $\fX$ which occur together in some constraint $C$, any solution to the basic semidefinite relaxation will automatically have the following properties:
 \begin{itemize}
 \item For all $a \ne b \in \bA_x$, we have $x_a \cdot x_b = 0$.
 \item We have $\sum_{a \in \bA_x} \|x_a\|^2 = \|\sum_{a \in \bA_x} x_a\|^2 = 1$.
 \item For all $a \in \bA_x, b \in \bA_y$, we have $x_a \cdot y_b \ge 0$.
 \item We have $\sum_{a \in \bA_x, b \in \bA_y} x_a \cdot y_b = 1$.
 \end{itemize}
-Note that these constraints are slightly redundant - if every pair of variables shows up in the scope of some constraint $C$, then they are implied by the compatibility conditions between the probabilities $p_{C,r}$ and the dot products of the vectors.
+%Note that these constraints are slightly redundant - if every pair of variables shows up in the scope of some constraint $C$, then they are implied by the compatibility conditions between the probabilities $p_{C,r}$ and the dot products of the vectors.
 
 Our goal is to find such a system of probabilities $p_{C,r}$ and vectors $x_a$ such that the quantity
 \[
@@ -8496,7 +8871,7 @@ is maximized. The maximum possible value of that sum is called the \emph{value} 
 
 Note that the constraints we make on the vectors $x_a$ only involve their dot products, and that they are always linear equalities/inequalities in terms of these dot products. We can deduce from these constraints a result which involves the vectors directly.
 
-\begin{prop} Suppose that a system of probabilities $p_{C,r}$ and vectors $x_a$ are as in the basic semidefinite relaxation of a CSP instance $\fX$. Then for any variables $x,y$ of $\fX$, we have
+\begin{prop} Suppose that a system of probabilities $p_{C,r}$ and vectors $x_a$ are as in the basic semidefinite relaxation of a CSP instance $\fX$. Then for any variables $x,y$ of $\fX$ which occur together in some constraint, we have
 \[
 \sum_{a \in \bA_x} x_a = \sum_{b \in \bA_y} y_b.
 \]
@@ -8524,7 +8899,7 @@ by the distributive law.
 
 Before explaining how to use the basic semidefinite relaxation to robustly solve affine-free CSPs, we will first show that if an instance $\fX$ of an affine-free CSP has a perfect solution to its basic semidefinite relaxation, then in fact $\fX$ has a solution. The main idea is to prove that the set of values $a \in \bA_x$ such that the vectors $x_a$ are nonzero can be used to restrict the instance to get a weak Prague instance, which will then be $pq$-consistent by Theorem \ref{weak-prague-pq}. The crucial computation is analyzing what happens to the vector $x_A$ when we take a single step along a path.
 
-\begin{lem}\label{sdp-weak-prague} Suppose we are in the setup of the basic semidefinite relaxation of a CSP instance $\fX$. Let $x,y$ be variables of $\fX$, and define a binary relation $P \subseteq \bA_x \times \bA_y$ by
+\begin{lem}\label{sdp-weak-prague} Suppose we are in the setup of the basic semidefinite relaxation of a CSP instance $\fX$. Let $x,y$ be variables of $\fX$ which occur together in some constraint, and define a binary relation $P \subseteq \bA_x \times \bA_y$ by
 \[
 (a,b) \in P \;\; \iff \;\; x_a \cdot y_b > 0.
 \]
@@ -8569,7 +8944,7 @@ which contradicts the assumption $x_A = y_{A+P}$.
 
 \begin{thm} Suppose $\fX$ is an instance of an affine-free CSP, and that there is a system of probabilities $p_{C,r}$ and vectors $x_a$ which perfectly solves the basic semidefinite relaxation of $\fX$. Then $\fX$ has a solution.
 \end{thm}
-\begin{proof} We define a restriction $\fX'$ of $\fX$ by restricting each relation $\RR_C$ to the support $R_C'$ of the marginal distribution $p_{C,r}$, and restricting each variable domain $\bA_x$ to the set $A_x'$ of $a \in \bA_x$ such that $\|x_a\|^2 \ne 0$. Note that each $R_C'$ will be contained in the original relation $\RR_C$ if we have a perfect solution to the basic semidefinite relaxation. Additionally, for each constraint $C$ and each $i,j \le m_C$, the binary projection $\pi_{i,j}(R_C')$ will be equal to the set of ordered pairs $(a,b) \in A_{v_{C,i}}' \times A_{v_{C,j}}'$ such that $(v_{C,i})_a \cdot (v_{C,j})_b \ne 0$, by the compatibility between the probabilities $p_{C,r}$ and the vectors $x_a$.
+\begin{proof} We define a restriction $\fX'$ of $\fX$ by restricting each relation $\RR_C$ to the support $R_C'$ of the marginal distribution $p_{C,r}$, and restricting each variable domain $\bA_x$ to the set $A_x'$ of $a \in \bA_x$ such that $\|x_a\|^2 \ne 0$. Note that each $R_C'$ will be contained in the original relation $\RR_C$ if we have a perfect solution to the basic semidefinite relaxation. Additionally, for each $C$ and each pair of variables $x = v_{C,i}, y = v_{C,j}$, the binary projection $\pi_{i,j}(R_C')$ will be equal to the set of ordered pairs $(a,b) \in A_x' \times A_y'$ such that $x_a \cdot y_b \ne 0$, by the compatibility between the probabilities $p_{C,r}$ and the vectors $x_a$.
 
 We will check that $\fX'$ is a weak Prague instance (see Definition \ref{defn-weak-prague}). Arc-consistency (aka condition (P1)) of $\fX'$ follows from the compatibility between the probabilities and the vectors. To check (P2) and (P3), we use Lemma \ref{sdp-weak-prague}. Let $A \subseteq A_x'$ and let $p$ be a cycle from $x$ to $x$ in the instance $\fX'$, with $p_1$ from $x$ to $y$ the first step of the cycle $p$. If we have
 \[
@@ -8661,18 +9036,18 @@ As an initial simplification to the problem, we will preemptively give up on any
 \[
 \sum_{r \in \RR_C} p_{C,r} < 1 - \sqrt{\epsilon}.
 \]
-This gives up on at most a $\sqrt{\epsilon} = O(1/\log(1/\epsilon))$ fraction of the constraints of $\fX$, and allows us to focus on solving the problem in the special case where every individual constraint $C$ satisfies
+This gives up on at most a $\sqrt{\epsilon} = o(1/\log(1/\epsilon))$ fraction of the constraints of $\fX$, and allows us to focus on solving the problem in the special case where every individual constraint $C$ satisfies
 \begin{equation}
 \sum_{r \in \RR_C} p_{C,r} \ge 1 - \sqrt{\epsilon}.\label{sdp-cons-ineq}
 \end{equation}
 The advantage of this step is that from here on, we can look for a randomized algorithm which has a high probability of satisfying each constraint relation in isolation.
 
-Let $N = \log(1/\sqrt{\epsilon})$, and assume for simplicity that $N$ is an integer. We will make a series of randomized choices in order to produce a weakly consistent instance $\fX'$, and after each choice we will give up on some of the constraints of our original instance $\fX$. At each step, we just need to confirm that for each constraint $C$ which satisfies \eqref{sdp-cons-ineq}, the chance of giving up on the constraint $C$ is at most
+Let $N = \log(1/\sqrt{\epsilon})$. We will make a series of randomized choices in order to produce a weakly consistent instance $\fX'$, and after each choice we will give up on some of the constraints of our original instance $\fX$. At each step, we just need to confirm that for each constraint $C$ which satisfies \eqref{sdp-cons-ineq}, the chance of giving up on the constraint $C$ is at most
 \[
 O\Big(\frac{\log(\log(N))}{N}\Big).
 \]
 
-First we will try to produce an arc-consistent instance. Choose a threshold $\theta$ uniformly at random from $\exp(-1), \exp(-2), ..., \exp(-N) = \sqrt{\epsilon}$. For each constraint $C$ with corresponding constraint relation $\RR_C$, we define the reduced relation $R_C'$ by
+First we will try to produce an arc-consistent instance. Choose a threshold $\theta = \exp(-t) \in [\sqrt{\epsilon}, 1]$ by choosing $t = \log(1/\theta)$ uniformly at random from $[0,N]$. For each constraint $C$ with corresponding constraint relation $\RR_C$, we define the reduced relation $R_C'$ by
 \[
 R_C' = \{r \in \RR_C \mid p_{C,r} \ge 2\theta\}.
 \]
@@ -8700,6 +9075,23 @@ Conversely, if $a \not\in \pi_x(R_C')$ then we have
 \]
 by \eqref{sdp-cons-arc}, so $a \not\in \pi_x(R_C') \implies a \not\in A_x'$. Thus $\pi_x(R_C') \supseteq A_x'$, so $\pi_x(R_C') = A_x'$.
 
+{\bf Claim 2.} If $\theta = \exp(-t)$ and $t$ is chosen uniformly at random from $[0, N]$, then
+\[
+\EE\Big[\frac{1}{\theta} \sum_{r \not\in R_C'} p_{C,r}\Big] = O(1/N),
+\]
+and the implied constant only depends on the number of tuples in the constraint $\RR_C$.
+As a consequence, the probability that \eqref{sdp-cons-arc} fails to hold for any given constraint $C$ is $O(1/N)$.
+
+{\bf Proof of Claim 2.} We have
+\begin{align*}
+\EE\Big[\frac{1}{\theta} \sum_{r \not\in R_C'} p_{C,r}\Big] &= \frac{1}{N} \int_{t = 0}^N \frac{1}{\theta} \sum_{r \not\in R_C'} p_{C,r}\ dt\\
+&= \frac{1}{N} \sum_{r \not\in \RR_C} p_{C,r} \int_{t=0}^N \frac{1}{\theta}\ dt + \frac{1}{N} \sum_{r \in \RR_C} p_{C,r} \int_{t=0}^{\max(N,\log(2/p_{C,r}))} \frac{1}{\theta}\ dt\\
+&\le \frac{1}{N} \int_{t=0}^N \frac{\sqrt{\epsilon}}{\theta}\ dt + \frac{1}{N} \sum_{r \in \RR_C} \int_{t=0}^{\log(2/p_{C,r})} \frac{p_{C,r}}{\theta}\ dt\\
+%&< \frac{1}{N} \frac{1}{1-\exp(-1)} + \frac{1}{N} \sum_{r \in \RR_C} \frac{2}{1 - \exp(-1)}\\
+&< \frac{2|\RR_C| + 1}{N}.
+\end{align*}
+
+\begin{comment}
 {\bf Claim 2.} If a constraint $C$ satisfies \eqref{sdp-cons-ineq}, and if $\theta$ is chosen uniformly randomly among $\exp(-1), \exp(-2), ..., \exp(-N) = \sqrt{\epsilon}$, then the chance that $C$ fails to satisfy \eqref{sdp-cons-arc} is $O(1/N)$, where the implied constant depends only on the number of tuples in the constraint relation $\RR_C$.
 
 {\bf Proof of Claim 2.} By \eqref{sdp-cons-ineq}, we always have
@@ -8715,6 +9107,7 @@ and for each value of $m_\theta$, the number of bad choices of $\theta$ with $m_
 \[
 \frac{(|\RR_C|+1)\log(2|\RR_C|+1)}{N} = O(1/N).
 \]
+\end{comment}
 
 Next we slice the ball $\mathcal{B}$ containing the $x_A$s into shells in order to ensure that the consistency condition (P2) is satisfied (note that (P2) is not required in the definition of weak consistency - however, enforcing it makes the rest of the proof simpler). To do this, we choose a second threshold $\theta_2$ uniformly at random from the interval $[0,\theta]$, and define radii $r_i$ by
 \[
@@ -8763,16 +9156,14 @@ In order to put a bound on the probability that \eqref{sdp-cons-shells} fails to
 \[
 \frac{\Big|\|x_A\|^2 - \|y_{A + \pi_{xy}(R_C')}\|^2\Big|}{\theta}
 \]
-is small when $\theta$ is chosen uniformly among $\exp(-1), ..., \exp(-N)$. In this case we have
+is small when $\theta = \exp(-t)$ and $t$ is chosen uniformly at random from $[0, N]$. In this case we have
 \begin{align*}
 \Big|\|x_A\|^2 - \|y_{A + \pi_{xy}(R_C')}\|^2\Big| &\le \max\Big(\|x_A\|^2 - x_A \cdot y_{A + \pi_{xy}(R_C')}, \; \|y_{A+\pi_{xy}(R_C')}\|^2 - x_A \cdot y_{A + \pi_{xy}(R_C')}\Big)\\
 &\le \sum_{r \not\in R_C'} p_{C,r},
 \end{align*}
-so we just need a bound on the expected value of
-\[
-\frac{1}{\theta} \sum_{r \not\in R_C'} p_{C,r}.
-\]
+so by Claim 2 this is $O(1/N)$ on average.
 
+\begin{comment}
 {\bf Claim 4.} If $\theta$ is chosen uniformly among $\exp(-1), ..., \exp(-N)$, then
 \[
 \EE\Big[\frac{1}{\theta} \sum_{r \not\in R_C'} p_{C,r}\Big] = O(1/N),
@@ -8788,10 +9179,11 @@ As a consequence, the probability that \eqref{sdp-cons-shells} fails to hold for
 &< \frac{1}{N} \frac{1}{1-\exp(-1)} + \frac{1}{N} \sum_{r \in \RR_C} \frac{2}{1 - \exp(-1)}\\
 &< \frac{2(2|\RR_C| + 1)}{N}.
 \end{align*}
+\end{comment}
 
 So far, everything we have done could have been phrased in terms of the linear relaxation rather than the semidefinite relaxation. The next step, where we enforce weak consistency, is the step where we finally use the full power of the semidefinite relaxation. Set
 \[
-M = \log_2(N),
+M = \lceil\log_2(N)\rceil,
 \]
 and independently pick $M$ uniformly random hyperplanes $\cH_1, ..., \cH_M$. Now define the equivalence relation $\sim$ on $\cB$ by
 \[
@@ -8806,9 +9198,9 @@ and we need to preemptively give up on every constraint $C$ such that there is a
 \forall A \subseteq A_x', \;\; A + \pi_{xy}(R_C') - \pi_{xy}(R_C') = A \;\; \implies \;\; y_{A + \pi_{xy}(R_C')} \sim x_A.\label{sdp-cons-weak}
 \end{equation}
 
-{\bf Claim 5.} The chance that any particular variable $x$ fails to satisfy \eqref{sdp-vars-weak} is at most $\frac{3^{|A_x'|}}{2^M} = O(1/N)$. As a consequence, the chance that we give up on any particular constraint $C$ due to \eqref{sdp-vars-weak} is also $O(1/N)$ by the union bound.
+{\bf Claim 4.} The chance that any particular variable $x$ fails to satisfy \eqref{sdp-vars-weak} is at most $\frac{3^{|A_x'|}}{2^M} = O(1/N)$. As a consequence, the chance that we give up on any particular constraint $C$ due to \eqref{sdp-vars-weak} is also $O(1/N)$ by the union bound.
 
-{\bf Proof of Claim 5.} There are less than $3^{|A_x'|}$ pairs of disjoint, nonempty subsets $A,B$ of $A_x'$. For any particular pair $A,B$, the chance that any particular random hyperplane $\cH_i$ separates $x_A$ from $x_B$ is exactly $1/2$, since $x_A \cdot x_B = 0$. Thus the chance that none of the $M$ independent random hyperplanes $\cH_1, ..., \cH_M$ separate $x_A$ from $x_B$ is $1/2^M = 1/N$.
+{\bf Proof of Claim 4.} There are less than $3^{|A_x'|}$ pairs of disjoint, nonempty subsets $A,B$ of $A_x'$. For any particular pair $A,B$, the chance that any particular random hyperplane $\cH_i$ separates $x_A$ from $x_B$ is exactly $1/2$, since $x_A \cdot x_B = 0$. Thus the chance that none of the $M$ independent random hyperplanes $\cH_1, ..., \cH_M$ separate $x_A$ from $x_B$ is $1/2^M \le 1/N$.
 
 To finish the argument, we need to find an upper bound on the probability that \eqref{sdp-cons-weak} is violated. For a given $A \subseteq A_x'$ with $A + \pi_{xy}(R_C') - \pi_{xy}(R_C') = A$, this probability depends mainly on the angle $\alpha$ between $x_A$ and $y_{A + \pi_{xy}(R_C')}$. From
 \[
@@ -8833,16 +9225,19 @@ The chance that at least one of the $M$ hyperplanes $\cH_i$ separates $x_A$ from
 \end{align*}
 To finish the proof, we just need to verify one final claim.
 
-{\bf Claim 6.} If $\theta$ is chosen uniformly among $\exp(-1), ..., \exp(-N)$, then
+{\bf Claim 5.} If $\theta = \exp(-t)$ and $t$ is chosen uniformly at random from $[0, N]$, then
 \[
 \EE\Big[\max\Big(1, M\Big(\frac{1}{\theta}\sum_{r \not\in R_C'} p_{C,r}\Big)^{1/2}\Big)\Big] = O\Big(\frac{\log(M)}{N}\Big).
 \]
 
-{\bf Proof of Claim 6.} The argument is similar to the proof of Claim 4, just slightly more involved. First, we use the inequality $\sqrt{a+b} \le \sqrt{a} + \sqrt{b}$ to get the bound
+{\bf Proof of Claim 5.} The argument is similar to the proof of Claim 2, just slightly more involved. First, we use the inequality $\sqrt{a+b} \le \sqrt{a} + \sqrt{b}$ to get the bound
 \[
-\max\Big(1, M\Big(\frac{1}{\theta}\sum_{r \not\in R_C'} p_{C,r}\Big)^{1/2}\Big) \le \max\Big(1, M\sqrt{\frac{\sqrt{\epsilon}}{\theta}}\Big) + \sum_{\substack{r \in \RR_C'\\ p_{C,r} < \theta}} \max\Big(1, M\sqrt{\frac{p_{C,r}}{\theta}}\Big).
+\max\Big(1, M\Big(\frac{1}{\theta}\sum_{r \not\in R_C'} p_{C,r}\Big)^{1/2}\Big) \le \max\Big(1, M\sqrt{\frac{\sqrt{\epsilon}}{\theta}}\Big) + \sum_{\substack{r \in \RR_C\\ p_{C,r} < \theta}} \max\Big(1, M\sqrt{\frac{p_{C,r}}{\theta}}\Big).
 \]
-We then bound the contribution of each summand individually. Each $\max$ takes the value $1$ for $2\log(M)$ values of $\theta$, and from then on takes values from a geometric series which decreases by a factor of $\exp(-1/2)$ with each step, so the total expectation ends up being $O(\log(M)/N)$.
+We then bound the contribution of each summand individually. Each $\max$ takes the value $1$ for a range of values of $t = \log(1/\theta)$ of length $2\log(M)$, and from then on takes exponentially decaying values, so the total expectation ends up being bounded by
+\[
+\frac{2(\log(M) + 1)(|\RR_C| + 1)}{N} = O\Big(\frac{\log(M)}{N}\Big).
+\]
 
 Thus, after preemptively giving up on at most a
 \[
@@ -8893,8 +9288,8 @@ and this is the step which could potentially cause an issue. Note that if we hav
 
 Since the different shells of $\cB$ don't interact in any of the orderings $\prec_x, \prec_y, \preceq_{R'}$, we can focus on just one particular shell of $\cB$ corresponding to a pair of adjacent radii $r_i, r_{i+1}$. Within such a shell, all $\preceq_{R'}$ does is identify certain vectors $x_A$ with corresponding vectors $y_{A+R'}$. The only way we could run into trouble is if there was some pair $A,B \subseteq A_x'$ with
 \begin{align*}
-A + R' - R' &= A,\\
-B + R' - R' &= B,\\
+A &\sim_{R'} A + R',\\
+B &\sim_{R'} B + R',\\
 A &\prec_x B,
 \end{align*}
 but
@@ -8915,44 +9310,88 @@ so the angle between $x_A - x_B$ and $y_{A+R'} - y_{B+R'}$ is
 \[
 O\Big(\frac{1}{\sqrt{\theta}}\sqrt{\sum_{r \not\in R_C'} p_{C,r}}\Big).
 \]
-By Claim 6 of Theorem \ref{refined-sdp}, the average value of this upper bound is at most
+By Claim 5 of Theorem \ref{refined-sdp}, the average value of this upper bound is at most
 \[
 O(1/N) = O(1/\log(1/\epsilon)),
 \]
 so we only need to give up on $O(1/N)$ of our constraints in order to get an arc-consistent instance $\fX'$ whose binary part has a vague solution. Then by Corollary \ref{cor-vague-bin} the instance $\Sg(\fX') \subseteq \fX$ has a solution, which finishes the proof.
 \end{proof}
 
-\begin{rem} The algorithm from Theorem \ref{perfected-sdp} can be derandomized without too much effort using the method of conditional expectations. After throwing away constraints which are violated by more than a $\sqrt{\epsilon}$ fraction, we pick $\theta$ among $\exp(-1), ..., \exp(-N)$ such that
+\begin{rem} The algorithm from Theorem \ref{perfected-sdp} can be derandomized without too much effort using the method of conditional expectations. After throwing away constraints which are violated by more than a $\sqrt{\epsilon}$ fraction, we pick $\theta$ in $[\sqrt{\epsilon}, 1]$ such that
 \[
-\frac{1}{\#C} \sum_C \frac{1}{\sqrt{\theta}}\sqrt{\sum_{r \not\in R_C'} p_{C,r}}
+\frac{1}{\#C} \sum_C \frac{1}{\theta}\sum_{r \not\in R_C'} p_{C,r} + \frac{1}{\#C} \sum_C \frac{1}{\sqrt{\theta}}\sqrt{\sum_{r \not\in R_C'} p_{C,r}}
 \]
-is minimized - the minimum is guaranteed to be $O(1/N)$. Then we use $\theta$ to do the first bit of rounding to get to an arc-consistent instance. Next we pick $\theta_2 \in [0,\theta]$ to minimize the number of problems we run into while ensuring that (P2) is satisfied - we only need to try values of $\theta_2$ which are just above or just below a remainder of some $\|x_A\|^2$ modulo $\theta$, so this can be done efficiently.
+is minimized - the minimum is guaranteed to be $O(1/N)$, and we only have to examine values of $\theta$ which are equal to some $p_{C,r}/2$. Then we use $\theta$ to do the first bit of rounding to get to an arc-consistent instance. Next we pick $\theta_2 \in [0,\theta]$ to minimize the number of problems we run into while ensuring that (P2) is satisfied - we only need to try values of $\theta_2$ which are just above or just below a remainder of some $\|x_A\|^2$ modulo $\theta$, so this can be done efficiently.
 
 For the final step, we want to pick a unit vector $U$ which is dual to a hyperplane which separates as few pairs of vectors $x_A - x_B$, $y_{A+R'} - y_{B+R'}$ with $A + R' - R' = A, B + R' - R' = B$ as possible. This step is trickier, but in Appendix C of \cite{sdp} they cite the paper \cite{karnin2012explicit}, which shows that you can find a $U$ which is worse by at most $O(1/N)$ compared to what you would get with a uniformly random choice, using a deterministic algorithm which runs in time $\|\fX\|^{O(1)}$ times $2^{\log(N)^2} = O(1/\epsilon)$.
 \end{rem}
 
 We may naturally wonder whether $f(\epsilon) = O(\frac{1}{\log(1/\epsilon)})$ is really the best possible asymptotic one can get in Theorem \ref{perfected-sdp}. The next example shows that at least for HORN-SAT, it is impossible to improve the asymptotic.
 
-\begin{ex}[Guruswami and Zhou \cite{robust-horn-gap}] For every $n$, consider the following ``simultaneous induction'' instance of HORN-SAT, on the $2n+2$ variables $x_0, ..., x_n, y_0, ..., y_n$:
+\begin{ex}[Guruswami and Zhou \cite{robust-horn-gap}]\label{ex-simul-ind} For every $n$, consider the following ``simultaneous induction'' instance of HORN-SAT, on the $2n+2$ variables $p_0, ..., p_n, q_0, ..., q_n$:
 \begin{align*}
-&(x_0 = 1) \wedge (y_0 = 1) \wedge\\
-&(x_0 \wedge y_0 \implies x_1) \wedge (x_0 \wedge y_0 \implies y_1) \wedge\\
+&(p_0 = 1) \wedge (q_0 = 1) \wedge\\
+&(p_0 \wedge q_0 \implies p_1) \wedge (p_0 \wedge q_0 \implies q_1) \wedge\\
 &\cdots\\
-&(x_{n-1} \wedge y_{n-1} \implies x_n) \wedge (x_{n-1} \wedge y_{n-1} \implies y_n) \wedge\\
-&(x_n = 0) \wedge (y_n = 0).
+&(p_{n-1} \wedge q_{n-1} \implies p_n) \wedge (p_{n-1} \wedge q_{n-1} \implies q_n) \wedge\\
+&(p_n = 0) \wedge (q_n = 0).
 \end{align*}
 This instance has $2n+4$ constraints, and it is possible to satisfy at most $2n+3$ of them. However, the basic SDP relaxation of this instance thinks it can satisfy a $1 - 1/2^{\Omega(n)}$ fraction of the constraints!
 
-Checking that the SDP relaxation has such a solution (for all $n$) is fairly tricky. One simplification which helps quite a bit is to note that the variables $x_i, y_i$ only interact with $x_{i\pm 1}, y_{i \pm 1}$, so we just need to completely analyze the set of solutions to the SDP relaxation for the four-variable HORN-SAT instance
+Checking that the SDP relaxation has such a solution (for all $n$) is fairly tricky. One simplification which helps quite a bit is to note that the variables $p_i, q_i$ only interact with $p_{i\pm 1}, q_{i \pm 1}$, so we just need to analyze the set of solutions to the basic SDP relaxation for the four-variable HORN-SAT instance
 \[
 (x \wedge y \implies z) \wedge (x \wedge y \implies w)
 \]
 in order to understand the possible behavior in the general case where we string together many of these ``simultaneous induction'' steps.
+
+The plan is to make the probabilities that $z,w$ are equal to $0$ grow to be a constant factor larger than the probabilities that $x,y$ are equal to $0$, while keeping the correlation between $z$ and $w$ under control. To this end, we claim that the SDP relaxation of this four-variable instance has a solution which satisfies
+\begin{align*}
+\|x_0\|^2 = \|y_0\|^2 &= 15\epsilon,\\
+x_0 \cdot y_0 &= 10\epsilon,\\
+\|z_0\|^2 = \|w_0\|^2 &= 18\epsilon,\\
+z_0 \cdot w_0 &= 12\epsilon,\\
+x_0 \cdot z_0 = ... = y_0 \cdot w_0 &= 13\epsilon
+\end{align*}
+for any $0 \le \epsilon \le 1/24$. Note that this way we have
+\[
+\frac{\|z_0\|^2}{\|x_0\|^2} = \frac{\|w_0\|^2}{\|y_0\|^2} = \frac{z_0 \cdot w_0}{x_0 \cdot y_0} = \frac{6}{5}
+\]
+and
+\[
+\frac{z_0\cdot w_0}{\|z_0\|\|w_0\|} = \frac{x_0\cdot y_0}{\|x_0\|\|y_0\|} = \frac{2}{3},
+\]
+so we can glue the solutions to many units like this together, as long as we can show that each unit is a valid solution to the SDP relaxation on its own.
+For this, we check that the matrix of dot products between our hypothetical vectors $x_{\{0,1\}}, x_0, y_0, z_0, w_0$ below is positive semidefinite:
+\[
+\begin{bmatrix} 1 & 15\epsilon & 15\epsilon & 18\epsilon & 18\epsilon\\
+15\epsilon & 15\epsilon & 10\epsilon & 13\epsilon & 13\epsilon\\
+15\epsilon & 10\epsilon & 15\epsilon & 13\epsilon & 13\epsilon\\
+18\epsilon & 13\epsilon & 13\epsilon & 18\epsilon & 12\epsilon\\
+18\epsilon & 13\epsilon & 13\epsilon & 12\epsilon & 18\epsilon
+\end{bmatrix} \stackrel{?}{\succeq} 0,
+\]
+and we use the probability distribution
+\begin{align*}
+p_{(1,1,1)} &= 1-20\epsilon,\\
+p_{(1,0,0)} &= 5\epsilon,\\
+p_{(0,1,0)} &= 5\epsilon,\\
+p_{(0,0,0)} &= 8\epsilon,\\
+p_{(0,0,1)} &= 2\epsilon
+\end{align*}
+over the set of solutions $(x,y,z)$ to the constraint $x \wedge y \implies z$ (and similarly for the constraint $x \wedge y \implies w$).
 \end{ex}
 
 As a consequence of this example, we can't hope for improved asymptotics for any relational structure $\fA$ which can pp-construct HORN-SAT. On the other hand, it is certainly possible to get better asymptotics for 2-SAT! Under the Unique Games Conjecture, the best possible function $f$ as in Definition \ref{defn-robust} for 2-SAT is given by $f(\epsilon) \sim \sqrt{\epsilon}$ (see \cite{dalmau-robust-framework} for references and discussion).% TODO: cite better asymptotics for 2-SAT start looking at stuff cited in \cite{dalmau-robust-framework}
 
 \begin{prob}[From \cite{dalmau-robust-framework}] Suppose that a finite relational structure $\fA$ has bounded width and does not pp-construct HORN-SAT. Is it necessarily the case that there is some $k$ such that $\CSP(\fA)$ can be robustly solved with the function $f$ from Definition \ref{defn-robust} satisfying $f(\epsilon) = O(\epsilon^{1/k})$?
+\end{prob}
+
+In \cite{robust-near-unanimity}, the authors show that for every $\bA$ with a near-unanimity term, there is some $k$ such that $\CSP(\fA)$ can be robustly solved (via the basic SDP relaxation) with the function $f$ from Definition \ref{defn-robust} satisfying $f(\epsilon) = O(\epsilon^{1/k})$. The proof involves a consistency condition which doesn't rely on arc-consistency.
+
+\begin{rem} The first part of the proof of Theorem \ref{refined-sdp} shows that given a solution to the LP relaxation of an instance $\fX$ with value $1-\epsilon$, we can find a subinstance $\fX'$ which satisfies (P1) and (P2) after giving up on an $O(1/\log(1/\epsilon))$ fraction of the constraints. A positive answer to the following problem would then prove that every CSP which is solved by its LP relaxation is also \emph{robustly} solved by its LP relaxation.
+\end{rem}
+
+\begin{prob}[Conjectured in \cite{hui-symmetric}]\label{prob-p1-p2} Suppose that $\CSP(\bA)$ is solved by its LP relaxation. Is it necessarily the case that every instance $\fX$ of $\CSP(\bA)$ which satisfies the consistency conditions (P1) and (P2) has a solution?
 \end{prob}
 
 % TODO: Hastad's result (in a subsection here, or in an appendix)
@@ -9805,7 +10244,7 @@ If $\bA$ has no ternary cyclic term and has underlying set $\{a,b,c\}$, then $\g
 \begin{thm}\label{thm-minimal-no-cyclic} If a minimal Taylor algebra has size $3$ and has no ternary cyclic term, then (after renaming elements) it is term equivalent to one of the following four algebras:
 \begin{itemize}
 \item the affine algebra $\ZZ/3^{\aff}$,
-\item the rock-paper-scissors algebra from Section \ref{s-rps},
+\item the rock-paper-scissors algebra $\bA_{rps}$ from Section \ref{s-rps},
 \item the three element dual discriminator algebra from Example \ref{ex-dual-discriminator}, or
 \item the three element simple nonabelian Mal'cev algebra from Example \ref{ex-simple-nonab-malcev}.
 \end{itemize}
@@ -10289,7 +10728,7 @@ As a consequence, one way to discover unlinked subinstances of a cycle-consisten
 
 Of course, an entire instance being unlinked is fairly rare. Additionally, the assumption of cycle-consistency is probably unnecessarily strong. The approach used in the algorithms for the conservative CSP dichotomy is a variant of the strategy of looking for unlinked subinstances, starting from the idea of looking for \emph{any} useful way of properly restricting the domains of some subset of the variables. This will naturally lead to different consistency principles (which are likely to also be unecessarily strong).
 
-The most general thing we could do along these lines is the following. For each variable $x$, and for each element $a \in \bA_x$, restrict the domain of $x$ to the singleton $\{a\}$, and run arc-consistency (or cycle-consistency, etc.). Restrict our attention to the set $Y$ of variables $y$ whose domain has shrunk as a result of this restriction (replacing every relation which involves variables outside of $Y$ to its projection onto the variables contained in $Y$), and solve the resulting instance recursively to see if we can rule out the element $a \in \bA_x$ as a possible value for $x$.
+The most general thing we could do along these lines is the following. For each variable $x$, and for each element $a \in \bA_x$, restrict the domain of $x$ to the singleton $\{a\}$, and run arc-consistency (or cycle-consistency, etc.). Restrict our attention to the set $Y$ of variables $y$ whose domain has shrunk as a result of this restriction (replacing every relation which involves variables outside of $Y$ by its projection onto the variables contained in $Y$), and solve the resulting instance recursively to see if we can rule out the element $a \in \bA_x$ as a possible value for $x$.
 
 Although this scheme is readily implemented, it is hard to algebraically control what happens as a result. Instead, we will consider the digraph of implications between restrictions on the individual domains, and ask under which conditions this has a nice structure.
 
@@ -10402,7 +10841,7 @@ In practice, the local consistency algorithm used to reduce general instances to
 We prove by induction on $i$ that $\bB + p \subseteq \bB_i + p_i$. For the inductive step, we need to show that $\bB_i + p_i \subseteq \bB_{i+1} + p_{i+1}$, that is, $\bB_i + p_i \subseteq \bB_i + q_{i+1} + p_{i+1}$. This follows from the fact that there is some constraint whose scope contains the three variables $x_i, x_{i+1}$, and $y$, together with the fact that the two-variable projections of this constraint onto pairs of variables from $\{x_i,x_{i+1},y\}$ agree with the binary relations $\PP_{p_i}, \PP_{q_{i+1}}, \PP_{p_{i+1}}$, by $(2,3)$-minimality.
 \end{proof}
 
-The relationships between the various types of consistency introduced so far are summarized in the Hasse diagram below.
+The relationships between the various types of consistency introduced so far are summarized in the Hasse diagram below (to see that singleton arc-consistency is not implied by $(2,3)$-minimality, consider the four-variable instance of 1-IN-3 SAT where every group of three variables is required to satisfy the 1-IN-3 constraint).
 
 \begin{center}
 \begin{tikzpicture}[scale=2]
@@ -10411,6 +10850,7 @@ The relationships between the various types of consistency introduced so far are
   \node (3) at (0.8,-0.3) {(P1), (P2), (P3)};
   \node (4) at (0,-0.8) {$pq$-consistent};
   \node (5) at (-0.9,0) {cycle-consistent};
+  \node (5a) [style={align=center}] at (-1.8,0.9) {singleton\\ arc-consistent};
 %  \node (5) at (-0.9,-0.3) {cycle-consistent};
 %  \node (5a) [style={align=center}] at (-0.9,0.4) {singleton\\ arc-consistent};
 %  \node (5b) [style={align=center}] at (-2,1) {subdirect\\ solution set};
@@ -10423,6 +10863,7 @@ The relationships between the various types of consistency introduced so far are
   \draw (1) -- (2) -- (3) -- (4) -- (5) -- (1);
 %  \draw (1) -- (2) -- (3) -- (4) -- (5) -- (5a) -- (1);
   \draw (4) -- (6);
+  \draw (5) -- (5a);
 %  \draw (5) -- (5b);
 %  \draw (5a) -- (5b);
   \draw (3) -- (7) -- (8) -- (9) -- (3);
@@ -10752,7 +11193,7 @@ R \cap (B_1 \times \cdots \times B_n) \ne \emptyset.
 \]
 \end{defn}
 
-The idea behind a restriction oracle is that it is the bare minimum which is needed to be able to run the (generalized) arc-consistency algorithm. It's easy to see how we could use restriction oracle descriptions of constraint relations to establish cycle-consistency, but it is not clear if it is possible to use restriction oracles to establish $(2,3)$-minimality, or even to reduce to a subinstance which satisfies condition (P2).
+The idea behind a restriction oracle is that it is the bare minimum which is needed to be able to run the (generalized) arc-consistency algorithm. It's easy to see how we could use restriction oracle descriptions of constraint relations to establish cycle-consistency (or even singleton arc-consistency), but it is not clear if it is possible to use restriction oracles to establish $(2,3)$-minimality, or even to reduce to a subinstance which satisfies condition (P2).
 
 \begin{ex} A concrete example of a high-arity relation which has an efficient restriction oracle is the \emph{all-different} relation $\bigwedge_{i \ne j} x_i \ne x_j$. This relation occurs naturally in Sudoku and its generalizations. For any sets $B_1, ..., B_n$, we can determine whether or not
 \[
