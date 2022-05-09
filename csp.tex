@@ -159,7 +159,7 @@ Feder and Vardi \cite{feder-vardi} made a first attempt at answering this by int
 
 In this case, however, they could have asked for more. Hubie Chen \cite{chen-few-subpowers} studied the ``expressive rate'' of a constraint language $\Gamma$, which is defined as the function that takes $n$ to the logarithm of the number of $n$-variable relations which can be defined as solutions sets to CSPs over $\Gamma$. He observed that on a two element domain, this expressive rate always either grows as a polynomial or as an exponential function, and that the cases where it grows polynomially are exactly the cases where the class of relations which can be defined from $\Gamma$ is ``polynomially learnable''. The same conjecture occurs in chapter 10 of V\'ictor Dalmau's thesis \cite{dalmau-thesis}, in an algebraic form.
 
-\begin{conj} For any constraint language $\Gamma$, the logarithm of the number of distinct $n$-variable relations which can be defined by primitive positive formulas over $\Gamma$ always either grows as a polynomial or an exponential function. In the case of polynomial growth this class of relations is efficiently learnable and the associated CSP can be solved in polynomial time.
+\begin{conj} For any constraint language $\Gamma$, the logarithm of the number of distinct $n$-variable relations which can be defined by primitive positive formulas over $\Gamma$ always either grows as a polynomial or as an exponential function. In the case of polynomial growth this class of relations is efficiently learnable and the associated CSP can be solved in polynomial time.
 \end{conj}
 
 This conjecture was resolved via the theory of algebras with ``few subpowers'', which classifies CSPs such that the solution sets always have ``compact representations'', and gives general procedures for manipulating these compact representations.
@@ -450,7 +450,7 @@ for all $a_1, ..., a_{n_i} \in A$, and such that for each relation symbol $R_j$ 
 \]
 for all $a_1, ..., a_{m_j} \in A$. A homomorphism $\varphi : \fA \rightarrow \fB$ is called an \emph{isomorphism} if there is a homomorphism $\psi : \fB \rightarrow \fA$ such that $\psi \circ \varphi = \operatorname{id}_{\fA}$ and $\varphi \circ \psi = \operatorname{id}_\fB$.
 
-A structure is called a \emph{relational structure} if it has no functions in its signature, and a structure is called an \emph{algebraic structure} or an \emph{algebra} if it is nonempty and has no relations in its signature. We usually write a relational structure with the bold font, i.e. $\fA$, while we usually write an algebraic structure with the blackboard bold font, i.e. $\bA$.
+A structure is called a \emph{relational structure} if it has no functions in its signature, and a structure is called an \emph{algebraic structure} or an \emph{algebra} if it is nonempty and has no relations in its signature. We usually write a relational structure with the bold font, i.e. $\fA$, while we usually write an algebraic structure with the blackboard bold font, i.e. $\bA$ (note that many authors reverse this convention).
 
 We define the \emph{total size} of a relational structure $\fA = (A, \{R_j\})$, written $\|\fA\|$, to be
 \[
@@ -544,7 +544,7 @@ In some cases, it may be more efficient to visualize terms via directed acyclic 
 
 The collection of all terms in a given signature $\sigma$ defines the \emph{term algebra} $\cF_\sigma(\{x_j\})$, with each function symbol $f_i$ of arity $k$ interpreted as the operation
 \[
-f_i^{\cF_{\sigma}(\{x_j\})}(t_1, ..., t_k) \coloneqq f_i(t_1, ..., t_k),
+f_i^{\cF_{\sigma}(\{x_j\})} : (t_1, ..., t_k) \mapsto f_i(t_1, ..., t_k),
 \]
 where the right hand side is interpreted as an abstract term. The term algebra is also called the \emph{absolutely free algebra} in the signature $\sigma$.
 \end{defn}
@@ -4660,7 +4660,7 @@ By the Sauer-Shelah Lemma \ref{sauer-shelah}, the number of distinct subsets of 
 and plugging in the assumed bounds on $m$ and chugging through the inequalities gives a contradiction.
 \end{proof}
 
-Note that if $\bA$ is an algebraic structure and we take $U = \bA^n$, $\cC = \Inv_n(\bA)$, then a set $S$ is shattered by $\Inv_n(\bA)$ iff $S$ is an \emph{independent} subset of $\bA^n$. Thus the VC-dimension of $\Inv_n(\bA)$ is exactly the same thing as the number $i_\bA(n)$, so if the concept classes $\Inv_n(\bA)$ are efficiently PAC-learnable for all $n$, then $\bA$ must have few subpowers.
+Note that if $\bA$ is an algebraic structure and we take $U = \bA^n$, $\cC = \Inv_n(\bA)$, then a set $S$ is shattered by $\Inv_n(\bA)$ iff $S$ is an \emph{independent} subset of $\bA^n$. Thus the VC-dimension of $\Inv_n(\bA)$ is exactly the same thing as the number $i_\bA(n)$, so if the concept classes $\Inv_n(\bA)$ are efficiently PAC-learnable as $n$ varies, then $\bA$ must have few subpowers.
 
 We can convert learning algorithms in the equivalence query model into learning algorithms in the PAC model by using the sampling oracle to simulate an equivalence oracle.
 
@@ -9323,26 +9323,36 @@ so we only need to give up on $O(1/N)$ of our constraints in order to get an arc
 \]
 is minimized - the minimum is guaranteed to be $O(1/N)$, and we only have to examine values of $\theta$ which are equal to some $p_{C,r}/2$. Then we use $\theta$ to do the first bit of rounding to get to an arc-consistent instance. Next we pick $\theta_2 \in [0,\theta]$ to minimize the number of problems we run into while ensuring that (P2) is satisfied - we only need to try values of $\theta_2$ which are just above or just below a remainder of some $\|x_A\|^2$ modulo $\theta$, so this can be done efficiently.
 
-For the final step, we want to pick a unit vector $U$ which is dual to a hyperplane which separates as few pairs of vectors $x_A - x_B$, $y_{A+R'} - y_{B+R'}$ with $A + R' - R' = A, B + R' - R' = B$ as possible. This step is trickier, but in Appendix C of \cite{sdp} they cite the paper \cite{karnin2012explicit}, which shows that you can find a $U$ which is worse by at most $O(1/N)$ compared to what you would get with a uniformly random choice, using a deterministic algorithm which runs in time $\|\fX\|^{O(1)}$ times $2^{\log(N)^2} = O(1/\epsilon)$.
+For the final step, we want to pick a unit vector $U$ which is dual to a hyperplane which separates as few pairs of vectors $x_A - x_B$, $y_{A+R'} - y_{B+R'}$ with $A + R' - R' = A, B + R' - R' = B$ as possible. This step is trickier, but in Appendix C of \cite{sdp} they cite the paper \cite{karnin2012explicit}, which shows that you can find a $U$ which is worse by at most $O(1/N)$ compared to what you would get with a uniformly random choice, using a deterministic algorithm which runs in time $\|\fX\|^{O(1)}$ times $2^{\log(N)^2} = o(1/\epsilon)$.
 \end{rem}
 
 We may naturally wonder whether $f(\epsilon) = O(\frac{1}{\log(1/\epsilon)})$ is really the best possible asymptotic one can get in Theorem \ref{perfected-sdp}. The next example shows that at least for HORN-SAT, it is impossible to improve the asymptotic.
 
 \begin{ex}[Guruswami and Zhou \cite{robust-horn-gap}]\label{ex-simul-ind} For every $n$, consider the following ``simultaneous induction'' instance of HORN-SAT, on the $2n+2$ variables $p_0, ..., p_n, q_0, ..., q_n$:
 \begin{align*}
-&(p_0 = 1) \wedge (q_0 = 1) \wedge\\
-&(p_0 \wedge q_0 \implies p_1) \wedge (p_0 \wedge q_0 \implies q_1) \wedge\\
-&\cdots\\
-&(p_{n-1} \wedge q_{n-1} \implies p_n) \wedge (p_{n-1} \wedge q_{n-1} \implies q_n) \wedge\\
-&(p_n = 0) \wedge (q_n = 0).
+&(p_0 = 1) \wedge (q_0 = 1)\\
+&\wedge (p_0 \wedge q_0 \implies p_1) \wedge (p_0 \wedge q_0 \implies q_1)\\
+&\wedge\ \cdots\\
+&\wedge (p_{n-1} \wedge q_{n-1} \implies p_n) \wedge (p_{n-1} \wedge q_{n-1} \implies q_n)\\
+&\wedge (p_n = 0) \wedge (q_n = 0).
 \end{align*}
-This instance has $2n+4$ constraints, and it is possible to satisfy at most $2n+3$ of them. However, the basic SDP relaxation of this instance thinks it can satisfy a $1 - 1/2^{\Omega(n)}$ fraction of the constraints!
+This instance has $2n+4$ constraints, and it is possible to satisfy at most $2n+3$ of them. However, the basic SDP relaxation of this instance thinks it can satisfy a $1 - 1/2^{n/4}$ fraction of the constraints!
 
 Checking that the SDP relaxation has such a solution (for all $n$) is fairly tricky. One simplification which helps quite a bit is to note that the variables $p_i, q_i$ only interact with $p_{i\pm 1}, q_{i \pm 1}$, so we just need to analyze the set of solutions to the basic SDP relaxation for the four-variable HORN-SAT instance
 \[
 (x \wedge y \implies z) \wedge (x \wedge y \implies w)
 \]
 in order to understand the possible behavior in the general case where we string together many of these ``simultaneous induction'' steps.
+
+A second simplification is that since the overall vector 
+\[
+x_{\{0,1\}} = y_{\{0,1\}} = z_{\{0,1\}} =  w_{\{0,1\}}
+\]
+is a fixed unit vector, and since $x_0$ and $x_1$ are perpendicular with
+\[
+x_0 + x_1 = x_{\{0,1\}},
+\]
+etc., we only have to describe the dot products between the four vectors $x_0, y_0, z_0, w_0$ to determine the whole configuration. (In particular, if our SDP relaxation of this instance has a solution, then it has a solution where all of the vectors live on a $4$-dimensional sphere of diameter $1$ in $\RR^5$.)
 
 The plan is to make the probabilities that $z,w$ are equal to $0$ grow to be a constant factor larger than the probabilities that $x,y$ are equal to $0$, while keeping the correlation between $z$ and $w$ under control. To this end, we claim that the SDP relaxation of this four-variable instance has a solution which satisfies
 \begin{align*}
@@ -9379,6 +9389,23 @@ p_{(0,0,0)} &= 8\epsilon,\\
 p_{(0,0,1)} &= 2\epsilon
 \end{align*}
 over the set of solutions $(x,y,z)$ to the constraint $x \wedge y \implies z$ (and similarly for the constraint $x \wedge y \implies w$).
+
+In order to check that the $5$ by $5$ matrix above is always positive semidefinite, the simplest method is to replace the $1$ in the upper left corner by $24\epsilon \le 1$ and divide out the $\epsilon$s, to get a fixed matrix that doesn't depend on $\epsilon$ (which we can then check for positive definiteness by hand, once and for all).
+
+By joining together many copies of the unit described above, we can find a solution to the SDP relaxation where the only constraints which aren't satisfied exactly are the constraints $p_0 = 1, q_0 = 1$ - instead, these will be satisfied with the exponentially small error $0.75/1.2^{n-1}$. We arrange things so that at the second-to-last step, we have
+\[
+\PP[p_{n-1} = 0] = \PP[q_{n-1} = 0] = 3/4
+\]
+and
+\[
+\PP[p_{n-1} = q_{n-1} = 0] = 1/2,
+\]
+at which point we can no longer continue to use the unit described above (since $\epsilon$ hits $1/24$ at this point). For the last step, we join this with an honest probability distribution over the set of solutions to the $4$-variable instance we get by restricting to $p_{n-1}, q_{n-1}, p_n, q_n$:
+\begin{align*}
+p_{(0,0,0,0)} &= 1/2,\\
+p_{(1,0,0,0)} &= 1/4,\\
+p_{(0,1,0,0)} &= 1/4.
+\end{align*}
 \end{ex}
 
 As a consequence of this example, we can't hope for improved asymptotics for any relational structure $\fA$ which can pp-construct HORN-SAT. On the other hand, it is certainly possible to get better asymptotics for 2-SAT! Under the Unique Games Conjecture, the best possible function $f$ as in Definition \ref{defn-robust} for 2-SAT is given by $f(\epsilon) \sim \sqrt{\epsilon}$ (see \cite{dalmau-robust-framework} for references and discussion).% TODO: cite better asymptotics for 2-SAT start looking at stuff cited in \cite{dalmau-robust-framework}
@@ -9777,7 +9804,7 @@ a_{i+1} \equiv 1-2a_i \pmod{n}
 \]
 for all $i \in \ZZ$.
 \end{prop}
-\begin{proof} Every $m-ary$ term $t \in \Clo(x-y+z)$ can be written in the form
+\begin{proof} Every $m$-ary term $t \in \Clo(x-y+z)$ can be written in the form
 \[
 t(x_1, ..., x_m) \approx k_1x_1 + \cdots + k_mx_m,
 \]

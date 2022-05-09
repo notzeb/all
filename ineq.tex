@@ -1,0 +1,472 @@
+\section{Mechanical procedures}
+
+\subsection{Quadratic inequalities: Keep completing the square!}
+
+Suppose someone hands you a quadratic polynomial in several variables, such as
+\[
+x^2 + 2xy - 2xz + 2y^2 + 2yz + 6z^2 - z + 1,
+\]
+and asks you to check whether it is always $\ge 0$. How do you do it?
+
+The trick to this is a slight generalization of the high school procedure known as ``completing the square'', which I like to call ``keep completing the square'' (I stumbled on this method after meditating on what the Cholesky decomposition really \emph{meant} in terms of quadratic polynomials). We start by trying to write down a square that agrees with our polynomial at least as far as $x$ is concerned, that is, we try to solve the equation
+\[
+(x + Ay + Bz + C)^2 = x^2 + 2xy - 2xz + ...,
+\]
+for $A,B,C$ (and ignoring the $...$, since it doesn't involve $x$). In this case, we can take $A = 1, B = -1, C = 0$, and we get
+\[
+(x + y - z)^2 = x + 2xy - 2xz + y^2 - 2yz + z^2.
+\]
+Since that doesn't completely match our polynomial, we look at the difference:
+\[
+(x^2 + 2xy - 2xz + 2y^2 + 2yz + 6z^2 - z + 1) - (x + y - z)^2 = y^2 + 4yz + 5z^2 - z + 1.
+\]
+Now we complete the square again, this time with $y$, and so on. Writing the whole process in one string of equalities, we get
+\begin{align*}
+x^2 + 2xy - 2xz + 2y^2 + 2yz + 6z^2 - 2z + 1 &= (x + y - z)^2 + y^2 + 4yz + 5z^2 - z + 1\\
+&= (x + y - z)^2 + (y + 2z)^2 + z^2 - z + 1\\
+&= (x + y - z)^2 + (y + 2z)^2 + (z - \tfrac{1}{2})^2 + \tfrac{3}{4},
+\end{align*}
+and this is clearly positive, since it is a sum of squares.
+
+Let's do a more complicated example (the previous example was clearly chosen to let you avoid taking any square roots). What if we are faced with something like
+\[
+6x^2 - 4xy + 2xz + 3y^2 - 4yz + 2z^2?
+\]
+At the very first step, it seems like we'll have to take the square root of $6$. What a mess! Here's how to avoid the mess: instead of starting with a square like
+\[
+(\sqrt{6}x + Ay + Bz)^2,
+\]
+instead we start by looking for something like
+\[
+6(x + Ay + Bz)^2.
+\]
+Now we can find $A, B$ by simple division, and we get $A = -\frac{1}{3}, B = \frac{1}{6}$. Continuing, we get
+\begin{align*}
+6x^2 - 4xy + 2xz + 3y^2 - 4yz + 2z^2 &= 6(x - \tfrac{1}{3}y + \tfrac{1}{6}z)^2 + \tfrac{7}{3}y^2 - \tfrac{10}{3}yz + \tfrac{11}{6}z^2\\
+&= 6(x - \tfrac{1}{3}y + \tfrac{1}{6}z)^2 + \tfrac{7}{3}(y - \tfrac{5}{7}z)^2 + \tfrac{9}{14}z^2,
+\end{align*}
+which is again obviously positive since it has been written as a sum of squares with positive coefficients. (By the way, I came up this polynomial by expanding out $(x-y)^2 + (x+y-z)^2 + (2x-y+z)^2$ - so we see that there can be multiple ways to write the same polynomial as a sum of squares. If we had processed the variables in a different order, we could come up with yet another way to write it as a sum of squares!)
+
+What happens if we try to do this to a quadratic polynomial which \emph{isn't} always $\ge 0$? Obviously, something has to go wrong. Let's try the polynomial
+\[
+x^2 - 4xy + 2xz + y^2 - 2yz + 2z^2.
+\]
+The first step goes just fine: we get
+\[
+x^2 - 4xy + 2xz + y^2 - 2yz + 2z^2 = (x - 2y + z)^2 - 3y^2 + 2yz + z^2.
+\]
+But now we have a problem: the coefficient of $y^2$ is negative. Could our polynomial still be $\ge 0$? Maybe the $z^2$ and the $(x - 2y + z)^2$ somehow always conspire to be larger than $3y^2$? Nope! To see why, just set $z$ to $0$, and choose $x$ to make $x - 2y + z$ equal to $0$, for instance, take $z = 0, y = 1, x = 2$.
+
+In the previous example, we had a problem because the coefficient of $y^2$ was negative. What if the coefficient of $y^2$ comes out to exactly $0$? For an example, let's consider the polynomial
+\[
+x^2 - 2xy - 2xz + y^2 - 2yz + 10z^2.
+\]
+After the first step, we get
+\[
+x^2 - 2xy - 2xz + y^2 - 2yz + 2z^2 = (x - y - z)^2 - 4yz + 9z^2.
+\]
+To show that this sometimes goes negative, we will take $z$ to be whatever nonzero value we like - say, take $z = 1$ - and then pick $y$ to make $-4yz + 9z^2$ come out negative (we can do this since, for any fixed nonzero $z$, $-4yz + 9z^2$ is a linear function of $y$ with a nonzero $y$-coefficient), and finally pick $x$ to make $x-y-z$ equal to $0$. For instance, we can take $z = 1, y = 3, x = 4$.
+
+At the end of the day, we have a procedure that starts with a quadratic polynomial in any number of variables, and either writes it as a sum of squares with positive coefficients, or spits out a point where it is negative! We summarize in the following theorem.
+
+\begin{thm} Suppose that $Q(x_1, ..., x_n) = \sum_{i,j} a_{ij} x_ix_j + \sum_i a_ix_i + a$, where $a_{ij}, a_i, a$ are some coefficients. Then either we can write $Q$ in the form
+\[
+Q(x_1, ..., x_n) = \sum_{i=1}^n c_i(x_i + b_{i(i+1)}x_{i+1} + \cdots + b_{in}x_n + b_i)^2 + c
+\]
+with $c_i \ge 0$ for all $i$ and $c \ge 0$, or else we can find a point $(x_1, ..., x_n)$ such that $Q(x_1, ..., x_n) < 0$.
+\end{thm}
+
+In the case of homogeneous quadratic polynomials, people often like to represent their coefficients in a symmetric matrix. In the three variable case, the matrix
+\[
+\begin{bmatrix} a & b & d\\
+b & c & e\\
+d & e & f
+\end{bmatrix}
+\]
+corresponds to the polynomial
+\[
+ax^2 + 2bxy + cy^2 + 2dxz + 2eyz + fz^2.
+\]
+Why the random factors of $2$? This is because we have the nice formula
+\[
+\begin{bmatrix} x & y & z \end{bmatrix} \begin{bmatrix} a & b & d\\ b & c & e\\ d & e & f \end{bmatrix} \begin{bmatrix} x\\ y\\ z\end{bmatrix} = ax^2 + 2bxy + cy^2 + 2dxz + 2eyz + fz^2.
+\]
+
+When we follow the ``keep completing the square'' procedure for this general three variable homogeneous quadratic, we get
+\begin{align*}
+ax^2 + 2bxy + cy^2 + 2dxz + 2eyz + fz^2 &= a(x + \tfrac{b}{a}y + \tfrac{d}{a}z)^2 + \tfrac{ac-b^2}{a}y^2 + 2\tfrac{ae-bd}{a}yz + \tfrac{af-d^2}{a}z^2\\
+&= a(x + \tfrac{b}{a}y + \tfrac{d}{a}z)^2 + \tfrac{ac-b^2}{a}(y + \tfrac{ae-bd}{ac-b^2}z)^2 + \tfrac{(af-d^2)(ac-b^2)-(ae-bd)^2}{a(ac-b^2)}z^2\\
+&= a(x + \tfrac{b}{a}y + \tfrac{d}{a}z)^2 + \tfrac{ac-b^2}{a}(y + \tfrac{ae-bd}{ac-b^2}z)^2 + \tfrac{acf + 2bde - ae^2 - b^2f - cd^2}{ac-b^2}z^2.
+\end{align*}
+Curiously, the coefficients in that last formula happen to be ratios of determinants:
+\begin{align*}
+\det \begin{bmatrix} a\end{bmatrix} &= a,\\
+\det \begin{bmatrix} a & b\\ b & c\end{bmatrix} &= ac - b^2,\\
+\det \begin{bmatrix} a & b & d\\ b & c & e\\ d & e & f \end{bmatrix} &= acf + 2bde - ae^2 - b^2f - cd^2.
+\end{align*}
+So we've proved that a three variable homogeneous quadratic is $\ge 0$ if those three determinants are all positive!
+
+\bigskip
+
+\begin{exer} Generalize this determinant formula to any number of variables.
+\end{exer}
+
+
+\subsection{Systems of linear inequalities: Fourier-Motzkin Elimination}
+
+Suppose that someone hands you a system of linear inequalities in several variables, such as
+\begin{align*}
+2x + y &\le 2z,\\
+x + z &\le 2y + 1,\\
+x + 3 &\le 2y,\\
+3x &\le y + z,\\
+y + z &\le 2x + 3,
+\end{align*}
+and asks you whether or not this system of inequalities has a solution. In fact, to make it more interesting, suppose they ask you to find all possible values of $x$ which can occur in a solution $(x,y,z)$ to this system of inequalities. How do you do it?
+
+There are several different ways to solve this sort of problem, but the simplest and most direct method is known as \emph{Fourier-Motzkin elimination}. The idea is to pick one of the variables and to \emph{eliminate} it, getting a system of linear inequalities in the remaining variables which captures every last bit of information that doesn't involve the eliminated variable.
+
+Let's start by trying to eliminate the variable $z$ from our system of linear inequalities. To start, we rearrange all of our inequalities into three different categories based on how they involve $z$.
+\begin{itemize}
+\item Some of the inequalities give us \emph{lower bounds} on $z$. In our example, the first and fourth inequalities give us lower bounds on $z$, and we rewrite them to make this more obvious:
+\begin{align*}
+x + y/2 &\le z,\\
+3x - y &\le z.
+\end{align*}
+
+\item Some of the inequalities give us \emph{upper bounds} on $z$. In our example, the second and fifth inequalities give us lower bounds on $z$, and we rewrite them to make this more obvious:
+\begin{align*}
+z &\le -x + 2y + 1,\\
+z &\le 2x - y + 3.
+\end{align*}
+
+\item Some of the inequalities don't involve $z$ at all. In our example, the third inequality didn't involve $z$ at all:
+\[
+x + 3 \le 2y.
+\]
+\end{itemize}
+To eliminate $z$, we need to figure out which pairs of values $(x,y)$ allow us to pick a $z$ which satisfies all three types of inequalities above. If $(x,y)$ satisfy all of the inequalities that don't involve $z$, then obviously the only possible thing that can go wrong when we try to find a value for $z$ is that one of the lower bounds for $z$ might be bigger than one of the upper bounds for $z$. As long as each lower bound for $z$ is at most as large as each upper bound for $z$, we will be fine. So the new system of inequalities, after we eliminate $z$, is just
+\begin{align*}
+x + 3 &\le 2y,\\
+x + y/2 &\le -x + 2y + 1,\\
+x + y/2 &\le 2x - y + 3,\\
+3x - y &\le -x + 2y + 1,\\
+3x - y &\le 2x - y + 3.
+\end{align*}
+As long as $x$ and $y$ satisfy this new system of inequalities, we can pick any $z$ which satisfies
+\[
+\max(x + y/2, 3x-y) \le z \le \min(-x + 2y + 1, 2x - y + 3)
+\]
+to solve the original system of linear inequalities. We have successfully eliminated the variable $z$!
+
+Now we slightly rearrange each one of our new linear inequalities to clear denominators and so on:
+\begin{align*}
+x + 3 &\le 2y,\\
+4x &\le 3y + 2,\\
+3y &\le 2x + 6,\\
+4x &\le 3y + 1,\\
+x &\le 3.
+\end{align*}
+The second of these is clearly redundant, so we can forget about it. Now we want to eliminate $y$ from our new system of linear inequalities. Once again, we divide our inequalities into three different categories based on how they involve $y$.
+\begin{itemize}
+\item Some of the inequalities give us \emph{lower bounds} on $y$. In our new system of linear inequalities, the first and fourth inequalities give us lower bounds on $y$, and we rewrite them to make this more obvious:
+\begin{align*}
+x/2 + 3/2 &\le y,\\
+4x/3 - 1/3 &\le y.
+\end{align*}
+
+\item Some of the inequalities give us \emph{upper bounds} on $y$. In our new system of linear inequalities, the third inequality gives us a lower bound on $y$, and we rewrite it to make this more obvious:
+\[
+y \le 2x/3 + 2.
+\]
+
+\item Some of the inequalities don't involve $y$ at all. In our new system of linear inequalities, the fifth inequality didn't involve $y$ at all:
+\[
+x \le 3.
+\]
+\end{itemize}
+Once again, we keep every inequality that doesn't involve $y$ at all, and we compare every lower bound on $y$ to every upper bound on $y$. This gives us the following system of linear inequalities involving only $x$:
+\begin{align*}
+x &\le 3,\\
+x/2 + 3/2 &\le 2x/3 + 2,\\
+4x/3 - 1/3 &\le 2x/3 + 2.
+\end{align*}
+As long as $x$ satisfies this system of linear inequalities, we can pick any $y$ which satisfies
+\[
+\max(x/2 + 3/2, 4x/3 - 1/3) \le y \le 2x/3 + 2.
+\]
+We have now successfully eliminated both $y$ and $z$!
+
+Now we slightly rearrange our inequalities on $x$:
+\begin{align*}
+x &\le 3,\\
+0 &\le x + 3,\\
+2x &\le 7.
+\end{align*}
+The third inequality on $x$ is clearly redundant, and we see that the possible values for $x$ are exactly the values of $x$ between $-3$ and $3$!
+
+Now suppose that we want to convince a skeptical friend that the possible values for $x$ are exactly the values between $-3$ and $3$. First, we verify that we really can fill in values for $y$ and $z$ when $x$ is $-3$ or $3$. If $x$ is $-3$, then $y$ can be any value which satisfies
+\[
+0 = \max(x/2 + 3/2, 4x/3 - 1/3) \le y \le 2x/3 + 2 = 0,
+\]
+so we have to choose $y = 0$. Then $z$ can be any value which satisfies
+\[
+-3 = \max(x + y/2, 3x-y) \le z \le \min(-x + 2y + 1, 2x - y + 3) = -3,
+\]
+so we have to choose $z = -3$. So we show our friend that $(x,y,z) = (-3, 0, -3)$ solves our system of linear inequalities. A similar calculation leads us to the fact that $(x,y,z) = (3, 4, 5)$ also solves our system of linear inequalities. By taking convex combinations of these two solutions, we see that for any $x \in [-3, 3]$, the point
+\[
+(x,y,z) = (x, 2x/3 + 2, 4x/3 + 1)
+\]
+will solve our system of linear inequalities.
+
+How do we convince our skeptical friend that $x$ can't be bigger than $3$ or smaller than $-3$? We just work backwards through our elimination procedure to see how we derived the inequalities $x \le 3$ and $0 \le x + 3$. For the upper bound $x \le 3$, we see that this was one of the bounds which didn't involve $y$ at all, after we had eliminated $z$, and that we had obtained it by simplifying the inequality
+\[
+3x - y \le 2x - y + 3.
+\]
+This inequality was obtained by comparing the lower bound $3x-y \le z$, which corresponded to the fourth inequality in our original system of inequalities, to the upper bound $z \le 2x - y + 3$, which corresponded to the fifth inequality of our original system of inequalities. So we can simply tell our fried that we added together the inequalities
+\begin{align*}
+3x &\le y + z,\\
+y + z &\le 2x + 3
+\end{align*}
+and simplified, to deduce the upper bound $x \le 3$. Note that each of these two inequalities has equality when $(x,y,z) = (3,4,5)$.
+
+As for the lower bound $0 \le x + 3$, this was a simplification of the inequality
+\[
+x/2 + 3/2 \le 2x/3 + 2
+\]
+which we discovered after rearranging and multiplying both sides by $6$. That inequality, in turn, was obtained by comparing the lower bound $x/2 + 3/2 \le y$ to the upper bound $y \le 2x/3 + 2$, and these two inequalities were rescaled versions of the inequalities $x + 3 \le 2y$ and $3y \le 2x + 6$. So the inequality $0 \le x + 3$ follows from adding together the two inequalities
+\begin{align*}
+3 \times \Big(x + 3 &\le 2y\;\;\;\;\;\;\Big),\\
+2 \times \Big(\;\;\;\;3y &\le 2x + 6\Big).
+\end{align*}
+The inequality $x+3 \le 2y$ was one of the original inequalities which didn't involve $z$, while the inequality $3y \le 2x + 6$ was a rescaled version of the inequality $x + y/2 \le 2x - y + 3$. The inequality $x + y/2 \le 2x - y + 3$ was built out of the inequalities $2x + y \le 2z$ and $y + z \le 2x + 3$ by eliminating $z$ - that is, we derived it by adding the inequalities
+\begin{align*}
+2x + y &\le 2z,\\
+2\times\Big(\;\;y + z &\le 2x + 3\Big).
+\end{align*}
+All together, we see that the inequality $0 \le x + 3$ was derived from the original system of linear inequalities by adding together the following three multiples of the first, third, and fifth inequalities from our original system of linear inequalities:
+\begin{align*}
+2 \times \Big(2x + y &\le 2z\;\;\;\;\;\Big),\\
+3 \times \Big(\;x + 3 &\le 2y\;\;\;\;\;\Big),\\
+4\times\Big(\;y + z &\le 2x + 3\Big).
+\end{align*}
+Note that each of these three inequalities has equality when $(x,y,z) = (-3,0,-3)$.
+
+It's also possible to deal with mixtures of linear inequalities and linear equations - in fact, as long as there is at least one nontrivial linear equation around, we can use it to eliminate a variable directly, as in Gaussian elimination. We can summarize the main idea behind this procedure in the following result.
+
+\begin{thm}[Fourier-Motzkin Elimination] Suppose that we have a system $S_n$ of $m$ linear inequalities and linear equations in $n$ unknowns $x_1, ..., x_n$. Then we can find a new system $S_{n-1}$ of at most $\max(m, m^2/4)$ linear inequalities and linear equations in the $n-1$ unknowns $x_1, ..., x_{n-1}$, with the following properties:
+\begin{itemize}
+\item the values $(x_1, ..., x_{n-1})$ satisfy the new system $S_{n-1}$ if and only if there is some $x_n$ such that the values $(x_1, ..., x_{n-1}, x_n)$ satisfy the original system $S_n$, and
+
+\item every linear inequality or linear equation in the new system $S_{n-1}$ is either one of the inequalities/equations from $S_n$ which did not involve the variable $x_n$, or can be written as a weighted combination of two inequalities/equations from $S_n$ with weights chosen to cancel out the coefficient of the variable $x_n$.
+\end{itemize}
+\end{thm}
+
+\begin{cor} If a system of linear inequalities and linear equations has no solutions, then by summing multiples of these inequalities and equations, we can derive a false inequality
+\[
+a \le b,
+\]
+where $a,b$ are constants with $a > b$. Equivalently, in this case we can derive the false inequality
+\[
+1 \le 0
+\]
+by summing multiples of our inequalities and equations.
+\end{cor}
+
+\begin{cor} If a system $S$ of linear inequalities and linear equations in the variables $x_1, ..., x_n$ implies the inequality $x_1 \le c$ for some constant $c$, then this inequality can be derived by summing multiples of the inequalities and equations from $S$.
+
+If there is also a solution $x^* = (x_1^*, ..., x_n^*)$ to the system $S$ which has $x_1^* = c$, then every single inequality which occurs in the sum which we used to derive the inequality $x_1 \le c$ must have equality at the point $x^*$.
+\end{cor}
+
+By changing variables, we can prove the following apparently strong result.
+
+\begin{cor} If a system $S$ of linear inequalities and linear equations in the variables $x_1, ..., x_n$ implies a linear inequality $\sum_i a_i x_i \le c$, then this inequality can be derived by summing multiples of the inequalities and equations from $S$.
+\end{cor}
+
+If the number $m$ of inequalities and the number $n$ of variables in our original system of linear inequalities are both very large, then the systems of inequalities produced by Fourier-Motzkin elimination can grow out of control. The \emph{simplex method} is a better method for solving larger systems - the idea is to examine points where $n$ of the inequalities have equality, and to compare them to ``neighboring'' points which have equality at a slightly different collection of $n$ of the inequalities, where $n-1$ of the inequalities are the same as before and one is new. More advanced procedures, such as Khachiyan's \emph{ellipsoid method} and Karmarkar's \emph{interior point algorithm} are based on finding approximate solutions to high accuracy and then rounding them - these can be reasonably fast even for enormous problems.
+
+When discussing large systems of linear inequalities, it's convenient to use the notation of linear algebra. We package our collection of variables $x_1, ..., x_n$ into a column vector $x \in \RR^n$, and we package the system of $m$ linear inequalities into the inequality
+\[
+Ax \le b,
+\]
+where $A \in \RR^{m\times n}$ is an $m\times n$ matrix whose $m$ rows correspond to the individual inequalities, and $b \in \RR^m$ is a column vector whose entries correspond to the constants which show up in the linear inequalities. If $y \in \RR^m$ is a column vector of \emph{weights} which satisfies $y \ge 0$, then the weighted combination of the inequalities which corresponds to $y$ is given by
+\[
+y^TAx \le y^Tb,
+\]
+where $y^T$ is the \emph{transpose} of $y$ (which is a row vector). We can rephrase what we have proved so far in this language, as follows.
+
+\begin{thm}[Theorem of the Alternatives] The system of inequalities $Ax \le b$ has no solution $x \in \RR^n$ if and only if there is some vector $y \in \RR^m$ such that
+\begin{itemize}
+\item $y \ge 0$,
+\item $A^Ty = 0$ (or equivalently $y^TA = 0^T$), and
+\item $b^Ty < 0$ (or equivalently $y^Tb = 0$).
+\end{itemize}
+\end{thm}
+
+An alternative standard way of expressing systems of linear equations and inequalities, which is more useful in some applications, is to introduce new variables which correspond to the amount of ``slack'' that we have in each inequality - so each new variable corresponds to the difference between the right hand side and the left hand side of one of our original inequalities - and to work out a system of equations that has to be satisfied by these ``slack'' variables. This gives us a possibly complicated system of equations, together with a very simple system of inequalities:
+\begin{align*}
+Ax &= b,\\
+x &\ge 0.
+\end{align*}
+The same argument that gave us the Theorem of the Alternatives gives us an analogous result for systems of this form, known as Farkas' Lemma.
+
+\begin{lem}[Farkas Lemma] The system $Ax = b, x \ge 0$ has no solution if and only if there is some vector $y$ such that $A^Ty \ge 0$ and $b^Ty < 0$.
+\end{lem}
+
+\begin{comment}
+% From Michel Goemans notes with minor edits from me, doesn't really fit here
+\subsubsection{Linear Programming Basics}
+
+A linear program (LP) is the problem of minimizing or maximizing a linear
+function over a polyhedron:
+\begin{align*}
+\mbox{maximize } &  c^Tx\\
+\mbox{subject to: } & Ax \leq b,\tag{P}
+\end{align*}
+where $A\in \RR^{m\times n}$, $b\in \RR^m$, $c\in \RR^n$ and the
+variables $x$ are in $\RR^n$. 
+Any $x$ satisfying $Ax\leq b$ is said to be {\it feasible}. If no $x$
+satisfies $Ax\leq b$, we say that the linear program is {\it
+infeasible}, and its optimum value is $-\infty$ (as we are maximizing
+over an empty set). If the objective function value of the linear
+program can be made arbitrarily large, we say that the linear program
+is {\it unbounded} and its optimum value is $+\infty$; otherwise it is
+{\it bounded}. If it is neither infeasible, nor unbounded, then its
+optimum value is finite.
+
+Other equivalent forms involve equalities as well, or nonnegative
+constraints $x\geq 0$. One version that is often considered when
+discussing algorithms for linear programming (especially the simplex
+algorithm) is $\min\{c^Tx: Ax=b, x\geq 0\}$. 
+
+Another linear program, {\it dual} to $(P)$, plays a crucial role:
+\begin{align*}
+\mbox{minimize } &  b^Ty\\
+\mbox{subject to: } & A^Ty=c,\tag{D}\\
+& y\geq 0. 
+\end{align*}
+$(D)$ is the dual and $(P)$ is the {\it primal}. The terminology for
+the dual is similar. If $(D)$ has no feasible solution, it is said to
+be {\it infeasible} and its optimum value is $+\infty$ (as we are
+minimizing over an empty set). If $(D)$ is unbounded (i.e. its value
+can be made arbitrarily negative) then its optimum value is
+$-\infty$. 
+
+The primal and dual spaces should not be confused. If $A$ is $m \times
+n$ then we have $n$ primal variables and $m$ dual variables.
+
+{\bf Weak duality} is clear: For any feasible solutions $x$ and $y$ to
+$(P)$ and $(D)$, we have $c^Tx\leq b^Ty$. Indeed,
+\[
+c^Tx=y^TAx\leq b^Ty.
+\]
+The dual was precisely built to get an upper
+bound on the value of any primal solution. For example, to get the inequality
+$y^TAx \leq b^Ty$, we need $y\geq 0$ since we know that $Ax\leq
+b$. In particular, weak duality implies that if the primal is
+unbounded then the dual must be infeasible. 
+
+{\bf Strong duality} is the most important result in linear
+programming; it says that we can prove the optimality of a primal
+solution $x$ by exhibiting an optimum dual solution $y$. 
+\begin{thm}[Strong Duality]
+Assume that $(P)$ and $(D)$ are feasible, and let $z^*$ be the optimum
+value of the primal and $w^*$ the optimum value of the dual. Then
+$z^*=w^*$. 
+\end{thm}
+
+One proof of strong duality is obtained by writing a big system of
+inequalities in $x$ and $y$ which says that (i) $x$ is primal
+feasible, (ii) $y$ is dual feasible and (iii) $c^Tx\geq b^Ty$. Then use
+the Theorem of the Alternatives to show that the infeasibility of this
+system of inequalities would contradict the feasibility of either
+$(P)$ or $(D)$. 
+
+\begin{proof}
+  Let $x^*$ be a feasible solution to the primal, and $y^*$ be a
+  feasible solution to the dual. The proof is by contradiction.
+  Because of weak duality, this means that there are no solution $x\in
+  \RR^n$ and $y\in \RR^m$ such that
+$$\left\{ \begin{array}{lll} Ax & & \leq b \\ & A^T y & =c \\ & -Iy &
+    \leq 0 \\ -c^Tx & + b^Ty & \leq 0 \end{array} \right.$$
+By a variant of the Theorem of the Alternatives or Farkas' lemma (for
+the case when we have a combination of inequalities and equalities),
+we derive that there must exist $s\in \RR^m$, $t\in \RR^n$,
+$u\in \RR^m$, $v\in \RR$ such that:
+\begin{align*}
+s &\geq 0 \\
+u &\geq 0 \\
+v &\geq 0 \\
+A^Ts-vc &= 0 \\
+At -u + vb &= 0 \\
+b^Ts + c^Tt &< 0.
+\end{align*}
+We distinguish two cases. 
+
+\paragraph{Case 1: $v=0$.} Then $s$ satisfies $s\geq 0$ and
+$A^Ts=0$. This means that, for any $\alpha\geq 0$, $y^*+\alpha s$ is
+feasible for the dual. Similarly, $At=u \geq 0$ and therefore, for any
+$\alpha\geq 0$, we have that $x^*-\alpha t$ is primal feasible. By
+weak duality, this
+means that, for any $\alpha\geq 0$, we have $$c^T(x^*-\alpha t) \leq
+b^T(y^*+\alpha s)$$ or $$c^Tx^*-b^Ty^* \leq \alpha (b^Ts+c^Tt).$$
+The right-hand-side tend to $-\infty$ as $\alpha$ tends to $\infty$,
+and this is a contradiction as the left-hand-side is fixed. 
+
+\paragraph{Case 2: $v>0$.} By dividing throughout by $v$ (and renaming
+all the variables), we get that
+there exists $s\geq 0$, $u\geq 0$ with 
+\begin{eqnarray*}
+A^Ts & = & c \\
+At-u & = & -b \\
+b^Ts + c^T t & < & 0.
+\end{eqnarray*}
+This means that $s$ is dual feasible and $-t$ is primal feasible, and
+therefore by weak duality $c^T(-t) \leq b^Ts$ contradicting $b^Ts+c^Tt<0$. 
+\end{proof}
+
+We can also prove strong duality directly using Fourier-Motzkin elimination.
+
+\begin{proof} Suppose that $c \ne \vec{0}$ (if $c = \vec{0}$, then the theorem follows from the Theorem of Alternatives). Then there is an invertible $n\times n$ matrix $L$ whose first row is $c^T$. Letting $z = Lx$, we see that we can rewrite our linear program in terms of $z$ as
+\begin{align*}
+\mbox{maximize } &  z_1\\
+\mbox{subject to: } & AL^{-1}z \leq b.\tag{P}
+\end{align*}
+The dual linear program is given by
+\begin{align*}
+\mbox{minimize } &  b^Ty\\
+\mbox{subject to: } & (AL^{-1})^Ty=e_1\tag{D}\\
+& y\geq 0,
+\end{align*}
+where $e_1$ is the first basis vector. Multiplying both sides of $(AL^{-1})^Ty=e_1$ with $L^T$ on the left, we see that
+\[
+(AL^{-1})^Ty=e_1 \;\;\; \iff \;\;\; A^Ty = c,
+\]
+so the dual linear program is unchanged.
+
+Now we apply Fourier-Motzkin elimination to the system $AL^{-1}z \le b$ to eliminate the variables $z_2, ..., z_n$, getting a system of linear inequalities in $z_1$, each of which is formed by some nonnegative linear combination of the rows of the system $(AL^{-1})z \le b$. We can divide these inequalities on $z_1$ into three types: upper bounds on $z_1$, lower bounds on $z_1$, and inequalities not involving $z_1$ at all. The inequalities not involving $z_1$ at all must be \emph{true} inequalities between constants by the assumption that the primal problem was feasible, and for the same reason every upper bound on $z_1$ must be at least as large as every lower bound on $z_1$. By the assumption that the dual problem was feasible, we see that there is at least one upper bound on $z_1$. So the maximum value $z_1 = c^Tx$ can take on our polytope is equal to the minimum upper bound which can be proved on $z_1$ by adding together some nonnegative linear combination of the rows of the system $Ax = AL^{-1}z \le b$.
+\end{proof}
+
+\begin{exer} Show that the dual of the dual is the primal.
+\end{exer}
+
+\begin{exer} Show that we only need either the primal or the dual to be
+  feasible for strong duality to hold. More precisely, if the primal
+  is feasible but the dual is infeasible, prove that the primal will
+  be unbounded, implying that $z^*=w^*=+\infty$.
+\end{exer}
+
+Looking at $c^Tx=y^TAx\leq b^Ty$, we observe that to get equality
+between $c^Tx$ and $b^Ty$, we need {\it complementary slackness}:
+
+\begin{thm}[Complementary Slackness]
+If $x$ is feasible in $(P)$ and $y$ is feasible in $(D)$ then $x$ is
+optimum in $(P)$ and $y$ is optimum in $(D)$ if and only if for all
+$i$ either $y_i=0$ or $\sum_j a_{ij} x_j =b_i$ (or both). 
+\end{thm}
+\end{comment}
+
+
+%\subsection{One variable polynomials: Sturm chains}
+%TODO
+

@@ -1,0 +1,127 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage{amsfonts,amssymb,amsmath,amsthm,latexsym,fullpage}
+
+\newcommand{\logm}{\text{LM}}
+
+\begin{document}
+
+\newtheorem*{thm}{Theorem}
+
+\theoremstyle{remark}
+\newtheorem*{exer}{Exercise}
+
+\title{Keep completing the square!}
+\date{}
+\maketitle
+
+Suppose someone hands you a quadratic polynomial in several variables, such as
+\[
+x^2 + 2xy - 2xz + 2y^2 + 2yz + 6z^2 - z + 1,
+\]
+and asks you to check whether it is always $\ge 0$. How do you do it?
+
+The trick to this is a slight generalization of the high school procedure known as ``completing the square'', which I like to call ``keep completing the square'' (I stumbled on this method after meditating on what the Cholesky decomposition really \emph{meant} in terms of quadratic polynomials). We start by trying to write down a square that agrees with our polynomial at least as far as $x$ is concerned, that is, we try to solve the equation
+\[
+(x + Ay + Bz + C)^2 = x^2 + 2xy - 2xz + ...,
+\]
+for $A,B,C$ (and ignoring the $...$, since it doesn't involve $x$). In this case, we can take $A = 1, B = -1, C = 0$, and we get
+\[
+(x + y - z)^2 = x + 2xy - 2xz + y^2 - 2yz + z^2.
+\]
+Since that doesn't completely match our polynomial, we look at the difference:
+\[
+(x^2 + 2xy - 2xz + 2y^2 + 2yz + 6z^2 - z + 1) - (x + y - z)^2 = y^2 + 4yz + 5z^2 - z + 1.
+\]
+Now we complete the square again, this time with $y$, and so on. Writing the whole process in one string of equalities, we get
+\begin{align*}
+x^2 + 2xy - 2xz + 2y^2 + 2yz + 6z^2 - 2z + 1 &= (x + y - z)^2 + y^2 + 4yz + 5z^2 - z + 1\\
+&= (x + y - z)^2 + (y + 2z)^2 + z^2 - z + 1\\
+&= (x + y - z)^2 + (y + 2z)^2 + (z - \tfrac{1}{2})^2 + \tfrac{3}{4},
+\end{align*}
+and this is clearly positive, since it is a sum of squares.
+
+Let's do a more complicated example (the previous example was clearly chosen to let you avoid taking any square roots). What if we are faced with something like
+\[
+6x^2 - 4xy + 2xz + 3y^2 - 4yz + 2z^2?
+\]
+At the very first step, it seems like we'll have to take the square root of $6$. What a mess! Here's how to avoid the mess: instead of starting with a square like
+\[
+(\sqrt{6}x + Ay + Bz)^2,
+\]
+instead we start by looking for something like
+\[
+6(x + Ay + Bz)^2.
+\]
+Now we can find $A, B$ by simple division, and we get $A = -\frac{1}{3}, B = \frac{1}{6}$. Continuing, we get
+\begin{align*}
+6x^2 - 4xy + 2xz + 3y^2 - 4yz + 2z^2 &= 6(x - \tfrac{1}{3}y + \tfrac{1}{6}z)^2 + \tfrac{7}{3}y^2 - \tfrac{10}{3}yz + \tfrac{11}{6}z^2\\
+&= 6(x - \tfrac{1}{3}y + \tfrac{1}{6}z)^2 + \tfrac{7}{3}(y - \tfrac{5}{7}z)^2 + \tfrac{9}{14}z^2,
+\end{align*}
+which is again obviously positive since it has been written as a sum of squares with positive coefficients. (By the way, I came up this polynomial by expanding out $(x-y)^2 + (x+y-z)^2 + (2x-y+z)^2$ - so we see that there can be multiple ways to write the same polynomial as a sum of squares. If we had processed the variables in a different order, we could come up with yet another way to write it as a sum of squares!)
+
+What happens if we try to do this to a quadratic polynomial which \emph{isn't} always $\ge 0$? Obviously, something has to go wrong. Let's try the polynomial
+\[
+x^2 - 4xy + 2xz + y^2 - 2yz + 2z^2.
+\]
+The first step goes just fine: we get
+\[
+x^2 - 4xy + 2xz + y^2 - 2yz + 2z^2 = (x - 2y + z)^2 - 3y^2 + 2yz + z^2.
+\]
+But now we have a problem: the coefficient of $y^2$ is negative. Could our polynomial still be $\ge 0$? Maybe the $z^2$ and the $(x - 2y + z)^2$ somehow always conspire to be larger than $3y^2$? Nope! To see why, just set $z$ to $0$, and choose $x$ to make $x - 2y + z$ equal to $0$, for instance, take $z = 0, y = 1, x = 2$.
+
+In the previous example, we had a problem because the coefficient of $y^2$ was negative. What if the coefficient of $y^2$ comes out to exactly $0$? For an example, let's consider the polynomial
+\[
+x^2 - 2xy - 2xz + y^2 - 2yz + 10z^2.
+\]
+After the first step, we get
+\[
+x^2 - 2xy - 2xz + y^2 - 2yz + 2z^2 = (x - y - z)^2 - 4yz + 9z^2.
+\]
+To show that this sometimes goes negative, we will take $z$ to be whatever nonzero value we like - say, take $z = 1$ - and then pick $y$ to make $-4yz + 9z^2$ come out negative (we can do this since, for any fixed nonzero $z$, $-4yz + 9z^2$ is a linear function of $y$ with a nonzero $y$-coefficient), and finally pick $x$ to make $x-y-z$ equal to $0$. For instance, we can take $z = 1, y = 3, x = 4$.
+
+At the end of the day, we have a procedure that starts with a quadratic polynomial in any number of variables, and either writes it as a sum of squares with positive coefficients, or spits out a point where it is negative! We summarize in the following theorem.
+
+\begin{thm} Suppose that $Q(x_1, ..., x_n) = \sum_{i,j} a_{ij} x_ix_j + \sum_i a_ix_i + a$, where $a_{ij}, a_i, a$ are some coefficients. Then either we can write $Q$ in the form
+\[
+Q(x_1, ..., x_n) = \sum_{i=1}^n c_i(x_i + b_{i(i+1)}x_{i+1} + \cdots + b_{in}x_n + b_i)^2 + c
+\]
+with $c_i \ge 0$ for all $i$ and $c \ge 0$, or else we can find a point $(x_1, ..., x_n)$ such that $Q(x_1, ..., x_n) < 0$.
+\end{thm}
+
+In the case of homogeneous quadratic polynomials, people often like to represent their coefficients in a symmetric matrix. In the three variable case, the matrix
+\[
+\begin{bmatrix} a & b & d\\
+b & c & e\\
+d & e & f
+\end{bmatrix}
+\]
+corresponds to the polynomial
+\[
+ax^2 + 2bxy + cy^2 + 2dxz + 2eyz + fz^2.
+\]
+Why the random factors of $2$? This is because we have the nice formula
+\[
+\begin{bmatrix} x & y & z \end{bmatrix} \begin{bmatrix} a & b & d\\ b & c & e\\ d & e & f \end{bmatrix} \begin{bmatrix} x\\ y\\ z\end{bmatrix} = ax^2 + 2bxy + cy^2 + 2dxz + 2eyz + fz^2.
+\]
+
+When we follow the ``keep completing the square'' procedure for this general three variable homogeneous quadratic, we get
+\begin{align*}
+ax^2 + 2bxy + cy^2 + 2dxz + 2eyz + fz^2 &= a(x + \tfrac{b}{a}y + \tfrac{d}{a}z)^2 + \tfrac{ac-b^2}{a}y^2 + 2\tfrac{ae-bd}{a}yz + \tfrac{af-d^2}{a}z^2\\
+&= a(x + \tfrac{b}{a}y + \tfrac{d}{a}z)^2 + \tfrac{ac-b^2}{a}(y + \tfrac{ae-bd}{ac-b^2}z)^2 + \tfrac{(af-d^2)(ac-b^2)-(ae-bd)^2}{a(ac-b^2)}z^2\\
+&= a(x + \tfrac{b}{a}y + \tfrac{d}{a}z)^2 + \tfrac{ac-b^2}{a}(y + \tfrac{ae-bd}{ac-b^2}z)^2 + \tfrac{acf + 2bde - ae^2 - b^2f - cd^2}{ac-b^2}z^2.
+\end{align*}
+Curiously, the coefficients in that last formula happen to be ratios of determinants:
+\begin{align*}
+\det \begin{bmatrix} a\end{bmatrix} &= a,\\
+\det \begin{bmatrix} a & b\\ b & c\end{bmatrix} &= ac - b^2,\\
+\det \begin{bmatrix} a & b & d\\ b & c & e\\ d & e & f \end{bmatrix} &= acf + 2bde - ae^2 - b^2f - cd^2.
+\end{align*}
+So we've proved that a three variable homogeneous quadratic is $\ge 0$ if those three determinants are all positive!
+
+\bigskip
+
+\begin{exer} Generalize this determinant formula to any number of variables.
+\end{exer}
+
+\end{document}
+
