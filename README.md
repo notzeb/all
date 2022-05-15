@@ -1,5 +1,5 @@
 # all
-I'm trying to collect all my notes in one place, in as open a format as possible.
+I'm trying to collect all my notes in one place, in as open a format as possible. The most recent draft is located at https://raw.githubusercontent.com/notzeb/all/master/all.pdf.
 
 I view these notes as my own personalized form of wikipedia's math pages: wikipedia's math pages are a great resource, but they never present things the way I would present them to myself. Latex code doesn't take much hard drive space, so it seems reasonable for every mathematician to maintain their own personalized compilation of the foundations of math, with their favorite clever (or straightforward) proofs of whichever results they think are most fundamental or interesting.
 
