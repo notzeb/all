@@ -223,7 +223,7 @@ How do we convince our skeptical friend that $x$ can't be bigger than $3$ or sma
 \[
 3x - y \le 2x - y + 3.
 \]
-This inequality was obtained by comparing the lower bound $3x-y \le z$, which corresponded to the fourth inequality in our original system of inequalities, to the upper bound $z \le 2x - y + 3$, which corresponded to the fifth inequality of our original system of inequalities. So we can simply tell our fried that we added together the inequalities
+This inequality was obtained by comparing the lower bound $3x-y \le z$, which corresponded to the fourth inequality in our original system of inequalities, to the upper bound $z \le 2x - y + 3$, which corresponded to the fifth inequality of our original system of inequalities. So we can simply tell our friend that we added together the inequalities
 \begin{align*}
 3x &\le y + z,\\
 y + z &\le 2x + 3
@@ -234,7 +234,7 @@ As for the lower bound $0 \le x + 3$, this was a simplification of the inequalit
 \[
 x/2 + 3/2 \le 2x/3 + 2
 \]
-which we discovered after rearranging and multiplying both sides by $6$. That inequality, in turn, was obtained by comparing the lower bound $x/2 + 3/2 \le y$ to the upper bound $y \le 2x/3 + 2$, and these two inequalities were rescaled versions of the inequalities $x + 3 \le 2y$ and $3y \le 2x + 6$. So the inequality $0 \le x + 3$ follows from adding together the two inequalities
+which we found by rearranging and multiplying both sides by $6$. That inequality, in turn, was obtained by comparing the lower bound $x/2 + 3/2 \le y$ to the upper bound $y \le 2x/3 + 2$, and these two inequalities were rescaled versions of the inequalities $x + 3 \le 2y$ and $3y \le 2x + 6$. So the inequality $0 \le x + 3$ follows from adding together the two inequalities
 \begin{align*}
 3 \times \Big(x + 3 &\le 2y\;\;\;\;\;\;\Big),\\
 2 \times \Big(\;\;\;\;3y &\le 2x + 6\Big).
@@ -283,7 +283,7 @@ By changing variables, we can prove the following apparently strong result.
 \begin{cor} If a system $S$ of linear inequalities and linear equations in the variables $x_1, ..., x_n$ implies a linear inequality $\sum_i a_i x_i \le c$, then this inequality can be derived by summing multiples of the inequalities and equations from $S$.
 \end{cor}
 
-If the number $m$ of inequalities and the number $n$ of variables in our original system of linear inequalities are both very large, then the systems of inequalities produced by Fourier-Motzkin elimination can grow out of control. The \emph{simplex method} is a better method for solving larger systems - the idea is to examine points where $n$ of the inequalities have equality, and to compare them to ``neighboring'' points which have equality at a slightly different collection of $n$ of the inequalities, where $n-1$ of the inequalities are the same as before and one is new. More advanced procedures, such as Khachiyan's \emph{ellipsoid method} and Karmarkar's \emph{interior point algorithm} are based on finding approximate solutions to high accuracy and then rounding them - these can be reasonably fast even for enormous problems.
+If the number $m$ of inequalities and the number $n$ of variables in our original system of linear inequalities are both very large, then the systems of inequalities produced by Fourier-Motzkin elimination can grow out of control. The \emph{simplex method} is a better method for solving larger systems - the idea is to examine points where $n$ of the inequalities have equality, and to compare them to ``neighboring'' points which have equality at a slightly different collection of $n$ of the inequalities, where $n-1$ of the inequalities are the same as before and one is new. More advanced procedures, such as Khachiyan's \emph{ellipsoid method} and Karmarkar's \emph{interior point algorithm} are based on finding approximate solutions to high accuracy and then rounding them - the ellipsoid method is the basis of an important theoretical result about the computational complexity of convex optimization, and interior point algorithms are fast even for enormous problems.
 
 When discussing large systems of linear inequalities, it's convenient to use the notation of linear algebra. We package our collection of variables $x_1, ..., x_n$ into a column vector $x \in \RR^n$, and we package the system of $m$ linear inequalities into the inequality
 \[
@@ -293,7 +293,7 @@ where $A \in \RR^{m\times n}$ is an $m\times n$ matrix whose $m$ rows correspond
 \[
 y^TAx \le y^Tb,
 \]
-where $y^T$ is the \emph{transpose} of $y$ (which is a row vector). We can rephrase what we have proved so far in this language, as follows.
+where $y^T$ is the \emph{transpose} of $y$ (which is a row vector - note that $y^Tb$ is just another way of writing the dot product $y \cdot b$). We can rephrase what we have proved so far in this language, as follows.
 
 \begin{thm}[Theorem of the Alternatives] The system of inequalities $Ax \le b$ has no solution $x \in \RR^n$ if and only if there is some vector $y \in \RR^m$ such that
 \begin{itemize}
@@ -467,6 +467,460 @@ $i$ either $y_i=0$ or $\sum_j a_{ij} x_j =b_i$ (or both).
 \end{comment}
 
 
-%\subsection{One variable polynomials: Sturm chains}
-%TODO
+\subsection{Single-variable polynomials: Sturm chains}
+
+Suppose you are handed a single-variable polynomial, such as
+\[
+p(x) = x^3 - 6x^2 + 4x + 12
+\]
+and you are asked whether this polynomial is positive for all $x$ between $-1$ and $2$. How can you accomplish this?
+
+As it turns out, there is a general procedure which allows you to work out the exact number of real roots of any real polynomial in any half-open interval $(a,b]$, using only pencil and paper. The only special fact we will need about the real numbers (as opposed to, say, the rational numbers) is the following weak version of the intermediate value theorem.
+
+\begin{thm}[Intermediate Value Theorem for Polynomials]\label{real-ivt-poly} If $p(x)$ is a real polynomial, and if $p(a)$ and $p(b)$ have opposite signs for some real values $a < b$, then there is some real number $c \in (a,b)$ such that $p(c) = 0$.
+\end{thm}
+\begin{proof} This is a special case of the intermediate value theorem, which applies to all continuous functions. The standard proof is as follows: supposing without loss of generality that $p(a) < 0$ and $p(b) > 0$, we define the set $S \subseteq [a,b]$ by
+\[
+S = \{x \in [a,b] \mid p(x) \le 0\}.
+\]
+Since $S$ is a nonempty, bounded subset of $\RR$, it has a supremum (by the defining property of the real numbers - in some developments this is an axiom, in others it is proved in terms of a particular construction of the real number system), so we take $c = \sup S$. Since $p$ is continuous, we must have $p(c) \le 0$, since there are values $x$ which are arbitrarily close to $c$ satisfying $p(x) \le 0$. From $p(c) \le 0$ we conclude $c \ne b$, so for every positive $\epsilon < b-c$ we have $p(c+\epsilon) > 0$ (otherwise $c$ would be less than $\sup S$), and applying the continuity of $p$ once more we see that $p(c) \ge 0$ as well, so we must have $p(c) = 0$.
+\end{proof}
+
+Versions of Theorem \ref{real-ivt-poly} are true for other number systems as well, such as the collection of \emph{algebraic} real numbers (recall that a number is called algebraic if it is a root of a polynomial which has integer coefficients), or certain number systems involving infinitesimals or power series. An ordered number system which satisfies a version of Theorem \ref{real-ivt-poly} is called a \emph{real closed field}, and for the purpose of studying algebraic inequalities, all real closed fields are essentially indistinguishable from one another.
+
+We will also need a basic algebraic fact about derivatives, which is true in any ordered number system.
+
+\begin{prop} If the polynomial $p(x)$ is given by
+\[
+p(x) = \sum_{i=0}^d a_i x^i
+\]
+and its \emph{derivative} $p'(x)$ is defined by
+\[
+p'(x) = \sum_{i=1}^{d} ia_i x^i,
+\]
+then there is a two-variable polynomial $r(x,y)$ such that
+\[
+p(x + y) = p(x) + y\cdot p'(x) + y^2\cdot r(x,y).
+\]
+
+In particular, if $p'(x) > 0$, then there is some $\epsilon > 0$ such that $p$ is strictly increasing in the interval $(x-\epsilon, x+\epsilon)$.
+\end{prop}
+
+Ok, back to the original problem: we want to count the number of roots of $p(x)$ between $-1$ and $2$. A good starting point is to compute $p(-1)$ and $p(2)$ (which come out to $p(-1) = 1$ and $p(2) = 4$, in this example problem), and to check whether they have the same sign or not. Since $p(-1)$ and $p(2)$ are both positive, it seems like we can conclude that $p(x)$ has an even number of roots between $-1$ and $2$. Or can we?
+
+In order to definitively conclude that $p$ has an even number of roots between $-1$ and $2$ from the fact that $p(-1)$ and $p(2)$ are both positive, we need to either be certain that $p$ doesn't have any double (or triple, etc.) roots between $-1$ and $2$, or to be careful to count any multiple roots ``with multiplicity''. For instance, the polynomial
+\[
+q(x) = (x - 1)^2(x+2) = x^3 - 3x + 2
+\]
+has $q(-1) = 4$ and $q(2) = 4$, and it has a double root at $x = 1$. In order the detect this multiple root, we use the fact that any multiple root of a polynomial $q(x)$ will also be a root of the derivative $q'(x)$, e.g.:
+\begin{align*}
+q'(x) &= 2(x-1)(x+2) + (x-1)^2\\
+&= (x-1)(2(x+2) + (x-1))\\
+&= 3(x^2 - 1).
+\end{align*}
+If we didn't already know the factorization of $q(x)$, then we could use the Euclidean algorithm to compute the gcd of $q(x)$ and $q'(x)$:
+\begin{align*}
+\gcd(q(x), q'(x)) &= \gcd(x^3 - 3x + 2,\ 3(x^2 - 1))\\
+&= \gcd(-2(x-1),\ 3(x^2 - 1))\\
+&= \gcd(-2(x-1),\ 0)\\
+&= x-1.
+\end{align*}
+Using the Euclidean algorithm several times, it is always possible to split any polynomial into pieces which correspond to the roots of various multiplicities. We state this result semi-formally below.
+
+\begin{prop}\label{prop-poly-multiplicity} If $p(x)$ is a polynomial with coefficients from a real closed field, then we can use the Euclidean algorithm several times to write $p$ in the form
+\[
+p(x) = c\cdot p_1(x)^{m_1}p_2(x)^{m_2}\cdots p_k(x)^{m_k},
+\]
+where $c$ is a constant, each $p_i(x)$ has no common factor with its derivative $p_i'(x)$, and no $p_i(x)$ has a common factor with $p_j(x)$ for any $i \ne j$.
+\end{prop}
+
+So we only need to worry about the case where $p(x)$ has no common factor with its derivative $p'(x)$. Let's check that our running example $p(x) = x^3 - 6x^2 + 4x + 12$ has this property:
+\begin{align*}
+\gcd(p(x), p'(x)) &= \gcd(x^3 - 6x^2 + 4x + 12,\ 3x^2 - 12x + 4)\\
+&= \gcd(-(4/3)(4x - 11),\ 3x^2 - 12x + 4)\\
+&= \gcd(-(4/3)(4x - 11),\ -101/16)\\
+&= 1.
+\end{align*}
+So now we can conclude that $p(x)$ has an even number of roots between $-1$ and $2$, and that the issue of multiplicity is not relevant to in this case. It seems that looking at the derivative $p'(x)$ is generally helpful for thinking about the roots, so we take a peek at the values of $p'(-1)$ and $p'(2)$: in this example, we have $p'(-1) = 19$ and $p'(2) = -8$, so $p(x)$ is increasing around $x = -1$ and $p(x)$ is decreasing around $x = 2$. Additionally, the Polynomial Intermediate Value Theorem \ref{real-ivt-poly} tells us that since $p'(-1)$ and $p'(2)$ have opposite signs, the derivative $p'(x)$ must have at least one root between $-1$ and $2$. This feels like a hint of an inductive procedure: perhaps we can count the number of real roots of $p'(x)$ between $-1$ and $2$, use that to count the number of local minima and maxima of $p(x)$, etc.?
+
+As it turns out, the Sturm chain trick doesn't require us to count the number of real roots of the derivative $p'(x)$. It is entirely based on rewriting the computations we made during the Euclidean algorithm, when we checked that $p(x)$ and $p'(x)$ have no common factor, in the following equivalent form:
+\begin{align*}
+3\cdot(x^3 - 6x^2 + 4x + 12) + 4\cdot(4x-11) &= (x-2)\cdot(3x^2 - 12x + 4),\\
+16\cdot(3x^2 - 12x + 4) + 101\cdot 1 &= (12x-15)\cdot(4x-11).
+\end{align*}
+Introducing the notation
+\begin{align*}
+p_0(x) &= p(x) = x^3 - 6x^2 + 4x + 12,\\
+p_1(x) &= p'(x) = 3x^2 - 12x + 4,\\
+p_2(x) &= 4x - 11,\\
+p_3(x) &= 1,
+\end{align*}
+we see that for each $i = 1,2$ we have an equation of the form
+\[
+\text{positive}\cdot p_{i-1}(x) + \text{positive}\cdot p_{i+1}(x) = \text{something}\cdot p_i(x).
+\]
+In particular, we have
+\[
+p_i(x) = 0 \;\;\; \implies \;\;\; p_{i-1}(x) \text{ and } p_{i+1}(x) \text{ have opposite signs.}
+\]
+Since the gcd of any consecutive pair $\gcd(p_i(x), p_{i+1}(x))$ is $1$, when $p_i(x) = 0$ we don't have to worry about the possibility of $p_{i-1}(x)$ or $p_{i+1}(x)$ also being $0$, so the statement above is completely meaningful.
+
+Now let's see what happens to the signs of our four polynomials $p_0(x), p_1(x), p_2(x), p_3(x)$ as $x$ goes from $-\infty$ to $+\infty$. For now, we will cheat by using a computer to find all of the roots of these polynomials: the roots of $p_1(x)$ occur at
+\[
+-1.05..., 2.51..., 4.53...,
+\]
+the roots of $p_1(x)$ occur at
+\[
+0.36..., 3.63...,
+\]
+and the root of $p_2(x)$ occurs at
+\[
+2.75.
+\]
+Armed with these numerical computations, together with the fact that the polynomials $p_i(x)$ can't change sign without passing through a $0$ (by the Polynomial Intermediate Value Theorem \ref{real-ivt-poly}), we can make the following table:
+\[
+\begin{array}{c | c | c | c | c | c | c | c | c | c | c | c | c | c}
+ & \cdots & -1.05 & \cdots & 0.36 & \cdots & 2.51 & \cdots & 2.75 & \cdots & 3.63 & \cdots & 4.53 & \cdots\\
+\hline
+p_0 & - & 0 & + & + & + & 0 & - & - & - & - & - & 0 & +\\
+\hline
+p_1 & + & + & + & 0 & - & - & - & - & - & 0 & + & + & +\\
+\hline
+p_2 & - & - & - & - & - & - & - & 0 & + & + & + & + & +\\
+\hline
+p_3 & + & + & + & + & + & + & + & + & + & + & + & + & +
+\end{array}
+\]
+What do we notice when we stare at this table? Visually, the $-$ and $+$ signs seem to ``flow around'' the $0$s in the table, and the whole pattern of $+$ and $-$ signs seems to simplify as we move from left to right. More precisely, the pattern seems to simplify \emph{exactly when we pass through a root of } $p_0(x) = p(x)$!
+
+Before concluding too much from this example, let's try another example, with a cubic polynomial that only has one real root. Suppose we take
+\[
+p(x) = x^3 - x + 1,
+\]
+and we want to know how many roots $p(x)$ has and where they are. Once again, we compute the gcd of $p(x)$ and $p'(x) = 3x^2 - 1$, but laying out our computation in the slightly weird way we did before:
+\begin{align*}
+3\cdot(x^3 - x + 1) + 1\cdot(2x-3) &= x\cdot(3x^2 - 1)\\
+4\cdot(3x^2-1) + 23\cdot (-1) &= (6x+9)\cdot(2x-3).
+\end{align*}
+Defining $p_0, p_1, p_2, p_3$ by
+\begin{align*}
+p_0(x) &= p(x) = x^3 - x + 1,\\
+p_1(x) &= p'(x) = 3x^2 - 1,\\
+p_2(x) &= 2x - 3,\\
+p_3(x) &= -1,
+\end{align*}
+we see once again that for each $i = 1,2$ we have an equation of the form
+\[
+\text{positive}\cdot p_{i-1}(x) + \text{positive}\cdot p_{i+1}(x) = \text{something}\cdot p_i(x),
+\]
+so
+\[
+p_i(x) = 0 \;\;\; \implies \;\;\; p_{i-1}(x) \text{ and } p_{i+1}(x) \text{ have opposite signs.}
+\]
+The single real root of $p_0(x)$ is located at $-1.32..$, the roots of $p_1(x)$ are located at $\pm 0.57...$, and the root of $p_2(x)$ is located at $1.5$. Making a table as before, we get:
+\[
+\begin{array}{c | c | c | c | c | c | c | c | c | c}
+& \cdots & -1.32 & \cdots & -0.57 & \cdots & 0.57 & \cdots & 1.5 & \cdots\\
+\hline
+p_0 & - & 0 & + & + & + & + & + & + & +\\
+\hline
+p_1 & + & + & + & 0 & - & 0 & + & + & +\\
+\hline
+p_2 & - & - & - & - & - & - & - & 0 & +\\
+\hline
+p_3 & - & - & - & - & - & - & - & - & -
+\end{array}
+\]
+Once again, the $+$ and $-$ signs appear to flow around the $0$s in the table, and the pattern of $+$ and $-$ signs simplifies as we move past the single root of $p_0(x) = p(x)$.
+
+Why does this happen? Well, as long as
+\[
+p_i(x) = 0 \;\;\; \implies \;\;\; p_{i-1}(x) \text{ and } p_{i+1}(x) \text{ have opposite signs,}
+\]
+if we zoom in around a root $r$ of the polynomial $p_i(x)$, we will always see either the pattern
+\[
+\begin{array}{c | c | c | c}
+& \cdots & r & \cdots\\
+\hline
+p_{i-1} & + & + & +\\
+\hline
+p_i & ? & 0 & ?\\
+\hline
+p_{i+1} & - & - & -
+\end{array}
+\]
+or the pattern
+\[
+\begin{array}{c | c | c | c}
+& \cdots & r & \cdots\\
+\hline
+p_{i-1} & - & - & -\\
+\hline
+p_i & ? & 0 & ?\\
+\hline
+p_{i+1} & + & + & +
+\end{array}
+\]
+and regardless of how the $?$s are filled in with $+$ or $-$ signs, the sequence of signs of $p_{i-1}(x), p_i(x), p_{i+1}(x)$ will flip from $+$ to $-$ (or vice versa) exacly once for any $x \approx r$.
+
+That explains what is going on around the internal $0$s of the table - how about the $0$s at the top? The claim is that every time $p_0(x) = p(x)$ passes through the value $0$, the pattern of $+$ and $-$ signs always simplifies as we go from left to right, and never becomes more complex. To see why this is true, we need to use the fact that $p_1(x) = p'(x)$ is the \emph{derivative} of $p(x)$:
+\begin{itemize}
+\item if $p(r) = 0$ and $p'(r) > 0$, then $p(x)$ is increasing for $x \approx r$, so for $x$ just below $r$ we have $p(x) < 0$, and for $x$ just above $r$ we have $p(x) > 0$, while
+
+\item if $p(r) = 0$ and $p'(r) < 0$, then $p(x)$ is decreasing for $x \approx r$, so for $x$ just below $r$ we have $p(x) > 0$, and for $x$ just above $r$ we have $p(x) < 0$.
+\end{itemize}
+If we zoom in around the root $r$ of $p(x)$, in the first case we see the pattern
+\[
+\begin{array}{c | c | c | c}
+& \cdots & r & \cdots\\
+\hline
+p_0 & - & 0 & +\\
+\hline
+p_1 & + & + & +
+\end{array}
+\]
+while in the second case we see the pattern
+\[
+\begin{array}{c | c | c | c}
+& \cdots & r & \cdots\\
+\hline
+p_0 & + & 0 & -\\
+\hline
+p_1 & - & - & -
+\end{array}
+\]
+and in either case, the signs of $p_0(x), p_1(x)$ are different for $x$ just below $r$ and are the same for $x$ just above $r$.
+
+Now we formalize what we have discovered.
+
+\begin{defn} If $a_1, ..., a_k$ is a sequence of numbers in a real closed field, then we define the number of \emph{sign changes} in the sequence, written $\operatorname{sc}(a_1, ..., a_n)$, to be one less than the maximum length of a sequence of indices $1 \le i_0 < i_2 < \cdots < i_s \le k$ such that
+\[
+a_{i_j} \cdot a_{i_{j+1}} < 0
+\]
+for all $j < s$.
+\end{defn}
+
+\begin{thm}[Sturm]\label{thm-sturm} Suppose a polynomial $p(x)$ with coefficients from a real closed field has no common factor with its derivative $p'(x)$, and we have a sequence of polynomials $p_0(x), ..., p_k(x)$ such that
+\begin{itemize}
+\item the polynomial $p_0(x)$ always has the same sign as $p(x)$,
+
+\item the polynomial $p_1(x)$ always has the same sign as $p'(x)$,
+
+\item for each $1 \le i < k$, if $p_i(x) = 0$ then $p_{i-1}(x)$ and $p_{i+1}(x)$ have opposite signs (and are nonzero), and
+
+\item the polynomial $p_k(x)$ has a constant (nonzero) sign.
+\end{itemize}
+Then for any $a \le b$ (including $\pm\infty$), the number of roots of $p(x)$ in the half-open interval $(a,b]$ is exactly
+\[
+\operatorname{sc}\big(p_0(a), ..., p_k(a)\big) - \operatorname{sc}\big(p_0(b), ..., p_k(b)\big).
+\]
+\end{thm}
+
+A sequence of polynomials $p_0, p_1, ..., p_k$ as in Theorem \ref{thm-sturm} is called a \emph{Sturm chain} for the polynomial $p(x)$. A slight variation of Theorem \ref{thm-sturm} lets us check whether a different polynomial $q(x)$ is positive at the roots of $p(x)$.
+
+\begin{thm} Suppose polynomials $p(x),q(x)$ with coefficients from a real closed field have no common factor, and if $p(x)$ has no common factor with $p'(x)$, and we have a sequence of polynomials $p_0(x), p_1(x), ..., p_k(x)$ as in Theorem \ref{thm-sturm} but with the condition on $p_1(x)$ modified to:
+\begin{itemize}
+\item the polynomial $p_1(x)$ always has the same sign as $p'(x) \cdot q(x)$.
+\end{itemize}
+Then for any $a \le b$ (including $\pm\infty$), the difference between the number of roots of $p(x)$ in the half-open interval $(a,b]$ where $q(x)$ is positive and the number of roots of $p(x)$ in the half-open interval $(a,b]$ where $q(x)$ is negative is exactly
+\[
+\operatorname{sc}\big(p_0(a), ..., p_k(a)\big) - \operatorname{sc}\big(p_0(b), ..., p_k(b)\big).
+\]
+\end{thm}
+
+Let's try computing a Sturm chain for the generic cubic polynomial
+\[
+p(x) = x^3 - ax + b.
+\]
+We have $p'(x) = 3x^2 - a$, and our Euclidean algorithm computation goes as follows:
+\begin{align*}
+3\cdot(x^3 + ax + b) + 1\cdot(2ax - 3b) &= x\cdot(3x^2 - a),\\
+4a^2\cdot(3x^2 - a) + 1\cdot(4a^3 - 27b^2) &= (6ax + 9b)\cdot(2ax - 3b),
+\end{align*}
+so we get the Sturm chain
+\begin{align*}
+p_0(x) &= p(x) = x^3 - ax + b,\\
+p_1(x) &= p'(x) = 3x^2 - a,\\
+p_2(x) &= 2ax - 3b,\\
+p_3(x) &= 4a^3 - 27b^2.
+\end{align*}
+In particular, the number of real roots of $p(x)$ is given by
+\[
+\operatorname{sc}(-1, 3, -2a, 4a^3 - 27b^2) - \operatorname{sc}(1, 3, 2a, 4a^3 - 27b^2) = \begin{cases}3 & 4a^3 > 27b^2,\\ 1 & 4a^3 < 27b^2.\end{cases}
+\]
+
+On top of being useful for proving one-variable polynomial inequalities, Sturm chains can be useful for numerically approximating the real roots of a given polynomial $p(x)$:
+\begin{itemize}
+\item first, use Proposition \ref{prop-poly-multiplicity} to split $p(x)$ into a product of powers of polynomials which have no repeated roots, and have no roots in common with each other,
+
+\item second, supposing for simplicity that $p(x)$ has no repeated roots, use the Euclidean algorithm to compute a Sturm chain $p_0, p_1, ..., p_k$ for $p(x)$,
+
+\item third, use Theorem \ref{thm-sturm} to count the number of real roots in $(-\infty, +\infty]$, and repeatedly chop this half-open interval into pieces using something like binary search until we get a sequence of half-open intervals $(-\infty, a_1], (a_1, a_2], ..., (a_m, +\infty]$ which each contain at most one root of $p(x)$,
+
+\item fourth, for each interval $(a_i,a_{i+1}]$ containing one of the roots $r$ of $p(x)$, start with a decent approximation to $r$ and repeatedly refine it using Newton's method until you have computed $r$ to as many digits of precision as desired.
+\end{itemize}
+In practice, there are faster ways to numerically compute the real roots of a one-variable polynomial, based on variations of Descartes' rule of signs (which only bounds the number of roots in an interval - but this is sometimes good enough). One convenient way to rephrase Descartes' rule of signs is to use the fact that the coefficients of a polynomial $p(x)$ are equal to the (higher) derivatives
+\[
+p(0), p'(0), p''(0)/2, ..., p^{(\deg p)}(0)/(\deg p)!,
+\]
+where $p^{(k)}$ is an abbreviation for the $k$th derivative of $p$.
+
+\begin{thm}[Fourier-Budan Theorem]\label{thm-fourier-budan} If $p(x)$ is a polynomial with coefficients from a real closed field of degree $d$, then for any $a \le b$, there is a whole number $k \ge 0$ such that the number of roots of $p(x)$ in the interval $(a,b]$, counted ``with multiplicity'', is given by
+\[
+\operatorname{sc}\big(p(a), p'(a), ..., p^{(d)}(a)\big) - \operatorname{sc}\big(p(b), p'(b), ..., p^{(d)}(b)\big) - 2k.
+\]
+\end{thm}
+
+The proof of the Fourier-Budan Theorem \ref{thm-fourier-budan} is similar to the proof of Sturm's Theorem \ref{thm-sturm} - we just analyze how the number of sign changes in the sequence $p(x), ..., p^{(d)}(x)$ changes as $x$ passes through a root of $p(x)$ or a root of some $p^{(i)}(x)$.
+
+There is a clever trick we can use to deal with the fact that the Fourier-Budan Theorem \ref{thm-fourier-budan} sometimes gives an overestimate of the number of roots in an interval $(a,b]$. Consider once again the cubic polynomial
+\[
+p(x) = x^3 - x + 1
+\]
+which we studied before. If we apply the Fourier-Budan Theorem \ref{thm-fourier-budan} to try to bound the number of roots in the interval $(0,1]$, we get
+\begin{align*}
+\operatorname{sc}\big(p(0), p'(0), p''(0), p^{(3)}(0)\big) - \operatorname{sc}\big(p(1), p'(1), p''(1), p^{(3)}(1)\big) &= \operatorname{sc}\big(1, -1, 0, 6\big) - \operatorname{sc}\big(1, 2, 6, 6\big)\\
+&= 2 - 0,
+\end{align*}
+even though $p(x)$ has no positive roots. To probe the interval $(0,1]$, the trick is to make the change of variables
+\[
+x = \frac{1}{1+y},
+\]
+so that $x \in (0,1]$ exactly when $y \ge 0$. We then define a new polynomial $q(y)$ by
+\begin{align*}
+q(y) &= (1+y)^3 p\Big(\frac{1}{1+y}\Big)\\
+&= 1 - (1+y)^2 + (1+y)^3\\
+&= y^3 + 2y^2 + y + 1.
+\end{align*}
+Descartes' rule of signs then shows that $q(y)$ has no positive roots, so we see that $p(x)$ has no roots in the interval $(0,1]$. In some cases, it may be necessary to make a sequence of several changes of variables
+\[
+x_i = a_i + \frac{1}{1 + x_{i+1}}
+\]
+in order to rule out the spurious ``roots'' suggested by the Fourier-Budan Theorem \ref{thm-fourier-budan} - and this approach naturally leads to a procedure that finds continued fraction approximations of the actual roots which remain. In order to understand when these changes of variables will finally get rid of all of the sign changes, we use the following result.
+
+\begin{thm}[Vincent's Theorem] Suppose that $p(x)$ has real coefficients, let $a < b$ be real numbers, and define a polynomial $q(y)$ by
+\[
+q(y) = (y+1)^{\deg p}p\Big(\frac{ay + b}{y + 1}\Big).
+\]
+Then:
+\begin{itemize}
+\item if $p(x)$ has no real roots in the interval $(a,b)$, and has no complex roots in the circle
+\[
+\Big|x - \frac{a+b}{2}\Big| < \frac{b-a}{2},
+\]
+then $q(y)$ has nonnegative coefficients, and
+
+\item if $p(x)$ has exactly one real root (counted with multiplicity) in the interval $(a,b)$, and has no other complex roots in the circle
+\[
+\Big|x - \frac{a+b}{2} - i\frac{b-a}{2\sqrt{3}}\Big| < \frac{b-a}{\sqrt{3}},
+\]
+or in it's complex conjugate, then the sequence of coefficients of $q(y)$ has exactly one sign change.
+\end{itemize}
+\end{thm}
+
+This is a consequence of the following two results, applied to $q(y)$. The first follows directly from the Fundamental Theorem of Algebra, while the second is a bit harder.
+
+\begin{prop} If $p(x)$ has real coefficients, and if none of the (possibly complex) roots of $p(x)$ have a positive real part, then all of the coefficients of $q(x)$ are nonnegative.
+\end{prop}
+
+\begin{thm}[Obreschkoff's Cone Theorem] If $p(x)$ has real coefficients and has exactly one positive real root (counted with multiplicity), and if every other root $a+bi$ of $p(x)$ satisfies
+\[
+a\sqrt{3} + |b| \le 0,
+\]
+then the sequence of coefficients of $p(x)$ has exactly one sign change.
+\end{thm}
+\begin{proof}[Proof sketch] Write $p(x) = (x-r)q(x)$. Then by the Fundamental Theorem of Algebra, $q(x)$ can be written as a product of linear and quadratic factors corresponding to roots of $p(x)$. If $a+bi$ is a complex root of $p(x)$, then the corresponding quadratic factor of $q(x)$ is
+\[
+(x-a)^2 + b^2 = x - 2ax + a^2 + b^2.
+\]
+If $a \le 0$, then the inequality $a\sqrt{3} + |b| \le 0$ is equivalent to
+\[
+1\cdot(a^2 + b^2) \le (2a)^2,
+\]
+so the sequence of coefficients of each quadratic factor of $q(x)$ are \emph{log-concave}, where we say that a sequence of positive numbers $a_0, ..., a_n$ is log-concave when we have
+\[
+a_{i-1}a_{i+1} \le a_i^2
+\]
+for all $i = 1, ..., n-1$. It's a standard (and slightly tricky to prove) fact that a product of two polynomials with positive, log-concave sequences of coefficients will itself have a positive, log-concave sequence of coefficients, so we can conclude that the sequence of coefficients of $q(x)$ is also positive and log-concave.%TODO: should I prove that products of log-concave polynomials are log-concave? It follows from the identity (sum_i a_ib_{-i})^2 - (\sum_i a_ib_{1-i})(\sum_i a_{i+1}b_{-i}) = \sum_{i \le j} (a_ia_j - a_{i-1}a_{j+1})(b_ib_j - b_{i-1}b_{j+1}), from the paper "On The Product Of Log-Concave Polynomials" by Woong Kook
+
+To finish, we just check that if $r$ is positive and if the coefficients of $q(x)$ form a positive and log-concave sequence, then the sequence of coefficients of $p(x) = (x-r)q(x)$ has exactly one sign change.
+\end{proof}
+
+If we just want to study polynomials which are positive on some fixed half-open interval $(a,b]$, then there is a way to convert this to the simpler problem of studying polynomials which are positive everywhere, based on a similar change of variables. We use the fact that the rational function
+\[
+\phi_{a,b} : y \mapsto \frac{ay^2 + b}{y^2 + 1}
+\]
+has
+\[
+\phi_{a,b}(\RR) = (a,b],
+\]
+so $p(x)$ is positive on the interval $(a,b]$ if and only if the polynomial
+\[
+q(y) = (y^2 + 1)^{\deg p} p\Big(\frac{ay^2 + b}{y^2 + 1}\Big)
+\]
+is positive for all $y \in \RR$. The collection of polynomials $q(y)$ which are positive everywhere has the following nice characterization, based on the Fundamental Theorem of Algebra (which has a generalization that applies to every real closed field).
+
+\begin{thm} A single variable polynomial $p(x)$ with coefficients in a real closed field satisfies the inequality
+\[
+p(x) \ge 0
+\]
+for all $x$ if and only if there are polynomials $f(x)$ and $g(x)$ with coefficients in the same real closed field which satisfy
+\[
+p(x) = f(x)^2 + g(x)^2.
+\]
+
+If $p$ has degree $2k$, then this occurs if and only if there is a multivariable quadratic polynomial $Q(x_0, x_1, ..., x_k)$ such that
+\[
+Q(x_0, x_1, ..., x_k) \ge 0
+\]
+for all $x_0, x_1, ..., x_k$ and
+\[
+p(x) = Q(1, x, ..., x^k).
+\]
+\end{thm}
+\begin{proof} By the Fundamental Theorem of Algebra, there are numbers $r_i$ and multiplicities $m_i$, pairs $(a_j, b_j)$ and multiplicities $n_j$, and a constant $c$ such that
+\[
+p(x) = c\prod_i (x - r_i)^{m_i} \prod_j \big((x-a_j)^2 + b_j^2\big)^{n_j}.
+\]
+If $p(x) \ge 0$ for all $x$, then each multiplicity $m_i$ must be even and $c$ must be positive, so $p(x)$ can be written as a product of expressions which can each be written as a sum of two squares. The formula
+\[
+(x^2 + y^2)(z^2 + w^2) = (xz - yw)^2 + (xw + yz)^2
+\]
+can then be used to show that $p(x)$ itself can be written as a sum of two squares.
+
+Now for the second statement. Clearly if $p(x) = Q(1, x, ..., x^k)$ and $Q(x_0, ..., x_k) \ge 0$, then $p(x) \ge 0$. For the other direction, if
+\[
+p(x) = f(x)^2 + g(x)^2
+\]
+with
+\[
+f(x) = \sum_{i=0}^k a_i x^i
+\]
+and
+\[
+g(x) = \sum_{i=0}^k b_i x^i,
+\]
+then we can take
+\[
+Q(x_0, ..., x_k) = \Big(\sum_{i=0}^k a_ix_i\Big)^2 + \Big(\sum_{i=0}^k b_ix_i\Big)^2.\qedhere
+\]
+\end{proof}
+
+For instance, the fourth degree polynomial
+\[
+p(x) = x^4 + ax^2 + bx + c
+\]
+is always $\ge 0$ if and only if there is a constant $d \ge 0$ such that the three-variable quadratic polynomial
+\[
+Q(x,y,z) = x^2 + (a-d)xz + dy^2 + byz + cz^2
+\]
+is always $\ge 0$. If $d > 0$, then this quadratic form is always $\ge 0$ as long as the determinant
+\[
+\det\begin{bmatrix} 1 & 0 & (a-d)/2\\ 0 & d & b/2\\ (a-d)/2 & b/2 & c\end{bmatrix} = cd - b^2/4 - d(a-d)^2/4
+\]
+is positive, that is, as long as
+\[
+\big(4c - (a-d)^2\big)d \ge b^2.
+\]
+Incidentally, if we find a $d > 0$ which gives equality in the inequality above, then we can use it to factor $p(x)$ into a product of two positive quadratic polynomials.
 
