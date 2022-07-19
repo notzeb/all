@@ -496,7 +496,7 @@ p(x) = \sum_{i=0}^d a_i x^i
 \]
 and its \emph{derivative} $p'(x)$ is defined by
 \[
-p'(x) = \sum_{i=1}^{d} ia_i x^i,
+p'(x) = \sum_{i=1}^{d} ia_i x^{i-1},
 \]
 then there is a two-variable polynomial $r(x,y)$ such that
 \[
@@ -597,7 +597,7 @@ Before concluding too much from this example, let's try another example, with a 
 \[
 p(x) = x^3 - x + 1,
 \]
-and we want to know how many roots $p(x)$ has and where they are. Once again, we compute the gcd of $p(x)$ and $p'(x) = 3x^2 - 1$, but laying out our computation in the slightly weird way we did before:
+and we want to know how many roots $p(x)$ has and where they are. Once again, we compute the gcd of $p(x)$ and $p'(x) = 3x^2 - 1$, but we arrange our computation in the slightly weird way we did before:
 \begin{align*}
 3\cdot(x^3 - x + 1) + 1\cdot(2x-3) &= x\cdot(3x^2 - 1)\\
 4\cdot(3x^2-1) + 23\cdot (-1) &= (6x+9)\cdot(2x-3).
@@ -693,7 +693,7 @@ and in either case, the signs of $p_0(x), p_1(x)$ are different for $x$ just bel
 
 Now we formalize what we have discovered.
 
-\begin{defn} If $a_1, ..., a_k$ is a sequence of numbers in a real closed field, then we define the number of \emph{sign changes} in the sequence, written $\operatorname{sc}(a_1, ..., a_n)$, to be one less than the maximum length of a sequence of indices $1 \le i_0 < i_2 < \cdots < i_s \le k$ such that
+\begin{defn} If $a_1, ..., a_k$ is a sequence of numbers in a real closed field, then we define the number of \emph{sign changes} in the sequence, written $\operatorname{sc}(a_1, ..., a_k)$, to be one less than the maximum length of a sequence of indices $1 \le i_0 < i_2 < \cdots < i_s \le k$ such that
 \[
 a_{i_j} \cdot a_{i_{j+1}} < 0
 \]
@@ -765,7 +765,7 @@ p(0), p'(0), p''(0)/2, ..., p^{(\deg p)}(0)/(\deg p)!,
 \]
 where $p^{(k)}$ is an abbreviation for the $k$th derivative of $p$.
 
-\begin{thm}[Fourier-Budan Theorem]\label{thm-fourier-budan} If $p(x)$ is a polynomial with coefficients from a real closed field of degree $d$, then for any $a \le b$, there is a whole number $k \ge 0$ such that the number of roots of $p(x)$ in the interval $(a,b]$, counted ``with multiplicity'', is given by
+\begin{thm}[Fourier-Budan Theorem]\label{thm-fourier-budan} If $p(x)$ is a polynomial of degree $d$ with coefficients from a real closed field, then for any $a \le b$, there is a whole number $k \ge 0$ such that the number of roots of $p(x)$ in the interval $(a,b]$, counted ``with multiplicity'', is given by
 \[
 \operatorname{sc}\big(p(a), p'(a), ..., p^{(d)}(a)\big) - \operatorname{sc}\big(p(b), p'(b), ..., p^{(d)}(b)\big) - 2k.
 \]
@@ -796,7 +796,7 @@ Descartes' rule of signs then shows that $q(y)$ has no positive roots, so we see
 \[
 x_i = a_i + \frac{1}{1 + x_{i+1}}
 \]
-in order to rule out the spurious ``roots'' suggested by the Fourier-Budan Theorem \ref{thm-fourier-budan} - and this approach naturally leads to a procedure that finds continued fraction approximations of the actual roots which remain. In order to understand when these changes of variables will finally get rid of all of the sign changes, we use the following result.
+in order to rule out the spurious ``roots'' suggested by the Fourier-Budan Theorem \ref{thm-fourier-budan} - and this approach naturally leads to a procedure that finds continued fraction approximations of the actual roots which remain. In order to understand when these changes of variables will finally get rid of all of the extra sign changes, we use the following result.
 
 \begin{thm}[Vincent's Theorem] Suppose that $p(x)$ has real coefficients, let $a < b$ be real numbers, and define a polynomial $q(y)$ by
 \[
@@ -804,17 +804,17 @@ q(y) = (y+1)^{\deg p}p\Big(\frac{ay + b}{y + 1}\Big).
 \]
 Then:
 \begin{itemize}
-\item if $p(x)$ has no real roots in the interval $(a,b)$, and has no complex roots in the circle
+\item if $p(x)$ has no real roots in the interval $(a,b)$, and has no complex roots in the disk
 \[
 \Big|x - \frac{a+b}{2}\Big| < \frac{b-a}{2},
 \]
 then $q(y)$ has nonnegative coefficients, and
 
-\item if $p(x)$ has exactly one real root (counted with multiplicity) in the interval $(a,b)$, and has no other complex roots in the circle
+\item if $p(x)$ has exactly one real root (counted with multiplicity) in the interval $(a,b)$, and has no other complex roots in the disk
 \[
 \Big|x - \frac{a+b}{2} - i\frac{b-a}{2\sqrt{3}}\Big| < \frac{b-a}{\sqrt{3}},
 \]
-or in it's complex conjugate, then the sequence of coefficients of $q(y)$ has exactly one sign change.
+or in its complex conjugate, then the sequence of coefficients of $q(y)$ has exactly one sign change.
 \end{itemize}
 \end{thm}
 
@@ -923,4 +923,380 @@ is positive, that is, as long as
 \big(4c - (a-d)^2\big)d \ge b^2.
 \]
 Incidentally, if we find a $d > 0$ which gives equality in the inequality above, then we can use it to factor $p(x)$ into a product of two positive quadratic polynomials.
+
+
+\section{Some notes on Olympiad inequalities}
+
+Good online resources for Olympiad level inequalities and techniques include Kiran Kedlaya's $A < B$ and Mildorf's notes.
+
+\subsection{Algebraic inequalities}
+
+\subsubsection{How hard are inequalities?}
+
+\begin{thm}[Artin] If $P\in \RR[x_1, ..., x_n]$ is a polynomial satisfying $P(x_1, ..., x_n) \ge 0$ for all $x_1, ..., x_n \in \RR$, then there is an integer $k$ and a collection of polynomials $Q_i, R_i \in \RR[x_1, ..., x_n]$, $i = 1, ..., k$, satisfying
+\[
+P = \sum_{i=1}^k \frac{Q_i^2}{R_i^2}.
+\]
+\end{thm}
+
+\begin{rem} It is not always possible to write a nonnegative polynomial as a sum of squares of polynomials. One famous example, due to Motzkin, is the polynomial
+\[
+x^4y^2 + x^2y^4 - 3x^2y^2 + 1,
+\]
+which is easily seen to be positive by AM-GM, but is not a sum of squares of polynomials. Artin's theorem tells us that it is possible to write it as a sum of squares of rational functions, but unfortunately gives us no bounds on how large the denominators of those rational functions may need to be.
+\end{rem}
+
+Although Artin's Theorem does not tell us what type of denominators to look for, in most cases the simplest possible denominators will work.
+
+\begin{thm}[Polya] If $F(x_1, ..., x_n)$ is a homogeneous polynomial such that $F(x_1, ..., x_n) > 0$ whenever $x_i \ge 0$ for $1\le i \le n$ and not all $x_i$ are equal to $0$, then there is a number $p$ such that every coefficient of $(x_1+\cdots +x_n)^pF(x_1, ..., x_n)$ is positive.
+\end{thm}
+
+\begin{thm}[Tarski] There is an algorithm that can decide in a bounded amount of time the truth or falsity of any statement about real numbers built up from arithmetic operations, logical connectives, and logical quantifiers.
+\end{thm}
+
+\begin{rem} Unfortunately, Tarski's algorithm is very slow - his original algorithm's running time satisfied a recurrence similar to that of the Ackermann function. The modern form of this algorithm is called Cylindrical Algebraic Decomposition, and in the worst case the running time is doubly exponential in the size of the input. (This algorithm is implemented in many computer algebra programs, such as Mathematica.)
+\end{rem}
+
+\begin{thm}[Stengle's Positivstellansatz] Let $h_1, ..., h_k$ and $g_1, ..., g_l$ be polynomials in $\RR[x_1, ..., x_n]$. Then the set
+\[
+\{(x_1, ..., x_n)\in\RR^n\mid h_i(x_1, ..., x_n) = 0, g_j(x_1, ..., x_n) \ge 0 \mbox{ for } 1\le i \le k, 1\le j \le l\}
+\]
+is empty if and only if there are polynomials $t_1, ..., t_k$ and finitely many tuples $(i_1, ..., i_m)$ and sums of squares $s_{i_1, ..., i_m}$ such that
+\[
+-1 = \sum_{i=1}^k t_ih_i + \sum_{(i_1, ..., i_m)} s_{i_1, ..., i_m}g_{i_1}g_{i_2}\cdots g_{i_m}.
+\]
+\end{thm}
+
+\subsubsection{Examples}
+
+\begin{prop}[Lagrange's identity] For any $x_1, ..., x_n$, $y_1, ..., y_n$ we have
+\[
+\left(\sum_i x_i^2\right)\left(\sum_i y_i^2\right) - \left(\sum_i x_iy_i\right)^2 = \sum_{i<j} (x_iy_j-x_jy_i)^2.
+\]
+\end{prop}
+
+\begin{prop} If $a\ge b$ and $x,y\in \RR$, then
+\[
+x^{a+1}y^{b-1} + x^{b-1}y^{a+1} - x^ay^b - x^by^a = x^{b-1}y^{b-1}(x-y)^2(x^a + x^{a-1}y + \cdots + y^a).
+\]
+\end{prop}
+
+\begin{prop}[AM-GM] For any $x_1, ..., x_n$, we have
+\[
+\frac{x_1^n + \cdots + x_n^n}{n} - x_1\cdots x_n = \frac{1}{2n!} \sum_{sym} (x_{n-1}-x_n)^2\left(\sum_{j=0}^{n-2} x_1\cdots x_j(x_{n-1}^{n-2-j} + x_{n-1}^{n-2-j-1}x_n + \cdots + x_n^{n-2-j})\right).
+\]
+\end{prop}
+
+\subsubsection{Problems}
+\begin{enumerate}
+\item Write $x^6+y^6+z^6-3x^2y^2z^2$ as a sum of squares of polynomials.
+
+\item Prove that $\frac{1}{2}x^2+y^2+1\ge xy+x$ by writing the difference of both sides as a sum of squares.
+
+\item Prove that $x^4+y^4+z^2 \ge \sqrt{8}xyz$ by writing the difference of both sides as a sum of squares.
+
+%\item Prove that any polynomial $P(x)\in \RR[x]$ satisfying $P(x)\ge 0$ for all $x\in \RR$ can be written as a sum of two squares of polynomials.
+
+\item (Mitrinovi\'c) Show that if $0 < b \le a$ then we have
+\[
+\frac{1}{8}\frac{(a-b)^2}{a} \le \frac{a+b}{2}-\sqrt{ab} \le \frac{1}{8}\frac{(a-b)^2}{b}.
+\]
+
+\item Show that
+\[
+\sqrt{a^2+1}^3 \ge a^3 + \frac{6}{5}a + \frac{3}{5}.
+\]
+
+\item Show that if $n\ge 2$ and $x_1, ..., x_n$ are positive real numbers satisfying
+\[
+\left(\sum_i x_i\right)\left(\sum_i \frac{1}{x_i}\right) \le n^2+1,
+\]
+then $\frac{x_1}{x_2} \le \frac{3+\sqrt{5}}{2}$.
+
+\item For $a,b,c>0$ show that
+\[
+\frac{a^2}{b^2}+\frac{b^2}{c^2}+\frac{c^2}{a^2} \ge \frac{a}{b}+\frac{b}{c}+\frac{c}{a}.
+\]
+
+\item Show that
+\[
+\sum_{sym} x^4+3x^2y^2 \ge \sum_{sym} 4x^3y.
+\]
+
+\item Show that
+\[
+\sum_{sym} 3x^4+2x^2yz \ge \sum_{sym} 4x^3y+x^2y^2.
+\]
+
+\item Find a way to write the polynomial
+\[
+(x^2+y^2+1)(x^4y^2+x^2y^4-3x^2y^2+1)
+\]
+as a sum of squares.
+
+\item (Nesbitt) Show that for $a,b,c > 0$, we have
+\[
+\frac{a}{b+c}+\frac{b}{c+a}+\frac{c}{a+b} \ge \frac{3}{2}.
+\]
+
+\item Prove that for $a,b,c > 0$ and $abc=1$, we have
+\[
+\sum_{cyc} \frac{ab}{a^5+ab+b^5} \le 1.
+\]
+
+\item (Schur) Show that for $x,y,z\ge 0$, we have
+\[
+\sum_{sym} x^3+xyz \ge \sum_{sym} 2x^2y.
+\]
+
+\item (Crux) Prove that if $a,b,c,d > 0$ and $c^2+d^2 = (a^2+b^2)^3$, then
+\[
+\frac{a^3}{c} + \frac{b^3}{d} \ge 1.
+\]
+What is the equality case?
+
+\begin{comment}
+% This is more of a function/derivative problem: can be solved by taking a_i = 1 + tx_i and showing that f(t) = \sqrt[n]{a_1\cdots a_n} has a positive third derivative
+\item (Crux) Prove that for all $n$ and all $0 < a_1 \le \cdots \le a_n$, we have
+\[
+\frac{1}{2n^2}\frac{\sum_{i<j}(a_j-a_i)^2}{a_n} \le \frac{\sum_i a_i}{n}-\sqrt[n]{a_1\cdots a_n} \le \frac{1}{2n^2}\frac{\sum_{i<j}(a_j-a_i)^2}{a_1}.
+\]
+\end{comment}
+\end{enumerate}
+
+\subsection{Functional Inequalities}
+
+\subsubsection{Useful facts about convex functions}
+
+\begin{defn} A function $f$ is called \emph{convex} on the interval $I$ if for all $x,y\in I$ and $\lambda\in [0,1]$, we have
+\[
+f(\lambda x + (1-\lambda)y) \le \lambda f(x) + (1-\lambda)f(y).
+\]
+If $-f$ is convex, then $f$ is called \emph{concave}.
+\end{defn}
+
+\begin{thm} If $f$ has a derivative $f'$, then $f$ is convex if and only if $f'$ is increasing.
+\end{thm}
+
+\begin{thm}[Weighted Jensen] If $f$ is a convex function, $w_1, ..., w_n$ are positive real numbers, and $x_1, ..., x_n$ are any real numbers, then
+\[
+f\left(\frac{\sum_i w_ix_i}{\sum_i w_i}\right) \le \frac{\sum_i w_if(x_i)}{\sum_i w_i}.
+\]
+\end{thm}
+
+\begin{prop} If $f$ is convex on the interval $[a,b]$ and $x \in [a,b]$, then
+\[
+f(x) \le \max(f(a),f(b)).
+\]
+\end{prop}
+
+\begin{defn} If $a_1 \ge \cdots \ge a_n$ and $b_1 \ge \cdots b_n$, then we say that $(a_1, ..., a_n) \succ (b_1, ..., b_n)$, or $(a_1, ..., a_n)$ \emph{majorizes} $(b_1, ..., b_n)$, if
+\begin{align*}
+a_1 &\ge b_1,\\
+a_1 + a_2 &\ge b_1+b_2,\\
+&\cdots\\
+a_1 + \cdots + a_{n-1} &\ge b_1 + \cdots + b_{n-1}, \mbox{ and}\\
+a_1 + \cdots + a_n &= b_1 + \cdots + b_n.
+\end{align*}
+\end{defn}
+
+\begin{thm}[Karamata] If $f$ is convex and $(a_1, ... a_n) \succ (b_1, ..., b_n)$, then
+\[
+\sum_{i=1}^n f(a_i) \ge \sum_{i=1}^n f(b_i).
+\]
+\end{thm}
+
+\begin{thm}\label{n-1} If $f$ is convex on the interval $[\alpha,\infty)$ and concave on $(-\infty,\alpha]$, then for any whole number $n$ and any real numbers $x_1, ..., x_n$ we can find $a,b$ with $a+(n-1)b = x_1 + \cdots + x_n$ and
+\[
+f(x_1) + \cdots + f(x_n) \le f(a) + (n-1)f(b).
+\]
+\end{thm}
+
+\subsubsection{Problems}
+\begin{enumerate}
+\item Show that if $f$ is convex, $a\le c$, and $b\le d$, then
+\[
+\frac{f(b)-f(a)}{b-a} \le \frac{f(d)-f(c)}{d-c}.
+\]
+
+\item Prove that each of the functions $|x|, x^2, e^x$ is convex, and that each of $\frac{1}{x}, -\sqrt{x}, -\ln(x)$ is convex when restricted to $x>0$, without using differential calculus.
+
+\item Prove that if $f$ is convex, then for any $x,y,z$ we have
+\[
+f(4x) + f(4y) + f(4z) \ge f(2x+y+z) + f(x+2y+z) + f(x+y+2z).
+\]
+
+\item (Popoviciu) Prove that if $f$ is a convex function, then for any $x,y,z$ we have
+\[
+f(x) + f(y) + f(z) + 3f\left(\frac{x+y+z}{3}\right) \ge 2f\left(\frac{x+y}{2}\right) + 2f\left(\frac{y+z}{2}\right) + 2f\left(\frac{z+x}{2}\right).
+\]
+
+\item Prove Karamata's inequality.
+
+\item Prove Theorem \ref{n-1}.
+
+\item Prove that if $a,b,c \in [0,1]$, we have
+\[
+\frac{a}{b+c-1}+\frac{b}{c+a-1}+\frac{c}{a+b-1}+(1-a)(1-b)(1-c) \le 1.
+\]
+
+\item Prove that if one tetrahedron is contained in another tetrahedron, then the sums of the lengths of the edges of the inner tetrahedron is at most $\frac{4}{3}$ as large as the sum of the lengths of the edges of the outer tetrahedron. (Hint: the distance between two points is a convex function of either point.)
+
+\item Prove that if $n$ is a whole number and $x_1, ..., x_n$ satisfy $x_1\cdots x_n = 1$, then
+\[
+\frac{1}{n-1+x_1} + \cdots + \frac{1}{n-1+x_n} \le 1.
+\]
+
+\begin{comment}
+% duplicate problems
+\item Prove that if $f$ is differentiable and $f'$ is convex, then we have
+\begin{align*}
+f(3)+3f(1) \ge&\ 3f(2) + f(0)\mbox{, and}\\
+f(6)+f(2)+f(1) \ge&\ f(5) + f(4) + f(0).
+\end{align*}
+
+\item (Vasc) Prove that if $f$ is differentiable and $f'$ is convex, then for any $x\ge y\ge z$ we have
+\[
+f(2x+y)+f(2y+z)+f(2z+x) \ge f(2x+z) + f(2z+y) + f(2y+x).
+\]
+
+\item Popoviciu defines the divided differences of a polynomial inductively, as follows:
+\begin{align*}
+[a;f] =&\ f(a),\\
+[a,b;f] =&\ \frac{f(b)-f(a)}{b-a},\\
+[a_0,...,a_n;f] =&\ \frac{[a_1,...,a_n;f]-[a_0, ..., a_{n-1};f]}{a_n-a_0}.
+\end{align*}
+Prove, by induction on $n$, that if the $n$th derivative of $f$ exists and is nonnegative, that for any $a_0, ..., a_n$ we have
+\[
+[a_0, ..., a_n;f]\ge 0.
+\]
+\end{comment}
+\end{enumerate}
+
+\subsection{The Equally Moving Variables technique}
+
+For more about this technique, see Pham Kim Hung's posts on the Art of Problem Solving forums. (His user name is hungkhtn.)
+
+\begin{thm} Suppose $F:\RR^n\rightarrow\RR$ is an $n$-variable function satisfying the following:
+\begin{itemize}
+\item $F(x_1, x_2, ..., x_{n-1}, x_n) = F(x_2, x_3, ..., x_n, x_1)$ for all $x_1, ..., x_n$.
+\item $F(x_1, ..., x_{n-1}, 0) \ge 0$ for all $x_1, ..., x_{n-1}\ge 0$.
+\item $F(x_1+t, ..., x_n+t) \ge F(x_1, ..., x_n)$ for all $x_1, ..., x_n, t\ge 0$.
+\end{itemize}
+Then $F(x_1, ..., x_n) \ge 0$ for all $x_1, ..., x_n \ge 0$.
+\end{thm}
+
+It is often convenient to check the third condition with differential calculus. We define an operator $D$ by
+\[
+DF(x_1, ..., x_n) = \sum_{i=1}^n \frac{\partial}{\partial x_i}F(x_1, ..., x_n) = \frac{\partial}{\partial t}F(x_1+t, ..., x_n+t)\mid_{t=0}.
+\]
+To check the third condition, it is enough to check that $DF(x_1, ..., x_n)\ge 0$ for all $x_1, ..., x_n\ge 0$.
+
+$D$ satisfies the Liebniz rule: if $F, G$ are two $n$-variable functions and $FG$ is their product, then
+\[
+D(FG)(x_1, ..., x_n) = F(x_1, ..., x_n)DG(x_1, ..., x_n) + G(x_1, ..., x_n)DF(x_1, ..., x_n).
+\]
+If $F(x_1,...,x_n) = (x_i-x_j)^k$ for a fixed $i,j,k$, then we have $DF(x_1, ..., x_n) = 0$.
+
+\subsubsection{Problems}
+\begin{enumerate}
+\item (Schur's inequality) Prove, by induction on $r$, that for any $x,y,z\ge 0$ we have
+\[
+\sum_{sym} x^{r+2} + x^ryz \ge \sum_{sym} 2x^{r+1}y.
+\]
+
+\item (Pham Kim Hung) Prove that for $a,b,c\ge 0$ we have
+\[
+a^3+b^3+c^3-3abc \ge 4(a-b)(b-c)(c-a).
+\]
+
+\item Prove that for $x,y,z\ge 0$ we have
+\[
+\sum_{sym} 4x^4y^2 + 2x^3y^2z \ge \sum_{sym} 3x^4yz + 3x^3y^3.
+\]
+
+\item (Suranji) Prove, by induction on $n$, that for any $a_1, ..., a_n\ge 0$ we have
+\[
+(n-1)(a_1^n+\cdots +a_n^n)+na_1\cdots a_n \ge (a_1+\cdots +a_n)(a_1^{n-1}+\cdots +a_n^{n-1}).
+\]
+
+\item Prove that for $x,y,z\ge 0$ we have
+\[
+3(x^3+y^3+z^3) + 6xyz \ge 5(x^2y+y^2z+z^2x).
+\]
+
+\item Prove that for $x,y,z\ge 0$ we have
+\[
+\sum_{sym} x^9y^4 + x^7y^3z^3 \ge \sum_{sym} x^9y^3z + x^6y^6z.
+\]
+\end{enumerate}
+
+
+\section{A few fewnomial exercises}
+
+\begin{enumerate}
+\item Prove that for $x \ge 0$, we have \[x^7 + x^4 + x^3 + 1 \ge 2x^6 + 2x.\]
+
+\item Prove that for $x \ge 0$, we have \[x^{\sqrt{2}} + 2\sqrt{2} \ge 2^{\frac{3 - \sqrt{2}}{2}}x + 2.\]
+
+\item Prove that for all $x$ we have \[3x^2e^x + 4e^2 \ge 8xe^x.\]
+
+\item Prove that for $x \ge 0$, we have \[x^{22} + x^{11} + x^9 + 1 \ge x^{21} + x^{15} + x^4 + x^2.\]
+
+\item Prove that for $x > 0$, we have \[x^{\sqrt{2}} + 2 + \frac{1}{x^{\sqrt{2}}} \ge 2x + \frac{2}{x}.\]
+
+\item Prove that for $x \ge 0$, we have \[x^9 + 281x^3 + 100 \ge 22x^6 + 360x^2.\]
+
+\item For $x, y > 0$, define their \emph{logarithmic mean} to be \[\text{LM}(x,y) = \frac{x-y}{\ln(x)-\ln(y)},\] where $\ln(x)$ is the natural logarithm of $x$. Prove that \[\frac{x+y}{2} \ge \text{LM}(x,y) \ge \sqrt{xy}.\]
+
+\item Prove that for any $x > 0$ we have
+\[
+x^{66} + x^{29} + x^{26} + \frac{1}{x^{26}} + \frac{1}{x^{29}} + \frac{1}{x^{66}} \ge x^{62} + x^{45} + x^{2} + \frac{1}{x^{2}} + \frac{1}{x^{45}} + \frac{1}{x^{62}}.
+\]
+
+\item Prove that if $f$ is differentiable and $f'$ is convex, then we have
+\begin{align*}
+f(3)+3f(1) \ge&\ 3f(2) + f(0)\mbox{, and}\\
+f(6)+f(2)+f(1) \ge&\ f(5) + f(4) + f(0).
+\end{align*}
+
+\item (Vasc) Prove that if $f$ is differentiable and $f'$ is convex, then for any $x\ge y\ge z$ we have
+\[
+f(2x+y)+f(2y+z)+f(2z+x) \ge f(2x+z) + f(2z+y) + f(2y+x).
+\]
+
+\item Popoviciu defines the divided differences of a polynomial inductively, as follows:
+\begin{align*}
+[a;f] =&\ f(a),\\
+[a,b;f] =&\ \frac{f(b)-f(a)}{b-a},\\
+[a_0,...,a_n;f] =&\ \frac{[a_1,...,a_n;f]-[a_0, ..., a_{n-1};f]}{a_n-a_0}.
+\end{align*}
+Prove, by induction on $n$, that if the $n$th derivative of $f$ exists and is nonnegative, that for any $a_0, ..., a_n$ we have
+\[
+[a_0, ..., a_n;f]\ge 0.
+\]
+
+\item Show that $[a_0, ..., a_n;f]$ is a symmetric function of $a_0, ..., a_n$.
+
+\item Let $n$ be an integer which is at least $3$. Suppose $f$ is a function such that for every $a_0, ..., a_n$ we have $[a_0, ..., a_n; f] \ge 0$. Show that $f$ is differentiable and that for any $b_0, ..., b_{n-1}$ we have
+\[
+[b_0, ..., b_{n-1}; f'] \ge 0.
+\]
+
+\item Suppose that $f$ is a function such that for every integer $n$ and every $a_0, ..., a_n$ we have $[a_0, ..., a_n;f] \ge 0$. Prove that
+\[
+f(2) + 4f(0) \ge 4f(1).
+\]
+
+\item Prove that if $a_1, ..., a_9$ are real numbers satisfying $\sum_{i=1}^9 a_i = \sum_{i=1}^9 a_i^3 = 0$ and $\sum_{i=1}^9 a_i^2 = 8,$ then for any $x > 0$ we have
+\[
+x^2 + 7 + \frac{1}{x^2} \ge\ \sum_{i=1}^9 x^{a_i}\ \ge 4x + 1 + \frac{4}{x}.
+\]
+
+\item Prove that for any $x,y,z > 0$ we have
+\[
+\sum_{sym} \frac{x^2}{y^2} + \sum_{sym} \frac{x^{\sqrt{2}}}{y^{\sqrt{2}}}\ \ge\ \sum_{sym} \frac{x^2}{yz} + \sum_{sym} \frac{xy}{z^2}.
+\]
+\end{enumerate}
+
 
