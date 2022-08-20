@@ -436,9 +436,11 @@ $\operatorname{PCSP}(\fA,\fB)$ ends up being logspace equivalent to the problem 
 
 \section{Incomplete list of Notation and Definitions}
 
-Most of the notation is either standard, or will be defined as it is introduced. In this section we record some of the definitions so that the reader can refer back to it if necessary.
+Most of the notation is either standard, or will be defined as it is introduced. In this section we record some of the definitions so that the reader can refer back to it if necessary. (Much more comprehensive background on structures can be found in \cite{hodges-model} or \cite{hodges-shorter}.)
 
-\begin{defn} A (first order) \emph{structure} $\fA$ is a tuple $(A, \{f_i\}, \{R_j\})$ such that $A$ is a set (called the \emph{underlying set} of $\fA$), each $f_i$ is a function of some arity $n_i$ on $A$, i.e. $f_i : A^{n_i} \rightarrow A$, and each $R_j$ is a relation of some arity $m_j$ on $A$, i.e. $R_j \subseteq A^{m_j}$. The \emph{signature} of a first order structure is the assignment of each function symbol $f_i$ to an arity $n_i$ together with an assignment of each relation symbol $R_j$ to some arity $m_j$. If two structures $\fA, \fB$ share the same signature, then we sometimes write $f_i^\fA$, $R_j^\fA$ to refer to the interpretations of the function and relation symbols in $\fA$, and $f_i^\fB, R_j^\fB$ to refer to the interpretations of the same function and relation symbols in $\fB$.
+\begin{defn} A (first order) \emph{structure} $\fA$ is a tuple $(A, \{f_i\}, \{R_j\})$ such that $A$ is a set (called the \emph{underlying set} of $\fA$), each $f_i$ is a function of some arity $n_i$ on $A$, i.e. $f_i : A^{n_i} \rightarrow A$, and each $R_j$ is a relation of some arity $m_j$ on $A$, i.e. $R_j \subseteq A^{m_j}$.
+
+The \emph{signature} of a first order structure is the assignment of each function symbol $f_i$ to an arity $n_i$ together with an assignment of each relation symbol $R_j$ to some arity $m_j$. If two structures $\fA, \fB$ share the same signature, then we sometimes write $f_i^\fA$, $R_j^\fA$ to refer to the interpretations of the function and relation symbols in $\fA$, and $f_i^\fB, R_j^\fB$ to refer to the interpretations of the same function and relation symbols in $\fB$.
 
 If $\fA, \fB$ are structures with the same signature, then a \emph{homomorphism} $\varphi : \fA \rightarrow \fB$ is a map $\varphi : A \rightarrow B$ of the underlying sets, such that for each function symbol $f_i$ we have
 \[
@@ -471,7 +473,7 @@ and with each relation symbol $R_j$ interpreted by
 \[
 \Big(\begin{bmatrix}a_1\\b_1\end{bmatrix},...,\begin{bmatrix}a_{m_j}\\b_{m_j}\end{bmatrix}\Big) \in R_j^{\bA\times\bB} \;\; \iff \;\; (a_1, ..., a_{m_j}) \in R_j^\bA \wedge (b_1, ..., b_{m_j}) \in R_j^\bB.
 \]
-Arbitrarily large products $\prod_{i \in I} \bA_i$ of structures $\bA_i$ all having the same signature are defined similarly.
+Arbitrarily large products $\prod_{i \in I} \bA_i$ of structures $\bA_i$ all having the same signature are defined similarly. (This definition matches with the category-theoretic definition of the product, in the category of structures with a fixed signature.)
 
 A \emph{homomorphic image} of $\bA$ is defined to be any $\bB$ of the same signature such that there is a surjective homomorphism $\varphi : \bA \twoheadrightarrow \bB$. An algebraic structure $\bA$ is called \emph{simple} if every surjective homomorphism $\bA \twoheadrightarrow \bB$ is either an isomorphism, or has $|\bB| = 1$.
 \end{defn}
@@ -497,6 +499,15 @@ For $\alpha, \beta \in \Con(\bA)$, we define their \emph{meet} $\alpha \wedge \b
 \begin{defn} If $R \subseteq A_1 \times \cdots \times A_n$ is a (possibly multisorted) relation, then for any $I \subseteq \{1, ..., n\}$ we define the projection map $\pi_I : R \rightarrow \prod_{i \in I} A_i$ in the obvious way. A relation $R \subseteq A_1 \times \cdots \times A_n$ is \emph{subdirect} if $\pi_i(R) = A_i$ for all $i$.
 
 If $\bA_1, ..., \bA_n$ are algebraic structures with the same signature, then any subalgebra $\RR \le \bA_1 \times \cdots \times \bA_n$ is called a (multisorted) \emph{relation} on the $\bA_i$s. If $\pi_i(\RR) = \bA_i$ for all $i$ then we say that $\RR$ is subdirect, and we write this in symbols as $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$.
+\end{defn}
+
+\begin{defn} A \emph{tolerance} $\bS$ on an algebraic structure $\bA$ is a binary relation $\bS \le \bA \times \bA$ which is symmetric and contains the diagonal. Note that the transitive closure of any tolerance is automatically a congruence. We say that a tolerance is \emph{connected} if its transitive closure is the full congruence $1_\bA$.
+
+If $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$, then we define the $i$th \emph{link tolerance} of $\RR$ to be the binary relation
+\[
+\{(b,c) \mid \exists a_j \text{ s.t. } (a_1, ..., a_{i-1}, b, a_{i+1}, ..., a_n), (a_1, ..., a_{i-1}, c, a_{i+1}, ..., a_n) \in \RR\}
+\]
+on $\bA_i$. A binary relation is called \emph{linked} if its link tolerances are connected.
 \end{defn}
 
 \begin{defn}
@@ -622,6 +633,32 @@ A \emph{height 1 clone homomorphism}, also known as a \emph{minion homomorphism}
 \[
 \xi(f \circ (\pi_{i_1}^m, ..., \pi_{i_k}^m)) = \xi(f) \circ (\pi_{i_1}^m, ..., \pi_{i_k}^m).
 \]
+\end{defn}
+
+\begin{defn} A \emph{poset} is a relational structure $(P, \le)$ such that $\le$ is a \emph{partial order} - that is, a reflexive and transitive relation which satisfies $a \le b \wedge b \le a \implies a = b$. More generally, a \emph{quasiorder} (also called a \emph{preorder}) is any reflexive and transitive relation. We usually use $\preceq$ to denote a quasiorder and $\le$ to denote a partial order. If $\preceq$ is a quasiorder, then we define an \emph{associated equivalence relation} $\sim$ by
+\[
+a \sim b \;\; \iff \;\; a \preceq b \wedge b \preceq a.
+\]
+
+For any $a \le b \in P$, we define the \emph{interval} between $a$ and $b$, written $\llbracket a, b \rrbracket$, to be the set of $c \in P$ such that $a \le c \le b$. (We use this notation to avoid confusion with the commutator, which is written as $[\cdot, \cdot]$.)
+
+We say that $b$ is a \emph{cover} of $a$, written $a \prec b$ (if there is no danger of confusion with a strict quasiorder), if $a < b$ and there is no $c \in P$ such that $a < c < b$, that is, if $\llbracket a, b \rrbracket = \{a,b\}$.
+\end{defn}
+
+\begin{defn} A \emph{lattice} is either an algebraic structure $\cL = (L, \wedge, \vee)$ which satisfies the identities
+\begin{align*}
+&x \wedge x \approx x, &x \vee x \approx x,\\
+&x \wedge y \approx y \wedge x, &x \vee y \approx y \vee x,\\
+&x \wedge (y \wedge z) \approx (x \wedge y) \wedge z, &x \vee (y \vee z) \approx (x \vee y) \vee z,\\
+&x \wedge (x \vee y) \approx x, &x \vee (x \wedge y) \approx x,
+\end{align*}
+or it is a poset $\cL = (L, \le)$ such that every pair of elements $\{a,b\} \subseteq \cL$ has a least upper bound $a \vee b$ and a greatest lower bound $a \wedge b$, or it is a first-order structure $\cL = (L, \wedge, \vee, \le)$ which satisfies
+\[
+a \le b \iff a = a \wedge b \iff a \vee b = b
+\]
+as well as the algebraic identities above. Note that the operations $\wedge, \vee$ are determined by $\le$, and the partial order $\le$ is determined by either of the operations $\wedge$ or $\vee$. A \emph{$0,1$-lattice} is a lattice with named constants $0, 1$ which are repectively the least and greatest elements of $\cL$.
+
+A \emph{lattice homomorphism} is a homomorphism of the algebraic structure $(L, \wedge, \vee)$. Note that there may be some homomorphisms of the relational structure $(L, \le)$ which do not count as lattice homomorphisms - a map which respects the partial order $\le$ is just called a \emph{monotone} map.
 \end{defn}
 
 
@@ -1639,7 +1676,7 @@ Compare this to the generalized arc-consistency algorithm, which is more popular
 \end{algorithmic}
 \end{algorithm}
 
-\begin{thm}[Feder, Vardi \cite{feder-vardi}] A CSP template $\fA$ has relational width 1 iff it is solved by the generalized arc-consistency algorithm.
+\begin{thm}[Feder, Vardi \cite{feder-vardi}]\label{thm-width-1-arc} A CSP template $\fA$ has relational width 1 iff it is solved by the generalized arc-consistency algorithm.
 \end{thm}
 \begin{proof}[Sketch] Suppose $\fA$ has width $(1,k)$, and let $\fB$ be an instance of $\CSP(\fA)$. By a generalization of the randomized construction of graphs with large girth and large chromatic number, there is a relational structure $\fB'$ which has a map to $\fB$, has girth larger than $k$, and which has a map to $\fA$ iff $\fB$ has a map to $\fA$ (alternatively, if $\Gamma$ contains the equality relation, we can cheat by adding long chains of equalities). Since $\fB'$ locally looks like a tree, the width $(1,k)$ algorithm and the generalized arc-consistency algorithm give the same results for $\fB'$, so if there is no homomorphism from $\fB$ to $\fA$, then generalized arc-consistency applied to $\fB'$ will correctly find that there is no solution. But then generalized arc-consistency applied to $\fB$ will also find that there is no solution, since every deduction on $\fB'$ can be mimicked on $\fB$.
 \end{proof}
@@ -1652,7 +1689,7 @@ Compare this to the generalized arc-consistency algorithm, which is more popular
 \begin{proof} If generalized arc-consistency shows that there is no homomorphism $\fB \rightarrow \fA$, then we can make a proof tree that shows that some set $S_v$ eventually becomes empty. Each node of the proof tree corresponds to the fact that some variable $w$ of $\fB$ takes values from a set $S_w$, and the hyperedges of the proof tree are labeled by relations of $\fB$. So the proof tree is actually a relational structure with a map to $\fB$, and the same sequence of generalized arc-consistency deductions apply to the proof tree to show that it has no map to $\fA$.
 \end{proof}
 
-\begin{rem} Essentially the same arguments apply for any width $(l,k)$, with ``trees'' replaced by ``$(l,k)$-trees'' (definition left as an exercise to the reader). Note that $(l,k)$-trees have tree-width $k-1$. 
+\begin{rem} Essentially the same arguments apply for any width $(l,k)$, with ``trees'' replaced by ``$(l,k)$-trees'' (definition left as an exercise to the reader). Note that $(l,k)$-trees have tree-width $k-1$. When studying \emph{relational} width, we replace ``trees'' by ``$(l,k)$-reltrees'' (defined in \cite{no-pure-width-2} for $k = l$).
 \end{rem}
 
 \begin{rem} Dalmau has shown that any CSP with relational width $(2,2)$ is also solved by generalized arc-consistency \cite{no-pure-width-2}. 2SAT is an example of a CSP with width $(2,3)$ which is \emph{not} solved by arc-consistency, so Dalmau's result is best possible.
@@ -2083,7 +2120,7 @@ Equivalently, a lattice $\mathcal{L}$ is modular if it has no five element subla
 \end{tikzpicture}
 \end{center}
 
-\begin{prop} If $\bA$ has permuting congruences, then $\Con(\bA)$ is a modular lattice.
+\begin{prop}\label{prop-malcev-modular} If $\bA$ has permuting congruences, then $\Con(\bA)$ is a modular lattice.
 \end{prop}
 \begin{proof} We just have to check that if $\alpha \le \beta$, then $\alpha \circ (\gamma \wedge \beta) \ge (\alpha \circ \gamma) \wedge \beta$. Suppose that $(x,z) \in (\alpha \circ \gamma) \wedge \beta$, and choose $y$ such that $(x,y) \in \alpha, (y,z) \in \gamma$. Then $(y,x) \in \alpha \subseteq \beta$ and $(x,z) \in \beta$, so $(y,z) \in \beta \circ \beta = \beta$, so $(y,z) \in \gamma\wedge \beta$, so $(x,z) \in \alpha \circ (\gamma \wedge \beta)$.
 \end{proof}

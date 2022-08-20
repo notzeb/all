@@ -299,7 +299,7 @@ where $y^T$ is the \emph{transpose} of $y$ (which is a row vector - note that $y
 \begin{itemize}
 \item $y \ge 0$,
 \item $A^Ty = 0$ (or equivalently $y^TA = 0^T$), and
-\item $b^Ty < 0$ (or equivalently $y^Tb = 0$).
+\item $b^Ty < 0$ (or equivalently $y^Tb < 0$).
 \end{itemize}
 \end{thm}
 
@@ -565,7 +565,7 @@ p_i(x) = 0 \;\;\; \implies \;\;\; p_{i-1}(x) \text{ and } p_{i+1}(x) \text{ have
 \]
 Since the gcd of any consecutive pair $\gcd(p_i(x), p_{i+1}(x))$ is $1$, when $p_i(x) = 0$ we don't have to worry about the possibility of $p_{i-1}(x)$ or $p_{i+1}(x)$ also being $0$, so the statement above is completely meaningful.
 
-Now let's see what happens to the signs of our four polynomials $p_0(x), p_1(x), p_2(x), p_3(x)$ as $x$ goes from $-\infty$ to $+\infty$. For now, we will cheat by using a computer to find all of the roots of these polynomials: the roots of $p_1(x)$ occur at
+Now let's see what happens to the signs of our four polynomials $p_0(x), p_1(x), p_2(x), p_3(x)$ as $x$ goes from $-\infty$ to $+\infty$. For now, we will cheat by using a computer to find all of the roots of these polynomials: the roots of $p_0(x)$ occur at
 \[
 -1.05..., 2.51..., 4.53...,
 \]
@@ -661,7 +661,7 @@ p_i & ? & 0 & ?\\
 p_{i+1} & + & + & +
 \end{array}
 \]
-and regardless of how the $?$s are filled in with $+$ or $-$ signs, the sequence of signs of $p_{i-1}(x), p_i(x), p_{i+1}(x)$ will flip from $+$ to $-$ (or vice versa) exacly once for any $x \approx r$.
+and regardless of how the $?$s are filled in with $+$ or $-$ signs, the sequence of signs of $p_{i-1}(x), p_i(x), p_{i+1}(x)$ will flip from $+$ to $-$ (or vice versa) exactly once for any $x \approx r$.
 
 That explains what is going on around the internal $0$s of the table - how about the $0$s at the top? The claim is that every time $p_0(x) = p(x)$ passes through the value $0$, the pattern of $+$ and $-$ signs always simplifies as we go from left to right, and never becomes more complex. To see why this is true, we need to use the fact that $p_1(x) = p'(x)$ is the \emph{derivative} of $p(x)$:
 \begin{itemize}
@@ -718,7 +718,7 @@ Then for any $a \le b$ (including $\pm\infty$), the number of roots of $p(x)$ in
 
 A sequence of polynomials $p_0, p_1, ..., p_k$ as in Theorem \ref{thm-sturm} is called a \emph{Sturm chain} for the polynomial $p(x)$. A slight variation of Theorem \ref{thm-sturm} lets us check whether a different polynomial $q(x)$ is positive at the roots of $p(x)$.
 
-\begin{thm} Suppose polynomials $p(x),q(x)$ with coefficients from a real closed field have no common factor, and if $p(x)$ has no common factor with $p'(x)$, and we have a sequence of polynomials $p_0(x), p_1(x), ..., p_k(x)$ as in Theorem \ref{thm-sturm} but with the condition on $p_1(x)$ modified to:
+\begin{thm} Suppose that polynomials $p(x),q(x)$ with coefficients from a real closed field have no common factor, that $p(x)$ has no common factor with $p'(x)$, and that we have a sequence of polynomials $p_0(x), p_1(x), ..., p_k(x)$ as in Theorem \ref{thm-sturm} but with the condition on $p_1(x)$ modified to:
 \begin{itemize}
 \item the polynomial $p_1(x)$ always has the same sign as $p'(x) \cdot q(x)$.
 \end{itemize}
@@ -820,7 +820,7 @@ or in its complex conjugate, then the sequence of coefficients of $q(y)$ has exa
 
 This is a consequence of the following two results, applied to $q(y)$. The first follows directly from the Fundamental Theorem of Algebra, while the second is a bit harder.
 
-\begin{prop} If $p(x)$ has real coefficients, and if none of the (possibly complex) roots of $p(x)$ have a positive real part, then all of the coefficients of $q(x)$ are nonnegative.
+\begin{prop} If $p(x)$ has real coefficients, and if none of the (possibly complex) roots of $p(x)$ have a positive real part, then all of the coefficients of $p(x)$ are nonnegative.
 \end{prop}
 
 \begin{thm}[Obreschkoff's Cone Theorem] If $p(x)$ has real coefficients and has exactly one positive real root (counted with multiplicity), and if every other root $a+bi$ of $p(x)$ satisfies
@@ -1056,7 +1056,7 @@ as a sum of squares.
 What is the equality case?
 
 \begin{comment}
-% This is more of a function/derivative problem: can be solved by taking a_i = 1 + tx_i and showing that f(t) = \sqrt[n]{a_1\cdots a_n} has a positive third derivative
+% This is more of a function/derivative problem: can be solved by taking a_i = 1 + tx_i and showing that f(t) = \sqrt[n]{a_1\cdots a_n} has a positive third derivative (hint: take log/exp, rewrite derivative as exp(...) * poly of y_i = x_i/(1 + tx_i))
 \item (Crux) Prove that for all $n$ and all $0 < a_1 \le \cdots \le a_n$, we have
 \[
 \frac{1}{2n^2}\frac{\sum_{i<j}(a_j-a_i)^2}{a_n} \le \frac{\sum_i a_i}{n}-\sqrt[n]{a_1\cdots a_n} \le \frac{1}{2n^2}\frac{\sum_{i<j}(a_j-a_i)^2}{a_1}.

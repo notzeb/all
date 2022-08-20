@@ -238,8 +238,9 @@ Thus $BC\cap VW = YZ\cap VW$, so the three lines $BC,YZ,VW$ meet at the point $U
 \]
 In particular, we have
 \[
-|(EA,EB;EC,ED)| = \frac{|AC||BD|}{|AD||BC|}.
+(EA,EB;EC,ED) = \pm\frac{|AC||BD|}{|AD||BC|},
 \]
+where the sign is negative if and only if the points $A,B$ separate the points $C,D$.
 \end{prop}
 
 \begin{cor} Let $\omega$ be any \emph{conic section}, that is, any intersection of a cone $\mathcal{C}$ through the observation point $O$ with the plane $\mathbb{A}^2$. If $A,B,C,D,E,F$ are any six points on $\omega$, then we have
@@ -263,6 +264,25 @@ For the general case, we choose another plane $\mathbb{A'}^2$ such that $\mathca
 \]
 By Corollary 2, this doesn't depend on the choice of $E$.
 \end{defn}
+
+\begin{exer} Check that the cross-ratio formula $(A,B;C,D)_\omega = 1 - (A,C;B,D)_\omega$ is equivalent to Ptolemy's theorem when $\omega$ is a circle.
+\end{exer}
+
+\begin{rem} The concept of \emph{separation} can be defined on lines and conics as follows: we say that the points $A,B$ separate the points $C,D$ on $\omega$ if deleting the points $A,B$ from $\omega$ cuts $\omega$ into two disconnected components, one of which contains $C$ and the other of which contains $D$. To make sense of this definition on a hyperbola, parabola, or line, it is necessary to include the points at infinity in the conic $\omega$. Then we have
+\[
+(A,B;C,D)_\omega < 0
+\]
+exactly when the points $A,B$ separate the points $C,D$ on $\omega$.
+
+Separation is the fundamental ordering-like concept which is appropriate when we study real projective geometry. For Euclidean geometry, the analogous concept is \emph{betweenness}: if $A,B,C$ lie on a line $\ell$, then we say that $C$ is between $A$ and $B$ when deleting $C$ from $\ell$ cuts $\ell$ into two disconnected components (ignoring the point at infinity), one of which contains $A$ and the other of which contains $B$. Betweenness is a special case of separation: $C$ is between $A,B$ on the line $\ell$ exactly when the points $A,B$ separate the points $C,\infty_\ell$ along $\ell$. There turn out to be exactly four fundamental ordering-like concepts on lines and circles:
+\begin{itemize}
+\item order, for two points on a directed line,
+\item betweenness, for three points on an undirected line,
+\item cyclic order, for three points on an oriented circle, and
+\item separation, for four points on an unoriented circle.
+\end{itemize}
+Each of these concepts has an elegant axiomatic system which goes along with it. Facts about betweenness are often used without explicit mention in Euclidean geometry, and were left out of Euclid's five axioms for geometry but included in Hilbert's more careful list of axioms for geometry. In two-dimensional Euclidean geometry, the main nontrivial fact about betweenness is called \emph{Pasch's axiom}, which states that if a line meets one side of a triangle internally, then it meets one of the other two sides of the triangle internally.
+\end{rem}
 
 Our first application of the cross ratio on a conic is to give a short proof of Pascal's theorem.
 
@@ -1060,6 +1080,8 @@ Thus $(A,B;C,D;\omega,\Omega) = -1$ if and only if $P = Q$.
 
 \subsection{Cremona involutions and blow ups}
 
+%TODO: introduce blowups more gently, starting with the idea of just blowing up a single point.
+
 Let $A,B,C,D$ be four points in the projective plane, no three on a line. Choose projective coordinates such that $A = [1:0:0], B = [0:1:0], C = [0:0:1], D = [1:1:1]$ (one way to do this is to start with barycentric coordinates on the triangle $A,B,C$, and then rescale the coordinates to make $D = [1:1:1]$). For future reference, let $E = [-1:1:1], F = [1:-1:1], G = [1:1:-1]$ in this coordinate system.
 
 \begin{exer} Show that $E,F,G$ satisfy $DE \cap FG = A, DF \cap EG = B, DG \cap EF = C$, and that they are uniquely determined by these conditions. Show that $E$ is the harmonic conjugate of $D$ with respect to $A, AD\cap BC$.
@@ -1244,6 +1266,7 @@ A consequence of the last proposition is that there are no symmetries of the hyp
 The main advantages of the disk model of hyperbolic geometry are that angles are not distorted, and that the symmetries are easy to describe. A disadvantage is that if a painter was living in a three-dimensional hyperbolic space (defined as the interior of a three-dimensional ball in a similar way to the disk model), and if they were to paint what they saw as they looked at a geometric configuration in some two-dimensional hyperbolic plane (which would be a portion of a sphere which is perpendicular to the ball they lived within), then the hyperbolic lines in the picture they would paint would be perfectly straight, not curved. Of course, when a painter paints a picture of a plane, angles will generally \emph{not} be preserved in their painting. So the true \emph{projective} model of hyperbolic space will consist of the interior of a conic section, where the hyperbolic lines are perfectly straight - this is called the \emph{Klein model} of hyperbolic space, and we will go over it later.
 
 We will start investigating the geometry of hyperbolic space by looking at the least elegant model: the upper halfplane model. The reason for starting with this model is that the calculations involving distances and areas are easiest to describe in the upper halfplane.
+
 
 \subsubsection{Upper halfplane model}
 
@@ -1451,6 +1474,7 @@ To finish, we apply the formula
 %three conic theorem!!!
 
 \nocite{geo}
+%TODO: cite Hilbert's "Foundations of Geometry"
 %\bibliography{cross}
 %\bibliographystyle{plain}
 

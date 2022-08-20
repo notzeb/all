@@ -90,6 +90,20 @@ The next bit is from \url{https://math.stackexchange.com/a/6338}.
 It follows that there exists a decreasing sequence $C_1 \supseteq C_2 \ \supseteq \ldots$ of continua contained in $X$ such that $C_i \cap X_i = \emptyset$ and $C_i \ne \emptyset$ for $i=1,2, \ldots$ The first part implies that $\bigcap_{i=1}^{\infty} C_i = \emptyset$ and from the second part and compactness of $X$ it follows that $\bigcap_{i=1}^{\infty} C_i \ne \emptyset$.
 \end{proof}
 
+\begin{cor} If $f, p_i : \RR^n \rightarrow X$ are continuous functions from $\RR^n$ to a topological space $X$, such that
+\begin{itemize}
+\item $n \ge 2$,
+\item for every $x \in \RR^n$, there is some $i$ such that $f(x) = p_i(x)$,
+\item the collection of functions $p_i$ is countable, and
+\item for all $i \ne j$, the set of points $x \in \RR^n$ such that $p_i(x) = p_j(x)$ is countable,
+\end{itemize}
+then there is some $i$ such that $f(x) = p_i(x)$ for all $x \in \RR^n$. The same is true if we replace $\RR^n$ by any convex subset of $\RR^n$ which has dimension $\ge 2$.
+\end{cor}
+\begin{proof} For each $i$, let $C_i$ be the set of points $x$ such that $f(x) = p_i(x)$, and note that each $C_i$ is closed by the continuity of $f, p_i$. The assumptions imply that the $C_i$ are a countable closed cover of $\RR^n$ such that $C_i \cap C_j$ is countable for all $i \ne j$. Let $B$ be the set of points $x$ such that $p_i(x) = p_j(x)$ for some $i \ne j$, and note that $B$ is countable.
+
+Since there are only countably many $C_i$s, there must be some $i$ such that $C_i$ is uncountable. Suppose for contradiction that $C_i \ne \RR^n$. Pick any point $x_0$ in $C_i$ which is not in $B$. Since $B$ is countable, there are at most countably many lines connecting $x_0$ to points in $B$. Since the closure of the complement of any countable set of lines through $x_0$ is $\RR^n$, for $n \ge 2$, there must be some point $x_1 \not\in C_i$ such that the line segment $\ell$ connecting $x_0$ to $x_1$ doesn't meet any point of $B$. But then the sets $\ell \cap C_j$ form a countable cover of $\ell$ by pairwise disjoint closed subsets, at least two of which are nonempty, contradicting the previous result.
+\end{proof}
+
 \begin{defn} A subset $S$ of a topological space is \emph{perfect} if it is closed and every point of $S$ is a limit point.
 \end{defn}
 
@@ -487,6 +501,8 @@ Alternate proof: Let $A' = [a,b-\epsilon]$, and if $A_i = [c_i,d_i)$ let $A_i' =
 \begin{proof} Pick $\epsilon > 0$, and let $E$ be the set of $y \in Y$ such that $\mu(A_y) > \epsilon$. If $A \subseteq \cup_{n=1}^\infty R_n$ such that the $R_n$ are measurable rectangles, and $E_k$ is the set of $y$ such that $\mu((\cup_{n=1}^k R_k)_y) > \epsilon$, then $\cup_k E_k = E$, so if $\nu(E) > \delta$ then some $\nu(E_k) > \delta/2$, so $\mu\times\nu(\cup_n R_n) > \epsilon\delta/2$.
 \end{proof}
 
+I haven't been able to find a nice proof of the following result which doesn't use integration. Once the integral is defined, it will be a quick consequence of Tonelli's Theorem \eqref{tonelli}.
+
 \begin{thm}[Cavalieri Principle] If $X,Y$ are $\sigma$-finite measure spaces and $A,B \subseteq X\times Y$ are measurable with $\mu(A_y) = \mu(B_y)$ for $\nu$-almost every $y \in Y$, then $\mu\times\nu(A) = \mu\times\nu(B)$.
 \end{thm}
 %\begin{proof} TODO: find a proof that doesn't use integrals.
@@ -757,7 +773,7 @@ Finally, suppose that $N$ is closed and $G$ is $\sigma$-compact. Then there is a
 \begin{proof} For any open set $U$ the collection of $x \in X$ such that $f_k(x)$ are eventually all in $U$ is measurable, and this set contains $f^{-1}(U)$ and is contained $f^{-1}(\overline{U})$. Since every open set in a metric space is a countable union of open subsets whose closures are contained in it, the preimage of every open set is measurable.
 \end{proof}
 
-\begin{defn} A \emph{simple function} is a function which can be written as a finite linear combination of measurable sets. Equivalently, a function is simple if it is measurable and has a finite range.
+\begin{defn} A \emph{simple function} is a function which can be written as a finite linear combination of indicator functions of measurable sets. Equivalently, a function is simple if it is measurable and has a finite range.
 \end{defn}
 
 \begin{defn} For $f \ge 0$ measurable (up to a null set), we define the \emph{integral} of $f$ with respect to a measure $\mu:\gS\rightarrow [0,\infty]$ to be
@@ -1037,7 +1053,150 @@ A lot of the following is from \cite{gauge-integral}.
 \begin{ex} Let $E$ be a perfect nowhere dense set of positive measure in $[0,1]$, and let $f$ be the integral of $\chi_{[0,1]\setminus E}$. Then $f$ is strictly increasing and absolutely continuous, but $f' = 0$ on a set of positive measure. Additionally, by summing countably many dilated copies of the Cantor function, we can make a strictly increasing continuous function which has derivative $0$ almost everywhere.
 \end{ex}
 
-%\subsubsubsection{Gauge Integral}
+\subsubsection{Gauge Integral}
+
+A lot of this material is from \cite{modern-integration}.
+
+\begin{defn} If $I$ is a closed interval, then a \emph{partition} of $I$ is a finite collection $\cP$ of closed subintervals $I_i \subseteq I$ such that $\cup_i I_i = I$ and such that any pair of distinct intervals $I_i, I_j \in \cP$ intersect in at most one point. A \emph{subpartition} of $I$ is a subset of a partition of $I$, that is, a collection of closed subintervals which pairwise don't overlap in more than a single point.
+
+A \emph{tagged partition} of $I$ is a finite collection $\dot\cP$ of pairs $(t_i, I_i)$ such that $\{I_i\}$ is a partition of $I$, and $t_i \in I_i$ for each $i$. An \emph{improperly tagged partition} is the same as a tagged partition, but where we drop the condition $t_i \in I_i$, replacing it with $t_i \in I$ instead.
+\end{defn}
+
+\begin{defn} A \emph{gauge} on $I$ is any function $\delta : I \rightarrow \RR^+$, such that $\delta(x) > 0$ for all $x \in I$.
+
+A (possibly improperly) tagged partition $\dot\cP = \{(t_i,I_i)\}$ is $\delta$-\emph{fine}, written $\dot\cP \ll \delta$, if
+\[
+I_i \subseteq [t_i - \delta(t_i), t_i + \delta(t_i)]
+\]
+for each $i$.
+\end{defn}
+
+\begin{lem}[Cousin's lemma] If an interval $I$ is compact, then for any gauge $\delta : I \rightarrow \RR^+$ there exists a $\delta$-fine tagged partition $\dot\cP$.
+\end{lem}
+
+\begin{prop} For any $c \in I$, there is a gauge $\delta : I \rightarrow \RR^+$ such that for every $\delta$-fine tagged partition $\dot\cP$, one of the tags is forced to be $c$.
+\end{prop}
+\begin{proof} Take $\delta(c) = 1$ and $\delta(x) = \frac{1}{2}|x-c|$ for all $x \ne c$.
+\end{proof}
+
+\begin{defn} If $\dot\cP = \{(t_i,[a_i,b_i])\}$ is a tagged partition of $I$ and $f : I \rightarrow \CC$, then the \emph{Riemann sum} of $f$ with respect to $\dot\cP$ is defined by
+\[
+S(f, \dot\cP) \coloneqq \sum_i f(t_i)(b_i - a_i).
+\]
+More generally, if $g : I \rightarrow \CC$ is another function, then the \emph{Riemann-Stieltjes sum} of $f\ dg$ with respect to $\dot\cP$ is defined by
+\[
+S(f, dg, \dot\cP) \coloneqq \sum_i f(t_i)(g(b_i) - g(a_i)).
+\]
+\end{defn}
+
+\begin{defn} A function $f : I \rightarrow \CC$ is said to be \emph{gauge-integrable} with integral $C$ if for all $\epsilon > 0$ there exists a gauge $\delta_\epsilon : I \rightarrow \RR^+$ such that for every tagged partition $\dot\cP$, we have
+\[
+\dot\cP \ll \delta_\epsilon \implies |S(f,\dot\cP) - C| \le \epsilon.
+\]
+More generally, we write
+\[
+\int_I f(x)\ dg(x) = C
+\]
+if for all $\epsilon > 0$ there exists a gauge $\delta_\epsilon : I \rightarrow \RR^+$ such that for every $\delta_\epsilon$-fine tagged partition $\dot\cP$, we have $|S(f, dg, \dot\cP) - C| \le \epsilon$.
+\end{defn}
+
+%TODO: prove this!
+\begin{thm}[McShane integral] A function $f : I \rightarrow \CC$ is Lebesgue-integrable with integral $C$ iff for all $\epsilon > 0$ there exists a gauge $\delta_\epsilon : I \rightarrow \RR^+$ such that for every $\delta_\epsilon$-fine \emph{improperly} tagged partition $\dot\cP$, we have $|S(f,\dot\cP) - C| \le \epsilon$.
+\end{thm}
+
+\begin{prop} If $f : I \rightarrow \CC$ is $0$ a.e., then the gauge integral of $f$ is $0$.
+\end{prop}
+\begin{proof} For each positive integer $m$, let $Z_m = \{x \in I : |f(x)| \in (m-1,m]\}$. For any $\epsilon$, pick countable collections $U_{m,i}$ of open intervals such that $Z_m \subseteq \cup_i U_{m,i}$ and such that $\sum_i \gl(U_{m,i}) \le \frac{\epsilon}{m2^m}$ for each $m$. Then define the gauge $\delta_\epsilon$ by $\delta_\epsilon(x) = 1$ if $f(x) = 0$, and otherwise pick some $m,i$ such that $x \in U_{m,i}$ and let $\delta_\epsilon(x)$ be anything small enough to guarantee that $[x-\delta_\epsilon(x), x+\delta_\epsilon(x)] \subseteq U_{m,i}$.
+\end{proof}
+
+\begin{prop} The gauge integral has the following properties:
+\begin{itemize}
+\item the gauge-integrable functions form a vector space, and the gauge integral is linear,
+\item if $f \le g$, then $\int_I f \le \int_I g$,
+\item if $a < c < b$, then $f$ is integrable on $[a,b]$ iff $f$ is integrable on $[a,c]$ and $[c,b]$, and $\int_a^b f = \int_a^c f + \int_c^b f$,
+\item (squeeze) if for every $\epsilon > 0$ there are gauge-integrable $g,h$ with $g \le f \le h$ and $\int_I h-g \le \epsilon$, then $f$ is gauge-integrable on $I$.
+\end{itemize}
+\end{prop}
+
+\begin{prop} A function $f : I \rightarrow \CC$ is a uniform limit of step functions iff $f$ has left and right limits at every point of $I$. In particular, any such function is Riemann-integrable and has at most countably many points of discontinuity.
+\end{prop}
+\begin{proof} It's easy to see that any uniform limit of step functions has left and right limits everywhere. For the converse, let $\epsilon > 0$ and pick a gauge $\delta_\epsilon : I \rightarrow \RR^+$ such that for any $y, z \in (x, x + \delta_\epsilon(x)]$ we have $|f(y) - f(z)| \le \epsilon$, and similarly for $y,z \in [x - \delta_\epsilon(x), x)$. By Cousin's Lemma there is a $\delta_\epsilon$-fine tagged partition $\dot\cP = \{(t_i,[a_i,b_i])\}$, so we can define a step function $s$ by $s(x) = f(a_i)$ for $x \in (a_i,t_i)$, $s(x) = f(b_i)$ for $x \in (t_i,b_i)$, and $s(x) = f(x)$ for $x \in \{t_i,a_i,b_i\}$.
+\end{proof}
+
+\begin{defn} Call a function $f : I \rightarrow \CC$ \emph{regulated} if $f$ is a uniform limit of step functions.
+\end{defn}
+
+\begin{prop} If $f$ is bounded below and gauge-integrable, and if $g$ is regulated, then $fg$ is gauge-integrable.
+\end{prop}
+
+\begin{defn} A function $F$ is an \emph{a.e.-primitive} of $f$ if $F$ is continuous and if there is a null set $E$ such that $F'$ exists and equals $f$ away from $E$. If we can take $E$ countable, then we say that $F$ is a \emph{c.e.-primitive} of $f$.
+\end{defn}
+
+\begin{thm} If $F$ is a c.e.-primitive of $f$, then $f$ is gauge-integrable and $\int_a^b f = F(b) - F(a)$.
+\end{thm}
+\begin{proof} Let $E = \{e_n\}$ be the exceptional set, and assume WLOG that $f(e_n) = 0$ for all $n$. For any $\epsilon > 0$, choose the gauge $\delta_\epsilon : [a,b] \rightarrow \RR^+$ as follows. For $x \not\in E$, pick $\delta_\epsilon(x)$ such that for all $y$ with $|y-x| \le \delta_\epsilon(x)$, we have
+\[
+|F(x) - F(y) - f(x)(x-y)| < \epsilon|x-y|.
+\]
+For $x = e_n$, use continuity of $F$ to pick $\delta_\epsilon(x)$ such that for all $y$ with $|y-x| \le \delta_\epsilon(x)$, we have
+\[
+|F(x) - F(y)| < \frac{\epsilon}{2^n}.\qedhere
+\]
+\end{proof}
+
+\begin{lem}[Saks-Henstock]\label{saks-henstock} If $f : I \rightarrow \CC$ is gauge-integrable, and if $\delta_\epsilon$ is a gauge on $I$ such that $\dot\cP \ll \delta_\epsilon$ implies $|S(f,\dot\cP) - \int_I f| \le \epsilon$ for all tagged partitions $\dot\cP$, then for all $\delta_\epsilon$-fine tagged \emph{subpartitions} $\dot\cP_0$ we also have $|S(f,\dot\cP_0) - \int_{\cup \cP_0} f| \le \epsilon$.
+\end{lem}
+\begin{proof} Complete $\cP_0$ to a $\delta_\epsilon$-fine partition $\cP$ which is $\delta_{\epsilon'}$-fine outside of $\cup \cP_0$ for arbitrarily small $\epsilon'$.
+\end{proof}
+
+\begin{cor} If $f : I \rightarrow \RR$ is gauge integrable, and if $\delta_\epsilon$ is a gauge on $I$ such that $\dot\cP \ll \delta_\epsilon$ implies $|S(f,\dot\cP) - \int_I f| \le \epsilon$ for all tagged partitions $\dot\cP$, then for all $\delta_\epsilon$-fine tagged partitions $\dot\cP = \{(t_i,[a_i,b_i])\}$ we have
+\[
+\sum_i \max\Big(0, f(t_i)(b_i-a_i) - \int_{[a_i,b_i]} f\Big) \le \epsilon
+\]
+and
+\[
+\sum_i \Big|f(t_i)(b_i-a_i) - \int_{[a_i,b_i]} f\Big| \le 2\epsilon.
+\]
+\end{cor}
+
+\begin{cor} If $f : I \rightarrow \CC$ is gauge-integrable, and if $\delta_\epsilon$ is a gauge on $I$ such that $\dot\cP \ll \delta_\epsilon$ implies $|S(f,\dot\cP) - \int_I f| \le \epsilon$ for all tagged partitions $\dot\cP$, then for all $\delta_\epsilon$-fine tagged partitions $\dot\cP = \{(t_i,[a_i,b_i])\}$ we have
+\[
+\sum_i \Big|f(t_i)(b_i-a_i) - \int_{[a_i,b_i]} f\Big| \le \pi\epsilon.
+\]
+\end{cor}
+\begin{proof} Pick a uniformly random angle $\theta$, and apply the previous corollary to $\Re(e^{i\theta}f)$.
+\end{proof}
+
+\begin{cor} If $f : [a,b] \rightarrow \CC$ is gauge-integrable then the indefinite integral $x \mapsto \int_{[a,x]} f$ is continuous on $[a,b]$.
+\end{cor}
+\begin{proof} To show continuity at $c \in [a,b]$, pick a gauge $\delta_\epsilon$ and apply the Saks-Henstock Lemma \ref{saks-henstock} to the subpartition
+\[
+\dot\cP_0 = \{(c,[c-\delta,c]),(c,[c,c+\delta])\}
+\]
+for any $\delta$ such that $\delta \le \delta_\epsilon(c)$ and such that $\delta |f(c)| \le \epsilon$.
+\end{proof}
+
+\begin{thm} If $f : [a,b] \rightarrow \CC$ is gauge-integrable and $F : x \mapsto \int_{[a,x]} f$ is the indefinite integral, then $F$ is an a.e.-primitive of $f$.
+\end{thm}
+\begin{proof} We've already proved that $F$ is continuous, so we just need to prove that $F'(x) = f(x)$ almost everywhere. Let $E_n$ be the set of points $x \in [a,b]$ such that for all $\delta > 0$ there exists some $y, z$ with $x \in [y,z] \subseteq [x-\delta,x+\delta]$ such that
+\[
+\Big|F(z) - F(y) - f(x)(z-y)\Big| > \frac{|z-y|}{n}.
+\]
+Let $\delta_\epsilon : [a,b] \rightarrow \RR^+$ be any gauge such that $\dot\cP \ll \delta_\epsilon \implies |S(f,\dot\cP) - \int_{[a,b]}f| \le \epsilon$. By the Vitali Covering Lemma \ref{vitali}, we can find a disjoint collection of tagged intervals $(x_i, [y_i,z_i])$ such that
+\[
+\Big|F(z_i) - F(y_i) - f(x_i)(z_i-y_i)\Big| > \frac{|z_i-y_i|}{n}
+\]
+and
+\[
+x_i \in [y_i,z_i] \subseteq [x_i-\delta_\epsilon(x_i),x_i+\delta_\epsilon(x_i)]
+\]
+for each $i$, and such that $E_n \setminus \bigcup_i [y_i,z_i]$ is a null set. By the Saks-Henstock Lemma \ref{saks-henstock} and its corollaries, we also have
+\[
+\sum_i \Big|F(z_i) - F(y_i) - f(x_i)(z_i-y_i)\Big| \le \pi\epsilon,
+\]
+so $\sum_i |z_i - y_i| \le \pi n\epsilon$. Since $\epsilon$ was arbitrary, we see that $E_n$ is null.
+\end{proof}
+
 
 %TODO: everything on https://en.wikipedia.org/wiki/Henstock%E2%80%93Kurzweil_integral - maybe see paper on role of continuum (saved as uncountable reverse math).
 
