@@ -278,7 +278,7 @@ by summing multiples of our inequalities and equations.
 If there is also a solution $x^* = (x_1^*, ..., x_n^*)$ to the system $S$ which has $x_1^* = c$, then every single inequality which occurs in the sum which we used to derive the inequality $x_1 \le c$ must have equality at the point $x^*$.
 \end{cor}
 
-By changing variables, we can prove the following apparently strong result.
+By changing variables, we can prove the following stronger-looking result.
 
 \begin{cor} If a system $S$ of linear inequalities and linear equations in the variables $x_1, ..., x_n$ implies a linear inequality $\sum_i a_i x_i \le c$, then this inequality can be derived by summing multiples of the inequalities and equations from $S$.
 \end{cor}
@@ -473,13 +473,13 @@ Suppose you are handed a single-variable polynomial, such as
 \[
 p(x) = x^3 - 6x^2 + 4x + 12
 \]
-and you are asked whether this polynomial is positive for all $x$ between $-1$ and $2$. How can you accomplish this?
+and you are asked to determine whether this polynomial is positive for all $x$ between $-1$ and $2$. How can you accomplish this?
 
 As it turns out, there is a general procedure which allows you to work out the exact number of real roots of any real polynomial in any half-open interval $(a,b]$, using only pencil and paper. The only special fact we will need about the real numbers (as opposed to, say, the rational numbers) is the following weak version of the intermediate value theorem.
 
 \begin{thm}[Intermediate Value Theorem for Polynomials]\label{real-ivt-poly} If $p(x)$ is a real polynomial, and if $p(a)$ and $p(b)$ have opposite signs for some real values $a < b$, then there is some real number $c \in (a,b)$ such that $p(c) = 0$.
 \end{thm}
-\begin{proof} This is a special case of the intermediate value theorem, which applies to all continuous functions. The standard proof is as follows: supposing without loss of generality that $p(a) < 0$ and $p(b) > 0$, we define the set $S \subseteq [a,b]$ by
+\begin{proof} This is a special case of the intermediate value theorem, which applies to all continuous functions (the fact that polynomials are continuous follows from the binomial theorem and the triangle inequality). The standard proof is as follows: supposing without loss of generality that $p(a) < 0$ and $p(b) > 0$, we define the set $S \subseteq [a,b]$ by
 \[
 S = \{x \in [a,b] \mid p(x) \le 0\}.
 \]
@@ -488,7 +488,7 @@ Since $S$ is a nonempty, bounded subset of $\RR$, it has a supremum (by the defi
 
 Versions of Theorem \ref{real-ivt-poly} are true for other number systems as well, such as the collection of \emph{algebraic} real numbers (recall that a number is called algebraic if it is a root of a polynomial which has integer coefficients), or certain number systems involving infinitesimals or power series. An ordered number system which satisfies a version of Theorem \ref{real-ivt-poly} is called a \emph{real closed field}, and for the purpose of studying algebraic inequalities, all real closed fields are essentially indistinguishable from one another.
 
-We will also need a basic algebraic fact about derivatives, which is true in any ordered number system.
+We will also need a basic algebraic fact about derivatives, which follows from the binomial theorem and is true in any ordered number system.
 
 \begin{prop} If the polynomial $p(x)$ is given by
 \[
@@ -534,7 +534,7 @@ p(x) = c\cdot p_1(x)^{m_1}p_2(x)^{m_2}\cdots p_k(x)^{m_k},
 where $c$ is a constant, each $p_i(x)$ has no common factor with its derivative $p_i'(x)$, and no $p_i(x)$ has a common factor with $p_j(x)$ for any $i \ne j$.
 \end{prop}
 
-So we only need to worry about the case where $p(x)$ has no common factor with its derivative $p'(x)$. Let's check that our running example $p(x) = x^3 - 6x^2 + 4x + 12$ has this property:
+So we only need to worry about the case where $p(x)$ has no common factor with its derivative $p'(x)$ (such a polynomial is called \emph{squarefree}). Let's check that our running example $p(x) = x^3 - 6x^2 + 4x + 12$ has this property:
 \begin{align*}
 \gcd(p(x), p'(x)) &= \gcd(x^3 - 6x^2 + 4x + 12,\ 3x^2 - 12x + 4)\\
 &= \gcd(-(4/3)(4x - 11),\ 3x^2 - 12x + 4)\\
@@ -563,7 +563,7 @@ In particular, we have
 \[
 p_i(x) = 0 \;\;\; \implies \;\;\; p_{i-1}(x) \text{ and } p_{i+1}(x) \text{ have opposite signs.}
 \]
-Since the gcd of any consecutive pair $\gcd(p_i(x), p_{i+1}(x))$ is $1$, when $p_i(x) = 0$ we don't have to worry about the possibility of $p_{i-1}(x)$ or $p_{i+1}(x)$ also being $0$, so the statement above is completely meaningful.
+Since the gcd of any consecutive pair $\gcd(p_i(x), p_{i+1}(x))$ is $1$, when $p_i(x) = 0$ we don't have to worry about the possibility of $p_{i-1}(x)$ or $p_{i+1}(x)$ also being $0$, so the statement above is always meaningful.
 
 Now let's see what happens to the signs of our four polynomials $p_0(x), p_1(x), p_2(x), p_3(x)$ as $x$ goes from $-\infty$ to $+\infty$. For now, we will cheat by using a computer to find all of the roots of these polynomials: the roots of $p_0(x)$ occur at
 \[
@@ -971,7 +971,7 @@ is empty if and only if there are polynomials $t_1, ..., t_k$ and finitely many 
 
 \begin{prop}[Lagrange's identity] For any $x_1, ..., x_n$, $y_1, ..., y_n$ we have
 \[
-\left(\sum_i x_i^2\right)\left(\sum_i y_i^2\right) - \left(\sum_i x_iy_i\right)^2 = \sum_{i<j} (x_iy_j-x_jy_i)^2.
+\Big(\sum_i x_i^2\Big)\Big(\sum_i y_i^2\Big) - \left(\sum_i x_iy_i\right)^2 = \sum_{i<j} (x_iy_j-x_jy_i)^2.
 \]
 \end{prop}
 
@@ -983,7 +983,7 @@ x^{a+1}y^{b-1} + x^{b-1}y^{a+1} - x^ay^b - x^by^a = x^{b-1}y^{b-1}(x-y)^2(x^a + 
 
 \begin{prop}[AM-GM] For any $x_1, ..., x_n$, we have
 \[
-\frac{x_1^n + \cdots + x_n^n}{n} - x_1\cdots x_n = \frac{1}{2n!} \sum_{sym} (x_{n-1}-x_n)^2\left(\sum_{j=0}^{n-2} x_1\cdots x_j(x_{n-1}^{n-2-j} + x_{n-1}^{n-2-j-1}x_n + \cdots + x_n^{n-2-j})\right).
+\frac{x_1^n + \cdots + x_n^n}{n} - x_1\cdots x_n = \frac{1}{2n!} \sum_{sym} (x_{n-1}-x_n)^2\Big(\sum_{j=0}^{n-2} x_1\cdots x_j(x_{n-1}^{n-2-j} + x_{n-1}^{n-2-j-1}x_n + \cdots + x_n^{n-2-j})\Big).
 \]
 \end{prop}
 
@@ -1009,7 +1009,7 @@ x^{a+1}y^{b-1} + x^{b-1}y^{a+1} - x^ay^b - x^by^a = x^{b-1}y^{b-1}(x-y)^2(x^a + 
 
 \item Show that if $n\ge 2$ and $x_1, ..., x_n$ are positive real numbers satisfying
 \[
-\left(\sum_i x_i\right)\left(\sum_i \frac{1}{x_i}\right) \le n^2+1,
+\Big(\sum_i x_i\Big)\Big(\sum_i \frac{1}{x_i}\Big) \le n^2+1,
 \]
 then $\frac{x_1}{x_2} \le \frac{3+\sqrt{5}}{2}$.
 

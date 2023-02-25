@@ -647,7 +647,7 @@ The uniqueness of the extension of $\lambda$ and the correspondence between Rado
 
 \begin{defn} If $\mu$ is a Borel measure, then a family $\cD$ of disjoint nonempty compact sets is called a \emph{concassage} for $\mu$ if
 \begin{itemize}
-\item for any $K \in \cD$ and any $U$ open with $K \cap U \ne \emptyset$ we have $\mu(K \cap D) > 0$, and
+\item for any $K \in \cD$ and any $U$ open with $K \cap U \ne \emptyset$ we have $\mu(K \cap U) > 0$, and
 
 \item for any Borel set $E$, we have $\mu(E) = \sum_{K \in \cD} \mu(E \cap K)$.
 \end{itemize}
@@ -780,7 +780,7 @@ Finally, suppose that $N$ is closed and $G$ is $\sigma$-compact. Then there is a
 \[
 \int f\ d\mu = \sup\Big\{\sum_{i = 1}^k c_i\mu(A_i) \mid c_1, ..., c_k \ge 0,\ A_1, ..., A_k \in \gS,\ \sum_{i=1}^k c_i\cdot 1_{x \in A_i} \le f(x)\Big\}.
 \]
-A measurable (up to a null set) complex-valued function $f$ is \emph{integrable} if $\int |f| d\mu < \infty$. We extend the integral to all integrable functions by linearity.
+A measurable (up to a null set) complex-valued function $f$ is \emph{integrable} if $\int |f|\ d\mu < \infty$. We extend the integral to all integrable functions by linearity.
 \end{defn}
 
 \begin{thm}[Markov's Inequality]\label{markov} For $t > 0$, $\mu(\{|f| \ge t\}) \le \frac{1}{t}\int |f|\ d\mu$.
@@ -1113,7 +1113,7 @@ if for all $\epsilon > 0$ there exists a gauge $\delta_\epsilon : I \rightarrow 
 \begin{itemize}
 \item the gauge-integrable functions form a vector space, and the gauge integral is linear,
 \item if $f \le g$, then $\int_I f \le \int_I g$,
-\item if $a < c < b$, then $f$ is integrable on $[a,b]$ iff $f$ is integrable on $[a,c]$ and $[c,b]$, and $\int_a^b f = \int_a^c f + \int_c^b f$,
+\item if $a < c < b$, then $f$ is gauge-integrable on $[a,b]$ iff $f$ is gaugeintegrable on $[a,c]$ and $[c,b]$, and $\int_a^b f = \int_a^c f + \int_c^b f$,
 \item (squeeze) if for every $\epsilon > 0$ there are gauge-integrable $g,h$ with $g \le f \le h$ and $\int_I h-g \le \epsilon$, then $f$ is gauge-integrable on $I$.
 \end{itemize}
 \end{prop}
@@ -1293,10 +1293,38 @@ For the general case, use the previous case to define functions $f_E \in L^p$ su
 \end{cor}
 
 
-\subsection{Banach spaces}
+\subsection{Banach spaces and Banach algebras}
 
-\begin{defn} If $V$ is a vector space (over $\RR$ or $\CC$), then $p:V \rightarrow [0,\infty)$ is a \emph{seminorm} if $p(0) = 0$, $p(cv) = |c|p(v)$ for $c$ a scalar and $v\in V$, and $p(v+w) \le p(v) + p(w)$ for $v,w \in V$. $p$ is a \emph{norm} if additionally $p(v) = 0 \iff v = 0$.
+\begin{defn} If $V$ is a vector space (over $\RR$ or $\CC$), then $p:V \rightarrow [0,\infty)$ is a \emph{seminorm} if $p(0) = 0$, $p(cv) = |c|p(v)$ for $c$ a scalar and $v\in V$, and $p(v+w) \le p(v) + p(w)$ for $v,w \in V$. The seminorm $p$ is a \emph{norm} if additionally $p(v) = 0 \iff v = 0$.
+%We say that $p:V \rightarrow [0,\infty)$ is \emph{sublinear} if $p(rv) = rp(v)$ for $r \ge 0$ and $v\in V$, and $p(v+w) \le p(v) + p(w)$ for $v,w \in V$.
 \end{defn}
+
+\begin{thm}[Hahn-Banach Dominated Extension Theorem] If $V$ is a vector space and $p : V \rightarrow [0,\infty)$ is a seminorm, and if $\varphi$ is a partial functional defined on a subspace $U \subseteq V$ which satisfies $|\varphi(x)| \le p(x)$ for all $x \in U$, then there is some functional $\psi$ defined on $V$ such that $\psi(x) = \varphi(x)$ for $x \in U$ and $|\psi(x)| \le p(x)$ for all $x \in V$.
+\end{thm}
+\begin{proof} First we prove the real case. By Zorn's Lemma we just need to show that if $v \not\in U$ then we can extend $\varphi$ to a functional $\phi$ on $U + \langle v \rangle$ which satisfies $|\phi(x)| \le p(x)$. The extension is completely determined by the choice of $\phi(v)$. We just need to ensure that for every $u \in U$ and every $r \in [0,\infty)$ we have
+\[
+\phi(rv + u) = r\phi(v) + \varphi(u) \le p(rv + u)
+\]
+and
+\[
+\phi(-rv + u) = -r\phi(v) + \varphi(u) \le p(-rv + u).
+\]
+These give us a collection of upper and lower bounds on $\phi(v)$, which are satisfiable as long as
+\[
+\inf_{r\ge 0, u \in U} \frac{p(rv + u) - \varphi(u)}{r} \ge \sup_{r' \ge 0, u' \in U} \frac{\varphi(u') - p(-r'v + u')}{r'}.
+\]
+This follows directly from the convexity of $p$ and our assumption on $\varphi$:
+\begin{align*}
+\frac{p(rv + u)}{r} + \frac{p(-r'v + u')}{r'} &\ge \frac{r + r'}{rr'}p\Big(\frac{r'u + ru'}{r + r'}\Big)\\
+&\ge \frac{r + r'}{rr'}\varphi\Big(\frac{r'u + ru'}{r + r'}\Big)\\
+&= \frac{\varphi(u)}{r} + \frac{\varphi(u')}{r'}.
+\end{align*}
+
+For the complex case, we extend the real part of $\varphi$ to a real functional $f : V \rightarrow \RR$ satisfying $f(x) = \Re(\varphi(x))$ for $x \in U$ and $|f(x)| \le p(x)$ for all $x \in V$. Then we define $\psi$ by
+\[
+\psi(x) = f(x) - if(ix).\qedhere
+\]
+\end{proof}
 
 The next bit is stolen from \href{https://math.blogoverflow.com/2014/06/25/zabreikos-lemma-and-four-fundamental-theorems-of-functional-analysis/}{this blogoverflow post}.
 
@@ -1318,10 +1346,146 @@ The next bit is stolen from \href{https://math.blogoverflow.com/2014/06/25/zabre
 \begin{proof} For $x \in X$, set $p(x) = \|Ax\|$ in Zabreiko's Lemma.
 \end{proof}
 
-\begin{thm}[Uniform Boundedness Theorem/Banach Steinhaus] If $X$ is Banach, $Y$ a normed vector space, $F$ a set of continuous linear functions $T:X\rightarrow Y$. If $\forall x \in X\ \sup_{T\in F} \|T(x)\| < \infty$, then $\sup_{T \in F} \|T\| < \infty$.
+\begin{thm}[Uniform Boundedness Theorem/Banach Steinhaus] Suppose $X$ is Banach, $Y$ is a normed vector space, and $F$ is a set of continuous linear functions $T:X\rightarrow Y$. If for all $x \in X$ we have $\sup_{T\in F} \|T(x)\| < \infty$, then $\sup_{T \in F} \|T\| < \infty$.
 \end{thm}
 \begin{proof} Set $p(x) \in \sup_{T\in F} \|T(x)\|$ in Zabreiko's Lemma.
 \end{proof}
 
 \begin{cor} If a sequence of bounded operators from a Banach space to a normed space converges pointwise, then the pointwise limit is a bounded operator.
 \end{cor}
+
+There is a cute representation-theoretic application of the Uniform Boundedness Theorem.
+
+\begin{defn} Suppose that $V$ is a topological vector space and $G$ is a topological group. A representation $\rho : G \rightarrow \Aut(V)$ is a \emph{continuous representation} if the map $(g,v) \mapsto \rho_g(v)$ is a continuous map from $G\times V$ to $V$.
+\end{defn}
+
+\begin{thm} If $V$ is a Banach space, $G$ is a locally compact topological group, and $\rho : G \rightarrow \Aut(V)$ is a representation such that for all $v \in V$ the map $g \mapsto \rho_g(v)$ is a continuous map from $G$ to $V$, then $\rho$ is a continuous representation of $G$.
+\end{thm}
+\begin{proof} Let $K$ be a compact neighborhood of the identity in $G$. Then for any $v \in V$, the image of $K$ under $g \mapsto \rho_g(v)$ is compact, so $\sup_{g \in K} \|\rho_g(v)\| < \infty$. Then by the Uniform Boundedness Theorem, we see that $\sup_{g \in K} \|\rho_g\| < \infty$.
+\end{proof}
+
+
+\begin{defn} A \emph{Banach algebra} $\cA$ is a normed algebra over $\RR$ or $\CC$ which is a Banach space such that for all $a,b \in \cA$ we have $\|ab\| \le \|a\|\|b\|$. The Banach algebra $\cA$ is \emph{unital} if a multiplicative identity $1 \in \cA$ exists and satisfies $\|1\| = 1$.
+\end{defn}
+
+\begin{prop} Every Banach algebra $\cA$ embeds isometrically into a unital Banach algebra $\cA_1$.
+\end{prop}
+\begin{proof} Let $\cA_1$ be the set of formal linear combinations $c + a$ where $c$ is a scalar and $a \in \cA$, with the norm $\|c+a\| = |c| + \|a\|$. We just need to check the norm inequality for multiplication:
+\begin{align*}
+\|(c+a)(d+b)\| &= |cd| + \|cb + da + ab\|\\
+&\le |cd| + \|cb\| + \|da\| + \|ab\|\\
+&\le |cd| + |c|\|b\| + |d|\|a\| + \|a\|\|b\|\\
+&= \|c+a\|\|d+b\|.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{prop} Every real Banach algebra $\cA$ has an isometric embedding into a complex Banach algebra $\cA_\CC$.
+\end{prop}
+\begin{proof} As a real vector space, we will take $\cA_\CC$ to be $\cA\otimes_\RR \CC = \cA \oplus i\cA$. The only challenge is defining the norm, which needs to be invariant under multiplication by complex numbers with absolute value $1$. We'll define it by the rule
+\[
+\|a+ib\| = \inf \Big\{\sum_{k \le n} |c_k|\|d_k\| \text{ s.t. } n \in \NN, c_k \in \CC, d_k \in \cA, \sum_{k \le n} c_kd_k = a+ib\Big\}.
+\]
+This satisfies $\|c(a+ib)\| = |c|\|a+ib\|$ for all $c \in \CC$, as well as the inequality $\|(a+ib)(c+id)\| \le \|a+ib\|\|c+id\|$. By taking real parts of the $c_k$s, we have $\|a + ib\| \ge \|a\|$, and similarly $\|a+ib\| \ge \|b\|$, so nonzero elements of $\cA_\CC$ have positive norm.
+\end{proof}
+
+\begin{prop} If $V$ is a Banach space, then the algebra $\End(V)$ of continuous linear operators $V \rightarrow V$ is a Banach algebra, with norm given by the operator norm.
+\end{prop}
+
+\begin{prop} If $\cA$ is a Banach algebra, then there is a continuous algebra homomorphism $\cA \rightarrow \End(\cA)$ given by left multiplication, i.e. $a \mapsto \rho_a$ where $\rho_a(b) = ab$. If $\cA$ is unital then $\|a\| = \|\rho_a\|$.
+\end{prop}
+
+\begin{prop} If $\cA$ is a unital Banach algebra, then the set of invertible elements $\cA^\times$ is open, and the map $x \mapsto x^{-1}$ is a homeomorphism from $\cA^\times$ to itself.
+\end{prop}
+\begin{proof} If $a$ is invertible and $\|b - a\| < 1/\|a^{-1}\|$, then $\|(a-b)a^{-1}\| < 1$, so we can use the geometric series:
+\[
+b^{-1} = a^{-1}(1 - (a-b)a^{-1})^{-1} = a^{-1} \sum_{i \ge 0} ((a-b)a^{-1})^i.\qedhere
+\]
+\end{proof}
+
+\begin{defn} For $\cA$ a complex unital Banach algebra and $a \in \cA$, we define the \emph{spectrum} of $a$, written $\sigma(a)$, to be the set
+\[
+\sigma(a) = \{\lambda \in \CC \mid a - \lambda \not\in \cA^\times\}.
+\]
+We define the \emph{spectral radius} of $a$, written $r(a)$, to be
+\[
+r(a) = \sup_{\lambda \in \sigma(a)} |\lambda|.
+\]
+\end{defn}
+
+\begin{prop} For any element $a \in \cA$, $\cA$ a complex unital Banach algebra, the spectrum $\sigma(a)$ is a compact subset of $\CC$ and $r(a) \le \|a\|$.
+\end{prop}
+\begin{proof} That $\sigma(a)$ is closed follows from the fact that $\cA^\times$ is open, and the bound on $r(a)$ follows from the fact that $(1 - a/\lambda)^{-1} = \sum_{i \ge 0} (a/\lambda)^i$ as long as $\|a\| < \lambda$.
+\end{proof}
+
+\begin{prop} For any element $a \in \cA$, $\cA$ a complex unital Banach algebra, and for any polynomial $p(x) \in \CC[x]$, we have $p(\sigma(a)) \subseteq \sigma(p(a))$.
+\end{prop}
+\begin{proof} For any $\lambda \in \sigma(a)$, the difference $a-\lambda$ left-divides $p(a) - p(\lambda)$, so $p(\lambda) \in \sigma(p(a))$.
+\end{proof}
+
+\begin{thm} For any element $a \in \cA$, $\cA$ a complex unital Banach algebra, the spectrum $\sigma(a)$ is nonempty and $r(a) = \lim_{n \rightarrow \infty} \|a^n\|^{1/n}$.
+\end{thm}
+\begin{proof} By the previous results, we have $r(a) \le r(a^n)^{1/n} \le \|a^n\|^{1/n}$ for all $n$. Next let $\varphi$ be any element of the dual Banach space $\cA^*$, i.e. $\varphi$ is any bounded linear map $\varphi : \cA \rightarrow \CC$. Define $f : \CC\setminus \sigma(a) \rightarrow \CC$ by
+\[
+f(\lambda) = \varphi\big((\lambda - a)^{-1}\big),
+\]
+then $f$ is holomorphic on its domain (by the geometric series trick), and for $|\lambda| > \|a\|$ we have
+\[
+|f(\lambda)| \le \sum_{n \ge 0} |\lambda|^{-n-1} \|\varphi\| \|a\|^n = \frac{\|\varphi\|}{|\lambda| - \|a\|}.
+\]
+In particular, if the spectrum $\sigma(a)$ is empty then $f$ is a bounded holomorphic function which goes to zero at infinity, so $f$ is identically $0$, and since this would have to be true for all $\varphi \in \cA^*$, we see that $a^{-1} = 0$, which is impossible.
+
+For the statement about the spectral radius, note that $f(1/x)$ extends to a holomorphic function around $x = 0$ with series expansion
+\[
+f(\lambda) = \sum_{n \ge 0} \lambda^{-n-1}\varphi(a^n)
+\]
+for $|\lambda| > r(a)$. By the Cauchy integral formula applied to $f(1/x)$, we have
+\[
+|\varphi(a^n)| \le r^{n+1} \|\varphi\| \sup_{\theta \in [0,2\pi)} \|r e^{i\theta} - a\|
+\]
+for any $r > r(a)$, and by the Hahn-Banach Theorem we can choose $\varphi$ such that $|\varphi(a^n)| = \|a^n\|$ and $\|\varphi\| = 1$, so for any $r > r(a)$ we have
+\[
+\|a^n\|^{1/n} \le r^{1 + 1/n} \sup_{\theta \in [0,2\pi)} \|r e^{i\theta} - a\|^{1/n}.
+\]
+Taking the $\limsup$ of both sides, we get $\limsup_n \|a^n\|^{1/n} \le r(a)$.
+\end{proof}
+
+\begin{cor} If a complex unital Banach algebra $\cA$ is a division ring, then $\cA \cong \CC$.
+\end{cor}
+
+\begin{cor} If a real unital Banach algebra $\cA$ is a division ring, then $\cA$ is isomorphic (as an $\RR$-algebra) to either $\RR$, $\CC$, or the quaternions $\HH$.
+\end{cor}
+\begin{proof} Embed $\cA$ into a complex Banach algebra $\cA_\CC$. For $a \in \cA$, let $\sigma_\CC(a)$ be the spectrum of $a$ considered as an element of $\cA_\CC$. Since $\sigma_\CC(a)$ is nonempty, there is some $\lambda \in \CC$ such that $a - \lambda$ is not invertible in $\cA_\CC$. If $\lambda$ is real, then since $a - \lambda \in \cA$ and $a - \lambda$ is not invertible, we must have $a = \lambda$. If $\lambda$ has a nonzero imaginary part, then we have
+\[
+a^2 - 2\Re(\lambda)a + |\lambda|^2 = (a-\lambda)(a - \bar{\lambda}) \in \cA \setminus \cA^\times = \{0\},
+\]
+so we see that every element of $\cA$ is either real or satisfies a quadratic polynomial which has real coefficients and no real roots. By subtracting $\Re(\lambda)$ from $a$ and rescaling, we see that any $a \in \cA$ can be written in the form
+\[
+a = x + yu
+\]
+where $x,y \in \RR$ are given by $x = \Re(\lambda), y = \Im(\lambda)$, and $u \in \cA$ satisfies $u^2 = -1$ and $au = ua$.
+
+Now suppose that $u,v \in \cA$ satisfy $u^2 = v^2 = -1$, but $u \ne \pm v$. Writing
+\[
+uv = x + yw
+\]
+where $x,y \in \RR$ and $w \in \cA, w^2 = -1$, we see that
+\[
+vu = -u(uv)u = x - yuwu
+\]
+and $(uwu)^2 = -1$. We also have $(uv)(vu) = 1$, so
+\[
+vu = (uv)^{-1} = \frac{x - yw}{x^2 + y^2}.
+\]
+By matching real parts, we see that $x^2 + y^2 = 1$, so $uwu = w$ (since $y \ne 0$ if $u \ne \pm v$). In particular, we have $wu = -uw$, and
+\[
+v = -u(uv) = -xu - yuw,
+\]
+so $v$ is a linear combination of $u$ and $uw$. By adding $xu$ to $v$ and rescaling, we may as well assume that $x = 0$ and $y = 1$, so $uv = w, vu = -w$.
+
+To finish the argument, we just need to show that every $z \in \cA$ which satisfies $z^2 = -1$ and $uz = -zu$ must be a linear combination of $v$ and $w$. Suppose not, for the sake of contradiction. By subtracting a multiple of $v$ from $z$ and rescaling, we may assume without loss of generality that $z$ also satisfies $vz = -zv$, and similarly that $wz = -zw$. But then we have
+\[
+-z = uvwz = -zuvw = z,
+\]
+so $z = 0$, contradicting $z^2 = -1$.
+\end{proof}
+

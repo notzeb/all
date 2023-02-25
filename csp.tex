@@ -1068,9 +1068,19 @@ The second identity above, $s(x,y) \approx s(y,x)$, can't be satisfied by assign
 
 An algebra in $\cV(\mathcal{T}_{semi})$ is called a \emph{semilattice}, and can be visualized as a poset where every nonempty finite subset has a greatest lower bound (if we visualize it this way, we often call it a \emph{meet} semilattice).
 
-Any finite meet semilattice which has a greatest element can be extended to a lattice, since every finite subset will also have a least upper bound (just take the greatest lower bound of the collection of all upper bounds, which is nonempty by the assumption that there is a greatest element).
+Any finite meet semilattice which has a greatest element can be extended to a lattice, since every finite subset will also have a least upper bound (just take the greatest lower bound of the collection of all upper bounds, which is nonempty by the assumption that there is a greatest element). Since we can always adjoin a new ``top'' element to any finite meet semilattice, we see that every finite semilattice is isomorphic to a subalgebra of the meet semilattice reduct of some lattice (in fact, this is also true for infinite semilattices).
 
-Alternatively, a semilattice can be thought of as a poset where every nonempty finite subset has a least upper bound, if we are thinking in terms of an operation like $\max$ - if we are visualizing it in this way, we call it a \emph{join} semilattice. (I generally prefer to visualize semilattices as join semilattices.)
+Alternatively, a semilattice can be thought of as a poset where every nonempty finite subset has a least upper bound, if we are thinking in terms of an operation like $\max$ - if we are visualizing it in this way, we call it a \emph{join} semilattice. (I generally prefer to visualize semilattices as join semilattices, but most authors prefer to visualize semilattices as meet semilattices.)
+
+Since it is often confusing when people who think of semilattices as meet semilattices try to talk to people who think of them as join semilattices (i.e. minimal elements in one language become maximal elements in the other language), it is useful to have some vocabulary which is agnostic to the meet/join distinction. We say that an element $a$ is \emph{absorbing} with respect to $s$ if it satisfies
+\[
+s(a,x) = s(x,a) = a
+\]
+for all $x$, and we say that an element $b$ is \emph{neutral} with respect to $s$ if it satisfies
+\[
+s(b,x) = s(x,b) = x
+\]
+for all $x$. Every two-element semilattice has a neutral element and an absorbing element, and knowing which is which determines the semilattice operation. In general, every finite semilattice has an absorbing element, but might not have a neutral element (for instance, the free semilattice on two generators has absorbing element $s(x,y)$ and has no neutral element). In a meet semilattice, the absorbing element will be the bottom and the neutral element (if it exists) will be the top, while in a join semilattice, the absorbing element will be the top and the neutral element (if it exists) will be the bottom.
 \end{ex}
 
 \begin{ex} Consider the algebra $\bA = (\{0,1\}, \maj)$, and use the ternary function symbol $m$ to abbreviate $\maj$. Then $\cV(\bA) = SP(\bA) = \cV(\mathcal{T}_{med})$, where $\mathcal{T}_{med}$ is the following set of identities:
@@ -1081,9 +1091,9 @@ m(m(x,y,z),u,v) &\approx m(x,m(y,u,v),m(z,u,v)).
 \end{align*}
 The identity $m(x,y,z) \approx m(y,z,x)$ can't be satisfied by assigning $m$ to one of the projections $\pi_1, \pi_2, \pi_3$.
 
-An algebra in $\cV(\mathcal{T}_{med})$ is called a \emph{median algebra}. A finite median algebra corresponds to a \emph{median graph}, that is, a graph with the property that for every three vertices $x,y,z$ there exists a unique vertex which lies on a shortest path connecting every pair of $x,y,z$ (to recover the graph structure, we draw an edge from $x$ to $y$ whenever $m(x,y,z) \in \{x,y\}$ for all $z$). Examples of median graphs are paths, trees, planar grids, ``squaregraphs'', hypercubes, Hasse diagrams of distributive lattices, and the graph $\cM_n$ of maximal intersecting families from the last section. For more about the theory of median algebras, see \cite{median-poc}.
+An algebra in $\cV(\mathcal{T}_{med})$ is called a \emph{median algebra}. A finite median algebra corresponds to a \emph{median graph}, that is, a graph with the property that for every three vertices $x,y,z$ there exists a unique vertex which lies on a shortest path connecting every pair of $x,y,z$ (to recover the graph structure, we draw an edge from $x$ to $y$ whenever $m(x,y,z) \in \{x,y\}$ for all $z$). Examples of median graphs are paths, trees, planar grids, ``squaregraphs'', hypercubes, Hasse diagrams of distributive lattices, and the graph $\cM_n$ of maximal intersecting families from the last section. For more about the theory of median algebras, see \cite{median-poc} or \cite{bowditch-median}.
 
-One of the most famous examples of median algebras is the case of distributive lattices. It isn't hard to show that in any distributive lattice, the following identity holds:
+Median algebras are very closely connected to distributive lattices. It isn't hard to show that in any distributive lattice, the following identity holds:
 \[
 (x \wedge y) \vee (y \wedge z) \vee (z \wedge x) \approx (x \vee y) \wedge (y \vee z) \wedge (z \vee x),
 \]
@@ -1102,7 +1112,7 @@ As with clones and relational clones, there are several natural finiteness quest
 
 A variety $\cV$ is locally finite iff for all $\bA \in \cV$ and for all finite subsets $\{a_1, ..., a_n\} \subseteq \bA$, the subalgebra of $\bA$ generated by $a_1, ..., a_n$ is finite. Every finitely generated variety is locally finite (by the proof of the HSP Theorem). In general, determining whether a given finitely generated variety is finitely based, or vice versa, is a very difficult problem. For instance, the famous Burnside problem is the problem of determining whether the variety of groups satisfying the identity $x^n \approx e$ is locally finite.
 
-\begin{rem} Sometimes we want to consider infinite families of finite algebras with a finite functional signature, closed under finite products, subalgebras, and homomorphisms. Such a family of algebras is called a \emph{pseudovariety}. There are two different ways to describe pseudovarieties in terms of identities.
+\begin{rem} Sometimes we want to consider infinite families of finite algebras with a finite functional signature, closed under \emph{finite} products, subalgebras, and homomorphisms. Such a family of algebras is called a \emph{pseudovariety}. There are two different ways to describe pseudovarieties in terms of identities.
 
 Eilenberg and Sch{\"u}tzenb{\'e}rger \cite{pseudovarieties-ultimate} show that a pseudovariety is determined by an infinite sequence of identities, such that a finite algebra is contained in the pseudovariety iff it satisfies \emph{all but finitely many} of the identities in the sequence. The trick is to sort the isomorphism classes of finite algebras by their sizes, and for each size $k$ write down a finite set of identities in $k$ variables which characterizes the free algebra on $k$ generators in the subvariety generated by the set of algebras of size at most $k$.
 
@@ -2543,15 +2553,22 @@ In order to prove Aschbacher's Theorem \ref{near-subgroups}, we first need a mor
 \begin{proof} We just need to check that $K$ being a twisted subgroup is equivalent to $\langle x\rangle \subseteq bK$ for all $x,b$ with $x \in bK, b \in K^{-1}$. The previous proposition proves one direction of the equivalence. For the other direction, if $x,y \in K$, then $yx \in yK$ and $y^{-1} \in \langle y \rangle \subseteq K$, so $(yx)^2 \in \langle yx\rangle \subseteq yK$, which is equivalent to $xyx = y^{-1}(yx)^2 \in K$.
 \end{proof}
 
-\begin{ex} An explicit example of a near subgroup which is not a subgroup is given in \cite{feder-vardi}: Let $\bG$ be the group of order $p^3$ ($p$ odd) with elements indexed by triples $(i,j,k) \in (\ZZ/p)^3$ and multiplication given by
+\begin{ex} An explicit example of a near subgroup which is not a subgroup is given in \cite{feder-vardi}. Let $\bG$ be the Heisenberg group of order $p^3$ ($p$ odd):
 \[
-(i,j,k)(i',j',k') \coloneqq (i+i'+jk',j+j',k+k').
+\bG = \left\{\begin{bmatrix} 1 & a & c\\ 0 & 1 & b\\ 0 & 0 & 1\end{bmatrix} \text{ s.t. } a,b,c \in \ZZ/p\right\} \le \operatorname{SL}_3(\ZZ/p).
 \]
-Let $K = \{(\tfrac{1}{2}jk,j,k) \mid j,k \in \ZZ/p\}$. Since $\bG$ has odd order, to check that $K$ is a near subgroup we just need to check that it is a twisted subgroup, i.e. that it contains $(0,0,0)$ and is closed under the binary operation $x,y \mapsto xyx$. This can be checked by direct calculation: for any $j,k,j',k'$ we have
+Let $K \subseteq \bG$ be given by
 \[
-(\tfrac{1}{2}jk,j,k)(\tfrac{1}{2}j'k',j',k')(\tfrac{1}{2}jk,j,k) = (\tfrac{1}{2}(2jk+j'k')+jk'+jk+j'k,2j+j',2k+k') \in K.
+K = \left\{\begin{bmatrix} 1 & a & \frac{ab}{2}\\ 0 & 1 & b\\ 0 & 0 & 1\end{bmatrix} \text{ s.t. } a,b \in \ZZ/p\right\}.
 \]
-That $K$ is not a subgroup follows from $(0,0,1)(0,1,0) = (0,1,1) \not\in K$.
+Since $\bG$ has odd order, to check that $K$ is a near subgroup we just need to check that it is a twisted subgroup, i.e. that it contains the identity and is closed under the binary operation $x,y \mapsto xyx$. This can be checked by direct calculation: for any $a,b,c,d \in \ZZ/p$ we have
+\[
+\begin{bmatrix} 1 & a & \frac{ab}{2}\\ 0 & 1 & b\\ 0 & 0 & 1\end{bmatrix}\begin{bmatrix} 1 & c & \frac{cd}{2}\\ 0 & 1 & d\\ 0 & 0 & 1\end{bmatrix}\begin{bmatrix} 1 & a & \frac{ab}{2}\\ 0 & 1 & b\\ 0 & 0 & 1\end{bmatrix} = \begin{bmatrix} 1 & 2a+c & \frac{(2a+c)(2b+d)}{2}\\ 0 & 1 & 2b+d\\ 0 & 0 & 1\end{bmatrix}.
+\]
+That $K$ is not a subgroup follows from
+\[
+\begin{bmatrix} 1 & 0 & 0\\ 0 & 1 & 1\\ 0 & 0 & 1\end{bmatrix}\begin{bmatrix} 1 & 1 & 0\\ 0 & 1 & 0\\ 0 & 0 & 1\end{bmatrix} = \begin{bmatrix} 1 & 1 & 0\\ 0 & 1 & 1\\ 0 & 0 & 1\end{bmatrix} \not\in K.
+\]
 \end{ex}
 
 That we needed to take $p$ odd in the above example is no coincidence, as the next proposition shows.
@@ -2566,7 +2583,7 @@ If $z \in K$ then for any $g \in \bG\setminus K$, we have $gz \in K$, and from $
 
 Thus we may assume that $z \not\in K$, and in fact that $Z(\bG) \cap K = 1$. Let $\bM$ be a maximal subgroup of $\bG$ containing $\langle z\rangle$, then by induction we have $\bM \cap K$ a subgroup of $\bM$. Since $(\bM \cap K)/\langle z\rangle = \bM/\langle z\rangle$, we have $\bM \cong (\bM\cap K)\times \langle z\rangle$.
 
-Let $\Phi(\bM)$ be the Frattini subgroup of $\bM$, which for $2$-groups is given by $\Phi(\bM) = \bM^2[\bM,\bM]$. Then from $\Phi(\langle z\rangle) = 1$ we have $\Phi(\bM) = \Phi(\bM\cap K)$, and since $\bM \lhd \bG$ we have $\Phi(\bM) \lhd \bG$. Thus if $\Phi(\bM) \ne 1$ then by considering parities of the sizes of the orbits of elements of $\Phi(\bM)$ under conjugation we see that $\Phi(\bM \cap K) = \Phi(\bM)$ contains a nontrivial element of $Z(\bG)$, contradicting $K \cap Z(\bG) = 1$. Thus $\Phi(\bM) = 1$, so $\bM$ has exponent $2$. Since this holds for every maximal subgroup of $\bG$ which contains $\langle z\rangle$, we see that $\bG$ has exponent $2$, so $\bG$ is abelian.
+Let $\Phi(\bM)$ be the Frattini subgroup of $\bM$, which for $2$-groups is given by $\Phi(\bM) = \bM^2[\bM,\bM]$ (where by $\bM^2$ we mean the collection all squares $a^2$ for $a \in \bM$). Then from $\Phi(\langle z\rangle) = 1$ we have $\Phi(\bM) = \Phi(\bM\cap K)$, and since $\bM \lhd \bG$ we have $\Phi(\bM) \lhd \bG$. Thus if $\Phi(\bM) \ne 1$ then by considering parities of the sizes of the orbits of elements of $\Phi(\bM)$ under conjugation we see that $\Phi(\bM \cap K) = \Phi(\bM)$ contains a nontrivial element of $Z(\bG)$, contradicting $K \cap Z(\bG) = 1$. Thus $\Phi(\bM) = 1$, so $\bM$ has exponent $2$. Since this holds for every maximal subgroup of $\bG$ which contains $\langle z\rangle$, we see that $\bG$ has exponent $2$, so $\bG$ is abelian.
 \end{proof}
 
 Next we show that we can reduce to the situation where $\langle K\rangle$ has an automorphism of order two which sends $k$ to $k^{-1}$ for all $k \in K$.
@@ -2606,7 +2623,7 @@ xg^{-1}yg = x(\tau g^{-1} \tau g)^{-1} (\tau g^{-1} \tau yg) \in K\cap \bS_x.
 Then since $\bM/\bN$ is abelian and $\tau y\tau = y^{-1} \equiv_\bN y$, we have $xg^{-1}yg \equiv_\bN xy$, contradicting the assumption $|(K\cap \bM)/\bN| = 3$.
 \end{proof}
 
-\begin{proof}[Proof of Theorem \ref{near-subgroups}] If $K,K'$ are near-subgroups of $\bG$, then they are both twisted subgroups and so their intersection $K \cap K'$ is also a twisted subgroup. Now let $\bS$ be any $2$-group contained in $\bG$, then for any $b \in K\cap K'$ we have $bK\cap bK' \cap \bS = (bK \cap \bS) \cap (bK' \cap \bS)$ is an intersection of subgroups of $\bS$, so it is a subgroup of $\bS$, and the previous proposition shows that this implies that $K\cap K'$ is a near-subgroup of $\bG$.
+\begin{proof}[Proof of Theorem \ref{near-subgroups}] If $K,K'$ are near-subgroups of $\bG$, then they are both twisted subgroups and so their intersection $K \cap K'$ is also a twisted subgroup. Now let $\bS$ be any $2$-group contained in $\bG$, then for any $b \in K\cap K'$ we see that $bK\cap bK' \cap \bS = (bK \cap \bS) \cap (bK' \cap \bS)$ is an intersection of subgroups of $\bS$, so it is a subgroup of $\bS$, and the previous proposition shows that this implies that $K\cap K'$ is a near-subgroup of $\bG$.
 \end{proof}
 
 
@@ -3067,7 +3084,7 @@ p*p\left(\begin{bmatrix} x & y & z\\ 0 & y & 0\\ -y & 0 & 0\end{bmatrix}\right)
 in two ways: by rows we get $p(p(x,y,z),-y,-y) = p(x,y,z)$, and by columns we get $p(x-y,0,z) = x-y+z$.
 \end{proof}
 
-The method of visualizing algebraic arguments via the geometry of equivalence classes was extended to congruence modular varieties by Gumm in his book ``Geometrical methods in congruence modular algebras'' \cite{gumm-geometric}, where he used it to show that any abelian algebra in a congruence modular variety is affine. This was extended further by Hobby and McKenzie \cite{hobby-mckenzie}, who used Tame Congruence Theory to show that any finite abelian algebra in a Taylor variety is affine (in the infinite case, Kearnes and Szendrei \cite{kearnes-taylor-affine} show that any abelian Taylor algebra is quasi-affine - the example $(\RR, \frac{x+y}{2})$ shows that an additional assumption is needed for it to be affine). Later we will go over a simpler proof of the fact that finite abelian Taylor algebras are affine, from \cite{pointing-no-absorption}.
+The method of visualizing algebraic arguments via the geometry of equivalence classes was extended to congruence modular varieties by Gumm in his book ``Geometrical methods in congruence modular algebras'' \cite{gumm-geometric}, where he used it to show that any abelian algebra in a congruence modular variety is affine. This was extended further by Hobby and McKenzie \cite{hobby-mckenzie}, who used tame congruence theory to show that any finite abelian algebra in a Taylor variety is affine (in the infinite case, Kearnes and Szendrei \cite{kearnes-taylor-affine} show that any abelian Taylor algebra is quasi-affine - the example $(\RR, \frac{x+y}{2})$ shows that an additional assumption is needed for it to be affine). Later we will go over a simpler proof of the fact that finite abelian Taylor algebras are affine, from \cite{pointing-no-absorption}.
 
 \begin{rem} If we leave the context of Taylor varieties, we can no longer expect abelian algebras to be affine, since they could fail to have any interesting operations at all. But we can still ask whether abelian algebras are quasi-affine. The following problem is open.
 \end{rem}
@@ -3239,11 +3256,11 @@ The next corollary is the key to classifying CSPs which do not have the ``abilit
 
 Now we consider some definitions which are useful in the case where the commutator is not trivial (i.e., not given by $[\alpha,\beta] = \alpha \wedge \beta$).
 
-\begin{defn} Suppose that $\alpha \le \beta \in \Con(\bA)$. We say that $\beta$ is \emph{abelian} over $\alpha$ if the term condition $C(\beta,\beta;\alpha)$ holds. We say that $\beta$ is \emph{solvable} over $\alpha$ if there is a chain of congruences $\alpha = \alpha_0 \le \cdots \le \alpha_n = \beta$ such that $\alpha_{i+1}$ is abelian over $\alpha_i$ for each $i$.
+\begin{defn}\label{defn-centralizer} Suppose that $\alpha \le \beta \in \Con(\bA)$. We say that $\beta$ is \emph{abelian} over $\alpha$ if the term condition $C(\beta,\beta;\alpha)$ holds. We say that $\beta$ is \emph{solvable} over $\alpha$ if there is a chain of congruences $\alpha = \alpha_0 \le \cdots \le \alpha_n = \beta$ such that $\alpha_{i+1}$ is abelian over $\alpha_i$ for each $i$.
 
 A congruence $\alpha$ is called abelian if it is abelian over $0_\bA$ (equivalently $[\alpha,\alpha] = 0_\bA$), and similarly $\alpha$ is called solvable if $\alpha$ is solvable over $0_\bA$. An algebra $\bA$ is called solvable if $1_\bA$ is solvable.
 
-The \emph{center} of an algebra $\bA$ is defined to be the largest $\zeta$ such that $C(\zeta,1_\bA)$ holds (equivalently, the largest $\zeta$ with $[\zeta, 1_\bA] = 0_\bA$). For $\beta$ a congruence, we define the \emph{centralizer} of $\beta$, written $(0:\beta)$, to be the largest congruence $\alpha$ such that $[\alpha,\beta] = 0$, and more generally for any $\delta$ we define $(\delta:\beta)$ to be the largest $\alpha$ such that $C(\alpha,\beta;\delta)$ holds.
+The \emph{center} of an algebra $\bA$ is defined to be the largest $\zeta$ such that $C(\zeta,1_\bA)$ holds (equivalently, the largest $\zeta$ with $[\zeta, 1_\bA] = 0_\bA$). For $\beta$ a congruence, we define the \emph{centralizer} of $\beta$, written $(0:\beta)$, to be the largest congruence $\alpha$ such that $[\alpha,\beta] = 0$, and more generally for any $\delta$ we define the \emph{relative centralizer} $(\delta:\beta)$ to be the largest $\alpha$ such that $C(\alpha,\beta;\delta)$ holds.
 \end{defn}
 
 \begin{prop} For congruences on $\bA$, we have the following:
@@ -3262,7 +3279,7 @@ The \emph{center} of an algebra $\bA$ is defined to be the largest $\zeta$ such 
 \begin{proof} Part (a) follows from Proposition \ref{gen-commutator}(e), part (b) is obvious, part(c) follows from Proposition \ref{gen-commutator}(d), part (d) follows from Proposition \ref{gen-commutator}(f), and part (e) is part (d) specialized to the case $\beta = 1_\bA, \alpha = \theta$.
 \end{proof}
 
-To go further, we need to make an additional assumption on our variety, such as congruence modularity. The interested reader can find the (surprisingly deep) theory of commutators in congruence modular varieties in Appendix \ref{a-commutator}.
+If our algebra is finite, then solvability has a surprisingly simple alternative characterization based on tame congruence theory, which is described in Appendix \ref{a-sec-snags}. To take the general theory further, we need to make an additional assumption on our variety, such as congruence modularity. The interested reader can find the (surprisingly deep) theory of commutators in congruence modular varieties in Appendix \ref{a-commutator}.
 
 A weaker assumption which is still good enough to prove most of the basic properties of commutators is the existence of a ternary term known as a \emph{difference term}, generalizing the Gumm difference term found in congruence modular varieties, which acts like a Mal'cev term on abelian algebras.
 
@@ -3977,7 +3994,7 @@ f_1(x,y,y) = x \vee (y \wedge y) = x \vee y = (x \wedge x) \vee y = f_2(x,x,y),
 and have $f_1(x,x,y) = x, f_2(x,y,y) = y$. By Theorem \ref{jonsson-terms} and the discussion before Theorem \ref{directed-gumm-terms}, this implies that $\bA$ is congruence distributive.
 \end{ex}
 
-\begin{ex} We've seen earlier that the two-element semilattice $\bA = (\{0,1\}, \max)$ does not have few subpowers. Here we will check that the two-element semilattice does not generate a congruence modular variety. In fact, the congruence lattice $\Con(\bA^2)$ already fails to be modular. It turns out that every congruence on $\bA^2$ is generated (as a congruence) by just one pair of elements $a,b$ of $\bA^2$, so we can label the nontrivial congruences on $\bA^2$ by pairs of elements $a,b \in \bA^2$, yielding the following congruence lattice.
+\begin{ex}\label{ex-con-semi-square} We've seen earlier that the two-element semilattice $\bA = (\{0,1\}, \max)$ does not have few subpowers. Here we will check that the two-element semilattice does not generate a congruence modular variety. In fact, the congruence lattice $\Con(\bA^2)$ already fails to be modular. It turns out that every congruence on $\bA^2$ is generated (as a congruence) by just one pair of elements $a,b$ of $\bA^2$, so we can label the nontrivial congruences on $\bA^2$ by pairs of elements $a,b \in \bA^2$, yielding the following congruence lattice.
 \begin{center}
 \begin{tikzpicture}[scale=1.5]
   \node (1) at (0,2) {$\begin{bmatrix}0\\ 0\end{bmatrix} 1_{\bA^2} \begin{bmatrix}1\\ 1\end{bmatrix}$};
@@ -4724,7 +4741,7 @@ for instance, then we get
 
 \begin{rem} There is a variant of the PAC learning model in which the learner is also allowed to use \emph{membership queries}: in a membership query, the learner picks an element $x \in U$, and asks the teacher (oracle) whether $x$ is in the target concept.
 
-In \cite{pac-membership}, several situations are given where the addition of membership queries can be shown not to help with learning, under some standard cryptographic assumptions. In \cite{learnable-gmm}, there is a claim that some of the impossibility results for PAC learning of $\Inv_n(\bA)$ when $\bA$ doesn't have few subpowers can be generalized to impossibility results in the model of PAC learning with membership queries (under cryptographic assumptions), but the exact statement and the proof are left to a ``full version'' of the paper which I have been unable to track down. The more recent paper \cite{membership-query-hardness} by Chen and Valeriote proves such a hardness result for algebraic structures which are not congruence modular, and for finitely related structures congruence modularity is equivalent to few subpowers (as we will see later).
+In \cite{pac-membership}, several situations are given where the addition of membership queries can be shown not to help with learning, under some standard cryptographic assumptions. In \cite{learnable-gmm}, there is a claim that some of the impossibility results for PAC learning of $\Inv_n(\bA)$ when $\bA$ doesn't have few subpowers can be generalized to impossibility results in the model of PAC learning with membership queries (under cryptographic assumptions), but the exact statement and the proof are left to a ``full version'' of the paper which I have been unable to track down. The more recent paper \cite{membership-query-hardness} by Chen and Valeriote proves such a hardness result for algebraic structures which are not congruence modular, and for finitely related structures congruence modularity is equivalent to few subpowers.%TODO: (as we will see later).
 \end{rem}
 
 %TODO: subsection on pentagons and hardness results
@@ -4787,7 +4804,7 @@ so every fork in $\Forks(\cO_m,b)$ is also a fork in $\Forks(\cO_n,a)$.
 \end{itemize}
 If no coordinate $a_i$ of $a$ is minimal or maximal with respect to the order $<$ on $\bA$, then the converse is true: such a $\phi$ exists iff such an $h$ exists.
 \end{prop}
-\begin{proof} Given such an $h$, we define $\phi$ as follows. We set $\phi(h(i)) = i$, and for $j$ not in the image of $h$ let $\phi(j)$ be the first index $i$ such that $a_i = b_j$, so that $h(\phi(j)) \le j$ for all $j$. Then for any $c <_{lex} a$, if $i$ is the first index where $a_i \ne c_i$, and if $j$ is the first coordinate where $\phi^*(a)$ and $\phi^*(c)$ differ, then we have $a_{\phi(j)} \ne c_{\phi(j)}$, so $i \le \phi(j)$, so $h(i) \le \phi(j) \le j$, so we must have $h(i) = j$ since $\phi^*(a)$ and $\phi^*(c)$ also differ at $h(i)$. Thus $\phi^*(c) <_{lex} \phi^*(a) = b$.
+\begin{proof} Given such an $h$, we define $\phi$ as follows. We set $\phi(h(i)) = i$, and for $j$ not in the image of $h$ let $\phi(j)$ be the first index $i$ such that $a_i = b_j$, so that $h(\phi(j)) \le j$ for all $j$. Then for any $c <_{lex} a$, if $i$ is the first index where $a_i \ne c_i$, and if $j$ is the first coordinate where $\phi^*(a)$ and $\phi^*(c)$ differ, then we have $a_{\phi(j)} \ne c_{\phi(j)}$, so $i \le \phi(j)$, so $h(i) \le h(\phi(j)) \le j$, so we must have $h(i) = j$ since $\phi^*(a)$ and $\phi^*(c)$ also differ at $h(i)$. Thus $\phi^*(c) <_{lex} \phi^*(a) = b$.
 
 Now suppose that no coordinate $a_i$ of $a$ is minimal or maximal with respect to the order $<$ on $\bA$. Then the map $\phi$ in the previous proposition must be surjective: if $i$ is not in the image of $\phi$, then we can define $c <_{lex} a$ which only differs from $a$ on the $i$th coordinate, and $\phi^*(c) = \phi^*(a) \not<_{lex} b$, contradicting the choice of $\phi$. Thus we can define $h : [n] \rightarrow [m]$ by
 \[
@@ -4906,7 +4923,7 @@ Take the standard alphabetical ordering $<$ on $\{a,b,c\}$. It's easy to check t
 
 To complete the description of $\lambda(\langle g\rangle,(a,c))$, we just need to check that for all $2 \le i \le n$, the word $s_{in} = a\cdots aca\cdots a \in A^+$ of length $n$ with a $c$ in the $i$th position and $a$s elsewhere has $(a,c) \in \Forks(\langle g\rangle, s_{in})$. For this, we take the terms $x_1$ and $g(x_1,x_1,x_i)$ in the free algebra, and check that they make a fork at $s_{in}$. For $s' <_{lex} s_{in}$, we have $s_1' = a$ and $s_i' < c$, so
 \[
-g(s_1',s_1',s_i') = g(a,a,a)\text{ or }g(a,a,b) = a = s_1,
+g(s_1',s_1',s_i') = g(a,a,a)\text{ or }g(a,a,b) = a = s_1',
 \]
 so $x_1$ and $g(x_1,x_1,x_i)$ agree on tuples which come lexicographically before $s_{in}$. At $s_{in}$, we get the fork $(a,g(a,a,c)) = (a,c)$.
 \end{ex}
@@ -5024,7 +5041,7 @@ The final $y=z$ in the last implication can also be replaced with any unary rela
 
 \begin{thm} Suppose $\RR \le \bA_{rps}^n$. Then $x \in \RR$ iff $x$ satisfies every basic relation on $\bA_{rps}$ which contains $\RR$. In particular, $\RR$ is contained in the relational clone generated by $\{(a,b), (b,c), (c,a)\}$ and $R_{a,b}$.
 \end{thm}
-\begin{proof} Suppose $x \in \RR$. Let $I = \{i_1, ..., i_k\} \subseteq [n]$ be maximal such that, after applying cyclic automorphisms to coordinates in $I$, we have $x_{i_j} = a$ for all $j \le k$, and such that the basic relation
+\begin{proof} Suppose $x$ satisfies every basic relation which contains $\RR$. Let $I = \{i_1, ..., i_k\} \subseteq [n]$ be maximal such that, after applying cyclic automorphisms to coordinates in $I$, we have $x_{i_j} = a$ for all $j \le k$, and such that the basic relation
 \begin{align*}
 y_{i_1} \in &\{a,b\} \wedge (y_{i_1} = a \implies y_{i_2} \in \{a,b\}) \wedge (y_{i_1} = y_{i_2} = a \implies y_{i_3} \in \{a,b\})\\
 &\wedge \cdots \wedge (y_{i_1} = \cdots = y_{i_{k-1}} = a \implies y_{i_k} \in \{a,b\})
@@ -8164,10 +8181,14 @@ A simple iteration argument allows us to give a criterion for bounded width invo
 
 \begin{thm}\label{bounded-width-term} A finite relational structure $\fA$ has bounded relational width if and only if it has a ternary polymorphism $g \in \Pol_3(\fA)$ such that, if $f$ is the binary term $f(x,y) \coloneqq g(x,x,y)$, we have
 \[
-g(x,x,y) \approx g(x,y,x) \approx g(y,x,x) \approx f(x,y) \approx f(f(x,y),f(y,x)).
+g(x,x,y) \approx g(x,y,x) \approx g(y,x,x) \approx f(x,y) \approx f(f(x,y),f(y,x)) \approx f(f(x,y), f(x,y)).
 \]
 \end{thm}
-\begin{proof} Suppose first that $\fA$ has bounded relational width, and let $f_3, g_3 \in \Pol_3(\fA)$ be terms as in Theorem \ref{bounded-width-terms}. Define a sequence of terms $g^i$ by $g^1 \coloneqq g_3$ and
+\begin{proof} Suppose first that $\fA$ has bounded relational width, and let $f_3, g_3 \in \Pol_3(\fA)$ be terms as in Theorem \ref{bounded-width-terms}. By an iteration argument applied to the unary operation $x \mapsto g_3(x,x,x)$, we may assume without loss of generality that we have
+\[
+g_3(x,y,z) = h \circ g_3(x,y,z),
+\]
+where $h(x) \coloneqq g_3(x,x,x)$. Define a sequence of terms $g^i$ by $g^1 \coloneqq g_3$ and
 \[
 g^{i+1}(x,y,z) \coloneqq g^i(f_3(x,y,z),f_3(y,z,x),f_3(z,x,y)).
 \]
@@ -8184,21 +8205,21 @@ Thus the sequence $f^i(x,y)$ is generated by iterating the map $(x,y) \mapsto (f
 
 Now suppose that $f,g$ satisfy the assumed identities. Let $e$ be the unary operation $e(x) \coloneqq f(x,x) = g(x,x,x)$. The identity
 \[
-f(x,y) \approx f(f(x,y),f(y,x))
+f(x,y) \approx f(f(x,y),f(x,y)) = e(f(x,y))
 \]
 implies that
 \[
 e(e(x)) \approx e(x),
 \]
-so $\fA$ is homomorphically equivalent to $e(\fA)$, and the restrictions of $f,g$ to $e(\fA)$ are idempotent. Let $\bA_e$ be the idempotent algebra $(e(\fA), f|_{e(\fA)}, g|_{e(\fA)})$. We will show that $\bA_e$ is Taylor and affine-free.
+so $\fA$ is homomorphically equivalent to $e(\fA)$, and the restrictions of $f, e \circ g$ to $e(\fA)$ are idempotent. Let $\bA_e$ be the idempotent algebra $(e(\fA), f|_{e(\fA)}, e \circ g|_{e(\fA)})$. We will show that $\bA_e$ is Taylor and affine-free.
 
 That $\bA_e$ is Taylor follows from the identity
 \[
-g(x,x,y) \approx g(x,y,x) \approx g(y,x,x).
+e \circ g(x,x,y) \approx e \circ g(x,y,x) \approx e \circ g(y,x,x).
 \]
 For the sake of contradiction, assume that $\bB \in HSP(\bA_e)$ is a nontrivial affine algebra. Then we can write
 \[
-g(x,y,z) \approx \alpha(x+y+z)
+e\circ g(x,y,z) \approx \alpha(x+y+z)
 \]
 on $\bB$, for some $\alpha$ with $3\alpha x \approx x$. Then we have
 \[
@@ -8526,7 +8547,7 @@ S \preceq_R S+\pi_{ij}(R).
 If $\fX$ is an arc-consistent instance with variable domains $A_x$, then a collection of vague elements $\preceq_x$ of the $A_x$s is a \emph{vague solution} to $\fX$ if it vaguely satisfies every relation of $\fX$.
 \end{defn}
 
-Total quasiorders are also known as \emph{preference relations} - so intuitively, we can think of a vague element of $A$ as a preference relation on the nonempty subsets of $A$ which our hypothetical element might live in, which avoids being caught out as incoherent by requiring that any pair of equally preferable subsets has a nonempty intersection. Vague solutions are closely connected to weak consistency.
+Total quasiorders are also known as \emph{preference relations} - so a vague element of $A$ is a preference relation on the nonempty subsets of $A$ which our hypothetical element might live in, which avoids being caught out as incoherent by requiring that any pair of equally preferable subsets has a nonempty intersection. Vague solutions are closely connected to weak consistency.
 
 \begin{prop} Every weakly consistent instance has a vague solution. In fact, there is always a vague solution where each vague element $\preceq_x$ extends the inclusion order $\subseteq$ on $\cP_\emptyset(A_x)$ (possibly identifying some subsets with each other as well).
 \end{prop}
@@ -8661,7 +8682,7 @@ We can at least make it a bit simpler for ourselves to check that a particular a
 S + R \preceq_y T \;\; \wedge \;\; T - R \preceq_x S \;\; \implies \;\; S + R \sim_y T \;\; \wedge \;\; T - R \sim_x S.
 \]
 \end{prop}
-\begin{proof} Consider the digraph on $\cP_\emptyset(A_x) \sqcup \cP_\emptyset(A_y)$ with an edge from $S \subseteq A_x$ to $T \subseteq A_y$ whenever $S + R \preceq_y T$, and similarly with an edge from $T \subseteq A_y$ to $S \subseteq A_x$ whenever $T - R \preceq_x S$. We just need to check that every cycle $(S_1, T_1, S_2, T_2, ..., S_k, T_k)$ of this digraph, all $S_i$s are related by $\sim_x$ and all $T_j$s are related by $\sim_y$. For this, suppose that $S_i$ is $\preceq_x$-minimal and that $T_j$ is $\preceq_y$-minimal. Then from
+\begin{proof} Consider the digraph on $\cP_\emptyset(A_x) \sqcup \cP_\emptyset(A_y)$ with an edge from $S \subseteq A_x$ to $T \subseteq A_y$ whenever $S + R \preceq_y T$, and similarly with an edge from $T \subseteq A_y$ to $S \subseteq A_x$ whenever $T - R \preceq_x S$. We just need to check that for every cycle $(S_1, T_1, S_2, T_2, ..., S_k, T_k)$ of this digraph, all $S_i$s are related by $\sim_x$ and all $T_j$s are related by $\sim_y$. For this, suppose that $S_i$ is $\preceq_x$-minimal and that $T_j$ is $\preceq_y$-minimal. Then from
 \[
 S_j + R \preceq_y T_j \preceq_y T_{i-1}
 \]
@@ -9759,6 +9780,38 @@ Since no $\pi_{ij}(\RR)$ can be the graph of an automorphism, we see that we mus
 For the last claim, we recall Zhuk's four cases (Corollary \ref{zhuk-four-cases}), and note that both binary absorption and central absorption imply ternary absorption.
 \end{proof}
 
+\begin{prob} Suppose that a minimal Taylor algebra $\bA$ is generated by two elements. Is it possible for $\bA$ to be polynomially complete?
+\end{prob}
+
+\begin{comment}
+A min Taylor, 2-gen'd by a,b, simple
+can A be polynomially complete?
+
+one of a,b in a center C, wlog say a in C and C minimal among centers containing a generator of A
+poly complete -> (b,a) in Sg{(a,a), (a,b), (b,b)} -> can't have both a in center and b in center, so b is not in a center
+
+so S = Sg{(a,b), (b,a)} can't be graph of an auto
+poly complete -> tolerance free -> every linked relation has a left and right center
+let D be the center of S
+a is not in D, since otherwise would have (a,a) in S
+b in C+S -> C+S = A
+since S contained in CxA u AxC, must have D contained in C
+D must binary absorb b+S: if not, there is a bin-absorption-free subalgebra of b+S which meets D and A\D, and this would force b to be contained in a center
+if D bin absorbs b, then done, so suppose not
+then there is some majority edge Sg{b,c} between b and c, c in D, with congruence classes chopped out by D
+
+S contains no graph of an aut (otherwise the aut takes b to an element of C)
+if x in b+S and y in a+S, Sg{(a,y), (b,x)} is linked -> there is some binary f with f(b,a) = b and f(x,y) in D, and this f satisfies f(b+S, a+S) contained in b+S
+by composing, can get binary f with f(b,a) = b and f(b+S, a+S) contained in D
+if for all x in Sg{b, D} have Sg{(a,x), (x,a)} meeting (D,D), then Sg{b,D} binary absorbs a, so there is some x in Sg{b, D} such that Sg{(a,x), (x,a)} does not meet (D,D)
+
+set R = Sg{(b,b,a), (b,a,b), (a,b,b)}
+every bin proj of R is full if b not in a center
+A nonabelian + no binary absorbing subalgebra -> R_x is linked for all x -> for all x there exists y such that (x,y,A) contained in R
+since (b,D,A) contained in R and no automorphism takes b into D, there is some x such that (x,A,A) contained in R
+Let E be the center of R, so that E is maximal with (E,A,A) contained in R, AxA has no bin absorbing subalgebra so E is centrally absorbing (but maybe not proper)
+\end{comment}
+
 The general recognition theorem for two-element majority subalgebras is as follows.
 
 \begin{prop} If $\bA$ is a minimal Taylor algebra, then $a, b \in \bA$ have
@@ -10774,6 +10827,7 @@ The challenge now is to find situations where we can usefully reduce to subprobl
 If an instance $\fX$ is unlinked at a variable $x$, then we define the \emph{linking relation} $\theta_\fX$ of $\fX$ at $x$ as the equivalence relation on $\bA_x$ defined by $(a,b) \in \theta_\fX$ iff there is some cycle $p$ from $x$ to $x$ such that $b \in \{a\} + p$.
 \end{defn}
 
+% TODO: this generalizes to the weakly consistent case
 \begin{prop} If $\fX$ is cycle-consistent and unlinked at $x$, then the linking relation $\theta_\fX$ is a congruence of $\bA_x$.
 \end{prop}
 \begin{proof} We just need to check that $\theta_\fX$ is closed under unary polynomial operations of $\bA_x$. So suppose that $(a,b) \in \theta_\fX$, $c_1, ..., c_n \in \bA_x$, and $f$ is some $n+1$-ary polymorphism of $\bA_x$. Since $(a,b) \in \theta_\fX$, there is some cycle $p$ from $x$ to $x$ such that $b \in \{a\}+p$. By cycle-consistency, we also have $c_i \in \{c_i\} + p$ for each $i$, so if $\PP_p \le \bA_x^2$ is the binary relation corresponding to the cycle $p$, then we have

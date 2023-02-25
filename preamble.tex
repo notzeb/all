@@ -36,6 +36,16 @@
 
 \usepackage{appendix}
 
+\DeclareFontFamily{U}{matha}{\hyphenchar\font45}
+\DeclareFontShape{U}{matha}{m}{n}{
+    <5> <6> <7> <8> <9> <10> gen * matha
+    <10.95> matha10 <12> <14.4> <17.28> <20.74> <24.88> matha12
+}{}
+\DeclareSymbolFont{matha}{U}{matha}{m}{n}
+\DeclareFontSubstitution{U}{matha}{m}{n}
+\DeclareMathSymbol{\thinsubset}{3}{matha}{"80}
+\DeclareMathSymbol{\thinsupset}{3}{matha}{"81}
+
 \makeatletter
   \@addtoreset{chapter}{part}
   \@addtoreset{@ppsaveapp}{part}
@@ -72,6 +82,8 @@
 \DeclareMathOperator{\End}{End}
 \DeclareMathOperator{\Con}{Con}
 \DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Sn}{Sn}
+\DeclareMathOperator{\typ}{typ}
 
 \DeclareMathOperator{\rad}{rad}
 \DeclareMathOperator{\diam}{diam}
@@ -254,6 +266,7 @@
 \newcommand{\cV}{\mathcal{V}}
 \newcommand{\cB}{\mathcal{B}}
 \newcommand{\cA}{\mathcal{A}}
+\newcommand{\cH}{\mathcal{H}}
 \newcommand{\ZZ}{\mathbb{Z}}
 \newcommand{\NN}{\mathbb{N}}
 \newcommand{\QQ}{\mathbb{Q}}
@@ -304,4 +317,6 @@
 \newcommand{\dotcup}{\ensuremath{\mathaccent\cdot\cup}}
 
 \newcommand{\rvline}{\hspace*{-\arraycolsep}\vline\hspace*{-\arraycolsep}}
+
+\def\D{\mathrm{d}}
 
