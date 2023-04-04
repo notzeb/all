@@ -6546,7 +6546,7 @@ t\left(\begin{bmatrix}a_1 & b_{12} & \cdots & b_{1m}\\ b_{21} & a_2 & \cdots & b
 since $\bB$ absorbs $\bA$ with respect to $t$, which is a contradiction.
 \end{proof}
 
-\begin{cor}\label{cor-absorption-essential} If $\bB$ absorbs $\bA$ with respect to a term $t$ of arity $m$, then for any $n \ge m$ and any relation $\RR \le \bA^n$ such that
+\begin{cor}\label{cor-absorption-essential} If $\bB$ absorbs $\bA$ with respect to a term $t$ of arity $m$, then for any $n \ge m-1$ and any relation $\RR \le \bA^n$ such that
 \[
 \pi_I(\RR) \cap \bB^{m-1} \ne \emptyset
 \]
@@ -6555,11 +6555,11 @@ for all $I \subseteq [n]$ with $|I| = m-1$, we have
 \RR \cap \bB^n \ne \emptyset.
 \]
 \end{cor}
-\begin{proof} We prove this by induction on $n \ge m$. The base case $n = m$ follows from the fact that there are no $\bB$-essential relations of arity $m$ by Proposition \ref{prop-absorption-essential}. For the inductive step, note that by the inductive hypothesis we have
+\begin{proof} We prove this by induction on $n \ge m-1$. The base case $n = m-1$ follows by taking $I = [n]$. For the inductive step, note that by the inductive hypothesis we have
 \[
 \pi_{[n]\setminus\{i\}}(\RR) \cap \bB^{n-1} \ne \emptyset
 \]
-for all $i \in [n]$, and since $n \ge m$ we must have $\RR \cap \bB^n \ne \emptyset$, since there are no $\bB$-essential relations of arity $n$ either by Proposition \ref{prop-essential-down}.
+for all $i \in [n]$, and we must have $\RR \cap \bB^n \ne \emptyset$ since there are no $\bB$-essential relations of arity $n \ge m$ by Propositions \ref{prop-essential-down} and \ref{prop-absorption-essential}.
 \end{proof}
 
 Our main result is the converse to Proposition \ref{prop-absorption-essential}.
