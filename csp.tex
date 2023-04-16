@@ -7068,7 +7068,7 @@ f(b,a) = t(b,u_2(b,a),...,u_k(b,a)) \in t(\bB,\bA,...,\bA) \subseteq \bB.\qedher
 \]
 \end{proof}
 
-\begin{thm}[Zhuk \cite{zhuk-dichotomy}] Suppose that $\bA, \bB$ are finite idempotent algebras, and that there is a term $t$ which is Taylor on $\bB$. If $\RR \le_{sd} \bA \times \bB$ is subdirect and has a nontrivial left center $\bC$, then either $\bB$ has a proper binary absorbing subalgebra, or $\bC$ absorbs $\bA$ with respect to the term $t*\cdots *t$, with $|\bB|-1$ copies of $t$.
+\begin{thm}[Zhuk \cite{zhuk-dichotomy}]\label{thm-center-implies-absorbing} Suppose that $\bA, \bB$ are finite idempotent algebras, and that there is a term $t$ which is Taylor on $\bB$. If $\RR \le_{sd} \bA \times \bB$ is subdirect and has a nontrivial left center $\bC$, then either $\bB$ has a proper binary absorbing subalgebra, or $\bC$ absorbs $\bA$ with respect to the term $t*\cdots *t$, with $|\bB|-1$ copies of $t$.
 \end{thm}
 \begin{proof} Suppose $t$ has arity $k$. We will show that if $\bB$ has no proper binary absorbing subalgebra, then for any $a \in \bA \setminus \bC$ and for any $c_1, ..., c_k \in \bC$ and any $i \le k$, the value
 \[
@@ -7092,7 +7092,7 @@ Since $t$ is idempotent, the right hand side of the above must contain $a+\RR$, 
 
 Keeping the same setup, the left center $\bC$ has an additional nice property, which is much stronger than it looks.
 
-\begin{thm}[Zhuk \cite{zhuk-dichotomy}] Suppose $\bA, \bB$ are finite idempotent algebras. If $\RR \le_{sd} \bA \times \bB$ has a left center $\bC$ and $\bB$ has no proper binary absorbing subalgebras, then for any $a \in \bA$ we have
+\begin{thm}[Zhuk \cite{zhuk-dichotomy}]\label{thm-center-implies-central} Suppose $\bA, \bB$ are finite idempotent algebras. If $\RR \le_{sd} \bA \times \bB$ has a left center $\bC$ and $\bB$ has no proper binary absorbing subalgebras, then for any $a \in \bA$ we have
 \[
 a \not\in \bC \;\; \implies \;\; \begin{bmatrix}a\\ a\end{bmatrix} \not\in \Sg_{\bA^2}\left\{\begin{bmatrix}a\\ \bC\end{bmatrix}, \begin{bmatrix}\bC\\ \bC\end{bmatrix}, \begin{bmatrix}\bC\\ a\end{bmatrix}\right\}.
 \]
@@ -7123,6 +7123,8 @@ We can combine the previous two results about left centers to define a new type 
 
 \begin{cor}\label{zhuk-center} Suppose $\bA, \bB$ are finite and idempotent. If $\RR \le_{sd} \bA \times \bB$ has left center $\bC$ and $\bB$ is Taylor and binary absorption free, then $\bC \lhd_Z \bA$.
 \end{cor}
+\begin{proof} By Theorem \ref{thm-center-implies-absorbing}, $\bC$ absorbs $\bA$, and then by Theorem \ref{thm-center-implies-central} the absorption is central.
+\end{proof}
 
 There is an unfortunate naming collision between the centers considered here, and the centers considered in commutator theory. Generally it should be clear from context which sort of center is meant. (I have proposed the alternate name \emph{stable absorption} instead of central absorption, but it seems unlikely to catch on.)
 
@@ -7659,9 +7661,7 @@ Now we can put all the pieces together and get our main result.
 
 Now we can apply the fundamental theorem of abelian algebras to further constrain relations on absorption free algebras.
 
-\begin{thm}[Zhuk \cite{zhuk-dichotomy}]\label{absorption-free} Suppose that $\bA$ is finite, simple, idempotent, Taylor, absorption free, and \emph{not} affine. Then every subdirect relation $\RR \le_{sd} \bA^n$ is the intersection of its binary projections, each of which is either a full relation or the graph of an automorphism of $\bA$.
-
-In fact, we can weaken the assumption that $\bA$ is absorption free to the assumption that $\bA$ has no binary or centrally absorbing subalgebras.
+\begin{thm}[Zhuk \cite{zhuk-dichotomy}]\label{absorption-free} Suppose that $\bA$ is finite, simple, idempotent, Taylor, has no binary or centrally absorbing subalgebras, and is \emph{not} affine. Then every subdirect relation $\RR \le_{sd} \bA^n$ is the intersection of its binary projections, each of which is either a full relation or the graph of an automorphism of $\bA$.
 \end{thm}
 \begin{proof} We call a subdirect relation $\RR \le \bA^n$ \emph{irredundant} if no $\pi_{ij}(\RR)$ is the graph of an automorphism of $\bA$. We will prove by induction on $n$ that every irredundant subdirect relation on $\bA$ is the full relation.
 
@@ -9606,7 +9606,11 @@ If $\pi_1(\RR) \ne \bA$, then since $\RR$ is cyclic we have $\RR \le \pi_1(\RR)^
 
 If $\bA$ has a nontrivial congruence $\theta \in \Con(\bA)$, then $\RR/\theta^p \le (\bA/\theta)^p$ is a cyclic relation on $\bA/\theta$, so by the induction hypothesis applied to $\bA/\theta$ there is some congruence class $a/\theta$ such that $\RR \cap (a/\theta)^p \ne \emptyset$. Setting $\RR' = \RR \cap (a/\theta)^p$, we see that $\RR'$ is a cyclic relation on $a/\theta$, so by the induction hypothesis applied to $a/\theta$ we see that $\RR'$ (and therefore also $\RR$) has a constant tuple. Thus we may assume that $\bA$ is simple.
 
-If any $\pi_{ij}(\RR)$ is the graph of an automorphism $\sigma$ of $\bA$, then since $\RR$ is cyclic, we see that $\pi_{j,2j-i}(\RR)$ is also the graph of $\sigma$, and similarly so is $\pi_{2j-i,3j-2i}(\RR)$, etc., and we must have $\sigma^p = 1$. Since $p$ is prime, we see that in fact every $\pi_{kl}(\RR)$ is the graph of some power of the automorphism $\sigma$. In this case we see that $\RR$ has a constant tuple if and only $\sigma$ has a fixed point. Thus we may assume without loss of generality that every $\pi_{ij}(\RR)$ is linked.
+If any $\pi_{ij}(\RR)$ is the graph of an automorphism $\sigma$ of $\bA$, then since $\RR$ is cyclic, we see that $\pi_{j,2j-i}(\RR)$ is also the graph of $\sigma$, and similarly so is $\pi_{2j-i,3j-2i}(\RR)$, etc., so
+\[
+\pi_{ii}(\RR) = \pi_{ij}(\RR) \circ \pi_{j,2j-i}(\RR) \circ \cdots \circ \pi_{2i-j,i}(\RR)
+\]
+is the graph of $\sigma^p$, which implies $\sigma^p = 1$. Since $p$ is prime, we see that in fact every $\pi_{kl}(\RR)$ is the graph of some power of the automorphism $\sigma$. In this case we see that $\RR$ has a constant tuple if and only if $\sigma$ has a fixed point. Thus we may assume without loss of generality that every $\pi_{ij}(\RR)$ is linked.
 
 By Zhuk's four cases (Corollary \ref{zhuk-four-cases}), we see that $\bA$ is either affine, subdirectly complete, or has a proper ternary absorbing subalgebra.
 
@@ -10031,7 +10035,7 @@ c(x_1, ..., x_p) \coloneqq c'(u(x_1, ..., x_p), u(x_2, ..., x_p, x_1), ..., u(x_
 
 For (b) implies (c), note that the cyclic term $c$ must generate the clone of $\bA$, so it's enough to check that the relation $\RR$ is preserved by $c$, which is easy to prove directly.
 
-That (c) implies (d) follows from Zhuk's Theorem \ref{zhuk-center}, since the left center of $\RR$ is $\bC$ and the majority algebra $\bM$ is binary absorption free.
+That (c) implies (d) follows from Zhuk's Corollary \ref{zhuk-center}, since the left center of $\RR$ is $\bC$ and the majority algebra $\bM$ is binary absorption free.
 
 That (c) implies (e) follows from a direct computation: we have
 \[
