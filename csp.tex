@@ -7025,7 +7025,7 @@ The set $\bC$ is known as the \emph{center} of the central relation $\RR$.
 
 Since relations of high arity are hard to think about, Zhuk simplifies this to a special type of binary relation on $\bA \times \bB$, where $\bB$ is secretly taken to be $\bA^{n-1}$. To see that this step doesn't lose anything essential, we use the following fact about absorbing subalgebras of powers.
 
-\begin{prop} Suppose that $\bA$ is idempotent and that $\bA^k$ has a proper absorbing subalgebra for some $k$. Then $\bA$ has a proper absorbing subalgebra.
+\begin{prop}\label{prop-absorption-in-powers} Suppose that $\bA$ is idempotent and that $\bA^k$ has a proper absorbing subalgebra for some $k$. Then $\bA$ has a proper absorbing subalgebra.
 
 In fact, this holds for any absorption concept $\lhd_X$ which is compatible with pp-formulas.
 \end{prop}
@@ -7670,11 +7670,13 @@ Now we can apply the fundamental theorem of abelian algebras to further constrai
 \end{thm}
 \begin{proof} We call a subdirect relation $\RR \le \bA^n$ \emph{irredundant} if no $\pi_{ij}(\RR)$ is the graph of an automorphism of $\bA$. We will prove by induction on $n$ that every irredundant subdirect relation on $\bA$ is the full relation.
 
-The base cases of the induction are the cases $n = 1,2,3$. The case $n = 1$ is trivial (a unary subdirect relation must be full). The case $n=2$ follows from the Absorption Theorem \ref{absorption-theorem}, since every subdirect binary relation on $\bA$ is either the graph of an automorphism of $\bA$, or is linked (since $\bA$ is simple) and therefore is equal to the full relation (since $\bA$ has no binary or centrally absorbing subalgebras). For the case $n=3$, note by the $n=2$ case both $\pi_{13}(\RR)$ and $\pi_{23}(\RR)$ must be full relations, so for any $a \in \bA$ the binary relation
+The base cases of the induction are the cases $n = 1,2,3$. The case $n = 1$ is trivial (a unary subdirect relation must be full). The case $n=2$ follows from the Absorption Theorem \ref{absorption-theorem}, since every subdirect binary relation on $\bA$ is either the graph of an automorphism of $\bA$, or is linked (since $\bA$ is simple) and therefore is equal to the full relation (since $\bA$ has no binary or centrally absorbing subalgebras).
+
+For the case $n=3$, note by the $n=2$ case both $\pi_{13}(\RR)$ and $\pi_{23}(\RR)$ must be full relations, so for any $a \in \bA$ the binary relation
 \[
 \RR^a \coloneqq \pi_{12}(\RR \cap (\bA^2\times\{a\}))
 \]
-is subdirect. Then by the $n=2$ case again, we see that $\RR^a$ is either the graph of an automorphism or is equal to $\bA^2$. If there is any $a \in \bA$ such that $\RR^a = \bA^2$, then $a$ is contained in the right center of $\RR$, considered as a binary relation on $(\bA^2)\times \bA$, so $\RR = \bA^3$ by the Absorption Theorem \ref{absorption-theorem} (or just Corollary \ref{zhuk-center}). Otherwise every $\RR^a$ is the graph of an automorphism, and a similar argument applies if we permute the coordinates of $\RR$, so we may apply Proposition \ref{ternary-abelian} to see that $\bA$ is abelian. But then by the fundamental theorem of abelian algebras \ref{taylor-abelian} we see that $\bA$ is affine, which contradicts our assumptions.
+is subdirect. Then by the $n=2$ case again, we see that $\RR^a$ is either the graph of an automorphism or is equal to $\bA^2$. If there is any $a \in \bA$ such that $\RR^a = \bA^2$, then $a$ is contained in the right center of $\RR$, considered as a binary relation on $(\bA^2)\times \bA$, so $\RR = \bA^3$ by the Absorption Theorem \ref{absorption-theorem} (or just Corollary \ref{zhuk-center}) and the fact that $\bA^2$ has no proper binary or centrally absorbing subalgebras by Proposition \ref{prop-absorption-in-powers}. Otherwise every $\RR^a$ is the graph of an automorphism, and a similar argument applies if we permute the coordinates of $\RR$, so we may apply Proposition \ref{ternary-abelian} to see that $\bA$ is abelian. But then by the fundamental theorem of abelian algebras \ref{taylor-abelian} we see that $\bA$ is affine, which contradicts our assumptions.
 
 For the induction step, assume that $n > 3$. Then for every pair of distinct $i,j \le n-1$, the ternary relation $\pi_{ijn}(\RR)$ is full by the $n=3$ case, so for every $a \in \bA$, the binary relation
 \[
