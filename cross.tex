@@ -40,8 +40,19 @@
 
 \section{Projective Geometry and Cross ratios}
 
+Projective geometry is the geometry of a painter living in three-dimensional space, who wants to capture what they see on a flat two-dimensional canvas. The symmetries of projective geometry correspond to tilting or rotating the canvas (without the painter moving their head). These symmetries can distort angles and change the ratios between lengths, but at least straight lines will always remain straight.
+
+One important fact about projective geometry is that lines which look parallel on one canvas can meet when projected onto a tilted canvas. Another way of saying this is that two lines in the true three-dimensional world can meet at a point which can't be projected onto the canvas, and the painter's drawings of these lines will appear to be parallel. From the point of view of the canvas, this missing point lives ``at infinity'', but the painter can see the missing point quite clearly. The ``projective plane'' is what we get when we complete the plane of the canvas by adding in the missing points at infinity where parallel lines meet.
+
 \begin{defn} The \emph{projective plane} $\mathbb{P}^2$ is the set of lines through an observation point $O$ in three dimensional space. A \emph{projective line} $l$ is a plane passing through $O$, and a \emph{projective point} $P$ is a line passing through $O$. If the line defining $P$ is contained in the plane defining $l$, we say that $P\in l$.
 \end{defn}
+
+The following facts about the projective plane can be verified using standard facts from linear algebra about the dimensions of linear spaces passing through $O$:
+\begin{itemize}
+\item if $P \ne Q$ are different projective points, then there is exactly one projective line $l$ which contains $P$ and $Q$, and
+\item if $l \ne m$ are different projective lines, then there is exactly one projective point $P$ which is contained in both $l$ and $m$.
+\end{itemize}
+The projective line containing the projective points $P$ and $Q$ is written as $PQ$, and the projective point which is contained in both $l$ and $m$ is written as $l \cap m$. The fact that \emph{every} pair of distinct lines has exactly one intersection point makes the projective plane much easier to work with than the ordinary plane.
 
 If $\mathbb{A}^2$ is an ordinary plane which does not pass through $O$, then we can identify most projective points of $\mathbb{P}^2$ with ordinary points on $\mathbb{A}^2$ by taking the intersection of the line defining the projective point with $\mathbb{A}^2$. The projective line which is defined by a plane passing through $O$ and parallel to $\mathbb{A}^2$ is called the \emph{line at infinity}, or the \emph{horizon line}. Projective points contained in the line at infinity are called \emph{infinite points}.
 
@@ -65,14 +76,17 @@ The line at infinity has barycentric coordinates $(1:1:1)$.
 
 \subsection{Cross Ratios}
 
-First we recall the definition of the ratio.
+Before we study the geometry of a painter living in a three-dimensional world with a two-dimensional canvas, we should start by understanding the simpler situation of a painter living in a two-dimensional world who paints on a one-dimensional canvas.
+
+We need to relate the geometry of our one-dimensional canvas to the geometry of what the painter sees, i.e. the geometry of the collection of lines which pass through the painter's eyeball. We'll start with a careful definition of the (signed) ratio, which we will use as a coordinate on a one-dimensional space, analogous to barycentric coordinates.
 
 \begin{defn} If $A,B,C$ are three points on a line, not all equal, then we define their \emph{ratio} to be
 \[
 (A,B;C) = \frac{AC}{BC},
 \]
 where the ratio is taken to be positive if the rays $AC$ and $BC$ point in the same direction, and negative otherwise.
-If $l_1,l_2,l_3$ are three directed lines passing through a point, not all equal, then their ratio is defined by
+
+If $l_1,l_2,l_3$ are three directed lines passing through a point, not all equal, then their \emph{ratio} is defined by
 \[
 (l_1,l_2;l_3) = \frac{\sin\angle l_1l_3}{\sin \angle l_2l_3},
 \]
@@ -87,9 +101,9 @@ where the angles are oriented in the counterclockwise sense.
 \end{exer}
 
 \begin{exer}
-Suppose that points $A,B,C$, not all equal, are on a line, and that point $P$ is not on that line. Show that
+Suppose that points $A,B,C$, not all equal, are on a line, and that point $O$ is not on that line. Show that
 \[
-\frac{(A,B;C)}{(PA,PB;PC)} = \frac{|PA|}{|PB|}.
+\frac{(A,B;C)}{(OA,OB;OC)} = \frac{|OA|}{|OB|}.
 \]
 \end{exer}
 
@@ -103,9 +117,9 @@ If $l_1,l_2,l_3,l_4$ are four lines passing through a point, no three of them eq
 \]
 \end{defn}
 
-\begin{thm}[The fundamental theorem of cross ratios] If $A,B,C,D$ are on a line, no three of them equal, and if $E$ is a point not on that line, then
+\begin{thm}[The fundamental theorem of cross ratios] If $A,B,C,D$ are on a line, no three of them equal, and if $O$ is a point not on that line, then
 \[
-(EA,EB;EC,ED) = (A,B;C,D).
+(OA,OB;OC,OD) = (A,B;C,D).
 \]
 \end{thm}
 
@@ -117,7 +131,7 @@ Similarly, if all of $A,B,C,D$ are infinite points with slopes $a,b,c,d$, then t
 \[
 (a,b;c,d) = \frac{c-a}{b-c}\bigg/\frac{d-a}{b-d}.
 \]
-However, the best way to do this is to simply change perspectives to get a coordinate system where none of $A,B,C,D$ is an infinite point. In other words, we find a new plane $\mathbb{A'}^2$ not passing through the observation point $O$, which intersects the four lines corresponding to the projective points $OA,OB,OC,OD$ at some new points $A',B',C',D'$. Then for finite points $A,B,C,D$ we have
+However, the best way to do this is to simply change our canvas to get a coordinate system where none of $A,B,C,D$ is an infinite point. In other words, we find a new plane $\mathbb{A'}^2$ not passing through the observation point $O$, which intersects the four lines corresponding to the projective points $OA,OB,OC,OD$ at some new points $A',B',C',D'$. Then for finite points $A,B,C,D$ we have
 \[
 (A,B;C,D) = (OA,OB;OC,OD) = (A',B';C',D'),
 \]
@@ -451,6 +465,8 @@ Two special points in the projective plane allow us to talk about angles using c
 
 \begin{defn} The \emph{circle points} are the points $\fish = [i:1:0]$ and $\bar\fish = [1:i:0]$. These are the points at infinity of slope $-i$ and $i$.
 \end{defn}
+
+I used the symbols $\fish$ and $\bar\fish$ for the circle points, since some people might find points which are both infinite and imaginary to be slightly fishy.
 
 \begin{thm}[Angle Theorem] If lines $l, m$ intersect the line at infinity in points $L,M$, then
 \[
@@ -1080,14 +1096,51 @@ Thus $(A,B;C,D;\omega,\Omega) = -1$ if and only if $P = Q$.
 
 \subsection{Cremona involutions and blow ups}
 
-%TODO: introduce blowups more gently, starting with the idea of just blowing up a single point.
+Why would someone want to blow up a perfectly good projective plane? The issue is that sometimes we have geometric correspondences which work \emph{almost} everywhere, but have a few annoying exceptions. As an example, for any pair of points $A,B$ there is an almost perfect one-to-one correspondence between points $P$ and pairs of lines $l = AP, m = BP$ through $A,B$ (respectively), given by $P = l \cap m$, with just two aggravating problems:
+\begin{itemize}
+\item if $P$ is on the line $AB$, then $l = AP = AB = BP = m$, and we can't recover the point $P$ from the pair of lines $l=AB, m=BA$, and
+\item if $P = A$, then there are infinitely many lines which contain $A$ and $P$, so for any line $l$ through $A$, the pair $l, m=BA$ describes $P$.
+\end{itemize}
+
+Simplifying a bit, the issue is that the map from points $P$ to lines $l = AP$ through $A$ isn't always well-defined. Often, we won't be considering just a single point $P$ in isolation, but rather we will be considering a curve $\mathcal{C}$ which happens to pass through the point $A$. In this case, there is a sensible way to extend the map from points $P \in \mathcal{C}$ to lines $l = AP$ through $A$ to the case $P = A$: we just take the line $l$ to be the tangent to the curve $\mathcal{C}$ at $A$. So what we would like to do is to remember ``which direction we approached the point $A$ from'' when $P$ hits $A$, replacing the single point $A$ with the collection of all lines through $A$. This operation is called \emph{blowing up} the point $A$.
+
+Formally, what we will do will look a little bit stupid. Instead of just having our space consist of points $P$ in the plane $\PP^2$, we will instead consider the following collection of ordered pairs:
+\[
+\Bl_{A}\PP^2 = \{(P, l) \mid P \in \PP^2, \{A,P\} \subset l\}.
+\]
+For $P \ne A$, the only line $l$ such that the ordered pair $(P,l)$ is in $\Bl_A\PP^2$ is the line $AP$, so there is a one-to-one correspondence between points in $\PP^2$ other than $A$ and points $(P,l)$ of the blown-up plane $\Bl_A\PP^2$ with $P \ne A$. On the other hand, when $P = A$, $l$ can be any line through $A$, so there is a one-dimensional family of pairs $(A,l) \in \Bl_A\PP^2$ corresponding to the point $A \in \PP^2$ - this one-dimensional family is called the \emph{exceptional line} above $A$, and written as $e_A$.
+
+To convince ourselves that $\Bl_A\PP^2$ is an honest geometric space (and not just a formal trick), we can write it down in coordinates. Supposing that $A = [0:0:1]$, we have
+\[
+\Bl_A\PP^2 = \{([p:q:r], (a:b:0)) \mid ap + bq = 0\},
+\]
+where the third coordinate of $l = (a:b:0)$ is forced to be $0$ since $A \in l$, and the equation $ap + bq = 0$ is equivalent to $P \in l$. Concentrating on the pairs $(P,l)$ with $r, b \ne 0$, and writing $x = p/r, y = q/r$, and $s = a/b$, we see that most of $\Bl_A\PP^2$ corresponds to the surface
+\[
+\{(x,y,s) \mid sx + y = 0\},
+\]
+and the exceptional line $e_A$ corresponds to the line $s \mapsto (0,0,s)$ which is contained within this surface. This surface can be visualized as a sort of spiral staircase, where for each fixed value of $s$ we have a line $x \mapsto (x,-sx,s)$ passing through the exceptional line $e_A$. So we can visually confirm that $\Bl_A\PP^2$ ends up being a smooth two-dimensional surface, with a map $\Bl_A \PP^2 \rightarrow \PP^2$ (given by $(P,l) \mapsto P$) which is one-to-one aside from the exceptional line $e_A$, which gets crushed down to the point $A$.
+
+The same trick can be used to blow up a sequence of points - introducing an exceptional line for every point which gets blown up - and hopefully once we blow up the right collection of points we can cure whatever defects we had in our geometric constructions which \emph{almost} worked. The main example of such a geometric construction is the Cremona involution, which generalizes the following geometric operations:
+\begin{itemize}
+\item isogonal (or isotomic) conjugation of a point with respect to a triangle, which fails at the vertices of the triangle, and
+\item inversion around a point $O$ in the projective plane, which fails at the points $O, \fish, \bar\fish$.
+\end{itemize}
+The fix will require us to blow up the three points where the operation fails.
 
 Let $A,B,C,D$ be four points in the projective plane, no three on a line. Choose projective coordinates such that $A = [1:0:0], B = [0:1:0], C = [0:0:1], D = [1:1:1]$ (one way to do this is to start with barycentric coordinates on the triangle $A,B,C$, and then rescale the coordinates to make $D = [1:1:1]$). For future reference, let $E = [-1:1:1], F = [1:-1:1], G = [1:1:-1]$ in this coordinate system.
 
 \begin{exer} Show that $E,F,G$ satisfy $DE \cap FG = A, DF \cap EG = B, DG \cap EF = C$, and that they are uniquely determined by these conditions. Show that $E$ is the harmonic conjugate of $D$ with respect to $A, AD\cap BC$.
 \end{exer}
 
-One of the simplest nonlinear functions we can write down is the Cremona involution: if $p,q,r$ are all nonzero, it takes the point $P = [p:q:r]$ in the above coordinate system to the point $f_{ABCD}(P) = [\frac{1}{p}:\frac{1}{q}:\frac{1}{r}]$. We would like to extend this to an involution of the plane. Clearing denominators, we get $f_{ABCD}(P) = [qr:pr:pq]$, and this lets us define $f_{ABCD}(P)$ as long as no two of $p,q,r$ are $0$, i.e. as long as $P$ is not equal to one of $A,B,C$. If $P$ is on line $BC$, then $p=0$, so $f_{ABCD}(P) = [qr:0:0] = A$, and $f_{ABCD}$ is not injective. We can fix these problems by ``blowing up'' the points $A,B,C$.
+One of the simplest nonlinear functions we can write down is the Cremona involution: if $p,q,r$ are all nonzero, it takes the point $P = [p:q:r]$ in the above coordinate system to the point
+\[
+f_{ABCD}(P) = \Big[\frac{1}{p}:\frac{1}{q}:\frac{1}{r}\Big].
+\]
+We would like to extend this to an involution of the plane. Clearing denominators, we get
+\[
+f_{ABCD}(P) = [qr:pr:pq],
+\]
+and this lets us define $f_{ABCD}(P)$ as long as no two of $p,q,r$ are $0$, i.e. as long as $P$ is not equal to one of $A,B,C$. If $P$ is on line $BC$, then $p=0$, so $f_{ABCD}(P) = [qr:0:0] = A$, and $f_{ABCD}$ is not injective. We can fix these problems by blowing up the points $A,B,C$.
 
 \begin{defn} If $A,B,C$ are three distinct points in the projective plane, we set
 \[
@@ -1109,12 +1162,16 @@ In coordinates, we have
 \end{prop}
 \begin{proof} In coordinates, if $P = ([p:q:r],(0:a:b),(c:0:d),(e:f:0))$ we set
 \[
-f_{ABCD}(P) = \begin{cases}([aq:ap:-bp],(0:b:a),(d:0:c),(f:e:0)) & \mbox{if }p\ne 0,\\([cq:cp:-dq],(0:b:a),(d:0:c),(f:e:0)) & \mbox{if }q\ne 0,\\ ([er:-fr:ep],(0:b:a),(d:0:c),(f:e:0)) & \mbox{if }r\ne 0.\end{cases}
+f_{ABCD}(P) = \begin{cases}([aq:ap:-bp],(0:b:a),(d:0:c),(f:e:0)) & \mbox{if }p\ne 0,\\([-cq:dr:dq],(0:b:a),(d:0:c),(f:e:0)) & \mbox{if }q\ne 0,\\ ([er:-fr:ep],(0:b:a),(d:0:c),(f:e:0)) & \mbox{if }r\ne 0.\end{cases}
 \]
 Checking that this is well-defined, along with checking the other claims of the proposition, is left as an easy exercise to the reader.
 \end{proof}
 
-\begin{rem} More generally, for any three homogeneous polynomials $f(p,q,r),g(p,q,r),h(p,q,r)$ of the same degree having no common factor we can define a map $[p:q:r] \rightarrow [f(p,q,r):g(p,q,r):h(p,q,r)]$, which is well-defined whenever $f,g,h$ are not simultaneously zero. Such a map is called a \emph{rational map}. It is called \emph{birational} if it is usually one-to-one - in this case you can write down a rational function which inverts it whenever both are defined. Noether and Castelnuovo have proved that every birational map $\PP^2\rightarrow \PP^2$ can be built out of projective transformations and Cremona involutions.
+\begin{rem} More generally, for any three homogeneous polynomials $f(p,q,r),g(p,q,r),h(p,q,r)$ of the same degree having no common factor we can define a map
+\[
+[p:q:r] \rightarrow [f(p,q,r):g(p,q,r):h(p,q,r)],
+\]
+which is well-defined whenever $f,g,h$ are not simultaneously zero. Such a map is called a \emph{rational map}. It is called \emph{birational} if it is usually one-to-one - in this case you can write down a rational function which inverts it whenever both are defined. Noether and Castelnuovo have proved that every birational map $\PP^2\rightarrow \PP^2$ can be built out of projective transformations and Cremona involutions.
 \end{rem}
 
 \begin{prop} Let $A,B,C,D,E,F,G$ be such that $A = DE\cap FG, B = DF\cap EG, C = DG\cap EF$, and suppose that $f_{ABCD}(P) = Q$. Then we have

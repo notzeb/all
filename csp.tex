@@ -391,7 +391,7 @@ Bodirsky, in his habilitation thesis \cite{bodirsky-thesis} introduced qualitati
 \item the automorphism group of an infinite branching tree structure $(L,|)$, where $|$ is a $3$-ary relation where $ab|c$ means that the youngest common ancestor of $a,b$ lies below the youngest common ancestor of $b,c$ - the invariant relations correspond to ``branching time constraints'', or ``phylogeny constraints'', and the associated CSPs could in principle be of interest to biologists.
 \end{itemize}
 
-Recent results on QCSPs indicate that the difficulty of the classification results seems to be related to the orbit growth function of the oligomorphic group $G$, which takes $n$ to the number of orbits of $n$-tuples under $G$ \cite{small-orbit-growth}. For sufficiently small orbit growth functions, a dichotomy result has been proven (using the finite case as a black-box). The main conjecture in this field is the following somewhat technical statement.
+Recent results on QCSPs indicate that the difficulty of the classification results seems to be related to the orbit growth function of the oligomorphic group $G$, which takes $n$ to the number of orbits of $n$-tuples under $G$ \cite{small-orbit-growth}. For sufficiently small orbit growth functions, a dichotomy result has been proven (using the finite case as a black box). The main conjecture in this field is the following somewhat technical statement.
 
 \begin{conj}[\cite{topology-irrelevant}] Let $\fA$ be the core of a reduct of a finitely bounded homogeneous structure. Then $\CSP(\fA)$ is in P iff $\fA$ has a 6-ary polymorphism $s$ and unary polymorphisms $\alpha, \beta$ satisfying the ``pseudo-Siggers'' identity:
 \[
@@ -3877,7 +3877,7 @@ For an idempotent algebra $\bA$ with a nontrivial congruence $\theta \in \Con(\b
 \begin{prop} Suppose $\bA$ is an idempotent algebra, $\theta \in \Con(\bA)$, and that there are terms $t_1,t_2$ such that $t_1$ acts as a $\Delta_1$-cube term on $\bA/\theta$ and $t_2$ acts as a $\Delta_2$-cube term on each congruence class of $\theta$. Then $t_2*t_1$ is a $\Delta$-cube term for $\bA$, where $\Delta = \{S\times T \mid S \in \Delta_2, T \in \Delta_1\}$.
 \end{prop}
 
-\begin{cor} If $\bA_1, ..., \bA_n$ are idempotent algebras with the same signature such that each $\bA_i$ has a $\Delta_i$-cube term $t_i$, then $t_1*\cdots*t_n$ is a $\Delta$-cube term for $\bA_1 \times \cdots \times \bA_n$, where $\Delta = \{S_1\times \cdots \times S_n \mid S_i \in \Delta_i\}$.
+\begin{cor}\label{cor-few-subpowers-product} If $\bA_1, ..., \bA_n$ are idempotent algebras with the same signature such that each $\bA_i$ has a $\Delta_i$-cube term $t_i$, then $t_1*\cdots*t_n$ is a $\Delta$-cube term for $\bA_1 \times \cdots \times \bA_n$, where $\Delta = \{S_1\times \cdots \times S_n \mid S_i \in \Delta_i\}$.
 \end{cor}
 
 \begin{cor} Suppose $\bA$ is a finite idempotent algebra and $\theta \in \Con(\bA)$. Then $\bA$ has few subpowers iff $\bA/\theta$ has few subpowers and each congruence class of $\theta$ has few subpowers.
@@ -11523,7 +11523,7 @@ It seems plausible that a much more careful analysis of the algorithm for conser
 
 The method we have been using to encode relations up to this point has been to explicitly list out the tuples contained in the relation. An alternate way of describing constraint relations on the domain $\{0,1\}$ via ``extension oracles'' was introduced in \cite{partial-poly-seth}, and this way of describing constraint relations seems to generalize naturally to conservative CSPs. I will use the phrase ``restriction oracle'' instead of ``extension oracle'' for the generalization I have in mind.
 
-\begin{defn} A \emph{restriction oracle} $\mathcal{O}_R$ for a relation $R \subseteq A_1 \times \cdots \times A_n$ is defined as a black-box function which takes as input a tuple of subsets $B_i \subseteq A_i$, and returns ``true'' if and only if we have
+\begin{defn} A \emph{restriction oracle} $\mathcal{O}_R$ for a relation $R \subseteq A_1 \times \cdots \times A_n$ is defined as a black box function which takes as input a tuple of subsets $B_i \subseteq A_i$, and returns ``true'' if and only if we have
 \[
 R \cap (B_1 \times \cdots \times B_n) \ne \emptyset.
 \]
@@ -11660,4 +11660,102 @@ In order to solve the indicator instance for $\fA_\cV$, we brute force over all 
 %Even if we can't impose such an algebraic structure on a given unstructured CSP instance, we could try to enlarge the relations as little as possible in order to find a \emph{relaxation} of our original instance which is compatible with a conservative Taylor structure on the variable domains (for this to be efficient, we might need to limit the arities of the relations which occur in the instance). If this relaxation of the original instance has no solutions, then we can conclude that the original instance had no solutions either. Depending on the problem, this approach could potentially save some time within a brute-force search algorithm.
 \end{rem}
 
+
+\section{Mar\'oti's ``Maltsev on top'': combining few subpowers and bounded width}
+
+This section is a bit of a breather: we will go over Mar\'oti's algorithm from \cite{malcev-on-top}, which gives us a simple way to combine the few subpowers algorithm with bounded width reasoning that works in the case where we can mostly disentangle the few subpowers parts of our algebras from the bounded width parts. The nice thing about this algorithm is that we don't need any new algebraic ideas to understand it, and it gives us a hint that there may be a simple algorithm which can handle the case of general Taylor algebras.
+
+The specific assumption that Mar\'oti uses in \cite{malcev-on-top} is that each variable domain $\bA_x$ is an idempotent algebra with a special congruence $\theta_x \in \Con(\bA_x)$ such that:
+\begin{itemize}
+\item $\bA_x/\theta_x$ has few subpowers, and
+\item the congruence classes $a_x/\theta_x \le \bA_x$ have bounded width, for all $a_x \in \bA_x$.
+\end{itemize}
+We will say that such a pair $\bA_x,\theta_x$ has the \emph{Mal'cev-on-top} property to abbreviate this. Note that by Corollary \ref{cor-few-subpowers-product} and Corollary \ref{affine-free-variety}, this assumption implies that the multisorted CSP with variable domains $\bA_x/\theta_x$ has few subpowers, and that for any $a_x \in \bA_x$ the multisorted CSP with variable domains $a_x/\theta_x$ has bounded width (equivalently, the products $\bA = \prod_x \bA_x$ and $\theta = \prod_x \theta_x$ have the Mal'cev-on-top property).
+
+In the few subpowers setting it's natural to consider global constraints (i.e. constraints which involve all of the variables at once), specified by their compact representations, but in the bounded width setting it is more natural to consider constraints with low arity. To get the best of both worlds, Mar\'oti introduced a new type of constraint, which he called a ``Maltsev constraint'' (we will call them ``Mal'cev-on-top constraints'').
+
+\begin{defn}[Mar\'oti \cite{malcev-on-top}] If $X$ is the set of all variables, and if each variable domain $\bA_x$ has a congruence $\theta_x$ with the Mal'cev-on-top property, then a \emph{Mal'cev-on-top constraint} on $I \subseteq X$ is a subalgebra
+\[
+\RR \le \prod_{x \in I} \bA_x \times \prod_{y \in X\setminus I} \bA_y/\theta_y.
+\]
+By a \emph{compact representation} of $\RR$, we mean a collection of compact representations of the relations
+\[
+a + \RR = \big\{b \in \prod_{y \in X\setminus I} \bA_y/\theta_y \mid (a,b) \in \RR\big\},
+\]
+for all $a \in \prod_{x \in I} \bA_x$.
+\end{defn}
+
+We will attempt to be a little bit more ambitious: let's consider the more general case of relations described by oracles which are powerful enough to run the arc-consistency algorithm.
+
+\begin{defn} An \emph{algebraic restriction oracle} $\mathcal{O}_\RR$ for a relation $\RR \le \bA_1 \times \cdots \times \bA_n$ is defined as a black box function which takes as input a tuple of subalgebras $\bB_i \le \bA_i$, and returns ``true'' if and only if we have
+\[
+\RR \cap (\bB_1 \times \cdots \times \bB_n) \ne \emptyset.
+\]
+\end{defn}
+
+\begin{prop} Let $\RR \le \prod_x \bA_x$, and for $I \subseteq X$ consider the Mal'cev-on-top relation on $I$ give by
+\[
+\RR/\theta_{X\setminus I} \le \bA_I \times \bA_{X \setminus I}/\theta_{X\setminus I},
+\]
+where we have made the abbreviations $\bA_I = \prod_{x \in I} \bA_x$, and similarly for $\bA_{X \setminus I}$ and $\theta_{X \setminus I}$. If $\bA_{X \setminus I}/\theta_{X/\setminus I}$ has a $k$-edge term, and if we are given an algebraic restriction oracle $\mathcal{O}_\RR$ for $\RR$, then we can compute a compact representation for $\RR/\theta_{X\setminus I}$ using at most
+\[
+\prod_{x \in I} |\bA_x| \times \Big(\sum_{y \in X \setminus I} |\bA_y/\theta_y|\Big)^k
+\]
+calls to the oracle $\mathcal{O}_\RR$.
+%Conversely, given a compact representation of a Mal'cev-in-top relation $\RR'$ on $I$ and a $k$-edge term $e$ for $\bA_{X \setminus I}/\theta_{X/\setminus I}$, and letting $\overline{\RR}'$ be the corresponding subalgebra of $\prod_{x \in X} \bA_x$ which is compatible with $\theta_{X\setminus I}$, we can implement an algebraic restriction oracle $\mathcal{O}_{\overline{\RR}'}$ for $\overline{\RR}'$ which runs in time polynomial in the size of the compact representation.
+\end{prop}
+\begin{proof} Left as an exercise for now.%TODO
+\end{proof}
+
+\begin{comment}
+So the setup is that every single constraint relation $\RR$ on our instance $\fX$ will be considered as a relation on the full set of variables $X$, described implicitly by an algebraic restriction oracle $\cO_\RR$. Note that given such oracles $\cO_{\RR_i}$, we can efficiently find compact representations for $\RR_i/\theta_X$, so we can efficiently check whether or not we have
+\[
+\bigcap_i \RR_i/\theta_X \ne \emptyset,
+\]
+and if it is nonempty then we can efficiently find a tuple $a \in \prod_x \bA_x$ such that $a/\theta_X$ is contained in the intersection. The plan is to reduce the variable domains of the instance $\fX$ to get an instance $\fX'$ with variable domains $\bA_x'$ and relations $\RR_i' = \RR_i \cap \prod_x \bA_x'$, such that for every tuple $a$ satisfying
+\[
+a/\theta_X' \in \bigcap_i \RR_i'/\theta_X',
+\]
+the further reduced instance $\fX_a''$ with variable domains
+\[
+\bA_x'' = a_x/\theta_x' \le \bA_x'
+\]
+always ends up being cycle-consistent. Note that given the oracles $\cO_{\RR_i}$, we can easily implement the oracles $\cO_{\RR_i'}, \cO_{\RR_i''}$, as long as we only reduce our original instance $\fX$ by shrinking the variable domains when we construct the instances $\fX', \fX_a''$.
+\end{comment}
+
+Unfortunately, algebraic restriction oracles seem to give us slightly too little information to run Mar\'oti's algorithm. So we make the following definition instead.
+
+\begin{defn} Suppose that $\bA_i, \theta_i$ have the Mal'cev-on-top property. A \emph{Mal'cev-on-top restriction oracle} $\cO^\cM_\RR$ for a relation $\RR \le \bA_1 \times \cdots \times \bA_n$ is defined as a black box function which takes as input a tuple of compact representations of Mal'cev-on-top constraints
+\[
+\bB_i \le \bA_i \times \prod_{j \ne i} \bA_j/\theta_j,
+\]
+and returns a compact representation of
+\[
+\big(\RR \cap \bB_1 \cap \cdots \cap \bB_n\big)/\prod_i \theta_i.
+\]
+\end{defn}
+
+Mal'cev-on-top restriction oracles are clearly at least as powerful as algebraic restriction oracles. Furthermore, if we want to have any hope of solving CSPs involving $\RR$ along with ``unary'' Mal'cev-on-top constraints, then there had better be an efficient way to implement the Mal'cev-on-top restriction oracle $\cO^\cM_\RR$. In particular, if Mar\'oti's approach is going to work at all then there ought to be a way to efficiently implement the Mal'cev-on-top restriction oracle $\cO^\cM_\RR$ when $\RR$ happens to be a Mal'cev-on-top constraint!
+
+\begin{prop} Suppose that we are given a $k$-edge term $e$ for the algebras $\bA_x/\theta_x$, along with a compact representation of a Mal'cev-on-top constraint
+\[
+\RR \le \bA_I \times \bA_{X\setminus I}/\theta_{X \setminus I}
+\]
+and a tuple of  compact representations of Mal'cev-on-top constraints
+\[
+\bB_x \le \bA_x \times \bA_{X\setminus \{x\}}/\theta_{X\setminus\{x\}}.
+\]
+Then we can compute a compact representation of
+\[
+\big(\RR \cap \bigcap_{x \in X} \bB_x\big)/\theta_X
+\]
+in time polynomial in the sum of the sizes of the compact representations of $\RR$ and the $\bB_x$s.
+\end{prop}
+\begin{proof} Left as another exercise for now.%TODO
+\end{proof}
+
+\begin{prob} Given black box access to the algebraic restriction oracle $\cO_\RR$ for an unknown relation $\RR \le \bA_1 \times \cdots \times \bA_n$ of high arity, together with a $k$-edge term $e$ for the algebras $\bA_i/\theta_i$, can we implement the Mal'cev-on-top restriction oracle $\cO^\cM_\RR$ using only polynomially many calls to $\cO_\RR$?
+\end{prob}
+
+%TODO: arc-consistency first, then singleton arc-consistency
 
