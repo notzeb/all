@@ -1725,7 +1725,7 @@ Note that $\cP_\emptyset(R)$ can be equivalently defined as the set of $m$-tuple
 \begin{defn} A function $f : D^k \rightarrow D$ is called \emph{totally symmetric} if the value of $f(a_1, ..., a_k)$ only depends on $\{a_1, ..., a_k\}$. Note that this is stronger than being symmetric, since the multiplicity of the $a_i$s is also ignored.
 \end{defn}
 
-\begin{thm} The following are equivalent:
+\begin{thm}\label{thm-set-polymorphism} The following are equivalent:
 \begin{itemize}
 \item $\fA$ has width 1,
 
@@ -1944,7 +1944,7 @@ and for $m = 2, n \ge 3$ there is an example with no near-unanimity polymorphism
 Luckily, it is possible to determine whether a relational structure has bounded strict width without actually exhibiting a near-unanimity polymorphism. For instance, in \cite{deciding-absorption-relational} a nondeterministic polynomial time algorithm, which only tests for the existence of certain chains of ternary polymorphisms of $\fA$, is given for deciding whether a given subset of $\fA$ is an absorbing subalgebra (defined later). Using the fact that cycle consistency solves CSPs which have bounded width (which we will prove later), this can be converted into a polynomial time algorithm for testing whether $\fA$ has bounded strict width.
 
 
-\subsection{The Basic LP relaxation of a CSP}\label{subsection-lp}
+\subsection{The Basic Linear Programming relaxation of a CSP}\label{subsection-lp}
 
 Another simple algorithm for solving CSPs, which is closely related to generalized arc-consistency, is the basic LP relaxation. If the domain of each variable $v$ is $D_v$, we replace the set of potential values $D_v$ with its formal convex hull, which we can think of as the set of \emph{probability distributions} on $D_v$. We represent the probability distribution corresponding to a variable $v$ as a tuple of real numbers $p_{v,a}$, one for each $a \in D_v$, satisfying
 \[
@@ -2240,7 +2240,7 @@ Note that in the above definition, we have $\alpha = \pi_1(\ker \pi_1 \vee \ker 
 \]
 A more \emph{visual} way to understand the linking congruence is to think of the relation $\RR$ as a bipartite graph on $\bA \sqcup \bB$, and to define the congruence classes to be the connected components of this graph. In particular, $\RR$ is linked iff this bipartite graph is connected.
 
-\begin{prop}[Goursat's Lemma] A subdirect binary relation $\RR \le_{sd} \bA\times \bB$ has the parallelogram property iff there are congruences $\alpha,\beta$ on $\bA,\bB$ respectively and an isomorphism $f : \bA/\alpha \rightarrow \bB/\beta$ such that, writing $\pi_{\alpha},\pi_{\beta}$ for the quotient maps, we have $\RR = \pi_{\alpha}^{-1} \circ f^{-1} \circ \pi_{\beta}$ (treating $\pi_\alpha, \pi_\beta, f$ as binary relations with inputs on the right and outputs on the left).
+\begin{prop}[Goursat's Lemma]\label{goursat} A subdirect binary relation $\RR \le_{sd} \bA\times \bB$ has the parallelogram property iff there are congruences $\alpha,\beta$ on $\bA,\bB$ respectively and an isomorphism $f : \bA/\alpha \rightarrow \bB/\beta$ such that, writing $\pi_{\alpha},\pi_{\beta}$ for the quotient maps, we have $\RR = \pi_{\alpha}^{-1} \circ f^{-1} \circ \pi_{\beta}$ (treating $\pi_\alpha, \pi_\beta, f$ as binary relations with inputs on the right and outputs on the left).
 \end{prop}
 \begin{proof} Thinking of $\RR$ as a bipartite graph on $\bA \sqcup \bB$, we just have to prove that every connected component of $\RR$ is a complete bipartite graph. Suppose $a \in \bA$ and $b \in \bB$ are in the same connected component of $\RR$, and let $a = a_1, b_1, ..., a_k, b_k = b$ be a path from $a$ to $b$ with $(a_i,b_i) \in \RR$ and $(a_{i+1},b_i) \in \RR$ for each $i$. We will show that $(a_1,b_i) \in \RR$ by induction on $i$:
 \[
@@ -2289,7 +2289,7 @@ p(x,y,z) = \begin{cases}x & \text{if }y=z,\\ y & \text{if }x=z,\\ z & \text{if }
 \]
 Every two element subset of $\bA$ is a subalgebra isomorphic to the idempotent reduct of $\ZZ/2$, and $\bA$ has a congruence $\theta$ corresponding to the partition $\{0,1\}, \{*\}$ such that $\bA/\theta$ is also isomorphic to the idempotent reduct of $\ZZ/2$.
 
-Along with the obvious relations on $\bA$, there is also the ternary relation
+Along with the binary relations on $\bA$, which can be described by applying Goursat's Lemma \ref{goursat} to $\bA$ and its subalgebras, there is also the ternary relation
 \[
 (x = y = z = *) \vee (x,y,z \in \{0,1\} \wedge x+y+z \equiv 0\!\!\!\pmod{2}),
 \]
@@ -2297,7 +2297,7 @@ whose elements correspond to the columns of the matrix
 \[
 \begin{bmatrix} * & 0 & 0 & 1 & 1\\ * & 0 & 1 & 0 & 1\\ * & 0 & 1 & 1 & 0\end{bmatrix}.
 \]
-That this relation forms a subalgebra of $\bA^3$ is related to the fact that $\theta$ can be considered to be an ``abelian congruence'' (in a sense we will define later).
+That this relation forms a subalgebra of $\bA^3$ is related to the fact that $\theta$ can be considered to be an ``abelian congruence'' (in a sense we will define later). Finding primitive positive definitions of the other ternary relations on $\bA$ from the relations described above, and showing that they generate all of $\Inv(\bA)$, are left as exercises (if these exercises are too difficult, it may be helpful to come back to them after reaching Theorem \ref{rectangular-structure}).
 \end{ex}
 
 
@@ -2553,7 +2553,7 @@ In order to prove Aschbacher's Theorem \ref{near-subgroups}, we first need a mor
 \begin{proof} We just need to check that $K$ being a twisted subgroup is equivalent to $\langle x\rangle \subseteq bK$ for all $x,b$ with $x \in bK, b \in K^{-1}$. The previous proposition proves one direction of the equivalence. For the other direction, if $x,y \in K$, then $yx \in yK$ and $y^{-1} \in \langle y \rangle \subseteq K$, so $(yx)^2 \in \langle yx\rangle \subseteq yK$, which is equivalent to $xyx = y^{-1}(yx)^2 \in K$.
 \end{proof}
 
-\begin{ex} An explicit example of a near subgroup which is not a subgroup is given in \cite{feder-vardi}. Let $\bG$ be the Heisenberg group of order $p^3$ ($p$ odd):
+\begin{ex} An explicit example of a near-subgroup which is not a subgroup is given in \cite{feder-vardi}. Let $\bG$ be the Heisenberg group of order $p^3$ ($p$ odd):
 \[
 \bG = \left\{\begin{bmatrix} 1 & a & c\\ 0 & 1 & b\\ 0 & 0 & 1\end{bmatrix} \text{ s.t. } a,b,c \in \ZZ/p\right\} \le \operatorname{SL}_3(\ZZ/p).
 \]
@@ -4741,7 +4741,7 @@ for instance, then we get
 
 \begin{rem} There is a variant of the PAC learning model in which the learner is also allowed to use \emph{membership queries}: in a membership query, the learner picks an element $x \in U$, and asks the teacher (oracle) whether $x$ is in the target concept.
 
-In \cite{pac-membership}, several situations are given where the addition of membership queries can be shown not to help with learning, under some standard cryptographic assumptions. In \cite{learnable-gmm}, there is a claim that some of the impossibility results for PAC learning of $\Inv_n(\bA)$ when $\bA$ doesn't have few subpowers can be generalized to impossibility results in the model of PAC learning with membership queries (under cryptographic assumptions), but the exact statement and the proof are left to a ``full version'' of the paper which I have been unable to track down. The more recent paper \cite{membership-query-hardness} by Chen and Valeriote proves such a hardness result for algebraic structures which are not congruence modular, and for finitely related structures congruence modularity is equivalent to few subpowers.%TODO: (as we will see later).
+In \cite{pac-membership}, several situations are given where the addition of membership queries can be shown not to help with learning, under some standard cryptographic assumptions. In \cite{learnable-gmm}, there is a claim that some of the impossibility results for PAC learning of $\Inv_n(\bA)$ when $\bA$ doesn't have few subpowers can be generalized to impossibility results in the model of PAC learning with membership queries (under cryptographic assumptions), but the exact statement and the proof are left to a ``full version'' of the paper which I have been unable to track down. The more recent paper \cite{membership-query-hardness} by Chen and Valeriote proves such a hardness result for algebraic structures which are not congruence modular, and for finitely related structures congruence modularity is equivalent to few subpowers by the main result of \cite{barto-valeriote-conjecture}.%TODO: (as we will see later).
 \end{rem}
 
 %TODO: subsection on pentagons and hardness results
@@ -4912,7 +4912,7 @@ so $\Forks(\Pol_m(\Gamma),b) \subseteq \Forks(\cO_m,b)$. Since $\Pol_m(\Gamma)$ 
 \begin{cor} The number of clones on a finite set which contain an edge term is countable.
 \end{cor}
 
-\begin{rem} There is a converse to Theorem \ref{few-finite}: if $\cO$ is a clone on a finite set such that every clone $\cO'$ with $\cO' \supseteq \cO$ is finitely related, then $\cO$ has an edge term. The proof of this relies on the theory of \emph{cube term blockers}, which roughly states that a clone $\cO$ fails to contain a cube term iff there is an infinite sequence of invariant relations which look like the relations $\{0,1\}^n\setminus\{(0,...,0)\}$ - recall that the clone corresponding to this sequence of relations on $\{0,1\}$ was our basic example of a clone which was not finitely related (Example \ref{ex-non-finitely-related}).
+\begin{rem} There is a converse to Theorem \ref{few-finite}: if $\cO$ is a clone on a finite set such that every clone $\cO'$ with $\cO' \supseteq \cO$ is finitely related, then $\cO$ has an edge term. The proof of this relies on the theory of \emph{cube term blockers} (aka \emph{projective subalgebras}), which roughly states that a clone $\cO$ fails to contain a cube term iff there is an infinite sequence of invariant relations which look like the relations $\{0,1\}^n\setminus\{(0,...,0)\}$ - recall that the clone corresponding to this sequence of relations on $\{0,1\}$ was our basic example of a clone which was not finitely related (Example \ref{ex-non-finitely-related}).
 \end{rem}
 
 \begin{ex} Consider the algebra $\bA = (\{a,b,c\},g)$ from Example \ref{ex-few-subpowers}, which has $\{a,b\}$ a majority subalgebra and $\{a,c\}$ an absorbing minority subalgebra. Recall that the minority pairs of $\bA$ were $(a,c), (c,a), (b,c)$. Since $a \in \Sg_{\bA}\{b,c\}$, for any $s \in A^+$ we have
@@ -4953,6 +4953,10 @@ To rule out the first possibility, we note that if $s' <_{lex} s$ then $s_1' \in
 \]
 To rule out the second possibility, note that if $s^l <_{lex} s$ and $(s_j^l, s_j) \in 0_{\bA_2}^*$ for all $j$, then the first coordinate where $s^l$ and $s$ can differ is at the coordinate $i$ with $s_i = c$, so we must have $s_i^l = b$, $s_i = c$ and $s_1^l = s_1 = b$. Thus the term $x_i$ rules out the second possibility.
 \end{ex}
+
+
+%\section{Cube term blockers, projective subalgebras, and crosses}
+%TODO
 
 
 \chapter{Absorption and Bounded Width}\label{chapter-bounded-width}
@@ -7527,7 +7531,7 @@ If we reorder the first and second inputs to $t$, the left hand side exactly bec
 
 If $f(x,y)$ was instead equal to $y$, then $p(x,y,z) = t(x,x,y,z)$ would become a Mal'cev term, which is even better than a $3$-edge term. However, if we allow for the possibility of semilattice subalgebras, then $f(x,y)$ must act as the semilattice operation on any two-element semilattice subalgebra, and of course in this case there couldn't possibly be any cube term of any arity. For this reason, the system of equations satisfied by $t$ above are often summarized by calling such a $t$ a ``weak $3$-edge term''.
 
-The fact that a Siggers term looks suspiciously similar to a $3$-edge term is more than a coincidence: later we will see that every finite Taylor algebra either has a $3$-edge term or has some pair of elements $a \ne b$ such that $(b,b) \in \Sg\{(a,b),(b,a)\}$.
+The fact that a Siggers term looks suspiciously similar to a $3$-edge term is more than a coincidence: Theorem 6.2 of \cite{minimal-taylor} shows that every finite Taylor algebra either has a $3$-edge term or has some pair of elements $a \ne b$ such that $(b,b) \in \Sg\{(a,b),(b,a)\}$.% TODO: prove this in these notes
 \end{rem}
 % TODO: visualize ternary terms from Siggers (but what use are they?)
 
@@ -7927,7 +7931,7 @@ so $P(A+p_1) = P(A)$, and thus we have $A + p_1 - p_1 = A$.
 
 In fact, Theorem \ref{lp-p1-p2} has a converse when we restrict our attention to a single cycle at a time.
 
-\begin{thm} If $\fX$ is an instance of a CSP such that the associated hypergraph of variables and relations consists of a single cycle, then $\fX$ has properties (P1) and (P2) if and only if the basic linear relaxation of $\fX$ has a solution such that for each constraint $C$ of $\fX$, the support of the corresponding probability distribution $p_C$ is exactly equal to the relation corresponding to $C$.
+\begin{thm}\label{lp-p1-p2-converse} If $\fX$ is an instance of a CSP such that the associated hypergraph of variables and relations consists of a single cycle, then $\fX$ has properties (P1) and (P2) if and only if the basic linear relaxation of $\fX$ has a solution such that for each constraint $C$ of $\fX$, the support of the corresponding probability distribution $p_C$ is exactly equal to the relation corresponding to $C$.
 \end{thm}
 \begin{proof} Let $v_1, ..., v_n$ be the variables of $\fX$ which occur in two constraints, in the order in which they appear around the cycle, and let the constraints $C_1, ..., C_n$ be numbered such that $v_i$ and $v_{i+1}$ are variables of $C_i$ for each $i$ (here we interpret the subscripts $i, i+1$ modulo $n$, so $v_{n+1} = v_1$).
 
@@ -7971,7 +7975,7 @@ A = A + j(p+q) = A + j(p+q) + p = A + p.\qedhere
 
 There is also a natural way to certify that a given instance satisfies condition (P3), following a similar philosophy to the method we used to find absorbing reductions of cycle consistent majority CSPs.
 
-\begin{prop} An instance $\fX$ satisfies condition (P3) at a variable $x$ if and only if there is a partial order $\preceq$ on the power set $\cP(\bA_x)$, such that for every cycle $p$ from $x$ to $x$ and every $A \subseteq \bA_x$, we have
+\begin{prop}\label{prop-prec-p3} An instance $\fX$ satisfies condition (P3) at a variable $x$ if and only if there is a partial order $\preceq$ on the power set $\cP(\bA_x)$, such that for every cycle $p$ from $x$ to $x$ and every $A \subseteq \bA_x$, we have
 \[
 A \preceq A+p.
 \]
@@ -8569,7 +8573,7 @@ Unsatisfyingly, even weak consistency is too demanding to directly prove the exi
 
 In this subsection, we are mainly concerned with the following question: given an instance $\fX$ whose variable domains and relations are not assumed to be closed under the basic operations of our bounded width algebra, under what circumstances can we guarantee that $\Sg(\fX)$ has a solution? If the variable domains of $\fX$ consist of generating sets for free algebras, then this question is equivalent to asking which systems of height $1$ identities can be solved in every finite bounded width algebra. We will show that if the instance $\fX$ has a ``vague'' solution, then $\Sg(\fX)$ is guaranteed to have a solution in any finite bounded width algebra which contains the variable domains of $\fX$.
 
-\begin{defn} Let $\cP_\emptyset(A)$ be the set of non-empty subsets of a set $A$. A \emph{vague element} of $A$ is defined to be a total quasiorder $\preceq$ on $\cP_\emptyset(A)$ such that there is no pair of disjoint subsets $S, T \subset A$ with $S \sim T$, where $S \sim T$ means that $S \preceq T$ and $T \preceq S$.
+\begin{defn}\label{defn-vague} Let $\cP_\emptyset(A)$ be the set of non-empty subsets of a set $A$. A \emph{vague element} of $A$ is defined to be a total quasiorder $\preceq$ on $\cP_\emptyset(A)$ such that there is no pair of disjoint subsets $S, T \subset A$ with $S \sim T$, where $S \sim T$ means that $S \preceq T$ and $T \preceq S$.
 
 If $R \subseteq_{sd} A_1 \times \cdots \times A_n$ is subdirect, then we say that a collection of vague elements $\preceq_i$ of the $A_i$s \emph{vaguely satisfies} the relation $R$ if there exists a total quasiorder $\preceq_R$ on the disjoint union
 \[
@@ -8669,7 +8673,7 @@ implies that $f(S) = f(S+p)$. Then since $f$ is compatible with $\preceq_x$ we m
 \begin{proof} By Proposition \ref{prop-weakly-consistent-cycle}, an instance is weakly consistent if and only if certain cycles take every element of the variable domain back to themselves, so if $\fX^*$ is weakly consistent then so is $\Sg(\fX^*)$. By K\"onig's Lemma, in order to check that $\Sg(\fX^*)$ has a solution we just need to check that every finite subinstance of $\Sg(\fX^*)$ has a stable solution, and for this we can apply the main result of the previous section.
 \end{proof}
 
-\begin{thm} If $\fX$ is an arc-consistent instance which has a vague solution, and if the variable domains of $\fX$ are contained in a finite bounded width algebra, then $\Sg(\fX)$ has a stable solution.
+\begin{thm}\label{thm-vague-solution} If $\fX$ is an arc-consistent instance which has a vague solution, and if the variable domains of $\fX$ are contained in a finite bounded width algebra, then $\Sg(\fX)$ has a stable solution.
 \end{thm}
 \begin{proof} Let $\fX^*$ be the associated weakly consistent instance. By the previous proposition, $\Sg(\fX^*)$ has a stable solution. Fix one particular stable solution to $\Sg(\fX^*)$.
 
@@ -9690,7 +9694,387 @@ In \cite{robust-near-unanimity}, the authors show that for every $\bA$ with a ne
 \begin{prob}[Conjectured in \cite{hui-symmetric}]\label{prob-p1-p2} Suppose that $\CSP(\bA)$ is solved by its LP relaxation. Is it necessarily the case that every instance $\fX$ of $\CSP(\bA)$ which satisfies the consistency conditions (P1) and (P2) has a solution?
 \end{prob}
 
+We will solve this problem in the next section.
+
 % TODO: Hastad's result (in a subsection here, or in an appendix)
+
+
+\section{Robust solutions via Linear Programming and Reversibility}
+
+The goal of this section is to show that every CSP which is solved by the basic linear programming relaxation is also \emph{robustly} solved by linear programming. This will follow once we prove that instances of such CSPs which satisfy the consistency conditions (P1) and (P2) always have solutions. Since we will be referring to these conditions frequently, we will give them a name.
+
+\begin{defn} An instance is called \emph{reversible} if it satisfies the consistency conditions (P1) and (P2) from Definition \ref{defn-weak-prague}.
+\end{defn}
+
+Recall that by Theorems \ref{lp-p1-p2} and \ref{lp-p1-p2-converse}, an instance is reversible if and only if every cycle in the instance has a linear programming solution of full support (on both the variables and the relations). However, we will need to have a characterization of reversibility which is more similar to to the characterization of condition (P3) from Proposition \ref{prop-prec-p3}. Since both the variable domains and the relation domains are equally relevant to the basic linear programming relaxation, this turns out to be most convenient if we adopt an alternative perspective on CSPs which puts relations and variables on the same footing.
+
+Mainly, the idea is to change the way we visualize a constraint relation. In order to visualize a ternary relation $\RR \le \bA_x \times \bA_y \times \bA_z$, we will use the following diagram:
+\begin{center}
+\begin{tikzpicture}[scale=1.3]
+  \node (R) at (0,0) {$\RR$};
+  \node (ax) at (0,1) {$\bA_{x}$};
+  \node (ay) at (-1,-0.7) {$\bA_{y}$};
+  \node (az) at (1,-0.7) {$\bA_{z}$.};
+  \draw (R) [->] to ["$\pi_x$"'] (ax);
+  \draw (R) [->] to ["$\pi_y$"'] (ay);
+  \draw (R) [->] to ["$\pi_z$"] (az);
+\end{tikzpicture}
+\end{center}
+In order to check that an assignment $x \mapsto a \in \bA_x, y \mapsto b \in \bA_y, z \mapsto c \in \bA_z$ satisfies the corresponding constraint, we need to find an element $r \in \RR$ such that
+\[
+\pi_x(r) = a, \;\; \pi_y(r) = b, \;\; \pi_z(r) = c.
+\]
+Note that it isn't necessary for $\RR$ to actually be a subalgebra of $\bA_x \times \bA_y \times \bA_z$: all that matters is that we know the three maps $\pi_x, \pi_y, \pi_z$ from $\RR$ to $\bA_x, \bA_y, \bA_z$. (Of course, we also gain no extra generality by allowing $\RR$ to not be a subpower, since we could always replace $\RR$ by its image in $\bA_x \times \bA_y \times \bA_z$.)
+
+By stitching these pictures together, we can visualize any instance $\fX$ of the multisorted CSP $\CSP(\bA_1, ..., \bA_n)$ as a diagram $\mathcal{D}_\fX$ in the concrete category $HSP_{fin}(\bA_1, ..., \bA_n)$. A solution of the instance $\fX$ corresponds to an assignment from each object $\bA$ of the diagram $\mathcal{D}_\fX$ to an element $a_\bA \in \bA$, such that for every homomorphism $\pi : \RR \rightarrow \bA$ which occurs in the diagram $\mathcal{D}_X$, the elements $a_\RR \in \RR$ and $a_\bA \in \bA$ are related by
+\[
+\pi(a_\RR) = a_\bA.
+\]
+To a category-theorist, a solution to the instance $\fX$ is just another name for an element of the ``inverse limit'' of the diagram $\cD_\fX$.
+
+Conversely, to any diagram $\cD$ in a concrete category $\cV$, we can associate an instance $\fX_\cD$ of a multisorted CSP. The instance $\fX_\cD$ will have one variable $x_\bA$ for each object $\bA$ of the diagram $\cD$, and for each morphism $\pi : \RR \rightarrow \bA$ of the diagram $\cD$, there will be a binary constraint
+\[
+\pi(x_\RR) = x_\bA.
+\]
+In this way, we can transform any instance $\fX$ of any multisorted CSP into an instance $\fX'$ where every constraint relation of $\fX'$ is binary, and is furthermore the graph of a homomorphism, at the cost of introducing a new variable (with a large domain) of $\fX'$ for each of the constraint relations of the original instance $\fX$. This is what makes this perspective well-suited to studying the basic linear programming relaxation: in the basic linear programming relaxation, we have to introduce these new variables just to describe the relaxation, so we may as well work these new variables into our theory from the very beginning.
+
+\begin{defn} We say that an instance $\fX$ of a multisorted CSP is \emph{diagrammatic} if every constraint relation of $\fX$ is binary and is the graph of a homomorphism.
+\end{defn}
+
+As it turns out, reversibility has a nice characterization in terms of orderings when we restrict to diagrammatic instances.
+
+\begin{prop} If an instance $\fX$ is arc-consistent and diagrammatic, then $\fX$ is reversible iff there is a quasiorder $\preceq$ on the collection of pairs $(x,B)$ with $B \subseteq \bA_x$ with the following properties:
+\begin{itemize}
+\item[(a)] for any $B \subset C \subseteq \bA_x$, we have the strict inequality $(x,B) \prec (x,C)$, and
+\item[(b)] for any constraint of $\fX$ corresponding to a homomorphism $\pi : \bA_x \twoheadrightarrow \bA_y$, and for any $B \subseteq \bA_y$, $(y,B)$ and $(x,\pi^{-1}(B))$ are in the same equivalence class of $\preceq$.
+\end{itemize}
+\end{prop}
+\begin{proof} First suppose that $\fX$ is reversible. Define a quasiorder $\preceq$ on the collection of pairs $(x,B)$ with $B \subseteq \bA_x$ by setting $(x,B) \preceq (y,C)$ iff there is a path $p$ from $x$ to $y$ in $\fX$ such that
+\[
+B + p \subseteq C.
+\]
+%The plan is to extend the quasiorder $\preceq$ to a total quasiorder $\preceq'$ with the same equivalence classes as $\preceq$, and then to restrict $\preceq'$ to $\cP(\bA_x)$ to define $\preceq_x$.
+This will automatically satisfy (b).%, since for any $B \subseteq \bA_y$, $(x,\pi^{-1}(B))$ and $(y,B)$ will be in the same equivalence classes of $\preceq$ and $\preceq'$, and similarly for $(x,\pi^{-1}(C))$ and $(y,C)$.
+
+In order to ensure that (a) is satisfied, we just need to show that there is no path $p$ from $x$ to $x$ in $\fX$ such that
+\[
+C + p \subset C
+\]
+for some $C \subseteq \bA_x$. Suppose for the sake of contradiction that there is such a $p$ and $C$. Then we have
+\[
+C + (k+1)p = (C+p) + kp \subseteq C + kp
+\]
+for all $k \ge 0$, so there must be some first $k$ such that
+\[
+C + (k+1)p = C + kp.
+\]
+Since $C + p \ne C$, we have $k \ge 1$, so if we define $B = C + kp$ then we have $B + p = B$, but
+\[
+B - p = C + kp - p \supseteq C + (k-1)p \supset B,
+\]
+where the strict containment follows from the minimality of $k$. However, $B - p \ne B$ contradicts the assumption that $X$ is reversible, so such a $p$ and $C$ do not exist.
+
+To finish, we need to check that if such a quasiorder $\preceq$ can be found, then $\fX$ is reversible. For this, we will use Proposition \ref{prop-p2*}. So we may suppose that $B \subseteq \bA_x$ and that $B + p = B$ for a path $p$ from $x$ to $x$ with first step $p_1$ from $x$ to $x_1$, and we just need to prove that $B + p_1 - p_1 = B$. If $p_1$ is the graph of a homomorphism $\pi_1$ from $\bA_{x_1}$ to $\bA_x$, then we have
+\[
+B + p_1 - p_1 = \pi_1^{-1}(B) - p_1 = \pi_1(\pi_1^{-1}(B)) = B
+\]
+by the assumption that $\fX$ is arc-consistent. The interesting case is the case where $p_1$ is the graph of a homomorphism $\pi_1$ from $\bA_x$ to $\bA_{x_1}$: in this case, we have
+\[
+B + p_1 - p_1 = \pi_1(B) - p_1 = \pi_1^{-1}(\pi_1(B)) \supseteq B.
+\]
+Suppose for the sake of contradiction that $\pi_1^{-1}(\pi_1(B))$ is a strict superset of $B$. Suppose that
+\[
+p = p_1 + p_2 + \cdots + p_k
+\]
+where each $p_i$ is a single step, and define $B_i$ by
+\[
+B_i = B + p_1 + \cdots + p_i,
+\]
+so that $B = B_0 = B_k$. If $x_i$ is the $i$th variable along the path $p$, then we claim that for each $i$ we have
+\[
+(x_i, B_i) \preceq (x_{i+1}, B_{i+1}).
+\]
+If $p_{i+1}$ is the graph of a homomorphism $\pi_{i+1}$ from $\bA_{x_{i+1}}$ to $\bA_{x_i}$ then $B_{i+1} = \pi_{i+1}^{-1}(B_i)$, so $(x_i, B_i)$ and $(x_{i+1}, B_{i+1})$ must be in the same equivalence class of $\preceq$ by (b). Otherwise, $p_{i+1}$ is the graph of a homomorphism $\pi_{i+1}$ from $\bA_{x_i}$ to $\bA_{x_{i+1}}$ and $B_{i+1} = \pi_{i+1}(B_i)$, so
+\[
+B_i \subseteq \pi_{i+1}^{-1}(B_{i+1}) \;\; \implies \;\; (x_i, B_i) \preceq (x_i, \pi_{i+1}^{-1}(B_{i+1})) \preceq (x_{i+1}, B_{i+1})
+\]
+by (a) and (b). Thus we have
+\[
+(x, \pi_1^{-1}(B_1)) \preceq (x_1, B_1) \preceq \cdots \preceq (x_k, B_k) = (x,B),
+\]
+and this contradicts (a) if $B$ is a strict subset of $\pi_1^{-1}(B_1) = \pi_1^{-1}(\pi_1(B))$.
+\end{proof}
+
+\begin{cor}\label{cor-diagram-reversible} If an instance $\fX$ is diagrammatic and reversible, then for each variable domain $\bA_x$ we can find a total quasiorder $\preceq_x$ on $\cP(\bA_x)$ with the following properties:
+\begin{itemize}
+\item[(a)] for any $B \subset C \subseteq \bA_x$, we have the strict inequality $B \prec_x C$, and
+\item[(b)] for any constraint of $X$ corresponding to a homomorphism $\pi : \bA_x \twoheadrightarrow \bA_y$, and for any $B, C \subseteq \bA_y$ we have
+\[
+B \preceq_y C \;\;\; \iff \;\;\; \pi^{-1}(B) \preceq_x \pi^{-1}(C).
+\]
+\end{itemize}
+\end{cor}
+\begin{proof} Extend the quasiorder $\preceq$ from the previous proposition to a total quasiorder $\preceq'$ with the same equivalence classes as $\preceq$, and then to restrict $\preceq'$ to $\cP(\bA_x)$ to define $\preceq_x$.
+%This will automatically satisfy (b), since for any $B \subseteq \bA_y$, $(x,\pi^{-1}(B))$ and $(y,B)$ will be in the same equivalence classes of $\preceq$ and $\preceq'$, and similarly for $(x,\pi^{-1}(C))$ and $(y,C)$.
+\end{proof}
+
+\begin{rem} With a little bit more work, we can also assume that the total quasiorders $\preceq_x$ satisfy
+\[
+B \preceq_x C \;\;\; \iff \;\;\; \bA_x \setminus C \preceq_x \bA_x \setminus B.
+\]
+\end{rem}
+
+\begin{defn} A \emph{strictly monotone preference} on a set $A$ is defined to be a total quasiorder $\preceq$ on $\cP(A)$ such that
+\[
+B \subset C \subseteq A \;\;\; \implies \;\;\; B \prec C.
+\]
+Note the strict inequalities!
+\end{defn}
+
+Strictly monotone preferences are closely related to vague elements - the main difference is that a strictly monotone preference on $A$ may allow disjoint subsets $B,C$ of $A$ to be in the same equivalence class. The plan is to combine the fact that vague solutions can be converted to solutions if the variable domains have bounded width with the assumption that we have symmetric operations of every arity, by replacing each strictly monotone preference with a weighted average of vague elements by randomly breaking ties in a way that is compatible with homomorphisms. To make this precise, it is convenient to use some of the language of category theory.
+
+If we restrict our attention to diagrammatic CSPs, then ``relaxations'' can be viewed as functors $F$ which take the one-element set to itself. Given a diagram $\cD$ in the category of sets, we can apply the functor $F$ to get a new diagram $F(\cD)$. The new diagram $F(\cD)$ will correspond to an easier CSP than the original diagram $\cD$, since any solution to $\cD$ corresponds to a \emph{cone} over $\cD$, that is, a diagram $\cD'$ consisting of $\cD$ together with a new one-element set with a collection of compatible maps to all of the objects in $\cD$, and $F$ maps any such cone $\cD'$ to a cone $F(\cD')$ over the relaxed diagram $F(\cD)$.
+
+To make things a bit more concrete, let's see how we can describe the basic linear programming relaxation as a functor $\Delta$. The functor $\Delta$ transforms a set by
+\[
+\Delta(\{1, ..., n\}) = \Big\{(p_1, ..., p_n) \in \RR^n \mid \sum_i p_i = 1 \text{ and } p_i \ge 0 \text{ for all }i\Big\},
+\]
+and for a function $f : [n] \rightarrow [m]$, we have
+\[
+\Delta(f) : (p_1, ..., p_n) \mapsto \Big(\sum_{i \in f^{-1}(1)} p_i, ..., \sum_{i \in f^{-1}(m)} p_i\Big).
+\]
+Let's see what this does if we are given the unsolvable 2-SAT instance
+\[
+x,y \in \{0,1\} \wedge x = y \wedge x \ne y.
+\]
+This instance corresponds to a diagram with two sets $\bA_x, \bA_y$ of size two, and two homomorphisms between them, given by $y = x$ and $y = 1-x$. When we apply $\Delta$, we get a diagram with two sets $\Delta(\bA_x), \Delta(\bA_y)$ and two homomorphisms between them:
+\[
+\Delta(\bA_x) = \{(1-p_x, p_x) \mid 0 \le p_x \le 1\} \;\; \substack{\longrightarrow\\ \longrightarrow} \;\; \Delta(\bA_y) = \{(1-p_y, p_y) \mid 0 \le p_y \le 1\},
+\]
+where the two homomorphisms correspond to the constraints
+\begin{align*}
+(1-p_y, p_y) &= (1-p_x, p_x),\\
+(1-p_y, p_y) &= (p_x, 1-p_x).
+\end{align*}
+While the original 2-SAT instance has no solution, the relaxed instance has the solution $p_x = p_y = 1/2$.
+
+For another concrete example of a relaxation considered as a functor, we have arc-consistency. Arc-consistency corresponds to the functor $\cP_\emptyset$, which takes a set $A$ to the set of nonempty subsets $S$ of $A$, and acts on $f : A \rightarrow B$ by
+\[
+\cP_\emptyset(f) : S \mapsto \{f(a) \mid a \in S\}.
+\]
+We can make the claim that arc-consistency is more relaxed than the basic linear programming relaxation precise by exhibiting a natural transformation from $\Delta(A)$ to $\cP_\emptyset(A)$. This natural transformation takes a probability distribution to its \emph{support}:
+\[
+\supp : (p_a)_{a \in A} \mapsto \{a \mid p_a > 0\}.
+\]
+
+In order to show that a relaxation (corresponding to a functor $F$) solves $\CSP(\fA)$, where $\fA$ is a (possibly multisorted) relational structure, we need a \emph{rounding rule}. A rounding rule is a homomorphism of relational structures
+\[
+r : F(\fA) \rightarrow \fA,
+\]
+where we make sense of $F(\fA)$ by noticing that a relational structure corresponds in a natural way to a diagram, and we can apply functors to diagrams. We've already seen that $\CSP(\fA)$ is solved by arc-consistency iff there is a homomorphism $\cP_\emptyset(\fA) \rightarrow \fA$ (Theorem \ref{thm-set-polymorphism}). If you squint, then Theorem \ref{lp-robust} can be viewed as saying that $\CSP(\fA)$ is solved by the basic linear programming relaxation iff there is a homomorphism from a simplification of $\Delta(\fA)$ (where we only consider probability vectors with rational entries) to $\fA$.
+
+If we view an entire pseudovariety $\cV = HSP_{fin}(\bA_1, ..., \bA_n)$ as a giant multisorted relational structure, then a rounding rule for $F$ on $\cV$ is a natural transformation from $F$, considered as a functor from $\cV$ to the category of sets, to the functor which takes each algebra in $\cV$ to its underlying set. In other words, a rounding rule for $F$ on $\cV$ gives us a map
+\[
+r_\bA : F(A) \rightarrow A
+\]
+for each $\bA \in \cV$, where $A$ is the underlying set of $\bA$. These maps need to be compatible with homomorphisms $\pi : \bA \rightarrow \bB$ in the following sense: for any $x \in F(A)$, we must have
+\[
+\pi(r_\bA(x)) = r_\bB(F(\pi)(x)) \in B.
+\]
+
+In order to describe a rounding rule for $F$ on $\cV$ more compactly, it helps to note that we only need to know how the rounding rule behaves on free algebras, since every algebra in $\cV$ is a quotient of a free algebra. If $\cF_\cV(S)$ is the free algebra in $\cV$ with generators corresponding to the elements of $S$, then the map
+\[
+S \stackrel{i_s}{\hookrightarrow} \cF_\cV(S)
+\]
+which takes each element of $S$ to the corresponding generator of $\cF_\cV(S)$ turns into a map
+\[
+F(i_S) : F(S) \rightarrow F(\cF_\cV(S)),
+\]
+and I claim that all we need to know in order to describe a rounding rule is the result of composing $F(i_S)$ with the map
+\[
+r_{\cF_\cV(S)} : F(\cF_\cV(S)) \rightarrow \cF_\cV(S).
+\]
+Why is this the case? Well, for any algebra $\bA \in \cV$, we have maps
+\[
+A \stackrel{i_A}{\hookrightarrow} \cF_\cV(A) \stackrel{\pi_\bA}{\twoheadrightarrow} \bA,
+\]
+where $i_A$ is just a map of sets while $\pi_\bA$ is the homomorphism sending each generator of $\cF_\cV(A)$ to the corresponding element of $\bA$. Applying $F$, we get
+\[
+F(A) \rightarrow F(\cF_\cV(A)) \rightarrow F(\bA),
+\]
+and the composition of the two maps is the identity since $F$ is a functor. Then for any $x \in F(A)$, we have
+\begin{align*}
+r_\bA(x) &= r_\bA(F(\pi_\bA \circ i_A)(x))\\
+&= r_\bA(F(\pi_\bA)(F(i_A)(x)))\\
+&= \pi_\bA(r_{\cF_\cV(A)}(F(i_A)(x))),
+\end{align*}
+so
+\[
+r_\bA = \pi_\bA \circ r_{\cF_\cV(A)} \circ F(i_A),
+\]
+and we see that $r_\bA$ is determined by $r_{\cF_\cV(A)} \circ F(i_A)$, as promised.
+
+\begin{defn} If $F$ is a functor from finite sets to sets, and if $\cV$ is a variety, then a \emph{rounding rule} for $F$ on $\cV$ is defined to be a family of maps
+\[
+r_S : F(S) \rightarrow \cF_\cV(S)
+\]
+such that for every map $\pi : S \rightarrow T$ and every $x \in F(S)$ we have
+\[
+\cF_\cV(\pi)(r_S(x)) = r_T(F(\pi)(x)),
+\]
+where $\cF_\cV(\pi) : \cF_\cV(S) \rightarrow \cF_\cV(T)$ is the corresponding map of free algebras. In other words, $r$ is a natural transformation (also known as a \emph{minion homomorphism}) from $F$ to $\cF_\cV$.
+\end{defn}
+
+Another way of understanding this is that for every variety $\cV$, the free algebra functor $\cF_\cV$ is itself a type of relaxation which can be applied to diagrams, and for diagrams in $\cV$ it doesn't introduce new solutions to problems which didn't already have solutions. So to show that a relaxation $F$ is safe for $\cV$, we just need to show that it is no stronger than the relaxation $\cF_\cV$, and we do this by describing a recipe which turns elements of $F(S)$ into polymorphisms of arity $S$.
+
+The point of all of this was to introduce and justify the language we will use to repackage our results about vague solutions into something we can use to resolve our questions about how reversibility relates to linear programming.
+
+\begin{defn} The \emph{vague minion} is defined to be the functor $\cW$ which takes a finite set $A$ to
+\[
+\cW(A) = \{(S, \preceq) \mid S \in \cP_\emptyset(A) \text{ and }\preceq\text{ is a vague element of }S\text{ which extends the inclusion order }\subseteq\},
+\]
+and which takes a map $\pi : A \rightarrow B$ to
+\[
+\cW(\pi) : (S, \preceq) \mapsto (\pi(S), \preceq^\pi),
+\]
+where $\preceq^\pi$ is the vague element of $\pi(S)$ defined by
+\[
+U \preceq^\pi V \;\; \iff \;\; \pi^{-1}(U) \preceq \pi^{-1}(V)
+\]
+for $U, V \subseteq \pi(S)$. (See Definition \ref{defn-vague} for the definition of vague elements.)
+\end{defn}
+
+\begin{thm}\label{thm-vague-minion} If $\cV$ is a locally finite bounded width variety, then there is a rounding rule for the vague minion $\cW$ on $\cV$, that is, there is a minion homomorphism
+\[
+r^\cW : \cW \rightarrow \cF_\cV.
+\]
+\end{thm}
+\begin{proof} With an eye towards applying Theorem \ref{thm-vague-solution}, we define an (infinite) diagrammatic instance $\fX$ with $\Sg(\fX)$ an instance of $\CSP(\cV)$ as follows:
+\begin{itemize}
+\item for every finite set $S$ and for every vague element $\preceq$ on $S$ which extends the inclusion order $\subseteq$, introduce a variable $x_{(S,\preceq)}$ with variable domain $A_{x_{(S,\preceq)}} = S$ considered as a subset of the algebra $\bA_{x_{(S,\preceq)}} = \cF_\cV(S)$,
+\item for every surjective map $\pi : S \twoheadrightarrow T$ and every vague element $\preceq$ of $S$ extending $\subseteq$, introduce the constraint
+\[
+x_{(T, \preceq^\pi)} = \pi(x_{(S, \preceq)}).
+\]
+\end{itemize}
+By construction, the instance $\fX$ is arc-consistent, and we claim that it has a vague solution given by sending $x_{(S,\preceq)}$ to the vague element $\preceq$. For this, we just need to check that the pair of vague elements $(\preceq, \preceq^\pi)$ vaguely satisfies the binary relation
+\[
+\RR_\pi = \{(s, \pi(s)) \mid s \in S\},
+\]
+where vague satisfaction is defined in Definition \ref{defn-vague}. This is the step where it is important to restrict to vague elements which extend the inclusion order!
+
+We define a total quasiorder $\preceq_{\RR_\pi}$ on $\cP_\emptyset(S) \sqcup \cP_\emptyset(\pi(S))$ by putting each element $U \in \cP_\emptyset(\pi(S))$ into the same equivalence class as $\pi^{-1}(U) \in \cP_\emptyset(S)$, and ordering $\cP_\emptyset(S)$ via $\preceq$. By definition, $\preceq_{\RR_\pi}$ restricts to $\preceq$ on $\cP_\emptyset(S)$ and restricts to $\preceq^\pi$ on $\cP_\emptyset(\pi(S))$, and for any $U \in \cP_\emptyset(\pi(S))$ we have
+\[
+U \preceq_{\RR_\pi} U - \RR_\pi = \pi^{-1}(U).
+\]
+Finally, for $V \in \cP_\emptyset(S)$, we have
+\[
+V \subseteq \pi^{-1}(\pi(V)),
+\]
+so since we only consider vague elements $\preceq$ which extend the inclusion order $\subseteq$ we have
+\[
+V \preceq_{\RR_\pi} \pi^{-1}(\pi(V)) \preceq_{\RR_\pi} \pi(V) = V + \RR_\pi.
+\]
+Therefore, the pair $(\preceq, \preceq^\pi)$ vaguely satisfies the binary relation $\RR_\pi$.
+
+Now we can apply Theorem \ref{thm-vague-solution} to see that $\Sg(\fX)$ has a solution $r$ taking each variable $x_{(S,\preceq)}$ to a stable element of $\cF_\cV(S)$, such that for every surjective map $\pi : S \twoheadrightarrow T$ we have
+\[
+(r(x_{(S,\preceq)}), r(x_{(T,\preceq^\pi)})) \in \Sg_{\cF_\cV(S)\times \cF_\cV(T)}(\RR_\pi) = \{(f,\cF_\cV(\pi)(f)) \mid f \in \cF_\cV(S)\},
+\]
+that is,
+\[
+r(x_{(T,\preceq^\pi)}) = \cF_\cV(\pi)(r(x_{(S,\preceq)})).\qedhere
+\]
+\end{proof}
+
+Now that the preliminaries are out of the way, we can define the relaxation which is connected to reversibility.
+
+\begin{defn} The \emph{reversible minion} is defined to be the functor $\cM$ which takes a finite set $A$ to
+\[
+\cM(A) = \{(S, \preceq) \mid S \in \cP_\emptyset(A) \text{ and }\preceq\text{ is a strictly monotone preference on }S\},
+\]
+and which takes a map $\pi : A \rightarrow B$ to
+\[
+\cM(\pi) : (S, \preceq) \mapsto (\pi(S), \preceq^\pi),
+\]
+where $\preceq^\pi$ is the strictly monotone preference on $\pi(S)$ defined by
+\[
+U \preceq^\pi V \;\; \iff \;\; \pi^{-1}(U) \preceq \pi^{-1}(V)
+\]
+for $U, V \subseteq \pi(S)$.
+\end{defn}
+
+\begin{thm}\label{thm-reversible-minion} If $\cV$ is a locally finite variety which has symmetric polymorphisms of every arity, then there is a rounding rule for the reversible minion $\cM$ on $\cV$, that is, there is a minion homomorphism
+\[
+r^\cM : \cM \rightarrow \cF_\cV.
+\]
+\end{thm}
+\begin{proof} Since no finite affine algebra can have symmetric polymorphisms of all arities, $\cV$ must have bounded width by Theorem \ref{affine-free-pq}, so we can apply Theorem \ref{thm-vague-minion} to see that there is a rounding rule for the vague minion on $\cV$:
+\[
+r^\cW : \cW \rightarrow \cF_\cV.
+\]
+Additionally, by Theorem \ref{lp-robust} there is a rounding rule for the linear programming relaxation $\Delta$ on $\cV$:
+\[
+r^\Delta : \Delta \rightarrow \cF_\cV.
+\]
+We will apply these rounding rules as black-boxes, by finding a minion homomorphism
+\[
+\mu : \cM \rightarrow \Delta \circ \cW
+\]
+and composing it with the rounding rule
+\[
+r^\Delta \circ r^\cW : \Delta \circ \cW \rightarrow \cF_\cV \circ \cF_\cV
+\]
+and the fact that we can compose polymorphisms
+\[
+\circ : \cF_\cV \circ \cF_\cV \rightarrow \cF_\cV.
+\]
+
+The map $\mu$ is rather simple: for any strictly monotone preference $\preceq$ on $S$, we take every equivalence class $E$ of $\preceq$, and break ties by choosing a uniformly random total ordering on $E$, independently of the total orderings we pick on the other equivalence classes of $\preceq$.
+
+Alternatively, we can describe $\mu$ as follows. Say that a total order $\preceq_!$ on $\cP_\emptyset(S)$ is compatible with $\preceq$ if
+\[
+U \preceq_! V \;\; \implies \;\; U \preceq V.
+\]
+Then $\mu(S,\preceq)$ is defined to be the uniform distribution on the set of total orders $\preceq_!$ which are compatible with $\preceq$.
+
+We need to check that $\mu(S,\preceq) \in \Delta(\cW(S))$, that is, that every compatible total order $\preceq_!$ is actually a vague element of $S$ which extends the inclusion order $\subseteq$. That $\preceq_!$ is a vague element follows immediately from the fact that it is a total order, so we just need to check that it extends the inclusion order. For this, note that since $\preceq$ was \emph{strictly} monotone, we have
+\[
+U \subset V \;\; \implies \;\; U \prec V \;\; \implies \;\; V \not\preceq_! U \;\; \implies \;\; U \prec_! V.
+\]
+
+To finish the proof we need to check that $\mu$ is actually a natural transformation, that is, that for any surjective map $\pi : S \twoheadrightarrow T$ we have
+\[
+(\Delta\circ\cW)(\pi)(\mu(S,\preceq)) = \mu(\cM(\pi)(T,\preceq)).
+\]
+The left hand side is the probability distribution we get by first picking uniformly among compatible total orders $\preceq_!$ on $\cP_\emptyset(S)$ and then applying $\pi$ to get a total order $(\preceq_!)^\pi$ on $\cP_\emptyset(T)$. The right hand side is the probability distribution we get by first applying $\pi$ to get a strictly monotone preference $\preceq^\pi$ on $T$, and then picking uniformly among compatible total orders $(\preceq^\pi)_!$ on $\cP_\emptyset(T)$.
+
+To check that these two random processes have the same distributions, it's convenient use yet another way to describe the random tie-breaking process: independently for each set $U \subseteq S$, we pick a uniformly random real number $\epsilon_U$ in the range $[0,1]$, and we define $\preceq_!$ by
+\[
+U \preceq_! V \;\; \iff \;\; U \prec V \vee (U \sim V \wedge \epsilon_U \le \epsilon_V),
+\]
+where $\sim$ is the equivalence relation associated to $\preceq$. Then if we define $\epsilon_U^\pi$ for $U \subseteq T$ by
+\[
+\epsilon_U^\pi = \epsilon_{\pi^{-1}(U)},
+\]
+then the real numbers $\epsilon_U^\pi$ will also be independent (since $U \ne V \implies \pi^{-1}(U) \ne \pi^{-1}(V)$, as $\pi$ is surjective onto $T$) and uniformly distributed in $[0,1]$, and for this coupling between the random numbers we choose for $T$ and the ones we choose for $S$ we have $(\preceq_!)^\pi = (\preceq^\pi)_!$.
+\end{proof}
+
+\begin{rem} We could have defined the vague minion and the reversible minion to only involve self-dual quasiorders $\preceq$. Theorem \ref{thm-reversible-minion} would remain true with the revised definitions, with a slight modification to the map $\mu$ which occured in the proof.
+\end{rem}
+
+\begin{cor} If $\cV$ is a locally finite variety such that $\CSP(\cV)$ is solved by the basic linear programming relaxation, then every reversible instance of $\CSP(\cV)$ has a solution.
+\end{cor}
+
+\begin{cor} Suppose that $\Gamma$ is a finite constraint language such that $\CSP(\Gamma)$ is solved by the basic linear programming relaxation. If we are given an instance $\fX$ of $\CSP(\Gamma)$ such that the basic linear programing relaxation of $\fX$ is $1 - \epsilon$ satisfiable, then we can efficiently find a solution which satisfies a
+\[
+1 - O\Big(\frac{1}{\log(1/\epsilon)}\Big)
+\]
+fraction of the constraints of $\fX$.
+\end{cor}
+
+%TODO: construction of xyz-symmetric operations from a 6-ary symmetric operation, explicit bounds and algorithm
+
 
 
 \chapter{Finite Taylor Algebras}\label{chapter-taylor}
@@ -11672,43 +12056,45 @@ The specific assumption that Mar\'oti uses in \cite{malcev-on-top} is that each 
 \end{itemize}
 We will say that such a pair $\bA_x,\theta_x$ has the \emph{Mal'cev-on-top} property to abbreviate this. Note that by Corollary \ref{cor-few-subpowers-product} and Corollary \ref{affine-free-variety}, this assumption implies that the multisorted CSP with variable domains $\bA_x/\theta_x$ has few subpowers, and that for any $a_x \in \bA_x$ the multisorted CSP with variable domains $a_x/\theta_x$ has bounded width (equivalently, the products $\bA = \prod_x \bA_x$ and $\theta = \prod_x \theta_x$ have the Mal'cev-on-top property).
 
-In the few subpowers setting it's natural to consider global constraints (i.e. constraints which involve all of the variables at once), specified by their compact representations, but in the bounded width setting it is more natural to consider constraints with low arity. To get the best of both worlds, Mar\'oti introduced a new type of constraint, which he called a ``Maltsev constraint'' (we will call them ``Mal'cev-on-top constraints'').
+In the few subpowers setting it's natural to consider global constraints (i.e. constraints which involve all of the variables at once), specified by their compact representations, but in the bounded width setting it is more natural to consider constraints with low arity. To get the best of both worlds, Mar\'oti introduced a new type of constraint, which he called a ``Maltsev constraint'' (we will call them ``M-constraints'').
 
-\begin{defn}[Mar\'oti \cite{malcev-on-top}] If $X$ is the set of all variables, and if each variable domain $\bA_x$ has a congruence $\theta_x$ with the Mal'cev-on-top property, then a \emph{Mal'cev-on-top constraint} on $I \subseteq X$ is a subalgebra
+\begin{defn}[Mar\'oti \cite{malcev-on-top}] If $X$ is the set of all variables, and if each variable domain $\bA_x$ has a congruence $\theta_x$ with the Mal'cev-on-top property, then an \emph{M-constraint} on $I \subseteq X$ is a subalgebra
 \[
 \RR \le \prod_{x \in I} \bA_x \times \prod_{y \in X\setminus I} \bA_y/\theta_y.
 \]
-By a \emph{compact representation} of $\RR$, we mean a collection of compact representations of the relations
+We will say that the \emph{M-arity} of an M-constraint on $I$ is $|I|$. By a \emph{compact representation} of $\RR$, we mean a collection of compact representations of the relations
 \[
-a + \RR = \big\{b \in \prod_{y \in X\setminus I} \bA_y/\theta_y \mid (a,b) \in \RR\big\},
+a_I + \RR = \big\{b \in \prod_{y \in X\setminus I} \bA_y/\theta_y \mid (a_I,b) \in \RR\big\},
 \]
-for all $a \in \prod_{x \in I} \bA_x$.
+for all $a_I \in \prod_{x \in I} \bA_x$.
 \end{defn}
 
-We will attempt to be a little bit more ambitious: let's consider the more general case of relations described by oracles which are powerful enough to run the arc-consistency algorithm.
+The way we will actually think about M-constraints on $I$ is reversed from how their compact representations are defined: we think of an M-constraint $\RR$ as a way of associating an $|I|$-ary relation $b - \RR \le \prod_{x \in I} \bA_x$ to every tuple of congruence classes $b \in \prod_{y \in X\setminus I} \bA_y/\theta_y$.
 
-\begin{defn} An \emph{algebraic restriction oracle} $\mathcal{O}_\RR$ for a relation $\RR \le \bA_1 \times \cdots \times \bA_n$ is defined as a black box function which takes as input a tuple of subalgebras $\bB_i \le \bA_i$, and returns ``true'' if and only if we have
+We might attempt to be a little bit more ambitious: let's consider the more general case of relations described by oracles which are just barely powerful enough to run the arc-consistency algorithm.
+
+\begin{defn} A \emph{subalgebra restriction oracle} $\mathcal{O}_\RR$ for a relation $\RR \le \bA_1 \times \cdots \times \bA_n$ is defined as a black box function which takes as input a tuple of subalgebras $\bB_i \le \bA_i$, and returns ``true'' if and only if we have
 \[
 \RR \cap (\bB_1 \times \cdots \times \bB_n) \ne \emptyset.
 \]
 \end{defn}
 
-\begin{prop} Let $\RR \le \prod_x \bA_x$, and for $I \subseteq X$ consider the Mal'cev-on-top relation on $I$ give by
+\begin{prop} Let $\RR \le \prod_x \bA_x$, and for $I \subseteq X$ consider the M-relation on $I$ give by
 \[
 \RR/\theta_{X\setminus I} \le \bA_I \times \bA_{X \setminus I}/\theta_{X\setminus I},
 \]
-where we have made the abbreviations $\bA_I = \prod_{x \in I} \bA_x$, and similarly for $\bA_{X \setminus I}$ and $\theta_{X \setminus I}$. If $\bA_{X \setminus I}/\theta_{X/\setminus I}$ has a $k$-edge term, and if we are given an algebraic restriction oracle $\mathcal{O}_\RR$ for $\RR$, then we can compute a compact representation for $\RR/\theta_{X\setminus I}$ using at most
+where we have made the abbreviations $\bA_I = \prod_{x \in I} \bA_x$, and similarly for $\bA_{X \setminus I}$ and $\theta_{X \setminus I}$. If $\bA_{X \setminus I}/\theta_{X\setminus I}$ has a $k$-edge term, and if we are given a subalgebra restriction oracle $\mathcal{O}_\RR$ for $\RR$, then we can compute a compact representation for $\RR/\theta_{X\setminus I}$ using at most
 \[
 \prod_{x \in I} |\bA_x| \times \Big(\sum_{y \in X \setminus I} |\bA_y/\theta_y|\Big)^k
 \]
 calls to the oracle $\mathcal{O}_\RR$.
-%Conversely, given a compact representation of a Mal'cev-in-top relation $\RR'$ on $I$ and a $k$-edge term $e$ for $\bA_{X \setminus I}/\theta_{X/\setminus I}$, and letting $\overline{\RR}'$ be the corresponding subalgebra of $\prod_{x \in X} \bA_x$ which is compatible with $\theta_{X\setminus I}$, we can implement an algebraic restriction oracle $\mathcal{O}_{\overline{\RR}'}$ for $\overline{\RR}'$ which runs in time polynomial in the size of the compact representation.
+%Conversely, given a compact representation of an M-relation $\RR'$ on $I$ and a $k$-edge term $e$ for $\bA_{X \setminus I}/\theta_{X/\setminus I}$, and letting $\overline{\RR}'$ be the corresponding subalgebra of $\prod_{x \in X} \bA_x$ which is compatible with $\theta_{X\setminus I}$, we can implement a subalgebra restriction oracle $\mathcal{O}_{\overline{\RR}'}$ for $\overline{\RR}'$ which runs in time polynomial in the size of the compact representation.
 \end{prop}
 \begin{proof} Left as an exercise for now.%TODO
 \end{proof}
 
 \begin{comment}
-So the setup is that every single constraint relation $\RR$ on our instance $\fX$ will be considered as a relation on the full set of variables $X$, described implicitly by an algebraic restriction oracle $\cO_\RR$. Note that given such oracles $\cO_{\RR_i}$, we can efficiently find compact representations for $\RR_i/\theta_X$, so we can efficiently check whether or not we have
+So the setup is that every single constraint relation $\RR$ on our instance $\fX$ will be considered as a relation on the full set of variables $X$, described implicitly by an subalgebra restriction oracle $\cO_\RR$. Note that given such oracles $\cO_{\RR_i}$, we can efficiently find compact representations for $\RR_i/\theta_X$, so we can efficiently check whether or not we have
 \[
 \bigcap_i \RR_i/\theta_X \ne \emptyset,
 \]
@@ -11723,9 +12109,9 @@ the further reduced instance $\fX_a''$ with variable domains
 always ends up being cycle-consistent. Note that given the oracles $\cO_{\RR_i}$, we can easily implement the oracles $\cO_{\RR_i'}, \cO_{\RR_i''}$, as long as we only reduce our original instance $\fX$ by shrinking the variable domains when we construct the instances $\fX', \fX_a''$.
 \end{comment}
 
-Unfortunately, algebraic restriction oracles seem to give us slightly too little information to run Mar\'oti's algorithm. So we make the following definition instead.
+Unfortunately, subalgebra restriction oracles seem to give us slightly too little information to run Mar\'oti's algorithm. So we make the following definition instead.
 
-\begin{defn} Suppose that $\bA_i, \theta_i$ have the Mal'cev-on-top property. A \emph{Mal'cev-on-top restriction oracle} $\cO^\cM_\RR$ for a relation $\RR \le \bA_1 \times \cdots \times \bA_n$ is defined as a black box function which takes as input a tuple of compact representations of Mal'cev-on-top constraints
+\begin{defn} Suppose that $\bA_i, \theta_i$ have the Mal'cev-on-top property. A \emph{M-restriction oracle} $\cO^\cM_\RR$ for a relation $\RR \le \bA_1 \times \cdots \times \bA_n$ is defined as a black box function which takes as input a tuple of compact representations of M-unary M-constraints
 \[
 \bB_i \le \bA_i \times \prod_{j \ne i} \bA_j/\theta_j,
 \]
@@ -11735,13 +12121,13 @@ and returns a compact representation of
 \]
 \end{defn}
 
-Mal'cev-on-top restriction oracles are clearly at least as powerful as algebraic restriction oracles. Furthermore, if we want to have any hope of solving CSPs involving $\RR$ along with ``unary'' Mal'cev-on-top constraints, then there had better be an efficient way to implement the Mal'cev-on-top restriction oracle $\cO^\cM_\RR$. In particular, if Mar\'oti's approach is going to work at all then there ought to be a way to efficiently implement the Mal'cev-on-top restriction oracle $\cO^\cM_\RR$ when $\RR$ happens to be a Mal'cev-on-top constraint!
+M-restriction oracles are clearly at least as powerful as subalgebra restriction oracles. Furthermore, if we want to have any hope of solving CSPs involving $\RR$ along with M-unary M-constraints, then there had better be an efficient way to implement the M-restriction oracle $\cO^\cM_\RR$. In particular, if Mar\'oti's approach is going to work at all then there ought to be a way to efficiently implement the M-restriction oracle $\cO^\cM_\RR$ when $\RR$ happens to be an M-constraint!
 
-\begin{prop} Suppose that we are given a $k$-edge term $e$ for the algebras $\bA_x/\theta_x$, along with a compact representation of a Mal'cev-on-top constraint
+\begin{prop} Suppose that we are given a $k$-edge term $e$ for the algebras $\bA_x/\theta_x$, along with a compact representation of an M-constraint
 \[
 \RR \le \bA_I \times \bA_{X\setminus I}/\theta_{X \setminus I}
 \]
-and a tuple of  compact representations of Mal'cev-on-top constraints
+and a tuple of compact representations of M-constraints
 \[
 \bB_x \le \bA_x \times \bA_{X\setminus \{x\}}/\theta_{X\setminus\{x\}}.
 \]
@@ -11754,7 +12140,7 @@ in time polynomial in the sum of the sizes of the compact representations of $\R
 \begin{proof} Left as another exercise for now.%TODO
 \end{proof}
 
-\begin{prob} Given black box access to the algebraic restriction oracle $\cO_\RR$ for an unknown relation $\RR \le \bA_1 \times \cdots \times \bA_n$ of high arity, together with a $k$-edge term $e$ for the algebras $\bA_i/\theta_i$, can we implement the Mal'cev-on-top restriction oracle $\cO^\cM_\RR$ using only polynomially many calls to $\cO_\RR$?
+\begin{prob} Given black box access to the subalgebra restriction oracle $\cO_\RR$ for an unknown relation $\RR \le \bA_1 \times \cdots \times \bA_n$ of high arity, together with a $k$-edge term $e$ for the algebras $\bA_i/\theta_i$, can we implement the M-restriction oracle $\cO^\cM_\RR$ using only polynomially many calls to $\cO_\RR$?
 \end{prob}
 
 %TODO: arc-consistency first, then singleton arc-consistency

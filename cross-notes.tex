@@ -1007,6 +1007,20 @@ so
 Thus $(A,B;C,D;\omega,\Omega) = -1$ if and only if $P = Q$.
 \end{proof}
 
+The next exercise gives us an easy way to construct a generic pair of projectively orthogonal conics.
+
+%TODO: expand this into a theorem!
+\begin{exer} Let $A,B,C,D$ be four points with no three on a line, and let $E = AB \cap CD$, $F = AD \cap BC$. Pick any pair of conics $\omega, \Omega$ such that $\omega$ passes through $A,C,E,F$ and $\Omega$ passes through $B,D,E,F$, and let $X$ and $Y$ be the other two intersection points between $\omega$ and $\Omega$.
+\begin{itemize}
+\item[(a)] Show that $(A,C;X,Y)_\omega = (B,D;X,Y)_\Omega = -1$.
+
+\item[(b)] Show that $\omega$ and $\Omega$ are projectively orthogonal with respect to the partition $\{E,F\}, \{X,Y\}$.
+\end{itemize}
+\end{exer}
+
+\begin{exer} Show that for any pair of conics $\omega, \Omega$ which are projectively orthogonal with respect to a partition $\{E,F\}, \{X,Y\}$ of their intersection points, and for any point $A$ on $\omega$ other than $E,F,X,Y$, we can find points $B,C,D$ such that the whole configuration is the one described in the previous exercise.
+\end{exer}
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.5,angle=270]{righthyperbola.eps}
@@ -1120,10 +1134,10 @@ where the third coordinate of $l = (a:b:0)$ is forced to be $0$ since $A \in l$,
 \]
 and the exceptional line $e_A$ corresponds to the line $s \mapsto (0,0,s)$ which is contained within this surface. This surface can be visualized as a sort of spiral staircase, where for each fixed value of $s$ we have a line $x \mapsto (x,-sx,s)$ passing through the exceptional line $e_A$. So we can visually confirm that $\Bl_A\PP^2$ ends up being a smooth two-dimensional surface, with a map $\Bl_A \PP^2 \rightarrow \PP^2$ (given by $(P,l) \mapsto P$) which is one-to-one aside from the exceptional line $e_A$, which gets crushed down to the point $A$.
 
-The same trick can be used to blow up a sequence of points - introducing an exceptional line for every point which gets blown up - and hopefully once we blow up the right collection of points we can cure whatever defects we had in our geometric constructions which \emph{almost} worked. The main example of such a geometric construction is the Cremona involution, which generalizes the following geometric operations:
+The same trick can be used to blow up a sequence of points - introducing an exceptional line for every point which gets blown up - and hopefully once we blow up the right collection of points we can cure whatever defects we had in our geometric constructions which \emph{almost} worked. The main example of such a geometric construction is called the Cremona involution, and it generalizes the following geometric operations:
 \begin{itemize}
 \item isogonal (or isotomic) conjugation of a point with respect to a triangle, which fails at the vertices of the triangle, and
-\item inversion around a point $O$ in the projective plane, which fails at the points $O, \fish, \bar\fish$.
+\item inversion around a circle centered at a point $O$ in the projective plane, which fails at the points $O, \fish, \bar\fish$. (Actually, to make this into a Cremona involution, we have to follow it up with a reflection across a line $l$ through $O$.)
 \end{itemize}
 The fix will require us to blow up the three points where the operation fails.
 
@@ -1132,7 +1146,7 @@ Let $A,B,C,D$ be four points in the projective plane, no three on a line. Choose
 \begin{exer} Show that $E,F,G$ satisfy $DE \cap FG = A, DF \cap EG = B, DG \cap EF = C$, and that they are uniquely determined by these conditions. Show that $E$ is the harmonic conjugate of $D$ with respect to $A, AD\cap BC$.
 \end{exer}
 
-One of the simplest nonlinear functions we can write down is the Cremona involution: if $p,q,r$ are all nonzero, it takes the point $P = [p:q:r]$ in the above coordinate system to the point
+The Cremona involution is defined as follows: if $p,q,r$ are all nonzero, it takes the point $P = [p:q:r]$ in the above coordinate system to the point
 \[
 f_{ABCD}(P) = \Big[\frac{1}{p}:\frac{1}{q}:\frac{1}{r}\Big].
 \]
@@ -1241,6 +1255,18 @@ so $B,C,f(P),f(Q),f(R),f(S)$ are on a conic. If $f(\omega)$ passed through $A$, 
 
 Note that if $f(\omega) = \omega$ then $f$ defines an involution from $\omega$ to itself, and so $f$ must fix exactly two points of $\omega$, which can't both be contained in the same line through $B$ or $C$. Conversely, suppose for instance that $D,E$ are on $\omega$, and let $X$ be any other point on $\omega$. The conic through $B,C,D,X,f(X)$ is sent to itself, so it must contain $E$. Thus $f(X)$ must be on $\omega$.
 \end{proof}
+
+\begin{exer} Let $O \ne P$ be two finite points, let $\fish, \bar\fish$ be the circle points, and let $f = f_{O \fish \bar\fish P}$.
+\begin{itemize}
+\item[(a)] Show that if $\omega$ is a circle which doesn't pass through $O$, then $f(\omega)$ is also a circle which doesn't pass through $O$.
+
+\item[(b)] Show that $f$ interchanges lines which don't pass through any of $O,\fish,\bar\fish$ with circles passing through $O$.
+
+\item[(c)] Show that if $Q \ne O, \fish, \bar\fish$ and $Q'$ is the inverse of $Q$ with respect to the circle centered at $O$ with radius $OP$, then $f(Q)$ is the reflection of $Q'$ across the line $OP$.
+
+\item[(d)] Let $Q$ be the reflection of $P$ through the point $O$. Show that every circle $\omega$ which satisfies $f(\omega) = \omega$ either passes through $P$ and $Q$, or is orthogonal to every circle which passes through $P$ and $Q$.
+\end{itemize}
+\end{exer}
 
 \subsubsection{Aside: some basic intersection theory}
 
