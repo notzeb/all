@@ -1811,6 +1811,16 @@ t(a_1, a_2, ..., a_k) &\preceq t(b_1, a_2, ..., a_k)\\
 \end{align*}
 \end{proof}
 
+\begin{cor}\label{cor-quasiorder-poly} Suppose $\bA$ is an algebra and let $\Pol_1(\bA)$ be the set of unary polynomials of $\bA$. If $R$ is any quasiorder of $\bA$, then among all quasiorders on $\bA$ which are also subalgebras of $\bA^2$, the minimal compatible quasiorder containing $R$ is the transitive closure of the set
+\[
+\{(f(a), f(b)) \mid (a,b) \in R \text{ and } f \in \Pol_1(\bA)\},
+\]
+and the maximal compatible quasiorder contained in $R$ is given by
+\[
+\{(a,b) \mid \forall f \in \Pol_1(\bA), (f(a), f(b)) \in R\}.
+\]
+\end{cor}
+
 So tame congruence theory is really about the how the identities satisfied in a (usually locally finite) variety affect the behavior of unary polynomials, and how this in turn affects the behavior of congruences. Because of the important role of polynomial operations in tame congruence theory, we will use $\Pol_n(\bA)$ to represent the set of $n$-ary polynomial operations of $\bA$ throughout this appendix (hopefully this doesn't cause any confusion with the notation for the polymorphism clone of a relational structure).
 
 The material in this appendix is mostly taken from Hobby and McKenzie's wonderful book \cite{hobby-mckenzie} (some of it is my solutions to various exercises from their book).
@@ -1849,11 +1859,11 @@ More generally, if $N \subseteq U$, then:
 \item if $N$ is equal to a congruence class of $\theta|_U$, then the map $\alpha \mapsto \alpha|_N$ is a surjective lattice homomorphism $\llbracket 0_\bA, \theta \rrbracket \twoheadrightarrow \Con(\bA|_N)$.
 \end{itemize}
 \end{lem}
-\begin{proof} (Following \cite{hobby-mckenzie}) First, we will prove the statements about the map $\theta \mapsto \theta|_U$. For any $\alpha \in \Con(\bA|_U)$, we define the equivalence relation $\hat{\alpha}$ on $\bA$ by
+\begin{proof} (Following \cite{hobby-mckenzie}) First, we will prove the statements about the map $\theta \mapsto \theta|_U$. For any $\alpha \in \Con(\bA|_U)$, we define the equivalence relation $\hat{\alpha}$ on $\bA$ to be the largest congruence of $\bA$ which is contained in the equivalence relation $e^{-1}(\alpha)$, which is given by
 \[
-\hat{\alpha} \coloneqq \{(x,y) \mid \forall f \in \Pol_1(\bA), (e(f(x)), e(f(y))) \in \alpha\}.
+\hat{\alpha} \coloneqq \{(x,y) \mid \forall f \in \Pol_1(\bA), (e(f(x)), e(f(y))) \in \alpha\}
 \]
-Then for any $\alpha \in \Con(\bA|_U)$ and $\theta \in \Con(\bA)$ we have $\hat{\alpha} \in \Con(\bA)$, $\hat{\alpha}|_U = \alpha$, and
+by Corollary \ref{cor-quasiorder-poly}. Then for any $\alpha \in \Con(\bA|_U)$ and $\theta \in \Con(\bA)$ we have $\hat{\alpha} \in \Con(\bA)$, $\hat{\alpha}|_U = \alpha$, and
 \[
 \theta|_U \le \alpha \; \iff \; \theta \le \hat{\alpha}.
 \]
@@ -1867,11 +1877,15 @@ To see that $\bA|_N = (\bA|_U)|_N$, note that if $f \in \Pol(\bA)$ preserves $N$
 
 If $N$ is a union of congruence classes of $\theta|_U$, then for any $\theta_1, \theta_2 \le \theta|_U$ neither $\theta_i$ connects any element inside $N$ to any element outside $N$, so $(\theta_1 \vee \theta_2)|_N = \theta_1|_N \vee \theta_2|_N$. Thus the map $\llbracket 0_U, \theta|_U \rrbracket \rightarrow \llbracket 0_N, \theta|_N \rrbracket$ is a lattice homomorphism.
 
-To finish, we need to show that if $N$ is a congruence class of $\theta|_U$ then this map is surjective. For this, we extend a congruence $\alpha \in \Con(\bA|_N)$ to a congruence on $\bA|_U$ by
+To finish, we need to show that if $N$ is a congruence class of $\theta|_U$ then this map is surjective. For this, we extend a congruence $\alpha \in \Con(\bA|_N)$ to the largest congruence $\check{\alpha}$ on $\bA|_U$ which is contained in
 \[
-\check{\alpha} \coloneqq \{(x,y) \mid \forall f \in \Pol_1(\bA|_U), f(x) \in N\text{ or }f(y)\in N \implies (f(x),f(y)) \in \alpha\}.
+\alpha \cup (U \setminus N)^2,
 \]
-Since every $f \in \Pol_1(\bA|_U)$ preserves $\theta|_U$, if $f(x) \in N$ for any $x \in N$ then $f$ must preserve $N$, so we have $\check{\alpha}|_N = \alpha$.
+which is given by
+\[
+\check{\alpha} \coloneqq \{(x,y) \mid \forall f \in \Pol_1(\bA|_U), f(x) \in N\text{ or }f(y)\in N \implies (f(x),f(y)) \in \alpha\}
+\]
+by Corollary \ref{cor-quasiorder-poly}. Since every $f \in \Pol_1(\bA|_U)$ preserves $\theta|_U$, if $f(x) \in N$ for any $x \in N$ then $f$ must preserve $N$, so we have $\check{\alpha}|_N = \alpha$.
 \end{proof}
 
 \begin{defn}\label{defn-restrict-order} Write $\bB \preceq_| \bA$ if there is some idempotent $e \in E(\bA)$, congruence $\theta \in \Con(\bA)$, and $a \in e(\bA)$, such that if we define
@@ -1889,7 +1903,7 @@ then $\bB$ is polynomially equivalent to $\bA|_N$. (Note that in general $\bB$ w
 \end{prop}
 \begin{proof} Suppose that $\bB = \bA|_N$ for $N = U \cap (a/\theta)$, $U = e(\bA)$, $e \in E(\bA)$. Additionally, suppose that $\bC = \bB|_{N'}$, for $N' = U' \cap (a'/\alpha)$, $\alpha \in \Con(\bB)$, $U' = e'(\bB)$, $e' \in E(\bB)$.
 
-Since $\alpha$ is a congruence on $\bB$, by Lemma \ref{lem-idempotent-surjective-lattice} there is some congruence $\bar{\alpha} \in \llbracket 0_\bA, \theta \rrbracket$ such that $\bar{\alpha}|_N = \alpha$. Additionally, $e'$ is the restriction of some unary polynomial $\hat{e}'$ of $\bA$ to $N$, and by composing $\hat{e}' \circ e$ and iterating it, we get $\bar{e}' \in E(\bA)$ such that
+Since $\alpha$ is a congruence on $\bB$, by Lemma \ref{lem-idempotent-surjective-lattice} there is some congruence $\bar{\alpha} \in \llbracket 0_\bA, \theta \rrbracket$ such that $\bar{\alpha}|_N = \alpha$. Additionally, $e'$ is the restriction of some unary polynomial $\hat{e}'$ of $\bA$ to $N$, and by composing $e \circ \hat{e}'$ and iterating it, we get $\bar{e}' \in E(\bA)$ such that
 \[
 \bar{e}'(\bA) \subseteq U \;\; \text{ and } \;\; \bar{e}'(N) = U'.
 \]
@@ -1910,7 +1924,7 @@ so $\bar{f}$ also preserves $a/\theta$, and therefore $\bar{f}$ preserves $U \ca
 \end{prop}
 \begin{proof} Suppose that $\bB = \bA|_B$ with $B = e(\bA) \cap (a/\alpha)$, where $e \in E(\bA)$, $\alpha \in \Con(\bA)$, and $a \in e(\bA)$. We handle quotients and subpowers separately - for quotients, we will not need to assume that every constant of $\bB$ is a term of $\bB$. In fact, if $\bD = \bB/\theta$, we just choose $\bar{\theta} \in \llbracket 0_\bA, \alpha \rrbracket$ such that $\bar{\theta}|_{\bB} = \theta$ using Lemma \ref{lem-idempotent-surjective-lattice}, and take $\bC = \bA/\bar{\theta}$.
 
-Now suppose that $\bD \le \bB^n$. Note that since every constant operation of $\bB$ is a term of $\bB$, every $\bD \le \bB^n$ must contain the diagonal $\bB^{(n)} = \{b^{(n)} \mid b \in \bB\}$, where $b^{(n)} = (b, b, ..., b)$. Let $\bC \le \bB^n$ be given by
+Now suppose that $\bD \le \bB^n$. Note that since every constant operation of $\bB$ is a term of $\bB$, every $\bD \le \bB^n$ must contain the diagonal $\bB^{(n)} = \{b^{(n)} \mid b \in \bB\}$, where $b^{(n)} = (b, b, ..., b)$. Let $\bC \le \bA^n$ be given by
 \[
 \bC = \Sg_{\bA^n}(\bA^{(n)} \cup \bD).
 \]
@@ -1923,14 +1937,18 @@ then $D$ is the underlying set of $\bD$ and $\bC|_D$ is polynomially equivalent 
 
 In order to get any use out of this to study an interval $\llbracket \alpha, \beta \rrbracket$ of the congruence lattice, we need to find idempotents $e$ such that $e(\alpha) \ne e(\beta)$, or equivalently such that $e(\beta) \not\subseteq \alpha$.
 
-\begin{defn} If $\alpha < \beta \in \Con(\bA)$, then we define $U_\bA(\alpha, \beta)$ to be the collection of sets of the form $f(\bA)$ for $f \in \Pol_1(\bA)$ such that $f(\beta) \not\subseteq \alpha$. We define $M_\bA(\alpha, \beta)$ to be the collection of minimal sets in $U_\bA(\alpha, \beta)$, and we call the sets in $M_\bA(\alpha, \beta)$ the $(\alpha, \beta)$-\emph{minimal sets} of $\bA$.
+\begin{defn} If $\alpha < \beta \in \Con(\bA)$, then we define $U_\bA(\alpha, \beta)$ to be the collection of sets given by
+\[
+U_\bA(\alpha, \beta) = \{f(\bA) \mid f \in \Pol_1(\bA) \text{ and } f(\beta) \not\subseteq \alpha\}.
+\]
+We define $M_\bA(\alpha, \beta)$ to be the collection of minimal sets in $U_\bA(\alpha, \beta)$, and we call the sets in $M_\bA(\alpha, \beta)$ the $(\alpha, \beta)$-\emph{minimal sets} of $\bA$.
 \end{defn}
 
 \begin{prop}\label{prop-prime-tame} If $\beta$ is a cover of $\alpha$ in $\Con(\bA)$ and $\bA$ is finite, then for each $(\alpha,\beta)$-minimal set $U \in M_\bA(\alpha,\beta)$, there is some $e \in E(\bA)$ such that $U = e(\bA)$.
 \end{prop}
 \begin{proof} Pick any $g \in \Pol_1(\bA)$ such that $g(\bA) = U$ and $g(\beta) \not\subseteq \alpha$. Then since $\beta$ covers $\alpha$ and $g(\beta) \subseteq \beta$, the congruence generated by $g(\beta) \cup \alpha$ must be $\beta$. Thus for any $(x,y) \in \beta$, there must be some $h_i \in \Pol_1(\bA)$ and $(u_i,v_i) \in g(\beta) \cup \alpha$ such that $x = h_1(u_1)$, $h_i(v_i) = h_{i+1}(u_{i+1})$, and $h_n(v_n) = y$ for some $n$.
 
-If we choose $(x,y) \in \beta$ such that $(g(x),g(y)) \not\in \alpha$, we see that there must be some $i$ such that $(g(h_i(u_i)), g(h_i(v_i))) \not\subseteq \alpha$, and for this $i$ we must have $(u_i,v_i) \in g(\beta)$. Setting $f = g\circ h_i$, we see that
+If we choose $(x,y) \in \beta$ such that $(g(x),g(y)) \not\in \alpha$, we see that there must be some $i$ such that $(g(h_i(u_i)), g(h_i(v_i))) \not\in \alpha$, and for this $i$ we must have $(u_i,v_i) \in g(\beta)$. Setting $f = g\circ h_i$, we see that
 \[
 f(g(\beta)) \not\subseteq \alpha
 \]
@@ -1997,7 +2015,11 @@ Suppose that (b) holds for $U$. To prove (c), let $\gamma \in \llbracket \alpha,
 
 To see that (b) implies (d), let $\gamma \in \llbracket \alpha, \beta \rrbracket$ be the transitive closure of $\alpha \cup \bigcup_{g \in \Pol_1(\bA)} g(\beta|_U)$. Then $\gamma|_U = \beta|_U$, so we must have $\gamma = \beta$ (since restriction is $0,1$-separating).
 
-Now suppose that $U,V \in M_\bA(\alpha, \beta)$ and that $V$ satisfies (b), (c), (d). Since $U \in M_\bA(\alpha,\beta)$, there must be some $h \in \Pol_1(\bA)$ and $(x,y) \in h(\beta) \setminus \alpha$ with $h(\bA) = U$, so by (c) applied to $V$ there is some $f \in \Pol_1(\bA)$ such that $f(\bA) = V$ and $(f(x), f(y)) \not\in \alpha$. Then from $f(h(\bA)) \subseteq V$ and $f(h(\beta)) \not\subseteq \alpha$ we have $f(h(\bA)) = V$ by $(\alpha,\beta)$-minimality of $V$, so $f(U) = V$. Next, by (d) applied to $V$ we see that there must be some $g \in \Pol_1(\bA)$ such that $g(\beta|_V) \not\subseteq h^{-1}(\alpha)$. Then if $e \in E(\bA)$ has $e(\bA) = V$, we see that $h(g(e(\beta))) \not\subseteq \alpha$ and $h(g(e(\bA))) \subseteq U$, so since $U$ is $(\alpha,\beta)$-minimal we see that $h(g(V)) = U$. Now we can apply the previous proposition to see that $f : U \simeq V$ and that $U$ satisfies (b) as well.
+Now suppose that $U,V \in M_\bA(\alpha, \beta)$ and that $V$ satisfies (b), (c), (d). Since $U \in M_\bA(\alpha,\beta)$, there must be some $h \in \Pol_1(\bA)$ and $(x,y) \in h(\beta) \setminus \alpha$ with $h(\bA) = U$, so by (c) applied to $V$ there is some $f \in \Pol_1(\bA)$ such that $f(\bA) = V$ and $(f(x), f(y)) \not\in \alpha$. Then from $f(h(\bA)) \subseteq V$ and $f(h(\beta)) \not\subseteq \alpha$ we have $f(h(\bA)) = V$ by $(\alpha,\beta)$-minimality of $V$, so $f(U) = V$. Next, by (d) applied to $V$ we see that there must be some $g \in \Pol_1(\bA)$ such that $g(\beta|_V) \not\subseteq h^{-1}(\alpha)$. Then if $e \in E(\bA)$ has $e(\bA) = V$, we see that
+\[
+h(g(e(\beta))) \not\subseteq \alpha
+\]
+and $h(g(e(\bA))) \subseteq U$, so since $U$ is $(\alpha,\beta)$-minimal we see that $h(g(V)) = U$. Now we can apply the previous proposition to see that $f : U \simeq V$ and that $U$ satisfies (b) as well.
 
 To prove (e), we use (b) to see that there is some $e \in E(\bA)$ with $e(\bA) = U$, and note that $f(e(\beta)) = f(\beta|_U) \not\subseteq \alpha$, so $f(U) = f(e(\bA))$ must contain some minimal $V \in M_\bA(\alpha,\beta)$. By (a) we see that $|V| = |U|$, so we must in fact have $f(U) = V$ and $f : U \simeq V$.
 
@@ -2023,7 +2045,7 @@ Since $\beta|_U \not\subseteq \alpha|_U$ by the definition of an $(\alpha,\beta)
 
 \begin{defn} We say that an algebra is \emph{permutational} or \emph{minimal} if every unary polynomial is either a permutation or is constant.
 
-More generally, if $(\alpha,\beta)$ is a congruence quotient on $\bA$, we say that $\bA$ is $(\alpha,\beta)$-\emph{minimal} if every unary polynomial $f$ of $\bA$ is either a permutation or has $f(\beta) \subseteq \alpha$. Note that in this case, $(\alpha,\beta)$ is necessarily tame.
+More generally, if $(\alpha,\beta)$ is a congruence quotient on $\bA$, we say that $\bA$ is $(\alpha,\beta)$-\emph{minimal} if every unary polynomial $f$ of $\bA$ is either a permutation or has $f(\beta) \subseteq \alpha$. Note that in this case, $(\alpha,\beta)$ is necessarily tame, with $M_\bA(\alpha,\beta) = \{A\}$.
 \end{defn}
 
 The general strategy will be to understand an algebra by first understanding the structure of the traces, and then reconstructing the algebra from the traces. When we apply unary polynomials of $\bA$ to $(\alpha,\beta)$-traces, the result will often also be an $(\alpha,\beta)$-trace.
@@ -2045,14 +2067,20 @@ For the purpose of stitching together the traces to reconstruct the algebra, we 
 
 \begin{prop}\label{prop-prime-poly-iso} If $(\alpha,\beta)$ is a prime congruence quotient of a finite algebra $\bA$ (i.e., if $\beta$ is a cover of $\alpha$), then all of the $(\alpha,\beta)$-traces are polynomially isomorphic in $\bA$.
 \end{prop}
-\begin{proof} Let $U$ be any $(\alpha,\beta)$-minimal set. By Theorem \ref{thm-minimal-sets}(a) it's enough to show that any pair of $(\alpha,\beta)$-traces $N$, $K$ contained in $U$ are polynomially isomorphic in $\bA|_U$. By Lemma \ref{lem-idempotent-surjective-lattice}, the restriction homomorphism $\llbracket \alpha, \beta \rrbracket \rightarrow \llbracket \alpha|_U, \beta|_U \rrbracket$ is surjective, so $\beta|_U$ covers $\alpha|_U$ in $\bA|_U$. Then since $N$ is not contained in a congruence class of $\alpha$, the congruence of $\bA|_U$ generated by $\alpha|_U \cup N^2$ must be $\beta|_U$. In particular, there must be some unary polynomial $f \in \Pol_1(\bA|_U)$ such that $f(N) \subseteq K$ and $f(N)$ is not contained in any congruence class of $\alpha$. Then $f$ must be a permutation of $U$, and so we have $f : N \simeq K$.
+\begin{proof} Let $U$ be any $(\alpha,\beta)$-minimal set. By Theorem \ref{thm-minimal-sets}(a) it's enough to show that any pair of $(\alpha,\beta)$-traces $N$, $K$ contained in $U$ are polynomially isomorphic in $\bA|_U$. By Lemma \ref{lem-idempotent-surjective-lattice}, the restriction homomorphism
+\[
+\llbracket \alpha, \beta \rrbracket \rightarrow \llbracket \alpha|_U, \beta|_U \rrbracket
+\]
+is surjective, so $\beta|_U$ covers $\alpha|_U$ in $\bA|_U$. Then since $N$ is not contained in a congruence class of $\alpha$, the congruence of $\bA|_U$ generated by $\alpha|_U \cup N^2$ must be $\beta|_U$. In particular, there must be some unary polynomial $f \in \Pol_1(\bA|_U)$ such that $f(N) \subseteq K$ and $f(N)$ is not contained in any congruence class of $\alpha$. Then $f$ must be a permutation of $U$, and so we have $f : N \simeq K$.
 \end{proof}
 
 Tameness can also be derived from some of its consequences.
 
 \begin{prop} If $\alpha < \beta \in \Con(\bA)$ and there is some finite $(\alpha,\beta)$-minimal set $U$ which satisfies Theorem \ref{thm-minimal-sets}(c) and \ref{thm-minimal-sets}(d), then $(\alpha,\beta)$ is tame.
 \end{prop}
-\begin{proof} If we make a digraph on $(x,y) \in \beta|_U\setminus\alpha|_U$ with an edge from $(x,y)$ to $(u,v)$ whenever there is some $f \in \Pol_1(\bA)$ with $f(\bA) = U$ and $f(x) = u, f(y) = v$, then Theorem \ref{thm-minimal-sets}(c) for $U$ implies that every vertex in this digraph has outdegree at least one, so there must be a directed cycle. By composing the unary polymorphisms corresponding to the edges of this directed cycle, we find an $f \in \Pol_1(\bA)$ such that $f(\bA) \subseteq U$ and $f(x) = x, f(y) = y$ for some $(x,y) \in \beta|_U\setminus\alpha|_U$. Taking $e = f^\infty$, we see that $e \in E(\bA)$ with $e(\bA) \subseteq U$ and $e(\beta) \not\subseteq \alpha$. Finally, Theorem \ref{thm-minimal-sets}(c) and \ref{thm-minimal-sets}(d) for $U$ directly imply that the restriction homomorphism $\llbracket \alpha, \beta \rrbracket \twoheadrightarrow \llbracket \alpha|_U, \beta|_U \rrbracket$ is $0,1$-separating.
+\begin{proof} If we make a digraph on $(x,y) \in \beta|_U\setminus\alpha|_U$ with an edge from $(x,y)$ to $(u,v)$ whenever there is some $f \in \Pol_1(\bA)$ with $f(\bA) = U$ and $f(x) = u, f(y) = v$, then Theorem \ref{thm-minimal-sets}(c) for $U$ implies that every vertex in this digraph has outdegree at least one, so there must be a directed cycle.
+
+By composing the unary polymorphisms corresponding to the edges of this directed cycle, we find an $f \in \Pol_1(\bA)$ such that $f(\bA) \subseteq U$ and $f(x) = x, f(y) = y$ for some $(x,y) \in \beta|_U\setminus\alpha|_U$. Taking $e = f^\infty$, we see that $e \in E(\bA)$ with $e(\bA) \subseteq U$ and $e(\beta) \not\subseteq \alpha$. Finally, Theorem \ref{thm-minimal-sets}(c) and \ref{thm-minimal-sets}(d) for $U$ directly imply that the restriction homomorphism $\llbracket \alpha, \beta \rrbracket \twoheadrightarrow \llbracket \alpha|_U, \beta|_U \rrbracket$ is $0,1$-separating.
 \end{proof}
 
 Many of the previous results simplify if $\alpha = 0_\bA$. To relate the general case to that situation, we need to know how tameness behaves when we pass to a quotient.
@@ -2067,7 +2095,15 @@ In particular, the $(\alpha/\delta,\beta/\delta)$-traces are exactly the quotien
 
 First we show that if $U \in M_\bA(\alpha,\beta)$ and there is an $e \in E(\bA)$ with $e(\bA) = U$, then $U/\delta \in M_{\bA/\delta}(\alpha/\delta,\beta/\delta)$. To see this, suppose that some $f \in \Pol_1(\bA)$ has $f(\beta) \not\subseteq \alpha$ and $f(\bA/\delta) \subseteq U/\delta$. Then $e(f(\bA)) \subseteq U$ and $e(f(\beta)) \not\subseteq \alpha$, so $e(f(\bA)) = U$, so $f(\bA/\delta) = U/\delta$. This shows that if $(\alpha,\beta)$ is tame then $(\alpha/\delta, \beta/\delta)$ is tame.
 
-Now suppose $(\alpha/\delta, \beta/\delta)$ is tame, and let $U$ be any $(\alpha,\beta)$-minimal set. Pick $f \in \Pol_1(\bA)$ with $f(\bA) = U$ and $f(\beta) \not\subseteq \alpha$. By Theorem \ref{thm-minimal-sets}(f) we see that there is some $V \in M_{\bA/\delta}(\alpha/\delta, \beta/\delta)$ such that $f : V \simeq f(V)$. Pick $g \in \Pol_1(\bA)$ such that $g : f(V) \rightarrow V$ inverts $f : V \rightarrow f(V)$, then by iterating $f\circ g$ we get an idempotent $e \in E(\bA)$ with $e(f(V)) = f(V)$. Thus $e(\beta) \not\subseteq \alpha$, and from $e(\bA) \subseteq f(\bA) = U$ we get $e(\bA) = U$. Then by the previous paragraph we see that $U/\delta$ is $(\alpha/\delta,\beta/\delta)$-minimal, which allows us to conclude that the restriction homomorphism $\llbracket \alpha, \beta \rrbracket \twoheadrightarrow \llbracket \alpha|_U, \beta|_U \rrbracket$ is $0,1$-separating.
+Now suppose $(\alpha/\delta, \beta/\delta)$ is tame, and let $U$ be any $(\alpha,\beta)$-minimal set. Pick $f \in \Pol_1(\bA)$ with $f(\bA) = U$ and $f(\beta) \not\subseteq \alpha$. By Theorem \ref{thm-minimal-sets}(f) we see that there is some
+\[
+V \in M_{\bA/\delta}(\alpha/\delta, \beta/\delta)
+\]
+such that $f : V \simeq f(V)$. Pick $g \in \Pol_1(\bA)$ such that $g : f(V) \rightarrow V$ inverts $f : V \rightarrow f(V)$, then by iterating $f\circ g$ we get an idempotent $e \in E(\bA)$ with $e(f(V)) = f(V)$. Thus $e(\beta) \not\subseteq \alpha$, and from
+\[
+e(\bA) \subseteq f(\bA) = U
+\]
+we get $e(\bA) = U$. Then by the previous paragraph we see that $U/\delta$ is $(\alpha/\delta,\beta/\delta)$-minimal, which allows us to conclude that the restriction homomorphism $\llbracket \alpha, \beta \rrbracket \twoheadrightarrow \llbracket \alpha|_U, \beta|_U \rrbracket$ is $0,1$-separating.
 
 To finish, we need to show that any $V \in M_{\bA/\delta}(\alpha/\delta,\beta/\delta)$ is a quotient of an $(\alpha,\beta)$-minimal set when $(\alpha,\beta)$ is tame. Pick any $U \in M_\bA(\alpha,\beta)$, then since $U/\delta$ is $(\alpha/\delta,\beta/\delta)$-minimal we can apply Theorem \ref{thm-minimal-sets}(a) to see that there is an $f \in \Pol_1(\bA)$ with $f : U/\delta \simeq V$. Then $f(\beta|_U) \not\subseteq \alpha$, so by Theorem \ref{thm-minimal-sets}(e) we have $f(U) \in M_\bA(\alpha,\beta)$, and $V = f(U)/\delta$.
 \end{proof}
@@ -2086,14 +2122,24 @@ Now suppose that $(x,y) \in C^2 \setminus \alpha|_C$. Then by Theorem \ref{thm-m
 
 \begin{prop} If $\alpha \le \gamma < \beta$ and $(\alpha,\beta), (\gamma,\beta)$ are both tame quotients on a finite algebra $\bA$, then $M_\bA(\alpha,\beta) = M_\bA(\gamma,\beta)$.
 \end{prop}
-\begin{proof} If $U \in M_\bA(\alpha,\beta)$, then $\beta|_U \not\subseteq \gamma|_U$ since the restriction map is $0,1$-separating (by Theorem \ref{thm-minimal-sets}(b)). If $f(\bA) \subseteq U$ and $f(\beta) \not\subseteq \gamma$, then we have $f(\beta) \not\subseteq \alpha$, so $f(\bA) = U$ by $(\alpha,\beta)$-minimality, so $U \in M_\bA(\gamma,\beta)$. Conversely, if $V \in M_\bA(\gamma,\beta)$, then by Theorem \ref{thm-minimal-sets}(a) we have $V \simeq U$ for some $U \in M_\bA(\alpha,\beta)$, so $V \in M_\bA(\alpha,\beta)$ by Theorem \ref{thm-minimal-sets}(e).
+\begin{proof} If $U \in M_\bA(\alpha,\beta)$, then $\beta|_U \not\subseteq \gamma|_U$ since the restriction map is $0,1$-separating (by Theorem \ref{thm-minimal-sets}(b)), so $U \in U_\bA(\gamma,\beta)$. If $f(\bA) \subseteq U$ and $f(\beta) \not\subseteq \gamma$, then we have $f(\beta) \not\subseteq \alpha$, so $f(\bA) = U$ by $(\alpha,\beta)$-minimality, so $U \in M_\bA(\gamma,\beta)$.
+
+Conversely, if $V \in M_\bA(\gamma,\beta)$, then by Theorem \ref{thm-minimal-sets}(a) we have $V \simeq U$ for some $U \in M_\bA(\alpha,\beta)$, so $V \in M_\bA(\alpha,\beta)$ by Theorem \ref{thm-minimal-sets}(e).
 \end{proof}
 
 Recall that two intervals are perspective, written $\llbracket \alpha, \beta \rrbracket \searrow \llbracket \gamma, \delta \rrbracket$, if $\alpha \wedge \delta = \gamma$ and $\alpha \vee \delta = \beta$.
 
 \begin{prop}\label{prop-minimal-sets-perspective} If $\llbracket \alpha, \beta \rrbracket \searrow \llbracket \gamma, \delta \rrbracket$ in $\Con(\bA)$, then $M_\bA(\alpha,\beta) = M_\bA(\gamma,\delta)$ and $M_\bA(\gamma,\beta) \subseteq M_\bA(\gamma,\alpha) \cup M_\bA(\gamma, \delta)$.
 \end{prop}
-\begin{proof} For any $f \in \Pol_1(\bA)$, we have $f(\beta) = f(\alpha \vee \delta) \subseteq \alpha$ iff $f(\alpha) \cup f(\delta) \subseteq \alpha$ iff $f(\delta) \subseteq \alpha$ iff $f(\delta) \subseteq \alpha \cap \delta = \gamma$, so $M_\bA(\alpha,\beta) = M_\bA(\gamma,\delta)$. Similarly, we have $f(\beta) \subseteq \gamma$ iff $f(\beta) \subseteq \alpha$ and $f(\beta) \subseteq \delta$, so $M_\bA(\gamma,\beta) \subseteq M_\bA(\alpha,\beta) \cup M_\bA(\delta,\beta) = M_\bA(\gamma,\alpha) \cup M_\bA(\gamma, \delta)$.
+\begin{proof} For any $f \in \Pol_1(\bA)$, we have
+\[
+f(\beta) = f(\alpha \vee \delta) \subseteq \alpha \iff f(\alpha) \cup f(\delta) \subseteq \alpha \iff f(\delta) \subseteq \alpha \iff f(\delta) \subseteq \alpha \cap \delta = \gamma,
+\]
+so $M_\bA(\alpha,\beta) = M_\bA(\gamma,\delta)$. Similarly, we have $f(\beta) \subseteq \gamma$ iff $f(\beta) \subseteq \alpha$ and $f(\beta) \subseteq \delta$, so
+\[
+U_\bA(\gamma,\beta) = U_\bA(\alpha,\beta) \cup U_\bA(\delta,\beta),
+\]
+so $M_\bA(\gamma,\beta) \subseteq M_\bA(\alpha,\beta) \cup M_\bA(\delta,\beta) = M_\bA(\gamma,\alpha) \cup M_\bA(\gamma, \delta)$.
 \end{proof}
 
 \begin{cor} If $\alpha,\beta$ are congruences on a finite algebra and the interval $\llbracket \alpha, \beta \rrbracket$ is isomorphic to the diamond lattice $\cM_n$ for some $n \ge 3$, then $(\alpha, \beta)$ is tame and every congruence quotient contained in $\llbracket \alpha, \beta \rrbracket$ has the same collection of minimal sets.
@@ -2101,15 +2147,25 @@ Recall that two intervals are perspective, written $\llbracket \alpha, \beta \rr
 
 \begin{prop} If $(\alpha,\beta)$ is a tame congruence quotient on a finite algebra $\bA$ and $U$ is an $(\alpha,\beta)$-minimal set, then for any $\gamma' < \delta' \in \llbracket \alpha|_U ,\beta|_U \rrbracket$, there are lifts $\gamma < \delta \in \llbracket \alpha, \beta \rrbracket$ such that $\gamma|_U = \gamma', \delta|_U = \delta'$, with $(\gamma,\delta)$ a tame quotient. For any such $\gamma, \delta$ we have $M_\bA(\gamma,\delta) = M_\bA(\alpha,\beta)$.
 \end{prop}
-\begin{proof} Since any unary polynomial which collapses $\beta$ into $\alpha$ necessarily collapses $\delta$ into $\gamma$ for any $\gamma,\delta \in \llbracket \alpha, \beta \rrbracket$, we see that $U$ is $(\gamma,\delta)$-minimal for any $\gamma < \delta$ which restrict to $\gamma', \delta'$, so we just need to ensure that the restriction homomorphism from $\llbracket \gamma, \delta \rrbracket$ is $0,1$-separating. Since restriction to $U$ is a lattice homomorphism, we can take $\gamma$ to be maximal among congruences which restrict to $\gamma'$ and are $\le \beta$, and take $\delta$ to be minimal among congruences which restrict to $\delta'$ and are $\ge \gamma$. By Theorem \ref{thm-minimal-sets}(a) and \ref{thm-minimal-sets}(e) every $(\gamma,\delta)$-minimal set $V$ has $U \simeq V$ and so is also $(\alpha,\beta)$-minimal, and similarly every $(\alpha,\beta)$-minimal set is $(\gamma,\delta)$-minimal.
+\begin{proof} Since any unary polynomial which collapses $\beta$ into $\alpha$ necessarily collapses $\delta$ into $\gamma$ for any $\gamma,\delta \in \llbracket \alpha, \beta \rrbracket$, we see that $U$ is $(\gamma,\delta)$-minimal for any $\gamma < \delta$ which restrict to $\gamma', \delta'$, so we just need to ensure that the restriction homomorphism from $\llbracket \gamma, \delta \rrbracket$ is $0,1$-separating.
+
+Since restriction to $U$ is a lattice homomorphism, we can take $\gamma$ to be maximal among congruences which restrict to $\gamma'$ and are $\le \beta$, and take $\delta$ to be minimal among congruences which restrict to $\delta'$ and are $\ge \gamma$. By Theorem \ref{thm-minimal-sets}(a) and \ref{thm-minimal-sets}(e) every $(\gamma,\delta)$-minimal set $V$ has $U \simeq V$ and so is also $(\alpha,\beta)$-minimal, and similarly every $(\alpha,\beta)$-minimal set is $(\gamma,\delta)$-minimal.
 \end{proof}
 
 Some basic examples to keep in mind follow.
 
-\begin{ex} If $\bA$ is a finite lattice and $\alpha < \beta \in \Con(\bA)$, then the $(\alpha,\beta)$-minimal sets all have the form $\{a,b\}$ with $a < b$ and $(a,b) \in \beta\setminus \alpha$, and any pair $\{a,b\}$ which satisfies those conditions and additionally has $b$ covering $a$ is an $(\alpha,\beta)$-minimal set. Each such set with $b$ covering $a$ is the image of the idempotent unary polynomial $x \mapsto (x \wedge b) \vee a$, however, in order for the restriction homomorphism to be $0,1$-separating, $\beta$ must be a cover of $\alpha$. Thus the tame congruence quotients of $\bA$ are exactly the same as the prime quotients. Additionally, every $(\alpha,\beta)$-minimal set consists of just a single $(\alpha,\beta)$-trace (i.e., the minimal sets have no tails), and every trace is the image of some pair $\{a,b\}$ with $b$ covering $a$ under some unary polynomial of $\bA$, and is polynomially equivalent to a two element lattice.
+\begin{ex} If $\bA$ is a finite lattice and $\alpha < \beta \in \Con(\bA)$, then the $(\alpha,\beta)$-minimal sets all have the form $\{a,b\}$ with $a < b$ and $(a,b) \in \beta\setminus \alpha$, and any pair $\{a,b\}$ which satisfies those conditions and additionally has $b$ covering $a$ is an $(\alpha,\beta)$-minimal set. Each such set with $b$ covering $a$ is the image of the idempotent unary polynomial
+\[
+x \mapsto (x \wedge b) \vee a,
+\]
+however, in order for the restriction homomorphism to be $0,1$-separating, $\beta$ must be a cover of $\alpha$. Thus the tame congruence quotients of $\bA$ are exactly the same as the prime quotients. Additionally, every $(\alpha,\beta)$-minimal set consists of just a single $(\alpha,\beta)$-trace (i.e., the minimal sets have no tails), and every trace is the image of some pair $\{a,b\}$ with $b$ covering $a$ under some unary polynomial of $\bA$, and is polynomially equivalent to a two element lattice.
 \end{ex}
 
-\begin{ex} If $\bA$ is a finite module over a ring $\RR$ (which we may assume acts faithfully on $\bA$ without loss of generality) and $\alpha < \beta \in \Con(\bA)$, then we can represent the congruences $\alpha,\beta$ by the submodules $\bM_\alpha = 0/\alpha$, $\bM_\beta = 0/\beta$ of $\bA$. Every unary polynomial $f$ of $\bA$ has the form $f : x \mapsto rx + c$, and we have $f(\beta) \subseteq \alpha$ iff $r\bM_\beta \subseteq \bM_\alpha$. The set of $r \in \RR$ such that $r \bM_\beta \subseteq \bM_\alpha$ is called the \emph{annihilator} of $\bM_\beta/\bM_\alpha$, and forms a (two-sided) ideal $\bI$ of $\RR$. Then $\bM_\beta/\bM_\alpha$ is a module over $\RR/\bI$, and $\RR/\bI$ acts faithfully on $\bM_\beta/\bM_\alpha$.
+\begin{ex} If $\bA$ is a finite module over a ring $\RR$ (which we may assume acts faithfully on $\bA$ without loss of generality) and $\alpha < \beta \in \Con(\bA)$, then we can represent the congruences $\alpha,\beta$ by the submodules $\bM_\alpha = 0/\alpha$, $\bM_\beta = 0/\beta$ of $\bA$. Every unary polynomial $f$ of $\bA$ has the form $f : x \mapsto rx + c$, and we have
+\[
+f(\beta) \subseteq \alpha \iff r\bM_\beta \subseteq \bM_\alpha.
+\]
+The set of $r \in \RR$ such that $r \bM_\beta \subseteq \bM_\alpha$ is called the \emph{annihilator} of $\bM_\beta/\bM_\alpha$, and forms a (two-sided) ideal $\bI$ of $\RR$. Then $\bM_\beta/\bM_\alpha$ is a module over $\RR/\bI$, and $\RR/\bI$ acts faithfully on $\bM_\beta/\bM_\alpha$.
 
 We will show that $(\alpha,\beta)$ is a tame congruence quotient if and only if $\bI$ is maximal among two-sided ideals of $\RR$, that is, iff $\RR/\bI$ is a simple ring. By the classification of finite simple rings, this is equivalent to proving that $\RR/\bI$ is isomorphic to a matrix ring $M_n(\bF_{p^k})$ over a finite field $\bF_{p^k}$ for some $n$ and some prime power $p^k$. Additionally, we will show that $\bM_\beta/\bM_\alpha$ is one of the modules $\bF_{p^k}^{n\times m}$ for some $m$, with the action of $\RR/\bI$ on $\bM_\beta/\bM_\alpha$ given by matrix multiplication. To prove this, it is simpler to think only about the module $\bM_\beta/\bM_\alpha$ - note that $\bM_\beta/\bM_\alpha$ is a tame algebra, with $(e\bA\cap \bM_\beta)/\bM_\alpha = e\bM_\beta/\bM_\alpha$ as a $(0,1)$-minimal set, for any $e \in \RR$ such that $e^2 = e$ and $e\bA$ is an $(\alpha,\beta)$-minimal set.
 \end{ex}
@@ -2646,7 +2702,9 @@ Equivalently, $s$ is a partial semilattice if for all $x,y$, the set $\{x,s(x,y)
 We write $a \rightarrow_s b$ if $s$ is a partial semilattice and $s(a,b) = b$.
 \end{defn}
 
-\begin{prop}\label{prop-tame-partial-semi} If $\bA$ is $(\alpha,\beta)$-minimal and has a trace $N$ of type \textbf{3}, \textbf{4}, or \textbf{5} (that is, of either boolean, lattice, or semilattice type), then $\bA$ has a partial semilattice polynomial $s \in \Pol_2(\bA)$ such that $N$ is closed under $s$, and such that $(N/\alpha, s)$ is a two-element semilattice. Furthermore, if $N$ has type  \textbf{3} or \textbf{4} (i.e. boolean or lattice type), then there is another partial semilattice $s' \in \Pol_2(\bA)$ such that $(N, s, s')$ is a two-element lattice.
+\begin{prop}\label{prop-tame-partial-semi} If $\bA$ is $(\alpha,\beta)$-minimal and has a trace $N$ of type \textbf{3}, \textbf{4}, or \textbf{5} (that is, of either boolean, lattice, or semilattice type), then $\bA$ has a partial semilattice polynomial $s \in \Pol_2(\bA)$ such that $N$ is closed under $s$, and such that $(N/\alpha, s)$ is a two-element semilattice.
+
+Furthermore, if $N$ has type  \textbf{3} or \textbf{4} (i.e. boolean or lattice type), then there is another partial semilattice $s' \in \Pol_2(\bA)$ such that $(N, s, s')$ is a two-element lattice.
 
 If $s$ is a partial semilattice term and $a,b \in N$ have $s(a,b) \not\equiv_\alpha a$, then $a \rightarrow_s x$ for all $x \in \bA$ and $a/\alpha = \{a\}$.
 \end{prop}
