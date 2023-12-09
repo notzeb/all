@@ -434,7 +434,7 @@ $\operatorname{PCSP}(\fA,\fB)$ ends up being logspace equivalent to the problem 
 \end{rem}
 
 
-\section{Incomplete list of Notation and Definitions}
+\section{Incomplete list of Notation and Definitions}\label{s-definitions}
 
 Most of the notation is either standard, or will be defined as it is introduced. In this section we record some of the definitions so that the reader can refer back to it if necessary. (Much more comprehensive background on structures can be found in \cite{hodges-model} or \cite{hodges-shorter}.)
 
@@ -467,7 +467,7 @@ We will also need to consider a certain restricted type of multisorted relationa
 
 \begin{defn} A \emph{multisorted relational structure} $\fA$ is defined to be a tuple $(\{A_i\}_{i \in I}, \{R_j\}_{j \in J})$, where for each $j \in J$ there is a tuple $i^j = (i^j_1, ..., i^j_{m_j}) \in I^{m_j}$ such that
 \[
-R_j \subseteq A_{i^j_1} \times \cdots \times A_{i^j_m}.
+R_j \subseteq A_{i^j_1} \times \cdots \times A_{i^j_{m_j}}.
 \]
 The sets $A_i$ are called the \emph{sorts} of the structure $\fA$, and the $R_j$s are the \emph{multisorted relations} of $\fA$.
 
@@ -872,6 +872,193 @@ G\circ F(S) \subseteq G(Y)\ \iff\ Y \subseteq F\circ G\circ F(S) = F(S)\ \iff\ S
 Then $F$ and $G$ will provide a Galois correspondence between the closed subsets of $A$ and the closed subsets of $B$. The nontrivial thing to do is to describe the closure operators explicitly.
 
 In our case, the relation $R$ was given by $\rhd$, and the sets $A,B$ were the sets of operations and relations on a given domain. Our main difficulty was in proving that the closure operators $G\circ F = \Pol \circ \Inv$ and $F \circ G = \Inv \circ \Pol$ were concretely described by the closure operators $\cO \mapsto \langle \cO \rangle$ for clones and $\Gamma \mapsto \langle \Gamma \rangle$ for relational clones, respectively. In ordinary Galois theory, the sets $A,B$ are taken to be a field and a group of automorphisms of the field, and the relation $R$ determines whether a given element of the field is fixed by a given automorphism (exercise: find the corresponding closure operations).
+\end{rem}
+
+
+\subsection{Galois connection for multisorted relational clones}
+
+While single-sorted CSPs might seem cleaner from a theoretical point of view, any attempt to describe algorithms for CSPs on larger domains ends up needing to consider the multisorted case. The main reason for this is that most algorithms make progress by showing that some of the variables must take their values within a smaller subset of their original domain - as soon as we restrict some of the variables to smaller domains and not others, we end up with a problem that is most naturally described in the framework of multisorted CSPs.% Additionally, multisorted frameworks allow for the possibility of introducing new variables on smaller domains which can act as summaries of what we know about the original variables.
+
+A multisorted CSP template consists of a list of domains $D_1, D_2, ...$ for the sorts, together with a library of relations
+\[
+R_j \subseteq D_{i^j_1} \times \cdots \times D_{i^j_{m_j}}.
+\]
+For each relation $R_j$, we keep track of both its arity $m_j$ as well as its \emph{type}: the tuple of sorts $(i^j_1, ..., i^j_{m_j})$ which tells us what sorts of variables we are allowed to apply this relation to. Note that a multisorted CSP template is exactly the same thing as a multisorted relational structure (as defined in Section \ref{s-definitions}).
+
+In order to describe an \emph{instance} of the multisorted CSP over the template $(\{D_i\}, \{R_j\})$, we first need a list of sets of variables $V_1, V_2, ...$, where $V_i$ is the set of variables whose values must be taken in the domain $D_i$. If $x \in V_i$, then we say that $D_i$ is the \emph{variable domain} for the variable $x$. Next, we give a list of sets of constraints $C_j$, where for each $j$,
+\[
+C_j \subseteq V_{i^j_1} \times \cdots \times V_{i^j_{m_j}}
+\]
+is a list of tuples $(x_1, ..., x_{m_j})$ of variables which we will require to be contained in the correspoding constraint relation $R_j$ from the template.
+
+The careful reader may have noticed that an instance of the multisorted CSP over the template $(\{D_i\}, \{R_j\})$ is exactly the same thing as a multisorted relational structure $(\{V_i\}, \{R_j\})$ sharing the same signature as the template. A \emph{solution} to the instance is then the same thing as a homomorphism from the instance to the template, that is, a mapping from variables to elements of their variable domains so that each tuple of variables which is related by a constraint gets mapped to a tuple which lies in the corresponding constraint relation.
+
+Just as in the single-sorted case, we are interested in the whole set of all multisorted relations which can be expressed as projections (onto a subset of the variables) of solution sets to instances of the multisorted CSP with a given template $(\{D_i\}, \{R_j\})$. These correspond to formulas built out of bounded existential quantifiers (i.e. $\exists x \in D_i$), conjunctions, and relations $R_j$, where each existential quantifier must have some sort $D_i$ associated with the variable it binds, and each relation must be applied to a tuple of variables of the correct sorts for that relation. For instance, if $R_1$ was a binary relation
+\[
+R_1 \subseteq D_1 \times D_2
+\]
+and $R_2$ was a ternary relation
+\[
+R_2 \subseteq D_2 \times D_1 \times D_2,
+\]
+then the formula
+\[
+\exists x \in D_1\; \exists y \in D_2 \text{ s.t. } (x,y) \in R_1 \wedge (y,x,z) \in R_2
+\]
+describes a unary relation on $z$ which can be applied to variables of sort $2$. On the other hand, the formula
+\[
+(x,x,x) \in R_2
+\]
+would be considered invalid for this CSP template, since $x$ would be forced to have sort $1$ and sort $2$ simultaneously.
+
+In the singly sorted case, there was no harm in also allowing the binary equality relation $=$ into our library of constraints. In the multisorted case, it doesn't make sense to do this since we haven't specified the type of the equality relation. Instead, we introduce a different equality relation $=_i$ for each sort $D_i$ of the domain:
+\[
+x =_i y \;\; \iff \;\; x,y \in D_i \wedge x = y.
+\]
+Now adding the equality relations $=_i$ into our constraint library causes no harm. The \emph{multisorted primitive positive formulas} over $(\{D_i\}, \{R_j\})$ can now be defined as formulas built out of bounded existential quantifiers (with associated sorts), conjunctions, relations $R_j$ (from the template) applied to tuples of variables of the correct sorts, and equality relations $=_i$ applied to pairs of variables of the same sort $i$.
+
+Taking the closure of a multisorted library of constraint relations leads us to the definition of a multisorted relational clone.
+
+\begin{defn} A collection $\Gamma$ of multisorted relations with sorts $\{D_i\}$ is called a \emph{multisorted relational clone} if it contains an equality relation $=_i$ for each sort $D_i$, and is closed under permuting variables (in tandem with their sorts), adding dummy variables (of any sorts), existential projection onto subsets of the variables, and intersection (of relations of the same arity and type).
+
+Equivalently, a multisorted relational clone is a collection of multisorted relations which is closed under defining new relations via multisorted primitive positive formulas.
+\end{defn}
+
+What is the algebraic counterpart of a multisorted relational clone? Our first guess might be a multisorted algebraic structure, but the usual definition of a multisorted algebraic structure will not do what we want. The purpose of the algebraic operations is for us to be able to apply them coordinatewise to solutions to instances of CSPs in order to produce new solutions. This means that each of our algebraic operations must make sense when applied to values of any given sort, as long as all of its arguments have the same sort. Following Romov \cite{romov-multisorted-galois}, we will call these ``vectors of operations''.
+
+\begin{defn} A \emph{vector of operations} on $\{D_i\}$ of arity $k$ is a tuple $f = (f^{D_1}, f^{D_2}, ...)$ where each $f^{D_i}$ is an operation on $D_i$ of arity $k$:
+\[
+f^{D_i} : D_i^k \rightarrow D_i.
+\]
+For any $j \le k$, we define the vector of operations $\pi_j^k$ by
+\[
+(\pi_j^k)^{D_i}(x_1, ..., x_k) = x_j
+\]
+for $x_1, ..., x_k \in D_i$, and we call $\pi_j^k$ a \emph{projection}.
+
+For $f$ a vector of operations of arity $k$, and for $g_1, ..., g_k$ a collection of $k$ vector operations of arity $l$, we define their \emph{composition} by
+\[
+(f \circ (g_1, ..., g_k))^{D_i} : (x_1, ..., x_l) \mapsto f^{D_i}(g_1^{D_i}(x_1, ..., x_l), ..., g_l^{D_i}(x_1, ..., x_l))
+\]
+for $x_1, ..., x_l \in D_i$.
+
+A \emph{multi-clone} is defined to be a collection of vectors of operations on a collection of sorts $\{D_i\}$ which contains the projections and is closed under composition.
+\end{defn}
+
+\begin{defn} If $f$ is a vector of operations on the sorts $\{D_i\}$ of arity $k$, and if
+\[
+R \subseteq D_{i_1} \times \cdots \times D_{i_m}
+\]
+is a multisorted relation of arity $m$ and type $(i_1, ..., i_m)$, then we say that $f$ \emph{preserves} $R$, written $f \rhd R$, if for every choice of $k$ $m$-tuples of $R$
+\[
+\begin{bmatrix} x_{11}\\ \vdots \\ x_{1m} \end{bmatrix}, ..., \begin{bmatrix} x_{k1}\\ \vdots \\ x_{km} \end{bmatrix} \in R,
+\]
+we have
+\[
+f\left(\begin{bmatrix} x_{11}\\ \vdots \\ x_{1m} \end{bmatrix}, ..., \begin{bmatrix} x_{k1}\\ \vdots \\ x_{km} \end{bmatrix}\right) \coloneqq \begin{bmatrix} f^{D_{i_1}}(x_{11}, ..., x_{k1})\\ \vdots\\ f^{D_{i_m}}(x_{1m}, ..., x_{km})\end{bmatrix} \in R.
+\]
+A vector of operations $f$ on $\{D_i\}$ is a \emph{polymorphism} of a multisorted relational structure $(\{D_i\}, \Gamma)$ or of a multisorted relational clone $\Gamma$ on $\{D_i\}$ if $f$ preserves $R_j$ for each relation $R_j \in \Gamma$.
+\end{defn}
+
+Note that a collection of vectors of operations $f_n$ on $\{D_i\}$ defines a collection of algebraic structures $(D_i, \{f_n^{D_i}\})$ which all share the same signature. So the ``correct'' algebraic counterpart to a multisorted relational structure ends up being a collection of algebraic structures which share a common signature.
+
+\begin{defn} For $\Gamma$ a collection of multisorted relations on $\{D_i\}$, we define $\langle \Gamma \rangle$ to be the multisorted relational clone generated by $\Gamma$. Similarly, if $\cO$ is a collection of vectors of operations on $\{D_i\}$, then we define $\langle \cO \rangle$ to be the multi-clone generated by $\cO$.
+
+If $\{\bD_i\} = \{(D_i, \{f_n^{D_i}\})\}$ is a collection of algebraic structures which share a common signature, then we define $\Clo(\{\bD_i\})$ to be the multi-clone $\langle \{f_n\} \rangle$ generated by the vectors $f_n$ of basic operations of $\{\bD_i\}$.
+\end{defn}
+
+We extend the definitions of $\Inv$ and $\Pol$ to the multisorted case in the obvious way.
+
+\begin{defn} If $\Gamma$ is any collection of multisorted relations on $\{D_i\}$, then we define $\Pol(\Gamma)$ to be the the collection of vectors of operations on $\{D_i\}$ that preserve every relation of $\Gamma$. If $\cO$ is any collection of vectors of operations on $\{D_i\}$, we define $\Inv(\cO)$ to be the collection of multisorted relations which are preserved by every operation in $\cO$.
+\end{defn}
+
+Now we can state and prove the Galois connection for the multisorted case.
+
+\begin{thm}[Romov \cite{romov-multisorted-galois}] If $\Gamma$ is a collection of multisorted relations on a (possibly infinite) collection of finite domains $\{D_i\}$, then $\Inv(\Pol(\Gamma)) = \langle \Gamma \rangle$.
+\end{thm}
+\begin{proof} Suppose that
+\[
+S \subseteq D_{i_1} \times \cdots \times D_{i_m}
+\]
+is generated by elements $x_1, ..., x_k \in \prod_j D_{i_j}$, and let $X$ be the matrix having the $x_j$s as columns. Then $S = \{f(X) \mid f \in \Pol_k(\Gamma)\}$, so as a starting point we will construct a primitive positive formula $\Phi$ that describes $\Pol_k(\Gamma)$.
+
+Note that $\prod_i D_i^{D_i^k}$ is naturally interpreted as the set of vectors of functions $f^{D_i} : D_i^k \rightarrow D_i$: if $f \in \prod_i D_i^{D_i^k}$, then the $(i, (a_1, ..., a_k))$-coordinate of $f$ is $f^{D_i}(a_1, ..., a_k)$. We can now give an infinitary positive primitive formula for $\Pol_k(\Gamma) \subseteq \prod_i D_i^{D_i^k}$:
+\[
+\Phi(f) \coloneqq \bigwedge_{R \in \Gamma} \bigwedge_{M \in R^k} f(M) \in R.
+\]
+If $\Gamma$ is infinite, the outer $\bigwedge$ will be an infinite conjunction, and if there are infinitely many sorts $D_i$ then the number of variables of $\Phi(f)$ will also be infinite. However, since there are only finitely many possible subsets of $\prod_{j \le m} D_{i_j}^{D_{i_j}^k}$, and since $D_{i'}^{D_{i'}^k}$ is also finite for each $i' \not\in i_1, ..., i_m$, by K\"onig's Lemma some finite subset $\Phi'$ of the inner conjunctions will have
+\[
+\exists \{f^{D_{i'}} \mid i' \not\in i_1, ..., i_m\}\ \Phi(f) = \exists \{f^{D_{i'}} \mid i' \not\in i_1, ..., i_m\}\ \Phi'(f).
+\]
+Note that only finitely many operations $f^{D_{i'}}$ actually show up in $\Phi'(f)$, so the right hand side can be interpreted as a finite primitive positive formula.
+
+Finally, to define $S$ we use the primitive positive formula
+\[
+S(a) \coloneqq \exists f \in \prod_i D_i^{D_i^k}\ \Phi'(f) \wedge (f(X) = a).\qedhere
+\]
+\end{proof}
+
+\begin{rem} The same proof can be used to show that even if we allow the domains $D_i$ to be infinite, $\Inv(\Pol(\Gamma))$ will be equal to the collection of multisorted relations which can be written as increasing unions of multisorted relations which can be defined by infinitary primitive positive formulas over $\Gamma$ which have finitely many free variables.
+\end{rem}
+
+\begin{thm}[Romov \cite{romov-multisorted-galois}] If $\cO$ is a collection of vectors of operations on a finite collection of finite domains $(D_1, ..., D_n)$, then $\Pol(\Inv(\cO)) = \langle \cO \rangle$.
+\end{thm}
+\begin{proof} Suppose that $f \in \Pol(\Inv(\cO))$ is a vector of $k$-ary operations. Let $\cF(k) \subseteq \prod_{i \le n} D_i^{D_i^k}$ be the subalgebra of the algebraic structure $\prod_i (D_i,\cO^{D_i})^{D_i^k}$ generated by the projections $\pi_j$, which are given by
+\[
+\pi_j^{D_i} : D_i^k \rightarrow D_i, \;\;\; \pi_j^{D_i}(x_1, ..., x_k) = x_j.
+\]
+Then $\cF(k)$, interpreted as a set of vectors of functions from $D_i^k$ to $D_i$, is exactly the set of $k$-ary vectors of operations in $\langle \cO \rangle$.
+
+Since $f \in \Pol(\Inv(\cO))$ and $\cF(k) \in \Inv(\cO)$, we must have $f \rhd \cF(k)$, so in particular we must have $f(\pi_1, ..., \pi_k) \in \cF(k)$. But $f(\pi_1, ..., \pi_k)$ is exactly $f$ thought of as an element of $\prod_i D_i^{D_i^k}$, so this means that $f \in \langle \cO \rangle$.
+\end{proof}
+
+\begin{rem} The same argument can be used to give a multisorted generalization of Reinhard P{\"o}schel's result from \cite{poschel-galois} characterizing polymorphism clones on infinite domains. We say that a vector of operations $f$ of arity $k$ is in $\overline\cO$, the \emph{closure of $\cO$ under the topology of pointwise convergence}, if for every finite collection of tuples $\{(i^j, (a^j_1, ..., a^j_k))\} \subseteq \bigsqcup_i D_i^k$, there is some $g \in \cO$ which satisfies
+\[
+\forall j\ g^{D_{i^j}}(a^j_1, ..., a^j_k) = f^{D_{i^j}}(a^j_1, ..., a^j_k).
+\]
+Then the general result is that $\Pol(\Inv(\cO)) = \overline{\langle \cO \rangle}$, even if we have infinitely many infinite domains.
+\end{rem}
+
+\begin{rem} There are several ways to try to force the multisorted setting into the single sorted straitjacket. One approach is to start from a multisorted relational structure $(\{D_i\}, \{R_j\})$, and to make a new single sorted relational structure with domain
+\[
+D = \bigsqcup_i D_i
+\]
+out of it, with each of the original relations $R_j$ interpreted as relations on $D$ in the obvious way, and with each sort $D_i$ interpreted as a unary relation on $D$. Although this approach works, it is inelegant for the following reasons:
+\begin{itemize}
+\item the equality relation $=$ on $D$ doesn't correspond to anything natural in the original multisorted structure, and
+\item a polymorphism $f$ of the new relational structure is forced to assign values to tuples $(a_1, ..., a_k) \in D^k$ which don't necessarily all come from the same sort, but the value of $f(a_1, ..., a_k)$ is irrelevant to every natural question we might ask unless there is some $i$ with $\{a_1, ..., a_k\} \subseteq D_i$.
+\end{itemize}
+
+If the number of domains $D_i$ is small, a more elegant approach was described in Bulatov and Jeavons \cite{bulatov-jeavons-varieties}. They define a single-sorted relational structure with domain
+\[
+D = \prod_i D_i,
+\]
+with each relation $R_j \subseteq D_{i^j_1} \times \cdots \times D_{i^j_{m_j}}$ interpreted as the $m_j$-ary relation on $D$ given by
+\[
+(x_1, ..., x_{m_j}) \in R_j^D \;\;\; \iff \;\;\; (\pi_{i^j_1}(x_1), ..., \pi_{i^j_{m_j}}(x_{m_j})) \in R_j,
+\]
+and with extra binary equivalence relations $\sim_i\ \subseteq D^2$ given by
+\[
+x \sim_i y \;\;\; \iff \;\;\; \pi_i(x) = \pi_i(y).
+\]
+On the algebraic side of the picture, this corresponds to replacing the collection $\{\bD_i\}$ of algebras (all sharing a common signature) with their product
+\[
+\bD = \prod_i \bD_i.
+\]
+Let's verify that the polymorphisms of the single-sorted relational structure $(D, \{R_j^D\} \cup \{\sim_i\})$ really correspond to the vectors of operations in $\Pol(\{D_i\}, \{R_j\})$.
+\begin{itemize}
+\item If $f \in \Pol(\{D_i\}, \{R_j\})$, then we define $f^D$ by
+\[
+\pi_i(f^D(a_1, ..., a_k)) = f^{D_i}(\pi_i(a_1), ..., \pi_i(a_k)).
+\]
+That this $f^D$ preserves each relation $R_j^D$ and each equivalence relation $\sim_i$ can be checked by unwinding the definitions.
+
+\item If $f \in \Pol(D, \{R_j^D\} \cup \{\sim_i\})$, then since $f$ preserves $\sim_i$ we can define $f^{D_i}$ by arbitrarily picking reference elements $b_1, ..., b_k \in \prod_{j \ne i} D_j$, and setting
+\[
+f^{D_i}(a_1, ..., a_k) = \pi_i(f((a_1, b_1), ..., (a_k, b_k)))
+\]
+for $a_1, ..., a_k \in D_i$, and the resulting functions $f^{D_i}$ will not depend on the choice of $b_1, ..., b_k$. Then we can check that the vector of operations $i \mapsto f^{D_i}$ preserves $R_j$ iff $f$ preserves $R_j^D$ by unwinding the definitions.
+\end{itemize}
 \end{rem}
 
 
