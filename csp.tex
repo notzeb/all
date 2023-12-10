@@ -5478,7 +5478,7 @@ Note that identities which involve nesting functions may not survive the process
 
 Now we return to the world of idempotent operations, and describe a surprisingly powerful binary analogue of unary iteration. Rather than (compositionally) idempotent operations, we will produce a type of binary operation which I call a \emph{partial semilattice} operation.
 
-\begin{defn} We say that an idempotent binary operation $s$ is a \emph{partial semilattice} if it satisfies the identity
+\begin{defn}\label{defn-partial-semilattice} We say that an idempotent binary operation $s$ is a \emph{partial semilattice} if it satisfies the identity
 \[
 s(x,s(x,y)) \approx s(s(x,y),x) \approx s(x,y).
 \]
@@ -5672,7 +5672,11 @@ and similarly $u(c,a) \in \bC$.
 
 By iteratively replacing $\bA$ with reducts $\bA_s$ for partial semilattice terms $s$ quadratically many times, we can reduce to the case where for all $a,b$, we have $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$ iff $\{a,b\}$ is a semilattice subalgebra of $\bA$ with absorbing element $b$.
 
-\begin{defn}\label{defn-prepared} We say that an idempotent algebra $\bA$ has been \emph{prepared} if for every pair $a,b$ such that $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$, the set $\{a,b\}$ is a semilattice subalgebra of $\bA$.% We say that $\bA$ is \emph{fully prepared} if for all $\bC \lhd_{bin} \bB \le \bA$ we have $\bC \lhd_{str} \bB$.
+\begin{defn}\label{defn-prepared} We say that an idempotent algebra $\bA$ has been \emph{prepared} if for every pair $a,b$ such that
+\[
+\begin{bmatrix} b\\ b\end{bmatrix} \in \Sg_{\bA^2}\Big\{\begin{bmatrix} a\\ b\end{bmatrix},\begin{bmatrix} b\\ a\end{bmatrix}\Big\},
+\]
+the set $\{a,b\}$ is a semilattice subalgebra of $\bA$ (in the sense that the restriction of any $k$-ary basic operation of $\bA$ to $\{a,b\}$ is the $k$-ary semilattice operation on $\{a,b\}$ with absorbing element $b$).% We say that $\bA$ is \emph{fully prepared} if for all $\bC \lhd_{bin} \bB \le \bA$ we have $\bC \lhd_{str} \bB$.
 \end{defn}
 
 For algebras which have been prepared, it makes sense to define a digraph whose edges correspond to semilattice subalgebras of $\bA$.
@@ -7838,7 +7842,7 @@ t(y,y,x,...,x) \approx x,
 so the term $t(x,x,y_2,...,y_{n-1})$ is a near-unanimity term of arity $n-1$, contradicting the choice of $t$.
 \end{proof}
 
-In order to mimic this argument to rule out absorption, we will need to assume finiteness of $\bA$ and apply an iteration argument.
+In order to mimic this argument to rule out absorption, we will need to assume finiteness of $\bA$ and apply an iteration argument. (To see that the finiteness assumption is really needed, consider the infinite idempotent quasiaffine Taylor algebra $([0,1], \frac{x+y}{2})$, which has the open interval $(0,1)$ as a binary absorbing subalgebra.)
 
 \begin{thm}[Abelian implies HAF \cite{pointing-no-absorption}]\label{abelian-haf} If a finite algebra $\bA$ is abelian, then it is absorption free.
 \end{thm}
@@ -7846,7 +7850,7 @@ In order to mimic this argument to rule out absorption, we will need to assume f
 \[
 t_{i+1}(x,y_1, ..., y_{n-1}) \coloneqq t(t_i(x,y_1,...,y_{n-1}),y_1,...,y_{n-1}).
 \]
-By induction on $i$, each $t_i$ absorbs $\bB$. Since $\bA$ is finite, there is some $i$ such that $t_i = t_{2i}$, call this $t_i$ $t_\infty$. Then we have
+By induction on $i$, each $t_i$ absorbs $\bB$. Since $\bA$ is finite, there is some $i$ such that $t_i = t_{2i}$, set $t_\infty = t_i$. Then we have
 \[
 t_\infty(t_\infty(x,y_1, ..., y_{n-1}),y_1, ..., y_{n-1}) \approx t_\infty(x,y_1, ..., y_{n-1}),
 \]
@@ -12066,7 +12070,7 @@ In order to restrict an instance $\fX$ to a strand $\cS$ in a way that guarantee
 for all pairs of cycles $p,q$ from $x$ to $x$ and all $\bB \le \bA_x$. In particular, this always occurs if $\fX$ is $pq$-consistent.
 \end{prop}
 
-\begin{defn} Suppose that $\fX$ is an instance, and let $\cS$ be any strand of $\fX$ such that for each variable $x$, there is at most one $\bB_x$ such that $(x,\bB_x) \in \cS$. We define the \emph{full restriction} of $\fX$ to $\cS$ to be the instance $\fX'$ whose variable set is the set of variables $x$ such that some $(x,\bB_x) \in \cS$, with each variable domain reduced to $\bA_x$, where for each relation of $\fX$ we project it onto the set of variables in $\fX'$ and restrict each of its coordinates to $\bB_x$.
+\begin{defn}\label{defn-full-restriction} Suppose that $\fX$ is an instance, and let $\cS$ be any strand of $\fX$ such that for each variable $x$, there is at most one $\bB_x$ such that $(x,\bB_x) \in \cS$. We define the \emph{full restriction} of $\fX$ to $\cS$ to be the instance $\fX'$ whose variable set is the set of variables $x$ such that some $(x,\bB_x) \in \cS$, with each variable domain reduced to $\bB_x$, where for each relation of $\fX$ we project it onto the set of variables in $\fX'$ and restrict each of its coordinates to $\bB_x$.
 \end{defn}
 
 In order to mimic the situation of an unlinked instance as well as possible, we might also like to have the property that for each variable $x$ such that some $(x,\bB)$ is in the strand $\cS$, we have parallel strands $\cS'$ which partition the domain $\bA_x$ into disjoint subalgebras $\bB'$ with each $(x,\bB') \in \cS'$.
@@ -12409,7 +12413,7 @@ In this section we present Barto's simple algorithm from \cite{barto-conservativ
 
 The main idea of Barto's algorithm for conservative CSPs is to try to reduce to the case where all edges of the colored graphs occuring in each of the variable domains $\bA_x$ are affine. In this case, any daisy chain term will be a Mal'cev term for each variable domain, and we can solve the problem by using the algorithm for CSPs with a Mal'cev polymorphism. In Bulatov's algorithm from \cite{bulatov-conservative-rerevisited}, the main idea is to reduce to the case where there are no semilattice edges instead, in which case any daisy chain term will be a ternary generalized majority-minority operation (that a ternary generalized majority-minority operation exists in this case also follows from Theorem \ref{thm-swap-gmm}).
 
-In order to accomplish this, we aim to show that if any semilattice or majority edge occurs in any variable domain of an instance $\fX$, then we can reduce some variable domain by solving an instance where every variable domain has been strictly decreased. We assume that our instance is $(2,3)$-minimal (or perhaps just that it is a Prague instance), and we consider the subdigraph $\cE$ of the implication digraph consisting of pairs $(x,\bB)$ such that that $\bB \le \bA_x$ is an algebra with at least one proper absorbing subalgebra. The digraph $\cE$ will be nonempty as long as any algebra $\bA_x$ has any non-affine edge. We pick any maximal strand $\cS$ of the digraph $\cE$, and we note that the full restriction of our instance $\fX$ to the strand $\cS$ is then a Prague instance in which every single domain has a proper absorbing subalgebra by Proposition \ref{prop-prague-reduction}. We can then repeatedly apply Proposition \ref{prop-prague-reduction} (or, alternatively, we could apply Kozik's \cite{pq-consistency} result from Section \ref{s-absorbing-arc-consistent}, using the fact that every Prague instance is $pq$-consistent), to find an arc-consistent absorbing reduction $\fX'$ of the full restriction of $\fX$ to the strand $\cS$, such that every variable domain in $\fX'$ is absorption free - and as a consequence, such that each variable domain in $\fX'$ is a proper subagebra of the corresponding variable domain in the original instance $\fX$. We can then apply the following consequence of the Rectangularity Theorem \ref{thm-rectangularity-conservative-absorbing}.
+In order to accomplish this, we aim to show that if any semilattice or majority edge occurs in any variable domain of an instance $\fX$, then we can reduce some variable domain by solving an instance where every variable domain has been strictly decreased. We assume that our instance is $(2,3)$-minimal (or perhaps just that it is a Prague instance), and we consider the subdigraph $\cE$ of the implication digraph consisting of pairs $(x,\bB)$ such that that $\bB \le \bA_x$ is an algebra with at least one proper absorbing subalgebra. The digraph $\cE$ will be nonempty as long as any algebra $\bA_x$ has any non-affine edge. We pick any maximal strand $\cS$ of the digraph $\cE$, and we note that the full restriction (see Definition \ref{defn-full-restriction}) of our instance $\fX$ to the strand $\cS$ is then a Prague instance in which every single domain has a proper absorbing subalgebra by Proposition \ref{prop-prague-reduction}. We can then repeatedly apply Proposition \ref{prop-prague-reduction} (or, alternatively, we could apply Kozik's \cite{pq-consistency} result from Section \ref{s-absorbing-arc-consistent}, using the fact that every Prague instance is $pq$-consistent), to find an arc-consistent absorbing reduction $\fX'$ of the full restriction of $\fX$ to the strand $\cS$, such that every variable domain in $\fX'$ is absorption free - and as a consequence, such that each variable domain in $\fX'$ is a proper subagebra of the corresponding variable domain in the original instance $\fX$. We can then apply the following consequence of the Rectangularity Theorem \ref{thm-rectangularity-conservative-absorbing}.
 
 \begin{thm}[Barto \cite{barto-conservative-revisited}]\label{thm-rectangularity-application} Suppose that $\fX$ is a Prague instance such that each variable domain $\bA_x$ is a conservative Taylor algebra. Let $\cE$ be the subdigraph of the implication digraph which consists of pairs $(x,\bB)$ such that $\bB \le \bA_x$ and $\bB$ has a proper absorbing subalgebra, and let $\cS$ be any maximal strand of $\cE$.
 
@@ -12948,19 +12952,216 @@ t^a(t^a(x)) = t^a(x)
 \]
 for all $a$s and all $x$s. We won't need to make such an assumption about the operations $t_c$ or $\varphi$, however, since once we have constructed $\varphi$ we will be free to iterate it to our heart's content to produce a unary polymorphism $\varphi^\infty$ satisfying $\varphi^\infty \circ \varphi^\infty = \varphi^\infty$.
 
-We still need to ensure that $\varphi|_{A_x} = t_c$ for some $c \in A_x$. Mar\'oti's approach in \cite{tree-on-top-of-malcev} is to relax this requirement slightly: he just requires $\varphi|_{A_x}$ to be contained in the multisorted relation
+We still need to ensure that $\varphi^{A_x} = t_c$ for some $c \in A_x$. Mar\'oti's approach in \cite{tree-on-top-of-malcev} is to relax this requirement slightly: he just requires $\varphi^{A_x}$ to be contained in the multisorted relation
 \[
 \Sg_{\prod_a t^a(\bA_x)} \{t_c \mid c \in A_x\} \le \prod_{a \in A_x} t^a(\bA_x).
 \]
-This will allow $\varphi|_{A_x}$ to have the form
+This will allow $\varphi^{A_x}$ to have the form
 \[
 \varphi : a \mapsto t(a, f(t(a, c_1), ..., t(a, c_k)))
 \]
-for any $k$-tuple of elements $c_1, ..., c_k \in A_x$ and any $k$-ary polymorphism $f$ of $\fA$ - but more generally, it also allows $\varphi|_{A_x}$ to have the form
+for any $k$-tuple of elements $c_1, ..., c_k \in A_x$ and any $k$-ary polymorphism $f$ of $\fA$ - but more generally, it also allows $\varphi^{A_x}$ to have the form
 \[
 \varphi : a \mapsto t(a, f(\varphi_1(a), ..., \varphi_k(a)))
 \]
-where $\varphi_i$ are any previously constructed operations contained within this multisorted relation.
+where $\varphi_i$ are any previously constructed operations contained within this multisorted relation. The approach we will follow in these notes will be even simpler - we will just directly search for $\varphi$ such that $\varphi^{A_{x_*}}$ is not surjective for some particular $x_*$.
 
-%TODO: finish this section!
+Time to iron out all of the details. The careful reader might have noticed that I cheated above, by referring to the algebraic structure $t^a(\bA_x)$ without defining it - let's start by addressing that.
+
+\begin{defn}[Mar\'oti \cite{tree-on-top-of-malcev}] If $\bA = (A, \{f_i\})$ is an algebraic structure and $e : A \rightarrow A$ is any unary operation satisfying $e(e(a)) = e(a)$ for all $a \in A$, we define the \emph{retract} $e(\bA)$ of $\bA$ with respect to $e$ by
+\[
+e(\bA) \coloneqq (e(A), \{e \circ f_i\}),
+\]
+considered as an algebraic structure with the same signature as $\bA$ via $f_i^{e(\bA)} = e \circ f_i$.
+\end{defn}
+
+Note that unlike several other constructions which shrink an algebra with an idempotent unary operation, the retract $e(\bA)$ has the same signature as the algebra $\bA$, so it makes sense to consider multisorted CSPs which involve both $\bA$ and $e(\bA)$ as variable domains simultaneously. The price we pay for this ability is that identities satisfied by term operations of $\bA$ might not hold for the corresponding term operations of $e(\bA)$: the only identities which are definitely preserved are identities between the basic operations of height at most 1.
+
+\begin{prop} If the basic operations $f_i, f_j$ of $\bA$ satisfy an identity of height at most one, i.e.
+\[
+f_i(x_1, ..., x_k) \approx f_j(y_1, ..., y_l)
+\]
+for some sets of (possibly repeated) variables $x_1, ..., x_k, y_1, ..., y_l$ or
+\[
+f_i(x_1, ..., x_k) \approx x,
+\]
+for some set of (possibly repeated) variables $x_1, ..., x_k, x$, then the basic operations $e \circ f_i, e \circ f_j$ of $e(\bA)$ satisfy the same identity (as long as $e(e(x)) \approx e(x)$, for the second type of identity).
+\end{prop}
+
+So to take advantage of retracts, we had better make sure that the basic operations of $\bA$ include a Taylor operation, or at least a collection of idempotent operations satisfying a system of height 1 identities that can't be satisfied by projections. Corollary \ref{consecutive-daisy} shows that any finite Taylor algebra always has a suitable pair of idempotent ternary term operations, and adding them to our collection of basic operations will ensure that $e(\bA)$ is also Taylor.
+
+\begin{defn}[Mar\'oti \cite{tree-on-top-of-malcev}, slightly simplified] Let $\fX$ be an instance of $\CSP(\{\bA_i\})$, and let $t$ be a binary term operation of $\{\bA_i\}$ satisfying the identity $t(x,t(x,y)) \approx t(x,y)$. The \emph{decomposition} $t(\fX)$ is defined to be the instance of
+\[
+\CSP(\{t^a(\bA_i) \mid a \in \bA_i\}),
+\]
+where $t^a(x) \coloneqq t(a,x)$, whose variables and relations are defined as follows:
+\begin{itemize}
+\item for each variable $x$ of $\fX$ with variable domain $\bA_x$, and for each $a \in \bA_x$, we have a variable $(a,x)$ of $t(\fX)$ with variable domain $t^a(\bA_x)$, where $t^a(\bA_x)$ is the retract of $\bA_x$ with respect to $t^a$,
+\item for each constraint tuple $c = (x_1, ..., x_m)$ with constraint relation $\RR \le \bA_{x_1} \times \cdots \times \bA_{x_m}$ of $\fX$, and for each tuple $r = (a_1, ..., a_m) \in \RR$, we have a constraint tuple
+\[
+(r,c) = ((a_1, x_1), ..., (a_m, x_m))
+\]
+with corresponding constraint relation given by
+\[
+t^r(\RR) \le t^{a_1}(\bA_{x_1}) \times \cdots \times t^{a_m}(\bA_{x_m}),
+\]
+where $t^r(\RR)$ is the retract of $\RR$ with respect to $t^r$.
+\begin{comment}
+, and
+\item for each variable $x$ of $\fX$, we have a constraint tuple $((a_1, x), ..., (a_n, x))$, where $\{a_1, ..., a_n\}$ is an enumeration of the underlying set of the variable domain $\bA_x$, with corresponding constraint relation
+\[
+\mathbb{T}_{\bA_x} \coloneqq \Sg_{\prod_i t^{a_i}(\bA_x)} \{t_c \mid c \in \bA_x\} \le t^{a_1}(\bA_x) \times \cdots \times t^{a_n}(\bA_x),
+\]
+where $t_c$ is an abbreviation for the element $(t(a_1, c), ..., t(a_n, c))$ of $\prod_i t^{a_i}(\bA_x)$.
+\end{comment}
+\end{itemize}
+\end{defn}
+
+\begin{prop}[Mar\'oti \cite{tree-on-top-of-malcev}]\label{prop-tree-on-top-unary-poly} If the instance $\fX$ of $\CSP(\{\bA_i\})$ has a solution given by $x \mapsto c_x \in \bA_x$, then for any binary term operation $t$ of $\{\bA_i\}$ the decomposition $t(\fX)$ has a solution given by the mapping
+\[
+(a,x) \mapsto t(a,c_x).
+\]
+\end{prop}
+\begin{proof} We need to check that for every constraint tuple $(x_1, ..., x_m)$ of $\fX$ with constraint relation $\RR \le \bA_{x_1} \times \cdots \times \bA_{x_m}$, and for each tuple $r = (a_1, ..., a_m) \in \RR$, we have
+\[
+(t(a_1, c_{x_1}), ..., t(a_m,c_{x_m})) \in t^r(\RR).
+\]
+But the left hand side is exactly $t^r((c_{x_1}, ..., c_{x_m}))$, and this is an element of $t^r(\RR)$ since $(c_{x_1}, ..., c_{x_m}) \in \RR$, by the assumption that $x \mapsto c_x$ was a solution to the original instance $\fX$.
+\end{proof}
+\begin{comment}
+\begin{proof} Suppose that a solution to $\fX$ is given by $x \mapsto c_x \in \bA_x$. Then we define a solution to $t(\fX)$ by the mapping
+\[
+(a,x) \mapsto t(a,c_x).
+\]
+Checking that this satisfies the constraints of $t(\fX)$ is just a matter of unwinding the definitions.
+\end{proof}
+\end{comment}
+
+\begin{prop}[Mar\'oti \cite{tree-on-top-of-malcev}]\label{prop-tree-on-top-partial-solution} Suppose that $\cA = \{\bA_2, ...\}$ is a finite collection of similar finite idempotent algebras such that $\CSP(\cA)$ can be solved in polynomial time, and suppose that $\bA_1$ is a finite idempotent algebra of the same signature with a binary term operation $t$ satisfying the identity $t(x,t(x,y)) \approx t(x,y)$ such that
+\[
+a \in \bA \in \{\bA_1\} \cup \cA \;\;\; \implies \;\;\; t^a(\bA) \in \cA.
+\]
+Then for any instance $\fX$ of $\CSP(\{\bA_1\} \cup \cA)$, we can check whether any given partial assignment to the variables of $t(\fX)$ extends to a solution to the decomposition $t(\fX)$ in polynomial time.
+\end{prop}
+\begin{proof} The assumptions imply that the decomposition $t(\fX)$ is an instance of $\CSP(\cA)$, so we just need to check that it is at most polynomially larger than the original instance $\fX$. The number of variables of $t(\fX)$ is at most the product of the number of variables of $\fX$ with the maximum number of elements occuring in any of the finitely many finite domains $\bA \in \cA$, and we have $|t^a(\bA_x)| \le |\bA_x|$ for each one.
+
+Similarly, the number of constraint relations of $t(\fX)$ is at most the product of the number of constraints of $\fX$ with the maximum number of tuples occuring in any constraint relation $\RR$ of the instance, and we have $|t^r(\RR)| \le |\RR|$ in each case.% The remaining constraint relations of $t(\fX)$ have the form $\mathbb{T}_{\bA_x}$, one for each variable $x$ of $\fX$, and the number of tuples in $\mathbb{T}_{\bA_x}$ is at most $|\bA_x|^{|\bA_x|}$, which is bounded by a constant only depending on the finite collection of algebras $\{\bA_1\} \cup \cA$ and not on the instance $\fX$.
+\end{proof}
+
+\begin{prop}[Mar\'oti \cite{tree-on-top-of-malcev}] Let $\fX$ be an instance of $\CSP(\fA)$, and let $t$ be any binary polymorphism of $\fA$. If the decomposition $t(\fX)$ has a solution given by
+\[
+(a,x) \mapsto \varphi^{A_x}(a),
+\]
+then $\varphi$ defines a homomorphism of multisorted relational structures
+\[
+\varphi : \coprod_\fX \fA \rightarrow \coprod_\fX \fA.
+\]
+\begin{comment}
+such that for each variable $x$ of $\fX$ we have
+\[
+\varphi^{A_x} \in \mathbb{T}_{\bA_x}.
+\]
+\end{comment}
+\end{prop}
+\begin{proof} Recall that the relations of $\coprod_\fX \fA$ were indexed to constraint tuples $c = (x_1, ..., x_m) \in C_j \subseteq X_{i_1} \times \cdots \times X_{i_m}$ of $\fX$, and that if the corresponding constraint relation in $\fA$ is given by $R_j \subseteq A_{i_1} \times \cdots \times A_{i_m}$, then the relation of $\coprod_\fX \fA$ associated with $c$ was given by
+\[
+R_c \subseteq A_{x_1} \times \cdots \times A_{x_m},
+\]
+which was a copy of $R_j$. We need to check that $\varphi$ sends each tuple $r = (a_1, ..., a_m) \in R_c$ to a tuple in $R_c$, that is, that
+\[
+(\varphi^{A_{x_1}}(a_1), ..., \varphi^{A_{x_m}}(a_m)) \stackrel{?}{\in} R_c = R_j.
+\]
+But the constraint of $t(\fX)$ corresponding to the pair $(r,c)$ requires that
+\[
+(\varphi^{A_{x_1}}(a_1), ..., \varphi^{A_{x_m}}(a_m)) \in t^r(R_j),
+\]
+and we have $t^r(R_j) \subseteq R_j$ since $r \in R_j$ and $t$ preserves $R_j$.
+\begin{comment}
+To see that $\varphi^{A_x} \in \mathbb{T}_{\bA_x}$, just note that our solution to $t(\fX)$ maps the constraint tuple $((a_1, x), ..., (a_n,x))$ associated with the constraint relation $\mathbb{T}_{\bA_x}$ to
+\[
+(\varphi^{A_x}(a_1), ..., \varphi^{A_x}(a_n)) \in \mathbb{T}_{\bA_x}.\qedhere
+\]
+\end{comment}
+\end{proof}
+
+%The best case scenario is that for the new algebra $\bA_1$ which we are trying to recursively eliminate, every single $\varphi \in \mathbb{T}_{\bA_1}$ fails to be surjective when considered as a unary operation $\varphi : A_1 \rightarrow A_1$. Mar\'oti's argument from \cite{tree-on-top-of-malcev} manages to make progress even if this isn't quite true: after all,
+Of course, the decomposition $t(\fX)$ might have useless solutions which fail to shrink the variable domains. The key to Mar\'oti's argument from \cite{tree-on-top-of-malcev} is that we only need a \emph{single} variable domain to be shrunk by some $\varphi^{A_x}$ in order to make progress. So, for each variable $x_*$ of our original instance $\fX$, we search for a solution $(a,x) \mapsto \varphi^{A_x}(a)$ to the decomposition $t(\fX)$ such that the unary operation
+\[
+\varphi^{A_{x_*}} : A_{x_*} \rightarrow A_{x_*}
+\]
+satisfies
+\[
+\varphi^{A_{x_*}}(a) = \varphi^{A_{x_*}}(b)
+\]
+for some pair $a \ne b \in A_{x_*}$, brute-forcing over all choices of $x_*$ and $a \ne b \in A_{x_*}$ (using Proposition \ref{prop-tree-on-top-partial-solution} to test each possibility in turn). If we succeed, then we can use the unary polymorphism $\varphi^\infty : \coprod_\fX \fA \rightarrow \coprod_\fX \fA$ to produce a new instance where $A_{x_*}$ is mapped into
+\[
+(\varphi^\infty)^{A_{x_*}}(A_{x_*}) \subseteq \varphi^{A_{x_*}}(A_{x_*}) \subset A_{x_*},
+\]
+successfully shrinking at least one variable domain of our original instance $\fX$. Additionally, we can replace all of the relevant algebraic structures $\bA_x$ with the retracts $(\varphi^\infty)^{A_x}(\bA_x)$, which will remain Taylor as long as the basic operations of the algebras $\bA_x$ include, say, a pair of ternary operations as in Corollary \ref{consecutive-daisy}.
+
+The bad case is the case where the decomposition $t(\fX)$ has solutions, but there is no variable $x_*$ such that the decomposition $t(\fX)$ has a solution with $\varphi^{A_{x_*}}$ which is not a permutation. By Proposition \ref{prop-tree-on-top-unary-poly} every solution $x \mapsto c_x \in \bA_x$ of the original instance $\fX$ produces a solution to the decomposition $t(\fX)$ where $\varphi$ is given by
+\[
+\varphi^{A_x}(a) = t(a, c_x),
+\]
+so this implies that for each variable $x_*$, and for each solution $x \mapsto c_x \in \bA_x$ of the original instance $\fX$, the map $a \mapsto t(a, c_x)$ is a permutation. But this means that we can replace \emph{every single variable domain} $\bA_x$ by the subalgebra $\bC_x$ which is generated by the collection of elements $c \in \bA_x$ such that the map $a \mapsto t(a, c)$ is a permutation, without losing any solutions to the instance $\fX$ - and if we have $\bC_x \ne \bA_x$ for any $x$, then we have once again made progress towards solving $\fX$.
+
+We have proved Mar\'oti's main result.
+
+\begin{defn}[Mar\'oti \cite{tree-on-top-of-malcev}]\label{defn-tree-on-top-eliminated} If $\bA$ is a finite idempotent algebra, then we say that $\bA$ \emph{can be eliminated} if $\bA$ has a binary term operation $t$ satisfying the identity
+\[
+t(x,t(x,y)) \approx t(x,y),
+\]
+such that
+\begin{itemize}
+\item for each $a \in \bA$ there is some $x \in \bA$ such that $t(a, x) \ne x$, and
+\item $\bA$ is \emph{not} generated by $\{c \in \bA \mid t_c : x \mapsto t(x,c) \text{ is a permutation}\}$.
+\end{itemize}
+\end{defn}
+
+\begin{thm}[Mar\'oti \cite{tree-on-top-of-malcev}] Suppose that $\cA = \{\bA_2, ...\}$ is a finite collection of similar finite idempotent algebras such that $\CSP(\cA)$ can be solved in polynomial time, and suppose that $\bA_1$ is a finite idempotent algebra of the same signature such that
+\[
+\bA \in \{\bA_1\} \cup \cA,\; \varphi(\bA) \ne \bA,\; \varphi\circ\varphi = \varphi \;\;\; \implies \;\;\; \varphi(\bA) \in \cA,
+\]
+or in other words, such that $\{\bA_1\} \cup \cA$ is closed under taking retracts.
+
+Suppose additionally that $\bA_1$ can be eliminated, in the sense of Definition \ref{defn-tree-on-top-eliminated}. Then $\CSP(\{\bA_1\} \cup \cA)$ can be solved in polynomial time.
+\end{thm}
+
+Mar\'oti went on to prove that in many cases, algebras $\bA$ with a semilattice quotient $\bA/\theta$ can be eliminated. Recall that an element $a$ of a semilattice with basic operation $s$ is called \emph{neutral} if we have $s(a,x) = x$ for all $x$. We extend this definition to partial semilattices (where partial semilattices are defined as in Definition \ref{defn-partial-semilattice}).
+
+\begin{defn} We say that an element $a$ is a \emph{neutral element} of a partial semilattice operation $s$ on $A$ if we have $s(a,x) = x$ for all $x \in A$.
+\end{defn}
+
+\begin{prop}[Mar\'oti \cite{tree-on-top-of-malcev}, slight variation] If $\bA$ is a finite idempotent algebra with a partial semilattice term operation $s$ and a quotient $\bA/\theta$ such that $(A/\theta, s)$ is a semilattice with at least two elements, and if $s$ has no neutral element on $\bA$, then $\bA$ can be eliminated.
+\end{prop}
+\begin{proof} By the definition of a partial semilattice, $s$ satisfies the identity $s(x,s(x,y)) \approx s(x,y)$. Since $s$ has no neutral element by assumption, for every $a \in \bA$ there is some $x \in \bA$ with
+\[
+s(a,x) \ne x.
+\]
+
+There are now two cases, based on whether or not the semilattice $(A/\theta, s)$ has a neutral element. If the semilattice $(A/\theta, s)$ has no neutral element, then for every $c \in \bA$, there is some $a \in \bA$ such that
+\[
+s(a,c) \equiv_\theta s(c,a) \not\equiv_\theta a,
+\]
+and for this $a$ we see that $a/\theta$ is not contained in the image of $s_c : x \mapsto s(x,c)$. Thus in this case there is \emph{no} $c \in \bA$ such that $s_c$ is a permutation.
+
+In the remaining case, suppose that the congruence class $a/\theta$ is a neutral element of the semilattice $(A/\theta, s)$. For any $c \not\in a/\theta$, we then have
+\[
+s(a/\theta, c/\theta) \subseteq c/\theta
+\]
+since $a/\theta$ was neutral, and
+\[
+s(c/\theta, c/\theta) \subseteq c/\theta
+\]
+by idempotence, so $s_c : x \mapsto s(x,c)$ can't be a permutation for any $c \not\in a/\theta$. Since $a/\theta$ is a subalgebra of $\bA$, it can't generate $\bA$, so $\bA$ can be eliminated.
+\end{proof}
+
+On the other hand, if we have a prepared algebra $\bA$ (as in Definition \ref{defn-prepared}) with a partial semilattice term $s$ which has a neutral element $a$ on $\bA$, then every binary term operation $t$ of $\bA$ which depends on both of its arguments will have $t(a,x) = x$ for all $x \in \bA$. So the previous result is essentially the best result of its kind when it comes to algebras with semilattices as quotients.
+
+\begin{ex} The simplest algebra which the techniques we have introduced so far still can't handle is the 4-element algebra $\bA = (\{0,1,2,*\}, \cdot)$, where $\cdot$ is the commutative binary operation given by
+\begin{center}
+\begin{tabular}{c|cccc} $\cdot$ & $0$ & $1$ & $2$ & $*$\\ \hline $0$ & $0$ & $2$ & $1$ & $0$\\ $1$ & $2$ & $1$ & $0$ & $1$\\ $2$ & $1$ & $0$ & $2$ & $2$\\ $*$ & $0$ & $1$ & $2$ & $*$\end{tabular},
+\end{center}
+which has $*$ as a neutral element. It's a good exercise to find an algorithm which solves $\CSP(\bA)$ in polynomial time.
+\end{ex}
 
