@@ -889,11 +889,11 @@ In order to describe an \emph{instance} of the multisorted CSP over the template
 \[
 C_j \subseteq V_{i^j_1} \times \cdots \times V_{i^j_{m_j}}
 \]
-is a list of tuples $(x_1, ..., x_{m_j})$ of variables which we will require to be contained in the correspoding constraint relation $R_j$ from the template.
+is a list of tuples $(x_1, ..., x_{m_j})$ of variables which we will require to be contained in the corresponding constraint relation $R_j$ from the template.
 
-The careful reader may have noticed that an instance of the multisorted CSP over the template $(\{D_i\}, \{R_j\})$ is exactly the same thing as a multisorted relational structure $(\{V_i\}, \{R_j\})$ sharing the same signature as the template. A \emph{solution} to the instance is then the same thing as a homomorphism from the instance to the template, that is, a mapping from variables to elements of their variable domains so that each tuple of variables which is related by a constraint gets mapped to a tuple which lies in the corresponding constraint relation.
+The careful reader may have noticed that an instance of the multisorted CSP over the template $(\{D_i\}, \{R_j\})$ is exactly the same thing as a multisorted relational structure $(\{V_i\}, \{C_j\})$ sharing the same signature as the template. A \emph{solution} to the instance is then the same thing as a homomorphism from the instance to the template, that is, a mapping from variables to elements of their variable domains so that each tuple of variables which is related by a constraint gets mapped to a tuple which lies in the corresponding constraint relation.
 
-Just as in the single-sorted case, we are interested in the whole set of all multisorted relations which can be expressed as projections (onto a subset of the variables) of solution sets to instances of the multisorted CSP with a given template $(\{D_i\}, \{R_j\})$. These correspond to formulas built out of bounded existential quantifiers (i.e. $\exists x \in D_i$), conjunctions, and relations $R_j$, where each existential quantifier must have some sort $D_i$ associated with the variable it binds, and each relation must be applied to a tuple of variables of the correct sorts for that relation. For instance, if $R_1$ was a binary relation
+Just as in the single-sorted case, we are interested in the whole collection of all multisorted relations which can be expressed as projections (onto a subset of the variables) of solution sets to instances of the multisorted CSP with a given template $(\{D_i\}, \{R_j\})$. These correspond to formulas built out of bounded existential quantifiers (i.e. $\exists x \in D_i$), conjunctions, and relations $R_j$, where each existential quantifier must have some sort $D_i$ associated with the variable it binds, and each relation must be applied to a tuple of variables of the correct sorts for that relation. For instance, if $R_1$ was a binary relation
 \[
 R_1 \subseteq D_1 \times D_2
 \]
@@ -998,7 +998,7 @@ S(a) \coloneqq \exists f \in \prod_i D_i^{D_i^k}\ \Phi'(f) \wedge (f(X) = a).\qe
 \]
 \end{proof}
 
-\begin{rem} The same proof can be used to show that even if we allow the domains $D_i$ to be infinite, $\Inv(\Pol(\Gamma))$ will be equal to the collection of multisorted relations which can be written as increasing unions of multisorted relations which can be defined by infinitary primitive positive formulas over $\Gamma$ which have finitely many free variables.
+\begin{rem} The same proof can be used to show that if we allow the domains $D_i$ to be infinite, $\Inv(\Pol(\Gamma))$ will be equal to the collection of multisorted relations which can be written as increasing unions of multisorted relations which can be defined by infinitary primitive positive formulas over $\Gamma$ which have finitely many free variables.
 \end{rem}
 
 \begin{thm}[Romov \cite{romov-multisorted-galois}] If $\cO$ is a collection of vectors of operations on a finite collection of finite domains $(D_1, ..., D_n)$, then $\Pol(\Inv(\cO)) = \langle \cO \rangle$.
@@ -1060,6 +1060,8 @@ f^{D_i}(a_1, ..., a_k) = \pi_i(f((a_1, b_1), ..., (a_k, b_k)))
 for $a_1, ..., a_k \in D_i$, and the resulting functions $f^{D_i}$ will not depend on the choice of $b_1, ..., b_k$. Then we can check that the vector of operations $i \mapsto f^{D_i}$ preserves $R_j$ iff $f$ preserves $R_j^D$ by unwinding the definitions.
 \end{itemize}
 \end{rem}
+
+Throughout the rest of these notes, we will drop the distinction between operations and vectors of operations, as well as the distinction between multi-clones and clones.
 
 
 \section{Three basic examples}
@@ -1346,12 +1348,8 @@ For those who like category theory, a $k$-ary implicit operation of a pseudovari
 \end{rem}
 
 
-%\subsection{The $\Inv$-$\Pol$ duality for multisorted CSPs}
-%TODO
-
-
 %\subsection{Indicator instances}
-%TODO (also, where should this go?)
+%TODO
 
 
 \section{Cores and Idempotent Reducts}
@@ -1404,7 +1402,7 @@ The next main idea comes from ``self-reducibility'': often, when solving a CSP, 
 \end{thm}
 \begin{proof} This follows directly from the $\Inv$-$\Pol$ Galois connection: $\{a\} \in \langle \fA \rangle$ iff $\{a\}$ is closed under $\Pol(\fA)$, and since $\{a\}$ is generated by a single element, we only need to check that it is closed under $\Pol_1(\fA)$, which is exactly the set of endomorphisms of $\fA$.
 
-We can also give a direct proof, by unraveling the proof of the $\Inv$-$\Pol$ connection in this special case, as follows. Define a CSP with a variable $f_a$ for each $a \in D$. For every relation $R \subseteq D^m$ of $\fA$ and every tuple $(a_1, ..., a_m) \in R$, we impose the constraint $R(f_{a_1}, ..., f_{a_m})$ on our CSP. Now the solution-set to our CSP exactly corresponds to the set of endomorphisms of $\fA$, and if $\fA$ is a rigid core then existentially projecting onto the variable $f_a$ produces the unary relation $\{a\}$.
+We can also give a direct proof, by unraveling the proof of the $\Inv$-$\Pol$ connection in this special case, as follows. Define a CSP with a variable $f_a$ for each $a \in D$. For every relation $R \subseteq D^m$ of $\fA$ and every tuple $(a_1, ..., a_m) \in R$, we impose the constraint $(f_{a_1}, ..., f_{a_m}) \in R$ on our CSP. Now the solution-set to our CSP exactly corresponds to the set of endomorphisms of $\fA$, and if $\fA$ is a rigid core then existentially projecting onto the variable $f_a$ produces the unary relation $\{a\}$.
 \end{proof}
 
 So it is very desirable to restrict our attention to rigid cores. Most of the example CSPs from the introduction were rigid cores, with the notable exceptions of $k$-coloring and NAE-SAT. The $k$-coloring problem is an excellent toy example: the reader may be already be aware of the fact that $\CSP(\{1, ..., k\}, \ne)$ (the $k$-coloring problem) is logspace equivalent to $\CSP(\{1,...,k\}, \ne, \{1\}, ..., \{k\})$ - the rigid core obtained by adjoining the unary singleton relations to $k$-coloring. It is worth examining the proof of that equivalence and understanding how the next result generalizes it.
@@ -2088,7 +2086,7 @@ A binary relation $R \subseteq D^2$ is preserved by the dual discriminator iff i
   \node [circle, minimum width=3pt, draw, inner sep=0pt] (b4) at (2,3) {};
   \draw (a1) -- (b2) -- (a2);
   \draw (b2) -- (a4) --(b3);
-  \draw (a4) -- (b1);
+  \draw (b4) -- (a4) -- (b1);
 \end{tikzpicture} &
 \begin{tikzpicture}[scale=1]
   \node [circle, minimum width=3pt, draw, inner sep=0pt] (a1) at (0,0) {};
@@ -2143,9 +2141,10 @@ This instance may be solved in polynomial time by the strict width $l$ algorithm
 
 The good news is that whether the structure is given as a finite relational structure or a finite algebraic structure, the existence of a near unanimity term is at least \emph{decidable} \cite{near-unanimity-maroti}, \cite{near-unanimity-congruence-distributive}, \cite{near-unanimity-zhuk}. The bad news is that the minimal arity of a near-unanimity term may be very large.
 
-\begin{thm}[Zhuk, Barto, Draganov \cite{near-unanimity-minimal}, \cite{near-unanimity-zhuk}] For any relational structure $\fA$ with $|\fA| = n$ such that every basic relation of $\fA$ has arity at most $m$, if $\fA$ has bounded strict width, then $\fA$ has strict width at most
+\begin{thm}[Zhuk \cite{near-unanimity-zhuk}, Barto, Draganov \cite{near-unanimity-minimal}, Corollary \ref{cor-finitely-related-near-unanimity}] For any relational structure $\fA$ with $|\fA| = n$ such that every basic relation of $\fA$ has arity at most $m$, if $\fA$ has bounded strict width, then $\fA$ has strict width at most
 \[
-\frac{1}{2}(2m-2)^{3^n}.
+%\frac{1}{2}(2m-2)^{3^n}.
+\max(m-1,2)^{3^n - 2^{n+1}} + 1.
 \]
 
 Conversely, for each $m \ge 3$ and $n \ge 2$, there is an example of a relational structure with bounded strict width such that every basic relation of $\fA$ has arity at most $m$, which has no near-unanimity polymorphism of arity at most
@@ -6450,7 +6449,7 @@ The reason we avoid specifying the idempotent term $t$ in the notation $\bB \lhd
 \begin{prop} If $\bB_1 \lhd \bA_1$ with respect to $t_1$ and $\bB_2 \lhd \bA_2$ with respect to $t_2$, then each $\bB_i \lhd \bA_i$ with respect to the star composition $t_1*t_2$ (see Definition \ref{star-comp-defn}). If $\bA_1 = \bB_2$, then $\bB_1 \lhd \bA_2$ with respect to $t_1*t_2$.
 \end{prop}
 
-\begin{cor} A finite algebra $\bA$ has a near-unanimity term iff for all $a \in \bA$, the singleton $\{a\}$ absorbs $\bA$.
+\begin{cor}\label{cor-near-unanimity-absorption} A finite algebra $\bA$ has a near-unanimity term iff for all $a \in \bA$, the singleton $\{a\}$ absorbs $\bA$.
 \end{cor}
 
 A common strategy in arguments involving absorbing operations $t$ of high arity $n$ is to consider expressions of the form
@@ -6498,7 +6497,7 @@ f_{n(i-1)+j}(x,y,z) \coloneqq d_i(x,e_j(x,y,z),z)
 is a J\'onsson absorption chain which witnesses both $\bB_1 \lhd_J \bA_1$ and $\bB_2 \lhd_J \bA_2$. If $\bA_1 = \bB_2$, then $\bB_1 \lhd_J \bA_2$ with respect to $f_1, ..., f_{mn}$.
 \end{prop}
 
-\begin{cor} A finite algebra $\bA$ generates a congruence distributive variety iff for all $a \in \bA$, the singleton $\{a\}$ J\'onsson absorbs $\bA$.
+\begin{cor}\label{cor-congruence-distributive-jonsson-absorption} A finite algebra $\bA$ generates a congruence distributive variety iff for all $a \in \bA$, the singleton $\{a\}$ J\'onsson absorbs $\bA$.
 \end{cor}
 \begin{proof} A J\'onsson absorbing chain which witnesses $\{a\} \lhd_J \bA$ for all $a \in \bA$ is the same as a sequence of terms $d_1, ..., d_m$ which satisfy the system of identities
 \begin{align*}
@@ -6578,7 +6577,7 @@ then there is a directed path from $a$ to $b$ in the digraph $\bS$.
 
 For the sake of applying the previous result, it is useful to keep in mind the following basic fact about finite directed graphs.
 
-\begin{prop} If $(A,R)$ is a finite directed graph such that each vertex of $A$ has in-degree at least $1$ (in other words, such that $\pi_2(R) = A$), then for every vertex $a \in A$ there is some $a' \in A$ and some $n$ such that $a'$ is contained in a directed cycle of length $n$ and such that there is a directed path from $a'$ to $a$ of length $n$ (that is, $(a',a'), (a',a) \in R^{\circ n}$).
+\begin{prop}\label{prop-directed-cycle} If $(A,R)$ is a finite directed graph such that each vertex of $A$ has in-degree at least $1$ (in other words, such that $\pi_2(R) = A$), then for every vertex $a \in A$ there is some $a' \in A$ and some $n$ such that $a'$ is contained in a directed cycle of length $n$ and such that there is a directed path from $a'$ to $a$ of length $n$ (that is, $(a',a'), (a',a) \in R^{\circ n}$).
 \end{prop}
 \begin{proof} Define a function $\varphi : A \rightarrow A$ such that for each $a \in A$ we have $(\varphi(a),a) \in R$. Then there is some $n$ such that $\varphi^{\circ 2n} = \varphi^{\circ n}$ by the finiteness of $A$: in fact, we may take $n = \lcm\{1, ..., |A|\}$.
 \end{proof}
@@ -6803,7 +6802,11 @@ The strategy of the proof is to show that if there are no $m$-ary terms $t$ whic
 \[
 \RR' = \pi_I\Big(\RR \cap \Big(\prod_i \bC_i\Big)\Big)
 \]
-for some $I \subseteq [n_1 + \cdots + n_m]$ with $|I| = m$ and for some choice of $\bC_i \in \{\bA, \bB\}$ for each $i$.
+for some $I \subseteq [n_1 + \cdots + n_m]$ with $|I| = m$ such that
+\[
+\big|I \cap (n_1 + \cdots + n_{j-1}, n_1 + \cdots + n_j]\big| = 1
+\]
+for each $j \le m$, and for some choice of $\bC_i \in \{\bA, \bB\}$ for each $i$.
 \end{lem}
 \begin{proof} We prove this by induction on $n = n_1 + \cdots + n_m$. If all $n_i = 1$, then $\RR$ is an $m$-ary $\bB$-essential relation already. Otherwise, we may assume $n_m > 1$ without loss of generality. First consider the relation
 \[
@@ -6853,7 +6856,7 @@ We can simplify this slightly as follows.
 
 We leave the following generalization as an exercise to the reader.
 
-\begin{thm} If $\bA_1, ..., \bA_k$ are finite and idempotent, and $\bB_i \le \bA_i$ for each $i$ are such that there is no $(\bB_{i_1}, ..., \bB_{i_m})$-essential relation $\RR \le \bA_{i_1} \times \cdots \times \bA_{i_m}$ for any choice of $i_1, ..., i_m \in [k]$, then there is an $m$-ary term $t$ such that each $\bB_i$ absorbs $\bA_i$ with respect to $t$.
+\begin{thm}\label{absorption-essential-gen} If $\bA_1, ..., \bA_k$ are finite and idempotent, and $\bB_i \le \bA_i$ for each $i$ are such that there is no $(\bB_{i_1}, ..., \bB_{i_m})$-essential relation $\RR \le \bA_{i_1} \times \cdots \times \bA_{i_m}$ for any choice of $i_1, ..., i_m \in [k]$, then there is an $m$-ary term $t$ such that each $\bB_i$ absorbs $\bA_i$ with respect to $t$.
 \end{thm}
 
 \begin{cor} A finite idempotent algebra $\bA$ has a near-unanimity term of arity $m$ iff for each choice of $a_i, b_i \in \bA$, we have
@@ -6915,9 +6918,316 @@ Taking $n = \lceil e\cdot |\bB|!\rceil$ is good enough to find $i,j,k$ with $b_{
 The dual discriminator algebra from Example \ref{ex-dual-discriminator} shows that we always have $m(k) \ge k+2$, while the previous result shows that $m(k) \le \lceil e\cdot k!\rceil$. For $k = 1,2$ we have $m(1) = 3, m(2) = 4$. Could it be that we have $m(k) = k+2$ for every $k$?
 
 
-%\subsection{Finitely related implies J\'onsson absorption is equivalent to absorption}
+\subsection{Finitely related implies J\'onsson absorption is equivalent to absorption}
 
-%TODO
+The story of this subsection began with a paper of Larose, Loten, and Z{\'a}dori \cite{zadori-near-unanimity-graphs}, which gave a concrete characterization of undirected (reflexive) graphs which are preserved by a near-unanimity operation. Surprisingly, it turned out that the corresponding algebraic structure has a near-unanimity term iff it generates a congruence distributive variety (i.e., iff it has J\'onsson terms). This coincidence inspired what came to be known as the \emph{Z\'adori conjecture}: could it be the case that for every finitely related algebra, the existence of J\'onsson terms is equivalent to the existence of near-unanimity terms?
+
+The Z\'adori conjecture was settled affirmatively by Barto \cite{near-unanimity-congruence-distributive}, showing as a consequence that it is possible to decide whether or not a given finite relational structure has a near-unanimity polymorphism. Zhuk \cite{near-unanimity-zhuk} independently proved the decidability result, with a better bound on the smallest arity of a near-unanimity polymorphism. Barto and Bul\'in \cite{deciding-absorption-relational} then extended Zhuk's approach to show that in a finitely related algebra, J\'onsson absorption becomes equivalent to absorption (note that by Corollaries \ref{cor-near-unanimity-absorption} and \ref{cor-congruence-distributive-jonsson-absorption}, this is a generalization of the Z\'adori conjecture).
+
+The basic idea of (Barto and Bul\'in's extension of) Zhuk's approach is to suppose that $\bB \lhd_J \bA$, and that we are able to construct a $\bB$-essential relation $\RR \le \bA^n$ for some huge $n$ via a primitive positive formula $\Phi$ built out of relations $\RR_i \le \bA^m$ for small $m$. The goal is to prove a contradiction if $n$ is sufficiently large compared to $m$ and $|\bA|$, which will show that $\bB \lhd \bA$ by Theorem \ref{absorption-essential}. The core of the strategy is to reduce to the case where the primitive positive formula which defines the huge relation $\RR$ has a simple structure.
+
+We'll start with a particularly simple case, where $\RR \le \bA^n$ is defined by a ``comb formula'' $\Phi$ over a collection of ternary relations $\RR_i \le \bA^3$ in the following way:
+\[
+(x_1, ..., x_n) \in \RR \;\;\; \iff \;\;\; \exists y_0, ..., y_n \in \bA \text{ s.t. } \bigwedge_{i \in [n]} (y_{i-1}, x_i, y_i) \in \RR_i.
+\]
+We call this a comb formula because the diagram we get by drawing the projection maps $\pi_j : \RR_i \rightarrow \bA$ looks like a comb:
+\begin{center}
+\begin{tikzpicture}[scale=2]
+  \node (R1) at (-1.5,0) {$\RR_1$};
+  \node (R2) at (-0.5,0) {$\RR_2$};
+  \node (R3) at (0.5,0) {$\RR_3$};
+  \node (R4) at (1.5,0) {$\RR_4$};
+  \node (ay0) at (-2,0.1) {$\bA$};
+  \node (ay1) at (-1,0.1) {$\bA$};
+  \node (ay2) at (0,0.1) {$\bA$};
+  \node (ay3) at (1,0.1) {$\bA$};
+  \node (ay4) at (2,0.1) {$\bA$};
+  \node (ax1) at (-1.5,-0.5) {$\bA$};
+  \node (ax2) at (-0.5,-0.5) {$\bA$};
+  \node (ax3) at (0.5,-0.5) {$\bA$};
+  \node (ax4) at (1.5,-0.5) {$\bA$};
+  \draw (R1) [->] -- (ay0);
+  \draw (R1) [->] -- (ax1);
+  \draw (R1) [->] -- (ay1);
+  \draw (R2) [->] -- (ay1);
+  \draw (R2) [->] -- (ax2);
+  \draw (R2) [->] -- (ay2);
+  \draw (R3) [->] -- (ay2);
+  \draw (R3) [->] -- (ax3);
+  \draw (R3) [->] -- (ay3);
+  \draw (R4) [->] -- (ay3);
+  \draw (R4) [->] -- (ax4);
+  \draw (R4) [->] -- (ay4);
+\end{tikzpicture}
+\end{center}
+Our goal is to show that if $n$ is sufficiently large compared to $|\bA|$, then such a relation $\RR$ can never be $\bB$-essential. We will need to use the following consequence of Corollary \ref{cor-absorbing-directed-path} and Proposition \ref{prop-directed-cycle}.
+
+\begin{lem} Suppose that $\bS \lhd_J \PP \le \bA\times \bA$, and that there are subsets $C, D \subseteq \bA$ such that
+\begin{align*}
+C + \bS &= C,\\
+D - \bS &= D,
+\end{align*}
+and
+\[
+\PP \cap (C\times D) \ne \emptyset.
+\]
+Then $C \cap D \ne \emptyset$.
+\end{lem}
+\begin{proof} Pick any $(c,d) \in \RR \cap (C \times D)$. Since $C + \bS = C$ is equivalent to each vertex having in-degree at least $1$ in the digraph on $C$ with edge set $\bS \cap (C\times C)$, we can apply Proposition \ref{prop-directed-cycle} to see that there is some $c' \in C$ and some $k \ge 1$ such that $(c', c') \in \bS^{\circ k}$ and $(c', c) \in \bS^{\circ k}$. Similarly, there is some $d' \in D$ such that $(d,d'), (d',d') \in \bS^{\circ l}$ for some $l \ge 1$.
+
+Since $\bS \subseteq \PP$, we see that
+\[
+(c',d') \in \bS^{\circ k} \circ \PP \circ \bS^{\circ l} \subseteq \PP^{\circ (k + 1 + l)},
+\]
+so we can apply Corollay \ref{cor-absorbing-directed-path} to see that there is a directed path from $c'$ to $d'$ in $\bS$. Since $c' \in C$ and $C + \bS = C$, we see that in fact we must have $d' \in C$ as well, so $d' \in C \cap D$.
+\end{proof}
+
+\begin{thm}[Barto and Bul\'in \cite{deciding-absorption-relational}] Suppose that $\RR \le \bA^n$ is defined by the formula
+\[
+(x_1, ..., x_n) \in \RR \;\;\; \iff \;\;\; \exists y_0, ..., y_n \in \bA \text{ s.t. } \bigwedge_{i \in [n]} (y_{i-1}, x_i, y_i) \in \RR_i,
+\]
+for some collection of ternary relations $\RR_i \le \bA^3$. If $\bB \lhd_J \bA$ and
+\[
+n \ge 3^{|\bA|} - 2^{|\bA|+1} + 3,
+\]
+then $\RR$ is not $\bB$-essential.
+\end{thm}
+\begin{proof} Suppose for the sake of contradiction that $\RR$ is $\bB$-essential. For each $i \in [n]$, define binary relations $\bS_i \lhd_J \PP_i \le \bA \times \bA$ by
+\begin{align*}
+\PP_i &= \pi_{13}(\RR_i),\\
+\bS_i &= \pi_{13}\big(\RR_i \cap (\bA\times\bB\times\bA)\big).
+\end{align*}
+Since $\RR$ was assumed to be $\bB$-essential, for each $i \in [n]$ we have
+\[
+\bS_1 \circ \cdots \circ \bS_{i-1} \circ \PP_i \circ \bS_{i+1} \circ \cdots \circ \bS_n \ne \emptyset,
+\]
+but
+\[
+\bS_1 \circ \cdots \circ \bS_n = \emptyset.
+\]
+For each $0 \le i \le n$, if we define $\bC_i, \bD_i \le \bA$ by
+\begin{align*}
+\bC_i &= \bA + \bS_1 \circ \cdots \circ \bS_i,\\
+\bD_i &= \bA - \bS_{i+1} \circ \cdots \circ \bS_n,
+\end{align*}
+then the assumption that $\RR$ is $\bB$-essential implies that
+\[
+\bC_i \cap \bD_i = \emptyset
+\]
+for all $0 \le i \le n$, and that for any $0 \le i < j \le n$ we have
+\[
+(\bC_i\times \bD_j) \cap (\PP_{i+1} \circ \cdots \circ \PP_j) \ne \emptyset,
+\]
+so in particular $\bC_i, \bD_j \ne \emptyset$ for $i,j \in [n-1]$. Since the number of ordered pairs $(C,D)$ of disjoint, nonempty subsets of $\bA$ is given by
+\[
+\#\big\{(C,D) \mid \emptyset \ne C,D \subseteq \bA, C\cap D = \emptyset\big\} = 3^{|\bA|} - 2^{|\bA|+1} + 1,
+\]
+by the pigeonhole principle there must be some pair $i < j \in [n-1]$ such that $(\bC_i, \bD_i) = (\bC_j, \bD_j)$. Now we can apply the previous lemma to $\PP = \PP_{i+1}\circ\cdots\circ\PP_j$, $\bS = \bS_{i+1}\circ\cdots\circ\bS_j$ and $C = \bC_i = \bC_j$, $D = \bD_i = \bD_j$ to see that $\bC_i \cap \bD_i \ne \emptyset$, contradicting the assumption that $\RR$ was $\bB$-essential.
+\end{proof}
+
+The next step of the proof is to consider relations $\RR$ defined by ``tree formulas'' $\Phi$, i.e. formulas such that the bipartite graph between variables and relations imposed on those variables forms a tree. The goal is to show that if such an $\RR$ is $\bB$-essential, then we can define a relation $\RR'$ whose arity is not too small compared to the arity of $\RR$, such that $\RR'$ is defined by a comb formula $\Phi'$ and $\RR'$ is also $\bB$-essential. The main idea is to use the fact that if a tree has bounded degree and has many leaves, then it must contain a long path.
+
+\begin{thm}\label{thm-tree-to-comb} Suppose that the primitive positive formula $\Phi$ is a tree formula over relations $\RR_i \le \bA^{m_i}$, with all $m_i \le m$, which defines a $\bB$-essential relation $\RR$ of arity at least
+\[
+\max(m-1,2)^{n-3} + 2.
+\]
+Then there is a collection of ternary relations $\RR_i' \le \bA^3$, for $1 \le i \le n$, such that the relation $\RR'$ defined by the comb formula
+\[
+(x_1, ..., x_n) \in \RR' \;\;\; \iff \;\;\; \exists y_0, ..., y_n \in \bA \text{ s.t. } \bigwedge_{i \in [n]} (y_{i-1}, x_i, y_i) \in \RR_i'
+\]
+is also $\bB$-essential.
+\end{thm}
+\begin{proof} We may as well assume that $m \ge 3$. We can also make a series of simplifying assumptions about the structure of the tree formula $\Phi$.
+
+First, we may assume that every free variable of $\Phi$ is a leaf. To see this, note that if some free variable $x$ of $\Phi$ is not a leaf, then we can modify $\Phi$ by replacing it with the tree formula
+\[
+\exists x \text{ s.t. } \Phi \wedge x = x',
+\]
+where $x'$ is a new free variable. Furthermore, we may assume that every bound variable of $\Phi$ is \emph{not} a leaf (by replacing any relation involving a bound leaf variable with its existential projection onto the other variables), so that the free variables of $\Phi$ are exactly the leaves.
+
+Next we may assume that each bound variable has degree at most three in $\Phi$ (that is, that each variable is involved in at most three constraints). To do this, suppose that some bound variable $x$ is involved in four or more constraints, so that $\Phi$ has the form
+\[
+\Phi = \exists x \text{ s.t. } (x,...) \in \RR_1 \wedge \cdots \wedge (x, ...) \in \RR_k \wedge \Psi,
+\]
+with $k \ge 4$. Then we replace $\Phi$ with the equivalent tree formula
+\[
+\exists x, x' \text{ s.t. } x = x' \wedge (x,...) \in \RR_1 \wedge (x, ...) \in \RR_2 \wedge (x', ...) \in \RR_3 \wedge \cdots \wedge (x', ...) \in \RR_k \wedge \Psi,
+\]
+where $x$ now occurs in just three constraints, and $x'$ now occurs in $k-1$ constraints.
+
+In fact, as long as $m \ge 3$, we may even assume that every bound variable has degree exactly two in $\Phi$. For this, we introduce the ternary relation $\RR_=$ defined by
+\[
+(x,y,z) \in \RR_= \;\;\; \iff \;\;\; x = y = z \in \bA.
+\]
+Now if $\Phi$ has a bound variable $x$ of degree three, so that $\Phi$ has the form
+\[
+\Phi = \exists x \text{ s.t. } (x,...) \in \RR_1 \wedge (x, ...) \in \RR_2 \wedge (x, ...) \in \RR_3 \wedge \Psi,
+\]
+then we replace $\Phi$ with the equivalent tree formula
+\[
+\exists x,x',x'' \text{ s.t. } (x,x',x'') \in \RR_= \wedge (x,...) \in \RR_1 \wedge (x', ...) \in \RR_2 \wedge (x'', ...) \in \RR_3 \wedge \Psi,
+\]
+where $x, x', x''$ now each occur in just two constraints.
+
+Now that the simplifications are complete, let $E$ be the set of variables of $\Phi$ and let $V$ be the set of constraints of $\Phi$. Letting $F \subseteq E$ be the set of free variables of $\Phi$, we can interpret $(V \sqcup F, E)$ as a graph, where each bound variable $x \in E$ is interpreted as an edge connecting the two constraints it is involved in, and each free variable $y \in E$ is interpreted as an edge connecting the constraint it is involved in to the leaf $y$ considered as an element of $F$. Since $\Phi$ is a tree formula, the graph $(V\sqcup F, E)$ is also a tree, and the maximum degree of any vertex is bounded by $m$ by assumption.
+
+Now pick any $v_1 \in F$, and inductively define a non-backtracking path $v_1, v_2, ... \in V \sqcup F$ through the tree $(V\sqcup F, E)$ as follows:
+\begin{itemize}
+\item we pick $v_2 \in V$ to be the unique constraint involving the free variable $v_1$,
+
+\item if we have already picked $v_{i-1}, v_i$ and $v_i \in V$, then we pick $v_{i+1} \ne v_{i-1}$ among the neighbors of $v_i$ so that the number of free variables which are reachable from $v_{i+1}$ in the subgraph formed by deleting $v_i$ is maximized, and
+
+\item if $v_i \in F$ for $i > 1$, then we stop.
+\end{itemize}
+For each $i \ge 1$, let $F_i$ be the set of free variables which are reachable from $v_{i+1}$ in the subgraph formed by deleting $v_i$. By construction, we have $F_1 = F \setminus \{v_1\}$ and
+\[
+|F_i| > 1 \;\;\; \implies \;\;\; |F_i| \ge |F_{i+1}| \ge \Big\lceil\frac{|F_i|}{m-1}\Big\rceil.
+\]
+Setting $F_0 = F$, let $0 = i_1 < i_2 < \cdots < i_k$ be the collection of $i$s such that $F_i \ne F_{i+1}$. For each $i_j$, we pick some free variable $x_j \in F_{i_j}\setminus F_{i_j + 1}$, so that $x_1 = v_1$ and $x_k$ is the final free variable at the end of the path $v_1, v_2, ...$. Also, let $y_0 = y_1 = x_1$, $y_{k-1} = y_k = x_k$, and for $2 \le j \le k-2$ we let $y_j$ be the bound variable which connects the constraint $v_{i_j}$ to the constraint $v_{i_j+1}$.
+
+Now we define a pp-formula $\Phi'$ by starting from $\Phi$, imposing the unary constraint $z \in \bB$ for each unused free variable $z \in F \setminus \{x_1, x_2, ..., x_k\}$, and existentially quantifying all such $z$s, so that the remaining free variables are just $x_1, x_2, ..., x_k$ and the resulting constraint is still $\bB$-essential. Chopping the formula $\Phi'$ into pieces by removing the variables $x_1, ..., x_k$ and $y_2, ..., y_{k-2}$, we see that each piece has boundary equal to some triple $\{y_{j-1}, x_j, y_j\}$, and by existentially projecting the remaining variables in each piece we get an equivalent constraint
+\[
+(y_{j-1}, x_j, y_j) \in \RR_j' \le \bA^3,
+\]
+with $\RR_1' = \RR_k' = \RR_=$, so we see that $\Phi'$ is equivalent to the comb formula
+\[
+\exists y_0, ..., y_k \in \bA \text{ s.t. } \bigwedge_{i \in [k]} (y_{i-1}, x_i, y_i) \in \RR_i'.
+\]
+
+To finish the proof, we just need to check that $k \ge n$ (and we may as well assume that $n \ge 3$, since comb formulas are silly when $n \le 2$). For this, we note that by our assumption on the arity of the original $\bB$-essential relation $\RR$ we have
+\[
+|F_{i_2}| = |F_1| = |F_0| - 1 \ge \max(m-1,2)^{n-3} + 1 > \max(m-1,2)^{n-3},
+\]
+so inductively we have
+\[
+|F_{i_j}| > \max(m-1,2)^{n-j-1}
+\]
+for $2 \le j \le n-1$, so in particular
+\[
+|F_{i_{n-1}}| > 1,
+\]
+which shows that $k > n-1$.
+\end{proof}
+
+The last ingredient of the proof is to show that if some primitive positive formula $\Phi$ defines a $\bB$-essential relation of large arity, then we can repeatedly unravel cycles in $\Phi$ to produce a tree formula $\Phi'$ which defines a $\bB$-essential relation of the same arity. This is tricky in two different ways: first, we need to apply Theorem \ref{absorbing-diagonal} (a nontrivial application of J\'onsson absorption) in order to unravel a cycle, and second, it is not obvious that repeatedly unravelling cycles will eventually end up producing a tree formula. We start by showing how we will apply Theorem \ref{absorbing-diagonal}.
+
+\begin{lem}\label{lem-jonsson-unravelling} If $\bS \lhd_J \PP \le \bA \times \bA$, then we have
+\[
+\exists x \text{ s.t. } (x,x) \in \bS \;\;\; \iff \;\;\; \exists x_0, ..., x_{|\bD|} \in \bD \text{ s.t. } (x_0,x_1) \in \bS \wedge \cdots \wedge (x_{|\bD|-1}, x_{|\bD|}) \in \bS,
+\]
+where $\bD = \{x \mid (x,x) \in \PP\}$.
+\end{lem}
+\begin{proof} Left to right is clear: if $(x,x) \in \bS$, then $x \in \bD$ and we can take $x_0 = \cdots = x_{|\bD|} = x$.
+
+For the other direction, suppose that there are $x_0, ..., x_{|\bD|} \in \bD$ such that $(x_i, x_{i+1}) \in \bS$ for each $i$. By the pigeonhole principle, there must be some $i < j$ such that $x_i = x_j$, so the digraph $(\bD, \bS\cap \bD^2)$ contains a cycle of length $j-i$. Letting $\bC \le \bD$ be the subalgebra consisting of elements $x \in \bD$ which are contained in a cycle of length $j-i$ in this digraph, we see that $\bC$ is nonempty and that $\bS \cap \bC^2$ is subdirect in $\bC \times \bC$.
+
+Since $\bC \subseteq \bD$, we see that $\PP \cap \bC^2$ contains the diagonal $\Delta_\bC$, so $\bS \cap \bC^2$ is subdirect in $\bC \times \bC$ and J\'onsson absorbs the diagonal $\Delta_\bC$. Thus by Theorem \ref{absorbing-diagonal} there is some $x \in \bC$ such that $(x,x) \in \bS$.
+\end{proof}
+
+\begin{thm}[Barto, Bul\'in \cite{deciding-absorption-relational}, generalizing Zhuk \cite{near-unanimity-zhuk}] If $\bB \lhd_J \bA$, and if $\Phi$ is a primitive positive formula over relations $\RR_i \le \bA^{m_i}$ which defines a $\bB$-essential relation $\RR$, then there is a tree formula $\Phi'$ over the same relations $\RR_i$ together with some unary relations $\bD_j \le \bA$ which defines a $\bB$-essential relation $\RR'$ of the same arity as $\RR$.
+\end{thm}
+\begin{proof} Let $n$ be the arity of $\RR$. As in the proof of Theorem \ref{thm-tree-to-comb}, we may as well assume that each free variable of $\Phi$ occurs in just one constraint of $\Phi$. Furthermore, by splitting variables into copies and adding equality constraints between the copies, we may as well assume that $\Phi$ is defined by starting with a (quantifier-free) tree formula $\Psi$, adding a bunch of equality constraints between variables of $\Psi$, and then existentially quantifying, i.e.
+\[
+\Phi(x_1, ..., x_n) = \exists y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j
+\]
+for some $E \subseteq [k] \times [k]$.
+
+For any $(i_0,j_0) \in E$, we can unravel a cycle of $\Phi$ to produce the formula $\Phi_{(i_0,j_0)}$ with $n\cdot (|\bA|+1)$ free variables, which is defined by
+\begin{align*}
+\Phi_{(i_0,j_0)}(x_1^0, ..., x_n^{|\bA|}) = \exists y_1^0, ..., y_k^{|\bA|} \text{ s.t. } &\bigwedge_{0 \le l \le |\bA|} \Big(\Psi(x^l,y^l) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i^l = y_j^l\Big)\\
+&\wedge \bigwedge_{0 \le l < |\bA|} y_{i_0}^{l+1} = y_{j_0}^l \in \bD_{i_0},
+\end{align*}
+where
+\[
+\bD_{i_0} = \Big\{y_{i_0} \mid \exists x_1, ..., x_n, y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j\Big\}.
+\]
+
+{\bf Claim.} For any $(i_0, j_0) \in E$, the formula $\Phi_{(i_0,j_0)}$ defines a relation $\RR_{(i_0,j_0)} \le \big(\bA^{|\bA|+1}\big)^n$ which is $\bB^{|\bA|+1}$-essential.
+
+{\bf Proof of claim.} By the assumption that the original relation $\RR$ was $\bB$-essential, for each $i \le n$ there is some tuple $(x_1, ..., x_n) \in \RR$ such that $x_j \in \bB$ for all $j \ne i$. Thus there are $y_1, ..., y_k$ such that
+\[
+\Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j,
+\]
+and taking $x^l_j = x_j$ and $y^l_j = y_j$ for all $j$ shows that $\RR_{(i_0,j_0)}$ contains a tuple in $\big(\bB^{|\bA|+1}\big)^{i-1}\times\bA^{|\bA|+1}\times \big(\bB^{|\bA|+1}\big)^{n-i}$.
+
+To finish the proof of the claim, we just need to check that $\RR_{(i_0,j_0)}$ doesn't contain any tuple in $\big(\bB^{|\bA|+1}\big)^n$. Define binary relations $\bS \lhd_J \PP \le \bA\times \bA$ by
+\begin{align*}
+(y_{i_0},y_{j_0}) \in \PP \;\;\; &\iff \;\;\; \exists x_1, ..., x_n \in \bA, \exists y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i = y_j,\\
+(y_{i_0},y_{j_0}) \in \bS \;\;\; &\iff \;\;\; \exists x_1, ..., x_n \in \bB, \exists y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i = y_j.
+\end{align*}
+Then we have
+\[
+\bD_{i_0} = \{y_{i_0} \mid (y_{i_0}, y_{i_0}) \in \PP\},
+\]
+and $\RR_{(i_0,j_0)}$ contains a tuple in $\big(\bB^{|\bA|+1}\big)^n$ iff
+\[
+\exists y_{i_0}^0, ..., y_{i_0}^{|\bA|+1} \in \bD_{i_0} \text{ s.t. } \bigwedge_{0 \le l < |\bA|} (y_{i_0}^l, y_{i_0}^{l+1}) \in \bS.
+\]
+By Lemma \ref{lem-jonsson-unravelling}, this is equivalent to the existence of a loop $(y_{i_0}, y_{i_0}) \in \bS$, which is equivalent to $\RR$ containing a tuple from $\bB^n$ - which can't happen by our assumption that $\RR$ is $\bB$-essential.
+
+Now by Lemma \ref{essential-groups}, we can find $\bD_i^l \in \{\bA,\bB\}$ and a set $I \subseteq [n]\times[|\bA|+1]$ with $|I| = n$ and
+\[
+\big|I \cap \{i\} \times [|\bA|+1]\big| = 1
+\]
+for all $i$, such that
+\[
+\RR_{(i_0,j_0)}' = \pi_I\Big(\RR_{(i_0,j_0)} \cap \Big(\prod_{i,l} \bD_i^l\Big)\Big) \le \bA^n
+\]
+is $\bB$-essential. This corresponds to a formula $\Phi_{(i_0,j_0)}'$ which is derived from $\Phi_{(i_0,j_0)}$ by restricting some of the free variables to lie in $\bB$ and then existentially quantifying all free variables aside from those labeled by $I$.
+
+Now for the tricky part: we need to show that there is some way of choosing $(i_0,j_0) \in E$ to guarantee that the new formula $\Phi_{(i_0,j_0)}'$ is, in some sense, closer to being a tree formula than the original $\Phi$ was. We will need to use the fact that if there is some bound variable $y$ such that removing it splits $\Phi_{(i_0,j_0)}'$ into several components, one of which contains no free variables, then we can prune the component which contains no free variables and replace it with a unary constraint on $y$ without changing the relation $\RR_{(i_0,j_0)}'$.
+
+Let $G_\Phi$ be the bipartite graph of variables and constraints of the formula $\Phi$, with edges between variables and the constraints which involve them. A vertex of $G_\Phi$ is called a \emph{cut-vertex} if deleting it from $G_\Phi$ splits $G_\Phi$ into more than one connected component. An induced subgraph $\mathcal{C}$ of $G_\Phi$ is called a \emph{biconnected component} of $G_\Phi$ if it is maximal with respect to the property of $\mathcal{C}$ having no cut-vertices of its own. The following are standard results from graph theory:
+\begin{itemize}
+\item every cycle of $G_\Phi$ (with no repeated vertices) is contained in some biconnected component of $G_\Phi$,
+\item each edge of $G_\Phi$ belongs to exactly one biconnected component of $G_\Phi$,
+\item the vertices which appear in more than one biconnected component are exactly the cut-vertices of $G_\Phi$, and
+\item the bipartite graph of cut-vertices and biconnected components of $G_\Phi$ forms a tree.
+\end{itemize}
+
+Following Zhuk \cite{near-unanimity-zhuk}, we call a biconnected component of $G_\Phi$ ``trivial'' if it consists of just a single edge (between a variable and a constraint of $\Phi$), and we mainly focus on how large a given nontrivial biconnected component of $G_\Phi$ is, with a secondary focus on how close we are to being able to prune a given biconnected component. We can consider ourselves very close to pruning a biconnected component $\mathcal{C}$ if it contains a cut-vertex $y$ such that when we delete $y$, very many of the free variables of $\Phi$ are not reachable from $\mathcal{C}$. Thus we define
+\[
+\operatorname{MaxCut}(\mathcal{C}) \coloneqq \max_{y \in \mathcal{C}} \#\{\text{free variables of }\Phi\text{ which can't be reached from }\mathcal{C}\text{ without passing through }y\},
+\]
+and we pick a nontrivial biconnected component $\mathcal{C}_0$ with the following properties:
+\begin{itemize}
+\item the size $|\cC_0|$ should be maximal among biconnected components, and
+\item $\operatorname{MaxCut}(\cC_0)$ should be minimal among biconnected components $\cC$ satisfying $|\cC| = |\cC_0|$.
+\end{itemize}
+In other words, we pick the biconnected component which we are currently farthest from being able to prune, among the components which are as large as possible. Once we have picked such a component $\mathcal{C}_0$, we pick any of the extra equality constraints $y_i = y_j$, $(i,j) \in E$, which occurs within it and take $(i_0,j_0) = (i,j)$.
+
+To finish the proof, we just need to show that the number of nontrivial biconnected components $\cC'$ of $G_{\Phi_{(i_0,j_0)}'}$ with $|\cC'| = |\cC_0|$ and $\operatorname{MaxCut}(\cC') = \operatorname{MaxCut}(\cC_0)$ is decreased, and that no $\cC'$ has $|\cC'| > |\cC_0|$ or $|\cC'| = |\cC_0|$ and $\operatorname{MaxCut}(\cC') < \operatorname{MaxCut}(\cC_0)$. It's easy to see that if $\cC'$ involves any copy of any edge of $\cC_0$, then $|\cC'| < |\cC_0|$, since $\cC'$ can't contain any copy of the constraint relation $y_{i_0} = y_{j_0}$. Otherwise, $\cC'$ must be a copy of some biconnected component $\cC \ne \cC_0$ of $G_\Phi$, so at least we have $|\cC'| = |\cC| \le |\cC_0|$.
+
+We may assume that $\Phi$ has already been pruned in the following two ways:
+\begin{itemize}
+\item for any nontrivial biconnected component $\mathcal{C}$ of $G_\Phi$ with $\operatorname{MaxCut}(\cC) = n$, we can prune $\cC$ and replace it by a unary constraint on the cut-vertex separating $\cC$ from the free variables of $\Phi$, and
+\item for any pair of cut-vertices $y_i, y_j$ such that there are no free variables $x$ which can reach both of $y_i, y_j$ without passing through the other, we can prune any nontrivial biconnected components which can reach both of $y_i, y_j$ without passing through the other, replacing them with a path of binary constraints connecting $y_i$ to $y_j$.
+\end{itemize}
+The second form of pruning allows us to make the following statement about $\cC_0$: for any other nontrivial biconnected component $\cC \ne \cC_0$ with $|\cC| = |\cC_0|$, the cut-vertex $y$ which achieves the maximum in the definition of $\operatorname{MaxCut}(\cC)$ is the one which separates $\cC$ from $\cC_0$. To see this, let $y_0 \in \cC_0$ be the cut-vertex which separates $\cC_0$ from $\cC$, and note that if $y$ does not separate $\cC$ from $\cC_0$, then every free variable which is separated from $\cC$ by $y$ is also separated from $\cC_0$ by $y_0$, so the assumption $\operatorname{MaxCut}(\cC_0) \le \operatorname{MaxCut}(\cC)$ implies that we should have pruned $\cC$ and replaced it by a path of binary constraints from $y_0$ to $y$.
+
+Now consider any nontrivial biconnected component $\cC'$ of $G_{\Phi_{(i_0,j_0)}'}$ which is a copy of some nontrivial biconnected component $\cC \ne \cC_0$ of $G_\Phi$ with $|\cC| = |\cC_0|$. If $y \in \cC$ is the cut-vertex separating $\cC$ from $\cC_0$, and if $y' \in \cC'$ is the corresponding vertex of $G_{\Phi_{(i_0,j_0)}'}$, then $y'$ separates $\cC'$ from every one of the equality relations $y_{i_0}^{l+1} = y_{j_0}^l$, from every copy of any free variable $x$ which was separated from $\cC$ by $y$, and from every other copy of $\cC$ in $G_{\Phi_{(i_0,j_0)}'}$. Therefore we have
+\[
+\operatorname{MaxCut}(\cC') \ge \operatorname{MaxCut}(\cC),
+\]
+with equality iff every single free variable $x_i$ which is not separated from $\cC$ by $y$ has the corresponding free variable $x_i^l$ (with $(i,l) \in I$) of $\Phi_{(i_0,j_0)}'$ not separated from $\cC'$ by $y'$. In particular, there is at most one copy $\cC'$ of $\cC$ which satisfies $\operatorname{MaxCut}(\cC') = \operatorname{MaxCut}(\cC)$, and if such a copy exists then every other copy of $\cC$ is ready to be pruned from $\Phi_{(i_0,j_0)}'$.
+\end{proof}
+
+We can now put the pieces together to get the main result of this section. Note that although we have stated all of the results so far as if there was only a single J\'onsson absorbing subalgebra $\bB \lhd_J \bA$ of interest, they can all be straightforwardly generalized to the case where there are several J\'onssons absorbing subalgebras $\bB_i \lhd_J \bA_i \le \bA$, and where we are trying to put bounds on the potential arity of $(\bB_{i_1}, ..., \bB_{i_n})$-essential relations $\RR \le \bA_{i_1} \times \cdots \times \bA_{i_n} \le \bA^n$. Thus we can use Theorem \ref{absorption-essential-gen} to get the following slightly stronger result.
+
+\begin{thm}[Barto, Bul\'in \cite{deciding-absorption-relational}] If $\bA$ is finitely related, with $\Inv(\bA)$ generated by relations of arity at most $m$, then there is a term $t$ of arity at most
+\[
+\max(m-1,2)^{3^{|\bA|} - 2^{|\bA|+1}} + 2,
+\]
+such that for every J\'onsson absorption $\bB_i \lhd_J \bA_i \le \bA$, $\bB_i$ absorbs $\bA_i$ with respect to $t$.
+\end{thm}
+
+\begin{cor}\label{cor-finitely-related-near-unanimity} If $\bA$ is finitely related, then $\bA$ generates a congruence distributive variety iff $\bA$ has a near-unanimity term. In this case, if $\Inv(\bA)$ is generated by relations of arity at most $m$, then $\bA$ has a near-unanimity term of arity at most
+\[
+\max(m-1,2)^{3^{|\bA|} - 2^{|\bA|+1}} + 2.
+\]
+\end{cor}
+
+%TODO: examples demonstrating that the doubly exponential behavior is best-possible
 
 
 \section{Finding an arc-consistent absorbing subinstance}\label{s-absorbing-arc-consistent}
@@ -7435,7 +7745,7 @@ so $(b,b) \in \bS$, contradicting our assumption that $\bC' \lhd_Z \bA_{n+1}$.
 \[
 \pi_I(\RR) \cap \prod_{i \in I} \bC_i \ne \emptyset.
 \]
-The base case $|I| \le 2$ is our assumption. For $|I| \ge 3$, pick $i,j,k \in I$ distinct. By the induction hypothesis, there are tuples $x_i, x_i, x_k \in \RR$ such that $\pi_{I\setminus\{i\}}(x_i) \in \prod_{i' \in I \setminus\{i\}} \bC_{i'}$, and similarly for $x_j,x_k$.
+The base case $|I| \le 2$ is our assumption. For $|I| \ge 3$, pick $i,j,k \in I$ distinct. By the induction hypothesis, there are tuples $x_i, x_j, x_k \in \RR$ such that $\pi_{I\setminus\{i\}}(x_i) \in \prod_{i' \in I \setminus\{i\}} \bC_{i'}$, and similarly for $x_j,x_k$.
 
 Now consider the subalgebra of $\bA_i\times \bA_j \times \bA_k$ generated by $\pi_{i,j,k}(x_i), \pi_{i,j,k}(x_j), \pi_{i,j,k}(x_k)$. Since this subalgebra can't be a $(\bC_i,\bC_j,\bC_k)$-essential relation (since at least two of $\bC_i,\bC_j,\bC_k$ are centrally absorbing and the third is absorbing), it must contain an element of $\bC_i\times\bC_j\times\bC_k$. Thus there is some $x \in \Sg\{x_i,x_j,x_k\}$ such that
 \[
@@ -7494,7 +7804,7 @@ Putting these three results together, we see that central absorption is a good a
 \begin{prop} The absorption concept $\lhd_Z$, restricted to finite idempotent algebras, is compatible with pp-formulas, is transitively closed, and transfers connectivity.
 \end{prop}
 
-\begin{rem} Annoyingly, binary absorption fails to be transitively closed or compatible with pp-formulas (the intersection of two binary absorbing subalgebras might not be binary absorbing). However, if we restrict ourselves to finite idempotent algebras which are \emph{prepared}, that is, such that $(b,b) \in \Sg\{(a,b),(b,a)\}$ implies that $\{a,b\}$ is a semilattice subalgebra with absorbing element $b$, then binary absorption becomes compatible with pp-formulas and transitively closed (see Proposition \ref{prepared-bin-abs}).
+\begin{rem}\label{rem-bin-abs} Annoyingly, binary absorption fails to be transitively closed or compatible with pp-formulas (the intersection of two binary absorbing subalgebras might not be binary absorbing). However, if we restrict ourselves to finite idempotent algebras which are \emph{prepared}, that is, such that $(b,b) \in \Sg\{(a,b),(b,a)\}$ implies that $\{a,b\}$ is a semilattice subalgebra with absorbing element $b$, then binary absorption becomes compatible with pp-formulas and transitively closed (see Proposition \ref{prepared-bin-abs}).
 \end{rem}
 
 In some cases central absorption implies binary absorption. To describe a criterion for when this happens, we will exploit partial semilattice operations.
@@ -11173,12 +11483,22 @@ We can also limit the collection of affine algebras which may show up in $HSP(\b
 Next, note that if $p$ is prime and $\ZZ/p^{\aff} \in HSP(\bA)$, then $\bA$ can't have any cyclic term of arity $p$, since $\ZZ/p^{\aff}$ has an automorphism of order $p$ with no fixed points. Thus by Theorem \ref{cyclic-terms} there is no prime $p > |\bA|$ such that $\ZZ/p^{\aff} \in HSP(\bA)$.
 \end{proof}
 
-We will end this section by characterizing Zhuk's centrally absorbing subalgebras in the case of minimal Taylor algebras, and using them to naturally produce majority subquotients of minimal Taylor algebras.
+We will end this section by characterizing Zhuk's centrally absorbing subalgebras in the case of minimal Taylor algebras, and using them to naturally produce majority subquotients of minimal Taylor algebras. First, we need a quick detour to show that (up to term equivalence) we can put any minimal Taylor algebra into a minimal Taylor variety which also contains a majority algebra.
 
-\begin{thm}\label{thm-minimal-central} If $\bA$ is minimal Taylor, $\bC \le \bA$, and $\bM \in HSP(\bA)$ is the two element majority algebra on the domain $\{0,1\}$, then the following are equivalent:
+\begin{prop} If $\bA$, $\bB$ are minimal Taylor algebras, then there are minimal Taylor algebras $\bA', \bB'$ such that
+\begin{itemize}
+\item $\bA$ is term equivalent to $\bA'$ and $\bB$ is term equivalent to $\bB'$,
+\item $\bA'$ and $\bB'$ have the same signature, and
+\item $\bA' \times \bB'$ is minimal Taylor.
+\end{itemize}
+\end{prop}
+\begin{proof} We may assume without loss of generality that the basic operations of $\bA$ and $\bB$ are a sequence of daisy chain terms $w_i(x,y,z)$ by Corollary \ref{daisy-chain-terms}. In this case, $\bA$ and $\bB$ already have the same signature, and by the daisy chain identities we see that $\bA \times \bB$ is Taylor (alternatively, we can apply Lemma \ref{strictly-simple-hs} to see directly that if $\bA, \bB$ are idempotent Taylor algebras with the same signature, then $\bA \times \bB$ is also Taylor). Pick any minimal Taylor reduct $\bA' \times \bB'$ of $\bA \times \bB$ to complete the proof.
+\end{proof}
+
+\begin{thm}\label{thm-minimal-central} Suppose that $\bA$ is minimal Taylor, and that there is a majority algebra $\bM$ on the domain $\{0,1\}$ (with the same signature as $\bA$) such that $\bA \times \bM$ is minimal Taylor. For any $\bC \le \bA$, the following are equivalent:
 \begin{itemize}
 \item[(a)] $\bC$ is a ternary absorbing subalgebra of $\bA$,
-\item[(b)] for every prime $p > |\bA|$ there is a $p$-ary cyclic term $c$ of $\bA$ such that whenever $\#\{i \mid x_i \in \bC\} > \frac{p}{2}$, we have
+\item[(b)] for every prime $p > |\bA|$ there is a $p$-ary cyclic term $c$ of $\bA \times \bM$ such that whenever $\#\{i \mid x_i \in \bC\} > \frac{p}{2}$, we have
 \[
 c(x_1, ..., x_p) \in \bC,
 \]
@@ -11264,7 +11584,7 @@ In Bulatov's approach to the CSP dichotomy conjecture \cite{bulatov-dichotomy}, 
 We drop the modifier ``weak'' on an edge if $\theta$ is a maximal congruence on $\Sg\{a,b\}$, and for any $a', b' \in \Sg\{a,b\}$ such that $a' \equiv_\theta a$ and $b' \equiv_\theta b$, we have $\Sg\{a,b\} = \Sg\{a',b'\}$. Note that semilattice edges are directed, while majority and affine edges are undirected.
 \end{defn}
 
-Note that a semilattice edge might not be a subalgebra, and similarly the set $a/\theta \cup b/\theta$ might not be a subalgebra if $\{a,b\}$ is a majority edge. If $\bA$ is a \emph{minimal} Taylor algebra, however, then Theorem \ref{minimal-taylor-subalg} shows that $a/\theta \cup b/\theta$ is a subalgebra if $(a,b)$ is a weak majority edge, and similary for semilattice edges. In \cite{bulatov-dichotomy}, Bulatov calls an algebra \emph{sm-smooth} if this special case of Theorem \ref{minimal-taylor-subalg} applies to it.
+Note that a semilattice edge might not be a subalgebra, and similarly the set $a/\theta \cup b/\theta$ might not be a subalgebra if $\{a,b\}$ is a majority edge. If $\bA$ is a \emph{minimal} Taylor algebra, however, then Theorem \ref{minimal-taylor-subalg} shows that $a/\theta \cup b/\theta$ is a subalgebra if $(a,b)$ is a weak majority edge, and similarly for semilattice edges. In \cite{bulatov-dichotomy}, Bulatov calls an algebra \emph{sm-smooth} if this special case of Theorem \ref{minimal-taylor-subalg} applies to it.
 
 We could have also defined ``weak semilattice edges'' in a similar way to the way we defined weak majority edges, but this is unnecessary.
 
@@ -11418,7 +11738,7 @@ Suppose that $\bC \lhd_Z \bA$ is a proper centrally absorbing subalgebra of $\bA
 %TODO
 
 
-\section{Conservative Taylor algebras}
+\section{Conservative Taylor algebras}\label{s-conservative}
 
 Bulatov's colored graph was originally inspired by the study of conservative Taylor algebras. These algebras are easy to classify, and they are a great toy case for testing conjectures about general Taylor algebras.
 
@@ -11622,7 +11942,7 @@ t(x,y,z) \coloneqq g(x,g(x,y,z),g(x,g(x,y,z),g(x,z,y))),
 \]
 then $t$ is also Mal'cev and satisfies
 \[
-t(a,b,c) = a, t(b,a,c) = c, t(c,b,a) = c,
+t(a,b,c) = a, \;\; t(b,c,a) = c, \;\; t(c,a,b) = c,
 \]
 so if we define the ternary operation $w$ by
 \[
@@ -11771,7 +12091,7 @@ t(x,y,z) = g(s(g(x,y,z),x), s(g(x,y,z),y), s(g(x,y,z),z)).
 \]
 Then $t$ is also cyclic, and we will show that $\{a,b\}$ is closed under $t$, contradicting the assumption that $\bA$ is minimal Taylor. If $\bA/\theta$ is $\ZZ/2^{\aff}$, then we have
 \[
-t(a,a,b) = g(a,a,b) = b,
+t(a,a,b) = g(s(b,a), s(b,a), s(b,b)) = g(b,b,b) = b,
 \]
 and since $\{a,b\}$ is not closed under $g$ we have
 \[
@@ -11783,7 +12103,7 @@ t(a,b,b) = g(s(c,a), s(c,b), s(c,b)) = g(a, c, c) = a.
 \]
 If $\bA/\theta$ is a majority algebra, then we have
 \[
-t(a,b,b) = g(a,b,b) = b,
+t(a,b,b) = g(s(b,a), s(b,b), s(b,b)) = g(b,b,b) = b,
 \]
 and since $\{a,b\}$ is not closed under $g$ we have
 \[
@@ -11949,7 +12269,7 @@ Thus $\{a,b\}$ is closed under $t$, contradicting the assumption that $\bA$ is a
 \end{prop}
 \begin{proof} Let $\bS = \Sg_{\bA^2}\{(a,b),(b,a)\}$, and let $g$ be a ternary cyclic term of $\bA$, which exists by Theorem \ref{thm-minimal-no-cyclic}. By Proposition \ref{prop-minimal-prepared}, we have $(a,a),(b,b) \not\in \bS$. If $(c,c) \in \bS$, then we have
 \[
-\begin{bmatrix}a\\c\end{bmatrix} = g\left(\begin{bmatrix}a\\b\end{bmatrix},\begin{bmatrix}a\\b\end{bmatrix},\begin{bmatrix}c\\c\end{bmatrix}\right) \in \bS,
+\begin{bmatrix}a\\c\end{bmatrix} = g\left(\begin{bmatrix}a\\b\end{bmatrix},\begin{bmatrix}c\\c\end{bmatrix},\begin{bmatrix}c\\c\end{bmatrix}\right) \in \bS,
 \]
 and then that
 \[
@@ -11963,7 +12283,7 @@ which we just showed is impossible. Since $\pi_2(\bS) = \Sg_\bA\{a,b\} = \bA$, e
 
 Suppose first that $(b,c) \in \bS$. Then the linking congruence $\theta$ of $\bS$ corresponds to the partition $\{a,c\},\{b\}$ of $\bA$, and $\bA/\theta \cong \{b,c\}$ is a majority algebra. This implies that
 \[
-g(a,b,b) = g(b,b,c) = b, g(b,c,c) = c, g(a,c,c) = a.
+g(a,b,b) = g(b,b,c) = b, \; g(b,c,c) = c, \; g(a,c,c) = a.
 \]
 Since $\{a,b\}$ isn't closed under $g$, we must have
 \[
@@ -11985,7 +12305,7 @@ Thus $\{a,b\}$ is closed under $t$, contradicting the assumption that $\bA$ is a
 
 Now suppose that $(a,c) \in \bS$. Then the linking congruence $\theta$ of $\bS$ corresponds to the partition $\{a\},\{b,c\}$ of $\bA$, and $\bA/\theta \cong \{a,c\}$ is $\ZZ/2^{\aff}$. This implies that
 \[
-g(a,\{b,c\},\{b,c\}) = \{a\}, \;\; g(a,a,c) = c, g(b,b,c) = b, g(b,c,c) = c.
+g(a,\{b,c\},\{b,c\}) = \{a\}, \;\; g(a,a,c) = c, \; g(b,b,c) = b, \; g(b,c,c) = c.
 \]
 Since $\{a,b\}$ is not closed under $g$, we must have
 \[
@@ -12013,7 +12333,7 @@ Putting all of the pieces together, we have completed the classification of mini
 
 \section{The strands of an unlinked CSP instance, and a safe recursive strategy}
 
-Generally speaking, in order to guarantee a polynomial running time for solving CSPs we attempt to avoid recursion. There is a form of recursion which can be safely applied, however: we can recursively solve polynomially many subproblems as long as the size of \emph{every} variable's domain is strictly reduced in each subproblem. The resulting algorithms will then have the property that the exponent in the running time will depend on the size of the largest domain of any variable. This approach seems to have been introduced with the solutions to the CSP dichotomy conjecture for conservative algebras by Bulatov \cite{bulatov-conservative}, \cite{bulatov-conservative-rerevisited} and Barto \cite{barto-conservative-revisited}, as well as Mikl\'os Mar\'oti's ``Tree on top of Malcev'' algorithm \cite{tree-on-top-of-malcev} (which used this sort of recursive strategy in a \emph{very} different way from what we will consider in this section).
+Generally speaking, in order to guarantee a polynomial running time for solving CSPs we attempt to avoid recursion. There is a form of recursion which can be safely applied, however: we can recursively solve polynomially many subproblems as long as the size of \emph{every} variable's domain is strictly reduced in each subproblem. The resulting algorithms will then have the property that the exponent in the running time will depend on the size of the largest domain of any variable. This approach seems to have been introduced with the solutions to the CSP dichotomy conjecture for conservative algebras by Bulatov \cite{bulatov-conservative}, \cite{bulatov-conservative-rerevisited} and Barto \cite{barto-conservative-revisited}, as well as Mikl\'os Mar\'oti's ``Tree on top of Maltsev'' algorithm \cite{tree-on-top-of-malcev} (which used this sort of recursive strategy in a \emph{very} different way from what we will consider in this section).
 
 The challenge now is to find situations where we can usefully reduce to subproblems in which every single variable domain is reduced. The prototypical example of how this may occur is when a CSP instance is \emph{unlinked}.
 
@@ -12049,7 +12369,7 @@ Although this scheme is readily implemented, it is hard to algebraically control
 
 We write $(x,\bB) \preceq (y,\bC)$ if there is a path $p$ of any length from $x$ to $y$ such that $\bB + p = \bC$. The resulting quasiorder is the \emph{implication qoset}.
 
-Let $\mathcal{E}$ be a subdigraph of the implication digraph, and consider $\cE$ as a subqoset of the implication qoset by taking its transitive closure. A \emph{strand} of $\mathcal{E}$ is just an equivalence class of $\mathcal{E}$. Often we might take $\cE$ to be the subdigraph of pairs $(x,\bB)$ such that $\bB$ is a proper subalgebra of $\bA_x$ (or a proper absorbing subalgebra, etc.). We say that $\cS$ is a \emph{maximal} strand of $\mathcal{E}$ if it is a maximal equivalence class of the qoset $\cE$. If $\cE$ is not specified, then a strand can be any subset of any equivalence class of the implication qoset.
+Let $\mathcal{E}$ be a subdigraph of the implication digraph, and consider $\cE$ as a subqoset of the implication qoset by taking its transitive closure. A \emph{strand} of $\mathcal{E}$ is just an equivalence class of $\mathcal{E}$. Often we might take $\cE$ to be the subdigraph of pairs $(x,\bB)$ such that $\bB$ is a proper subalgebra of $\bA_x$ (or a proper absorbing subalgebra, etc.). We say that $\cS$ is a \emph{maximal} strand of $\mathcal{E}$ if it is a maximal equivalence class of the qoset $\cE$. If $\cE$ is not specified, then a strand can be any strongly connected subset of the implication digraph.
 
 A strand is called \emph{absorbing} if for all $(x,\bB) \in \cS$ we have $\bB \lhd \bA_x$. Note that as long as $\fX$ is arc-consistent, if this occurs for \emph{some} $(x,\bB) \in \cS$ then it occurs for \emph{all} $(x,\bB) \in \cS$.
 
@@ -12131,9 +12451,19 @@ For (d) $\implies$ (a), let $q$ be a path from $y$ to $x$ such that $\bC + q = \
 
 If $\cS$ is also a \emph{maximal} strand in the qoset of pairs $(x,\bB)$ such that $\bB < \bA_x$, then the partial restriction of $\fX$ to $\cS$ (which restricts the domains but not the set of variables) is also arc-consistent. If $\cS$ is additionally absorbing, then the partial restriction of $\fX$ to $\cS$ will even be a Prague instance.
 \end{prop}
-\begin{proof} The statement about the full restriction follows from the fact that for any tuple $r$ of any constraint relation $\RR \le_{sd} \bA_{x_1} \times \cdots \times \bA_{x_n}$, if $\pi_{x_i}(r) \in \bB_i$ and $(x_i,\bB_i) \in \cS$, then we necessarily have $\pi_{x_j}(r) \in \bB_j$ for any $(x_j, \bB_j) \in \cS$, by the definition of a Prague instance. For the statement about the partial restriction, suppose that some variable $x_i$ does not not occur in the strand $\cS$, and that the relation $\RR$ involves a variable $x_j$ with $(x_j, \bB_j) \in \cS$. Then by the maximality of $\cS$, we must have $\bB_j + \pi_{x_jx_i}(\RR) = \bA_{x_i}$, so for each $a \in \bA_{x_i}$, there is a tuple $r \in \RR$ with $\pi_{x_j}(r) \in \bB_j$, and then by the first part we have $\pi_{x_k}(r) \in \bB_k$ for each $(x_k, \bB_k) \in \cS$.
+\begin{proof} The statement about the full restriction follows from the fact that for any tuple $r$ of any constraint relation $\RR \le_{sd} \bA_{x_1} \times \cdots \times \bA_{x_n}$, if $\pi_{x_i}(r) \in \bB_i$ and $(x_i,\bB_i) \in \cS$, then we necessarily have $\pi_{x_j}(r) \in \bB_j$ for any $(x_j, \bB_j) \in \cS$, by the definition of a Prague instance.
 
-Now suppose that $\cS$ is absorbing. By the equivalence between parts (b) and (c) of Proposition \ref{prop-prague}, it's enough to show that for every cycle $p$ from $x$ to $x$ in $\fX$, if we let $p'$ be the corresponding path in the partially restricted instance, then for any $a,b \in \bB_x$ with $(x,\bB_x) \in \cS$ and $b \in \{a\}+p$, there is some $j \ge 1$ such that $b \in \{a\} + jp'$. For this, we let $\RR = \PP_p \le \bA_x\times \bA_x$ and $\bS = \PP_{p'} \le \bB_x \times \bB_x$, and we aim to apply Corollary \ref{cor-absorbing-directed-path}.
+For the statement about the partial restriction, suppose that some variable $x_i$ does not occur in the strand $\cS$, and that the relation $\RR$ involves a variable $x_j$ with $(x_j, \bB_j) \in \cS$. Then by the maximality of $\cS$, we must have $\bB_j + \pi_{x_jx_i}(\RR) = \bA_{x_i}$, so for each $a \in \bA_{x_i}$, there is a tuple $r \in \RR$ with $\pi_{x_i}(r) = a$ and $\pi_{x_j}(r) \in \bB_j$, and then by the first part we have $\pi_{x_k}(r) \in \bB_k$ for each $(x_k, \bB_k) \in \cS$.
+
+Now suppose that $\cS$ is absorbing. By the equivalence between parts (b) and (c) of Proposition \ref{prop-prague}, it's enough to show that for every cycle $p$ from $x$ to $x$ in $\fX$, if we let $p'$ be the corresponding path in the partially restricted instance, then for any $a,b \in \bB_x$ with $(x,\bB_x) \in \cS$ and
+\[
+b \in \{a\}+p,
+\]
+there is some $j \ge 1$ such that
+\[
+b \in \{a\} + jp'.
+\]
+For this, we let $\RR = \PP_p \le \bA_x\times \bA_x$ and $\bS = \PP_{p'} \le \bB_x \times \bB_x$, and we aim to apply Corollary \ref{cor-absorbing-directed-path}.
 
 Since $\cS$ is absorbing, we have $\bS \lhd \RR$. Since the restriction of $\fX$ to $\cS$ is arc-consistent, $\bS$ is subdirect in $\bB_x \times \bB_x$. Thus, there is some directed cycle $\mathcal{C}_a$ of $\bS$ which can be reached from $a$ in $\bS$, and there is some directed cycle $\mathcal{C}_b$ of $\bS$ with a directed path from $\mathcal{C}_b$ to $b$ in $\bS$. Since $\fX$ is a Prague instance and $\mathcal{C}_a, \mathcal{C}_b$ are contained in the same weakly connected component of $\RR$, there is some directed path from $\mathcal{C}_a$ to $\mathcal{C}_b$ in $\RR$ by Proposition \ref{prop-p2}. Now we can apply Corollary \ref{cor-absorbing-directed-path} to see that there is a directed path from $\mathcal{C}_a$ to $\mathcal{C}_b$ in $\bS$, so there is a directed path from $a$ to $b$ in $\bS$, and we are done.
 \end{proof}
@@ -12149,9 +12479,15 @@ In practice, the local consistency algorithm used to reduce general instances to
 
 \begin{prop} If $\fX$ is $(2,3)$-minimal, then $\fX$ is a Prague instance, and $\fX$ is cycle-consistent.
 \end{prop}
-\begin{proof} We leave cycle-consistency to the reader, and will prove that $\fX$ is a Prague instance. By the equivalence of (a) and (b) in Proposition \ref{prop-prague}, it's enough to show that for $(x,\bB) \preceq (y,\bC)$ and $p$ a $1$ step path from $x$ to $y$, we always have $\bB + p \subseteq \bC$. Let $q$ be the path from $x$ to $y$ with $\bB + q = \bC$, and suppose that the variables which occur along the path $q$ are $x = x_0, x_1, ..., x_n = y$, and let $q = q_1 + \cdots + q_n$ be the decomposition of $q$ into single step paths. For each $i$, let $\bB_i = \bB + q_1 + \cdots + q_i$, and let $p_i$ be a single step path from $x_i$ to $y$ (which exists by $(2,3)$-minimality of $\fX$).
+\begin{proof} We leave cycle-consistency to the reader, and will prove that $\fX$ is a Prague instance. By the equivalence of (a) and (b) in Proposition \ref{prop-prague}, it's enough to show that for $(x,\bB) \preceq (y,\bC)$ and $p$ a $1$ step path from $x$ to $y$, we always have $\bB + p \subseteq \bC$.
 
-We prove by induction on $i$ that $\bB + p \subseteq \bB_i + p_i$. For the inductive step, we need to show that $\bB_i + p_i \subseteq \bB_{i+1} + p_{i+1}$, that is, $\bB_i + p_i \subseteq \bB_i + q_{i+1} + p_{i+1}$. This follows from the fact that there is some constraint whose scope contains the three variables $x_i, x_{i+1}$, and $y$, together with the fact that the two-variable projections of this constraint onto pairs of variables from $\{x_i,x_{i+1},y\}$ agree with the binary relations $\PP_{p_i}, \PP_{q_{i+1}}, \PP_{p_{i+1}}$, by $(2,3)$-minimality.
+Let $q$ be the path from $x$ to $y$ with $\bB + q = \bC$, and suppose that the variables which occur along the path $q$ are $x = x_0, x_1, ..., x_n = y$, and let $q = q_1 + \cdots + q_n$ be the decomposition of $q$ into single step paths. For each $i$, let $\bB_i = \bB + q_1 + \cdots + q_i$, and let $p_i$ be a single step path from $x_i$ to $y$ (which exists by $(2,3)$-minimality of $\fX$).
+
+We prove by induction on $i$ that $\bB + p \subseteq \bB_i + p_i$. For the inductive step, we need to show that $\bB_i + p_i \subseteq \bB_{i+1} + p_{i+1}$, that is,
+\[
+\bB_i + p_i \subseteq \bB_i + q_{i+1} + p_{i+1}.
+\]
+This follows from the fact that there is some constraint whose scope contains the three variables $x_i, x_{i+1}$, and $y$, together with the fact that the two-variable projections of this constraint onto pairs of variables from $\{x_i,x_{i+1},y\}$ agree with the binary relations $\PP_{p_i}, \PP_{q_{i+1}}, \PP_{p_{i+1}}$, by $(2,3)$-minimality.
 \end{proof}
 
 The relationships between the various types of consistency introduced so far are summarized in the Hasse diagram below (to see that singleton arc-consistency is not implied by $(2,3)$-minimality, consider the four-variable instance of 1-IN-3 SAT where every group of three variables is required to satisfy the 1-IN-3 constraint).
@@ -12232,7 +12568,7 @@ The choice of absorption concept used in the Rectangularity Theorem is fairly ar
 We say that a subset $B \subseteq \bA$ is an \emph{as-component} of $\bA$ if $B$ is a maximal equivalence class of the quasiorder $\preceq_{as}$. We say that $\bA$ is \emph{strongly as-connected} if $\bA$ consists of a single equivalence class of the quasiorder $\preceq_{as}$.
 \end{defn}
 
-\begin{thm}[Rectangularity Theorem for conservative Taylor algebras, as-component version \cite{bulatov-conservative-rerevisited}] If $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$ is a subdirect product of conservative minimal Taylor algebras $\bA_i$, and if a system of as-components $\bB_i \subseteq \bA_i$ for each $i$ satisfies
+\begin{thm}[Rectangularity Theorem for conservative Taylor algebras, as-component version \cite{bulatov-conservative-rerevisited}]\label{thm-rectangularity-conservative-as} If $\RR \le_{sd} \bA_1 \times \cdots \times \bA_n$ is a subdirect product of conservative minimal Taylor algebras $\bA_i$, and if a system of as-components $\bB_i \subseteq \bA_i$ for each $i$ satisfies
 \[
 \RR \cap (\bB_1 \times \cdots \times \bB_n) \ne \emptyset,
 \]
@@ -12407,13 +12743,15 @@ which allows us to apply the previous lemma to finish the proof.
 %TODO: show that in context of minimal conservative Taylor, B absorbs A iff B Jonsson absorbs A iff B is closed under affine and semilattice edges, and under medians of three-element median subalgebras, try to develop theory of as-closed subalgebras analogously to theory of absorption
 
 
-\section{The algorithm for conservative CSPs}
+\section{The algorithm for conservative CSPs}\label{s-alg-conservative}
 
-In this section we present Barto's simple algorithm from \cite{barto-conservative-revisited}. Bulatov's algorithm from \cite{bulatov-conservative-rerevisited} is similar in spirit, but it relies on ideas from Mar\'oti's ``Tree on top of Malcev'' algorithm \cite{tree-on-top-of-malcev} which we haven't covered yet.
+In this section we present Barto's simple algorithm from \cite{barto-conservative-revisited}. Bulatov's algorithm from \cite{bulatov-conservative-rerevisited} is similar in spirit, but it relies on ideas from Mar\'oti's ``Tree on top of Maltsev'' algorithm \cite{tree-on-top-of-malcev} which we haven't covered yet.
 
 The main idea of Barto's algorithm for conservative CSPs is to try to reduce to the case where all edges of the colored graphs occuring in each of the variable domains $\bA_x$ are affine. In this case, any daisy chain term will be a Mal'cev term for each variable domain, and we can solve the problem by using the algorithm for CSPs with a Mal'cev polymorphism. In Bulatov's algorithm from \cite{bulatov-conservative-rerevisited}, the main idea is to reduce to the case where there are no semilattice edges instead, in which case any daisy chain term will be a ternary generalized majority-minority operation (that a ternary generalized majority-minority operation exists in this case also follows from Theorem \ref{thm-swap-gmm}).
 
-In order to accomplish this, we aim to show that if any semilattice or majority edge occurs in any variable domain of an instance $\fX$, then we can reduce some variable domain by solving an instance where every variable domain has been strictly decreased. We assume that our instance is $(2,3)$-minimal (or perhaps just that it is a Prague instance), and we consider the subdigraph $\cE$ of the implication digraph consisting of pairs $(x,\bB)$ such that that $\bB \le \bA_x$ is an algebra with at least one proper absorbing subalgebra. The digraph $\cE$ will be nonempty as long as any algebra $\bA_x$ has any non-affine edge. We pick any maximal strand $\cS$ of the digraph $\cE$, and we note that the full restriction (see Definition \ref{defn-full-restriction}) of our instance $\fX$ to the strand $\cS$ is then a Prague instance in which every single domain has a proper absorbing subalgebra by Proposition \ref{prop-prague-reduction}. We can then repeatedly apply Proposition \ref{prop-prague-reduction} (or, alternatively, we could apply Kozik's \cite{pq-consistency} result from Section \ref{s-absorbing-arc-consistent}, using the fact that every Prague instance is $pq$-consistent), to find an arc-consistent absorbing reduction $\fX'$ of the full restriction of $\fX$ to the strand $\cS$, such that every variable domain in $\fX'$ is absorption free - and as a consequence, such that each variable domain in $\fX'$ is a proper subagebra of the corresponding variable domain in the original instance $\fX$. We can then apply the following consequence of the Rectangularity Theorem \ref{thm-rectangularity-conservative-absorbing}.
+In order to accomplish this, we aim to show that if any semilattice or majority edge occurs in any variable domain of an instance $\fX$, then we can reduce some variable domain by solving an instance where every variable domain has been strictly decreased. We assume that our instance is $(2,3)$-minimal (or perhaps just that it is a Prague instance), and we consider the subdigraph $\cE$ of the implication digraph consisting of pairs $(x,\bB)$ such that that $\bB \le \bA_x$ is an algebra with at least one proper absorbing subalgebra. The digraph $\cE$ will be nonempty as long as any algebra $\bA_x$ has any non-affine edge.
+
+We pick any maximal strand $\cS$ of the digraph $\cE$, and we note that the full restriction (see Definition \ref{defn-full-restriction}) of our instance $\fX$ to the strand $\cS$ is then a Prague instance in which every single domain has a proper absorbing subalgebra by Proposition \ref{prop-prague-reduction}. We can then repeatedly apply Proposition \ref{prop-prague-reduction} (or, alternatively, we could apply Kozik's \cite{pq-consistency} result from Section \ref{s-absorbing-arc-consistent}, using the fact that every Prague instance is $pq$-consistent), to find an arc-consistent absorbing reduction $\fX'$ of the full restriction of $\fX$ to the strand $\cS$, such that every variable domain in $\fX'$ is absorption free - and as a consequence, such that each variable domain in $\fX'$ is a proper subagebra of the corresponding variable domain in the original instance $\fX$. We can then apply the following consequence of the Rectangularity Theorem \ref{thm-rectangularity-conservative-absorbing}.
 
 \begin{thm}[Barto \cite{barto-conservative-revisited}]\label{thm-rectangularity-application} Suppose that $\fX$ is a Prague instance such that each variable domain $\bA_x$ is a conservative Taylor algebra. Let $\cE$ be the subdigraph of the implication digraph which consists of pairs $(x,\bB)$ such that $\bB \le \bA_x$ and $\bB$ has a proper absorbing subalgebra, and let $\cS$ be any maximal strand of $\cE$.
 
@@ -12738,7 +13076,7 @@ b \in \bB_1 \cap \cdots \cap \bB_n,
 and $b / \prod_i \theta_i = \bar{b}$.
 \end{proof}
 
-Combining this with Algorithm \ref{alg-intersect} for intersecting compact reresentations of relations in algebras with few subpowers, we get the following result.
+Combining this with Algorithm \ref{alg-intersect} for intersecting compact representations of relations in algebras with few subpowers, we get the following result.
 
 \begin{prop} Suppose that we are given a $k$-edge term $e$ for the algebras $\bA_x/\theta_x$, along with a compact representation of an M-constraint
 \[
@@ -12779,7 +13117,7 @@ The idea is to think of our instance of $\CSP(\{\bA_i\})$ as a giant bundle of r
 \ForAll{constraint relations $\RR_i \le \bA_X$ and choices of $x \in X$}
 \ForAll{$a \in \bA_x$}
 \State Set $\bC_a \gets (\{a\} \times \bA_{X\setminus\{x\}}/\theta_{X\setminus\{x\}}) \cap \bB_x$. \Comment{$\bC_a$ is an M-unary M-constraint on $\{x\}$.}
-\State Compute a compact representation for $\bC_a$ by sending $a$ to the known compact representation of $\pi_{X\setminus\{x\}}(\bB_x)$, and sending every $a' \ne a$ to the empty set.
+\State Compute a compact representation for $\bC_a$ by sending $a$ to the known compact representation of $\pi_{X\setminus\{x\}}(a + \bB_x)$, and sending every $a' \ne a$ to the empty set.
 \State Set $\bD_{a} \gets (\RR_i \cap \bB_{X\setminus \{x\}} \cap \bC_a) / \theta_X$.
 \State Call the M-restriction oracle $\cO^\cM_{\RR_i}$ to compute a compact representation of $\bD_a$.
 \EndFor
@@ -12968,7 +13306,7 @@ where $\varphi_i$ are any previously constructed operations contained within thi
 
 Time to iron out all of the details. The careful reader might have noticed that I cheated above, by referring to the algebraic structure $t^a(\bA_x)$ without defining it - let's start by addressing that.
 
-\begin{defn}[Mar\'oti \cite{tree-on-top-of-malcev}] If $\bA = (A, \{f_i\})$ is an algebraic structure and $e : A \rightarrow A$ is any unary operation satisfying $e(e(a)) = e(a)$ for all $a \in A$, we define the \emph{retract} $e(\bA)$ of $\bA$ with respect to $e$ by
+\begin{defn}[Following Mar\'oti \cite{tree-on-top-of-malcev}] If $\bA = (A, \{f_i\})$ is an algebraic structure and $e : A \rightarrow A$ is any unary operation satisfying $e(e(a)) = e(a)$ for all $a \in A$, we define the \emph{retract} $e(\bA)$ of $\bA$ with respect to $e$ by
 \[
 e(\bA) \coloneqq (e(A), \{e \circ f_i\}),
 \]
@@ -13015,6 +13353,7 @@ where $t^r(\RR)$ is the retract of $\RR$ with respect to $t^r$.
 where $t_c$ is an abbreviation for the element $(t(a_1, c), ..., t(a_n, c))$ of $\prod_i t^{a_i}(\bA_x)$.
 \end{comment}
 \end{itemize}
+The reader should take a moment to check that the constraint relation $t^r(\RR)$ really is a subalgebra of $t^{a_1}(\bA_{x_1}) \times \cdots \times t^{a_m}(\bA_{x_m})$.
 \end{defn}
 
 \begin{prop}[Mar\'oti \cite{tree-on-top-of-malcev}]\label{prop-tree-on-top-unary-poly} If the instance $\fX$ of $\CSP(\{\bA_i\})$ has a solution given by $x \mapsto c_x \in \bA_x$, then for any binary term operation $t$ of $\{\bA_i\}$ the decomposition $t(\fX)$ has a solution given by the mapping
@@ -13063,7 +13402,7 @@ such that for each variable $x$ of $\fX$ we have
 \]
 \end{comment}
 \end{prop}
-\begin{proof} Recall that the relations of $\coprod_\fX \fA$ were indexed to constraint tuples $c = (x_1, ..., x_m) \in C_j \subseteq X_{i_1} \times \cdots \times X_{i_m}$ of $\fX$, and that if the corresponding constraint relation in $\fA$ is given by $R_j \subseteq A_{i_1} \times \cdots \times A_{i_m}$, then the relation of $\coprod_\fX \fA$ associated with $c$ was given by
+\begin{proof} Recall that the relations of $\coprod_\fX \fA$ were indexed by constraint tuples $c = (x_1, ..., x_m) \in C_j \subseteq X_{i_1} \times \cdots \times X_{i_m}$ of $\fX$, and that if the corresponding constraint relation in $\fA$ is given by $R_j \subseteq A_{i_1} \times \cdots \times A_{i_m}$, then the relation of $\coprod_\fX \fA$ associated with $c$ was given by
 \[
 R_c \subseteq A_{x_1} \times \cdots \times A_{x_m},
 \]
@@ -13103,7 +13442,7 @@ The bad case is the case where the decomposition $t(\fX)$ has solutions, but the
 \[
 \varphi^{A_x}(a) = t(a, c_x),
 \]
-so this implies that for each variable $x_*$, and for each solution $x \mapsto c_x \in \bA_x$ of the original instance $\fX$, the map $a \mapsto t(a, c_x)$ is a permutation. But this means that we can replace \emph{every single variable domain} $\bA_x$ by the subalgebra $\bC_x$ which is generated by the collection of elements $c \in \bA_x$ such that the map $a \mapsto t(a, c)$ is a permutation, without losing any solutions to the instance $\fX$ - and if we have $\bC_x \ne \bA_x$ for any $x$, then we have once again made progress towards solving $\fX$.
+so this implies that for each variable $x_*$, and for each solution $x \mapsto c_x \in \bA_x$ of the original instance $\fX$, the map $a \mapsto t(a, c_{x_*})$ is a permutation. But this means that we can replace \emph{every single variable domain} $\bA_x$ by the subalgebra $\bC_x$ which is generated by the collection of elements $c \in \bA_x$ such that the map $a \mapsto t(a, c)$ is a permutation, without losing any solutions to the instance $\fX$ - and if we have $\bC_x \ne \bA_x$ for any $x$, then we have once again made progress towards solving $\fX$.
 
 We have proved Mar\'oti's main result.
 
@@ -13158,10 +13497,53 @@ by idempotence, so $s_c : x \mapsto s(x,c)$ can't be a permutation for any $c \n
 
 On the other hand, if we have a prepared algebra $\bA$ (as in Definition \ref{defn-prepared}) with a partial semilattice term $s$ which has a neutral element $a$ on $\bA$, then every binary term operation $t$ of $\bA$ which depends on both of its arguments will have $t(a,x) = x$ for all $x \in \bA$. So the previous result is essentially the best result of its kind when it comes to algebras with semilattices as quotients.
 
-\begin{ex} The simplest algebra which the techniques we have introduced so far still can't handle is the 4-element algebra $\bA = (\{0,1,2,*\}, \cdot)$, where $\cdot$ is the commutative binary operation given by
+\begin{ex} The simplest algebra which the results we have proved so far still can't handle is the 4-element algebra $\bA = (\{0,1,2,*\}, \cdot)$, where $\cdot$ is the commutative binary operation given by
 \begin{center}
 \begin{tabular}{c|cccc} $\cdot$ & $0$ & $1$ & $2$ & $*$\\ \hline $0$ & $0$ & $2$ & $1$ & $0$\\ $1$ & $2$ & $1$ & $0$ & $1$\\ $2$ & $1$ & $0$ & $2$ & $2$\\ $*$ & $0$ & $1$ & $2$ & $*$\end{tabular},
 \end{center}
 which has $*$ as a neutral element. It's a good exercise to find an algorithm which solves $\CSP(\bA)$ in polynomial time.
+\end{ex}
+
+We mentioned at the beginning of Section \ref{s-alg-conservative} that Bulatov's algorithm for conservative CSPs from \cite{bulatov-conservative-rerevisited} was based on Mar\'oti's reduction. We can now go over the main ideas of this algorithm.
+
+\begin{prop} If $\bA$ is an algebra and a unary operation $e : A \rightarrow A$ with $e \circ e = e$ has $e(A)$ closed under the basic operations of $\bA$, then $e(\bA)$ is the subalgebra of $\bA$ with underlying set $e(A)$. In particular, if $\bA$ is a conservative algebra, then every retract of $\bA$ is a subalgebra of $\bA$.
+\end{prop}
+\begin{proof} Let $f$ be a $k$-ary basic operation of $\bA$. Then for any $a_1, ..., a_k \in e(A)$, we have
+\[
+f(a_1, ..., a_k) = e(b)
+\]
+for some $b \in A$ by the assumption that $e(A)$ is closed under $f$, so
+\[
+e\circ f(a_1, ..., a_k) = e(e(b)) = e(b) = f(a_1, ..., a_k).
+\]
+Thus we have $f^{e(\bA)} = f|_{e(\bA)}$ for each basic operation $f$ of $\bA$, so $e(\bA)$ is exactly the subalgebra of $\bA$ with underlying set $e(A)$.
+\end{proof}
+
+\begin{prop}[Bulatov \cite{bulatov-conservative-rerevisited}] If $\bA$ is a finite conservative algebra with a partial semilattice term operation $s$ such that $s$ has no neutral element on $\bA$ and such that there is at least one pair of elements $a \ne b \in \bA$ with $s(a,b) = b$, then $\bA$ can be eliminated.
+\end{prop}
+\begin{proof} By the definition of a partial semilattice, $s$ satisfies the identity $s(x,s(x,y)) \approx s(x,y)$. Since $s$ has no neutral element by assumption, we just need to check that $\bA$ is not generated by the collection of elements $c \in \bA$ such that $s_c : x \mapsto s(x,c)$ is a permutation. For the pair $a \ne b$ with $s(a,b) = b$ we have
+\[
+s_b(a) = s_b(b) = b,
+\]
+so $s_b$ is not a permutation, and since $\bA$ is conservative $\bA \setminus \{b\}$ is a proper subalgebra of $\bA$.
+\end{proof}
+
+Recall that by Theorem \ref{thm-swap-gmm}, any conservative algebra with no semilattice edges has a ternary generalized majority-minority operation, and can therefore be solved by the few subpowers algorithm. It's easy to check that any finite collection of conservative algebras with no semilattice edges also has a ternary operation whose restriction to each conservative algebra is gmm - and that such an operation can be algorithmically constructed in polynomial time - so if we could eliminate every conservative algebra which had a semilattice edge then we could simply apply the few subpowers algorithm to finish. The only difficulty we face is the case where some of our variable domains have neutral elements.
+
+Note that if $\bA$ is conservative and $s$ is a partial semilattice term operation with a neutral element $a$ on $\bA$, then we have
+\[
+\bA\setminus\{a\} \lhd_{bin} \bA,
+\]
+with $s$ witnessing the binary absorption. But then we are in position to apply Theorem \ref{thm-rectangularity-application}, with $\cS$ taken to be the collection of all \emph{full} variable domains which have a proper absorbing subalgebra! Thus we can make progress in this case as well.
+%We may as well assume that each variable domain $\bA$ is minimal Taylor, since Section \ref{s-conservative} gives us an efficient algorithmic procedure to find a minimal Taylor reduct of any family of conservative Taylor algebras sharing a common signature. In this case, the strategy is to apply one of the Rectangularity Theorems \ref{thm-rectangularity-conservative-absorbing}, \ref{thm-rectangularity-conservative-as} to show that we can make progress as long as any variable domain has a proper absorbing subalgebra or $as$-component.
+
+\begin{ex} Here is a 4-element example which can't be handled by the results proved so far, but which \emph{doesn't} have a neutral element. Of course, it will neither be conservative nor have a semilattice quotient. We take $\bA = (\{a,b,c,*\}, g)$, where $g$ is the ternary operation which is determined by the following properties:
+\begin{itemize}
+\item $g$ is a symmetric function of its variables,
+\item $*$ is a strongly absorbing element for $g$, i.e. $g(*, \bA, \bA) = \{*\}$,
+\item each of the sets $\{a,b\}, \{a,c\}, \{b,c\}$ forms a two-element $\ZZ/2^{\aff}$ subalgebra of $\bA$, with $g$ acting as the minority operation on each of these pairs, and
+\item $g(a,b,c) = *$.
+\end{itemize}
+Note that $\bA$ is $2$-conservative (i.e., every two-element subset of $\bA$ is closed under $g$), and it is not too hard to check that $\bA$ is also minimal Taylor. The reader should be able to find a polynomial time algorithm which solves $\CSP(\bA)$ without much difficulty.
 \end{ex}
 
