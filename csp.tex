@@ -189,7 +189,7 @@ After demonstrating the generality of the framework, Jeavons \cite{jeavons} rest
 \begin{defn} Two relational structures $\mathbf{A}, \mathbf{B}$ with the same signature are \emph{homomorphically equivalent} if there exist homomorphisms $\mathbf{A} \rightarrow \mathbf{B}, \mathbf{B} \rightarrow \mathbf{A}$.
 \end{defn}
 
-The homomorphism point of view now makes it obvious that if $\mathbf{A}$ and $\mathbf{B}$ are homomorphically equivalent, then $\CSP(\mathbf{A})$ and $\CSP(\mathbf{B})$ are equivalent problems - that is, a ``yes'' instance of one will always be a ``yes'' instance of the other. For instance, every bipartite graph $H$ having at least one edge is homomorphically equivalent to the complete graph $K_2$ on two vertices, so if $H$ is bipartite then the $H$-coloring problem is trivial.
+The homomorphism point of view now makes it obvious that if $\mathbf{A}$ and $\mathbf{B}$ are homomorphically equivalent, then $\CSP(\mathbf{A})$ and $\CSP(\mathbf{B})$ are equivalent problems - that is, a ``yes'' instance of one will always be a ``yes'' instance of the other. For instance, every bipartite graph $H$ having at least one edge is homomorphically equivalent to the complete graph $K_2$ on two vertices, so if $H$ is bipartite then the $H$-coloring problem is equivalent to the $K_2$-coloring problem.
 
 Jeavons \cite{jeavons} points out that for a given CSP template, one can introduce new relations without changing the complexity of the CSP so long as these new relations are built out of the old relations in certain ways. Specifically, Jeavons shows that up to logspace reductions, we may as well assume that the collection of relations $\Gamma$ contains the equality relation, and is closed under the following four operations:
 \begin{itemize}
@@ -203,7 +203,7 @@ Jeavons \cite{jeavons} points out that for a given CSP template, one can introdu
 \end{itemize}
 Note that any new relation which can be built out of these four operations can be viewed as the solution set to some instance of $\CSP(\Gamma)$, projected onto some subset of the variables. We can also think of the new relation as being defined by a \emph{primitive positive formula}, that is, a formula built out of the existential quantifier $\exists$, the relations $R_i$ of $\Gamma$ (and equality), and conjunctions $\wedge$, but which does not involve negation, disjunction, implication, or universal quantification (such a formula is called a \emph{conjunctive query} in database theory).
 
-\begin{ex} The template we gave for HORN-SAT did not contain all possible Horn clauses - it stopped at the $3$-ary Horn clause $x\wedge y \implies z$. The $4$-ary Horn clause $x \wedge y \wedge z \implies w$ can be represented by the following primitive positive formula:
+\begin{ex} The template we gave for HORN-SAT did not contain all possible Horn clauses - it stopped at the $3$-ary Horn clause $x\wedge y \implies z$. The $4$-ary Horn clause $x \wedge y \wedge z \implies w$ can be represented by the following primitive positive formula over HORN-SAT:
 \[
 \exists u\ (x \wedge y \implies u) \wedge (u \wedge z \implies w).
 \]
@@ -402,16 +402,16 @@ Otherwise, $\CSP(\fA)$ is NP-complete.
 
 The most recent development in the study of CSPs is the study of promise problems. Promise problems are similar in spirit to approximation algorithms, but much more amenable to an algebraic approach. A promise problem is defined here to be a pair of problems, one more restrictive than the other, where the goal is to give an algorithm which correctly says ``yes'' if the less restrictive problem has a solution and says ``no'' if the more restrictive problem has no solution (if neither case holds, any output is allowable).
 
-\begin{defn} If $\mathbf{A}, \mathbf{B}$ are relational structures such that a homomorphism $\mathbf{A} \rightarrow \mathbf{B}$ exists, then $\operatorname{PCSP}(\mathbf{A},\mathbf{B})$ is the following problem. The input is a relational structure $\mathbf{C}$ s.t. there exists a homomorphism $\mathbf{C} \rightarrow \mathbf{A}$ (the promise), although this map is not revealed to us. The desired output is a homomorphism from $\mathbf{C}$ to $\mathbf{B}$.
+\begin{defn} If $\mathbf{A}, \mathbf{B}$ are relational structures such that a homomorphism $\mathbf{A} \rightarrow \mathbf{B}$ exists, then $\operatorname{PCSP}(\mathbf{A},\mathbf{B})$ is the following problem. The input is a relational structure $\mathbf{X}$ such that there exists a homomorphism $\mathbf{X} \rightarrow \mathbf{A}$ (the promise), although this map is not revealed to us. The desired output is a homomorphism from $\mathbf{X}$ to $\mathbf{B}$.
 \end{defn}
 
-A typical strategy for proving tractability of $\operatorname{PCSP}(\mathbf{A},\mathbf{B})$ is to find a relational structure $\mathbf{X}$ such that there exist homomorphisms $\mathbf{A} \rightarrow \mathbf{X} \rightarrow \mathbf{B}$ and such that $\CSP(\mathbf{X})$ is in P.
+A typical strategy for proving tractability of $\operatorname{PCSP}(\mathbf{A},\mathbf{B})$ is to find a relational structure $\mathbf{C}$ such that there exist homomorphisms $\mathbf{A} \rightarrow \mathbf{C} \rightarrow \mathbf{B}$ and such that $\CSP(\mathbf{C})$ is in P.
 
-\begin{ex} Let $\mathbf{A}$ be 1-IN-3 SAT and let $\mathbf{B}$ be NAE-SAT (where the 1-IN-3 relation and the NAE relation have the same name in the signature). The identity map on the domain gives a homomorphism $\mathbf{A} \rightarrow \mathbf{B}$ since the 1-IN-3 relation is contained in the NAE relation. Although both problems are NP-complete, the PCSP associated to the pair is tractable: let $\mathbf{X} = (\mathbb{Z}, x+y+z=1)$, note that the inclusion map $\mathbf{A} \rightarrow \mathbf{X}$ is a homomorphism, and that the map $\operatorname{sgn}: \mathbb{Z} \rightarrow \{0,1\}$ given by
+\begin{ex} Let $\mathbf{A}$ be 1-IN-3 SAT and let $\mathbf{B}$ be NAE-SAT (where the 1-IN-3 relation and the NAE relation have the same name in the signature). The identity map on the domain gives a homomorphism $\mathbf{A} \rightarrow \mathbf{B}$ since the 1-IN-3 relation is contained in the NAE relation. Although both problems are NP-complete, the PCSP associated to the pair is tractable: let $\mathbf{C} = (\mathbb{Z}, x+y+z=1)$, note that the inclusion map $\mathbf{A} \rightarrow \mathbf{C}$ is a homomorphism, and that the map $\operatorname{sgn}: \mathbb{Z} \rightarrow \{0,1\}$ given by
 \[
 \operatorname{sgn}(x) = \begin{cases} 0 & x \le 0\\ 1 & x \ge 1\end{cases}
 \]
-defines a homomorphism $\mathbf{X} \rightarrow \mathbf{B}$. The CSP associated to $\mathbf{X}$ is tractable (even though it is defined over an infinite domain), since it boils down to solving a system of linear equations over the integers. It is not possible to find a \emph{finite} relational structure $\mathbf{X}$ with polynomial time CSP that fits between 1-IN-3 SAT and NAE-SAT (see \cite{pcsp-coloring-full} for a proof).
+defines a homomorphism $\mathbf{C} \rightarrow \mathbf{B}$. The CSP associated to $\mathbf{C}$ is tractable (even though it is defined over an infinite domain), since it boils down to solving a (sparse) system of linear equations over the integers. It is not possible to find a \emph{finite} relational structure $\mathbf{C}$ with polynomial time CSP that fits between 1-IN-3 SAT and NAE-SAT (see \cite{pcsp-coloring-full} for a proof).
 \end{ex}
 
 The relevant algebraic object in this context is $\Pol(\mathbf{A},\mathbf{B})$, the set of homomorphisms $\mathbf{A}^k \rightarrow \mathbf{B}$. At first this structure doesn't seem algebraic at all, since there is no way to compose elements of $\Pol(\mathbf{A},\mathbf{B})$. However, one can still write down ``minor identities'' between the functions in $\Pol(\mathbf{A},\mathbf{B})$ such as $f(x,x,y) = g(y,x)$, and compare the set of minor identities obtained to the identities that occur in polymorphism algebras of tractable CSPs. This approach of studying minor identities has been surprisingly useful, and has led to the proposal to call sets of functions such as $\Pol(\mathbf{A},\mathbf{B})$ ``minions'' (a competing proposed name is ``clonoid'').
@@ -596,7 +596,7 @@ where the right hand side is interpreted as an abstract term. The term algebra i
 \[
 s \approx t.
 \]
-The identity $s\approx t$ has \emph{height 1} if both terms $s$ and $t$ have height 1, and the identity $s \approx t$ is called \emph{linear} if both $s$ and $t$ have height at most 1.
+The identity $s\approx t$ has \emph{height 1} if both terms $s$ and $t$ have height 1, and the identity $s \approx t$ is called \emph{linear} if both $s$ and $t$ have height at most 1. Height 1 identities are also called \emph{minor identities}.
 
 An algebraic structure \emph{satisfies} the identity $s \approx t$, written $\bA \models s \approx t$, if
 \[
@@ -610,7 +610,11 @@ where $x_1, ..., x_k$ is a list of all of the variables which occur in $s$ or $t
 If $\{\bA_i\}$ is a collection of algebraic structures in the signature $\sigma$, then the \emph{variety generated by} $\{\bA_i\}$, written $\cV(\{\bA_i\})$, is the variety $\cV(\cT)$ where $\cT$ is the collection of all identities $s \approx t$ which are satisfied in every single $\bA_i$.
 \end{defn}
 
-\begin{defn} If $\cV = \cV(\cT)$ is a variety with signature $\sigma$ and defining identities $\cT$, then we define the congruence $\approx_\cV$ on the absolutely free algebra $\cF_\sigma(\{x_j\})$ to be the congruence generated by the set of pairs of terms $(s \circ (u_1, ..., u_k), t \circ (u_1, ..., u_k))$ such that $s \approx t \in \cT$, where $u_1, ..., u_k$ is an arbitrary list of terms which we use to replace the variables $x_1, ..., x_k$ which occur in $s$ and $t$. The algebraic structure
+\begin{defn} If $\cV = \cV(\cT)$ is a variety with signature $\sigma$ and defining identities $\cT$, then we define the congruence $\approx_\cV$ on the absolutely free algebra $\cF_\sigma(\{x_j\})$ to be the congruence generated by the set of pairs of terms
+\[
+(s \circ (u_1, ..., u_k), t \circ (u_1, ..., u_k))
+\]
+such that $s \approx t \in \cT$, where $u_1, ..., u_k$ is an arbitrary list of terms which we use to replace the variables $x_1, ..., x_k$ which occur in $s$ and $t$. The algebraic structure
 \[
 \cF_\sigma(\{x_j\}) /\!\! \approx_\cV
 \]
@@ -624,7 +628,7 @@ is adjoint to the forgetful functor from algebras in $\cV$ to their underlying s
 \]
 when $\bA \in \cV$ is an algebraic structure with underlying set $A$.
 
-We define a \emph{term operation} of a variety $\cV$ to be an equivalence class $t/\!\!\approx_{\cV}$ together with a set of variables containing all variables which occur in $t$. If $\bA$ is an algebraic structure, then we define the \emph{term operations} of $\bA$ to be the collection of interpretations $t^\bA$ of terms $t$ as operations on $\bA$ - these are easily seen to correspond with the term operations of the variety $\cV(\bA)$ generated by $\bA$.
+We define a \emph{term operation} of a variety $\cV$ to be an equivalence class $t/\!\!\approx_{\cV}$ together with an ordered sequence of variables containing all variables which occur in $t$. If $\bA$ is an algebraic structure, then we define the \emph{term operations} of $\bA$ to be the collection of interpretations $t^\bA$ of terms $t$ as operations on $\bA$ - these are easily seen to correspond with the term operations of the variety $\cV(\bA)$ generated by $\bA$.
 
 Viewing each $k$-ary term operation $t^\bA : \bA^k \rightarrow \bA$ as an element of $\bA^{\bA^k}$, we get an alternative construction of the free algebra $\cF_{\cV(\bA)}(x_1, ..., x_k)$:
 \begin{align*}
@@ -692,6 +696,314 @@ as well as the algebraic identities above. Note that the operations $\wedge, \ve
 
 A \emph{lattice homomorphism} is a homomorphism of the algebraic structure $(L, \wedge, \vee)$. Note that there may be some homomorphisms of the relational structure $(L, \le)$ which do not count as lattice homomorphisms - a map which respects the partial order $\le$ is just called a \emph{monotone} map.
 \end{defn}
+
+
+\section{Crash course on NP-completeness}
+
+The class of problems NP can be viewed as a formalization of the intuitive concept of a puzzle. Informally, a problem is a \emph{puzzle} if it is easy to tell whether a guessed solution actually solves it or not. We formalize this by requiring that there is a mechanical, algorithmic procedure which takes as input a purported solution to the puzzle, and efficiently (i.e. in polynomial time) tells us whether or not the input counts as an actual solution. Before getting too deep into the formalization, let's go through a few examples of problems in NP.
+
+\begin{ex} The \emph{subset sum problem}: given a set $U$ of integers (expressed in binary) and a target sum $t$ (also expressed in binary), determine whether or not there is a subset $S$ of $U$ whose elements sum to exactly $t$. To see that this is in NP, note that if you want to convince me that the answer is Yes you can simply tell me what the set $S$ is, and then I can easily check that $S$ is a subset of $U$ and that the sum of the elements of $S$ is $t$.
+\end{ex}
+
+\begin{ex} The \emph{graph isomorphism problem}: given two graphs $\fG_1, \fG_2$, determine whether or not they are isomorphic. To see that this is in NP, note that if you want to convince me that the answer is Yes you can simply tell me what the isomorphism $f : \fG_1 \rightarrow \fG_2$ is, and then I can easily verify that $f$ is indeed an isomorphism.
+\end{ex}
+
+\begin{ex} The \emph{boolean satisfiability problem}: given a formula of propositional logic, determine whether or not it is possible to assign True/False values to the propositional variables to make the formula evaluate to True. To see that this is in NP, note that if you want to convince me that the answer is Yes you can simply tell me an assignment of True/False values to the propositional variables, and then I can easily evaluate the formula and check that the result is True.
+\end{ex}
+
+\begin{ex} An example of a problem not believed to be in NP is determining whether or not a given player has a winning strategy in a complex board game such as Chess or Go (generalized to have an arbitrarily large board). The reason for this is that there is no obvious way for you to compactly express a winning strategy into something I could understand in a reasonable amount of time, and even if you somehow did have a compact way to describe your winning strategy, there is still no obvious way for me to efficiently test that the other player can't find a clever way to defeat it.
+\end{ex}
+
+For the sake of formalizing the concept of an efficient, mechanical, and algorithmic procedure, first note that for most purposes we can ignore the internals of a computational machine $M$ and just think about the function $f_M$ implemented by it, which takes a problem description as input and produces an answer as output:
+\[
+f_M : \text{Questions} \rightarrow \{\text{Yes}, \text{No}\}.
+\]
+Of course, not every function $f$ corresponds to a physical machine $M$ which can be built and which runs efficiently. The set of functions (with Yes/No outputs) which can be implemented by \emph{Turing machines} which finish their computation after a number of steps which is at most polynomial in the number of bits needed to describe the input is called ``P'' (an abbreviation for \emph{polynomial time}). Formally, a Turing machine can be defined as follows (although the details won't be particularly important to us).
+
+\begin{defn}[Turing \cite{turing-computable}] A (vanilla) \emph{Turing machine} consists of the following:
+\begin{itemize}
+\item a finite set of \emph{symbols} $\Sigma$, one of which is singled out as the \emph{blank} symbol,
+\item a finite set of \emph{states} $S$, one of which is singled out as the \emph{initial} state $s_0$ and another of which is singled out as the \emph{halt} state,
+\item a \emph{transition function} $\delta$, which takes as input a pair consisting of a current symbol and a current state (other than the halt state), and produces as output a triple consisting of a new symbol and a new state (to overwrite the old symbol and state) and an instruction to move either one step to the left or one step to the right,
+\item an infinite \emph{tape} storing a sequence of symbols, which can be modeled as a function $\mathbb{N} \rightarrow \Sigma$, such that all but finitely many of the symbols stored in the tape are blank, together with a \emph{head} $p \in \mathbb{N}$ pointing to a particular location in the tape.
+\end{itemize}
+The input to the Turing machine is encoded into the tape as a finite sequence of non-blank symbols (followed by an infinite sequence of blank symbols). When the Turing machine starts running, the head is placed at the beginning of the tape (i.e. $p = 0$) and the state $s$ is set to the initial state (i.e. $s = s_0$). Then in each step of operation, the Turing machine updates the tape as well as its current state as follows:
+\begin{itemize}
+\item first the machine reads the symbol $a \in \Sigma$ stored on the tape in the location pointed to by $p$,
+\item then the machine consults the transition function $\delta$ for the pair $(a,s)$, where $s \in S$ is the current state, and obtains the triple $(a',s',\pm 1) = \delta(a,s)$,
+\item then the machine overwrites the symbol $a$ at location $p$ of the tape with the symbol $a'$, changes its current state to $s'$, and increases or decreases the location $p$ by $\pm 1$ based on the third output of $\delta(a,s)$. (If you try to decrease $p$ when $p$ is $0$, then the machine either crashes or silently fails to change the value of $p$, depending on the author.)
+\end{itemize}
+If at any point the Turing machine reaches the halt state, then it immediately stops running, and at that point the contents of the tape are interpreted as the output of the machine.
+
+There are many variations on the vanilla Turing machine described above:
+\begin{itemize}
+\item there can be multiple halting states, for instance to record whether the program \emph{succeeded} or \emph{failed},
+\item the tape can be infinite in both directions, so that it is modeled by a function $\mathbb{Z} \rightarrow \Sigma$,
+\item there can be multiple heads pointing to unrelated positions in the tape - in this case, the transition function $\delta$ will take as input the ordered tuple of symbols pointed to by the sequence of different heads (as well as the current state), and returns instructions for how to change the values pointed to by all of the heads simultaneously (as well as which direction each head should move in, and how the state should update), and
+\item there can be multiple tapes (with one or more heads per tape), some of which might be read-only and some of which might be write-only (in order to cleanly separate the input from the output, and to keep track of the amount of scratch space used by the machine throughout the computation).
+\end{itemize}
+\end{defn}
+
+\begin{exer}[Two heads are better than one] Consider the task of reversing a finite sequence of bits (i.e., if the input is 00101, then the desired output is 10100). Prove that any vanilla Turing machine which correctly executes this task must run for at least $\frac{\lfloor n^2/2 \rfloor}{\log_2(|S|)} - 2(n-1)$ steps on some input sequence of length $n$ (hint: imagine placing a tollbooth between two consecutive locations on the memory tape, and find a lower bound on the amount of information that must travel through the tollbooth). Find a \emph{two-headed} Turing machine which can accomplish the same task using just $2(n+1)$ steps, where $n$ is the length of the input.
+\end{exer}
+
+\begin{rem} In these notes, when we make precise claims about running times of algorithms, we implicitly use a slightly more powerful model of computation than vanilla Turing machines, where we also allow the manipulation and storage of \emph{pointers} (i.e. numbers describing locations on the memory tape) which can be used to instantly jump to various locations of the memory tape. This is essentially the \emph{random access machine} model of computation, where the cost of pointer arithmetic is ignored. The \emph{word RAM} model (which we will not define precisely here) formalizes what we mean by ignoring the cost of pointer arithmetic - the main thing to know about it is that it prevents us from abusing pointer arithmetic too much by requiring pointers to be described by \emph{machine words}, which are required to be representable with only logarithmically many bits. If the word RAM model is taken too seriously, then it has some counter-intuitive consequences: for instance, it allows you to sort a list of $n$ integers in time $O(n\log(\log(n)))$ \cite{sorting-word-RAM-deterministic}, even though the number of bits needed to describe an ordering on $n$ numbers is $\log_2(n!) \gg n \log(n)$.%TODO: more details about the word RAM model?
+\end{rem}
+
+The choice to define the class P in terms of Turing machines is due to the empirical observation (known as the \emph{extended Church-Turing thesis}) that whenever a serious attempt is made to formalize the intuitive concept of an ``algorithmic procedure'' from first principles (e.g. total recursive functions, cellular automata, lambda calculus, or random-access machines), the resulting type of machine can be simulated by a Turing machine with at most a polynomial slowdown to the running time, and conversely can simulate a Turing machine (again with at most a polynomial slowdown in the running time). The fact that running time can vary from one concept of ``algorithmic procedure'' to the next, but only by a polynomial amount, leads naturally to singling out the polynomial-time computable functions as worthy of special consideration.
+
+\begin{rem} The intuitive concept of an ``algorithmic procedure'' is meant to capture what a trained human mathematician is capable of mechanically computing using a pencil and paper. It is possible to imagine that physical devices could exist which can reliably answer questions that no human could ever resolve with pencil and paper, regardless of the amount of time they devote to the problem - such a hypothetical device is known as a \emph{hypercomputer}. As an example, one model of a hypercomputer is a Turing machine simulator that (somehow) executes each step of its simulation twice as quickly as the previous step until it halts, allowing us to determine if a given Turing machine will ever halt on a given input - the function this would implement is known as a \emph{halting oracle}, and a well-known self-reference argument shows that no Turing machine which always halts can implement a halting oracle (if such a Turing machine existed, then we could use it to construct a Turing machine which halts iff it does not halt).
+
+Our current understanding of physics supports the \emph{physical Church-Turing thesis}, which can be summarized as the belief that hypercomputers (and, in particular, halting oracles) can't be built in the real world. More precisely, the physical Church-Turing thesis states that every physical process can be simulated by a probabilistic Turing machine (that is, a Turing machine augmented with an extra tape containing an infinite sequence of random bits), and that the statistics of every finite physical process can be computed to any desired accuracy with a deterministic Turing machine. Note that if the physical Church-Turing thesis turns out to be false, then the job of the theoretical physicist (i.e. making predictions about the statistics of lab experiments based on pencil and paper computations) would appear to be fundamentally impossible.
+
+The \emph{extended physical Church-Turing thesis}, also known as the \emph{classical complexity-theoretic Church-Turing thesis}, is the belief that physical processes can be simulated by (probabilistic) Turing machines \emph{efficiently}, i.e. with at most polynomial slowdown. The collection of functions which can be reliably and efficiently computed by a probabilistic Turing machine is known as ``BPP'' (an abbreviation for \emph{bounded-error probabilistic polynomial time}) - it is defined as the collection of functions (with Yes/No outputs) such that there exists a probabilistic Turing machine which produces the correct output at least $2/3$ of the time (any fixed fraction $> 1/2$ could be used instead of $2/3$, since the success probability can be amplified by repeatedly executing the probabilistic Turing machine and taking a majority vote of its outputs). A widely believed conjecture states that BPP = P, i.e. that randomness does not fundamentally expand the set of efficiently computable functions - the intuition is that we appear to be able to design cryptographically secure pseudorandom number generators which can't be efficiently distinguished from true randomness without knowing their seeds (this intuition is made precise in a paper of Ipagliazzo and Wigderson \cite{P-vs-BPP-exponential-circuits} which shows that BPP = P follows from the existence of problems which can be solved in exponential time and which require exponentially large circuits for their solution). An example of a problem which is in BPP but which hasn't yet been proven to be in P is the \emph{polynomial identity testing} problem: given a multivariate polynomial over a finite field, expressed via a circuit built out of addition and multiplication gates, determine whether the polynomial is equal to $0$ as a polynomial (this can be solved by plugging in random inputs from a big enough extension field and checking if we get $0$ when we evaluate the circuit).
+
+Surprisingly, our current understanding of quantum physics (and the level of difficulty of \emph{ab initio} quantum chemistry) appears to imply that the classical complexity-theoretic physical Church-Turing thesis is \emph{false}. Instead, it should be replaced with the \emph{quantum complexity-theoretic Church-Turing thesis}, which states that any physical process can be efficiently simulated by a ``quantum Turing machine'' (see \cite{deutsch-quantum-turing-machine} and \cite{quantum-computation} for details on how this can be defined). The collection of functions (with Yes/No outputs) which can be reliably and efficiently computed by a quantum Turing machine is known as ``BQP'' (an abbreviation for \emph{bounded-error quantum polynomial time}). BQP is believed to be strictly larger than P, but not ``too much larger'' - for instance, all constraint satisfaction problems which are known to be contained in BQP are also known to be contained in P. The main example of a problem (\emph{not} a CSP) which is known to be contained in BQP but which is conjectured not to be in P is \emph{factoring} (we phrase factoring as a Yes/No decision problem as follows: given a large integer $n$ written out in binary, together with integers $u, \ell$ also written out in binary, determine whether or not $n$ has a prime factor $p$ satisfying $\ell \le p \le u$).
+\end{rem}
+
+Now that we have formalized the concept of an efficient algorithmic decision procedure as the class P of functions (with Yes/No outputs) which can be implemented by Turing machines which always halt within polynomially many steps, we can finally move on to formally defining NP. The name ``NP'' is an abbreviation for \emph{non-deterministic polynomial time}: the idea is that we have a ``non-deterministic'' variant of an ordinary Turing machine which sometimes has more than one choice about how to proceed, and whenever faced with such a choice it (somehow) always chooses the option which is more likely to result in the final output being Yes.
+
+Instead of making the non-deterministic choices all throughout the computation, we can simulate the operation of a general non-deterministic Turing machine with a two phase process: first we (non-deterministically) write out the perfect sequence of choices onto a separate tape, and then we run an ordinary (multi-tape) Turing machine which consults the next entry of the choice tape every time the original non-deterministic machine would have needed to make a choice. Letting $x$ stand for the original input to the non-deterministic machine and letting $y$ be the perfect sequence of choices, we are lead to the following definition.
+
+\begin{defn} The class NP is defined as the collection of functions $g$ (with Yes/No outputs) which have the form
+\[
+g(x) = \begin{cases}\text{Yes} & \text{if }\exists y\text{ s.t. } f(x,y) = \text{Yes},\\\text{No} & \text{if }\forall y, f(x,y) = \text{No},\end{cases}
+\]
+where the length of $y$ is required to be bounded by a polynomial of the length of $x$, and the function $f$ is in P.
+
+The class coNP is defined the same way, but with the roles of ``Yes'' and ``No'' interchanged.
+\end{defn}
+
+This leads to our first example of an \emph{NP-complete} problem.
+
+\begin{ex}\label{ex-np-complete} The problem we are about to describe is the ``generic'' NP problem. The input is a triple $(M, x, k)$ where $M$ is a description of a Turing machine, $x$ is a partial input to the Turing machine $M$, and $k$ is a natural number expressed in unary. The desired output is ``Yes'' if there is another partial input $y$ such that when we run the machine $M$ with the pair $(x,y)$ as input, $M$ halts within $k$ steps and outputs ``Yes'', and the desired output is ``No'' if no such $y$ exists.
+\end{ex}
+
+The reason we say that this problem is NP-complete is that there is an efficiently computable transformation from any problem in NP into the problem above: if we can solve the problem from Example \ref{ex-np-complete} efficiently, then we can solve any problem in NP efficiently (and, additionally, the problem from Example \ref{ex-np-complete} is clearly in NP).
+
+In fact, the transformation from any problem in NP to the problem from Example \ref{ex-np-complete} is not just efficiently computable - it's computable even in computational models which have extremely limited resources. We might attempt to formalize this by introducing a new complexity class ``L'', for problems which can be solved using only a logarithmically large workspace.
+
+\begin{defn} The class L is defined as the collection of functions (with Yes/No outputs) which can be solved by a two-tape Turing machine, where one tape is a read-only input tape, and the other (readable and writable) tape only has space for $O(\log(n))$ symbols, where $n$ is the number of symbols in the input.
+\end{defn}
+
+\begin{rem} Recall that in the word RAM model, each pointer is stored in a machine word consisting of $O(\log(n))$ bits (in order to represent positions in the tape of size $n^{O(1)}$), so a logspace computation can simulate pointer arithmetic with a constant number of pointers - this is pretty much the bare minimum needed to navigate from one arbitrary location in the input tape to another when the input tape is read-only.
+\end{rem}
+
+\begin{prop} $\mathrm{L} \subseteq \mathrm{P}$.
+\end{prop}
+\begin{proof} If a Turing machine halts, then it can never be in the exact same configuration twice during its computation, so we just need to check that the total number of different configurations that a logspace Turing machine can take on during a single computation is bounded by $n^{O(1)}$. The number of possible states is $|S| = O(1)$, the number of possible locations for the read head is $O(n)$, the number of possible locations for the read/write head is $O(\log(n)) = n^{o(1)}$, and the number of possible symbol sequences on the read/write tape is $|\Sigma|^{O(\log(n))} = n^{O(1)}$, and multiplying these all together we see that the total number of configurations is bounded by $n^{O(1)}$.
+\end{proof}
+
+However, the purpose of introducing the logspace model of computation was to describe \emph{transformations} from inputs to one problem to inputs to another problem. This leads to the following definition.
+
+\begin{defn} A \emph{logspace transducer} is a function which can be computed by a three-tape Turing machine, where one tape is a read-only input tape, one tape is readable and writeable but only has space for $O(\log(n))$ symbols, and the final tape is a write-only, write-once output tape where the write head can only move in one direction.
+\end{defn}
+
+\begin{prop} A function $f$ from finite sequences $x$ of (non-blank) symbols in $\Sigma$ to finite sequences of symbols $f(x)$ can be computed by a logspace transducer if and only if the following function is in L: the input is a triple $(x, i, a)$, where $x$ is a sequence of non-blank symbols, $i$ is a number encoded in binary, $a$ is a symbol, and desired output is ``Yes'' iff the $i$th symbol of $f(x)$ is $a$.
+\end{prop}
+\begin{proof}[Sketch] To turn a logspace transducer into the second type of machine, the main idea is to simulate the transducer while maintaining an extra counter with $O(\log(n))$ bits at the end of the read/write tape, and to increment the counter every time the transducer attempts to write a symbol to the transducer's write tape. As the counter reaches $i$, we check if the transducer was attempting to write the symbol $a$.
+
+For the other direction, given a Yes/No machine in L, we make a transducer which uses a binary counter to keep track of the number $i$ of symbols it has already output, and then cycles through each possible next symbol $a$ in order, simulating the Yes/No machine on the input $(x,i+1,a)$ to figure out which symbol it needs to output next (and halting if none of the possible next symbols $a$ results in a ``Yes'').
+\end{proof}
+
+Both L and P have nice closure properties with respect to subroutines. For P, this can be phrased as follows: if we call a subroutine which runs in time $O(n^k)$ at most $O(n^m)$ times while running our program, then the total time spent within the subroutine will be at most $O(n^{k+m})$ - so we can take any particular subroutine which is already known to run in polynomial time and pretend that it magically runs within a single step, without changing our assessment of whether or not the overall algorithm runs within polynomial time. For L, we phrase the closure property as the ability to compose logspace transducers.
+
+\begin{prop} If $f$ and $g$ are logspace transducers, then so is their composition $f \circ g$. More generally, if $f, g_1, ..., g_m$ are all logspace transducers, then so is the map $x \mapsto f(g_1(x), ..., g_m(x))$, where by ``$(g_1(x), ..., g_m(x))$'' we mean a concatenation of the outputs of $g_1, ..., g_m$ (possibly with a separator symbol between the outputs of $g_i$ and $g_{i+1}$).
+\end{prop}
+\begin{proof}[Sketch] Given logspace machines computing $f$ and $g$, we need to construct a logspace machine which computes $f \circ g$. We do this by simulating the computation of $f$, while keeping track of a counter $i$ (using $O(\log(n))$ bits, so that the maximum value of $i$ is $n^{O(1)}$) describing the position of $f$'s read head in an imaginary input tape containing the hypothetical output of $g$ on the actual input to our machine. For each step of the simulation of the computation of $f$, when we need to know the symbol in the $i$th location of $f$'s imaginary input tape, we use the logspace machine for $g$ (using a partitioned off section of the read/write memory tape of size $O(\log(n))$, which we re-fill with blank symbols between consecutive calls to $g$) to compute from scratch the $i$th output symbol of $g$ on the actual input to our machine.
+
+For the more general statement, note that if we have logspace machines computing $g_1, ..., g_m$ then we can easily build a logspace transducer $g$ which simulates each of $g_1, ..., g_m$ in turn and concatenates their outputs.
+\end{proof}
+
+Using this fact, we can say that two problems are logspace-equivalent if we can transform the inputs of either one into the inputs of the other using a logspace transducer, so that the desired output of one on the initial input matches the desired output on the other on the transformed input. We can also define a partial order on problem difficulty based on logspace transducers, which we use as the basis for the definition of NP-completeness.
+
+\begin{defn} We say that a function $g$ has a \emph{logspace reduction} to a function $f$ if there is a logspace transducer $t_{g \rightarrow f}$ such that
+\[
+g(x) = f(t_{g \rightarrow f}(x))
+\]
+for all possible inputs $x$ to $g$.
+
+We say that a function $f$ (with Yes/No outputs) is \emph{NP-hard under logspace reductions} if for every problem $g$ which is in NP, there is a logspace reduction from $g$ to $f$. We say that $f$ is \emph{NP-complete under logspace reductions} if $f$ is both contained in NP and NP-hard under logspace reductions.
+\end{defn}
+
+\begin{prop} The ``generic NP problem'' from Example \ref{ex-np-complete} is NP-complete under logspace reductions.
+\end{prop}
+\begin{proof} For any NP problem $g$, by the definition of NP there is a machine $M$ such that the output $g(x)$ is ``Yes'' iff there is some $y$ such that $M$ returns ``Yes'' on the input $(x,y)$, along with a polynomial $p$ such that $M$ always halts within $p(|x|)$ steps, where $|x|$ is the length of $x$. To define a logspace transducer from inputs $x$ of $g$ to inputs of the problem from Example \ref{ex-np-complete}, we simply concatenate a description of $M$ with the original input $x$ and the value $k = p(|x|)$ expressed in unary to get the triple $(M,x,k)$. (Finding a logspace transducer which computes $k = p(|x|)$ expressed in unary is left as an easy exercise to the reader.)
+\end{proof}
+
+Now that we have found one NP-complete problem, we would like to find some simpler NP-complete problems. The first simplification is based on the observation that while Turing machines are a good framework for open-ended computations with arbitrarily large inputs, they are overkill for discussing computations where the inputs have a fixed size and which are guaranteed to finish in a fixed amount of time. A simpler framework for computations on fixed-size inputs is the framework of \emph{circuits}.
+
+\begin{defn} Fix a domain $D$ and a collection of basic operations $\cO$ on $D$ (i.e. each operation $f \in \cO$ is a function $D^k \rightarrow D$, for some arity $k \ge 0$ depending on $f$). A \emph{circuit} $C = (V, E, s, t, \ell, <)$ over $(D, \cO)$ with $n$ inputs and $m$ outputs is defined to be the following type of labeled directed multigraph:
+\begin{itemize}
+\item $V$ is the set of vertices of $C$, and $E$ the set of directed edges, with $s : E \rightarrow V$ describing the source of each edge and $t : E \rightarrow V$ describing the target of each edge (so $e \in E$ is interpreted as a directed edge from $s(e)$ to $t(e)$),
+\item the directed multigraph $(V,E,s,t)$ is required to be finite and to have no directed cycles,
+\item the collection of incoming edges to any vertex $v \in V$ (that is, the collection of $e \in E$ such that $t(e) = v$) is totally ordered by $<$,
+\item $\ell$ is a labeling $\ell : V \rightarrow \cO \sqcup \{\mathrm{in}_1, ..., \mathrm{in}_n\} \sqcup \{\mathrm{out}_1, ..., \mathrm{out}_m\}$,
+\item $\ell$ labels each vertex of in-degree $0$ by either an element of $\{\mathrm{in}_1, ..., \mathrm{in}_n\}$ or an operation in $\cO$ of arity $0$,
+\item $\ell$ labels each vertex of in-degree $k > 0$ and positive out-degree by an operation in $\cO$ with arity $k$, and
+\item $\ell$ labels each vertex of out-degree $0$ by an element of $\{\mathrm{out}_1, ..., \mathrm{out}_m\}$, with each of the labels $\mathrm{out}_1, ..., \mathrm{out}_m$ occurring exactly once, and each vertex of out-degree $0$ having in-degree $1$.
+\end{itemize}
+If each basic operation in $\cO$ is a symmetric function of its inputs, then we will leave the edge-ordering $<$ out of our descriptions of circuits over $(D, \cO)$.
+
+To each circuit $C$ with $n$ inputs and $m$ outputs, we associate a function $\mathrm{ev}_C : D^n \rightarrow D^m$ as follows. For each input tuple $x = (x_1, ..., x_n) \in D^n$, we inductively assign values $\mathrm{ev}_{x,C}(v)$ to the vertices $v$ of the circuit $C$:
+\begin{itemize}
+\item to each vertex $v \in V$ of in-degree $0$ which is labeled by $\ell(v) = \mathrm{in}_i$, we assign the value $\mathrm{ev}_{x,C}(v) = x_i$,
+\item to each vertex $v \in V$ which is labeled by an operation $\ell(v) = g \in \cO$ of arity $k$, if $e_1 < \cdots < e_k$ are the incoming edges to $v$ (i.e. $t(e_i) = v$ for each $i$) in sorted order and $v_1 = s(e_1), ..., v_k = s(e_k)$ are the source vertices of these incoming edges, and if we have already inductively assigned the values $\mathrm{ev}_{x,C}(v_1), ..., \mathrm{ev}_{x,C}(v_k)$, then we set
+\[
+\mathrm{ev}_{x,C}(v) = g(\mathrm{ev}_{x,C}(v_1), ..., \mathrm{ev}_{x,C}(v_k)),
+\]
+\item finally, to each vertex $v \in V$ of out-degree $0$ labeled by $\ell(v) = \mathrm{out}_i$, if $e$ is the unique incoming edge with $t(e) = v$, and $v' = s(e)$ is the corresponding source vertex of the edge $e$, then we assign the same value to $v$ as we assigned to $v'$, that is, $\mathrm{ev}_{x,C}(v) = \mathrm{ev}_{x,C}(v')$.
+\end{itemize}
+After we have finished assigning values to the vertices of the circuit, we read off the output $\mathrm{ev}_{C}(x_1, ..., x_n) = (\mathrm{ev}_{x,C}(v_1), ..., \mathrm{ev}_{x,C}(v_m)) \in D^m$, where $v_1, ..., v_m$ are the vertices satisfying $\ell(v_i) = \mathrm{out}_i$. (Equivalently, instead of assigning input-dependent values in $D$ to the vertices of the circuit, we could have assigned operations $\mathrm{ev}_C(v) \in \langle\cO\rangle$, where $\langle\cO\rangle$ is the clone generated by $\cO$, to each vertex $v \in V$, starting by assigning the projection $\pi_i$ to each vertex $v$ labeled by $\ell(v) = \mathrm{in}_i$.)
+
+We often refer to the vertices $v \in V$ as the \emph{gates} of the circuit $C$ - if $\ell(v) \in \cO$, then we say that $v$ is an \emph{$\ell(v)$-gate} of $C$, and otherwise $v$ is an \emph{input gate} if $\ell(v) \in \{\mathrm{in}_1, ..., \mathrm{in}_n\}$ or an \emph{output gate} if $\ell(v) \in \{\mathrm{out}_1, ..., \mathrm{out}_m\}$.
+
+We define the \emph{size} of a circuit $C$ as the number $|V| - n - m$ of vertices in the directed multigraph $(V,E,s,t)$ which are not labeled as input or output gates. We define the \emph{depth} of $C$ to be the number of non-input, non-output gates occurring along the longest directed path in the directed multigraph $(V,E,s,t)$.
+\end{defn}
+
+\begin{rem} Note that in our definition of a circuit, we place no restrictions on the out-degrees of gates, and to keep things simple we also assume that each gate produces just a single element of the domain $D$ as output (which is copied to all of the outgoing wires from this gate), rather than an ordered tuple of outputs. We can get away with this because copying information is assumed to be a free operation in classical computing. However, when studying \emph{reversible} circuits (where every function $D^n \rightarrow D^n$ computed by a reversible circuit must be a permutation, with the same number of inputs as outputs), or when studying \emph{quantum} circuits (where quantum information must obey the \emph{no-cloning} theorem), it is no longer appropriate to make this assumption, and the definition of a circuit must be modified in those contexts.%TODO: cite a proof of the no-cloning theorem
+\end{rem}
+
+The next result shows that the particular choice of basic operations $\cO$ doesn't affect circuit complexity by more than a constant factor, as long as $\cO$ is finite and the clone $\langle\cO\rangle$ generated by $\cO$ is fixed.
+
+\begin{prop} If $\cO_1, \cO_2$ are finite sets of basic operations on a set $D$ such that $\cO_1$ and $\cO_2$ generate the same clone, then there is a constant $K$ such that for any circuit $C_1$ over $(D, \cO_1)$ of size $s$ and depth $d$ which computes a function $\mathrm{ev}_{C_1} : D^n \rightarrow D^m$, there is a circuit $C_2$ over $(D, \cO_2)$ of size at most $K\cdot s$ and depth at most $K\cdot d$ which satisfies $\mathrm{ev}_{C_2} = \mathrm{ev}_{C_1}$.
+\end{prop}
+\begin{proof} Since $\cO_1$ and $\cO_2$ generate the same clone, every basic operation in $\cO_1$ can be computed by some circuit over $(D, \cO_2)$. Since $\cO_1$ is finite, we can find a finite upper bound $K$ on the size of the circuits over $(D, \cO_2)$ needed to compute the basic operations of $\cO_1$. Now we replace each gate in the circuit $C_1$ which is labeled by a basic operation $g \in \cO_1$ by a circuit over $(D, \cO_2)$ of size (and depth) at most $K$ which computes $g$, and check that the resulting circuit $C_2$ over $(D, \cO_2)$ has size at most $K\cdot s$ and depth at most $K \cdot d$.
+\end{proof}
+
+Since we can encode the elements of any particular finite set as binary sequences, we will focus on circuits over the domain $D = \{0,1\}$ - and we identify $0$ with ``False'' and $1$ with ``True'' to interpret the basic logical operations $\wedge, \vee, \neg$ as operations on the set $\{0,1\}$.
+
+\begin{defn} We define a \emph{Boolean circuit} to be a circuit over $(\{0,1\}, \wedge, \vee, \neg, 0, 1)$. Note that since all of the basic operations in a Boolean circuit are symmetric functions of their inputs, we don't need to specify an ordering on the incoming edges to any of the gates.
+\end{defn}
+
+Eventually we will wish to simulate Turing machines by Boolean circuits. The most complex part of a Turing machine is the transition rule $\delta : \Sigma \times S \rightarrow \Sigma \times S \times \{\pm 1\}$ used to decide the next action and state, given the current state and the current symbol on the tape. The standard way to represent such a transition rule is to simply list out the desired output tuples for each possible input tuple. Representing the elements of $\Sigma$ and $S$ as binary sequences, we see that we need to find a way to convert a truth-table description of an arbitrary function $\delta : \{0,1\}^n \rightarrow \{0,1\}^m$ into a Boolean circuit which computes $\delta$.
+
+\begin{prop} There is a logspace transducer which takes as input a truth-table description of an arbitrary function $\delta : \{0,1\}^n \rightarrow \{0,1\}^m$ and produces as output a Boolean circuit of size $O(mn\cdot 2^n)$ and depth $O(n)$ which computes $\delta$.
+\end{prop}
+\begin{proof} Note that the size of the input is $m\cdot 2^n$, since for each of the $2^n$ possible input tuples to $\delta$ we need $m$ bits to describe the corresponding output tuple of $\delta$, so by ``logarithmic space'' we mean that our read/write work tape can have size $O(\log(m\cdot 2^n)) = O(\log(m)) + O(n)$. We will just describe the circuit which will be produced as output - finding a particular logspace Turing machine which constructs this circuit will be left as an exercise to the reader.
+
+The circuit we construct will actually compute each of the $m$ output bits completely separately, so we may as well assume that $m = 1$ to keep things simple. The circuit we construct will be based on the formula
+\[
+\delta(x_1, ..., x_n) = \bigvee_{y \in \{0,1\}^n} (x_1 = y_1 \wedge \cdots \wedge x_n = y_n \wedge \delta(y_1, ..., y_n)).
+\]
+For a fixed tuple $y_1, ..., y_n$, each formula ``$x_i = y_i$'' can be replaced by ``$x_i$'' if $y_i = 1$ or by ``$\neg x_i$'' if $y_i = 0$, while the value of $\delta(y_1, ..., y_n)$ can be replaced by either $0$ or $1$ depending on what is written in the truth-table for $\delta(y)$. Thus for fixed values of $y_1, ..., y_n$, the value of the subformula
+\[
+(x_1 = y_1 \wedge \cdots \wedge x_n = y_n \wedge \delta(y_1, ..., y_n))
+\]
+can be computed by a circuit with $n$ input gates, at most $n$ $\neg$-gates, one constant gate (either $0$ or $1$, depending on the value of $\delta(y_1, ..., y_n)$), and $n$ $\wedge$-gates, which has size (and depth) $O(n)$.
+
+To finish the construction, we will use $2^n-1$ $\vee$-gates to combine the results of these subformula circuits computing $x = y \wedge \delta(y)$ for various values of $y \in \{0,1\}^n$ to get a circuit computing $\delta(x)$. In order to keep the depth of the resulting circuit bounded by $O(n)$, we can arrange the computation as a binary tree corresponding to the following formula:
+\[
+\bigvee_{y \in \{0,1\}^n} (x = y \wedge \delta(y)) = \bigvee_{y_1 \in \{0,1\}} \Big(\bigvee_{y_2 \in \{0,1\}} \Big( \cdots \Big(\bigvee_{y_n \in \{0,1\}} (x = y \wedge \delta(y)) \Big)\cdots\Big)\Big).\qedhere
+\]
+\end{proof}
+
+\begin{cor} The clone generated by the basic Boolean functions $\wedge,\vee,\neg,0,1$ contains all operations $\delta : \{0,1\}^n \rightarrow \{0,1\}$.
+\end{cor}
+
+\begin{ex} Some authors prefer to include the \emph{exclusive-or} operation $\oplus : \{0,1\}^2 \rightarrow \{0,1\}$ as a basic operation in their circuits. This operation may be described by its truth table:
+\begin{center}
+\begin{tabular}{cc|c}
+$x$ & $y$ & $x \oplus y$\\
+\hline
+0 & 0 & 0\\
+0 & 1 & 1\\
+1 & 0 & 1\\
+1 & 1 & 0
+\end{tabular}
+\end{center}
+The recipe above shows us how to mindlessly convert this truth table into a Boolean formula:
+\begin{align*}
+x \oplus y &= \bigvee_{u \in \{0,1\}}\Big(\bigvee_{v \in \{0,1\}} \big((x = u) \wedge (y = v) \wedge (u\oplus v)\big)\Big)\\
+&= \Big(\big((\neg x \wedge \neg y \wedge 0)\vee (\neg x \wedge y \wedge 1)\big)\vee\big((x \wedge \neg y \wedge 1)\vee (x \wedge y \wedge 0)\big)\Big).
+\end{align*}
+With a little bit of post-processing, we can clean this up to get a tidier Boolean formula:
+\begin{align*}
+x \oplus y &= (\neg x \wedge y) \vee (x \wedge \neg y).
+\end{align*}
+This formula can be directly converted to a Boolean circuit of size $5$ and depth $3$, which has two $\neg$-gates, two $\wedge$-gates, and one $\vee$-gate.
+\end{ex}
+
+\begin{ex} Some authors prefer to include the \emph{multiplexer} $\mathrm{mux} : \{0,1\}^3 \rightarrow \{0,1\}$ as a basic operation in their circuits. This operation is defined by
+\[
+\mathrm{mux}(s,x,y) \coloneqq \begin{cases} x & \text{if }s = 0,\\ y & \text{if }s = 1,\end{cases}
+\]
+and in some programming languages this is represented with the compact if-then-else notation $s\ ?\ y : x$, and is referred to as the \emph{ternary operator}.
+
+Mindlessly converting the truth table for $\mathrm{mux}$ into a Boolean formula, we get
+\begin{align*}
+\mathrm{mux}(s,x,y) &= \Big(\big((\neg s \wedge \neg x \wedge \neg y \wedge 0)\vee (\neg s \wedge \neg x \wedge y \wedge 0)\big)\vee\big((\neg s \wedge x \wedge \neg y \wedge 1)\vee (\neg s \wedge x \wedge y \wedge 1)\big)\Big)\\
+&\;\;\;\;\; \vee \Big(\big((s \wedge \neg x \wedge \neg y \wedge 0)\vee (s \wedge \neg x \wedge y \wedge 1)\big)\vee\big((s \wedge x \wedge \neg y \wedge 0)\vee (s \wedge x \wedge y \wedge 1)\big)\Big).
+\end{align*}
+With a tiny bit of post-processing, this simplifies to the Boolean formula
+\begin{align*}
+\mathrm{mux}(s,x,y) &= \big((\neg s \wedge x \wedge \neg y)\vee (\neg s \wedge x \wedge y)\big) \vee \big((s \wedge \neg x \wedge y) \vee (s \wedge x \wedge y)\big),
+\end{align*}
+and using slightly more thought we can simplify it further to the Boolean formula
+\[
+\mathrm{mux}(s,x,y) = (\neg s \wedge x) \vee (s \wedge y).
+\]
+This formula can be directly converted to a Boolean circuit of size $4$ and depth $3$, which has one $\neg$-gate, two $\wedge$-gates, and one $\vee$-gate.
+\end{ex}
+
+Now we can describe how we will simulate Turing machines by Boolean circuits, when both the input size and the number of computation steps are fixed.
+
+\begin{prop} There is a logspace transducer which takes as input a tuple $(M,n,k)$, where $M$ is a description of a Turing machine and $n,k$ are natural numbers written in unary, and produces as output a description of a Boolean circuit $C$ which takes $n$ inputs $x_1, ..., x_n$ and produces as output a single bit, which evaluates to $1$ if and only if running the Turing machine $M$ on the input $x = (x_1, ..., x_n)$ halts within $k$ steps and outputs ``Yes''.
+\end{prop}
+\begin{proof}[Sketch] Note that if we only run the Turing machine $M$ for $k$ steps, then we can never examine any entry of the tape which is more than $k$ steps away from the starting position $0$. So we can represent the configuration of the tape at each step of the computation by a sequence of $O(k)$ symbols from $\Sigma$.
+
+Now, there are two reasonable approaches for representing the current location of the Turing machine's head $p$ in the tape. One approach is to set aside $O(\log_2(k))$ bits to record the value of $p$ in binary. A simpler approach is to store a bit next to each tape location, which keeps track of the answer to the question ``is this location of the tape the location which the head $p$ is pointing to?''. If we follow the second approach, then we should also set aside an extra sequence of bits next to each tape location which are meant keep track of what state the Turing machine is in, if the head $p$ is pointing to that tape location (and which can contain meaningless garbage if the head $p$ is not pointing to that location).
+
+So the complete description of a configuration of the Turing machine $M$ at any particular step can be represented as a sequence of $O(k\cdot (\log(|\Sigma|) + 1 + \log(|S|)))$ binary bits. Given a binary representation the configuration of the machine at the $i$th step, we can compute the binary representation of the configuration at the $(i+1)$th step with a circuit built out of $k$ copies of the circuit computing the transition function $\delta$ of the Turing machine $M$ (one copy for each location in the tape where we might currently find the head $p$).
+
+Stringing these circuits together, we get a circuit with $O(k \cdot k \cdot (\log(|\Sigma|) + 1 + \log(|S|))^2 \cdot |\Sigma|\cdot |S|)$ gates which computes a binary representation of the configuration of the Turing machine $M$ after $k$ steps, and we can then easily read off whether the machine has halted and whether the output is ``Yes'' from that binary representation.
+\end{proof}
+
+We are now ready to describe our second NP-complete problem.
+
+\begin{ex} The (Boolean) \emph{Circuit-SAT} problem takes as input a Boolean circuit $C$ with $n$ input bits and one output bit, and the desired output is ``Yes'' if there exists a tuple of $n$ bits $x = (x_1, ..., x_n) \in \{0,1\}^n$ such that $\mathrm{ev}_C(x) = 1$ (i.e., when we run the circuit $C$ on the input $x$, the output bit is $1$).
+\end{ex}
+
+The previous proposition shows that Circuit-SAT is NP-complete under logspace reductions. While circuits are much simpler objects than Turing machines, they are still fairly complex. The next trick is to atomize a circuit $C$ by introducing new variables corresponding to the outputs of each gate occurring within $C$ - since each gate in a Boolean circuit has at most two inputs and one output value, we will get a collection of simple constraints which each involve at most $2+1 = 3$ of the expanded collection of variables. This leads us to an extremely simple NP-complete problem called 3-SAT.
+
+\begin{defn} If $x_1, ..., x_n$ are Boolean variables, then a \emph{literal} is defined to be an expression which is either of the form $x_i$ or $\neg x_i$ for some variable $x_i$. A \emph{clause} of \emph{length} $k$ is an expression of the form $(\ell_1 \vee \cdots \vee \ell_k)$, where each $\ell_i$ is a literal.
+
+An \emph{$k$-CNF formula} (where CNF is an abbreviation for \emph{conjunctive normal form}) is defined to be a formula of the form $C_1 \wedge \cdots \wedge C_m$, where each $C_i$ is a clause of length at most $k$.
+\end{defn}
+
+\begin{ex} For any $k$, we define \emph{$k$-SAT} to be the problem where the input is a $k$-CNF formula, and the desired output is ``Yes'' if there is an assignment of values in $\{0,1\}$ to the variables which makes the formula true.
+\end{ex}
+
+\begin{thm} 3-SAT is NP-complete under logspace reductions.
+\end{thm}
+\begin{proof} By the previous proposition, there is a logspace reduction from any problem in NP to Circuit-SAT, so we just need to find a logspace reduction from Circuit-SAT to 3-SAT. As usual, we will describe the desired output of the logspace transducer for a given circuit $\cC$, but we will leave the detailed construction of such a transducer as an exercise to the reader.
+
+Let $\cC = (V,E,s,t,\ell)$ be a Boolean circuit with $n$ input bits and one output bit. Suppose for simplicity that each input $\mathrm{in}_i$ occurs as a label for an input gate of $\cC$ exactly once. We will produce a 3-CNF formula $\Phi$ with $|V|$ variables, written $x_v$ for $v \in V$. The intended meaning of the variable $x_v$ is the unknown value of $\mathrm{ev}_{\mathrm{in},\cC}(v)$ (i.e. the unknown output of gate $v$, which depends on the unknown values of the inputs $\mathrm{in}_1, ..., \mathrm{in}_n$).
+
+For each gate $v$ which is labeled by an operation $\ell(v) \in \{\wedge,\vee,\neg,0,1\}$, we will introduce a collection of at most four clauses $C_{v,j}$ of length at most $3$ which will be used to guarantee that the value of $x_v$ is computed correctly, given the values of $x_{v_i}$ for the incoming edges $e_i$ which satisfy $s(e_i) = v_i$, $t(e_i) = v$.
+
+If $v_\wedge$ is an $\wedge$-gate, and if $e_1, e_2$ are two the incoming edges to $v_\wedge$ and $v_1 = s(e_1), v_2 = s(e_2)$ are the corresponding source vertices of these edges, then we proceed as follows. By examining a truth table for $\neg(x_{v_1} \wedge x_{v_2})$, we see that
+\begin{align*}
+(x_{v_\wedge} \ne x_{v_1} \wedge x_{v_2}) \;\;\; \iff \;\;\; &(\neg x_{v_1} \wedge \neg x_{v_2} \wedge x_{v_\wedge}) \vee (\neg x_{v_1} \wedge x_{v_2} \wedge x_{v_\wedge})\\
+&\vee (x_{v_1} \wedge \neg x_{v_2} \wedge x_{v_\wedge}) \vee (x_{v_1} \wedge x_{v_2} \wedge \neg x_{v_\wedge}),
+\end{align*}
+so by De Morgan's law we have
+\begin{align*}
+(x_{v_\wedge} = x_{v_1} \wedge x_{v_2}) \;\;\; \iff \;\;\; &(x_{v_1} \vee x_{v_2} \vee \neg x_{v_\wedge}) \wedge (x_{v_1} \vee \neg x_{v_2} \vee \neg x_{v_\wedge})\\
+&\wedge (\neg x_{v_1} \vee x_{v_2} \vee \neg x_{v_\wedge}) \wedge (\neg x_{v_1} \vee \neg x_{v_2} \vee x_{v_\wedge}).
+\end{align*}
+Note that the right hand side is a conjunction of four clauses of length $3$ - we will name these clauses $C_{v_\wedge,0}, C_{v_\wedge,1}$, $C_{v_\wedge,2}, C_{v_\wedge,3}$.
+
+We handle the other gates which are labeled by operations in $\{\wedge,\vee,\neg,0,1\}$ similarly. For the output gate $v_{\mathrm{out}}$, if we let $e_{\mathrm{out}}$ be the unique incoming edge and $v_0$ be the source of the edge $e_{\mathrm{out}}$, then we will introduce the clause $C_{v_{\mathrm{out}}, 0} = (x_{v_0})$ of length one to ensure that the output of the circuit evaluates to $1$. (We don't introduce any clauses for the input gates, since the $n$ inputs can have arbitrary values.)
+
+To finish the construction, we define the formula $\Phi$ to be
+\[
+\Phi = \bigwedge_{v \in V} \bigwedge_j C_{v,j}.
+\]
+The formula $\Phi$ is a 3-CNF formula by construction. It is straightforward to check that $\Phi$ is satisfiable if and only if the circuit $\cC$ is satisfiable, which completes the proof.
+\end{proof}
+
+% TODO: the sequence NC^0, AC^0, AC^0[m], TC^0, NC^1, L, more basic AC^0 reductions, 1-IN-3 SAT, NAE-SAT, k-coloring, a little bit of descriptive complexity theory
 
 
 \chapter{Initial Intuition}\label{chapter-intuition}
@@ -1210,7 +1522,7 @@ From here on we switch over to the algebraic language. To a relational structure
 
 \begin{rem} Suppose $\bA, \bB$ are two algebraic structures with associated relational structures $\fA, \fB$. It is tempting to think that a homomorphism $\bA \rightarrow \bB$ will correspond to a homomorphism $\fA \rightarrow \fB$, or vice versa. Unfortunately, this is total nonsense - if the (functional) signatures of $\bA$ and $\bB$ match, the (relational) signatures of $\fA$ and $\fB$ will likely have nothing to do with each other!
 
-In a similar vein, the automorphism groups $\Aut(\bA)$ and $\Aut(\fA)$ have almost nothing to do with each other. A trivial but illuminating example is the case where $\bA$ has no functions at all, so that $\Aut(\bA)$ is the full symmetric group - in this case, $\fA$ has every possible relation in its signature, including named singleton unary relations for every element of the domain. Thus, if $\bA$ is trivial, then $\fA$ is \emph{rigid}, with $\Aut(\fA) = \{1\}$.
+In a similar vein, the automorphism groups $\Aut(\bA)$ and $\Aut(\fA)$ have almost nothing to do with each other. A trivial but illuminating example is the case where $\bA$ has no functions at all, so that $\Aut(\bA)$ is the full symmetric group - in this case, $\fA$ has every possible relation in its signature, including named singleton unary relations for every element of the domain. Thus, if $\bA$ is trivial, then $\fA$ is \emph{rigid}, with $\Aut(\fA) = \{\Id\}$.
 \end{rem}
 
 We will now use the algebraic language to relate the complexities of CSPs with different domains. This will finally clarify what we meant by one CSP ``simulating'' another CSP in the introduction (well, there is one more method of simulation that will be introduced in the next section).
@@ -1281,7 +1593,11 @@ Using Birkhoff's theorem, we can give a criterion for NP-completeness.
 \begin{proof} If $\cV(\bA)$ contains an algebra $\bB$ of size at least $2$ where each function symbol acts as a projection, then $\CSP(\bB)$ is NP-complete and has a logspace reduction to $\CSP(\bA)$. Such an algebra $\bB$ will exist if there is a way to assign the function symbols to projections that satisfies \emph{every} identity satisfied by $\bA$. To see that we only have to consider finite sets of identities, we use a compactness argument: each function symbol has only a finite number of projections it can be assigned to, so we can apply K\H{o}nig's Lemma.
 \end{proof}
 
-\begin{ex} Consider the algebra $\bA = (\{0,1\}, \min)$, and use the binary function symbol $s$ to abbreviate $\min$. Then $\cV(\bA) = SP(\bA) = \cV(\mathcal{T}_{semi})$, where $\mathcal{T}_{semi}$ is the following set of identities:
+\begin{ex} Consider the algebra $\bA = (\{0,1\}, \min)$, and use the binary function symbol $s$ to abbreviate $\min$. Then it turns out that
+\[
+\cV(\bA) = HSP(\bA) = SP(\bA) = \cV(\mathcal{T}_{semi}),
+\]
+where $\mathcal{T}_{semi}$ is the following set of identities:
 \[
 s(x,x) \approx x, \;\;\; s(x,y) \approx s(y,x), \;\;\; s(x,s(y,z)) \approx s(s(x,y),z).
 \]
@@ -1304,7 +1620,11 @@ s(b,x) = s(x,b) = x
 for all $x$. Every two-element semilattice has a neutral element and an absorbing element, and knowing which is which determines the semilattice operation. In general, every finite semilattice has an absorbing element, but might not have a neutral element (for instance, the free semilattice on two generators has absorbing element $s(x,y)$ and has no neutral element). In a meet semilattice, the absorbing element will be the bottom and the neutral element (if it exists) will be the top, while in a join semilattice, the absorbing element will be the top and the neutral element (if it exists) will be the bottom.
 \end{ex}
 
-\begin{ex} Consider the algebra $\bA = (\{0,1\}, \maj)$, and use the ternary function symbol $m$ to abbreviate $\maj$. Then $\cV(\bA) = SP(\bA) = \cV(\mathcal{T}_{med})$, where $\mathcal{T}_{med}$ is the following set of identities:
+\begin{ex} Consider the algebra $\bA = (\{0,1\}, \maj)$, and use the ternary function symbol $m$ to abbreviate $\maj$. Then it turns out that
+\[
+\cV(\bA) = HSP(\bA) = SP(\bA) = \cV(\mathcal{T}_{med}),
+\]
+where $\mathcal{T}_{med}$ is the following set of identities:
 \begin{align*}
 m(x,y,z) &\approx m(y,z,x) \approx m(x,z,y),\\
 m(x,x,y) &\approx x,\\
@@ -1321,9 +1641,17 @@ Median algebras are very closely connected to distributive lattices. It isn't ha
 and in fact this identity is \emph{equivalent} to the lattice being distributive. The common value of both sides is called the median operation $m(x,y,z)$ on the lattice - the reader can easily check that it satisfies the identities $\mathcal{T}_{med}$. In fact, if a median algebra has two elements $0,1$ with $m(0,x,1) = x$ for all $x$, then it forms a distributive lattice under the operations $x \wedge y = m(0,x,y)$ and $x\vee y = m(x,y,1)$, and the median operation $m$ can be recovered from $\wedge, \vee$ via the above formula \cite{median-distributive}.
 \end{ex}
 
-\begin{ex} The operation $m(x,y,z) = x - y + z \pmod{p}$ satisfies the identity $m(x,y,y) \approx x \approx m(y,y,x)$, and this identity can't be satisfied by assigning $m$ to one of the projections $\pi_1, \pi_2, \pi_3$.
+\begin{ex} The operation $m(x,y,z) = x - y + z \pmod{p}$ satisfies the identity
+\[
+m(x,y,y) \approx x \approx m(y,y,x),
+\]
+and this identity can't be satisfied by assigning $m$ to one of the projections $\pi_1, \pi_2, \pi_3$.
 
-Similarly, if $p$ is odd, the operation $m(x,y) = \frac{x+y}{2} \pmod{p}$ satisfies the identity $m(x,y) \approx m(y,x)$, which can't be satisfied by projections.
+Similarly, if $p$ is odd, the operation $m(x,y) = \frac{x+y}{2} \pmod{p}$ satisfies the identity
+\[
+m(x,y) \approx m(y,x),
+\]
+which can't be satisfied by projections.
 \end{ex}
 
 As with clones and relational clones, there are several natural finiteness questions that come up with varieties.
@@ -1392,7 +1720,7 @@ Note that although restricting our attention to cores seems like a trivial step,
 
 Obviously there is a brute-force approach to checking if $\fA$ is a core: simply write down every possible endomorphism, and go through them one by one. Since we only have to do this brute force once for a given CSP template, this is not as bad as it sounds, but it is still far from ideal. Unfortunately, as it turns out, a brute force approach is pretty much the best one can do.
 
-\begin{thm} [Hell, Ne\v{s}et\v{r}il \cite{core-graph}] Determining whether a given undirected graph is a core is NP-complete, even if the graph is assumed to be $3$-colorable (with a given $3$-coloring).
+\begin{thm} [Hell, Ne\v{s}et\v{r}il \cite{core-graph}] The problem of determining whether or not a given undirected graph is not a core is NP-complete, even if the graph is assumed to be $3$-colorable (with a given $3$-coloring).
 \end{thm}
 
 The next main idea comes from ``self-reducibility'': often, when solving a CSP, one makes a guess (or deduces) that a certain variable should have a certain value. We would like to be able to express a CSP together with some constraints stating that certain variables have certain values using the language of the original CSP. If this is possible, then an algorithm for deciding whether the CSP has a solution can be directly converted into an algorithm for \emph{finding} a solution to the CSP.
@@ -1536,11 +1864,11 @@ Furthermore, they show that even if we chain several such reductions together, w
 \begin{defn}\label{defn-pp-construct} We say that $\fA$ \emph{pp-constructs} $\fB$ if $\fB$ is homomorphically equivalent to some pp-power of $\fA$.
 \end{defn}
 
-For most of the reductions we have described so far, it is easy to see how we can express them in the pp-constructability framework. For instance, in order to simulate the relational structure corresponding to $\bA/\!\!\sim$, we first construct the relational structure $\fA'$ whose basic relations consist of all subpowers $\RR \le \bA^m$ which are compatible with the congruence $\sim$ (using the special case of the pp-power construction where the power $n$ is equal to $1$), and then we follow up with a homomorphic equivalence from $\fA'$ to a relational structure where each equivalence class of $\sim$ is collapsed to a single element. The only really tricky reduction is the last one: adding singleton unary relations to a core structure.
+For most of the reductions we have described so far, it is easy to see how we can express them in the pp-constructability framework. For instance, in order to simulate the relational structure corresponding to $\bA/\!\!\sim$, we first construct the relational structure $\fA'$ whose basic relations consist of all subpowers $\RR \le \bA^m$ which are compatible with the congruence $\sim$ (using the special case of the pp-power construction where the power $n$ is equal to $1$), and then we follow up with a homomorphic equivalence from $\fA'$ to a relational structure where each equivalence class of $\sim$ is collapsed to a single element. The only really tricky reduction is the reduction to rigid cores, i.e. adding singleton unary relations to a core structure.
 
 Here is how we can go about adding a singleton unary relation $\{a\}$ to a core $\fA$ in the pp-constructability framework. Let $\fB$ be the relational structure which has the new unary relation $\{a\}$ (along with all of the original relations which $\fA$ had). We will define a relational structure $\mathbf{C}$ which will be a pp-power of $\fA$ having domain $\fA^2$, and show that $\mathbf{C}$ is homomorphically equivalent to $\fB$.
 
-Let $O$ be the orbit of $a$ under $\Aut(\fA)$ - note that $O$ is in the relational clone defined by $\fA$ - and for every $m$-ary relation $R$ of $\fA$, make a corresponding relation $\tilde{R}$ of $\mathbf{C}$ by
+Let $O$ be the orbit of $a$ under $\Aut(\fA)$ - note that $O$ is a unary relation contained in the relational clone defined by $\fA$ - and for every $m$-ary relation $R$ of $\fA$, make a corresponding relation $\tilde{R}$ of $\mathbf{C}$ by
 \[
 ((x_1,y_1), ..., (x_m,y_m)) \in \tilde{R} \iff (x_1, ..., x_m) \in R \wedge y_1 = \cdots = y_m \in O.
 \]
@@ -2013,7 +2341,7 @@ There is a straightforward polynomial time algorithm to enforce strong $i$-consi
 \begin{proof} Suppose for contradiction that some locally consistent partial assignment $a_1, ..., a_k$ to $v_1, ..., v_k$ can't be extended to $v_{k+1}$, $k \ge n(m-1)+1$. Then for every possible value $a$ of $v_{k+1}$, there is some constraint $C_a$ involving at most $m-1$ of the variables $v_1, ..., v_k$ which is inconsistent with this choice of $a$ and whichever of the $a_i$s are relevant. Thus, there is a collection of at most $n$ constraints $C_a$ involving at most $n(m-1)$ of the variables from $v_1, ..., v_k$ together with the variable $v_{k+1}$, for which a locally consistent partial assignment of all but one of the variables can't be extended. But this contradicts the assumption of strong $(n(m-1)+1)$-consistency.
 \end{proof}
 
-The trouble with applying Dechter's result is that as we enforce strong consistency, we may need to add constraints of higher and higher arities. To avoid this, we want to find situations in which the newly introduced constraints can always be written as intersections of constraints of low arity.
+The trouble with applying Dechter's result is that as we enforce strong consistency, we may need to add constraints of higher and higher arities (aside from the case where $n(m-1) \le m$, which neatly explains why 2-SAT is easy). To avoid this, we want to find situations in which the newly introduced constraints can always be written as intersections of constraints of low arity.
 
 \begin{defn} A CSP template $\fA = (D, \Gamma)$ has \emph{strict width} $l$ if every strong $(l+1)$-consistent instance of $\CSP(D, \langle \Gamma \rangle)$ which contains the projections of its relations onto subsets of size at most $l$ is globally consistent, and has its solution-set determined by the collection of relations of arity at most $l$.% Equivalently, $\fA$ has strict width $l$ if the projection $X$ of the solution set of any instance of $\CSP(\bA)$ onto any subset of the variables is determined by the projections of $X$ onto subsets of at most $l$ variables.
 \end{defn}
@@ -5085,7 +5413,7 @@ i.e. a function $F$ such that for $x,y \in A^+$, we have $x \le_E y$ iff $F(x) \
 \[
 F(adaadca) = a'd'aadc'a\#'',
 \]
-where the two $'$s at the end keeps track of the fact that $b,e$ did not occur within the word $adaadca$.
+where the two $'$s at the end keep track of the fact that $b,e$ did not occur within the word $adaadca$.
 
 Note that $F(x)$ is always formed from $x$ by inserting exactly $1$ copy of $\#$ and exactly $|A|$ copies of the symbol $'$. Thus, if $F(x) \le_e F(y)$, then $F(y)$ must be obtained by inserting only symbols from $A$ into the word $F(x)$. If any symbol $s \in A$ is inserted before its first occurence in $F(x)$, or inserted directly in front of a $'$, then we can see that the resulting word can't be of the form $F(y)$, by considering the first location with an invalid insertion.
 \end{proof}
@@ -5188,7 +5516,7 @@ To rule out the second possibility, note that if $s^l <_{lex} s$ and $(s_j^l, s_
 
 The goal of this section is to describe a criterion for the existence of an edge term of low arity, based on the nonexistence of certain families of relations or special types of subalgebras. The forbidden type of subalgebra was originally called a cube term blocker in \cite{cube-term-blockers}, but now it is slightly more common to see it referred to as a projective subalgebra.
 
-\begin{defn}[\cite{cube-term-blockers}] If $\PP \le \bA$ is a subalgebra such that for each term $t \in \Clo(\bA)$ there is some coordinate $i(t) \le \arity(t)$ such that
+\begin{defn}[\cite{cube-term-blockers}]\label{defn-projective} If $\PP \le \bA$ is a subalgebra such that for each term $t \in \Clo(\bA)$ there is some coordinate $i(t) \le \arity(t)$ such that
 \[
 \forall x_1, .., x_{\arity(t)}\in \bA, \;\; x_{i(t)} \in \PP \;\;\; \implies \;\;\; t(x_1, ..., x_{\arity(t)}) \in \PP,
 \]
@@ -5462,12 +5790,12 @@ and is a subalgebra of $\bA^m$ (note that $P_1$ is automatically a subalgebra of
 and any term $t$ witnessing this is an $n$-cube term.
 \end{proof}
 
-\begin{cor}[\cite{cube-term-blockers}]\label{cor-inherently-finitely-related} A finite idempotent algebra $\bA$ has few subpowers if and only if every (idempotent) expansion of $\bA$ is finitely related.
+\begin{cor}[Markovi{\'c}, Mar{\'o}ti, McKenzie \cite{cube-term-blockers}]\label{cor-inherently-finitely-related} A finite idempotent algebra $\bA$ has few subpowers if and only if every (idempotent) expansion of $\bA$ is finitely related.
 \end{cor}
 
 One of the reasons for the interest in Corollary \ref{cor-inherently-finitely-related} was that it was seen as indirect support for the following conjecture due to Matthew Valeriote, which was eventually settled by Barto \cite{barto-valeriote-conjecture}.
 
-\begin{conj}[Edinburgh conjecture, aka Valeriote's conjecture] A finite algebra $\bA$ has few subpowers if and only if $\bA$ is finitely related and generates a congruence modular variety.
+\begin{conj}[Valeriote's Edinburgh conjecture \cite{csp-comparing-solution-sets}] A finite algebra $\bA$ has few subpowers if and only if $\bA$ is finitely related and generates a congruence modular variety.
 \end{conj}
 
 Using Theorem \ref{thm-cube-term-blockers}, Kazda and Zhuk \cite{cube-terms-chipped-cubes} were able to design a simple polynomial time algorithm (Algorithm \ref{alg-projective}) for checking whether a given idempotent algebraic structure (described by listing out the tables of the basic operations) has few subpowers.
@@ -6969,7 +7297,7 @@ The simple construction of the reduced instance $\fX'$ can be used to show that 
 
 \section{Cycle-consistency solves majority CSPs}
 
-The paper which prompted the study of cycle-consistency was a preliminary investigation by Chen, Dalmau, and Gru{\ss}ien \cite{arc}, which studied a slightly stronger consistency notion: singleton arc-consistency. Singleton arc-consistency refers to the strategy of fixing a particular value for some variable, and checking if applying arc-consistency to the remaining variables produces a contradiction. Singleton arc-consistency is clearly at least as powerful as cycle-consistency. One of the main results of \cite{arc} showed that singleton arc consistency solves majority CSPs, but in fact their proof strategy was to show that cycle-consistent instances of majority CSPs always have solutions.
+The paper which prompted the study of cycle-consistency was a preliminary investigation by Chen, Dalmau, and Gru{\ss}ien \cite{arc}, which studied a slightly stronger consistency notion: singleton arc-consistency. Singleton arc-consistency refers to the strategy of fixing a particular value for some variable, and checking if applying arc-consistency to the remaining variables produces a contradiction. Singleton arc-consistency is clearly at least as powerful as cycle-consistency, and can be established in quadratic time using an algorithm from \cite{singleton-arc-consistency-quadratic}. One of the main results of \cite{arc} showed that singleton arc consistency solves majority CSPs, but in fact their proof strategy was to show that cycle-consistent instances of majority CSPs always have solutions.
 
 The argument for majority algebras is simpler than the argument for ancestral algebras, essentially because the analogue of the case where all the variables domains are strongly connected doesn't need to be considered. Instead, we are always in the situation where some variable domain $\bA_x$ has a proper absorbing subalgebra (every singleton is an absorbing subalgebra of a majority algebra), although we need to work slightly harder than we did in the absorbing case of ancestral CSPs since the absorption is no longer binary absorption. Rather than working with absorbing subalgebras, \cite{arc} used the closely related concept of an \emph{ideal} of a majority algebra.
 
@@ -7279,13 +7607,25 @@ The next result is an analogue of Theorem \ref{strong-diagonal} and Theorem \ref
 \end{thm}
 \begin{proof} We may assume without loss of generality that $\bA$ is idempotent. As long as $|\bA| > 1$, we will try to find a proper subalgebra $\bB \le \bA$ with $\RR \cap (\bB \times \bB)$ subdirect. Then $\RR\cap (\bB\times \bB)$ will J\'onsson absorb $\Delta_{\bB}$, and we can show by induction that $\RR \cap \Delta_{\bB} \ne \emptyset$.
 
-Let $b$ be any element of $\bA$, and define a sequence of subalgebras $\bB_i$ by $\bB_0 = \{b\}$, $\bB_{i+1} = \bB_i + \RR$, i.e. $\bB_{i+1} = \pi_2(\RR \cap (\bB_i \times \bA))$. If there is any $i$ such that $\bB_i \ne \bA$ but $\bB_{i+1} = \bA$, then for every $\bC \le \bA$ we have $(\bC + \RR^-) \cap \bB_i \ne \emptyset$, so by the finiteness of $\bB_i$ we may take
+Let $b$ be any element of $\bA$, and define a sequence of subalgebras $\bB_i$ by $\bB_0 = \{b\}$,
+\[
+\bB_{i+1} = \bB_i + \RR,
+\]
+i.e. $\bB_{i+1} = \pi_2(\RR \cap (\bB_i \times \bA))$. If there is any $i$ such that $\bB_i \ne \bA$ but $\bB_{i+1} = \bA$, then for every $\bC \le \bA$ we have $(\bC + \RR^-) \cap \bB_i \ne \emptyset$, so by the finiteness of $\bB_i$ we may take
 \[
 \bB = \bigcap_{k \ge 0} \bB_i+(\RR^-)^{\circ k} = \{a \mid \exists a_0, a_1, ... \in \bB_i \text{ s.t. } a_0 = a \text{ and } \forall j \; (a_j,a_{j+1}) \in \RR\}.
 \]
 Otherwise, each $\bB_i \ne \bA$, and by the finiteness of $\bA$ there must be some $m,n$ such that $\bB_m = \bB_{m+n}$. We will show that in this case we have $\bB_{m+i} = \bB_m$ for each $i$, so we may take $\bB = \bB_m$.
 
-Consider any directed cycle $a_0, ..., a_{kn} = a_0$ of $\RR$ (considered as a digraph) with $a_0 \in \bB_m$. We will show that each $a_i \in \bB_m$. Note that $(a_0,a_0), (a_i,a_i) \in \RR^{\circ kn}$, that $\RR^{\circ kn}$ J\'onsson absorbs $(\RR\cup\Delta_{\bA})^{\circ kn}$, and that $(a_0,a_i) \in \RR^{\circ i} \subseteq (\RR\cup\Delta_{\bA})^{\circ kn}$. Thus by Theorem \ref{absorbing-directed-path} there is some $l$ such that $(a_0,a_i) \in \RR^{\circ ln}$, and since $\bB_m + \RR^{\circ ln} = \bB_{m+ln} = \bB_m$, we see that $a_i \in \bB_m$.
+Consider any directed cycle $a_0, ..., a_{kn} = a_0$ of $\RR$ (considered as a digraph) with $a_0 \in \bB_m$. We will show that each $a_i \in \bB_m$. Note that
+\[
+(a_0,a_0), (a_i,a_i) \in \RR^{\circ kn},
+\]
+that $\RR^{\circ kn}$ J\'onsson absorbs $(\RR\cup\Delta_{\bA})^{\circ kn}$, and that
+\[
+(a_0,a_i) \in \RR^{\circ i} \subseteq (\RR\cup\Delta_{\bA})^{\circ kn}.
+\]
+Thus by Theorem \ref{absorbing-directed-path} there is some $l$ such that $(a_0,a_i) \in \RR^{\circ ln}$, and since $\bB_m + \RR^{\circ ln} = \bB_{m+ln} = \bB_m$, we see that $a_i \in \bB_m$.
 
 Since $\bB_{m+i} + \RR^{\circ n} = \bB_{m+i}$ and $\bB_{m+i}$ is finite, for each element $a$ of $\bB_{m+i}$ there is an $a_i$ contained in a directed cycle of $\RR^{\circ n}$ and a directed path of $\RR^{\circ n}$ from $a_i$ to $a$, so in fact we have $a \in \bB_m$ as well, and we see that $\bB_{m+i} \subseteq \bB_m$. Similarly we have $\bB_m \subseteq \bB_{m+i}$, so $\bB_m = \bB_{m+i}$.
 \end{proof}
@@ -7381,6 +7721,9 @@ By the choice of $i$ there is a path from $c$ to $f^i$ in $\bS$ (passing through
 \]
 Since $f^i_1 = e^i_1$, we can ignore the $\bC_1$ components in the above, so by $J(\bA,\bB;\bC_2)$ there is a directed path from $f^i$ to $e^i$ in $\bS$.
 \end{proof}
+
+\begin{rem} The same argument can be used to show that if $\bC$ has a congruence $\theta$ such that $J(\bA,\bB;\bC/\theta)$ holds and such that for each $c \in \bC$ the condition $J(\bA,\bB;c/\theta)$ holds (here $c/\theta$ is treated as a subalgebra of $\bC$), then $J(\bA,\bB;\bC)$ holds.%TODO: fill in the argument
+\end{rem}
 
 \begin{thm}[Local criterion for J\'onsson absorption \cite{deciding-absorption}]\label{local-jonsson} If $\bB \le \bA$ are finite and idempotent, then $\bB \lhd_J \bA$ if and only if $J(\bA,\bB;\bA)$ holds.
 \end{thm}
@@ -7602,7 +7945,7 @@ Taking $n = \lceil e\cdot |\bB|!\rceil$ is good enough to find $i,j,k$ with $b_{
 The dual discriminator algebra from Example \ref{ex-dual-discriminator} shows that we always have $m(k) \ge k+2$, while the previous result shows that $m(k) \le \lceil e\cdot k!\rceil$. For $k = 1,2$ we have $m(1) = 3, m(2) = 4$. Could it be that we have $m(k) = k+2$ for every $k$?
 
 
-\subsection{Finitely related implies J\'onsson absorption is equivalent to absorption}
+\subsection{Finitely related implies J\'onsson absorption is equivalent to absorption}\label{ss-finitely-related-jonsson}
 
 The story of this subsection began with a paper of Larose, Loten, and Z{\'a}dori \cite{zadori-near-unanimity-graphs}, which gave a concrete characterization of undirected (reflexive) graphs which are preserved by a near-unanimity operation. Surprisingly, it turned out that the corresponding algebraic structure has a near-unanimity term iff it generates a congruence distributive variety (i.e., iff it has J\'onsson terms). This coincidence inspired what came to be known as the \emph{Z\'adori conjecture}: could it be the case that for every finitely related algebra, the existence of J\'onsson terms is equivalent to the existence of near-unanimity terms?
 
@@ -8462,7 +8805,7 @@ c \in \bC \iff \bigwedge_{b \in \bB} \exists x (x \in \{b\} \wedge (c,x) \in \RR
 
 In order to do anything useful with such a binary relation, we will need to assume that $\bB$ is Taylor. We will attempt to exploit the Taylor term to produce binary absorption on $\bB$, using the following lemma.
 
-\begin{lem} Suppose $\bB \le \bA$ and that there is an idempotent term $t \in \Clo_k(\bA)$ with the following two properties:
+\begin{lem}\label{lem-projective-bin-absorbing} Suppose $\bB \le \bA$ and that there is an idempotent term $t \in \Clo_k(\bA)$ with the following two properties:
 \begin{itemize}
 \item $t$ satisfies an identity of the form $t(x,u_2,...,u_k) \approx t(y,v_2,...,v_k)$, where each $u_i,v_i \in \{x,y\}$, and
 \item $t(\bB, \bA, ..., \bA) \subseteq \bB$.
@@ -8505,6 +8848,9 @@ Since $t$ is idempotent, the right hand side of the above must contain $a+\RR$, 
 \]
 \end{proof}
 
+\begin{rem} There is a variant of Theorem \ref{thm-center-implies-absorbing} which applies even if $\bB$ is not a Taylor algebra, from \cite{zhuk-strong}. Defining the concept of a projective subalgebra as in Definition \ref{defn-projective}, a slight modification of the proof of Theorem \ref{thm-center-implies-absorbing} shows that if $\RR \le_{sd} \bA \times \bB$ is subdirect and has a nontrivial left center $\bC$, then either $\bC$ absorbs $\bA$ or $\bB$ has a proper projective subalgebra $\PP < \bB$. Note that Lemma \ref{lem-projective-bin-absorbing} implies that any projective subalgebra of a Taylor algebra is automatically binary absorbing.
+\end{rem}
+
 Keeping the same setup, the left center $\bC$ has an additional nice property, which is much stronger than it looks.
 
 \begin{thm}[Zhuk \cite{zhuk-dichotomy}]\label{thm-center-implies-central} Suppose $\bA, \bB$ are finite idempotent algebras. If $\RR \le_{sd} \bA \times \bB$ has a left center $\bC$ and $\bB$ has no proper binary absorbing subalgebras, then for any $a \in \bA$ we have
@@ -8545,7 +8891,7 @@ There is an unfortunate naming collision between the centers considered here, an
 
 The key fact about central absorption that makes it so much more powerful than ordinary absorption is the following doubling trick due to Zhuk and Kozik.
 
-\begin{lem}[Essential doubling trick \cite{zhuk-dichotomy}] Suppose that $\RR \le \bA_0 \times \cdots \times \bA_{n+1}$ is $(\bC,\bB_1, ..., \bB_n, \bC')$-essential, with $\bC' \lhd_Z \bA_{n+1}$ and $\bA_{n+1}$ finite and idempotent. Then there is a relation
+\begin{lem}[Essential doubling trick \cite{zhuk-dichotomy}]\label{lem-essential-doubling} Suppose that $\RR \le \bA_0 \times \cdots \times \bA_{n+1}$ is $(\bC,\bB_1, ..., \bB_n, \bC')$-essential, with $\bC' \lhd_Z \bA_{n+1}$ and $\bA_{n+1}$ finite and idempotent. Then there is a relation
 \[
 \RR' \le \bA_0 \times \cdots \times \bA_n \times \bA_n \times \cdots \times \bA_0
 \]
@@ -8606,7 +8952,7 @@ so $(b,b) \in \bS$, contradicting our assumption that $\bC' \lhd_Z \bA_{n+1}$.
 \begin{proof} If $\bC$ does not absorb $\bA$ with respect to any ternary term, then by Theorem \ref{absorption-essential} there is some ternary $\bC$-essential relation $\RR \le \bA^3$. By repeatedly applying the doubling trick, we see that there exists some $\bC$-essential relation of arity $2+2^k$ for every $k \ge 0$, so $\bC$ can't absorb $\bA$ with respect to a term of any arity, contradicting the assumption $\bC \lhd_Z \bA$.
 \end{proof}
 
-\begin{cor} If $\bC_1 \lhd_Z \bA_1, \bB_2 \lhd \bA_2$, and $\bC_3 \lhd_Z \bA_3$ with $\bA_i$ finite and idempotent, then no $(\bC_1, \bB_2, \bC_3)$-essential relation can exist.
+\begin{cor}\label{cor-essential-sandwich} If $\bC_1 \lhd_Z \bA_1, \bB_2 \lhd \bA_2$, and $\bC_3 \lhd_Z \bA_3$ with $\bA_i$ finite and idempotent, then no $(\bC_1, \bB_2, \bC_3)$-essential relation can exist.
 \end{cor}
 \begin{proof} If a $(\bC_1, \bB_2, \bC_3)$-essential relation exists, then by repeatedly applying the doubling trick we can find $(\bC_1, \bB_2, ..., \bB_2, \bC_1)$-essential relations of arbitrarily high arity. By forcing the first and last coordinates to be in $\bC_1$ and existentially projecting, we see that there are $\bB_2$-essential relations of arbitrarily high arity, which contradicts the assumption $\bB_2 \lhd \bA_2$.
 \end{proof}
@@ -8637,6 +8983,9 @@ since each of $x_i, x_j, x_k$ do, which completes the inductive step.
 \end{cor}
 \begin{proof} For any finite collection of pairs $\bC_i \lhd_Z \bB_i \in HSP(\bA)$, we can apply the previous corollary to find a term $t \in \Clo_3(\bA)$ which simultaneously witnesses all $\bC_i \lhd \bB_i$. Since there are only finitely many ternary terms $t$ of $\bA$, some $t$ must work for all pairs $\bC \lhd_Z \bB \in HSP(\bA)$.
 \end{proof}
+
+\begin{rem} Since each case of these corollaries is a concrete statement about the elements of a finite collection of relations, by Theorem \ref{thm-finitely-related-jonsson-absorption} they should all still apply if we modify the definition of central absorption by replacing ``absorption'' by ``J\'onsson absorption''. In fact, the essential relations constructed through repeated application of Lemma \ref{lem-essential-doubling}, starting from a ternary $(\bC_1, \bB_2, \bC_3)$-essential relation, actually end up being definable by ``comb fomulas'' (using the language of Subsection \ref{ss-finitely-related-jonsson}). Furthermore, the assumptions of Corollary \ref{cor-essential-sandwich} can be weakened to just $\bB_2 \lhd_J \bA_2$ and $a \not\in \bC_i \implies (a,a) \not\in \Sg_{\bA_i^2}(\{a\}\times\bC_i \cup \bC_i\times\{a\})$.%TODO: modify the proofs to get this result directly
+\end{rem}
 
 Central absorption turns out to be a good absorption concept (in the sense of the previous section), as long as we restrict ourselves to finite idempotent algebras. Unlike previous absorption concepts, in this case it is not so easy to see that $\lhd_Z$ is compatible with pp-formulas. For this, we need to consider the basic types of pp-formulas separately. The hardest case is the case of projections.
 
@@ -8719,7 +9068,7 @@ as required.
 % TODO
 
 
-\section{Binary relations in Taylor algebras: the Absorption Theorem and the Loop Lemma}
+\section{Absorption Theorem and Loop Lemma: Binary relations in Taylor algebras}
 
 In this section we'll go over two of the main results from Barto and Kozik's paper \cite{cyclic} about absorption, known as the ``absorption theorem'' and the ``loop lemma''. The first of these results can be used to constrain the possible subdirect binary relations in simple absorption free algebras, while the second result makes no direct mention of absorption, but combines the theory of absorbing subalgebras with an elementary argument in the absorption free case to give a criterion for a subdirect binary relation to intersect the diagonal.
 
@@ -9106,6 +9455,9 @@ Since the conclusion of Theorem \ref{absorption-free} is actually much stronger 
 
 \begin{prop} Every subdirectly simple finite algebra is polynomially complete.
 \end{prop}
+
+\begin{rem} Every simple algebra with a Pixley term is subdirectly simple, in addition to being polynomially complete (see Theorem \ref{pixley-poly}).
+\end{rem}
 
 \begin{cor}[Zhuk's four cases \cite{zhuk-dichotomy}]\label{zhuk-four-cases} If $\bA$ is a nontrivial finite idempotent Taylor algebra, then at least one of the following is true.
 \begin{itemize}
@@ -11097,7 +11449,7 @@ In \cite{robust-near-unanimity}, the authors show that for every $\bA$ with a ne
 \begin{rem} The first part of the proof of Theorem \ref{refined-sdp} shows that given a solution to the LP relaxation of an instance $\fX$ with value $1-\epsilon$, we can find a subinstance $\fX'$ which satisfies (P1) and (P2) after giving up on an $O(1/\log(1/\epsilon))$ fraction of the constraints. A positive answer to the following problem would then prove that every CSP which is solved by its LP relaxation is also \emph{robustly} solved by its LP relaxation.
 \end{rem}
 
-\begin{prob}[Conjectured in \cite{hui-symmetric}]\label{prob-p1-p2} Suppose that $\CSP(\bA)$ is solved by its LP relaxation. Is it necessarily the case that every instance $\fX$ of $\CSP(\bA)$ which satisfies the consistency conditions (P1) and (P2) has a solution?
+\begin{prob}[Conjectured in \cite{mui-symmetric}]\label{prob-p1-p2} Suppose that $\CSP(\bA)$ is solved by its LP relaxation. Is it necessarily the case that every instance $\fX$ of $\CSP(\bA)$ which satisfies the consistency conditions (P1) and (P2) has a solution?
 \end{prob}
 
 We will solve this problem in the next section.
