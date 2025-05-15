@@ -74,7 +74,7 @@ In order to avoid Ladner's result, Feder and Vardi focused on a special type of 
 Having justified restricting our studies to CSPs, we now give some examples of particularly famous CSP templates.
 \end{comment}
 
-\begin{ex} The problem $k$-COLORING (given a graph, determine if it can be colored with $k$ colors) is equivalent to $\CSP(\{1, ..., k\}, \ne) = \CSP(K_k)$, where $K_k$ is the complete graph of $k$ vertices (considered as a relational structure).
+\begin{ex}\label{ex-k-color} The problem $k$-coloring (given a graph, determine if it can be colored with $k$ colors) is equivalent to $\CSP(\{1, ..., k\}, \ne) = \CSP(K_k)$, where $K_k$ is the complete graph of $k$ vertices (considered as a relational structure).
 \end{ex}
 
 \begin{ex} The problem 2-SAT is equivalent to $\CSP(\{0,1\}, \le, \ne)$. This problem is in P - in fact, it is known to be NL-complete (NL stands for nondeterministic logspace), and it can be solved in linear time.
@@ -83,16 +83,16 @@ Having justified restricting our studies to CSPs, we now give some examples of p
 \begin{ex} The problem 3-SAT can be thought of as $\CSP(\{0,1\}, R_{(0,0,0)}, ..., R_{(1,1,1)})$, where $R_{(i,j,k)} = \{0,1\}^3 \setminus \{(i,j,k)\}$. We can also simplify this to the equivalent problem $\CSP(\{0,1\}, \{0,1\}^3\setminus\{(0,0,0)\}, \ne)$.
 \end{ex}
 
-\begin{ex} The problem NAE-SAT is $\CSP(\{0,1\}, NAE)$, where $NAE = \{0,1\}^3 \setminus \{(0,0,0), (1,1,1)\}$ is the relation that states that the three variables in question are not all equal. This CSP template is known to be NP-complete.
+\begin{ex}\label{ex-nae} The problem NAE-SAT is $\CSP(\{0,1\}, NAE)$, where $NAE = \{0,1\}^3 \setminus \{(0,0,0), (1,1,1)\}$ is the relation that states that the three variables in question are not all equal. This CSP template is known to be NP-complete (see Theorem \ref{thm-nae-np-complete}).
 \end{ex}
 
-\begin{ex} The problem 1-IN-3 SAT is $\CSP(\{0,1\}, \{(0,0,1), (0,1,0), (1,0,0)\})$. This CSP template is known to be NP-complete.
+\begin{ex}\label{ex-1-in-3} The problem 1-IN-3 SAT is $\CSP(\{0,1\}, \{(0,0,1), (0,1,0), (1,0,0)\})$. This CSP template is known to be NP-complete (see Theorem \ref{thm-1-in-3-np-complete}).
 \end{ex}
 
-\begin{ex} The problem HORN-SAT is $\CSP(\{0,1\}, \{0\}, \{1\}, \{0,1\}^3\setminus\{(1,1,0)\})$ (the third constraint is $(x \wedge y) \implies z$). This problem is known to be P-complete, and it can be solved in linear time.
+\begin{ex} The problem HORN-SAT is $\CSP(\{0,1\}, \{0\}, \{1\}, \{0,1\}^3\setminus\{(1,1,0)\})$ (the third constraint is $(x \wedge y) \implies z$). This problem is known to be P-complete, and it can be solved in linear time \cite{hornsat-linear}.
 \end{ex}
 
-\begin{ex} The problem XOR-SAT is $\CSP(\{0,1\}, \{(0,0,0), (0,1,1), (1,0,1), (1,1,0)\}, \ne)$. This problem is in P - in fact, it can be solved in deterministic time $n^{\log_2(7)}$ and randomized quadratic time \cite{sparse-systems} (it is unknown if it can be solved in linear time).
+\begin{ex} The problem XOR-SAT is $\CSP(\{0,1\}, \{(0,0,0), (0,1,1), (1,0,1), (1,1,0)\}, \ne)$. This problem is in P - in fact, it can be solved in deterministic time $n^{\log_2(7)}$ and randomized quadratic time \cite{sparse-systems} (whether it can be solved in linear time is unknown).
 \end{ex}
 
 Generalizing the XOR-SAT example to a larger domain, we have the following very general family of problems which can be thought of as the natural generalization of systems of linear equations, over a possibly noncommutative group.
@@ -692,7 +692,7 @@ or it is a poset $\cL = (L, \le)$ such that every pair of elements $\{a,b\} \sub
 \[
 a \le b \iff a = a \wedge b \iff a \vee b = b
 \]
-as well as the algebraic identities above. Note that the operations $\wedge, \vee$ are determined by $\le$, and the partial order $\le$ is determined by either of the operations $\wedge$ or $\vee$. A \emph{$0,1$-lattice} is a lattice with named constants $0, 1$ which are repectively the least and greatest elements of $\cL$.
+as well as the algebraic identities above. Note that the operations $\wedge, \vee$ are determined by $\le$, and the partial order $\le$ is determined by either of the operations $\wedge$ or $\vee$. A \emph{$0,1$-lattice} is a lattice with named constants $0, 1$ which are respectively the least and greatest elements of $\cL$.
 
 A \emph{lattice homomorphism} is a homomorphism of the algebraic structure $(L, \wedge, \vee)$. Note that there may be some homomorphisms of the relational structure $(L, \le)$ which do not count as lattice homomorphisms - a map which respects the partial order $\le$ is just called a \emph{monotone} map.
 \end{defn}
@@ -974,7 +974,7 @@ An \emph{$k$-CNF formula} (where CNF is an abbreviation for \emph{conjunctive no
 \begin{ex} For any $k$, we define \emph{$k$-SAT} to be the problem where the input is a $k$-CNF formula, and the desired output is ``Yes'' if there is an assignment of values in $\{0,1\}$ to the variables which makes the formula true.
 \end{ex}
 
-\begin{thm} 3-SAT is NP-complete under logspace reductions.
+\begin{thm}\label{thm-3-sat-np-complete} 3-SAT is NP-complete under logspace reductions.
 \end{thm}
 \begin{proof} By the previous proposition, there is a logspace reduction from any problem in NP to Circuit-SAT, so we just need to find a logspace reduction from Circuit-SAT to 3-SAT. As usual, we will describe the desired output of the logspace transducer for a given circuit $\cC$, but we will leave the detailed construction of such a transducer as an exercise to the reader.
 
@@ -994,16 +994,197 @@ so by De Morgan's law we have
 \end{align*}
 Note that the right hand side is a conjunction of four clauses of length $3$ - we will name these clauses $C_{v_\wedge,0}, C_{v_\wedge,1}$, $C_{v_\wedge,2}, C_{v_\wedge,3}$.
 
-We handle the other gates which are labeled by operations in $\{\wedge,\vee,\neg,0,1\}$ similarly. For the output gate $v_{\mathrm{out}}$, if we let $e_{\mathrm{out}}$ be the unique incoming edge and $v_0$ be the source of the edge $e_{\mathrm{out}}$, then we will introduce the clause $C_{v_{\mathrm{out}}, 0} = (x_{v_0})$ of length one to ensure that the output of the circuit evaluates to $1$. (We don't introduce any clauses for the input gates, since the $n$ inputs can have arbitrary values.)
+We handle the other gates which are labeled by operations in $\{\wedge,\vee,\neg,0,1\}$ similarly. For the output gate $v_{\mathrm{out}}$, if we let $e_{\mathrm{out}}$ be the unique incoming edge and $v_0$ be the source of the edge $e_{\mathrm{out}}$, then we will introduce the clause $C_{v_{\mathrm{out}}, 0} = (x_{v_0})$ of length one to ensure that the output of the circuit evaluates to $1$. (We don't need to introduce any clauses for the input gates, since the $n$ inputs can have arbitrary values.)
 
 To finish the construction, we define the formula $\Phi$ to be
 \[
 \Phi = \bigwedge_{v \in V} \bigwedge_j C_{v,j}.
 \]
-The formula $\Phi$ is a 3-CNF formula by construction. It is straightforward to check that $\Phi$ is satisfiable if and only if the circuit $\cC$ is satisfiable, which completes the proof.
+The formula $\Phi$ is a 3-CNF formula by construction. It is straightforward to check that $\Phi$ is satisfiable if and only if the circuit $\cC$ is satisfiable (and in fact that there is a bijection between satisfying assignments to $\Phi$ and $\cC$), which completes the proof.
 \end{proof}
 
+Simple as it is, it can be argued that 3-SAT is still a rather complex problem - clauses can have anywhere between $0$ and $3$ negated variables, so we have four distinct types of clauses on three variables. The 1-IN-3 SAT problem from Example \ref{ex-1-in-3} has just one type of three-variable constraint, which is additionally symmetric in its arguments.
+
+\begin{thm}\label{thm-1-in-3-np-complete} 1-IN-3 SAT is NP-complete under logspace reductions.
+\end{thm}
+\begin{proof} We just need to find a logspace reduction from 3-SAT to 1-IN-3 SAT. We will do this by finding a mechanical transformation from any instance of 3-SAT to an instance of 1-IN-3 SAT which will have a solution if and only if the original 3-SAT instance had a solution. We will use the abbreviation
+\[
+\text{1-IN-3} = \{(0,0,1), (0,1,0), (1,0,0)\}.
+\]
+
+First, note that we can introduce two new variables $z, w$ in the 1-IN-3 SAT instance which we can force to take the values $0$ and $1$ (respectively) by imposing the constraint
+\[
+(z, z, w) \in \text{1-IN-3}.
+\]
+Next, we can introduce a negated copy $y_i$ of each variable $x_i$ from the original 3-SAT instance, and we can ensure that $y_i = \neg x_i$ by throwing in the constraint
+\[
+(x_i, y_i, z) \in \text{1-IN-3},
+\]
+using the fact that $z$ is forced to take the value $0$. This way every literal of the original 3-SAT instance corresponds to some variable of the 1-IN-3 SAT instance which we are constructing.
+
+To finish, we just need to construct a primitive positive formula over 1-IN-3 which is equivalent to the clause $(\neg x_1 \vee \neg x_2 \vee \neg x_3)$. Here is one way to do it:
+\begin{align*}
+(\neg x_1 \vee \neg x_2 \vee \neg x_3) \;\;\; \iff \;\;\; \exists &a_1, a_2, a_3, b_1, b_2, b_3 \text{ s.t. } (a_1, a_2, a_3) \in \text{1-IN-3}\ \wedge\\
+&(x_1, a_1, b_1) \in \text{1-IN-3} \wedge (x_2, a_2, b_2) \in \text{1-IN-3} \wedge (x_3, a_3, b_3) \in \text{1-IN-3}.
+\end{align*}
+By replacing some $x_i$s with their corresponding negated copies $y_i$, we can simulate the other types of clauses as well. Thus we can simulate any clause of the original 3-SAT instance by introducing $6$ new auxiliary variables (i.e. the $a_i$s and $b_i$s) and $4$ new 1-IN-3 constraints. Putting it all together, if the original 3-SAT instance had $n$ variables and $m$ constraints, then the 1-IN-3 SAT instance we construct will have $2 + 2n + 6m$ variables and $1 + n + 4m$ constraints, and it will have a solution if and only if the original 3-SAT instance had a solution.
+\end{proof}
+
+The NAE-SAT (where NAE is short for ``Not All Equal'') problem from Example \ref{ex-nae} is arguably even more symmetric that 1-IN-3 SAT, since the NAE constraint is also preserved by simultaneously replacing all three inputs with their negations. This extra symmetry makes proving that NAE-SAT is NP-complete slightly more tricky.
+
+\begin{thm}\label{thm-nae-np-complete} NAE-SAT is NP-complete under logspace reductions.
+\end{thm}
+\begin{proof} It's enough to find a logspace reduction from 1-IN-3 SAT to NAE-SAT. We will do this by finding a mechanical transformation from any instance of 1-IN-3 SAT to an instance of NAE-SAT which will have a solution if and only if the original 1-IN-3 SAT instance had a solution. We will use the abbreviation
+\[
+\text{NAE} = \{0,1\}^3 \setminus \{(0,0,0), (1,1,1)\},
+\]
+as well as the abbreviation 1-IN-3 introduced in the previous proof.
+
+The main difficulty is that there is no way to guarantee that any particular variable in our NAE-SAT instance is forced to take the value $1$, due to the symmetry between $0$ and $1$. We get around this by exploiting that very symmetry: we introduce two new variables $z, w$ in the NAE-SAT instance, which we force to take opposite values by imposing the constraint
+\[
+(z,z,w) \in \text{NAE}.
+\]
+Now, from here on we will simply pretend that $z = 0$ and that $w = 1$ - if this is not the case, then we will swap $0$ with $1$ throughout any hypothetical solution to our NAE-SAT instance to replace it with a solution where we do have $z = 0$ and $w = 1$.
+
+To finish, we just need to construct a primitive positive formula over NAE and the unary constraint $\{1\}$ which is equivalent to $(x_1, x_2, x_3) \in \text{1-IN-3}$. Here is one way to do it:
+\begin{align*}
+(x_1, x_2, x_3) \in \text{1-IN-3} \;\;\; \iff \;\;\; &(x_1, x_2, x_3) \in \text{NAE} \wedge (x_1, x_2, 1) \in \text{NAE}\ \wedge\\
+&(x_1, 1, x_3) \in \text{NAE} \wedge (1, x_2, x_3) \in \text{NAE}.
+\end{align*}
+Replacing the $1$s with the variable $w$ which we introduced earlier, we get a NAE formula which doesn't involve the unary constraint $\{1\}$. If the original 1-IN-3 SAT instance had $n$ variables and $m$ constraints, then the NAE-SAT instance we construct this way will have $2 + n$ variables and $4m$ constraints, and will have exactly twice as many solutions as the original 1-IN-3 SAT instance.
+\end{proof}
+
+%1-IN-3 SAT and NAE-SAT are the simplest NP-complete problems on the domain $\{0,1\}$ - any problem built purely out of binary constraints reduces to 2-SAT, which can be solved in polynomial time (in fact, 2-SAT is even contained in $\mathrm{NL}$, short for non-deterministic logspace, which is defined similarly to $\mathrm{NP}$ but with logspace machines replacing polynomial time machines throughout the definition).% TODO: prove that 2-SAT is NL-complete and that NL = coNL and NL is contained in P
+
+If we want an NP-complete constraint satisfaction problem which only involves binary constraints, we will have to consider a larger domain. Arguably the simplest binary relation on the domain $[k]$ is the $\ne$ relation, which is fully symmetric. This corresponds to the $k$-coloring problem from Example \ref{ex-k-color}.
+
+\begin{thm}\label{thm-k-color-np-complete} For every $k \ge 3$, the $k$-coloring problem is NP-complete under logspace reductions.
+\end{thm}
+\begin{proof} It's enough to find a logspace reduction from NAE-SAT to $k$-coloring. To make things a little bit more notationally convenient, let's replace the domain of $k$-coloring with the set $\{0, 1, ..., k-1\}$. We use the same abbreviation NAE for $\{0,1\}^3 \setminus \{(0,0,0), (1,1,1)\}$ as in the previous proof.
+
+Just as in the previous argument, we have to deal with the fact that any permutation of the colors $0, ..., k-1$ leaves any instance of $k$-coloring unchanged. We deal with this by introducing $k$ new variables $c_0, ..., c_{k-1}$, which we force to all have different values by imposing the $\binom{k}{2}$ constraints
+\[
+c_i \ne c_j
+\]
+for each pair $i,j < k$ with $i \ne j$. Now, from here on we will simply pretend that $c_i = i$ for each $i < k$ - if this is not the case, then we will permute the colors throughout any hypothetical solution to our $k$-coloring instance to replace it with a solution where $c_i = i$ for all $i < k$.
+
+To finish, we just need to construct a primitive positive formula over $\ne$ together with the collection of unary constraints $\{i\}$ for $i < k$ which is equivalent to $(x_1, x_2, x_3) \in \text{NAE}$ (note that $(x_1, x_2, x_3) \in \text{NAE}$ implies that each of $x_1, x_2, x_3$ is in $\{0,1\}$). Note that the collection of unary constraints $\{i\}$ together with the binary constraint $\ne$ allow us to primitively positively define \emph{every} unary relation on $\{0, ..., k-1\}$, by the formula
+\[
+x \in U \;\;\; \iff \;\;\; \bigwedge_{i \not\in U} x \ne i.
+\]
+Now we can use the formula
+\begin{align*}
+(x_1, x_2, x_3) \in \text{NAE} \;\;\; \iff \;\;\; &(x_1, x_2, x_3 \in \{0,1\})\ \wedge \\
+&\big(\exists y_1, y_2, y_3 \in \{0,1,2\} \text{ s.t. } (y_1\ne y_2) \wedge (y_1 \ne y_3) \wedge (y_2 \ne y_3)\\
+&\ \wedge (x_1 \ne y_1) \wedge (x_2 \ne y_2) \wedge (x_3 \ne y_3)\big).
+\end{align*}
+If the original NAE-SAT instance had $n$ variables and $m$ constraints, then the $k$-coloring instance we construct this way will have $k + n + 3m$ variables and $\binom{k}{2} + (3(k-2) + 3(k-3) + 6)m$ constraints, and will have exactly $k!$ times as many solutions as the original NAE-SAT instance.
+\end{proof}
+
+\begin{comment}
+Before going on to prove the NP-completeness of even simpler problems like 1-IN-3 SAT, we will make a little digression to point out that even logspace reductions are much more powerful than necessary for proving the NP-completeness of 3-SAT. Now that we have formally defined circuits, we can describe an even more basic type of computation than a logspace computation, using the concept of \emph{parallel complexity}. The idea is that rather than focusing on the total number of gates in a circuit, we will instead focus on the \emph{depth} of the circuit: we imagine that we have (polynomially many) parallel processors which can simultaneously compute the output of various gates as long as they don't causally depend on each other, and we care about the total time we spend waiting for the result more than the total amount of computation performed.
+
+Before defining circuit complexity classes, we have to deal with the fact that every particular circuit has a fixed number of inputs and outputs. We deal with this by talking about \emph{families} of circuits, i.e. for each input size $n$ we will have a different circuit $C_n$ which tells us how to compute a function $f_n : \{0,1\}^n \rightarrow \{0,1\}^{m_n}$, for some sequence of output sizes $m_n$. If we are not careful about this, then we get the complexity class $\mathrm{P/poly}$, defined as follows.
+
+\begin{defn} A function $f : \bigcup_{n \ge 0} \{0,1\}^n \rightarrow \{0,1\}$ is in the complexity class $\mathrm{P/poly}$ if there is a family of Boolean circuits $\{C_n\}_{n \ge 0}$ such that the $n$th circuit $C_n$ has $n$ inputs and one output, computes the restriction $f|_{\{0,1\}^n}$, and has total size $n^{O(1)}$ as $n \rightarrow \infty$.
+\end{defn}
+
+The trouble with this definition is that the sequence of circuits $C_n$ can contain arbitrary ``advice'' tailored to the input size $n$, as long as that advice can be described as a string of $n^{O(1)}$ bits. This advice can then be exploited to resolve undecidable problems.
+
+\begin{prop} There is a function $f$ in $\mathrm{P/poly}$ which can't be computed by any Turing machine. In fact, there are uncountably many such functions $f$.
+\end{prop}
+\begin{proof} Let $g : \mathbb{N} \rightarrow \{0,1\}$ be any uncomputable function. For each $n$, define the circuit $C_n$ to be the circuit which ignores all of its inputs, and always outputs the constant $1$ if $g(n) = 1$, or always outputs the constant $0$ if $g(n) = 0$. Then the function $f : \bigcup_{n \ge 0} \{0,1\}^n \rightarrow \{0,1\}$ defined by the family of circuits $C_n$ is in $\mathrm{P/poly}$ and $f$ can be used to compute the function $g$, so $f$ must also be uncomputable. For the last statement, note that the number of uncomputable functions $g$ is uncountable.
+\end{proof}
+
+To get around this issue, we introduce the concept of a \emph{uniform} family of circuits.
+
+\begin{defn} We say that a family of circuits $\{C_n\}_{n \ge 0}$ is \emph{logspace uniform} if there is a logspace transducer which takes the number $n$ written in unary as input, and produces a description of the $n$th circuit $C_n$ as output.
+\end{defn}
+
+Now we can define circuit complexity classes for parallel computing. It's common to augment the basic set of Boolean gates with some basic symmetric operations, to allow ourselves to do operations like ``simultaneously perform $n$ simple computations, and then check if any of those computations produced the output $1$''. Exactly which symmetric operations we allow ourselves to use as gates leads to several different complexity classes.
+
+\begin{defn} Suppose that a function $f : \bigcup_{n \ge 0} \{0,1\}^n \rightarrow \bigcup_{m \ge 0} \{0,1\}^m$ is defined by a logspace uniform family of circuits $\{C_n\}_{n \ge 0}$ on the domain $\{0,1\}$, such that the $n$th circuit $C_n$ has size $n^{O(1)}$ and depth $O(\log(n)^i)$ as $n \rightarrow \infty$.
+\begin{itemize}
+\item If the set of basic operations $\cO$ used by the circuits $C_n$ is the standard set of Boolean operations $\{\wedge,\vee,\neg,0,1\}$, then we say that the function $f$ is contained in \emph{Nick's class} $\mathrm{NC}^i$.
+\item If the set of basic operations $\cO$ used by the circuits $C_k$ is $\{\wedge_k,\vee_k\}_{k \ge 0} \cup \{\neg,0,1\}$, where
+\[
+\wedge_k(x_1, ..., x_k) \coloneqq x_1 \wedge \cdots \wedge x_k
+\]
+and $\vee_k$ is defined similarly, then we say that the function $f$ is contained in $\mathrm{AC}^i$, the class of \emph{alternating circuits}.
+\item If the set of basic operations $\cO$ used by the circuits $C_n$ is $\{\mathrm{mod-}m_k\}_{k \ge 0} \cup \{\wedge_k,\vee_k\}_{k \ge 0} \cup \{\neg,0,1\}$, where
+\[
+\mathrm{mod-}m_k(x_1, ..., x_k) \coloneqq \begin{cases} 1 & \text{if } x_1 + \cdots + x_k \not\equiv 0 \pmod{m},\\ 0 & \text{if } x_1 + \cdots + x_k \equiv 0 \pmod{m},\end{cases}
+\]
+then we say that the function $f$ is contained in $\mathrm{AC}^i[m]$, the class of \emph{alternating circuits with mod-$m$ gates}.
+\item If the set of basic operations $\cO$ used by the circuits $C_n$ is $\{\mathrm{maj}_{2k+1}\}_{k \ge 0} \cup \{\wedge_k,\vee_k\}_{k \ge 0} \cup \{\neg,0,1\}$, where
+\[
+\mathrm{maj}_{2k+1}(x_1, ..., x_{2k+1}) \coloneqq \begin{cases} 1 & \text{if } x_1 + \cdots + x_{2k+1} \ge k+1,\\ 0 & \text{if } x_1 + \cdots + x_{2k+1} \le k,\end{cases}
+\]
+then we say that the function $f$ is contained in $\mathrm{TC}^i$, the class of \emph{threshold circuits}.
+\end{itemize}
+Note that in each case, the superscript $i$ indicates that the depth of the circuits is bounded by $O(\log(n)^i)$, while the exact size of the circuits is ignored as long as it is bounded above by some polynomial. Additionally, we always impose the requirement that our family of circuits is logspace uniform (note that many authors do not make this requirement).
+\end{defn}
+
+Among these parallel complexity classes, the one which will interest us the most is $\mathrm{AC}^0$ - the main reason we introduced the other classes is to allow ourselves to put $\mathrm{AC}^0$ in context by stating some standard results. First we will show that $\mathrm{NC}^1$ is powerful enough to count.
+
+\begin{prop} There is a logspace uniform family of Boolean circuits $C_n$ of size $O(n)$ and depth $O(\log(n))$, such that $C_n$ implements the function $f_n : \{0,1\}^n \rightarrow \{0,1\}^{\lfloor \log_2(n)\rfloor + 1}$ which computes $x_1 + \cdots + x_n$ and returns the result in binary.
+\end{prop}
+\begin{proof} Let $m = \lfloor \log_2(n)\rfloor + 1$. First, we construct a function called a ``$3$-$2$ compressor'', which takes three $m$-bit numbers $x_1, x_2, x_3$ as input, and produces two $m$-bit numbers $y_1, y_2$ such that
+\[
+x_1 + x_2 + x_3 \equiv y_1 + y_2 \pmod{2^m}
+\]
+as output. If we write $x_{i:j}$ for the $j$th bit of $x_i$, and similarly for $y_{i:j}$, then a $3$-$2$ compressor can be computed by a circuit of constant depth, by letting
+\[
+y_{1:j} = x_{1:j} \oplus x_{2:j} \oplus x_{3:j},
+\]
+and
+\[
+y_{2:j+1} = \mathrm{maj}(x_{1:j}, x_{2:j}, x_{3:j}),
+\]
+so that $y_1$ is the result of ignoring the carry bits while adding, and $y_2$ consists of the ignored carry bits.
+
+By chaining together two $3$-$2$ compressors, we can construct a constant-depth circuit computing a $4$-$2$ compressor which takes four $m$-bit numbers $x_1, x_2, x_3, x_4$ as input, and produces two $m$-bit numbers $y_1, y_2$ such that
+\[
+x_1 + x_2 + x_3 + x_4 \equiv y_1 + y_2 \pmod{2^m}
+\]
+as output. From this we can build by induction a $2^k$-$2$ compressor computed by a circuit of depth $O(k)$ for each $k \le m$.
+
+Since $n < 2^m$, a $2^m$-$2$ compressor can be used as an $n$-$2$ compressor (by replacing the unused inputs with $0$s), so there is a Boolean circuit of depth $O(m) = O(\log(n))$ which computes a pair of $m$-bit numbers $y_1, y_2$ satisfying
+\[
+x_1 + \cdots + x_n \equiv y_1 + y_2 \pmod{2^m}.
+\]
+To finish, we just need to add $y_1$ and $y_2$ together using a circuit of depth $O(m)$, which we can do with the standard right-to-left add-and-carry algorithm. (In fact, it is possible to add $y_1$ and $y_2$ together using a Boolean circuit of depth $O(\log(m))$ by working a little bit harder.)
+\end{proof}
+
+As a consequence, we see that $\mathrm{TC}^i$ is contained in $\mathrm{NC}^{i+1}$ for each $i$. Next we show that threshold circuits can simulate any (logspace uniform) family of symmetric operations.
+
+\begin{prop} For any symmetric operation $g : \{0,1\}^n \rightarrow \{0,1\}$, described compactly as a function $h$ from $x_1 + \cdots + x_n \in \{0, ..., n\}$ to $\{0,1\}$, we can build a threshold circuit $C$ of depth $O(1)$ which computes $g$ (and the map from $h$ to the circuit $C$ can be computed by a logspace transducer).
+\end{prop}
+\begin{proof} By plugging in the constant values $0$ and $1$ as some of the inputs to majority gates, we can compute any threshold function $t_{k,n}$, defined by
+\[
+t_{k,n}(x_1, ..., x_n) \coloneqq \begin{cases} 1 & \text{if } x_1 + \cdots + x_n \ge k,\\ 0 & \text{if } x_1 + \cdots + x_n < k.\end{cases}
+\]
+The formula
+\[
+t_{k,n}(x_1, ..., x_n) \wedge \neg t_{k+1,n}(x_1, ..., x_n)
+\]
+then evaluates to $1$ exactly when $x_1 + \cdots + x_n = k$. Thus, the formula
+\[
+\bigvee_{h(k) = 1} \big(t_{k,n}(x_1, ..., x_n) \wedge \neg t_{k+1,n}(x_1, ..., x_n)\big)
+\]
+computes $g$, and corresponds to a threshold circuit of depth at most $5$.
+\end{proof}
+
+As a consequence, $\mathrm{AC}^i[m]$ is contained in $\mathrm{TC}^i$ for each $i$ and $m$. Putting the last two results together, we see that the various parallel circuit complexity classes we have defined fit into a linear hierarchy.
+
+\begin{cor} For each $i$ and $m$, we have
+\[
+\mathrm{NC}^i \subseteq \mathrm{AC}^i \subseteq \mathrm{AC}^i[m] \subseteq \mathrm{TC}^i \subseteq \mathrm{NC}^{i+1}.
+\]
+\end{cor}
+
 % TODO: the sequence NC^0, AC^0, AC^0[m], TC^0, NC^1, L, more basic AC^0 reductions, 1-IN-3 SAT, NAE-SAT, k-coloring, a little bit of descriptive complexity theory
+\end{comment}
 
 
 \chapter{Initial Intuition}\label{chapter-intuition}
@@ -2596,6 +2777,18 @@ Currently it is unknown if the following problem can be solved using at most an 
 An interesting result in this direction is proved in \cite{symmetric-polymorphisms}: an algebraic structure $\bA$ has symmetric term operations of all arities iff there is no $\bB \in HSP(\bA)$ which has a pair of automorphisms in $\Aut(\bB)$ having no common fixed point (in fact, if $\bA$ has no symmetric term operation of arity $n$, we can take $\bB$ to be the free algebra on $n$ variables in the variety generated by $\bA$). If $HSP(\bA)$ could be replaced by $HS(\bA)$ in their result, then this would imply that it is enough to check for the existence of symmetric polymorphisms of arities up to $|\fA|$.
 
 Later we will prove that any Taylor algebra has cyclic term operations of all arities which have no small prime factors, so we might hope that we could use these to help construct symmetric polymorphisms of higher arity. More ingredients are likely needed for such an argument, however: in \cite{symmetric-polymorphisms}, an example is given of a relational structure which has cyclic polymorphisms of every arity, but which has no symmetric polymorphism of arity $5$.
+
+The reason behind the existence of the relational structure found in \cite{symmetric-polymorphisms} was eventually explained by the paper \cite{symmetric-terms-simple-groups}, which constructed an analogous relational structure for every finite non-abelian simple group, along with a corresponding type of polymorphism generalizing cyclic operations. The example from \cite{symmetric-polymorphisms} comes from the smallest non-abelian simple group, the alternating group $A_5$ of even permutations on five symbols. That example is (up to pp-constructability) the simplest relational structure which fails to have a $21$-ary polymorphism $f$ satisfying the identities
+\begin{align*}
+&f(x_1,x_2,x_3,x_4,x_5,y_1,y_2,y_3,y_4,y_5,y_6,z_{1,2},z_{1,3},z_{1,4},z_{1,5},z_{2,3},z_{2,4},z_{2,5},z_{3,4},z_{3,5},z_{4,5})\\
+\approx\ &f(x_1,x_2,x_4,x_5,x_3,y_2,y_3,y_1,y_5,y_6,y_4,z_{1,2},z_{1,4},z_{1,5},z_{1,3},z_{2,4},z_{2,5},z_{2,3},z_{4,5},z_{3,4},z_{3,5})
+\end{align*}
+and
+\begin{align*}
+&f(x_1,x_2,x_3,x_4,x_5,y_1,y_2,y_3,y_4,y_5,y_6,z_{1,2},z_{1,3},z_{1,4},z_{1,5},z_{2,3},z_{2,4},z_{2,5},z_{3,4},z_{3,5},z_{4,5})\\
+\approx\ &f(x_3,x_4,x_1,x_2,x_5,y_1,y_2,y_4,y_3,y_6,y_5,z_{3,4},z_{1,3},z_{2,3},z_{3,5},z_{1,4},z_{2,4},z_{4,5},z_{1,2},z_{1,5},z_{2,5}),
+\end{align*}
+and consists of a $21$-element domain together with a pair of binary relations, each binary relation corresponding to one of the identities above. The three sets of variables $\{x_1, ..., x_5\}, \{y_1, ..., y_6\}$, and $\{z_{1,2}, ..., z_{4,5}\}$ correspond to the three primitive group actions of $A_5$ (up to isomorphism of sets with an $A_5$-action) - or, equivalently, to the three conjugacy classes of maximal subgroups of $A_5$ (these maximal subgroups are isomorphic to $A_4, D_5$, and $S_3$).
 
 
 \section{Mal'cev algebras}
@@ -12304,7 +12497,7 @@ Now we are finally ready to prove one of the main results of \cite{cyclic}, whic
 
 \begin{thm}[Finite Taylor algebras have cyclic terms \cite{cyclic}, refined by Zhuk]\label{cyclic-terms} Suppose $\bA$ is a finite idempotent Taylor algebra and that $p$ is prime. Then one of the following is true:
 \begin{itemize}
-\item[(a)] either $\bA$ has a cylic term of arity $p$, or
+\item[(a)] either $\bA$ has a cyclic term of arity $p$, or
 \item[(b)] there is some $\bB \in HS(\bA)$ and some automorphism $\sigma \in \Aut(\bB)$ such that $\sigma^p = 1$ and $\sigma$ has no fixed points.
 \end{itemize}
 In particular, if $p > |\bA|$ then $\bA$ has a cyclic term of arity $p$.
@@ -12351,7 +12544,7 @@ so $\bB$ is a union of linked components of $\pi_{ij}(\RR)$. Since $\pi_{ij}(\RR
 \[
 \pi_{ij}(\RR)\circ \pi_{kl}(\RR) \supseteq \pi_{i+k,j+l}(\RR),
 \]
-so if $\fD$ has a directed cycle, then $\fD$ has a directed cycle of length $2$, of the form $\bB + \pi_{ij}(\RR) + \pi_{kl}(\RR) = \bB$. If $i+k \ne j+l$ this gives us a directed cycle of length $1$, while if $i+k = j+l$ then we have $\bB + \pi_{ij}(\RR) - \pi_{ij}(\RR) = \bB$, so once again $\bB$ must be a union of linked components of $\pi_{ij}(\RR)$, which is impossible. The claim is proved.
+so if $\fD$ has a directed cycle, then $\fD$ has a directed cycle of length $2$, of the form $\bB + \pi_{ij}(\RR) + \pi_{kl}(\RR) = \bB$. If $i+k \ne j+l$ this gives us a directed cycle of length $1$, while if $i+k = j+l$ then we have $\bB + \pi_{ij}(\RR) - \pi_{ij}(\RR) = \bB$, so once again $\bB$ must be a union of linked components of $\pi_{ij}(\RR)$, which is impossible. The claim is proved.%TODO: only one inclusion is obvious for the short cycle!
 
 Since the digraph $\fD$ is finite, nonempty, and has no directed cycles, there must be a proper ternary absorbing subalgebra $\bB \lhd_3 \bA$ such that $\bB + \pi_{ij}(\RR) = \bA$ for all $i \ne j$. In particular, we see that $\pi_{ij}(\RR) \cap \bB^2 \ne \emptyset$ for all $i,j$. Since $\bB$ is ternary absorbing, this implies that in fact $\RR \cap \bB^p \ne \emptyset$ by Corollary \ref{cor-absorption-essential}. Setting $\RR' = \RR \cap \bB^p$, we can apply the induction hypothesis to $\bB$ to see that $\RR'$ contains a constant tuple. Thus $\RR$ contains a constant tuple, and we are done.
 \end{proof}

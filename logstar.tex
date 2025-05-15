@@ -451,6 +451,12 @@ for $x > 0$. Further terms of the asymptotic series can be computed by expanding
 {\ell^*}'(x) = \frac{{\ell^*}'(\ell(x))}{1+x}
 \]
 as if both sides were formal Laurent series and equating coefficients. Explicit error terms in the asymptotic series can be computed using the theory of divided differences - this can be useful for getting the most accurate possible approximation when numerically computing $\ell^*$.
+\begin{comment}
+continued fraction attempt number one:
+\[
+\frac{d}{dx}\ell^*(x) = \frac{2}{x^2 - \frac{x^3}{6 + \frac{3x}{2 + \frac{x}{30 - \frac{18x}{1 + \frac{236x}{189 - \frac{17585x}{472 + \frac{389763x}{3517}}}}}}}}
+\]
+\end{comment}
 
 \begin{prop} For each $k \in \NN$, define $A_k(x)$ by
 \[
