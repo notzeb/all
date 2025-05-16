@@ -10662,6 +10662,12 @@ and let $\fX$ be the instance with a single variable $x$ which is supposed to sa
 The fact that examples like this exist seems to be a hint that vague solutions are nowhere near to being the last word on bounded width CSPs.
 \end{ex}
 
+\begin{prob} Does every finite bounded width algebra have a $7$-ary term operation $t$ satisfying
+\begin{align*}
+t(a,a,b,c,d,e,f) &\approx t(f,a,a,b,c,d,e) \approx t(e,f,a,a,b,c,d)?
+\end{align*}
+\end{prob}
+
 \begin{prob} If the sizes of the variable domains in $\fX$ are bounded by a constant (perhaps just $3$), how hard is it to determine whether $\fX^{bin}$ has a vague solution?
 \end{prob}
 
@@ -11677,7 +11683,7 @@ In order to check that an assignment $x \mapsto a \in \bA_x, y \mapsto b \in \bA
 \]
 Note that it isn't necessary for $\RR$ to actually be a subalgebra of $\bA_x \times \bA_y \times \bA_z$: all that matters is that we know the three maps $\pi_x, \pi_y, \pi_z$ from $\RR$ to $\bA_x, \bA_y, \bA_z$. (Of course, we also gain no extra generality by allowing $\RR$ to not be a subpower, since we could always replace $\RR$ by its image in $\bA_x \times \bA_y \times \bA_z$.)
 
-By stitching these pictures together, we can visualize any instance $\fX$ of the multisorted CSP $\CSP(\bA_1, ..., \bA_n)$ as a diagram $\mathcal{D}_\fX$ in the concrete category $HSP_{fin}(\bA_1, ..., \bA_n)$. A solution of the instance $\fX$ corresponds to an assignment from each object $\bA$ of the diagram $\mathcal{D}_\fX$ to an element $a_\bA \in \bA$, such that for every homomorphism $\pi : \RR \rightarrow \bA$ which occurs in the diagram $\mathcal{D}_X$, the elements $a_\RR \in \RR$ and $a_\bA \in \bA$ are related by
+By stitching these pictures together, we can visualize any instance $\fX$ of the multisorted CSP $\CSP(\bA_1, ..., \bA_n)$ as a diagram $\mathcal{D}_\fX$ in the concrete category $HSP_{fin}(\bA_1, ..., \bA_n)$. A solution of the instance $\fX$ corresponds to an assignment from each object $\bA$ of the diagram $\mathcal{D}_\fX$ to an element $a_\bA \in \bA$, such that for every homomorphism $\pi : \RR \rightarrow \bA$ which occurs in the diagram $\mathcal{D}_\fX$, the elements $a_\RR \in \RR$ and $a_\bA \in \bA$ are related by
 \[
 \pi(a_\RR) = a_\bA.
 \]
@@ -12398,6 +12404,8 @@ In order to check that $t_5$ is a $4$-symmetric operation, we need to check that
 
 Similar techniques can be used to construct $4$-symmetric term operations of arities $6$ and $7$, but I haven't found a way to construct a $4$-symmetric term operation of arity $8$ with this approach.
 
+%TODO: I think I can construct 4-symmetric terms of all arities, but writing it up is going to be a pain. Main idea is to first look at pairs of four-variable minors which are compatible, and apply the vague minion composed with itself + use stability to get operations which are mostly determined on their 4-variable minors just by an orientation of the Kneser graph K(n, n/4). Then we pick an ordering of the pairs of complementary edges of the Kneser graph, from that we get an ordering of the edges of the Kneser graph, and then from there we get an orientation of the Kneser graph by orienting edges one at a time. All of those random choices can be emulated by composing together many 3-symmetric operations.
+
 
 
 \chapter{Finite Taylor Algebras}\label{chapter-taylor}
@@ -12528,7 +12536,7 @@ is a subalgebra of $\bA^2$, and it is then the graph of an automorphism $\sigma$
 
 If $\bA$ is subdirectly simple, then since $\RR \le_{sd} \bA^p$ is subdirect and every $\pi_{ij}(\RR)$ is linked, we must have $\RR = \bA^p$. In this case $\RR$ contains \emph{every} constant tuple.
 
-If $\bA$ has a proper ternary absorbing subalgebra, then we define a directed graph $\fD$ whose vertices are proper ternary absorbing subalgebras $\bB \lhd_3 \bA$, and with a directed edge $(\bB, \bB+\pi_{ij}(\RR))$ whenever $\bB + \pi_{ij}(\RR) \ne \bA$ and $i \ne j$.
+If $\bA$ has a proper ternary absorbing subalgebra, then we define a directed graph $\fD$ whose vertices are proper ternary absorbing subalgebras $\bB \lhd_3 \bA$, and with a directed edge $(\bB,\bC)$ whenever there is some $i \ne j$ with $\bB + \pi_{ij}(\RR) \subseteq \bC \lhd_3 \bA$.
 
 {\bf Claim:} The digraph $\fD$ has no directed cycles.
 
@@ -12536,7 +12544,11 @@ If $\bA$ has a proper ternary absorbing subalgebra, then we define a directed gr
 \[
 \pi_{ij}(\RR)^- \subseteq \pi_{ij}(\RR)^{\circ (p-1)},
 \]
-so if $\bB + \pi_{ij}(\RR) = \bB$ then we must have
+so if $\bB + \pi_{ij}(\RR) \subseteq \bB$ then we must have
+\[
+\bB + \pi_{ij}(\RR) - \pi_{ij}(\RR) \subseteq \bB + \pi_{ij}(\RR)^{\circ p} \subseteq \bB,
+\]
+so
 \[
 \bB + \pi_{ij}(\RR) - \pi_{ij}(\RR) = \bB,
 \]
@@ -12544,9 +12556,17 @@ so $\bB$ is a union of linked components of $\pi_{ij}(\RR)$. Since $\pi_{ij}(\RR
 \[
 \pi_{ij}(\RR)\circ \pi_{kl}(\RR) \supseteq \pi_{i+k,j+l}(\RR),
 \]
-so if $\fD$ has a directed cycle, then $\fD$ has a directed cycle of length $2$, of the form $\bB + \pi_{ij}(\RR) + \pi_{kl}(\RR) = \bB$. If $i+k \ne j+l$ this gives us a directed cycle of length $1$, while if $i+k = j+l$ then we have $\bB + \pi_{ij}(\RR) - \pi_{ij}(\RR) = \bB$, so once again $\bB$ must be a union of linked components of $\pi_{ij}(\RR)$, which is impossible. The claim is proved.%TODO: only one inclusion is obvious for the short cycle!
+so if $\fD$ has a directed cycle, then $\fD$ must have a directed cycle of length at most $2$, say
+\[
+\bB + \pi_{ij}(\RR) + \pi_{kl}(\RR) \subseteq \bB.
+\]
+If $i+k \ne j+l$ this gives us a directed cycle of length $1$, while if $i+k = j+l$ then we have $\bB + \pi_{ij}(\RR) - \pi_{ij}(\RR) \subseteq \bB$, so once again $\bB$ must be a union of linked components of $\pi_{ij}(\RR)$, which is impossible. The claim is proved.
 
-Since the digraph $\fD$ is finite, nonempty, and has no directed cycles, there must be a proper ternary absorbing subalgebra $\bB \lhd_3 \bA$ such that $\bB + \pi_{ij}(\RR) = \bA$ for all $i \ne j$. In particular, we see that $\pi_{ij}(\RR) \cap \bB^2 \ne \emptyset$ for all $i,j$. Since $\bB$ is ternary absorbing, this implies that in fact $\RR \cap \bB^p \ne \emptyset$ by Corollary \ref{cor-absorption-essential}. Setting $\RR' = \RR \cap \bB^p$, we can apply the induction hypothesis to $\bB$ to see that $\RR'$ contains a constant tuple. Thus $\RR$ contains a constant tuple, and we are done.
+Since the digraph $\fD$ is finite, nonempty, and has no directed cycles, there must be a proper ternary absorbing subalgebra $\bB \lhd_3 \bA$ such that
+\[
+\bB + \pi_{ij}(\RR) = \bA
+\]
+for all $i \ne j$. In particular, we see that $\pi_{ij}(\RR) \cap \bB^2 \ne \emptyset$ for all $i,j$. Since $\bB$ is ternary absorbing, this implies that in fact $\RR \cap \bB^p \ne \emptyset$ by Corollary \ref{cor-absorption-essential}. Setting $\RR' = \RR \cap \bB^p$, we can apply the induction hypothesis to $\bB$ to see that $\RR'$ contains a constant tuple. Thus $\RR$ contains a constant tuple, and we are done.
 \end{proof}
 
 \begin{cor} If $\bA$ is a finite Taylor algebra and $m$ has no prime factors $p$ which are less than or equal to $|\bA|$, then $\bA$ has an idempotent $m$-ary cyclic term.
@@ -14180,7 +14200,7 @@ Suppose that for each $(x,\bB_x) \in \cS$ we choose a minimal absorbing subalgeb
 \begin{itemize}
 \item the instance $\fX$ has no solutions with any variable $x$ assigned to any value in $\bB_x$, for any $(x,\bB_x) \in \cS$,
 \item the instance $\fX'$ which we get by restricting to the variables in $\cS$ and by restricting each variable domain to the corresponding $\bC_x$ has a solution, and every solution of $\fX'$ extends to a solution of $\fX$, or
-\item for some strand $\mathcal{T}$ of the subqoset $\cC$ of $\cE$ consisting of the pairs $(x,\bC_x)$ for $x$ occuring in $\cS$, the full restriction of $\fX$ to $\mathcal{T}$ has no solutions.
+\item for some strand $\mathcal{T}$ of the subdigraph $\cC$ of the implication digraph consisting of the pairs $(x,\bC_x)$ for $x$ occuring in $\cS$, the full restriction of $\fX$ to $\mathcal{T}$ has no solutions.
 \end{itemize}
 \end{thm}
 \begin{proof} Suppose that $a \in \prod_x \bA_x$ is a solution to the instance $\fX$ such that $a_x \in \bB_x$ for some $(x,\bB_x) \in \cS$, and suppose that for each strand $\mathcal{T}$ of the subqoset $\cC$ there is a solution $c^\mathcal{T} \in \prod_{(x,\bC_x) \in \mathcal{T}} \bC_x$ of the full restriction of $\fX$ to the strand $\mathcal{T}$. We construct a tuple $b \in \prod_x \bA_x$ by stitching these solutions together:
@@ -14613,9 +14633,9 @@ The algorithm for singleton M-arc-consistency is nearly the same as the algorith
 
 \section{Mar\'oti's reduction: taking advantage of semilattice quotients}
 
-Consider classifying Taylor algebras by which types of Bulatov's edges (i.e., semilattice, majority, and affine) occur in them. If only majority and semilattice edges occur, then our algebra has bounded width by Theorem \ref{affine-free-pq}, and we can handle it. If only majority and affine edges occur, and if the algebra has been prepared as in Definition \ref{defn-prepared}, then our algebra has few subpowers, and we can handle that case too. How about the case where we only have affine and semilattice edges?%TODO: explain why semilattice-free implies few subpowers
+Consider classifying Taylor algebras by which types of Bulatov's edges (i.e., semilattice, majority, and affine) occur in them. If only majority and semilattice edges occur, then our algebra has bounded width by Theorem \ref{affine-free-pq}, and we can handle it. If only majority and affine edges occur, then our algebra has few subpowers by Theorem \ref{thm-cube-term-blockers}, the argument of Corollary \ref{cor-cyclic-cube-term}, and Proposition \ref{prop-weak-semilattice-edge}, and we can handle that case too. How about the case where we only have affine and semilattice edges?
 
-To make it simpler, we can start by considering the case where we have an algebra $\bA$ with a congruence $\theta$ such that $\bA/\theta$ only has edges of one type, while the congruence classes of $\theta$ only has edges of the other type. If $\bA/\theta$ is affine and the congruence classes of $\theta$ are semilattices (or more generally, ancestral algebras), then Mar\'oti's Mal'cev-on-top algorithm from the previous section handles the problem.
+To make it simpler, we can start by considering the case where we have an algebra $\bA$ with a congruence $\theta$ such that $\bA/\theta$ only has edges of one type, while the congruence classes of $\theta$ only have edges of the other type. If $\bA/\theta$ is affine and the congruence classes of $\theta$ are semilattices (or more generally, ancestral algebras), then Mar\'oti's Mal'cev-on-top algorithm from the previous section handles the problem.
 
 To make progress, we need to consider the case where $\bA/\theta$ is a semilattice and the congruence classes of $\theta$ are affine - so far, we have no algorithms to handle this case (unless $\bA$ happens to be conservative). A concrete example of such an algebra is the $4$-element algebra $\bA = (\{0,1,2,*\},\cdot)$ with $\cdot$ given by
 \begin{center}
@@ -14650,6 +14670,13 @@ R_c \subseteq A_{x_1} \times \cdots \times A_{x_m}
 of $\coprod_\fX \fA$ which is a copy of the corresponding relation $R_j \subseteq A_{i_1} \times \cdots \times A_{i_m}$ of $\fA$.
 \end{itemize}
 \end{defn}
+
+\begin{rem} Readers familiar with category theory may find it useful to relate $\coprod_\fX \fA$ to a category-theoretic construction known as the \emph{Grothendieck construction}. To make sense of this, we first note that a multisorted relational structure $\fX$ can be thought of as a bipartite diagram in the category of sets, where each map in the diagram is one of the projections $\pi_k$ from a relation $C_j$ of $\fX$ to a sort $X_{i_k}$ of $\fX$. The bipartite index category $\cS$ of this diagram corresponds directly to the common (multisorted) signature of $\fX$ and $\fA$. The ``category of elements'' of the diagram $F_\fX : \cS \rightarrow \operatorname{Sets}$ gives us a bipartite category $\int_\cS F_\fX$ which can be interpreted as the signature of $\coprod_\fX \fA$. The diagram
+\[
+F_{\coprod_\fX \fA} : \int_\cS F_\fX \rightarrow \operatorname{Sets}
+\]
+corresponding to the structure $\coprod_\fX \fA$ is formed by composing the natural functor $\pi : \int_\cS F_\fX \rightarrow \cS$ with the functor $F_\fA : \cS \rightarrow \operatorname{Sets}$ corresponding to $\fA$.
+\end{rem}
 
 So the main idea is to replace our original CSP template $\fA$ by the instance-dependent CSP template $\coprod_\fX \fA$, in the hope that it will have extra unary polymorphisms for us to take advantage of. First, however, we have to explain how to express the instance $\fX$ in terms of the new template. We need another definition.
 
@@ -14731,7 +14758,7 @@ Time to iron out all of the details. The careful reader might have noticed that 
 \[
 e(\bA) \coloneqq (e(A), \{e \circ f_i\}),
 \]
-considered as an algebraic structure with the same signature as $\bA$ via $f_i^{e(\bA)} = e \circ f_i$.
+considered as an algebraic structure with the same signature as $\bA$ via $f_i^{e(\bA)} = e \circ f_i|_{e(\bA)}$.
 \end{defn}
 
 Note that unlike several other constructions which shrink an algebra with an idempotent unary operation, the retract $e(\bA)$ has the same signature as the algebra $\bA$, so it makes sense to consider multisorted CSPs which involve both $\bA$ and $e(\bA)$ as variable domains simultaneously. The price we pay for this ability is that identities satisfied by term operations of $\bA$ might not hold for the corresponding term operations of $e(\bA)$: the only identities which are definitely preserved are identities between the basic operations of height at most 1.
@@ -14748,6 +14775,44 @@ for some set of (possibly repeated) variables $x_1, ..., x_k, x$, then the basic
 \end{prop}
 
 So to take advantage of retracts, we had better make sure that the basic operations of $\bA$ include a Taylor operation, or at least a collection of idempotent operations satisfying a system of height 1 identities that can't be satisfied by projections. Corollary \ref{consecutive-daisy} shows that any finite Taylor algebra always has a suitable pair of idempotent ternary term operations, and adding them to our collection of basic operations will ensure that $e(\bA)$ is also Taylor.
+
+Recall that we were hoping to construct some interesting unary polymorphisms $\varphi : \coprod_\fX \fA \rightarrow \coprod_\fX \fA$. It turns out that we can turn the search for such polymorphisms into another CSP in a natural way.
+
+\begin{prop} For any multisorted relational structures $\fX, \fA$ sharing a common signature, there are natural bijections between the set of unary polymorphisms
+\[
+\coprod_\fX \fA \rightarrow \coprod_\fX \fA,
+\]
+the set of homomorphisms
+\[
+\fA \times \fX \rightarrow \fA,
+\]
+and the set of constant polymorphisms
+\[
+\coprod_{\fA \times \fX} * \rightarrow \coprod_{\fA \times \fX} \fA.
+\]
+\end{prop}
+\begin{proof} Again, just unwind the definitions.
+\end{proof}
+
+Now, here's the nice thing: we already know an obvious example of a unary polymorphism $\coprod_\fX \fA \rightarrow \coprod_\fX \fA$, namely, the identity map $\pi_1$, which happens to correspond to the obvious homomorphism
+\[
+\pi_1 : \fA \times \fX \rightarrow \fA.
+\]
+This gives us a corresponding obvious constant polymorphism of the structure $\coprod_{\fA \times \fX} \fA$, which we will name $a_{\pi_1}$.
+
+Now recall that we have been assuming that $\fA$ has a binary polymorphism $t$ satisfying the identity
+\[
+t(x,t(x,y)) \approx t(x,y).
+\]
+This polymorphism extends to a polymorphism of the structure $\coprod_{\fA \times \fX} \fA$, and we can now combine it with the constant polymorphism $a_{\pi_1}$ to produce the unary polymorphism
+\[
+t^{a_{\pi_1}} : x \mapsto t(a_{\pi_1}, x)
+\]
+of $\coprod_{\fA \times \fX} \fA$. By construction, we have
+\[
+t^{a_{\pi_1}}(t^{a_{\pi_1}}(x)) \approx t^{a_{\pi_1}}(x),
+\]
+so we can use this unary polymorphism to crush $\coprod_{\fA \times \fX} \fA$ into the smaller structure $t^{a_{\pi_1}}(\coprod_{\fA \times \fX} \fA)$, which should be easier to handle. This leads to the following definition.
 
 \begin{defn}[Mar\'oti \cite{tree-on-top-of-malcev}, slightly simplified] Let $\fX$ be an instance of $\CSP(\{\bA_i\})$, and let $t$ be a binary term operation of $\{\bA_i\}$ satisfying the identity $t(x,t(x,y)) \approx t(x,y)$. The \emph{decomposition} $t(\fX)$ is defined to be the instance of
 \[
@@ -14853,7 +14918,7 @@ satisfies
 \[
 \varphi^{A_{x_*}}(a) = \varphi^{A_{x_*}}(b)
 \]
-for some pair $a \ne b \in A_{x_*}$, brute-forcing over all choices of $x_*$ and $a \ne b \in A_{x_*}$ (using Proposition \ref{prop-tree-on-top-partial-solution} to test each possibility in turn). If we succeed, then we can use the unary polymorphism $\varphi^\infty : \coprod_\fX \fA \rightarrow \coprod_\fX \fA$ to produce a new instance where $A_{x_*}$ is mapped into
+for some pair $a \ne b \in A_{x_*}$, brute-forcing over all choices of $x_*$, $a \ne b \in A_{x_*}$, and all possible common values of $\varphi^{A_{x_*}}(a),\varphi^{A_{x_*}}(b)$ (using Proposition \ref{prop-tree-on-top-partial-solution} to test each possibility in turn). If we succeed, then we can use the unary polymorphism $\varphi^\infty : \coprod_\fX \fA \rightarrow \coprod_\fX \fA$ to produce a new instance where $A_{x_*}$ is mapped into
 \[
 (\varphi^\infty)^{A_{x_*}}(A_{x_*}) \subseteq \varphi^{A_{x_*}}(A_{x_*}) \subset A_{x_*},
 \]
@@ -14949,7 +15014,7 @@ s_b(a) = s_b(b) = b,
 so $s_b$ is not a permutation, and since $\bA$ is conservative $\bA \setminus \{b\}$ is a proper subalgebra of $\bA$.
 \end{proof}
 
-Recall that by Theorem \ref{thm-swap-gmm}, any conservative algebra with no semilattice edges has a ternary generalized majority-minority operation, and can therefore be solved by the few subpowers algorithm. It's easy to check that any finite collection of conservative algebras with no semilattice edges also has a ternary operation whose restriction to each conservative algebra is gmm - and that such an operation can be algorithmically constructed in polynomial time - so if we could eliminate every conservative algebra which had a semilattice edge then we could simply apply the few subpowers algorithm to finish. The only difficulty we face is the case where some of our variable domains have neutral elements.
+Recall that by Theorem \ref{thm-swap-gmm}, any conservative Taylor algebra with no semilattice edges has a ternary generalized majority-minority operation, and can therefore be solved by the few subpowers algorithm. It's easy to check that any finite collection of conservative algebras with no semilattice edges also has a ternary operation whose restriction to each conservative algebra is gmm - and that such an operation can be algorithmically constructed in polynomial time - so if we could eliminate every conservative algebra which had a semilattice edge then we could simply apply the few subpowers algorithm to finish. The only difficulty we face is the case where some of our variable domains have neutral elements.
 
 Note that if $\bA$ is conservative and $s$ is a partial semilattice term operation with a neutral element $a$ on $\bA$, then we have
 \[
