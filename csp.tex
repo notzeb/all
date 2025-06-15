@@ -1190,7 +1190,7 @@ As a consequence, $\mathrm{AC}^i[m]$ is contained in $\mathrm{TC}^i$ for each $i
 \chapter{Initial Intuition}\label{chapter-intuition}
 
 
-\section{The $\Inv$-$\Pol$ Galois connection}\label{section-inv-pol}
+\section{The Inv-Pol Galois connection}\label{section-inv-pol}
 
 %TODO: visualize functions as grids!
 
@@ -2554,7 +2554,7 @@ For the last claim, if $\bA$ is idempotent and $\bB \subseteq \bA^n$ with $n > l
 \end{thm}
 \begin{proof} Let $\bA$ be the associated algebraic structure. For any $n$ and any $\bB \subseteq \bA^n$, the strong $(l+1)$-consistent instance formed via the relations $\bB$ and $\pi_I(\bB)$ for all $I \subseteq \{1, ..., n\}$ with $|I| \le l$ together with the definition of strict width $l$ imply that $\bB = \bigcap_{|I| \le l} \pi_I(\bB)$, so by the Baker-Pixley Theorem $\bA$ has an $(l+1)$-ary near unanimity term.
 
-For the other direction, suppose that $t$ is an $(l+1)$-ary near-unanimity term of $\bA$ and that we have a strong $(l+1)$-consistent instance of $\CSP(\bA)$, which we may assume by the Baker-Pixley Theorem to only involve relations of arity at most $l$. Suppose that we have a locally consistent partial solution which assigns the values $a_1, ..., a_k$ to the variables $v_1, ..., v_k$ which we want to extend to the variable $v_{k+1}$. By strong $(l+1)$-consistency, we can assume that $k \ge l+1$. By induction on $k$, we can assume that for each $i \le l+1$ there is some value $a_{k+1}^i$ that we can assign the the variable $v_{k+1}$ such that if we ignore $v_i$, we get a locally consistent partial solution.
+For the other direction, suppose that $t$ is an $(l+1)$-ary near-unanimity term operation of $\bA$ and that we have a strong $(l+1)$-consistent instance of $\CSP(\bA)$, which we may assume by the Baker-Pixley Theorem to only involve relations of arity at most $l$. Suppose that we have a locally consistent partial solution which assigns the values $a_1, ..., a_k$ to the variables $v_1, ..., v_k$ which we want to extend to the variable $v_{k+1}$. By strong $(l+1)$-consistency, we can assume that $k \ge l+1$. By induction on $k$, we can assume that for each $i \le l+1$ there is some value $a_{k+1}^i$ that we can assign the the variable $v_{k+1}$ such that if we ignore $v_i$, we get a locally consistent partial solution.
 
 We claim that assigning the value $a_{k+1} = t(a_{k+1}^1, ..., a_{k+1}^{l+1})$ to $v_{k+1}$ gives a locally consistent partial solution. To see this, consider some constraint $C$ which involves the variable $v_{k+1}$ and some variables from $v_1, ..., v_k$. For each $i \le l+1$, by $l$-consistency and the fact that $C$ has arity at most $l$ we can find a value $a_i'$ such that $(a_1, ..., a_i', ..., a_{k+1}^i)$ satisfies the constraint $C$. Applying $t$ to these $l+1$ tuples, we see that the tuple $(a_1, ..., a_{l+1}, ..., t(a_{k+1}^1, ..., a_{k+1}^{l+1}))$ also satisfies $C$, by the near-unanimity identities and the fact that $t$ is a polymorphism of $C$.
 \end{proof}
@@ -2778,7 +2778,7 @@ An interesting result in this direction is proved in \cite{symmetric-polymorphis
 
 Later we will prove that any Taylor algebra has cyclic term operations of all arities which have no small prime factors, so we might hope that we could use these to help construct symmetric polymorphisms of higher arity. More ingredients are likely needed for such an argument, however: in \cite{symmetric-polymorphisms}, an example is given of a relational structure which has cyclic polymorphisms of every arity, but which has no symmetric polymorphism of arity $5$.
 
-The reason behind the existence of the relational structure found in \cite{symmetric-polymorphisms} was eventually explained by the paper \cite{symmetric-terms-simple-groups}, which constructed an analogous relational structure for every finite non-abelian simple group, along with a corresponding type of polymorphism generalizing cyclic operations. The example from \cite{symmetric-polymorphisms} comes from the smallest non-abelian simple group, the alternating group $A_5$ of even permutations on five symbols. That example is (up to pp-constructability) the simplest relational structure which fails to have a $21$-ary polymorphism $f$ satisfying the identities
+The mysterious relational structure found in \cite{symmetric-polymorphisms} was eventually explained by the paper \cite{symmetric-terms-simple-groups}, which constructed an analogous relational structure for every finite non-abelian simple group, along with a corresponding type of polymorphism generalizing cyclic operations. The example from \cite{symmetric-polymorphisms} comes from the smallest non-abelian simple group, the alternating group $A_5$ of even permutations on five symbols. That example is (up to pp-constructability) the simplest relational structure which fails to have a $21$-ary polymorphism $f$ satisfying the identities
 \begin{align*}
 &f(x_1,x_2,x_3,x_4,x_5,y_1,y_2,y_3,y_4,y_5,y_6,z_{1,2},z_{1,3},z_{1,4},z_{1,5},z_{2,3},z_{2,4},z_{2,5},z_{3,4},z_{3,5},z_{4,5})\\
 \approx\ &f(x_1,x_2,x_4,x_5,x_3,y_2,y_3,y_1,y_5,y_6,y_4,z_{1,2},z_{1,4},z_{1,5},z_{1,3},z_{2,4},z_{2,5},z_{2,3},z_{4,5},z_{3,4},z_{3,5})
@@ -2799,10 +2799,45 @@ The goal in this section and the next is to generalize group theoretic algorithm
 \end{prop}
 \begin{proof} Let $U$ be the subgroup of $G^n$ generated by expressions of the form $y^{-1}z$ for $y,z \in H$. Then $H$ is preserved under $(x,y,z) \mapsto xy^{-1}z$ iff $H$ is closed under the right action of $U$, so $H$ is a union of left cosets of $U$. To see that $H$ is just a single coset, note that for $x,y \in H$, we have $x^{-1}y \in U$ and $x(x^{-1}y) = y$.
 
-Conversely, if $H = hU$ for some subgroup $U$ of $G^n$, then $HH^{-1}H = hU(hU)^{-1}hU = hUUh^{-1}hU = hUUU = hU = H$.
+Conversely, if $H = hU$ for some subgroup $U$ of $G^n$, then
+\begin{align*}
+HH^{-1}H &= hU(hU)^{-1}hU\\
+&= hUUh^{-1}hU\\
+&= hUUU = hU = H.\qedhere
+\end{align*}
 \end{proof}
 
-The idempotent operation $(x,y,z) \mapsto xy^{-1}z$ was isolated by universal algebraists who wanted to understand the underlying reason for the fact that normal subgroups commute: if $K,N\lhd G$ are normal subgroups of a group $G$, then $KN = NK$ and $KN$ is also a normal subgroup of $G$. Of course this is easy to verify in the context of groups, but from the point of view of universal algebra it is really saying something interesting about \emph{congruences} of groups. If $K,N$ correspond to congruences $\alpha, \beta$ on $G$, then we can view this equality as the statement that $\alpha \circ \beta = \beta \circ \alpha = \alpha\vee\beta$, where composition of binary relations is defined as follows.
+\begin{rem} In any group $G$, the idempotent operation $(x,y,z) \mapsto xy^{-1}z$ generates the clone of all operations of the form
+\[
+(x_1, ..., x_n) \mapsto x_{i_1}x_{i_2}^{-1}x_{i_3}x_{i_4}^{-1}x_{i_5}\cdots x_{i_{2k}}^{-1}x_{i_{2k+1}}.
+\]
+This clone will never contain the idempotent operation $(x,y) \mapsto xy^{-2}x^2$, unless the group $G$ is abelian. To see this, note that $xy^{-1}z$ preserves the binary relation
+\[
+R_a \coloneqq \Big\{\begin{bmatrix} g\\ ag \end{bmatrix} \mid g \in G \Big\}
+\]
+for every $a \in G$, so the relation $R_a$ must be preserved by every operation in the clone generated by $xy^{-1}z$. Applying the operation $xy^{-2}x^2$ to the pair of pairs $(1, a), (b^{-1}, ab^{-1}) \in R_a$, we get
+\[
+\begin{bmatrix} 1 \\ a \end{bmatrix}\begin{bmatrix} b^{-1}\\ ab^{-1} \end{bmatrix}^{-2}\begin{bmatrix} 1\\ a \end{bmatrix}^2 = \begin{bmatrix} b^2\\ aba^{-1}ba \end{bmatrix},
+\]
+and the resulting pair will be contained in $R_a$ if and only if
+\[
+ab^2 = aba^{-1}ba,
+\]
+or equivalently if and only if
+\[
+ab = ba.
+\]
+\end{rem}
+
+The idempotent operation $(x,y,z) \mapsto xy^{-1}z$ was isolated by universal algebraists who wanted to understand the underlying reason for the fact that normal subgroups commute: if $K,N\lhd G$ are normal subgroups of a group $G$, then
+\[
+KN = NK
+\]
+and $KN$ is also a normal subgroup of $G$. Of course this is easy to verify in the context of groups, but from the point of view of universal algebra it is really saying something interesting about \emph{congruences} of groups. If $K,N$ correspond to congruences $\alpha, \beta$ on $G$, then we can view this equality as the statement that
+\[
+\alpha \circ \beta = \beta \circ \alpha = \alpha\vee\beta,
+\]
+where composition of binary relations is defined as follows.
 
 \begin{defn} Let $R,S$ be binary relations $R \subseteq A\times B, S\subseteq B\times C$. Then we define their \emph{composition} $R\circ S$ to be the subset of $A\times C$ consisting of pairs $(a,c)$ such that there exists a $b \in B$ with $aRb$ and $bSc$. As a primitive positive formula, we can write this as
 \[
@@ -2852,7 +2887,12 @@ One reason universal algebraists like congruence permutability is that it implie
 \[
 \alpha \le \beta \implies \alpha \vee (\gamma \wedge \beta) = (\alpha \vee \gamma) \wedge \beta.
 \]
-Equivalently, a lattice $\mathcal{L}$ is modular if it has no five element sublattice isomorphic to the lattice $\mathcal{N}_5$ whose Hasse diagram is a pentagon: consider the sublattice generated by $\alpha' = \alpha \vee (\gamma \wedge \beta), \beta' = (\alpha \vee \gamma) \wedge \beta$, and $\gamma$, with top element $\alpha \vee \gamma = \alpha' \vee \gamma$ and bottom element $\gamma \wedge \beta = \gamma \wedge \beta'$, and note that we always have $\alpha' \le \beta'$.
+Equivalently, a lattice $\mathcal{L}$ is modular if it has no five element sublattice isomorphic to the lattice $\mathcal{N}_5$ whose Hasse diagram is a pentagon: consider the sublattice generated by
+\begin{align*}
+\alpha' &= \alpha \vee (\gamma \wedge \beta),\\
+\beta' &= (\alpha \vee \gamma) \wedge \beta,
+\end{align*}
+and $\gamma$, with top element $\alpha \vee \gamma = \alpha' \vee \gamma$ and bottom element $\gamma \wedge \beta = \gamma \wedge \beta'$, and note that we always have $\alpha' \le \beta'$.
 \end{defn}
 
 \begin{center}
@@ -2871,7 +2911,15 @@ Equivalently, a lattice $\mathcal{L}$ is modular if it has no five element subla
 
 \begin{prop}\label{prop-malcev-modular} If $\bA$ has permuting congruences, then $\Con(\bA)$ is a modular lattice.
 \end{prop}
-\begin{proof} We just have to check that if $\alpha \le \beta$, then $\alpha \circ (\gamma \wedge \beta) \ge (\alpha \circ \gamma) \wedge \beta$. Suppose that $(x,z) \in (\alpha \circ \gamma) \wedge \beta$, and choose $y$ such that $(x,y) \in \alpha, (y,z) \in \gamma$. Then $(y,x) \in \alpha \subseteq \beta$ and $(x,z) \in \beta$, so $(y,z) \in \beta \circ \beta = \beta$, so $(y,z) \in \gamma\wedge \beta$, so $(x,z) \in \alpha \circ (\gamma \wedge \beta)$.
+\begin{proof} We just have to check that if $\alpha \le \beta$, then $\alpha \circ (\gamma \wedge \beta) \ge (\alpha \circ \gamma) \wedge \beta$. Suppose that
+\[
+(x,z) \in (\alpha \circ \gamma) \wedge \beta,
+\]
+and choose $y$ such that $(x,y) \in \alpha, (y,z) \in \gamma$. Then $(y,x) \in \alpha \subseteq \beta$ and $(x,z) \in \beta$, so
+\[
+(y,z) \in \beta \circ \beta = \beta,
+\]
+so $(y,z) \in \gamma\wedge \beta$, so $(x,z) \in \alpha \circ (\gamma \wedge \beta)$.
 \end{proof}
 
 %\begin{rem} In the case of groups, there is a special modular law which is not quite lattice-theoretic. If $\bA, \bB, \bC$ are subgroups of a group (not necessarily normal), then
@@ -2891,7 +2939,11 @@ An unexpectedly large example of a Mal'cev variety is the variety of \emph{quasi
 
 Note that in the finite case, if $\cdot$ is a quasigroup operation, then the operations $/, \backslash$ can be defined in terms of $\cdot$ by an iteration argument (for any invertible unary function $f$ on an $n$ element set, $f^{-1} = f^{\circ (n!-1)}$). For infinite quasigroups, they have to be introduced into the language explicitly.
 
-\begin{prop}\label{prop-quasigroup-malcev} If $\bA = (A, \cdot, /, \backslash)$ is a quasigroup, then $p: (x,y,z) \mapsto (x/y)\cdot((y/y)\backslash z)$ is a Mal'cev term.
+\begin{prop}\label{prop-quasigroup-malcev} If $\bA = (A, \cdot, /, \backslash)$ is a quasigroup, then
+\[
+p: (x,y,z) \mapsto (x/y)\cdot((y/y)\backslash z)
+\]
+is a Mal'cev term.
 \end{prop}
 \begin{proof} Plugging in $x=y$ we get
 \[
@@ -2910,7 +2962,11 @@ p(x,y,y) = (x/y)\cdot ((y/y)\backslash y) \approx (x/y)\cdot ((y/y)\backslash ((
 
 The corresponding property on the CSP side of the picture is something known as the \emph{parallelogram property} (some authors call this \emph{rectangularity}, although the definition of rectangularity is often slightly weaker in the case of relations of higher arity).
 
-\begin{defn} A binary relation $R \subseteq A\times B$ has the \emph{parallelogram property} if whenever $(a,b), (c,b), (c,d) \in R$, we also have $(a,d) \in R$. A relation of higher arity is said to have the parallelogram property if every way of grouping its coordinates into two groups gives a binary relation with the parallelogram property.
+\begin{defn} A binary relation $R \subseteq A\times B$ has the \emph{parallelogram property} if 
+\[
+\begin{bmatrix} a\\ b\end{bmatrix}, \begin{bmatrix} c\\ b\end{bmatrix}, \begin{bmatrix} c\\ d\end{bmatrix} \in R \;\;\; \implies \;\;\; \begin{bmatrix} a\\ d\end{bmatrix} \in R.
+\]
+A relation of higher arity is said to have the parallelogram property if every way of grouping its coordinates into two groups gives a binary relation with the parallelogram property.
 \end{defn}
 
 \begin{thm} A finite algebraic structure $\bA$ has a Mal'cev term $p$ iff every relation $\RR \in \Inv(\bA)$ has the parallelogram property.
@@ -2970,16 +3026,104 @@ t_{i+1}(x,y,z) \coloneqq t_{a_iv_i}(x,t_i(x,y,y),t_i(x,y,z)),
 where $v_i = t_i(a_i,b_i,b_i)$. These terms will satisfy $t_i(y,y,x) \approx x$ and $t_i(a_j,b_j,b_j) = a_j$ for all $j < i$. The term $p(x,y,z) \coloneqq t_{n^2}(x,y,z)$ will then be a Mal'cev term.
 \end{rem}
 
-\begin{defn} If $\RR \le_{sd} \bA\times \bB$ is a subdirect binary relation, then the \emph{linking congruence} of $\RR$ can refer to any of the following three congruences: the congruence $\ker \pi_1 \vee \ker \pi_2$ on $\RR$, the congruence $\alpha$ on $\bA$ generated by pairs $a,a' \in \bA$ such that there exists a $b \in \bB$ with $(a,b), (a',b) \in \RR$, or the similar congruence $\beta$ defined on $\bB$. The relation $\RR$ is called \emph{linked} if these congruences are full.
+Essentially the same construction leads to the next result.
+
+\begin{prop} If an algebra $\bA$ has an idempotent ternary term operation $p(x,y,z)$ and a congruence $\theta$ such that $p$ satisfies the Mal'cev identities on the quotient $\bA/\theta$ and on each congruence class $a/\theta$ - that is, if we have
+\[
+p(x,y,y) \equiv_\theta x \equiv_\theta p(y,y,x)
+\]
+for all $x,y \in \bA$ and if
+\[
+x \equiv_\theta y \;\;\; \implies \;\;\; p(x,y,y) = x = p(y,y,x),
+\]
+then $\bA$ has a Mal'cev term operation $r \in \Clo(p)$.
+\end{prop}
+\begin{proof} First define $q(x,y,z)$ by
+\[
+q(x,y,z) \coloneqq p(x,p(x,y,y),p(x,y,z)),
+\]
+and note that
+\[
+p(x,y,y) \equiv_\theta x
+\]
+implies that we have
+\[
+q(x,y,y) = p(x,p(x,y,y),p(x,y,y)) = x.
+\]
+Additionally, the assumptions on $p$ imply that we have
+\[
+q(y,y,x) = p(y,y,p(y,y,x)) \equiv_\theta p(y,y,x) \equiv_\theta x
+\]
+and
+\[
+x \equiv_\theta y \;\;\; \implies \;\;\; q(y,y,x) = p(y,y,p(y,y,x)) = p(y,y,x) = x.
+\]
+Next define $r(x,y,z)$ by
+\[
+r(x,y,z) \coloneqq q(q(x,y,z), q(y,y,z), z),
+\]
+and note that
+\[
+r(x,y,y) = q(q(x,y,y),y,y) = q(x,y,y) = x,
+\]
+and from
+\[
+q(y,y,x) \equiv_\theta x,
+\]
+we have
+\[
+r(y,y,x) = q(q(y,y,x),q(y,y,x),x) = x,
+\]
+so $r$ is a Mal'cev operation.
+\end{proof}
+
+\begin{ex} It would be really nice if we could prove that whenever an idempotent algebra $\bA$ has a congruence $\theta$ such that $\bA/\theta$ has a Mal'cev operation and each congruence class $a/\theta$ has a (possibly different) Mal'cev operation, then $\bA$ also has a Mal'cev operation. Unfortunately, this isn't true: consider the four-element algebra
+\[
+\bA = \big(\{0,1\}^2, p(x,y,z), q(x,y,z)\big),
+\]
+where, writing $x = (x_1,x_2)$, etc., the operations $p,q$ are given by
+\begin{align*}
+p\big((x_1,x_2),\ (y_1,y_2),\ (z_1,z_2)\big) &\coloneqq (x_1 \oplus y_1 \oplus z_1, x_2 \vee y_2 \vee z_2),\\
+q\big((x_1,x_2),\ (y_1,y_2),\ (z_1,z_2)\big) &\coloneqq (x_1 \vee y_1 \vee z_1, x_2 \oplus y_2 \oplus z_2).
+\end{align*}
+The algebra $\bA$ can even be written as a product of a pair of two-element algebras which each have a Mal'cev operation, but in $\bA$ we have
+\[
+\begin{bmatrix} (0,0)\\ (0,0) \end{bmatrix} \not\in \Sg_{\bA^2}\Big\{\begin{bmatrix} (0,0)\\ (1,1) \end{bmatrix}, \begin{bmatrix} (1,1)\\ (1,1) \end{bmatrix}, \begin{bmatrix} (1,1)\\ (0,0) \end{bmatrix}\Big\},
+\]
+so $\bA$ has no Mal'cev term.
+\end{ex}
+
+Now let's try to understand the structure of relations which have the parallelogram property.
+
+\begin{defn} If $\RR \le_{sd} \bA\times \bB$ is a subdirect binary relation, then the \emph{linking congruence} of $\RR$ can refer to any of the following three congruences:
+\begin{itemize}
+\item the congruence $\ker \pi_1 \vee \ker \pi_2$ on $\RR$,
+\item the congruence $\alpha$ on $\bA$ generated by pairs $a,a' \in \bA$ such that there exists a $b \in \bB$ with $(a,b), (a',b) \in \RR$, or
+\item the similar congruence $\beta$ defined on $\bB$.
+\end{itemize}
+The relation $\RR$ is called \emph{linked} if these congruences are full.
 \end{defn}
 
-Note that in the above definition, we have $\alpha = \pi_1(\ker \pi_1 \vee \ker \pi_2), \beta = \pi_2(\ker \pi_1 \vee \ker \pi_2)$, and
+Note that in the above definition, we have
+\begin{align*}
+\alpha &= \pi_1(\ker \pi_1 \vee \ker \pi_2),\\
+\beta &= \pi_2(\ker \pi_1 \vee \ker \pi_2),
+\end{align*}
+and
 \[
 \bA/\alpha \cong \RR/(\ker \pi_1 \vee \ker \pi_2) \cong \bB/\beta.
 \]
-A more \emph{visual} way to understand the linking congruence is to think of the relation $\RR$ as a bipartite graph on $\bA \sqcup \bB$, and to define the congruence classes to be the connected components of this graph. In particular, $\RR$ is linked iff this bipartite graph is connected.
+A more \emph{visual} way to understand the linking congruence is to think of the relation $\RR$ as a bipartite graph on $\bA \sqcup \bB$, and to define the congruence classes to be the connected components of this graph. In particular, $\RR$ is linked if and only if this bipartite graph is connected.
 
-\begin{prop}[Goursat's Lemma]\label{goursat} A subdirect binary relation $\RR \le_{sd} \bA\times \bB$ has the parallelogram property iff there are congruences $\alpha,\beta$ on $\bA,\bB$ respectively and an isomorphism $f : \bA/\alpha \rightarrow \bB/\beta$ such that, writing $\pi_{\alpha},\pi_{\beta}$ for the quotient maps, we have $\RR = \pi_{\alpha}^{-1} \circ f^{-1} \circ \pi_{\beta}$ (treating $\pi_\alpha, \pi_\beta, f$ as binary relations with inputs on the right and outputs on the left).
+\begin{prop}[Goursat's Lemma]\label{goursat} A subdirect binary relation $\RR \le_{sd} \bA\times \bB$ has the parallelogram property iff there are congruences $\alpha,\beta$ on $\bA,\bB$ respectively and an isomorphism
+\[
+f : \bA/\alpha \xrightarrow{\sim} \bB/\beta
+\]
+such that, writing $\pi_{\alpha},\pi_{\beta}$ for the quotient maps, we have
+\[
+\RR = \pi_{\alpha}^{-1} \circ f^{-1} \circ \pi_{\beta},
+\]
+where we are treating $\pi_\alpha, \pi_\beta, f$ as binary relations with inputs on the right and outputs on the left.
 \end{prop}
 \begin{proof} Thinking of $\RR$ as a bipartite graph on $\bA \sqcup \bB$, we just have to prove that every connected component of $\RR$ is a complete bipartite graph. Suppose $a \in \bA$ and $b \in \bB$ are in the same connected component of $\RR$, and let $a = a_1, b_1, ..., a_k, b_k = b$ be a path from $a$ to $b$ with $(a_i,b_i) \in \RR$ and $(a_{i+1},b_i) \in \RR$ for each $i$. We will show that $(a_1,b_i) \in \RR$ by induction on $i$:
 \[
@@ -2989,14 +3133,29 @@ A more \emph{visual} way to understand the linking congruence is to think of the
 
 Despite the trivial nature of binary relations with the parallelogram property, higher arity relations can encode more complicated global information.
 
-\begin{ex} Consider the affine algebra $\bA = (\ZZ/p, x-y+z)$, and let $\RR \le_{sd} \bA^n$ be the relation $x_1 + \cdots + x_n \equiv 0\pmod{p}$. Then if we think of $\RR$ as a (subdirect) binary relation on $\bA\times \bA^{n-1}$, it is the graph of the homomorphism $\bA^{n-1} \rightarrow \bA$ given by $(x_2, ..., x_n) \mapsto -x_2-\cdots -x_n\pmod{p}$.
+\begin{ex} Consider the affine algebra $\bA = (\ZZ/p, x-y+z)$, and let $\RR \le_{sd} \bA^n$ be the relation
+\[
+(x_1, ..., x_n) \in \RR \;\;\; \iff \;\;\; x_1 + \cdots + x_n \equiv 0\pmod{p}.
+\]
+Then if we think of $\RR$ as a (subdirect) binary relation on $\bA\times \bA^{n-1}$, it is the graph of the homomorphism $\bA^{n-1} \rightarrow \bA$ given by
+\[
+(x_2, ..., x_n) \mapsto -x_2-\cdots -x_n\pmod{p}.
+\]
 
-More generally, for any $i$, if we think of $\RR$ as a subdirect binary relation on $\bA^i\times \bA^{n-i}$, then the linking congruence gives homomorphisms $\bA^i \rightarrow \bA \leftarrow \bA^{n-i}$: $(x_1, ..., x_i)\mapsto x_1 + \cdots + x_i\pmod{p}$ and $(x_{i+1}, ..., x_n) \mapsto -x_{i+1}-\cdots - x_n\pmod{p}$.
+More generally, for any $i$, if we think of $\RR$ as a subdirect binary relation on $\bA^i\times \bA^{n-i}$, then the linking congruence gives homomorphisms
+\[
+\bA^i \rightarrow \bA \leftarrow \bA^{n-i},
+\]
+given by $(x_1, ..., x_i)\mapsto x_1 + \cdots + x_i\pmod{p}$ and $(x_{i+1}, ..., x_n) \mapsto -x_{i+1}-\cdots - x_n\pmod{p}$.
 \end{ex}
 
 Ternary relations on simple Mal'cev algebras have a particularly interesting structure.
 
-\begin{prop} Let $\bA_1, \bA_2, \bA_3$ be simple idempotent Mal'cev algebras, and suppose that $\RR\le_{sd} \bA_1\times\bA_2\times\bA_3$ has $\pi_{i,j}(\RR) = \bA_i\times\bA_j$ for each $i\ne j$ but that $\RR \ne \bA_1\times\bA_2\times\bA_3$. Then for each $a \in \bA_1$, the relation
+\begin{prop} Let $\bA_1, \bA_2, \bA_3$ be simple idempotent Mal'cev algebras, and suppose that $\RR\le_{sd} \bA_1\times\bA_2\times\bA_3$ has
+\[
+\pi_{i,j}(\RR) = \bA_i\times\bA_j
+\]
+for each $i\ne j$ but that $\RR \ne \bA_1\times\bA_2\times\bA_3$. Then for each $a \in \bA_1$, the relation
 \[
 \RR_a = \pi_{2,3}(\RR \cap (\{a\}\times \bA_2\times \bA_3))
 \]
@@ -3007,7 +3166,11 @@ is the graph of an isomorphism between $\bA_2$ and $\bA_3$, and for every $b \in
 Similarly, $\RR$ may be viewed as the graph of a homomorphism from $\bA_1\times \bA_2$ to $\bA_3$, so $\RR_a$ is the graph of a surjective homomorphism from $\bA_2$ to $\bA_3$ for any $a \in \bA_1$ (surjective because $\pi_{1,3}(\RR) = \bA_1 \times \bA_3$), and by simplicity of $\bA_2$ this homomorphism must be an isomorphism.
 \end{proof}
 
-If we fix an isomorphism $\bA_1 \cong \bA_2 \cong \bA_3 \cong \bA$ coming from the above proposition, then the kernel of the associated homomorphism $\bA \times \bA \cong \bA_2\times \bA_3 \rightarrow \bA_1$ contains the diagonal of $\bA\times \bA$ as a congruence class. In this case - that is, the case where $\bA\times\bA$ has the diagonal as a congruence class  of some congruence - $\bA$ is called an \emph{abelian} algebra.%This is an example of what is known as a \emph{skew congruence} on $\bA_2^2$ (in general, a skew congruence is a congruence on a product which is not the kernel of one of the projection maps).
+If we fix an isomorphism $\bA_1 \cong \bA_2 \cong \bA_3 \cong \bA$ coming from the above proposition, then the kernel of the associated homomorphism
+\[
+\bA \times \bA \cong \bA_2\times \bA_3 \rightarrow \bA_1
+\]
+contains the diagonal of $\bA\times \bA$ as a congruence class. In this case - that is, the case where $\bA\times\bA$ has the diagonal as a congruence class  of some congruence - $\bA$ is called an \emph{abelian} algebra.%This is an example of what is known as a \emph{skew congruence} on $\bA_2^2$ (in general, a skew congruence is a congruence on a product which is not the kernel of one of the projection maps).
 
 %TODO: perfect groups and Ribet's lemma (if all but two are perfect, and all pairwise projections full, then you are full)?
 
@@ -3264,13 +3427,17 @@ In the case of nonabelian groups, however, we may be able to adjoin interesting 
 \begin{thm}[Aschbacher \cite{near-subgroups-aschbacher}]\label{near-subgroups} The intersection of two near subgroups of a finite group is a near subgroup.
 \end{thm}
 
-\begin{cor}[Feder \cite{near-subgroups-feder}] Let $\bG$ be a finite group, and let $\mathbf{G}^*$ be the relational structure on the underlying set of $\bG$ having as relations all cosets of all near subgroups of $\bG^n$. Then $\mathbf{G}^*$ has a Mal'cev polymorphism.
+\begin{cor}[Feder \cite{near-subgroups-feder}]\label{near-subgroups-malcev} Let $\bG$ be a finite group, and let $\mathbf{G}^*$ be the relational structure on the underlying set of $\bG$ having as relations all cosets of all near subgroups of $\bG^n$. Then $\mathbf{G}^*$ has a Mal'cev polymorphism.
 \end{cor}
 \begin{proof} Consider the ``free near subgroup generated by two elements'', that is, the smallest near subgroup $K$ of $\bG^{\bG^2}$ which contains $\pi_1, \pi_2$ (a smallest such near subgroup exists since the intersection of all of them is guaranteed to be a near subgroup as well). Let $\mathbb{N}$ be the commutator subgroup of the group generated by $\pi_1, \pi_2$. Since $\langle \pi_1,\pi_2\rangle / \mathbb{N}$ is abelian, there must be some $c \in \mathbb{N}$ with $\pi_1\pi_2c \in K$ by the definition of a near subgroup.
 
-We define a binary operation $g$ by $g = \pi_1\pi_2c$, that is, $g(x,y) = xyc(x,y)$, where $c \in \bG^{\bG^2}$ is interpreted as a function $c : \bG^2 \rightarrow \bG$. Since for all $x,y$ we know that $c(x,y)$ is contained in the commutator subgroup of $\langle x, y\rangle$, we have $c(x,1) = c(1,x) = 1$ for all $x$, so $g(x,1) = g(1,x) = x$. Now we define a Mal'cev operation $p$ by
+We define a binary operation $g$ by $g = \pi_1\pi_2c$, that is,
 \[
-p(x,y,z) = yg(y^{-1}x,y^{-1}z) = xy^{-1}zc(y^{-1}x,y^{-1}z).
+g(x,y) = x\cdot y \cdot c(x,y),
+\]
+where $c \in \bG^{\bG^2}$ is interpreted as a function $c : \bG^2 \rightarrow \bG$. Since for all $x,y$ we know that $c(x,y)$ is contained in the commutator subgroup of $\langle x, y\rangle$, we have $c(x,1) = c(1,x) = 1$ for all $x$, so $g(x,1) = g(1,x) = x$. Now we define a Mal'cev operation $p$ by
+\[
+p(x,y,z) = y\cdot g(y^{-1}x,y^{-1}z) = xy^{-1}z\cdot c(y^{-1}x,y^{-1}z).
 \]
 That $p$ is Mal'cev follows directly from the fact that $g$ satisfies the identities $g(1,x) \approx g(x,1) \approx x$.
 
@@ -3292,7 +3459,7 @@ In order to prove Aschbacher's Theorem \ref{near-subgroups}, we first need a mor
 \begin{proof} We just need to check that $K$ being a twisted subgroup is equivalent to $\langle x\rangle \subseteq bK$ for all $x,b$ with $x \in bK, b \in K^{-1}$. The previous proposition proves one direction of the equivalence. For the other direction, if $x,y \in K$, then $yx \in yK$ and $y^{-1} \in \langle y \rangle \subseteq K$, so $(yx)^2 \in \langle yx\rangle \subseteq yK$, which is equivalent to $xyx = y^{-1}(yx)^2 \in K$.
 \end{proof}
 
-\begin{ex} An explicit example of a near-subgroup which is not a subgroup is given in \cite{feder-vardi}. Let $\bG$ be the Heisenberg group of order $p^3$ ($p$ odd):
+\begin{ex}\label{ex-heisenberg-near-subgroup} An explicit example of a near-subgroup which is not a subgroup is given in \cite{feder-vardi}. Let $\bG$ be the Heisenberg group of order $p^3$ ($p$ odd):
 \[
 \bG = \left\{\begin{bmatrix} 1 & a & c\\ 0 & 1 & b\\ 0 & 0 & 1\end{bmatrix} \text{ s.t. } a,b,c \in \ZZ/p\right\} \le \operatorname{SL}_3(\ZZ/p).
 \]
@@ -3322,7 +3489,11 @@ If $z \in K$ then for any $g \in \bG\setminus K$, we have $gz \in K$, and from $
 
 Thus we may assume that $z \not\in K$, and in fact that $Z(\bG) \cap K = 1$. Let $\bM$ be a maximal subgroup of $\bG$ containing $\langle z\rangle$, then by induction we have $\bM \cap K$ a subgroup of $\bM$. Since $(\bM \cap K)/\langle z\rangle = \bM/\langle z\rangle$, we have $\bM \cong (\bM\cap K)\times \langle z\rangle$.
 
-Let $\Phi(\bM)$ be the Frattini subgroup of $\bM$, which for $2$-groups is given by $\Phi(\bM) = \bM^2[\bM,\bM]$ (where by $\bM^2$ we mean the collection of all squares $a^2$ for $a \in \bM$). Then from $\Phi(\langle z\rangle) = 1$ we have $\Phi(\bM) = \Phi(\bM\cap K)$, and since $\bM \lhd \bG$ we have $\Phi(\bM) \lhd \bG$. Thus if $\Phi(\bM) \ne 1$ then by considering parities of the sizes of the orbits of elements of $\Phi(\bM)$ under conjugation we see that $\Phi(\bM \cap K) = \Phi(\bM)$ contains a nontrivial element of $Z(\bG)$, contradicting $K \cap Z(\bG) = 1$. Thus $\Phi(\bM) = 1$, so $\bM$ has exponent $2$. Since this holds for every maximal subgroup of $\bG$ which contains $\langle z\rangle$, we see that $\bG$ has exponent $2$, so $\bG$ is abelian.
+Let $\Phi(\bM)$ be the Frattini subgroup of $\bM$, which for $2$-groups is given by
+\[
+\Phi(\bM) \coloneqq \bM^2[\bM,\bM]
+\]
+(where by $\bM^2$ we mean the collection of all squares $a^2$ for $a \in \bM$). Then from $\Phi(\langle z\rangle) = 1$ we have $\Phi(\bM) = \Phi(\bM\cap K)$, and since $\bM \lhd \bG$ we have $\Phi(\bM) \lhd \bG$. Thus if $\Phi(\bM) \ne 1$ then by considering parities of the sizes of the orbits of elements of $\Phi(\bM)$ under conjugation we see that $\Phi(\bM \cap K) = \Phi(\bM)$ contains a nontrivial element of $Z(\bG)$, contradicting $K \cap Z(\bG) = 1$. Thus $\Phi(\bM) = 1$, so $\bM$ has exponent $2$. Since this holds for every maximal subgroup of $\bG$ which contains $\langle z\rangle$, we see that $\bG$ has exponent $2$, so $\bG$ is abelian.
 \end{proof}
 
 Next we show that we can reduce to the situation where $\langle K\rangle$ has an automorphism of order two which sends $k$ to $k^{-1}$ for all $k \in K$.
@@ -3349,7 +3520,7 @@ x(k_1\cdots k_n) = (k_n\cdots k_1)x(k_1\cdots k_n) = k_n(\cdots(k_1 x k_1)\cdots
 \begin{proof} If $x,y \in K$, then $x^{-1} \tau y x = \tau xyx \in \tau K$, and $\tau^{-1} \tau y\tau = \tau y^{-1} \in \tau K$.
 \end{proof}
 
-\begin{prop} A twisted subgroup $K \subseteq \bG$ is a near-subgroup of $\bG$ iff the intersection $bK \cap \bS$ is a subgroup of $\bS$ for every $2$-Sylow subgroup $\bS$ of $\bG$ and every $b \in K^{-1}$.
+\begin{prop}\label{prop-near-twisted-2-sylow} A twisted subgroup $K \subseteq \bG$ is a near-subgroup of $\bG$ iff the intersection $bK \cap \bS$ is a subgroup of $\bS$ for every $2$-Sylow subgroup $\bS$ of $\bG$ and every $b \in K^{-1}$.
 \end{prop}
 \begin{proof} Suppose for contradiction that $\bM \le \bG$, $\bN\lhd \bM$ with $\bM/\bN$ isomorphic to the Klein four-group, and $b \in K^{-1}$ with $|(bK \cap \bM)/\bN| = 3$. We may assume without loss of generality that $\bM = \langle K\rangle \cap \bM$ and $\bN = \langle K\rangle \cap \bN$, that $\bG = \langle K\rangle$, that $b = 1$, and that $\Xi_K = 1$. From $\Xi_K = 1$, we see that there is an order $2$ automorphism $\tau$ of $\bG = \langle K\rangle$ with $k^\tau = k^{-1}$ for all $k \in K$, so we work in the semidirect product of $\bG$ and $\langle \tau \rangle$, with $\tau^2 = 1$ and $\tau g\tau = g^\tau$ for $g \in \bG$.
 
@@ -3362,8 +3533,67 @@ xg^{-1}yg = x(\tau g^{-1} \tau g)^{-1} (\tau g^{-1} \tau yg) \in K\cap \bS_x.
 Then since $\bM/\bN$ is abelian and $\tau y\tau = y^{-1} \equiv_\bN y$, we have $xg^{-1}yg \equiv_\bN xy$, contradicting the assumption $|(K\cap \bM)/\bN| = 3$.
 \end{proof}
 
-\begin{proof}[Proof of Theorem \ref{near-subgroups}] If $K,K'$ are near-subgroups of $\bG$, then they are both twisted subgroups and so their intersection $K \cap K'$ is also a twisted subgroup. Now let $\bS$ be any $2$-group contained in $\bG$, then for any $b \in K\cap K'$ we see that $bK\cap bK' \cap \bS = (bK \cap \bS) \cap (bK' \cap \bS)$ is an intersection of subgroups of $\bS$, so it is a subgroup of $\bS$, and the previous proposition shows that this implies that $K\cap K'$ is a near-subgroup of $\bG$.
+\begin{proof}[Proof of Theorem \ref{near-subgroups}] If $K,K'$ are near-subgroups of $\bG$, then they are both twisted subgroups and so their intersection $K \cap K'$ is also a twisted subgroup. Now let $\bS$ be any $2$-group contained in $\bG$, then for any $b \in K\cap K'$ we see that $bK\cap bK' \cap \bS = (bK \cap \bS) \cap (bK' \cap \bS)$ is an intersection of subgroups of $\bS$, so it is a subgroup of $\bS$, and Proposition \ref{prop-near-twisted-2-sylow} shows that this implies that $K\cap K'$ is a near-subgroup of $\bG$.
 \end{proof}
+
+\begin{ex} By Corollary \ref{near-subgroups-malcev} to Theorem \ref{near-subgroups}, the Heisenberg group $\bG$ of order $p^3$ from Example \ref{ex-heisenberg-near-subgroup} should have a Mal'cev term operation which preserves all near-subgroups of $\bG^n$ for all $n$, and in particular which preserves the near-subgroup $K \subseteq \bG$. When $p = 3$, we can use the identity $(x^{-1}z)^3 \approx \operatorname{Id}$ to see that
+\[
+x^{-1}zx^{-1} \approx z^{-1}xz^{-1}
+\]
+in $\bG$, so the term operation
+\[
+q(x,y,z) \coloneqq yx^{-1}zx^{-1}y \approx yz^{-1}xz^{-1}y
+\]
+is a Mal'cev operation, contained in the clone generated by the standard Mal'cev operation $(x,y,z) \mapsto xy^{-1}z$, which satisfies the additional identity
+\[
+q(x,y,z) \approx q(z,y,x).
+\]
+This Mal'cev term preserves $K$, and $q$ is given explicitly by the formula
+\begin{align*}
+q\left(\begin{bmatrix} 1 & a_1 & c_1 + \frac{a_1b_1}{2}\\ 0 & 1 & b_1\\ 0 & 0 & 1\end{bmatrix}, \begin{bmatrix} 1 & a_2 & c_2 + \frac{a_2b_2}{2}\\ 0 & 1 & b_2\\ 0 & 0 & 1\end{bmatrix}, \begin{bmatrix} 1 & a_3 & c_3 + \frac{a_3b_3}{2}\\ 0 & 1 & b_3\\ 0 & 0 & 1\end{bmatrix}\right)\\
+= \begin{bmatrix} 1 & a_1 - a_2 + a_3 & c_1 - c_2 + c_3 + \frac{(a_1 - a_2 + a_3)(b_1 - b_2 + b_3)}{2}\\ 0 & 1 & b_1 - b_2 + b_3\\ 0 & 0 & 1\end{bmatrix},
+\end{align*}
+so we see that in fact we have an isomorphism between the reduct $(\bG, q(x,y,z))$ and the power $(\ZZ/3, x - y + z)^3$ (this isomorphism is the exponential map from the Heisenberg Lie algebra to the Heisenberg group, taken modulo $3$).
+
+We get similar isomorphisms from reducts of the Heisenberg group to $(\ZZ/p, x-y+z)^3$ for every odd prime $p$, but not for $p = 2$. For larger primes $p$, the Mal'cev operation $q(x,y,z)$ to use is given by
+\[
+q(x,y,z) \coloneqq (xy^{-1}z)\big((zy^{-1}x)^{-1}(xy^{-1}z)\big)^{\frac{p-1}{2}} \approx (zy^{-1}x)\big((xy^{-1}z)^{-1}(zy^{-1}x)\big)^{\frac{p-1}{2}}.
+\]
+\end{ex}
+
+\begin{rem} When $p = 2$, the Heisenberg group becomes isomorphic to the dihedral group $D_4$. Curiously, the CSP associated to the Mal'cev algebra $(D_4, xy^{-1}z)$ turns out to be the smallest counterexample to a natural algorithm, known as ``singleton BLP+AIP'', which solves all tractable CSPs on all domains of size at most $7$.% TODO: reference, once something is published
+\end{rem}
+
+\begin{ex} For a less trivial example, consider the alternating group $A_5$ of even permutations on a five element set, and let
+\[
+K = \{\tau \in A_5 \mid \tau^2 = 1\}
+\]
+be the set of all involutions in $A_5$. Then $K$ is a twisted subgroup, since we have
+\[
+x \in K \;\; \implies \;\; xyx = x^{-1}yx
+\]
+and since $K$ is preserved by conjugation by elements of $K$ (in fact, $K$ is preserved by all automorphisms of $A_5$). Furthermore, it turns out that $K$ is exactly the union of all of the $2$-Sylow subgroups of $A_5$, and for each $b \in K\setminus\{1\}$, $bK \cap K$ is equal to the (unique) $2$-Sylow subgroup of $A_5$ containing $b$, so by Proposition \ref{prop-near-twisted-2-sylow} $K$ is a near-subgroup of $A_5$.
+
+Now by Corollary \ref{near-subgroups-malcev} to Theorem \ref{near-subgroups}, there should be a Mal'cev term of the group $A_5$ which preserves the near-subgroup $K$. Using the fact that every $15$th power of any element of $A_5$ is an element of $K$, and the fact that
+\[
+x,y \in K \;\; \implies \;\; (xy)^{15} = xy(x^{-1}y^{-1}xy)^7 = xy[x,y]^7,
+\]
+and more generally that
+\[
+a,b,c \in K, \; x = ba, \; y = bc \;\; \implies \;\; b(abc)^{15} = babc(a^{-1}b^{-1}c^{-1}abc)^7 = babc[ba,bc]^7 = xy[x,y]^7,
+\]
+we see that for all $b \in K$, the near-subgroup $bK$ is closed under the operation
+\[
+g(x,y) \coloneqq xy[x,y]^7.
+\]
+The proof of Corollary \ref{near-subgroups-malcev} suggests that we should use the Mal'cev term
+\begin{align*}
+p(x,y,z) &\coloneqq y \cdot g(y^{-1}x, y^{-1}z)\\
+&\approx xy^{-1}z[y^{-1}x,y^{-1}z]^7\\
+&\approx (xy^{-1}z)\big((zy^{-1}x)^{-1}(xy^{-1}z)\big)^7.
+\end{align*}
+Note that $\bA = (A_5, p(x,y,z))$ will not be isomorphic to $(G, xy^{-1}z)$ for any group $G$, since $\bA$ has a subalgebra $(K,p(x,y,z))$ of size $|K| = 16$, and $16$ does not divide $|A_5| = 60$.
+\end{ex}
 
 
 \section{Abelian Mal'cev algebras are affine}\label{s-abelian-malcev}
@@ -3432,7 +3662,7 @@ for some unary $\phi_i$ and some constant $c$. Define $p(x,y,z)$ by
 \[
 p(x,y,z) = t(x,t(y,y,y,x,...,x),z,x,...,x).
 \]
-Then $p$ is a term of $\bA$, and we have
+Then $p$ is a term operation of $\bA$, and we have
 \[
 p(x,y,z) = x-\big(y-y+y + \sum_i \phi_i(x) + c\big)+z + \sum_i \phi_i(x) + c = x-y+z,
 \]
@@ -3495,7 +3725,7 @@ t(v_1, ..., v_m, a_1, ..., a_n) = t(v_1, ..., v_m, b_1, ..., b_n).\qedhere
 
 \begin{prop} Every quasi-affine algebra satisfies the term condition and is therefore abelian.
 \end{prop}
-\begin{proof} If $t$ is an $n+1$-ary term of a quasi-affine algebra, then we can write $t$ in the form
+\begin{proof} If $t$ is an $n+1$-ary term operation of a quasi-affine algebra, then we can write $t$ in the form
 \[
 t(x_0, ..., x_n) = \phi_0(x_0) + \cdots + \phi_n(x_n) + c,
 \]
@@ -3774,7 +4004,7 @@ Putting all of this together, we have the main result of this section.
 
 \begin{thm}\label{abelian-malcev} Any abelian Mal'cev algebra $\bA$ is affine.
 \end{thm}
-\begin{proof} By Theorem \ref{abelian-M3} and its corollary, $\mathbf{S} = (\bA^2, \ker \pi_1, \ker \pi_2, \Theta)$ is an S-3-system with Mal'cev polymorphism $p$, where $p$ is the Mal'cev term of $\bA$ and $\Theta$ is a congruence on $\bA^2$ with the diagonal as a congruence class. By Lemma \ref{S3-coords}, there is a loop structure $\bL$ on the underlying set of $\bA$ which describes $\mathbf{S}$. By Lemma \ref{S3-loop-associative}, Lemma \ref{S3-malcev-loop}, and its corollary, $\bL$ is an abelian group and $p$ is given by $p(x,y,z) = x-y+z$ (writing the abelian group operation additively).
+\begin{proof} By Theorem \ref{abelian-M3} and its corollary, $\mathbf{S} = (\bA^2, \ker \pi_1, \ker \pi_2, \Theta)$ is an S-3-system with Mal'cev polymorphism $p$, where $p$ is the Mal'cev term operation of $\bA$ and $\Theta$ is a congruence on $\bA^2$ with the diagonal as a congruence class. By Lemma \ref{S3-coords}, there is a loop structure $\bL$ on the underlying set of $\bA$ which describes $\mathbf{S}$. By Lemma \ref{S3-loop-associative}, Lemma \ref{S3-malcev-loop}, and its corollary, $\bL$ is an abelian group and $p$ is given by $p(x,y,z) = x-y+z$ (writing the abelian group operation additively).
 
 By Corollary \ref{S3-malcev-graph}, the relation $x-y+z=p$ is primitively positively definable from $\ker \pi_1, \ker \pi_2, \Theta$, so the relation $x+z = y+p$ is preserved by all operations of $\bA$, that is, $\bA$ is quasi-affine. Since $\bA$ was assumed to be Mal'cev, this means that $\bA$ is affine.
 \end{proof}
@@ -5392,7 +5622,7 @@ Furthermore, every time we process a new $a \in C\setminus C'$, we strictly enla
 
 Now we will explain how all of this relates to Valiant's PAC-learning model \cite{valiant-pac}. In the PAC-learning model, the teacher (oracle) has access to both a target concept $C \in \cC$ and a probability distribution $\mu$ over the universe $U$, both of which are unknown to the learner. The learner is allowed to request random classified examples, sampled from the distribution $\mu$ (by a ``classified'' example, I mean that the learner is given an example and told whether or not it is in the target concept $C$).
 
-\begin{defn} If $C \in \cC$ is a target concept and $\mu$ is a probability distribution on the universe $U$, then the \emph{sampling oracle} for the pair $C,\mu$ is a randomized oracle which samples a random element $a \in U$ drawn from the distribution $\mu$, and returns the ordered pair $(a,a \in C)$, where by ``$a \in C$'' we mean either ``true'' or ``false'' based on whether $a$ is in the target concept $C$.
+\begin{defn} If $C \in \cC$ is a target concept and $\mu$ is a probability distribution on the universe $U$, then the \emph{sampling oracle} for the pair $C,\mu$ is a randomized oracle which samples a random element $a \in U$ drawn from the distribution $\mu$, and returns the ordered pair $(a,a \stackrel{?}{\in} C)$, where by ``$a \stackrel{?}{\in} C$'' we mean either ``true'' or ``false'' based on whether $a$ is in the target concept $C$.
 \end{defn}
 
 In the PAC-learning model, the goal of a learning algorithm is to output an encoding of a concept $C'$ in the hypothesis class $\cC'$, such that the $\mu$-measure $\mu(C \Delta C')$ of the symmetric difference between $C$ and $C'$ is small. We can't hope to do better than this, since the chance of seeing an example which lets us distinguish between $C$ and $C'$ is at most $\mu(C \Delta C')$ times the number of classified examples we request.
@@ -5707,7 +5937,7 @@ To rule out the second possibility, note that if $s^l <_{lex} s$ and $(s_j^l, s_
 
 \section{Cube term blockers: projective subalgebras and crosses}
 
-The goal of this section is to describe a criterion for the existence of an edge term of low arity, based on the nonexistence of certain families of relations or special types of subalgebras. The forbidden type of subalgebra was originally called a cube term blocker in \cite{cube-term-blockers}, but now it is slightly more common to see it referred to as a projective subalgebra.
+The goal of this section is to describe a criterion for the existence of an edge term operation of low arity, based on the nonexistence of certain families of relations or special types of subalgebras. The forbidden type of subalgebra was originally called a cube term blocker in \cite{cube-term-blockers}, but now it is slightly more common to see it referred to as a projective subalgebra.
 
 \begin{defn}[\cite{cube-term-blockers}]\label{defn-projective} If $\PP \le \bA$ is a subalgebra such that for each term $t \in \Clo(\bA)$ there is some coordinate $i(t) \le \arity(t)$ such that
 \[
@@ -6812,11 +7042,11 @@ There are two other interesting cases which are not characterized by two-variabl
 
 \begin{prop} If $\bA$ has symmetric terms $f_n$ of every arity, then it has symmetric terms $f_n^s$ which act like the semilattice operation on each set $\{a,b\}$ with $s(a,b) = s(b,a) = b$.
 \end{prop}
-\begin{proof} Let $f_n$ be a symmetric term of arity $n$, for each $n$. Then for any $n$, let $\sigma_1, ..., \sigma_{n!}$ be an enumeration of the permutations of $\{1, ..., n\}$, and define $f_n^s$ by
+\begin{proof} Let $f_n$ be a symmetric term operation of arity $n$, for each $n$. Then for any $n$, let $\sigma_1, ..., \sigma_{n!}$ be an enumeration of the permutations of $\{1, ..., n\}$, and define $f_n^s$ by
 \[
 f_n^s(x_1, ..., x_n) \coloneqq f_{n!}(s_n(x_{\sigma_1(1)}, ..., x_{\sigma_1(n)}), ..., s_n(x_{\sigma_{n!}(1)}, ..., x_{\sigma_{n!}(n)})).
 \]
-Then $f_n^s$ is a symmetric term of arity $n$.
+Then $f_n^s$ is a symmetric term operation of arity $n$.
 \end{proof}
 
 \begin{prop}\label{prop-totally-symmetric-preparation} If $\bA$ has totally symmetric terms $f_n$ of every arity, then it has totally symmetric terms $f_n^s$ which act like the semilattice operation on each set $\{a,b\}$ with $s(a,b) = s(b,a) = b$.
@@ -6888,7 +7118,7 @@ For algebras which have been prepared, it makes sense to define a digraph whose 
 \begin{defn} If $s$ is a partial semilattice operation and $a,b$ have $s(a,b) = b$, then we write $a \rightarrow_s b$, or just $a \rightarrow b$ if $s$ is understood (or if the algebra has been prepared).
 \end{defn}
 
-\begin{thm} Let $s$ be a fixed nontrivial partial semilattice term of an idempotent algebra $\bA$. If $\bA$ is prepared, then the following are equivalent.
+\begin{thm} Let $s$ be a fixed nontrivial partial semilattice term operation of an idempotent algebra $\bA$. If $\bA$ is prepared, then the following are equivalent.
 \begin{itemize}
 \item[(a)] $s(a,b) = b$, that is, $a \rightarrow b$,
 
@@ -6935,7 +7165,7 @@ For part (d), pick $b_1 \in \bB_1$, then by part (a) there is some $b_2 \in \bB_
 
 \begin{prop}\label{arrow-partial} If $\bA$ has been prepared and $a,b,c \in \bA$ have $c \in \Sg\{a,b\}$ with $a \rightarrow c$, then $\bA$ has a partial semilattice term $s$ with $s(a,b) = c$.
 \end{prop}
-\begin{proof} Let $s'$ be an arbitrary nontrivial partial semilattice term of $\bA$, and choose $p$ a binary term of $\bA$ with $p(a,b) = c$. Then take $s(x,y) = s'(x,p(x,y))$. We clearly have $s(a,b) = s'(a,p(a,b)) = s'(a,c) = c$, so we just have to check that $s$ is a partial semilattice.
+\begin{proof} Let $s'$ be an arbitrary nontrivial partial semilattice term operation of $\bA$, and choose $p$ a binary term operation of $\bA$ with $p(a,b) = c$. Then take $s(x,y) = s'(x,p(x,y))$. We clearly have $s(a,b) = s'(a,p(a,b)) = s'(a,c) = c$, so we just have to check that $s$ is a partial semilattice.
 
 If $p$ is second projection then $s = s'$ and we are done. Otherwise, since $\bA$ has been prepared, $p$ and $s'$ both act as the semilattice operation on $\{x,s'(x,p(x,y))\} = \{x,s(x,y)\}$, so $s$ also acts as the semilattice operation on $\{x,s(x,y)\}$.
 \end{proof}
@@ -7221,7 +7451,7 @@ The algebra $\bA_4$ has the cyclic automorphism $(a\ b\ c\ d)$, and is generated
 \[
 s'(x,y) \coloneqq s(x,s(y,x))
 \]
-is another (nontrivial) partial semilattice term of $\bA_4$, such that $s'(a,c) = a, s'(c,a) = c$. So the reduct $(\{a,b,c,d\},s')$ of $\bA_4$ is \emph{not} an ancestral algebra, as it has the subalgebra $(\{a,c\},s')$ which has the two maximal strongly components $\{a\}$ and $\{c\}$.
+is another (nontrivial) partial semilattice term operation of $\bA_4$, such that $s'(a,c) = a, s'(c,a) = c$. So the reduct $(\{a,b,c,d\},s')$ of $\bA_4$ is \emph{not} an ancestral algebra, as it has the subalgebra $(\{a,c\},s')$ which has the two maximal strongly components $\{a\}$ and $\{c\}$.
 
 It is easy to check that $\bA_4$ is simple, and every proper subalgebra of $\bA_4$ is a two element semilattice. By Corollary \ref{simple-strong-poly}, $\bA_4$ is polynomially complete, and in fact Theorem \ref{strong-binary} and Theorem \ref{strong-ternary} imply that every subdirect relation $\RR \le_{sd} \bA_4^n$ can be written as an intersection of two variable relations, each of which is the graph of an automorphism of $\bA_4$. In particular, if we consider the ternary relation
 \[
@@ -7492,7 +7722,7 @@ The simple construction of the reduced instance $\fX'$ can be used to show that 
 
 The paper which prompted the study of cycle-consistency was a preliminary investigation by Chen, Dalmau, and Gru{\ss}ien \cite{arc}, which studied a slightly stronger consistency notion: singleton arc-consistency. Singleton arc-consistency refers to the strategy of fixing a particular value for some variable, and checking if applying arc-consistency to the remaining variables produces a contradiction. Singleton arc-consistency is clearly at least as powerful as cycle-consistency, and can be established in quadratic time using an algorithm from \cite{singleton-arc-consistency-quadratic}. One of the main results of \cite{arc} showed that singleton arc consistency solves majority CSPs, but in fact their proof strategy was to show that cycle-consistent instances of majority CSPs always have solutions.
 
-The argument for majority algebras is simpler than the argument for ancestral algebras, essentially because the analogue of the case where all the variables domains are strongly connected doesn't need to be considered. Instead, we are always in the situation where some variable domain $\bA_x$ has a proper absorbing subalgebra (every singleton is an absorbing subalgebra of a majority algebra), although we need to work slightly harder than we did in the absorbing case of ancestral CSPs since the absorption is no longer binary absorption. Rather than working with absorbing subalgebras, \cite{arc} used the closely related concept of an \emph{ideal} of a majority algebra.
+The argument for majority algebras is simpler than the argument for ancestral algebras, essentially because the analogue of the case where all the variable domains are strongly connected doesn't need to be considered. Instead, we are always in the situation where some variable domain $\bA_x$ has a proper absorbing subalgebra (every singleton is an absorbing subalgebra of a majority algebra), although we need to work slightly harder than we did in the absorbing case of ancestral CSPs since the absorption is no longer binary absorption. Rather than working with absorbing subalgebras, \cite{arc} used the closely related concept of an \emph{ideal} of a majority algebra.
 
 \begin{defn} If $\bA = (A,m)$ is a majority algebra, then $\bB \le \bA$ is called an \emph{ideal} of $\bA$ if $m(\bB,\bA,\bB) \subseteq \bB$.
 \end{defn}
@@ -7848,7 +8078,7 @@ Later we will show that any cycle-consistent instance $\fX$ has an arc-consisten
 
 \subsection{Local criterion for J\'onsson absorption}
 
-Since a finite algebra $\bA$ has bounded strict width iff every singleton is an absorbing subalgebra of $\bA$, we'd like to have a way to test whether a given subalgebra $\bB \le \bA$ is an absorbing subalgebra. Since the arity of a potential absorbing term is unbounded, we'll start with the easier problem of testing whether $\bB$ is a \emph{J\'onsson} absorbing subalgebra, since in this case there is an obvious algorithm which will at least eventually halt: list out every possible ternary term of $\bA$ by brute force, and make a digraph of possible J\'onsson chains.
+Since a finite algebra $\bA$ has bounded strict width iff every singleton is an absorbing subalgebra of $\bA$, we'd like to have a way to test whether a given subalgebra $\bB \le \bA$ is an absorbing subalgebra. Since the arity of a potential absorbing term is unbounded, we'll start with the easier problem of testing whether $\bB$ is a \emph{J\'onsson} absorbing subalgebra, since in this case there is an obvious algorithm which will at least eventually halt: list out every possible ternary term operation of $\bA$ by brute force, and make a digraph of possible J\'onsson chains.
 
 The idea behind finding a better way to test whether $\bB \lhd_J \bA$ is to try to find a converse to the fundamental digraph connectivity result characterizing J\'onsson absorption (Theorem \ref{absorbing-directed-path}). In order to formulate the converse, we need to consider generic pairs of digraphs $\bS \le \RR \le \bC\times \bC$ such that
 \[
@@ -8079,7 +8309,7 @@ We leave the following generalization as an exercise to the reader.
 \begin{thm}\label{absorption-essential-gen} If $\bA_1, ..., \bA_k$ are finite and idempotent, and $\bB_i \le \bA_i$ for each $i$ are such that there is no $(\bB_{i_1}, ..., \bB_{i_m})$-essential relation $\RR \le \bA_{i_1} \times \cdots \times \bA_{i_m}$ for any choice of $i_1, ..., i_m \in [k]$, then there is an $m$-ary term $t$ such that each $\bB_i$ absorbs $\bA_i$ with respect to $t$.
 \end{thm}
 
-\begin{cor} A finite idempotent algebra $\bA$ has a near-unanimity term of arity $m$ iff for each choice of $a_i, b_i \in \bA$, we have
+\begin{cor} A finite idempotent algebra $\bA$ has a near-unanimity term operation of arity $m$ iff for each choice of $a_i, b_i \in \bA$, we have
 \[
 \begin{bmatrix}b_1\\ b_2\\ \vdots\\ b_m\end{bmatrix} \in \Sg_{\bA^m}\left\{\begin{bmatrix}a_1\\ b_2\\ \vdots\\ b_m\end{bmatrix}, \begin{bmatrix}b_1\\ a_2\\ \vdots\\ b_m\end{bmatrix}, ..., \begin{bmatrix}b_1\\ b_2\\ \vdots\\ a_m\end{bmatrix}\right\}.
 \]
@@ -8441,7 +8671,7 @@ We can now put the pieces together to get the main result of this section. Note 
 such that for every J\'onsson absorption $\bB_i \lhd_J \bA_i \le \bA$, $\bB_i$ absorbs $\bA_i$ with respect to $t$.
 \end{thm}
 
-\begin{cor}\label{cor-finitely-related-near-unanimity} If $\bA$ is finitely related, then $\bA$ generates a congruence distributive variety iff $\bA$ has a near-unanimity term. In this case, if $\Inv(\bA)$ is generated by relations of arity at most $m$, then $\bA$ has a near-unanimity term of arity at most
+\begin{cor}\label{cor-finitely-related-near-unanimity} If $\bA$ is finitely related, then $\bA$ generates a congruence distributive variety iff $\bA$ has a near-unanimity term. In this case, if $\Inv(\bA)$ is generated by relations of arity at most $m$, then $\bA$ has a near-unanimity term operation of arity at most
 \[
 \max(m-1,2)^{3^{|\bA|} - 2^{|\bA|+1}} + 2.
 \]
@@ -8497,15 +8727,16 @@ so that when $n = 4, k = 2$ we can represent the situation visually by the bipar
   \draw (*1) edge (12) (*1) edge (02) (*1) edge (*2);
 \end{tikzpicture}
 \end{center}
-We will find an exponentially long sequence of binary relations $S_{k_0}, S_{k_1}, S_{k_2}, ...$ which compose to the empty set, such that for each $i$, if we replace $S_{k_i}$ by $P_{k_i}$ then the composition becomes nonempty. When $n = 2$, we can represent these all-but-one paths as the rows of a visually self-similar matrix:
+We will find an exponentially long sequence of binary relations $S_{k_0}, S_{k_1}, S_{k_2}, ...$ which compose to the empty set, such that for each $i$, if we replace $S_{k_i}$ by $P_{k_i}$ then the composition becomes nonempty. When $n = 2$, we can represent these all-but-one paths as the rows of a visually self-similar (aside from the first column) matrix:
 \[
-\begin{bmatrix} * & * & * & * & * & * & * & *\\ 0 & * & * & * & * & * & * & *\\ 1 & 1 & * & * & * & * & * & *\\ 1 & 1 & 0 & * & * & * & * & *\\ 2 & 2 & 2 & 2 & * & * & * & *\\ 2 & 2 & 2 & 2 & 0 & * & * & *\\ 2 & 2 & 2 & 2 & 1 & 1 & * & *\\ 2 & 2 & 2 & 2 & 1 & 1 & 0 & *\end{bmatrix},
+%\begin{bmatrix} * & * & * & * & * & * & * & *\\ 0 & * & * & * & * & * & * & *\\ 1 & 1 & * & * & * & * & * & *\\ 1 & 1 & 0 & * & * & * & * & *\\ 2 & 2 & 2 & 2 & * & * & * & *\\ 2 & 2 & 2 & 2 & 0 & * & * & *\\ 2 & 2 & 2 & 2 & 1 & 1 & * & *\\ 2 & 2 & 2 & 2 & 1 & 1 & 0 & *\end{bmatrix},% (the first step of the paths has been left out of the rows of the matrix, since it obscures the pattern)
+\begin{bmatrix} * & * & * & * & * & * & * & * & *\\ 0 & 0 & * & * & * & * & * & * & *\\ 1 & 1 & 1 & * & * & * & * & * & *\\ 1 & 1 & 1 & 0 & * & * & * & * & *\\ 2 & 2 & 2 & 2 & 2 & * & * & * & *\\ 2 & 2 & 2 & 2 & 2 & 0 & * & * & *\\ 2 & 2 & 2 & 2 & 2 & 1 & 1 & * & *\\ 2 & 2 & 2 & 2 & 2 & 1 & 1 & 0 & *\end{bmatrix},
 \]
 and by examining this matrix we can see that the desired sequence of relations is given by
 \[
 S_* \circ S_0 \circ S_1 \circ S_0 \circ S_2 \circ S_0 \circ S_1 \circ S_0 = \emptyset,
 \]
-where $S_* = \Delta_{A \setminus \{*\}}$, $P_* = \Delta_A$ (the first step of the paths has been left out of the rows of the matrix, since it obscures the pattern). The pattern generalizes: for $i > 0$ we will take
+where $S_* = \Delta_{A \setminus \{*\}}$, $P_* = \Delta_A$. The pattern generalizes: for $i > 0$ we will take
 \[
 k_i = \max\{j \text{ s.t. } 2^j \text{ divides } i\},
 \]
@@ -9159,7 +9390,7 @@ so $(b,b) \in \bS$, contradicting our assumption that $\bC' \lhd_Z \bA_{n+1}$.
 \[
 \pi_I(\RR) \cap \prod_{i \in I} \bC_i \ne \emptyset.
 \]
-The base case $|I| \le 2$ is our assumption. For $|I| \ge 3$, pick $i,j,k \in I$ distinct. By the induction hypothesis, there are tuples $x_i, x_j, x_k \in \RR$ such that $\pi_{I\setminus\{i\}}(x_i) \in \prod_{i' \in I \setminus\{i\}} \bC_{i'}$, and similarly for $x_j,x_k$.
+The base case $|I| \le 2$ is our assumption. For $|I| \ge 3$, pick $i,j,k \in I$ distinct. By the induction hypothesis, there are tuples $x_i, x_j, x_k \in \RR$ such that $\pi_{I\setminus\{i\}}(x_i) \in \prod_{\ell \in I \setminus\{i\}} \bC_{\ell}$, and similarly for $x_j,x_k$.
 
 Now consider the subalgebra of $\bA_i\times \bA_j \times \bA_k$ generated by $\pi_{i,j,k}(x_i), \pi_{i,j,k}(x_j), \pi_{i,j,k}(x_k)$. Since this subalgebra can't be a $(\bC_i,\bC_j,\bC_k)$-essential relation (since at least two of $\bC_i,\bC_j,\bC_k$ are centrally absorbing and the third is absorbing), it must contain an element of $\bC_i\times\bC_j\times\bC_k$. Thus there is some $x \in \Sg\{x_i,x_j,x_k\}$ such that
 \[
@@ -9167,7 +9398,7 @@ Now consider the subalgebra of $\bA_i\times \bA_j \times \bA_k$ generated by $\p
 \]
 and this $x$ automatically satisfies
 \[
-\pi_{I\setminus\{i,j,k\}}(x) \in \prod_{i' \in I\setminus\{i,j,k\}} \bC_{i'}
+\pi_{I\setminus\{i,j,k\}}(x) \in \prod_{\ell \in I\setminus\{i,j,k\}} \bC_{\ell}
 \]
 since each of $x_i, x_j, x_k$ do, which completes the inductive step.
 \end{proof}
@@ -9265,7 +9496,7 @@ as required.
 
 In this section we'll go over two of the main results from Barto and Kozik's paper \cite{cyclic} about absorption, known as the ``absorption theorem'' and the ``loop lemma''. The first of these results can be used to constrain the possible subdirect binary relations in simple absorption free algebras, while the second result makes no direct mention of absorption, but combines the theory of absorbing subalgebras with an elementary argument in the absorption free case to give a criterion for a subdirect binary relation to intersect the diagonal.
 
-The loop lemma was originally introduced in order to settle a special case of the dichotomy problem, where the template structure $\fA$ consists of a set together with a single subdirect binary relation (considered as a directed graph). As a bonus, the loop lemma easily implies the existence of a Taylor term of a special form, known as a \emph{Siggers} operation, named after the first person to notice that such special Taylor terms exist in the finite case \cite{siggers-original} (this result was quickly refined, after the initial discovery: see \cite{optimal-taylor} for the paper which introduced the $4$-ary operations which are now commonly known as Siggers operations).
+The loop lemma was originally introduced in order to settle a special case of the dichotomy problem, where the template structure $\fA$ consists of a set together with a single subdirect binary relation (considered as a directed graph). As a bonus, the loop lemma easily implies the existence of a Taylor term operation of a special form, known as a \emph{Siggers} operation, named after the first person to notice that such special Taylor terms exist in the finite case \cite{siggers-original} (this result was quickly refined, after the initial discovery: see \cite{optimal-taylor} for the paper which introduced the $4$-ary operations which are now commonly known as Siggers operations).
 
 Here is a strong form of the absorption theorem, stated in terms of Zhuk's centers.
 
@@ -9477,7 +9708,7 @@ t\left(\begin{bmatrix}y & y & x & x\\ x & y & y & x\\ x & x & x & y\end{bmatrix}
 \]
 If we reorder the first and second inputs to $t$, the left hand side exactly becomes the left hand side of the equation for the $3$-edge term. If $f(x,y)$ was equal to $x$, then $t$ would become a $3$-edge term (up to reordering inputs).
 
-If $f(x,y)$ was instead equal to $y$, then $p(x,y,z) = t(x,x,y,z)$ would become a Mal'cev term, which is even better than a $3$-edge term. However, if we allow for the possibility of semilattice subalgebras, then $f(x,y)$ must act as the semilattice operation on any two-element semilattice subalgebra, and of course in this case there couldn't possibly be any cube term of any arity. For this reason, the system of equations satisfied by $t$ above are often summarized by calling such a $t$ a ``weak $3$-edge term''.
+If $f(x,y)$ was instead equal to $y$, then $p(x,y,z) = t(x,x,y,z)$ would become a Mal'cev term, which is even better than a $3$-edge term. However, if we allow for the possibility of semilattice subalgebras, then $f(x,y)$ must act as the semilattice operation on any two-element semilattice subalgebra, and of course in this case there couldn't possibly be any cube term operation of any arity. For this reason, the system of equations satisfied by $t$ above are often summarized by calling such a $t$ a ``weak $3$-edge term''.
 
 The fact that a Siggers term looks suspiciously similar to a $3$-edge term is more than a coincidence: Theorem 6.2 of \cite{minimal-taylor} shows that every finite Taylor algebra either has a $3$-edge term or has some pair of elements $a \ne b$ such that $(b,b) \in \Sg\{(a,b),(b,a)\}$.% TODO: prove this in these notes
 \end{rem}
@@ -9550,7 +9781,7 @@ It is not so easy to see how to use abelianness to rule out absorption. As a war
 
 \begin{prop} If an algebra $\bA$ is abelian and has at least two elements, then $\bA$ does not have a near-unanimity term.
 \end{prop}
-\begin{proof} Let $\Theta \in \Con(\bA \times \bA)$ be a congruence with the diagonal $\Delta_{\bA}$ as a congruence class. Suppose for contradiction that $t$ is a near-unanimity term of minimal arity $n$, and note that $n$ must be at least $3$ since $\bA$ has at least two elements. Let $a,b$ be any pair of elements of $\bA$. Then we have
+\begin{proof} Let $\Theta \in \Con(\bA \times \bA)$ be a congruence with the diagonal $\Delta_{\bA}$ as a congruence class. Suppose for contradiction that $t$ is a near-unanimity term operation of minimal arity $n$, and note that $n$ must be at least $3$ since $\bA$ has at least two elements. Let $a,b$ be any pair of elements of $\bA$. Then we have
 \[
 t\left(\begin{bmatrix} a & b & b & \cdots & b\\ b & b & b & \cdots & b\end{bmatrix}\right) = \begin{bmatrix} b\\ b\end{bmatrix} \in \Delta_{\bA}.
 \]
@@ -9566,7 +9797,7 @@ Since $a,b$ were arbitrary elements of $\bA$, we see that
 \[
 t(y,y,x,...,x) \approx x,
 \]
-so the term $t(x,x,y_2,...,y_{n-1})$ is a near-unanimity term of arity $n-1$, contradicting the choice of $t$.
+so the term $t(x,x,y_2,...,y_{n-1})$ is a near-unanimity term operaion of arity $n-1$, contradicting the choice of $t$.
 \end{proof}
 
 In order to mimic this argument to rule out absorption, we will need to assume finiteness of $\bA$ and apply an iteration argument. (To see that the finiteness assumption is really needed, consider the infinite idempotent quasiaffine Taylor algebra $([0,1], \frac{x+y}{2})$, which has the open interval $(0,1)$ as a binary absorbing subalgebra.)
@@ -9610,7 +9841,7 @@ Now we can put all the pieces together and get our main result.
 
 \begin{thm}[Fundamental Theorem of Abelian Algebras, finite Taylor case \cite{hobby-mckenzie}, \cite{pointing-no-absorption}, \cite{stronkowski-embedding}, \cite{zhuk-key}]\label{taylor-abelian} If $\bA$ is a finite abelian Taylor algebra, then $\bA$ is affine.
 \end{thm}
-\begin{proof} Let $\bA^{id}$ be the idempotent reduct of $\bA$, note that $\bA^{id}$ is still abelian and Taylor (since Taylor terms are idempotent by definition). Then every subalgebra of $\bA^{id}$ is also abelian, so by Theorem \ref{abelian-haf} $\bA^{id}$ is hereditarily absorption free. Since $\bA^{id}$ is finite, idempotent, Taylor, and hereditarily absorption free it has a Mal'cev term $p$ by Theorem \ref{haf-malcev}. Then $p$ is also a Mal'cev term of $\bA$, so we can apply Theorem \ref{abelian-malcev} to see that $\bA$ is affine.
+\begin{proof} Let $\bA^{id}$ be the idempotent reduct of $\bA$, note that $\bA^{id}$ is still abelian and Taylor (since Taylor terms are idempotent by definition). Then every subalgebra of $\bA^{id}$ is also abelian, so by Theorem \ref{abelian-haf} $\bA^{id}$ is hereditarily absorption free. Since $\bA^{id}$ is finite, idempotent, Taylor, and hereditarily absorption free it has a Mal'cev term $p$ by Theorem \ref{haf-malcev}. Then $p$ is also a Mal'cev term operation of $\bA$, so we can apply Theorem \ref{abelian-malcev} to see that $\bA$ is affine.
 \end{proof}
 
 \begin{rem} It is not hard to generalize Theorem \ref{abelian-haf} to show that if a finite algebra $\bA$ is solvable, then $\bA$ is hereditarily absorption free (this follows from the fact that every solvable idempotent algebra $\bA$ has a congruence $\theta$ such that $\bA/\theta$ is abelian and every congruence class of $\theta$ is solvable). Thus finite solvable Taylor algebras are also Mal'cev by Theorem \ref{haf-malcev}.
@@ -12425,13 +12656,13 @@ Cyclic terms were first proved to exist for finite congruence modular algebras \
 
 \begin{prop}[Multiplicative property of cyclic terms \cite{congruence-modular-cyclic}] A variety $\cV$ has a cyclic term $c_{mn}$ of arity $mn$ if and only if $\cV$ has cyclic terms $c_m, c_n$ of arity $m$ and $n$, respectively.
 \end{prop}
-\begin{proof} Suppose first that $c_{mn}$ is a cyclic term of arity $mn$. Then we can define a cyclic term of arity $m$ by plugging in
+\begin{proof} Suppose first that $c_{mn}$ is a cyclic term operation of arity $mn$. Then we can define a cyclic term operation of arity $m$ by plugging in
 \[
 c_{mn}(\underbrace{x_1, ..., x_1}_{n}, \underbrace{x_2, ..., x_2}_{n}, ..., \underbrace{x_m, ..., x_m}_{n}),
 \]
-and we can define a cyclic term of arity $n$ similarly.
+and we can define a cyclic term operation of arity $n$ similarly.
 
-Conversely, suppose that $c_m, c_n$ are cyclic terms of arity $m$ and $n$. We define a cyclic term of arity $mn$ by renumbering the inputs of the star composition $c_n*c_m$:
+Conversely, suppose that $c_m, c_n$ are cyclic terms of arity $m$ and $n$. We define a cyclic term operation of arity $mn$ by renumbering the inputs of the star composition $c_n*c_m$:
 \[
 c_n\begin{pmatrix}c_m(x_1, & x_{n+1}, & ..., & x_{(m-1)n+1}),\\
 c_m(x_2, & x_{n+2}, & ..., & x_{(m-1)n+2}),\\
@@ -12446,14 +12677,14 @@ c_m(x_{n+1}, & ..., & x_{(m-1)n+1}, & x_1)
 \]
 \end{proof}
 
-\begin{cor} A variety $\cV$ has a cyclic term of arity $m$ if and only if $\cV$ has a cyclic term of arity $p$ for every prime $p$ which divides $m$.
+\begin{cor} A variety $\cV$ has a cyclic term operation of arity $m$ if and only if $\cV$ has a cyclic term operation of arity $p$ for every prime $p$ which divides $m$.
 \end{cor}
 
-Next we will describe the main obstruction to the existence of a cyclic term of a given arity.
+Next we will describe the main obstruction to the existence of a cyclic term operation of a given arity.
 
 \begin{prop}[Semantic meaning of cyclic terms \cite{congruence-modular-cyclic}] Suppose that $\cV$ is a variety. Then for any $m \in \NN$, the following are equivalent.
 \begin{itemize}
-\item[(a)] $\cV$ has no cyclic term of arity $m$.
+\item[(a)] $\cV$ has no cyclic term operation of arity $m$.
 \item[(b)] There is some $\bA \in \cV$ and an automorphism $\sigma \in \Aut(\bA)$ such that $\sigma^m = 1$ and $\sigma$ has no fixed point.
 \end{itemize}
 \end{prop}
@@ -12463,7 +12694,7 @@ c_m\begin{pmatrix}a_1, & a_2, & ..., & a_m\\ a_2, & a_3, & ..., & a_1\end{pmatri
 \]
 so $c_m(a_1, ..., a_m)$ is a fixed point of $\sigma$, contradicting the assumption in (b).
 
-Now suppose that (a) holds. Let $\bA = \cF_\cV(x_1, ..., x_m)$ be the free algebra on $m$ generators, and let $\sigma$ be the automorphism of $\bA$ defined by cyclically permuting the generators $x_1, ..., x_m$. Then a fixed point of $\sigma$ is precisely the same thing as a cyclic term of $\cV$ of arity $m$, so if $\cV$ has no cyclic term of arity $m$, then $\sigma$ has no fixed points (and satisfies $\sigma^m = 1$).
+Now suppose that (a) holds. Let $\bA = \cF_\cV(x_1, ..., x_m)$ be the free algebra on $m$ generators, and let $\sigma$ be the automorphism of $\bA$ defined by cyclically permuting the generators $x_1, ..., x_m$. Then a fixed point of $\sigma$ is precisely the same thing as a cyclic term operation of $\cV$ of arity $m$, so if $\cV$ has no cyclic term operation of arity $m$, then $\sigma$ has no fixed points (and satisfies $\sigma^m = 1$).
 \end{proof}
 
 For finite algebras, we can give a local criterion for the existence of a cyclic term.
@@ -12498,17 +12729,17 @@ and to check if it contains any constant tuples. This relation is invariant unde
 \]
 \end{defn}
 
-\begin{cor}[Relational criterion for cyclic terms \cite{congruence-modular-cyclic}] If $\bA$ is a finite algebra, then $\bA$ has a cyclic term of arity $m$ if and only if every $m$-ary cyclic relation $\RR \le \bA^m$ contains a constant tuple.
+\begin{cor}[Relational criterion for cyclic terms \cite{congruence-modular-cyclic}] If $\bA$ is a finite algebra, then $\bA$ has a cyclic term operation of arity $m$ if and only if every $m$-ary cyclic relation $\RR \le \bA^m$ contains a constant tuple.
 \end{cor}
 
 Now we are finally ready to prove one of the main results of \cite{cyclic}, which states that every finite Taylor algebra $\bA$ has cyclic terms of every prime arity $p > |\bA|$. In fact, we will prove a stronger version of this result due to Zhuk (currently unpublished).
 
 \begin{thm}[Finite Taylor algebras have cyclic terms \cite{cyclic}, refined by Zhuk]\label{cyclic-terms} Suppose $\bA$ is a finite idempotent Taylor algebra and that $p$ is prime. Then one of the following is true:
 \begin{itemize}
-\item[(a)] either $\bA$ has a cyclic term of arity $p$, or
+\item[(a)] either $\bA$ has a cyclic term operation of arity $p$, or
 \item[(b)] there is some $\bB \in HS(\bA)$ and some automorphism $\sigma \in \Aut(\bB)$ such that $\sigma^p = 1$ and $\sigma$ has no fixed points.
 \end{itemize}
-In particular, if $p > |\bA|$ then $\bA$ has a cyclic term of arity $p$.
+In particular, if $p > |\bA|$ then $\bA$ has a cyclic term operation of arity $p$.
 \end{thm}
 \begin{proof} We prove this by induction on $|\bA|$. Suppose that there is no $\bB \in HS(\bA), \sigma \in \Aut(\bB)$ as in (b), and let $\RR \le \bA^p$ be any $p$-ary cyclic relation. It's enough to show that $\RR$ contains a constant tuple.
 
@@ -12524,11 +12755,11 @@ is the graph of $\sigma^p$, which implies $\sigma^p = 1$. Since $p$ is prime, we
 
 By Zhuk's four cases (Corollary \ref{zhuk-four-cases}), we see that $\bA$ is either affine, subdirectly simple, or has a proper ternary absorbing subalgebra.
 
-If $\bA$ is affine, with underlying abelian group $(A, +, -, 0)$, then since $x-y+z$ is a term of $\bA$ (by the definition of an affine algebra), we see that $k_1x_1 + \cdots + k_mx_m$ is a term of $\bA$ for all $k_1, ..., k_m \in \ZZ$ such that $k_1 + \cdots + k_m \equiv 1 \pmod{|\bA|}$. In particular, if $p \nmid |\bA|$, then
+If $\bA$ is affine, with underlying abelian group $(A, +, -, 0)$, then since $x-y+z$ is a term operation of $\bA$ (by the definition of an affine algebra), we see that $k_1x_1 + \cdots + k_mx_m$ is a term operation of $\bA$ for all $k_1, ..., k_m \in \ZZ$ such that $k_1 + \cdots + k_m \equiv 1 \pmod{|\bA|}$. In particular, if $p \nmid |\bA|$, then
 \[
 p^{-1}(x_1 + \cdots + x_p)
 \]
-is a $p$-ary cyclic term of $\bA$. On the other hand, if $p \mid |\bA|$, then by elementary group theory there must be some element $c \in \bA$ of order $p$, and then by the idempotence of $\bA$ the relation
+is a $p$-ary cyclic term operation of $\bA$. On the other hand, if $p \mid |\bA|$, then by elementary group theory there must be some element $c \in \bA$ of order $p$, and then by the idempotence of $\bA$ the relation
 \[
 \{(x,y) \mid x = y + c\}
 \]
@@ -12572,7 +12803,7 @@ for all $i \ne j$. In particular, we see that $\pi_{ij}(\RR) \cap \bB^2 \ne \emp
 \begin{cor} If $\bA$ is a finite Taylor algebra and $m$ has no prime factors $p$ which are less than or equal to $|\bA|$, then $\bA$ has an idempotent $m$-ary cyclic term.
 \end{cor}
 
-\begin{ex} Let $\bA_n$ be the dual discriminator algebra from Example \ref{ex-dual-discriminator} on a domain of size $n$. Then every subset of $\bA_n$ is a subalgebra with full automorphism group, so $\bA_n$ does not have cyclic terms of any arity between $2$ and $n$. By the previous results, we see that $\bA_n$ has a cyclic term of arity $m$ if and only if $m$ has no prime factors which are less than or equal to $n$.
+\begin{ex} Let $\bA_n$ be the dual discriminator algebra from Example \ref{ex-dual-discriminator} on a domain of size $n$. Then every subset of $\bA_n$ is a subalgebra with full automorphism group, so $\bA_n$ does not have cyclic terms of any arity between $2$ and $n$. By the previous results, we see that $\bA_n$ has a cyclic term operation of arity $m$ if and only if $m$ has no prime factors which are less than or equal to $n$.
 \end{ex}
 
 \begin{cor}[Siggers term from cyclic term] If $\bA$ is a finite Taylor algebra, then $\bA$ has an idempotent $4$-ary Siggers term $t$, satisfying the identity $t(x,x,y,z) \approx t(y,z,z,x)$.
@@ -12655,7 +12886,7 @@ The key fact that makes the theory of minimal Taylor algebras work is the follow
 
 \begin{thm}\label{minimal-taylor-subalg} If $\bA$ is a minimal Taylor algebra and $\bB \in HSP_{fin}(\bA)$, then $\bB$ is also a minimal Taylor algebra.
 
-In fact, if $S \subseteq \bB$ is a subset of $\bB$ (not assumed to be a subalgebra), $t \in \Clo(\bA)$ is any term of $\bA$, and $\theta$ is an equivalence relation on $S$ such that
+In fact, if $S \subseteq \bB$ is a subset of $\bB$ (not assumed to be a subalgebra), $t \in \Clo(\bA)$ is any term operation of $\bA$, and $\theta$ is an equivalence relation on $S$ such that
 \begin{itemize}
 \item the set $S$ is closed under $t$,
 \item every equivalence class of $\theta$ is a subalgebra of $\bB$,
@@ -12666,7 +12897,7 @@ then in fact the following must all be true:
 \begin{itemize}
 \item the set $S$ is actually the underlying set of a subalgebra $\bS$ of $\bB$ (i.e. $S$ is a subuniverse of $\bB$),
 \item the equivalence relation $\theta$ is actually a congruence on the subalgebra $\bS$, and
-\item the restriction of every term of $\bA$ to the quotient $\bS/\theta$ is in the clone generated by the restriction of $t$ to $(S,t)/\theta$.
+\item the restriction of every term operation of $\bA$ to the quotient $\bS/\theta$ is in the clone generated by the restriction of $t$ to $(S,t)/\theta$.
 \end{itemize}
 Note that taking $\theta$ to be the trivial equivalence relation $0_S$ is always allowed, since every minimal Taylor algebra is automatically idempotent.
 \end{thm}
@@ -12695,7 +12926,7 @@ An immediate consequence of Theorem \ref{minimal-taylor-subalg} is that minimal 
 \]
 if and only if $\{a,b\}$ is a semilattice subalgebra of $\bA$ with absorbing element $b$.
 \end{prop}
-\begin{proof} If $(b,b) \in \Sg\{(a,b),(b,a)\}$, then there must be some binary term $t$ such that $t(a,b) = t(b,a) = b$. By idempotence, we automatically have $t(a,a) = a$ and $t(b,b) = b$, so the set $S = \{a,b\}$ is closed under $t$ and $(S,t)$ is a two-element semilattice. Thus we can apply Theorem \ref{minimal-taylor-subalg} to see that $\{a,b\}$ must be a subalgebra of $\bA$, and that the restriction of every term of $\bA$ to $\{a,b\}$ is in the clone generated by the restriction of $t$ to $\{a,b\}$.
+\begin{proof} If $(b,b) \in \Sg\{(a,b),(b,a)\}$, then there must be some binary term $t$ such that $t(a,b) = t(b,a) = b$. By idempotence, we automatically have $t(a,a) = a$ and $t(b,b) = b$, so the set $S = \{a,b\}$ is closed under $t$ and $(S,t)$ is a two-element semilattice. Thus we can apply Theorem \ref{minimal-taylor-subalg} to see that $\{a,b\}$ must be a subalgebra of $\bA$, and that the restriction of every term operation of $\bA$ to $\{a,b\}$ is in the clone generated by the restriction of $t$ to $\{a,b\}$.
 \end{proof}
 
 Similarly, we can recognize two-element majority subalgebras and $\ZZ/2^{\aff}$ subalgebras. To simplify the statements of these results, it is convenient to assume the existence of an order two automorphism.
@@ -12814,7 +13045,7 @@ w_i(x,x,y) \approx w_i(x,y,x) \approx w_i(y,x,x) \approx x
 \]
 for all $i \in \ZZ$.
 \end{prop}
-\begin{proof} Note that every ternary term of a majority algebra is either a projection or a majority term (as is easily checked by induction on the construction of the term in terms of the majority operation $m$). If some $w_i$ is a projection, then the identity $w_i(x,x,y) \approx w_i(y,x,x)$ implies that it must be second projection, but then the identity $w_{i+1}(x,x,y) \approx w_{i+1}(y,x,x) \approx w_i(x,y,x) = y$ implies that $w_{i+1}$ is a Mal'cev term, which is impossible. Thus each $w_i$ must be a majority term.
+\begin{proof} Note that every ternary term operation of a majority algebra is either a projection or a majority term (as is easily checked by induction on the construction of the term in terms of the majority operation $m$). If some $w_i$ is a projection, then the identity $w_i(x,x,y) \approx w_i(y,x,x)$ implies that it must be second projection, but then the identity $w_{i+1}(x,x,y) \approx w_{i+1}(y,x,x) \approx w_i(x,y,x) = y$ implies that $w_{i+1}$ is a Mal'cev term, which is impossible. Thus each $w_i$ must be a majority term.
 \end{proof}
 
 For the affine case, we have the following simplification in the setting of minimal Taylor algebras.
@@ -12920,7 +13151,7 @@ We can also limit the collection of affine algebras which may show up in $HSP(\b
 \end{prop}
 \begin{proof} First we show that every $n$ such that $\ZZ/n^{\aff} \in HSP(\bA)$ has $n \le |\bA|^{|\bA|^2}$. To see this, note that $\ZZ/n^{\aff}$ is generated by two elements (to be more specific, it is generated by $0$ and $1$), so if $\ZZ/n^{\aff} \in HSP(\bA)$ then $\ZZ/n^{\aff}$ must be a quotient of the free algebra on two generators $\cF_\bA(x,y) \le \bA^{\bA^2}$.
 
-Next, note that if $p$ is prime and $\ZZ/p^{\aff} \in HSP(\bA)$, then $\bA$ can't have any cyclic term of arity $p$, since $\ZZ/p^{\aff}$ has an automorphism of order $p$ with no fixed points. Thus by Theorem \ref{cyclic-terms} there is no prime $p > |\bA|$ such that $\ZZ/p^{\aff} \in HSP(\bA)$.
+Next, note that if $p$ is prime and $\ZZ/p^{\aff} \in HSP(\bA)$, then $\bA$ can't have any cyclic term operation of arity $p$, since $\ZZ/p^{\aff}$ has an automorphism of order $p$ with no fixed points. Thus by Theorem \ref{cyclic-terms} there is no prime $p > |\bA|$ such that $\ZZ/p^{\aff} \in HSP(\bA)$.
 \end{proof}
 
 We will end this section by characterizing Zhuk's centrally absorbing subalgebras in the case of minimal Taylor algebras, and using them to naturally produce majority subquotients of minimal Taylor algebras. First, we need a quick detour to show that (up to term equivalence) we can put any minimal Taylor algebra into a minimal Taylor variety which also contains a majority algebra.
@@ -12952,7 +13183,7 @@ is a subalgebra of $\bA \times \bM$,
 \item[(e)] every daisy chain term $w_i(x,y,z)$ witnesses the fact that $\bC$ ternary absorbs $\bA$.
 \end{itemize}
 \end{thm}
-\begin{proof} For (a) implies (b): let $t$ be a ternary term which witnesses $\bC \lhd \bA$. If $m$ is a ternary term of $\bA$ which acts as majority on $\bM$, then the ternary term
+\begin{proof} For (a) implies (b): let $t$ be a ternary term which witnesses $\bC \lhd \bA$. If $m$ is a ternary term operation of $\bA$ which acts as majority on $\bM$, then the ternary term
 \[
 t'(x,y,z) \coloneqq m(t(x,y,z), t(y,z,x), t(z,x,y))
 \]
@@ -12960,7 +13191,7 @@ also witnesses the absorption $\bC \lhd \bA$, and the restriction of $t'$ to $\b
 \[
 u(x_1, ..., x_p) \in \bC.
 \]
-Now let $c'$ be any $p$-ary cyclic term of $\bA$, and define $c$ by
+Now let $c'$ be any $p$-ary cyclic term operation of $\bA$, and define $c$ by
 \[
 c(x_1, ..., x_p) \coloneqq c'(u(x_1, ..., x_p), u(x_2, ..., x_p, x_1), ..., u(x_p, x_1, ..., x_{p-1})).
 \]
@@ -13153,7 +13384,7 @@ First suppose that $c = a$, so $(a,b) \in \RR_{ab}^a$. Then either $a \not\sim d
 
 Now suppose that $c \ne a$. There is some $e \ne a$ such that $d \not\sim e$ (if not, then $\sim$ has just two equivalence classes, which are interchanged by the automorphism $\bS_{ab}$, and which both have size $1$, reducing us to the case $|\bA| = 2$). Then $\bS_{de}$ is the graph of an automorphism of order two which interchanges $d$ and $e$, and from $(d,e), (e,d) \in \RR_{ab}^c$ we see $\bS_{de} \subseteq \RR_{ab}^c$. Then since $e \ne a$ there is some $f \ne d$ such that $(a,f) \in \bS_{de} \subseteq \RR_{ab}^c$. Then from $(a,d), (a,f) \in \RR_{ab}^c$ we see that $(c,d), (c,f) \in \RR_{ab}^a$, contradicting the fact that $\RR_{ab}^a$ is the graph of an automorphism of order two.
 
-To finish the proof, note that Claim 4 shows that the relation $\RR_{ab}$ satisfies the assumptions of Proposition \ref{ternary-abelian}, so $\bA$ must be abelian. Thus we can apply the Theorem \ref{taylor-abelian} to see that $\bA$ must be affine.
+To finish the proof, note that Claim 4 shows that the relation $\RR_{ab}$ satisfies the assumptions of Proposition \ref{ternary-abelian}, so $\bA$ must be abelian. Thus we can apply Theorem \ref{taylor-abelian} to see that $\bA$ must be affine.
 \end{proof}
 \begin{comment}
 For the absorption theoretic proof, we need to understand the interaction between centrally absorbing subalgebras and edges.
@@ -13254,7 +13485,7 @@ is independent of $i$, and completely determines the colored graph of $\bA$. In 
 \[
 s(x,y) \coloneqq f(x,f(y,x))
 \]
-is a partial semilattice term of $\bA$.
+is a partial semilattice term operation of $\bA$.
 \end{prop}
 \begin{proof} Note that every pair of distinct elements $a,b \in \bA$ must form an edge of the colored graph of $\bA$ if $\bA$ is a $2$-conservative Taylor algebra. By our analysis of daisy chain terms on the basic two-element minimal Taylor algebras, we see that:
 \begin{itemize}
@@ -13289,7 +13520,7 @@ Here the semilattice edges are directed, the majority edges are straight and und
 
 In order to understand conservative minimal Taylor algebras, Proposition \ref{3-conservative} implies that it's most important to understand the conservative algebras of size $3$. Additionally, Proposition \ref{conservative-ternary} implies that we just need to figure out which ternary weak near-unanimity operations on a three element set generate \emph{minimal} Taylor clones. We get a further simplification by dividing into cases based on whether or not there is a ternary cyclic term. In the case where there is no cyclic term, the following result is useful.
 
-\begin{thm}\label{ternary-iteration} If $w$ is a ternary weak near-unanimity term of a finite algebra $\bA$, then there is a ternary weak near-unanimity term $g \in \Clo(w)$ which also satisfies the identity
+\begin{thm}\label{ternary-iteration} If $w$ is a ternary weak near-unanimity term operation of a finite algebra $\bA$, then there is a ternary weak near-unanimity term $g \in \Clo(w)$ which also satisfies the identity
 \[
 g(g(x,y,z),g(y,z,x),g(z,x,y)) \approx g(x,y,z).
 \]
@@ -13463,7 +13694,7 @@ By Theorem \ref{thm-minimal-no-cyclic}, we only have to classify the minimal Tay
 \end{prop}
 \begin{proof} Suppose for contradiction that the graph of two-element subalgebras of $\bA$ is disconnected, and suppose the underlying set of $\bA$ is $\{a,b,c\}$. By Theorem \ref{colored-graph}, Bulatov's colored graph of $\bA$ must be connected, so if $\bA$ is not $\ZZ/3^{\aff}$ then there must be some nontrivial congruence $\theta \in \Con(\bA)$ such that $\bA/\theta$ is either $\ZZ/2^{\aff}$ or the two-element majority algebra (it can't be the two-element semilattice by Proposition \ref{prop-weak-semilattice-edge}). Suppose without loss of generality that $\{b,c\}$ is the congruence class of $\theta$ which has size $2$, so that $\{b,c\}$ is a two-element subalgebra of $\bA$. By our assumption that the graph of two-element subalgebras is disconnected, neither $\{a,b\}$ nor $\{a,c\}$ can be a subalgebra of $\bA$. Let $g$ be a ternary cyclic operation on $\bA$, which exists by Theorem \ref{thm-minimal-no-cyclic} (or directly from Theorem \ref{cyclic-terms}).
 
-Suppose first that $\bA/\theta$ is $\ZZ/2^{\aff}$. Then since any ternary cyclic term of $\ZZ/2^{\aff}$ acts as the minority operation, we must have
+Suppose first that $\bA/\theta$ is $\ZZ/2^{\aff}$. Then since any ternary cyclic term operation of $\ZZ/2^{\aff}$ acts as the minority operation, we must have
 \[
 g(a,b,b) = g(a,c,c) = a.
 \]
@@ -13508,9 +13739,9 @@ From here on, we just need to classify the minimal Taylor algebras on the set $\
 
 \begin{prop} If $\bA$ is a minimal Taylor algebra with underlying set $\{a,b,c\}$ such that $\bA$ is generated by $a$ and $b$, then $\bA$ does not have a semilattice subalgebra of the form $c \rightarrow a$.
 \end{prop}
-\begin{proof} Suppose for contradiction that $\bA$ is generated by $a$ and $b$, but that $c \rightarrow a$. Let $g$ be a ternary cyclic term of $\bA$, which exists by Theorem \ref{thm-minimal-no-cyclic}.
+\begin{proof} Suppose for contradiction that $\bA$ is generated by $a$ and $b$, but that $c \rightarrow a$. Let $g$ be a ternary cyclic term operation of $\bA$, which exists by Theorem \ref{thm-minimal-no-cyclic}.
 
-First suppose that we do not also have $c \rightarrow b$. We will initially attempt to prove that $(a,a) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$, so that by Proposition \ref{prop-minimal-prepared} $\{a,b\}$ will be a two-element semilattice subalgebra with $b \rightarrow a$, which will contradict the assumption that $a$ and $b$ generate $\bA$. Let $s \in \Clo(g)$ be a partial semilattice term of $\bA$ with $s(a,c) = s(c,a) = a$. Since by assumption we do not have $a \rightarrow b$, we have $s(a,b) = a$ as well, and since we assumed that $\{b,c\}$ is a subalgebra and that we do not have $c \rightarrow b$, we have $s(c,b) = c$. Define $\bS$ by
+First suppose that we do not also have $c \rightarrow b$. We will initially attempt to prove that $(a,a) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$, so that by Proposition \ref{prop-minimal-prepared} $\{a,b\}$ will be a two-element semilattice subalgebra with $b \rightarrow a$, which will contradict the assumption that $a$ and $b$ generate $\bA$. Let $s \in \Clo(g)$ be a partial semilattice term operation of $\bA$ with $s(a,c) = s(c,a) = a$. Since by assumption we do not have $a \rightarrow b$, we have $s(a,b) = a$ as well, and since we assumed that $\{b,c\}$ is a subalgebra and that we do not have $c \rightarrow b$, we have $s(c,b) = c$. Define $\bS$ by
 \[
 \bS = \Sg_{\bA^2}\Big\{\begin{bmatrix}a\\ b\end{bmatrix},\begin{bmatrix}b\\ a\end{bmatrix}\Big\}.
 \]
@@ -13708,7 +13939,7 @@ Thus $\{a,b\}$ is closed under $t$, contradicting the assumption that $\bA$ is a
 
 \begin{prop} Suppose that $\bA$ is a minimal Taylor algebra with underlying set $\{a,b,c\}$ which is generated by $a$ and $b$, that $\{a,c\}$ is a $\ZZ/2^{\aff}$-subalgebra, and that $\{b,c\}$ is a majority subalgebra of $\bA$. Then $\bA$ is the same as the algebra described in Example \ref{ex-few-subpowers}, up to isomorphism and term equivalence. In particular, $\{a,c\}$ is a centrally absorbing subalgebra of $\bA$, and $\bA$ has a congruence $\theta$ corresponding to the partition $\{a\},\{b,c\}$ such that $\bA/\theta \cong \{a,c\}$ is $\ZZ/2^{\aff}$.
 \end{prop}
-\begin{proof} Let $\bS = \Sg_{\bA^2}\{(a,b),(b,a)\}$, and let $g$ be a ternary cyclic term of $\bA$, which exists by Theorem \ref{thm-minimal-no-cyclic}. By Proposition \ref{prop-minimal-prepared}, we have $(a,a),(b,b) \not\in \bS$. If $(c,c) \in \bS$, then we have
+\begin{proof} Let $\bS = \Sg_{\bA^2}\{(a,b),(b,a)\}$, and let $g$ be a ternary cyclic term operation of $\bA$, which exists by Theorem \ref{thm-minimal-no-cyclic}. By Proposition \ref{prop-minimal-prepared}, we have $(a,a),(b,b) \not\in \bS$. If $(c,c) \in \bS$, then we have
 \[
 \begin{bmatrix}a\\c\end{bmatrix} = g\left(\begin{bmatrix}a\\b\end{bmatrix},\begin{bmatrix}c\\c\end{bmatrix},\begin{bmatrix}c\\c\end{bmatrix}\right) \in \bS,
 \]
@@ -13770,6 +14001,10 @@ Putting all of the pieces together, we have completed the classification of mini
 
 \begin{prob} For each one of the $24$ minimal Taylor algebras on a set of size $3$, find a generating set of relations for the corresponding relational clone. Are they all finitely related?
 \end{prob}
+
+So far, generating sets of relations have been found for $18$ of the $24$ minimal Taylor algebras on a set of size $3$ (Filip Jankovec's master's thesis \cite{jankovec-master-thesis} resolved $12$ of them). In a big surprise, Maximilian Hadek recently discovered that the conservative minimal Taylor algebra which has two majority edges and one semilattice edge is \emph{not} finitely related - so far, no explicit (infinite) generating set of relations is known for that algebra. (I think these results haven't been published yet.)%TODO: references, once they are published!
+
+The six unresolved cases are all conservative: four of them consist of three-element conservative minimal Taylor algebras having exactly one semilattice edge, and the remaining two cases have exactly two semilattice edges, arranged in such a way that they have no semilattice quotients.%TODO: pictures!
 
 
 \section{The strands of an unlinked CSP instance, and a safe recursive strategy}
@@ -14635,7 +14870,7 @@ The algorithm for singleton M-arc-consistency is nearly the same as the algorith
 
 Consider classifying Taylor algebras by which types of Bulatov's edges (i.e., semilattice, majority, and affine) occur in them. If only majority and semilattice edges occur, then our algebra has bounded width by Theorem \ref{affine-free-pq}, and we can handle it. If only majority and affine edges occur, then our algebra has few subpowers by Theorem \ref{thm-cube-term-blockers}, the argument of Corollary \ref{cor-cyclic-cube-term}, and Proposition \ref{prop-weak-semilattice-edge}, and we can handle that case too. How about the case where we only have affine and semilattice edges?
 
-To make it simpler, we can start by considering the case where we have an algebra $\bA$ with a congruence $\theta$ such that $\bA/\theta$ only has edges of one type, while the congruence classes of $\theta$ only have edges of the other type. If $\bA/\theta$ is affine and the congruence classes of $\theta$ are semilattices (or more generally, ancestral algebras), then Mar\'oti's Mal'cev-on-top algorithm from the previous section handles the problem.
+To make the problem simpler, we can start by considering the case where we have an algebra $\bA$ with a congruence $\theta$ such that $\bA/\theta$ only has edges of one type, while the congruence classes of $\theta$ only have edges of the other type. If $\bA/\theta$ is affine and the congruence classes of $\theta$ are semilattices (or more generally, ancestral algebras), then Mar\'oti's Mal'cev-on-top algorithm from the previous section handles the problem.
 
 To make progress, we need to consider the case where $\bA/\theta$ is a semilattice and the congruence classes of $\theta$ are affine - so far, we have no algorithms to handle this case (unless $\bA$ happens to be conservative). A concrete example of such an algebra is the $4$-element algebra $\bA = (\{0,1,2,*\},\cdot)$ with $\cdot$ given by
 \begin{center}
@@ -14675,7 +14910,7 @@ of $\coprod_\fX \fA$ which is a copy of the corresponding relation $R_j \subsete
 \[
 F_{\coprod_\fX \fA} : \int_\cS F_\fX \rightarrow \operatorname{Sets}
 \]
-corresponding to the structure $\coprod_\fX \fA$ is formed by composing the natural functor $\pi : \int_\cS F_\fX \rightarrow \cS$ with the functor $F_\fA : \cS \rightarrow \operatorname{Sets}$ corresponding to $\fA$.
+corresponding to the structure $\coprod_\fX \fA$ is formed by composing the natural functor $\pi : \int_\cS F_\fX \rightarrow \cS$ with the functor $F_\fA : \cS \rightarrow \operatorname{Sets}$ corresponding to $\fA$. For more about this perspective, see \cite{wonderland-of-adjunctions}.
 \end{rem}
 
 So the main idea is to replace our original CSP template $\fA$ by the instance-dependent CSP template $\coprod_\fX \fA$, in the hope that it will have extra unary polymorphisms for us to take advantage of. First, however, we have to explain how to express the instance $\fX$ in terms of the new template. We need another definition.

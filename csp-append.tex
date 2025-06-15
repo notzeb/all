@@ -144,7 +144,7 @@ Thus modular lattices form a variety of lattices. We finish our review of modula
 In particular, one can test whether a given $3$-variable lattice identity is a consequence of modularity in finite time, by testing whether it holds on $\cM_3$.
 \end{prop}
 
-A corresponding result for $4$ generators does not exist: the free modular lattice on $4$ generators is infinite. To see this, note that if you start with four generic points on the projective plane and repeatedly generate new points and lines, the resulting set of points and lines you obtain is infinite. Determining whether a $4$-variable lattice identity follows from the modular law is undecidable in general \cite{free-modular-undecidable}.
+A corresponding result for $4$ generators does not exist: the free modular lattice on $4$ generators is infinite. To see this, note that if you start with four generic points on the projective plane and repeatedly generate new points and lines, the resulting set of points and lines you obtain is infinite. Determining whether a given $4$-variable lattice identity follows from the modular law is undecidable in general \cite{free-modular-undecidable}.
 
 
 \section{The Shifting Lemma and the Day terms}\label{s-shifting}
@@ -188,9 +188,23 @@ m_n(x,y,z,w) &\approx y.
 
 \begin{lem}\label{day-congruence} Let $\bA$ be an algebra with Day terms $m_0, ..., m_n$, $\theta \in \Con(\bA)$, and $a,b,c,d \in \bA$ with $(c,d) \in \theta$. Then $(a,b) \in \theta$ iff for all $i \le n$ we have $m_i(a,b,a,b) \equiv_\theta m_i(a,b,c,d)$.
 \end{lem}
-\begin{proof} If $(a,b) \in \theta$, then for each $i$ we have $m_i(a,b,a,b) \equiv_\theta m_i(a,a,a,a) = a$ and $m_i(a,b,c,d) \equiv_\theta m_i(a,a,c,c) = a$. For the converse direction, we will show that if $c \equiv_\theta d$ and $m_i(a,b,a,b) \equiv_\theta m_i(a,b,c,d)$ for all $i$, then $m_i(a,b,c,d) \equiv_\theta m_{i+1}(a,b,c,d)$ for all $i$, and then we can conclude $a = m_0(a,b,c,d) \equiv_\theta m_n(a,b,c,d) = b$.
+\begin{proof} If $(a,b) \in \theta$, then for each $i$ we have $m_i(a,b,a,b) \equiv_\theta m_i(a,a,a,a) = a$ and
+\[
+m_i(a,b,c,d) \equiv_\theta m_i(a,a,c,c) = a.
+\]
 
-For $i$ even, we use $m_i(a,b,a,b) = m_{i+1}(a,b,a,b)$ together with the assumed congruences relating $m_i(a,b,a,b)$ to $m_i(a,b,c,d)$, while for $i$ odd we use $m_i(a,b,c,c) = m_{i+1}(a,b,c,c)$ together with $c \equiv_\theta d$.
+For the converse direction, we will show that if $c \equiv_\theta d$ and $m_i(a,b,a,b) \equiv_\theta m_i(a,b,c,d)$ for all $i$, then
+\[
+m_i(a,b,c,d) \equiv_\theta m_{i+1}(a,b,c,d)
+\]
+for all $i$, and then we can conclude $a = m_0(a,b,c,d) \equiv_\theta m_n(a,b,c,d) = b$. For $i$ even, we use
+\[
+m_i(a,b,c,d) \equiv_\theta m_i(a,b,a,b) = m_{i+1}(a,b,a,b) \equiv_\theta m_{i+1}(a,b,c,d),
+\]
+while for $i$ odd we use
+\[
+m_i(a,b,c,d) \equiv_\theta m_i(a,b,c,c) = m_{i+1}(a,b,c,c) \equiv_\theta m_{i+1}(a,b,c,d).\qedhere
+\]
 \end{proof}
 
 The existence of Day terms implies a result slightly stronger than the Shifting Lemma, called the Shifting Principle.
@@ -212,12 +226,27 @@ The existence of Day terms implies a result slightly stronger than the Shifting 
 \[
 \begin{bmatrix} m_i(x,y,x,y)\\ m_i(x,y,z,w)\end{bmatrix} = m_i\left(\begin{bmatrix} x\\ x\end{bmatrix}, \begin{bmatrix} y\\ y\end{bmatrix}, \begin{bmatrix} x\\ z\end{bmatrix}, \begin{bmatrix} y\\ w\end{bmatrix}\right) \in \Lambda,
 \]
-while $m_i(x,y,x,y) \equiv_\alpha m_i(x,y,z,w)$ by Lemma \ref{day-congruence}, so $(m_i(x,y,x,y),m_i(x,y,z,w)) \in \alpha \cap \Lambda \subseteq \gamma$.
+while $m_i(x,y,x,y) \equiv_\alpha m_i(x,y,z,w)$ by Lemma \ref{day-congruence}, so
+\[
+(m_i(x,y,x,y),m_i(x,y,z,w)) \in \alpha \cap \Lambda \subseteq \gamma.\qedhere
+\]
 \end{proof}
 
 \begin{lem} If the Shifting Principle holds for an algebra $\bA$ in the special case where $\alpha \ge \gamma$, then $\bA$ is congruence modular.
 \end{lem}
-\begin{proof} Suppose that $\alpha, \beta, \gamma \in \Con(\bA)$ with $\alpha \ge \gamma \ge \alpha \wedge \beta$, then to verify congruence modularity we just need to check that $\alpha \wedge (\beta \vee \gamma) \le \gamma$, as this rules out the existence of a sublattice of $\Con(\bA)$ isomorphic to the pentagon $\cN_5$. Defining reflexive, symmetric relations $\Lambda_i$ by $\Lambda_i = \beta\circ (\gamma\circ\beta)^{\circ i}$, we see that we just need to prove that $\alpha \cap \Lambda_i \subseteq \gamma$ for each $i$.
+\begin{proof} Suppose that $\alpha, \beta, \gamma \in \Con(\bA)$ with
+\[
+\alpha \ge \gamma \ge \alpha \wedge \beta,
+\]
+then to verify congruence modularity we just need to check that
+\[
+\alpha \wedge (\beta \vee \gamma) \le \gamma,
+\]
+as this implication rules out the existence of a sublattice of $\Con(\bA)$ isomorphic to the pentagon $\cN_5$. Defining reflexive, symmetric relations $\Lambda_i$ by
+\[
+\Lambda_i = \beta\circ (\gamma\circ\beta)^{\circ i},
+\]
+we see that we just need to prove that $\alpha \cap \Lambda_i \subseteq \gamma$ for each $i$.
 
 We will prove this by induction on $i$: note that the base case $i = 0$ is trivial, since $\Lambda_0 = \beta$. For the inductive step, we apply the Shifting Principle to $\alpha, \Lambda_i$, and $\gamma$ see that if $\alpha \cap \Lambda_i \subseteq \gamma$, then
 \[
@@ -225,7 +254,7 @@ We will prove this by induction on $i$: note that the base case $i = 0$ is trivi
 \]
 \end{proof}
 
-\begin{cor} A variety is congruence modular iff it has Day terms.
+\begin{cor} A variety is congruence modular if and only if it has Day terms.
 \end{cor}
 
 \begin{comment}
@@ -252,7 +281,11 @@ m_0(x,y,z,w) &= x,\\
 m_1(x,y,z,w) &= p(z,w,y),\\
 m_2(x,y,z,w) &= y
 \end{align*}
-as a sequence of Day terms. Rather than laboriously checking the Day identities, it is easier to verify that this sequence of terms can be used in the Shifting Lemma setup to show that $x \equiv_\gamma y$. We have $x\ (\alpha \wedge \beta)\ p(z,w,y)\ \gamma\ y$, so from $\alpha \wedge \beta \le \gamma$ we get $x\ \gamma\ y$.
+as a sequence of Day terms. Rather than laboriously checking the Day identities, it is easier to verify that this sequence of terms can be used in the Shifting Lemma setup to show that $x \equiv_\gamma y$. We have
+\[
+x\ (\alpha \wedge \beta)\ p(z,w,y)\ \gamma\ y,
+\]
+so from $\alpha \wedge \beta \le \gamma$ we get $x\ \gamma\ y$.
 \end{ex}
 
 \begin{ex} If $g(x,y,z)$ is a majority term, then we can take
@@ -262,7 +295,11 @@ m_1(x,y,z,w) &= g(x,y,z),\\
 m_2(x,y,z,w) &= g(x,y,w),\\
 m_3(x,y,z,w) &= y
 \end{align*}
-as a sequence of Day terms. Again, in the Shifting Lemma setup, we have $x\ (\alpha\wedge\beta)\ g(x,y,z)\ \gamma\ g(x,y,w)\ (\alpha\wedge\beta)\ y$, so $x\ \gamma\ y$.
+as a sequence of Day terms. Again, in the Shifting Lemma setup, we have
+\[
+x\ (\alpha\wedge\beta)\ g(x,y,z)\ \gamma\ g(x,y,w)\ (\alpha\wedge\beta)\ y,
+\]
+so $x\ \gamma\ y$.
 \end{ex}
 
 The next corollary gives us a large class of examples of congruence modular varieties, generalizing groups and rings.
@@ -274,7 +311,15 @@ The next corollary gives us a large class of examples of congruence modular vari
 \end{cor}
 \begin{proof} We just need to verify the Shifting Principle for $\bA$. Let $\Lambda \le \bA^2$ be reflexive, let $\alpha \ge \gamma$ be congruences on $\bA$ with $\alpha \cap \Lambda \subseteq \gamma$, and consider the congruences $\alpha \times \gamma$ and $\gamma \times \gamma$ restricted to $\Lambda$. We will show that for any $a \in \bA$, the congruence classes containing $(a,a)$ in these restrictions are equal, so congruence regularity will imply that $\alpha\times\gamma|_\Lambda = \gamma\times\gamma|_\Lambda$, which is the Shifting Principle for $\alpha,\Lambda,\gamma$.
 
-So suppose that $(a,a) \equiv_{\alpha\times\gamma} (b,c) \in \Lambda$. Then $(b,c) \in \alpha \circ \gamma = \alpha$, so $(b,c) \in \alpha \cap \Lambda \subseteq \gamma$, and this implies that $(a,b) \in \gamma \circ \gamma = \gamma$. Thus $(a,a) \equiv_{\gamma\times\gamma} (b,c)$ as well, and we are done.
+So suppose that $(a,a) \equiv_{\alpha\times\gamma} (b,c) \in \Lambda$. Then
+\[
+b\ \alpha\ a\ \gamma\ c,
+\]
+so $(b,c) \in \alpha \cap \Lambda \subseteq \gamma$, and this implies that
+\[
+a\ \gamma\ c\ \gamma\ b.
+\]
+Thus $(a,a) \equiv_{\gamma\times\gamma} (b,c)$ as well, and we are done.
 \end{proof}
 
 To finish this section, we will prove one of Gumm's ``geometric'' results on congruence modular varieties, which generalizes the result used to prove associativity of the loop operation in the case of abelian Mal'cev algebras.
@@ -305,9 +350,17 @@ To finish this section, we will prove one of Gumm's ``geometric'' results on con
 \end{tikzpicture}
 \end{center}
 \end{lem}
-\begin{proof} We apply the Shifting Lemma to the algebra $\beta \le \bA^2$, and the congruences $\gamma \times 1_\bA|_\beta, \alpha\times\alpha|_\beta$, and $\gamma \times \gamma|_\beta$. By the Shifting Lemma applied to $\alpha, \beta, \gamma$, we have $(\alpha\times\alpha|_\beta) \wedge (\gamma \times 1_\bA|_\beta) \le \gamma \times \gamma|_\beta$, so the Shifting Lemma applies to $\gamma \times 1_\bA|_\beta, \alpha\times\alpha|_\beta, \gamma \times \gamma|_\beta$.
+\begin{proof} We apply the Shifting Lemma to the algebra $\beta \le \bA^2$, and the congruences $\gamma \times 1_\bA|_\beta, \alpha\times\alpha|_\beta$, and $\gamma \times \gamma|_\beta$. By the Shifting Lemma applied to $\alpha, \beta, \gamma$, we have
+\[
+(\alpha\times\alpha|_\beta) \wedge (\gamma \times 1_\bA|_\beta) \le \gamma \times \gamma|_\beta,
+\]
+so the Shifting Lemma applies to $\gamma \times 1_\bA|_\beta, \alpha\times\alpha|_\beta, \gamma \times \gamma|_\beta$.
 
-Thus, from $((b,c),(b',c')) \in \gamma \times \gamma|_\beta$, $((a,d),(a',d')) \in \gamma \times 1_\bA|_\beta$, and $((b,c),(a,d)), ((b',c'),(a',d')) \in \alpha\times\alpha|_\beta$, the Shifting Lemma allows us to conclude that $((a,d),(a',d')) \in \gamma \times \gamma|_\beta$, so $(d,d') \in \gamma$.
+Thus, from $((b,c),(b',c')) \in \gamma \times \gamma|_\beta$, $((a,d),(a',d')) \in \gamma \times 1_\bA|_\beta$, and
+\[
+((b,c),(a,d)), ((b',c'),(a',d')) \in \alpha\times\alpha|_\beta,
+\]
+the Shifting Lemma allows us to conclude that $((a,d),(a',d')) \in \gamma \times \gamma|_\beta$, so $(d,d') \in \gamma$.
 \end{proof}
 
 
@@ -1920,11 +1973,11 @@ so $\bar{f}$ also preserves $a/\theta$, and therefore $\bar{f}$ preserves $U \ca
 
 %The following result will be useful later for proving the existence of idempotent operations satisfying interesting height $1$ identities.
 
-\begin{prop}\label{prop-restrict-variety} If $\bA$ is finite and $\bB \preceq_| \bA$ is such that every constant of $\bB$ is a term of $\bB$, and if $\bD \in HSP_{fin}(\bB)$, then there is some $\bC \in HSP_{fin}(\bA)$ such that $\bD \preceq_| \bC$.
+\begin{prop}\label{prop-restrict-variety} If $\bA$ is finite and $\bB \preceq_| \bA$ is such that every constant of $\bB$ is a term operation of $\bB$, and if $\bD \in HSP_{fin}(\bB)$, then there is some $\bC \in HSP_{fin}(\bA)$ such that $\bD \preceq_| \bC$.
 \end{prop}
-\begin{proof} Suppose that $\bB = \bA|_B$ with $B = e(\bA) \cap (a/\alpha)$, where $e \in E(\bA)$, $\alpha \in \Con(\bA)$, and $a \in e(\bA)$. We handle quotients and subpowers separately - for quotients, we will not need to assume that every constant of $\bB$ is a term of $\bB$. In fact, if $\bD = \bB/\theta$, we just choose $\bar{\theta} \in \llbracket 0_\bA, \alpha \rrbracket$ such that $\bar{\theta}|_{\bB} = \theta$ using Lemma \ref{lem-idempotent-surjective-lattice}, and take $\bC = \bA/\bar{\theta}$.
+\begin{proof} Suppose that $\bB = \bA|_B$ with $B = e(\bA) \cap (a/\alpha)$, where $e \in E(\bA)$, $\alpha \in \Con(\bA)$, and $a \in e(\bA)$. We handle quotients and subpowers separately - for quotients, we will not need to assume that every constant of $\bB$ is a term operation of $\bB$. In fact, if $\bD = \bB/\theta$, we just choose $\bar{\theta} \in \llbracket 0_\bA, \alpha \rrbracket$ such that $\bar{\theta}|_{\bB} = \theta$ using Lemma \ref{lem-idempotent-surjective-lattice}, and take $\bC = \bA/\bar{\theta}$.
 
-Now suppose that $\bD \le \bB^n$. Note that since every constant operation of $\bB$ is a term of $\bB$, every $\bD \le \bB^n$ must contain the diagonal $\bB^{(n)} = \{b^{(n)} \mid b \in \bB\}$, where $b^{(n)} = (b, b, ..., b)$. Let $\bC \le \bA^n$ be given by
+Now suppose that $\bD \le \bB^n$. Note that since every constant operation of $\bB$ is a term operaion of $\bB$, every $\bD \le \bB^n$ must contain the diagonal $\bB^{(n)} = \{b^{(n)} \mid b \in \bB\}$, where $b^{(n)} = (b, b, ..., b)$. Let $\bC \le \bA^n$ be given by
 \[
 \bC = \Sg_{\bA^n}(\bA^{(n)} \cup \bD).
 \]
@@ -2175,7 +2228,7 @@ We will show that $(\alpha,\beta)$ is a tame congruence quotient if and only if 
 \begin{proof}
 By Corollary \ref{cor-trace-permutational}, every $(0_\bM,1_\bM)$-trace $N$ has $\bM|_N$ a permutational algebra. If $N = e\bM$ for some $e \in E(\bA)$, the restriction $\Pol(\bM)|_N$ consists of the linear functions with coefficients in the ring $e\RR e$, so we see that every nonzero element of the ring $e\RR e$ is invertible, that is, $e\RR e$ is a division ring. Since every finite division ring is a field by Wedderburn's little theorem, we have $e \RR e \cong \bF_{p^k}$ for some finite field $\bF_{p^k}$ (note, the rest of the argument still works over a division ring rather than a field).
 
-We claim that we can pick $e_1, ..., e_n \in \RR$ idempotent such that $\sum_i e_i = 1$, $e_ie_j = e_je_i = 0$ for $i \ne j$, and each $e_i\bM$ is $(0_\bM,1_\bM)$-minimal. Suppose that $e_1, ..., e_n$ is a maximal collection of idempotents such that $e_ie_j = e_je_i = 0$ for $i \ne j$ and each $e_i\bM$ is $(0_\bM,1_\bM)$-minimal, and let $f = 1 - \sum_i e_i$ (that such a maximal set exists and is finite follows from the fact that $e_i\bM \cap e_j\bM = \emptyset$ for $i \ne j$, since $e_ie_j = 0$). Then we have $f^2 = f$, and if $f \ne 0$ then there must be some $(0_\bM,1_\bM)$-minimal set $U \subseteq f\bM$. If $e' \in E(\bM)$ has $e'\bM = U$, then we set $e_{n+1} = e'f$, and note that we have $e_{n+1}\bM = e'\bM = U$, and $e_{n+1}e_i = e_ie_{n+1} = 0$ for each $i \le n$, contradicting the maximalilty of the collection $e_1, ..., e_n$. Therefore we must have $f = 0$, that is, $\sum_i e_i = 1$. Note that every element $x \in \bM$ has a unique decomposition
+We claim that we can pick $e_1, ..., e_n \in \RR$ idempotent such that $\sum_i e_i = 1$, $e_ie_j = e_je_i = 0$ for $i \ne j$, and each $e_i\bM$ is $(0_\bM,1_\bM)$-minimal. Suppose that $e_1, ..., e_n$ is a maximal collection of idempotents such that $e_ie_j = e_je_i = 0$ for $i \ne j$ and each $e_i\bM$ is $(0_\bM,1_\bM)$-minimal, and let $f = 1 - \sum_i e_i$ (that such a maximal set exists and is finite follows from the fact that $e_i\bM \cap e_j\bM = \emptyset$ for $i \ne j$, since $e_ie_j = 0$). Then we have $f^2 = f$, and if $f \ne 0$ then there must be some $(0_\bM,1_\bM)$-minimal set $U \subseteq f\bM$. If $e' \in E(\bM)$ has $e'\bM = U$, then we set $e_{n+1} = e'f$, and note that we have $e_{n+1}\bM = e'\bM = U$, and $e_{n+1}e_i = e_ie_{n+1} = 0$ for each $i \le n$, contradicting the maximality of the collection $e_1, ..., e_n$. Therefore we must have $f = 0$, that is, $\sum_i e_i = 1$. Note that every element $x \in \bM$ has a unique decomposition
 \[
 x = \sum_i e_ix_i,
 \]
@@ -2624,7 +2677,7 @@ f(x_1, ..., x_n) = f(x_1, ..., x_{n-1}, 0) \vee (f(x_1, ..., x_{n-1}, 1) \wedge 
 
 \begin{lem}\label{lem-permutational-or} If $\bA$ has underlying set $\{0,1\}$ and $\vee \in \Pol(\bA)$, and if $f \in \Pol(\bA)$ is monotone but is not contained in the clone generated by $\vee$, then $\wedge \in \Pol(\bA)$, so $\Pol(\bA)$ contains the clone of all monotone functions.
 \end{lem}
-\begin{proof} We may suppose without loss of generailty that $f$ depends on all of its inputs. If $f$ is not contained in the clone generated by $\vee$, then in particular $f(x_1, ..., x_n) \ne x_1 \vee \cdots \vee x_n$, so since $f$ is monotone there must be some input $i$ such that $f(0, ..., 0, 1, 0, ..., 0) = 0$. Since $f$ is monotone and depends on its $i$th input, there must be some $a_1, ..., a_n \in \{0,1\}$ such that
+\begin{proof} We may suppose without loss of generality that $f$ depends on all of its inputs. If $f$ is not contained in the clone generated by $\vee$, then in particular $f(x_1, ..., x_n) \ne x_1 \vee \cdots \vee x_n$, so since $f$ is monotone there must be some input $i$ such that $f(0, ..., 0, 1, 0, ..., 0) = 0$. Since $f$ is monotone and depends on its $i$th input, there must be some $a_1, ..., a_n \in \{0,1\}$ such that
 \[
 f(a_1, ..., a_{i-1}, 0, a_{i+1}, ..., a_n) = 0, \;\;\; f(a_1, ..., a_{i-1}, 1, a_{i+1}, ..., a_n) = 1.
 \]
@@ -2713,7 +2766,7 @@ If $s$ is a partial semilattice term and $a,b \in N$ have $s(a,b) \not\equiv_\al
 For the last statement, if $a,b \in N$ have $s(a,b) \not\equiv_\alpha s(a,a) = a$, then by $(\alpha,\beta)$-minimality the unary polynomial $x \mapsto s(a,x)$ must be a permutation, and since $s(a,s(a,x)) = s(a,x)$, it must be the identity, so $s(a,x) = x$ for all $x \in \bA$. If $a' \in a/\alpha$, then the same argument shows that $s(a',x) = x$ for all $x$, so $a \rightarrow_s a'$ and $a' \rightarrow_s a$, which is only possible if $a' = a$.
 \end{proof}
 
-Hobby and McKenzie \cite{hobby-mckenzie} like to think of their semilattices as meet-semilattices, so they call the partial semilattice polynomial $s$ from Proposition \ref{prop-tame-partial-semi} a \emph{pseudo-meet} operation. If the type is \textbf{3} or \textbf{4}, then they call the second partial semilattice operation $s'$ a \emph{pseudo-join} operation. If the type is \textbf{3} (i.e. boolean), then you can additionally find a unary polynomial $f$ which preserves $N$ and swaps the elements of $N$, and any such $f$ will be invertible. We can assume without loss of generality that this $f$ has even order, and we might call such an $f$ a \emph{pseudo-negation} operation.
+Hobby and McKenzie \cite{hobby-mckenzie} like to think of their semilattices as meet-semilattices, so they call the partial semilattice polynomial $s$ from Proposition \ref{prop-tame-partial-semi} a \emph{pseudo-meet} operation. If the type is \textbf{3} or \textbf{4}, then they call the second partial semilattice operation $s'$ a \emph{pseudo-join} operation. If the type is \textbf{3} (i.e. boolean), then you can additionally find a unary polynomial $f$ which preserves $N$ and swaps the elements of $N$, and any such $f$ will be invertible. We can assume without loss of generality that this $f$ has order a power of $2$, and we might call such an $f$ a \emph{pseudo-negation} operation.
 
 \begin{prop}\label{prop-single-trace} If $\bA$ is $(\alpha,\beta)$-minimal and has at least two different $(\alpha,\beta)$-traces, then all of the $(\alpha,\beta)$-traces have type \textbf{1} or \textbf{2} (that is, they all have either unary or affine type).
 \end{prop}
@@ -2940,7 +2993,7 @@ To see that it is strongly abelian, note that for each $i,j$ we have the identit
 \[
 x\cdot_i (y\cdot_j z) \approx x\cdot_i z, \;\; (x\cdot_i y)\cdot_j z \approx x\cdot_j z,
 \]
-so every term of $\bA$ is one of $x, x \cdot_i x, x \cdot_i y$ for some $i \in \{1,2\}$, up to permuting its inputs.
+so every term operation of $\bA$ is one of $x, x \cdot_i x, x \cdot_i y$ for some $i \in \{1,2\}$, up to permuting its inputs.
 \end{ex}
 
 \begin{ex} A \emph{$p$-cyclic groupoid} is an idempotent binary operation $\cdot$ which satisfies the following identities:
@@ -3298,6 +3351,11 @@ since there is no unary polynomial which swaps $a$ and $b$ if $(0_\bA,\beta)$ ha
 \begin{ex} If the type of $(\alpha,\beta)$ is \textbf{1}, then $(\alpha,\beta)$ can sometimes be orderable and sometimes not. To see this, consider the unary algebra $\bA_1 = (\{0,1\})$ with no operations, and the unary algebra $\bA_2 = (\{0,1\}, 1-x)$ with just a single operation which swaps the two elements. Then $(0_{\bA_1},1_{\bA_1})$ is orderable but $(0_{\bA_2}, 1_{\bA_2})$ is not.
 \end{ex}
 
+We leave the proof of the next result as an exercise to the reader.
+
+\begin{thm} If $(\alpha,\beta)$ is a tame congruence quotient of $\bA$ with type \textbf{1}, then $(\alpha,\beta)$ is orderable if and only if for all $(\alpha,\beta)$-traces $N$, the unary algebra $\bA|_N/\alpha|_N$ has at least two orbits under the action of its group of non-constant unary polynomials.
+\end{thm}
+
 
 \section{Snags and (strong) solvability}\label{a-sec-snags}
 
@@ -3307,10 +3365,10 @@ Recall that Theorem \ref{type-abelian} says that a tame congruence quotient $(\a
 \[
 s(a,a) = s(a,b) = s(b,a) = a, \;\;\; s(b,b) = b.
 \]
-In other words, we require $(\{a,b\},s)$ to be a semilattice with $b \rightarrow_s a$. We write $\Sn_2(\bA) \subseteq \bA^2$ for the set of 2-snags of $\bA$.
+In other words, we require $(\{a,b\},s)$ to be a semilattice with absorbing element $a$ and neutral element $b$. We write $\Sn_2(\bA) \subseteq \bA^2$ for the set of 2-snags of $\bA$.
 \end{defn}
 
-Similarly, Theorem \ref{type-strong-abelian} says that a tame congruence quotient $(\alpha,\beta)$ is strongly abelian iff it has type \textbf{1}. If we already know that $(\alpha,\beta)$ is abelian, then we can use the fact that the minimal sets for congruence quotients of type \textbf{2} all have a ternary pseudo-Mal'cev polynomial $p$, by Lemma \ref{lem-pseudo-malcev}. The trick to deal with this case is to pick an element $b$ in the body of one of the minimal sets (recall that the ``body'' of a minimal set is defined to be the union of the traces contained in it), and to examine the binary polynomial
+Similarly, Theorem \ref{type-strong-abelian} says that a tame congruence quotient $(\alpha,\beta)$ is strongly abelian if and only if it has type \textbf{1}. If we already know that $(\alpha,\beta)$ is abelian and want to rule out the possibility that it has type \textbf{1}, then we can use the fact that the minimal sets for congruence quotients of type \textbf{2} all have a ternary pseudo-Mal'cev polynomial $p$, by Lemma \ref{lem-pseudo-malcev}. The trick to deal with this case is to pick an element $b$ in the body of one of the minimal sets (recall that the ``body'' of a minimal set is defined to be the union of the traces contained in it), and to examine the binary polynomial
 \[
 s(x,y) = p(x,b,y).
 \]
@@ -3499,7 +3557,7 @@ which is a contradiction.
 
 If we are only studying idempotent algebras, then this result is satisfying - but for general algebras, we need to be able to ``restrict to a congruence class'' if we want to get the most use out of this. Recall the partial order $\preceq_|$ from Definition \ref{defn-restrict-order}.
 
-\begin{prop} If $\bA$ is finite and $\bB \preceq_| \bA$ is such that every constant of $\bB$ is a term of $\bB$, then $\typ(\cV(\bB)) \subseteq \typ(\cV(\bA))$.
+\begin{prop} If $\bA$ is finite and $\bB \preceq_| \bA$ is such that every constant of $\bB$ is a term operation of $\bB$, then $\typ(\cV(\bB)) \subseteq \typ(\cV(\bA))$.
 \end{prop}
 \begin{proof} If there is some finite $\bC \in \cV(\bB)$ which has a congruence quotient $(\alpha, \beta)$ of type \textbf{i}, then we pick an $(\alpha,\beta)$-trace $N$ and note that $\bC|_N / \alpha|_N$ is a permutational algebra (of type \textbf{i}) by Corollary \ref{cor-trace-permutational}. Then by Propositions \ref{prop-restrict-transitive} and \ref{prop-restrict-variety}, we see that there is some finite $\bA' \in \cV(\bA)$ such that $\bC|_N/\alpha|_N \preceq_| \bA'$.
 
@@ -3578,6 +3636,9 @@ p(a,b,b) \equiv_{[\theta,\theta]} p(b,b,a) \equiv_{[\theta,\theta]} a.
 
 Suppose for contradiction that $\bA \in \cV$ has a tame congruence quotient $(\alpha,\beta)$ of type \textbf{1}. We may assume without loss of generality that $\alpha = 0_\bA$, in which case Theorem \ref{type-abelian} implies that $[\beta,\beta] = 0_\bA$. Letting $U = e(\bA)$ (with $e \in E(\bA)$) be a $(0_\bA, \beta)$-minimal set, we see that $e \circ p$ restricts to a Mal'cev operation on any $(0_\bA,\beta)$-trace $N$, contradicting the assumption that $\bA|_N$ is a unary algebra.
 \end{proof}
+
+\begin{rem} Theorem 4.8 of \cite{kearnes-taylor-affine} shows that any variety (not necessarily locally finite) with a weak difference term also has a Taylor term. In general, having a weak difference term is slightly stronger than having a Taylor term (an example of an algebra which has a Taylor term but no weak difference term is the algebra $(\RR, \frac{x+y}{2})$, which is abelian but has no Mal'cev term).
+\end{rem}
 
 \begin{cor} If $\cV$ is a locally finite variety which omits type \textbf{1}, $\bA \in \cV$, and $\alpha, \beta \in \Con(\bA)$, then
 \[
