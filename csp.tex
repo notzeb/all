@@ -2117,7 +2117,7 @@ Finally, we see that $g,h$ induce $\xi$ as a reflection from $\bA^{\bA^B}$:
 
 As a consequence, we see that the complexity of a CSP only depends on the set of height 1 identities satisfied by its polymorphisms, and that identities involving composition of functions are in a sense superfluous. We also have the following result.
 
-\begin{cor} Let $\fA$ be a relational structure with core $\fB$, and let $\fB^{rig}$ be $\fB$ together with any finite collection of singleton unary relations. Then a system of height 1 identities can be satisfied in $\Pol(\fA)$ iff it can be satisfied in $\Pol(\fB^{rig})$.
+\begin{cor}\label{cor-height-one-rigid} Let $\fA$ be a relational structure with core $\fB$, and let $\fB^{rig}$ be $\fB$ together with any finite collection of singleton unary relations. Then a system of height 1 identities can be satisfied in $\Pol(\fA)$ iff it can be satisfied in $\Pol(\fB^{rig})$.
 \end{cor}
 
 \begin{rem} A height 1 clone homomorphism $\Pol(\fA) \rightarrow \Pol(\fB)$ is completely determined by its restriction to polymorphisms of $\fA$ of arity at most $|B|$, since every operation $f : B^k \rightarrow B$ is determined by its $|B|$-ary minors. So there are only finitely many candidates for height 1 clone homomorphisms from $\Pol(\fA)$ to $\Pol(\fB)$: if the underlying sets are $A,B$, then there are at most
@@ -9638,7 +9638,7 @@ With these preliminaries out of the way, we can finally state the full version o
 \end{thm}
 \begin{proof} We prove this by induction on $|\bA|$. We may assume that $\bA$ is idempotent without loss of generality. We may also assume that $\fR$ is weakly connected by restricting to a weakly connected component of algebraic length $1$ (which forms a subalgebra of $\bA$ by the results above). Let $m$ be minimal such that $\RR^{\circ m}$ is linked. We split into cases based on whether $\RR^{\circ m} = \bA \times \bA$ or not.
 
-If $\RR^{\circ m} \ne \bA\times \bA$, then by the Absorption Theorem \ref{absorption-theorem} we see that $\bA$ must have some proper absorbing subalgebra. By a similar argument to the linked case (Lemma \ref{loop-linked}), we see that there is some proper absorbing $\bB \lhd \bA$ such that $\bS = \RR \cap (\bB\times \bB)$ is subdirect in $\bB \times \bB$. Then since $\bS^{\circ m} \lhd \RR^{\circ m}$, we can apply Theorem \ref{absorbing-linked} to see that $\bS^{\circ m}$ is linked, so the smooth digraph $\fS = (\bA,\bS)$ has algebraic length $1$ and $\bS$ has a loop by the inductive hypothesis.
+If $\RR^{\circ m} \ne \bA\times \bA$, then by the Absorption Theorem \ref{absorption-theorem} we see that $\bA$ must have some proper absorbing subalgebra. By a similar argument to the linked case (Lemma \ref{loop-linked}), we see that there is some proper absorbing $\bB \lhd \bA$ such that $\bS = \RR \cap (\bB\times \bB)$ is subdirect in $\bB \times \bB$. Then since $\bS^{\circ m} \lhd \RR^{\circ m}$, we can apply Theorem \ref{absorbing-linked} to see that $\bS^{\circ m}$ is linked, so the smooth digraph $\fS = (\bB,\bS)$ has algebraic length $1$ and $\bS$ has a loop by the inductive hypothesis.
 
 If $\RR^{\circ m} = \bA\times \bA$, then we let $\bB$ be any linked component of $\RR^{\circ (m-1)}$ on the first coordinate (note that $\RR^{\circ (m-1)}$ is not linked by the choice of $m$, so $\bB$ is a proper subalgebra of $\bA$). First we will show that $\bB \subseteq \bB-\RR$. To see this, let $b \in \bB$ be arbitrary, pick any $c \in b + \RR^{\circ (m-1)}$. Then since $\RR^{\circ m} = \bA \times \bA$, we have
 \[
@@ -10503,7 +10503,7 @@ Given a stability concept $\Yleft$ on $\cV$, we say that $\bB$ is a \emph{stable
 
 The axioms of a stability concept imply apparently stronger versions of themselves.
 
-\begin{prop} If $\Yleft$ is a binary relation on $\cV$ which satisfies the propagation axiom from Definition \ref{defn-stability}, then for any subdirect relation $\RR \le_{sd} \bA \times \bB$ in $\cV$, we have
+\begin{prop}\label{prop-propagation-axiom} If $\Yleft$ is a binary relation on $\cV$ which satisfies the propagation axiom from Definition \ref{defn-stability}, then for any subdirect relation $\RR \le_{sd} \bA \times \bB$ in $\cV$, we have
 \[
 \bC \Yleft \bA \;\; \implies \;\; \bC + \RR \Yleft \bB.
 \]
@@ -10511,7 +10511,7 @@ The axioms of a stability concept imply apparently stronger versions of themselv
 \begin{proof} Let $\pi_1, \pi_2$ be the surjective projection maps from $\RR$ to $\bA$ and $\bB$, respectively. Then $\pi_1^{-1}(\bC) \Yleft \bA$ by the pullback part of the propagation axiom, so $\bC + \RR = \pi_2(\pi_1^{-1}(\bC)) \Yleft \bB$ by the pushforward part of the propagation axiom.
 \end{proof}
 
-\begin{prop} If $\Yleft$ satisfies the Helly axiom and the intersection axiom from Definition \ref{defn-stability}, then for any $n$ and any $\bB_1, ... \bB_n \Yleft \bA$ such that $\bB_i \cap \bB_j \ne \emptyset$ for all $i, j \in [n]$, we have $\bigcap_{i\in [n]} \bB_i \ne \emptyset$.
+\begin{prop}\label{prop-helly-axiom} If $\Yleft$ satisfies the Helly axiom and the intersection axiom from Definition \ref{defn-stability}, then for any $n$ and any $\bB_1, ... \bB_n \Yleft \bA$ such that $\bB_i \cap \bB_j \ne \emptyset$ for all $i, j \in [n]$, we have $\bigcap_{i\in [n]} \bB_i \ne \emptyset$.
 \end{prop}
 \begin{proof} We induct on $n$ - the base case $n = 3$ is the Helly axiom. For $n > 3$, set $\bA' = \bB_n$ and $\bB_i' = \bB_i \cap \bB_n$ for $i < n$, then by the Helly axiom we have
 \[
@@ -10991,6 +10991,7 @@ The reader may check that this assignment vaguely satisfies every binary project
 
 As another illustration of the theory, we will show how the Loop Lemma \ref{loop-lemma} can be proved for finite bounded width algebras by constructing suitable vague solutions.
 
+%TODO: extend this to smooth digraphs such that every weakly connected component has algebraic length 1, and prove the converse - if there is any weakly connected component which doesn't have length 1, then there is a bounded width algebra such that we have no stable loops (although there may be unstable loops).
 \begin{thm} If $R \subseteq A_x \times A_x$ is a smooth, weakly connected digraph of algebraic length $1$, then the instance $\fX$ which consists of only the variable $x$ and the constraint $(x,x) \in R$ has a vague solution. As a consequence, the instance $\Sg(\fX)$ has a stable solution in any finite bounded width algebra.
 \end{thm}
 \begin{proof} We will attempt to find a function $f : [2] \times \cP_\emptyset(A_x) \rightarrow \QQ$ such that for each proper nonempty $S \subset A_x$ we have
@@ -12315,6 +12316,9 @@ In particular, if $\fA$ has a finite relational signature, then we can decide wh
 
 % TODO: prove these corollaries!
 
+
+\subsection{Constructing symmetric operations out of simpler operations}
+
 While Corollary \ref{cor-lp-decidable} resolves the decidability of the meta-problem for finitely related structures, there are natural examples like Example \ref{lp-not-width-1} of algebraic structures $\bA$ with finitely many basic operations which have symmetric term operations of all arity, but which are not finitely related.
 
 \begin{prob}\label{prob-lp-algebraic} Given a finite algebraic structure $\bA$ as input, can we decide whether or not $\bA$ has symmetric term operations of all arities?
@@ -12591,7 +12595,7 @@ s_4(x,y,z,w) &\coloneqq s_3(t(x,y,z,w), t(x,z,w,y), t(x,w,y,z)),
 then $s_4$ is a $4$-ary symmetric operation.
 \end{prop}
 
-\begin{prop} If a locally finite variety $\cV$ has bounded width and has a binary symmetric term operation $s_2(x,y)$ and a ternary cyclic term operation $c_3(x,y,z)$, then $\cV$ has a $4$-symmetric term operation of arity $5$.
+\begin{prop}\label{prop-4-sym-arity-5} If a locally finite variety $\cV$ has bounded width and has a binary symmetric term operation $s_2(x,y)$ and a ternary cyclic term operation $c_3(x,y,z)$, then $\cV$ has a $4$-symmetric term operation of arity $5$.
 \end{prop}
 \begin{proof} For every pair of permutations $\sigma, \tau \in S_5$, we define a graded self-dual total quasiorder $\preceq_{\sigma,\tau}$ on $\cP([5])$ as follows. First, as usual if $|U| < |V|$ then we have $U \prec_{\sigma,\tau} V$. Next, if $U$ and $V$ are singletons, then we define $\preceq_{\sigma,\tau}$ by
 \[
@@ -12633,9 +12637,619 @@ t_5 &\coloneqq f_{60}(r_{\{\sigma_1,\iota\sigma_1\}}, ..., r_{\{\sigma_{60},\iot
 In order to check that $t_5$ is a $4$-symmetric operation, we need to check that as long as two of the inputs to $t_5$ are equal, each application of $f_{60}$ has at most $3$ distinct inputs - this is left as an exercise to the reader.
 \end{proof}
 
-Similar techniques can be used to construct $4$-symmetric term operations of arities $6$ and $7$, but I haven't found a way to construct a $4$-symmetric term operation of arity $8$ with this approach.
+Similar techniques can be used to construct $4$-symmetric term operations of arities $6$ and $7$ - in fact, these cases are slightly easier - but we run into some serious difficulties when we try to construct a $4$-symmetric term operation of arity $8$ with this approach. The next (purely combinatorial) result explains why arities which are multiples of $4$ or $5$ are harder to deal with.
 
-%TODO: I think I can construct 4-symmetric terms of all arities, but writing it up is going to be a pain. Main idea is to first look at pairs of four-variable minors which are compatible, and apply the vague minion composed with itself + use stability to get operations which are mostly determined on their 4-variable minors just by an orientation of the Kneser graph K(n, n/4). Then we pick an ordering of the pairs of complementary edges of the Kneser graph, from that we get an ordering of the edges of the Kneser graph, and then from there we get an orientation of the Kneser graph by orienting edges one at a time. All of those random choices can be emulated by composing together many 3-symmetric operations.
+\begin{prop}\label{prop-4-sym-4-sums} If $a_1, a_2, a_3, a_4 > 0$, $n = a_1 + a_2 + a_3 + a_4$, and $k$ are such that
+\[
+\#\Big\{I \subseteq\{1,2,3,4\} \; \mid \; k = \sum_{i \in I} a_i\Big\} \; > \; 3,
+\]
+then one of the following must be true:
+\begin{itemize}
+\item $k = \frac{n}{2}$ and, up to permuting the $a_i$s, we have
+\[
+a_1 = a_2 \;\;\; \text{and} \;\;\; a_3 = a_4 = \tfrac{n}{2} - a_1,
+\]
+\item $k = \frac{n}{4}$ or $k = \frac{3n}{4}$ and
+\[
+a_1 = a_2 = a_3 = a_4 = \tfrac{n}{4},
+\]
+\item $k = \frac{2n}{5}$ or $k = \frac{3n}{5}$ and, up to permuting the $a_i$s, we have
+\[
+a_1 = \tfrac{2n}{5} \;\;\; \text{and} \;\;\; a_2 = a_3 = a_4 = \tfrac{n}{5}.
+\]
+\end{itemize}
+\end{prop}
+\begin{proof} For any $I \subseteq [4]$, define the shorthand $\Sigma(I)$ by
+\[
+\Sigma(I) \coloneqq \sum_{i \in I} a_i,
+\]
+and for each $k$ let $\cA_k \subseteq \cP([4])$ be the antichain defined by
+\[
+\cA_k \coloneqq \big\{I \subseteq [4] \; \mid \; \Sigma(I) = k\big\}.
+\]
+The fact that each $\cA_k$ is an antichain follows from the assumption that all $a_i$ are strictly positive.
+
+{\bf Case 1:} Suppose there is some $I \in \cA_k$ such that $([4] \setminus I) \in \cA_k$. Then
+\[
+k = \Sigma(I) = \frac{\Sigma(I) + \Sigma([4]\setminus I)}{2} = \frac{\Sigma([4])}{2} = \frac{n}{2}.
+\]
+In this case, $\cA_k$ is closed under taking complements. If we also have some $J \in \cA_k$ such that $|J| = 1$ or $|J| = 3$, then $\{J, [4]\setminus J\}$ is already a maximal antichain, so $|\cA_k| = 2$ - contradicting our assumption that $|\cA_k|> 3$. Otherwise, $\cA_k$ contains only sets of size $2$, and from $|\cA_k| > 3$ we see that $\cA_k$ must contain a pair $I,J$ of sets which overlap in one element. Assuming without loss of generality that $I = \{1,3\}$ and $J = \{1,4\}$, we get
+\[
+a_1 + a_3 = a_1 + a_4 = \tfrac{n}{2},
+\]
+so
+\[
+a_3 = a_4 = \tfrac{n}{2} - a_1
+\]
+and
+\[
+a_2 = n - (a_1 + a_3 + a_4) = n - (a_1 + n - 2a_1) = a_1.
+\]
+
+{\bf Case 2:} Suppose that there is no $I \in \cA_k$ such that $([4] \setminus I) \in \cA_k$. Since the $6$ subsets of size two come in $3$ complementary pairs, our assumption $|\cA_k| > 3$ implies that $\cA_k$ contains some set $I$ with $|I| = 1$ or $|I| = 3$. By replacing $k$ with $n-k$ and $I$ with $[4]\setminus I$, if necessary, we may assume without loss of generality that $|I| = 1$ and that $I = \{1\}$, so that
+\[
+a_1 = k.
+\]
+In this case, we see that $\cA_k \setminus I$ is an antichain in $\cP(\{2,3,4\})$ of size at least $3$, so it either consists of all singleton subsets of $\{2,3,4\}$ or all two-element subsets of $\{2,3,4\}$. In the first case, we get
+\[
+a_2 = a_3 = a_4 = k = a_1,
+\]
+so $k = \frac{n}{4}$, while in the second case we get
+\[
+a_2 + a_3 = a_2 + a_4 = a_3 + a_4 = k = a_1,
+\]
+so
+\[
+a_2 = a_3 = a_4 = \frac{k}{2},
+\]
+which implies $n = 3\cdot \frac{k}{2} + k = \frac{5k}{2}$, so $k = \frac{2n}{5}$.
+\end{proof}
+
+\begin{comment}
+The next result enumerates some additional complications which we will need to keep in mind when the arity is a multiple of $8$ or $10$.
+
+\begin{prop}\label{prop-4-sym-3-sums} If $a_1, a_2, a_3, a_4 > 0$, $n = a_1 + a_2 + a_3 + a_4$, and $k$ are such that
+\[
+\#\Big\{I \subseteq\{1,2,3,4\} \; \mid \; k = \sum_{i \in I} a_i\Big\} \; = \; 3,
+\]
+and if
+\[
+k \in \big\{\tfrac{n}{4}, \tfrac{2n}{5}, \tfrac{n}{2}, \tfrac{3n}{5}, \tfrac{3n}{4}\big\},
+\]
+then one of the following must be true:
+\begin{itemize}
+\item $k = \tfrac{n}{4}$ or $k = \tfrac{3n}{4}$ and, up to permuting the $a_i$s, we have
+\[
+a_1 = \tfrac{5n}{8} \;\;\; \text{and} \;\;\; a_2 = a_3 = a_4 = \tfrac{n}{8},
+\]
+\item $k = \tfrac{2n}{5}$ or $k = \tfrac{3n}{5}$ and, up to permuting the $a_i$s, we have
+\[
+a_1 = \tfrac{n}{10} \;\;\; \text{and} \;\;\; a_2 = a_3 = a_4 = \tfrac{3n}{10}.
+\]
+\end{itemize}
+\end{prop}
+\begin{proof} We use the same notation as in the proof of Proposition \ref{prop-4-sym-4-sums}. Since $|\cA_k|$ is odd, $\cA_k$ can't be closed under taking complements, so $k \ne \tfrac{n}{2}$ and
+\[
+I \in \cA_k \;\;\; \implies \;\;\; ([4]\setminus I) \not\in \cA_k.
+\]
+Since $\cA_k$ is an antichain and contains no complementary pairs of subsets of $[4]$, $\cA_k$ can't contain both a set of size one and a set of size three. By replacing $k$ by $n-k$, if necessary, we may assume without loss of generality that all sets in $\cA_k$ have size at most two. We divide into cases based on the number of sets of size two which are contained in $\cA_k$.
+
+{\bf Case 0:} Suppose that all sets in $\cA_k$ have size one. Without loss of generality, $\cA_k = \{\{1\}, \{2\}, \{3\}\}$, so
+\[
+a_1 = a_2 = a_3 = k \ne a_4,
+\]
+so $3k < n$. Since $\frac{2n}{5} > \frac{n}{3}$, in this case we must have $k = \frac{n}{4}$, but then
+\[
+a_4 = n - (a_1 + a_2 + a_3) = n - 3k = k,
+\]
+a contradiction. Thus this case can never occur.
+
+{\bf Case 1:} Suppose that two sets in $\cA_k$ have size one and one has size two. Without loss of generality, $\cA_k = \{\{1\}, \{2\}, \{3,4\}\}$, so
+\[
+a_1 = a_2 = k = a_3 + a_4,
+\]
+so
+\[
+n = a_1 + a_2 + a_3 + a_4 = 3k.
+\]
+Since $\frac{n}{3}$ isn't one of the allowed options for $k$, this case also can't occur.
+
+{\bf Case 2:} Suppose that one set in $\cA_k$ has size one and two have size two. In this case, the two sets of size two must overlap. Without loss of generality, $\cA_k = \{\{1\}, \{2, 3\}, \{3,4\}\}$, so
+\[
+a_1 = a_2 + a_3 = a_3 + a_4 = k.
+\]
+In this case we have
+\[
+2k = a_1 + a_2 + a_3 < n < a_1 + a_2 + 2a_3 + a_4 = 3k,
+\]
+so $k = \frac{2n}{5}$ is the only option that fits. When $k = \frac{2n}{5}$ we have
+\[
+a_3 = 3k - n = \tfrac{n}{5},
+\]
+so
+\[
+a_1 = k = \tfrac{2n}{5} \;\;\; \text{and} \;\;\; a_2 = a_4 = k - a_3 = \tfrac{n}{5}.
+\]
+Then we also have $\{2,4\} \in \cA_k$, contradicting the assumption $|\cA_k| = 3$. Thus this case also can't occur.
+
+{\bf Case 3:} Suppose that all sets in $\cA_k$ have size two. Since $\cA_k$ contains no pair of complementary sets, every pair of two-element sets in $\cA_k$ must overlap. If all three share a common element, then replace $k$ with $n-k$ and replace each set with its complement to get to the case where the three two-element sets form a triangle when viewed as a graph. Without loss of generality, we can assume that $\cA_k = \{\{2,3\}, \{2,4\}, \{3,4\}\}$, so
+\[
+a_2 + a_3 = a_2 + a_4 = a_3 + a_4 = k,
+\]
+so
+\[
+a_2 = a_3 = a_4 = \frac{k}{2} \;\;\; \text{and} \;\;\; a_1 = n - \frac{3k}{2}.
+\]
+If we had $k = \frac{2n}{5}$, then we would have $a_1 = k$, contradicting $|\cA_k| = 3$. Since $n > \frac{3k}{2}$ implies that $k \ne \frac{3n}{4}$, we see that $k$ is either $\frac{n}{4}$ or $\frac{3n}{5}$. If $k = \frac{n}{4}$ we get
+\[
+a_1 = \tfrac{5n}{8} \;\;\; \text{and} \;\;\; a_2 = a_3 = a_4 = \tfrac{n}{8},
+\]
+and if $k = \tfrac{3n}{5}$ we get
+\[
+a_1 = \tfrac{n}{10} \;\;\; \text{and} \;\;\; a_2 = a_3 = a_4 = \tfrac{3n}{10}.\qedhere
+\]
+\end{proof}
+\end{comment}
+
+So the overall strategy for constructing an $n$-ary $4$-symmetric operation is going to involve dividing the power set $\cP([n])$ into layers, where the $k$th layer is the set of all subsets of size $k$, and choosing an independent random ordering of all layers other than the ones corresponding to $k \in \{\frac{n}{4}, \frac{2n}{5}, \frac{n}{2}, \frac{3n}{5}, \frac{3n}{4}\}$, which will have to be handled in some alternative way.
+
+For the $\frac{n}{2}$-layer of $\cP([n])$, we can use the fact that there is a natural pairing between sets of size $\frac{n}{2}$ which pairs each set with its complement. So rather than choosing a random ordering of the layer, we can first choose a random ordering of the collection of complementary pairs - and note that at most three complementary pairs can be relevant to any four-variable minor of the $n$-ary term we are constructing. Then we can go through each complementary pair (in the order we just chose) and flip a coin to determine the order between the two sets within the pair.
+
+The $\frac{n}{4}$-layer and the $\frac{2n}{5}$-layer still present a stubborn problem. To handle them, we seem to need to be able to attach terms to something more flexible than orderings of the power set - we would like to instead consider orientations of the complete graph on a layer, without needing to worry about whether our orientation has directed cycles. Since we only care about the four-variable minors, we can actually achieve something like this, by taking advantage of the fact that the terms we get from the rounding rule for the vague minion are always \emph{stable} as elements of the free algebra.
+
+The key is to understand when a pair of four-variable functions, obtained from the rounding rule applied to a pair of vague elements of $\{x,y,z,w\}$, can simultaneously be a given pair of minors of an $n$-ary operation. The fact that we will only consider graded orderings of the power set (i.e., orderings which satisfy $A \preceq B \implies |A| \le |B|$) substantially simplifies this task. Slightly more generally, we can consider the case of vague elements which refine a fixed strictly monotone preference.
+
+\begin{prop} If $\sqsubseteq$ is a strictly monotone preference on $S$, and if $\preceq$ is a vague element of $S$ which satisfies
+\[
+A \preceq B \;\; \implies \;\; A \sqsubseteq B,
+\]
+then we automatically have
+\[
+A \sqsubset B \;\; \implies \;\; A \prec B.
+\]
+As a consequence, $\preceq$ is automatically a strictly monotone preference as well.
+\end{prop}
+\begin{proof} Since $\sqsubseteq$ and $\preceq$ are both \emph{total} quasiorders, we have
+\[
+A \sqsubset B \;\; \iff \;\; B \not\sqsubseteq A \;\; \implies \;\; B \not\preceq A \;\; \iff \;\; A \prec B.\qedhere
+\]
+\end{proof}
+
+\begin{thm}\label{thm-vague-compatibility} If $\sqsubseteq_S$ is a strictly monotone preference on $S$, $\pi : S \twoheadrightarrow T$ and $\varpi : S \twoheadrightarrow U$ are surjective maps, and if we have vague elements $\preceq_T$ of $T$ and $\preceq_U$ of $U$ such that
+\[
+\preceq_T \;\; \subseteq \;\; \sqsubseteq_S^\pi \;\;\; \text{and} \;\;\; \preceq_U \;\; \subseteq \;\; \sqsubseteq_S^\varpi,
+\]
+then there is a vague element $\preceq_S$ of $S$ with $\preceq_S \;\; \subseteq \;\; \sqsubseteq_S$ satisfying
+\[
+\preceq_T \;\; = \;\; \preceq_S^\pi \;\;\; \text{and} \;\;\; \preceq_U \;\; = \;\; \preceq_S^\varpi
+\]
+if and only if for every $V$ and every pair of surjective maps $\phi : T \twoheadrightarrow V$, $\varphi : U \twoheadrightarrow V$ such that
+\[
+\phi \circ \pi = \varphi \circ \varpi,
+\]
+we have
+\[
+\preceq_T^\phi \;\; = \;\; \preceq_U^\varphi.
+\]
+In fact, we only need to check this condition for
+\[
+V = S/(\ker \pi \vee \ker \varpi),
+\]
+with $\phi, \varphi$ the quotient maps corresponding to the equivalence relations $\pi(\ker \pi \vee \ker \varpi), \varpi(\ker \pi \vee \ker \varpi)$, respectively.
+\end{thm}
+\begin{proof} Define a digraph $\cD$ on the power set $\cP(S)$ which has a directed edge $A \rightarrow B$ whenever one of the following is true:
+\begin{itemize}
+\item if $A \sqsubset_S B$ then $A \rightarrow B$ (note the strict inequality),
+\item if $A = \pi^{-1}(X)$ and $B = \pi^{-1}(Y)$ for $X,Y \subseteq T$, and if $X \preceq_T Y$, then $A \rightarrow B$, and
+\item if $A = \varpi^{-1}(Z)$ and $B = \varpi^{-1}(W)$ for $Z, W \subseteq U$, and if $Z \preceq_U W$, then $A \rightarrow B$.
+\end{itemize}
+Then any hypothetical $\preceq_S$ must contain the transitive closure of $\cD$, so we just need to check if $\cD$ contains any paths connecting $\pi^{-1}(X)$ to $\pi^{-1}(Y)$ with $X \not\preceq_T Y$, and similarly for subsets of $U$.
+
+First note that if any step $A \rightarrow B$ along a path from $\pi^{-1}(X)$ to $\pi^{-1}(Y)$ in $\cD$ has $A \sqsubset_S B$ (note the strict inequality), then by transitivity of $\sqsubseteq_S$ we have
+\[
+\pi^{-1}(X) \sqsubset_S \pi^{-1}(Y),
+\]
+so $X \sqsubset_S^\pi Y$, which implies $X \prec_T Y$. So we only need to consider paths which stay within a single equivalence class of the equivalence relation associated to $\sqsubseteq_S$.
+
+Next, note that if we take two consecutive steps in $\cD$ coming from $\preceq_T$, then we can replace them by a single step by the fact that $\preceq_T$ is transitively closed. Thus we may assume without loss of generality that the path in $\cD$ from $\pi^{-1}(X)$ to $\pi^{-1}(Y)$ alternates between steps coming from $\preceq_T$ and steps coming from $\preceq_U$, i.e. we have
+\[
+\pi^{-1}(X_0) \rightarrow \pi^{-1}(Y_0) = \varpi^{-1}(Z_0) \rightarrow \varpi^{-1}(W_0) = \pi^{-1}(X_1) \rightarrow \cdots.
+\]
+So we see that we just need to check that whenever we have
+\[
+\pi^{-1}(Y_0) = \varpi^{-1}(Z_0), \;\; \varpi^{-1}(W_0) = \pi^{-1}(X_1),
+\]
+we also have
+\[
+Y_0 \preceq_T X_1 \;\;\; \iff \;\;\; Z_0 \preceq_U W_0.
+\]
+The assumption $\pi^{-1}(Y_0) = \varpi^{-1}(Z_0)$ implies that their common value is a union of equivalence classes of $\ker \pi \vee \ker \varpi$, and similarly the common value of $\varpi^{-1}(W_0) = \pi^{-1}(X_1)$ is a union of equivalence classes of $\ker \pi \vee \ker \varpi$. Thus $\preceq_S$ can be constructed if and only if the quasiorders $\preceq_T^\phi$, $\preceq_U^\varphi$ match, where $\phi, \varphi$ are the quotient maps corresponding to the equivalence relations $\pi(\ker \pi \vee \ker \varpi), \varpi(\ker \pi \vee \ker \varpi)$, respectively.
+\end{proof}
+
+In particular, if we want to check whether a particular assignment of vague elements to a pair of four-variable minors (of a hypothetical $n$-variable operation) are compatible with each other, we just have to check that they are both refinements of a common strictly monotone preference, and that if they have any two-variable or three-variable minors in common, then they agree on the overlap. Since we will only be considering vague elements corresponding to monotone self-dual total orderings of the power set, the two-variable and three-variable minors will be entirely determined by the orderings between pairs of \emph{disjoint} sets.
+
+In other words, if we only want to have a compatible collection of assignments to all four-variable minors, and if the strictly monotone preference we are refining is the ordering
+\[
+A \sqsubseteq B \;\;\; \iff \;\;\; |A| \le |B|,
+\]
+then the main thing we need to do is to pick, for each $k \le \frac{n}{2}$, an orientation of the graph whose vertices are subsets of size $k$, and whose edges are pairs of disjoint subsets of size $k$ (this graph is known as the \emph{Kneser graph} $K(n,k)$), such that for each map $\pi : [n] \rightarrow [4]$, we do not get any directed cycles among sets which are unions of equivalence class of $\ker \pi$ (and note that we only need to worry about cycles among sets which all have the same size).
+
+In order to get rid of the requirement that we avoid these directed cycles (at least for $k \ne \frac{n}{3}, \frac{2n}{3}$), we will need to exploit stability. The next result is simple to prove, but is the key to getting the required flexibility.
+
+\begin{prop}\label{prop-stable-generated} If $\cV$ is a pseudovariety of idempotent bounded width algebras with stability concept $\Yleft$, and if $S$ is any set of stable elements of an algebra $\bA \in \cV$, if we let $\bS$ be the intersection of all stable subalgebras of $\bA$ which contain $S$, then we have
+\[
+\bS \Yleft \bA.
+\]
+Now suppose that $\bB \in \cV$ has a set of stable elements $T$ such that, for some subdirect binary relation $\RR \le_{sd} \bA \times \bB$, we have
+\[
+s \in S, \; t\in T \;\;\; \implies \;\;\; (s,t) \in \RR.
+\]
+If we let $\bT$ be the intersection of all stable subalgebras of $\bB$ which contain $T$, then we have
+\[
+s' \Yleft \bS, \; t' \Yleft \bT \;\;\; \implies \;\;\; (s',t') \in \RR,
+\]
+and in fact $(s',t') \Yleft \RR$.
+\end{prop}
+\begin{proof} The fact that $\bS \Yleft \bA$ follows from the intersection and transitivity axioms of stable subalgebras. Now, for each $t \in T$ we have $S \subseteq t-\RR$ and
+\[
+t - \RR \Yleft \bA
+\]
+by $t \Yleft \bB$ and the stronger form of the propagation axiom from Proposition \ref{prop-propagation-axiom}, so by the definition of $\bS$ we have
+\[
+\bS \subseteq t - \RR.
+\]
+In particular, for any $s' \Yleft \bS$ we have
+\[
+(s',t) \in \RR
+\]
+for all $t \in T$, and by transitivity we have $s' \Yleft \bA$, so
+\[
+T \subseteq s' + \RR \Yleft \bB
+\]
+by Proposition \ref{prop-propagation-axiom}. Then by the definition of $\bT$, we have
+\[
+\bT \subseteq s' + \RR,
+\]
+so for any $t' \Yleft \bT$ we have
+\[
+(s', t') \in \{s'\} \times \bT \subseteq \RR.
+\]
+That $(s', t') \Yleft \RR$ follows from $s' \Yleft \bA$, $t' \Yleft \bT \Yleft \bB$, and the stability axioms.
+\end{proof}
+
+To understand how we will apply this, suppose (to slightly oversimplify) that we have a way to assign a stable four-variable operation to every total ordering on $\{x,y,z,w\}$, and we want to extend this to a way to assign a stable four-variable operation to the orientation
+\begin{center}
+\begin{tikzpicture}[scale=1.3]
+  \node (w) at (0,0) {$w$};
+  \node (x) at (1,0) {$x$};
+  \node (y) at (1,1) {$y$};
+  \node (z) at (0,1) {$z$};
+  \draw (w) [->] to (x);
+  \draw (w) [->] to (y);
+  \draw (w) [->] to (z);
+  \draw (x) [->] to (y);
+  \draw (y) [->] to (z);
+  \draw (z) [->] to (x);
+\end{tikzpicture}
+\end{center}
+of the complete graph on $\{x,y,z,w\}$. Consider the twelve total orderings of $\{x,y,z,w\}$ which satisfy $x < y$, and define a stable subalgebra $\bS_{x\rightarrow y}$ to be the smallest stable subalgebra of the free algebra $\cF_\cV(x,y,z,w)$ which contains the twelve stable operations corresponding to these twelve total orderings. Defining $\bS_{y\rightarrow z}$ similarly, we see that
+\[
+\bS_{x\rightarrow y} \cap \bS_{y\rightarrow z} \ne \emptyset,
+\]
+since the intersection contains the four stable operations corresponding to the four total orderings satisfying $x < y < z$. Similarly, we have
+\[
+\bS_{y\rightarrow z} \cap \bS_{z\rightarrow x} \ne \emptyset
+\]
+and
+\[
+\bS_{z\rightarrow x} \cap \bS_{x\rightarrow y} \ne \emptyset,
+\]
+so by the Helly axiom for stable subalgebras we have
+\[
+\bS_{x\rightarrow y} \cap \bS_{y\rightarrow z} \cap \bS_{z\rightarrow x} \ne \emptyset.
+\]
+Applying Proposition \ref{prop-helly-axiom}, we even get
+\[
+\bS_{x\rightarrow y} \cap \bS_{y\rightarrow z} \cap \bS_{z\rightarrow x} \cap \bS_{w\rightarrow x} \cap \bS_{w\rightarrow y} \cap \bS_{w\rightarrow z} \ne \emptyset.
+\]
+Since intersections of stable subalgebras are stable, Proposition \ref{prop-stable-element} implies that we can pick some stable element of the intersection above, corresponding to a stable four-variable operation $f(x,y,z,w)$. In any context where all twelve stable operations corresponding to total orderings with $x < y$ would all be compatible with some other stable elements through some subdirect binary relation, the operation $f(x,y,z,w)$ we've constructed would also be compatible with those same stable elements, since $f(x,y,z,w) \in \bS_{x\rightarrow y}$. This (together with similar facts for other pairs of variables) explains why we should feel justified in associating the operation $f(x,y,z,w)$ with the orientation we've been considering.
+
+In the situation outlined above, we actually have a slight wrinkle: all three operations
+\[
+f(x,y,z,w), \;\; f(y,z,x,w), \;\; f(z,x,y,w)
+\]
+seem to have an equally valid claim to being associated to the orientation we were considering (since that orientation happens to have an automorphism corresponding to the cycle $(x \; y \; z)$), and it's impossible to guarantee that these three operations are equal to each other. So the four-variable operation $f$ will actually be associated to the ordered pair of the digraph together with a way to break the symmetries of the digraph (such as a choice of a total ordering of the set $\{x,y,z,w\}$), where the symmetry-breaking part is mostly irrelevant aside from the fact that it must be chosen in order to completely specify $f$.
+
+We've now gotten to a stage where we can't elegantly describe the combinatorial objects we are trying to associate to term operations of arity $n$ just in terms of a single binary relation on the power set $\cP([n])$ (whether that binary relation is a total order, an orientation of the complete graph satisfying some constraints, etc.). Rather than continue on with a horrible ad-hoc kludge, let's introduce a radically different concept.
+
+\begin{defn} A \emph{symmetry-breaker} $<_\bullet$ on a set $S$ is defined to be a function
+\[
+<_\bullet \; : \theta \mapsto \; <_\theta
+\]
+which takes equivalence relations $\theta$ on $S$ to total orders $<_\theta$ on the corresponding quotient sets $S/\theta$.
+
+If $\pi : S \twoheadrightarrow T$ is a surjective map and $<_\bullet$ is a symmetry-breaker on $S$, then we define the symmetry-breaker $<_\bullet^\pi$ on $T$ by
+\[
+a/\theta <_\theta^\pi b/\theta \;\;\; \iff \;\;\; \pi^{-1}(a/\theta) <_{\pi^{-1}(\theta)} \pi^{-1}(b/\theta)
+\]
+for $a,b \in T$ and $\theta$ any equivalence relation on $T$.
+\end{defn}
+
+We also introduce some long-overdue notation for minors of operations.%TODO: move this definition earlier in the notes
+
+\begin{defn} If $t : A^S \rightarrow B$, then for any $\pi : S \rightarrow T$, we define the $\pi$-minor $t^\pi : A^T \rightarrow B$ by
+\[
+x \in A^T \;\;\; \implies \;\;\; t^\pi(x) \coloneqq t(x \circ \pi).
+\]
+\end{defn}
+
+Note that for term operations $t \in \cF_\cV(S)$, where $\cF_\cV$ is the free algebra functor associated to a variety $\cV$, we have
+\[
+\cF_\cV(\pi)(t) = t^\pi.
+\]
+
+\begin{thm}\label{thm-symmetry-breaker-4-ary} For every locally finite variety $\cV$ of idempotent bounded-width algebras, for every $n > 0$, and for every pair consisting of a strictly monotone preference $\sqsubseteq$ and a symmetry-breaker $<_\bullet$ on $[n]$, there is a stable $n$-ary term operation
+\[
+t_{\sqsubseteq,<_\bullet}(x_1, ..., x_n) \in \cF_\cV([n])
+\]
+such that for each $\pi : [n] \twoheadrightarrow [4]$, the $4$-ary $\pi$-minor $t_{\sqsubseteq,<_\bullet}^\pi$ is completely determined by the ordered pair
+\[
+\big(\sqsubseteq^\pi, <_\bullet^\pi\big),
+\]
+and similarly for $3$-ary and $2$-ary minors. More precisely, this means that for any $\pi, \varpi: [n] \twoheadrightarrow S$ with $|S| \le 4$, we have
+\[
+\big(\sqsubseteq^\pi, <_\bullet^\pi\big) = \big(\sqsubseteq^\varpi, <_\bullet^\varpi\big) \;\;\; \implies \;\;\; t_{\sqsubseteq,<_\bullet}^\pi = t_{\sqsubseteq,<_\bullet}^\varpi.
+\]
+\end{thm}
+\begin{proof} Let $\sim$ by the equivalence relation associated to the quasiorder $\sqsubseteq$. We start by using the pair $(\sqsubseteq, <_\bullet)$ to construct an orientation $\cD$ of the complete graph on $\cP([n])$, according to the following rules.
+\begin{itemize}
+\item If $A \sqsubset B$, then $A \rightarrow B$ (note the strict inequality).
+\item If $A \sim B$ and $B = [n] \setminus A$, then we let $\theta$ be the equivalence relation on $[n]$ associated to the partition $A,B$, and if $A <_\theta B$ then $A \rightarrow B$.
+\item If $A \sim B$, $A \cap B = \emptyset$, and $B \ne [n]\setminus A$, then we let $\theta$ be the equivalence relation on $[n]$ associated to the partition $A,B,[n]\setminus(A\cup B)$, and if $A <_\theta B$ then $A \rightarrow B$.
+\item If $A \sim B$, $A \cap B \ne \emptyset$, and $A \cup B = [n]$, then we let  $\theta$ be the equivalence relation on $[n]$ associated to the partition $A\setminus B,B\setminus A, A\cap B$, and if $A\setminus B <_\theta B\setminus A$ then $A \rightarrow B$.
+\item If $A \sim B$, $A \cap B \ne \emptyset$, and $A \cup B \ne [n]$, then we let  $\theta$ be the equivalence relation on $[n]$ associated to the partition $A\setminus B,B\setminus A, [n]\setminus(A \oplus B)$, where $A \oplus B$ is the symmetric difference between $A$ and $B$, and if $A\setminus B <_\theta B\setminus A$ then $A \rightarrow B$.
+\end{itemize}
+For every $\pi : [n] \twoheadrightarrow S$ we define $\cD^\pi$ to be the orientation of the complete graph on $\cP(S)$ defined by
+\[
+X \rightarrow_{\cD^\pi} Y \;\;\; \iff \;\;\; \pi^{-1}(X) \rightarrow_\cD \pi^{-1}(Y),
+\]
+and note that each $\cD^\pi$ is determined by the ordered pair $(\sqsubseteq^\pi, <_\bullet^\pi)$ according to the rules above.
+
+{\bf Claim.} If $\pi : [n] \twoheadrightarrow S$ and $|S| \le 3$, then the orientation $\cD^\pi$ of the complete graph on $\cP(S)$ has no directed cycles.
+
+{\bf Proof of claim.} Note that every edge $X \rightarrow_{\cD^\pi} Y$ of $\cD^\pi$ has $X \sqsubseteq^\pi Y$, so any directed cycle of $\cD^\pi$ must be contained within an equivalence class of $\sim^\pi$. Additionally, since $\sqsubseteq^\pi$ is a strictly monotone preference on $S$, every equivalence class of $\sim^\pi$ must be an antichain of $\cP(S)$.
+
+Since $|S| \le 3$, every antichain of $\cP(S)$ has size at most $3$, so if $\cD^\pi$ has a directed cycle then that cycle must have length $3$, $|S| = 3$, and the cycle either passes through all three singleton subsets of $S$ or all three two-element subsets of $S$. Writing $S = \{x,y,z\}$, writing $0_S$ for the trivial equivalence relation on $S$, and assuming without loss of generality that
+\[
+x <_{0_S}^\pi y <_{0_S}^\pi z,
+\]
+the rules above give
+\[
+\{x\} \sim^\pi \{y\} \sim^\pi \{z\} \;\;\; \implies \;\;\; \{x\} \rightarrow_{\cD^\pi} \{y\} \rightarrow_{\cD^\pi} \{z\}, \;\; \{x\} \rightarrow_{\cD^\pi} \{z\}
+\]
+and
+\[
+\{x,y\} \sim^\pi \{x,z\} \sim^\pi \{y,z\} \;\;\; \implies \;\;\; \{x,y\} \rightarrow_{\cD^\pi} \{x,z\} \rightarrow_{\cD^\pi} \{y,z\}, \;\; \{x,y\} \rightarrow_{\cD^\pi} \{y,z\},
+\]
+so we see that neither $\{x\}, \{y\}, \{z\}$ nor $\{x,y\}, \{x,z\}, \{y,z\}$ can form a directed cycle of $\cD^\pi$, which proves the claim.
+
+By Theorem \ref{thm-vague-minion}, we can pick a rounding rule $r^\cW$ for the vague minion. This lets us describe the desired $2$-ary and $3$-ary minors of $t_{\sqsubseteq, <_\bullet}$: the term operation $t_{\sqsubseteq, <_\bullet}$ will be constructed to satisfy
+\[
+t_{\sqsubseteq,<_\bullet}^\pi = r^\cW(S, \cD^\pi)
+\]
+for every $\pi : [n] \twoheadrightarrow S$ with $|S| \le 3$, where $\cD^\pi$ can be interpreted as a total order on $\cP(S)$ by the claim.
+
+In order to describe the desired $4$-ary minors of $t_{\sqsubseteq, <_\bullet}$, we first define an equivalence relation on surjective maps $\pi : [n] \twoheadrightarrow [4]$ which identifies $\pi$ with $\varpi$ when we have an isomorphism
+\[
+([n]/\ker \pi, \cD^\pi) \cong ([n]/\ker \varpi, \cD^\varpi),
+\]
+and we pick a collection of representatives $\Pi$ which meets each equivalence class exactly once. For each $\pi \in \Pi$, and for each $\phi : [4] \twoheadrightarrow T$ with $|T| \le 3$, we use Proposition \ref{prop-stable-generated} to define the stable subalgebra
+\[
+\bS_{\pi,\phi} \Yleft \cF_\cV([4])
+\]
+to be the smallest stable subalgebra of $\cF_\cV([4])$ which contains the set $S_{\pi,\phi}$ of stable elements of the form
+\[
+r^\cW([4], \preceq) \Yleft \cF_\cV([4])
+\]
+where $\preceq$ is a total order on $\cP([4])$ which satisfies
+\[
+\preceq \;\; \subseteq \;\; \sqsubseteq^\pi
+\]
+and
+\[
+\prec^\phi \;\; = \; \cD^{\phi \circ \pi},
+\]
+where once again we are interpreting the orientation $\cD^{\phi \circ \pi}$ as a total order on $\cP(T)$ using the claim we proved earlier.
+
+By Theorem \ref{thm-vague-compatibility}, for each pair of surjective maps $\phi : [4] \twoheadrightarrow T$ and $\varphi : [4] \twoheadrightarrow U$ with $|T|, |U| \le 3$, there is a total order $\preceq$ on $\cP([4])$ with $\preceq \; \subseteq \; \sqsubseteq^\pi$,
+\[
+\prec^\phi \;\; = \; \cD^{\phi \circ \pi}, \;\;\; \text{and} \;\;\; \prec^\varphi \;\; = \; \cD^{\varphi \circ \pi},
+\]
+and for this choice of $\preceq$ we have
+\[
+r^\cW([4], \preceq) \in \bS_{\pi,\phi} \cap \bS_{\pi,\varphi}.
+\]
+Applying the strong form of the Helly axiom from Proposition \ref{prop-helly-axiom}, we see that
+\[
+\bigcap_{\phi : [4] \twoheadrightarrow [3]} \bS_{\pi,\phi} \ne \emptyset,
+\]
+so by the strong form of the ubiquity axiom from Proposition \ref{prop-stable-element}, we see that there is some stable $4$-ary term operation $f_\pi$ satisfying
+\[
+f_\pi \Yleft \bigcap_{\phi : [4] \twoheadrightarrow [3]} \bS_{\pi,\phi} \Yleft \cF_\cV([4]).
+\]
+By the definition of $\bS_{\pi,\phi}$, Proposition \ref{prop-stable-generated}, and the fact that the rounding rule $r^\cW$ is functorial, we have
+\[
+f_\pi^\phi = r^\cW(T, \cD^{\phi \circ \pi}) \Yleft \cF_\cV(T)
+\]
+for every $\phi : [4] \twoheadrightarrow T$ with $|T| \le 3$.
+
+For surjective maps $\varpi : [n] \twoheadrightarrow [4]$ which are not among the chosen collection of representatives $\Pi$, we define $f_\varpi$ as follows. Let $\pi \in \Pi$ be the chosen representative of the equivalence class containing $\varpi$. Define 
+\[
+\sigma : ([n]/\ker \pi, \cD^\pi) \xrightarrow{\sim} ([n]/\ker \varpi, \cD^\varpi)
+\]
+to be the lexicographically first isomorphism, where the inputs to $\sigma$ are ordered based on the total order $<_{\ker \pi}$ and the outputs are ordered based on the total order $<_{\ker \varpi}$. Then we set
+\[
+f_\varpi \coloneqq f_\pi^\sigma.
+\]
+This definition guarantees that we have
+\[
+f_\varpi \Yleft \bigcap_{\phi : [4] \twoheadrightarrow [3]} \bS_{\varpi,\phi} \Yleft \cF_\cV([4])
+\]
+and that
+\[
+\big(\sqsubseteq^\varpi, <_\bullet^\varpi\big) = \big(\sqsubseteq^\rho, <_\bullet^\rho\big) \;\;\; \implies \;\;\; f_\varpi = f_\rho.
+\]
+
+Now for each surjective map $\pi : [n] \twoheadrightarrow [4]$, define the stable subalgebra
+\[
+\bS_\pi \Yleft \cF_\cV([n])
+\]
+to be the collection of all $n$-ary term operations $t$ such that
+\[
+t^\pi = f_\pi.
+\]
+We claim that for all pairs $\pi, \varpi : [n] \twoheadrightarrow [4]$, we have
+\[
+\bS_\pi \cap \bS_\varpi \stackrel{?}{\ne} \emptyset,
+\]
+or equivalently that the binary relation $\RR \le_{sd} \cF_\cV([4]) \times \cF_\cV([4])$ defined by
+\[
+\RR = \{(t^\pi, t^\varpi) \mid t \in \cF_\cV([n])\}
+\]
+contains the pair $(f_\pi, f_\varpi)$. If $\varpi = \sigma \circ \pi$ for some bijection $\sigma : [4] \xrightarrow{\sim} [4]$, then this follows from
+\[
+\varpi = \sigma \circ \pi \;\;\; \implies \;\;\; f_\varpi = f_\pi^\sigma.
+\]
+Otherwise, let $\phi, \varphi : [4] \twoheadrightarrow V$ be such that
+\[
+\phi \circ \pi = \varphi \circ \varpi
+\]
+with $V$ as large as possible, and note that we must have $|V| \le 3$ in this case. We will use Proposition \ref{prop-stable-generated} to get the implication
+\[
+f_\pi \Yleft \bS_{\pi,\phi}, \; f_\varpi \Yleft \bS_{\varpi, \varphi} \;\;\; \stackrel{?}{\implies} \;\;\; (f_\pi, f_\varpi) \in \RR.
+\]
+By Proposition \ref{prop-stable-generated} we just need to check that
+\[
+S_{\pi,\phi} \times S_{\varpi, \varphi} \subseteq \RR,
+\]
+or in other words that for any pair of vague elements $\preceq_1, \preceq_2$ on $[4]$ such that
+\[
+\preceq_1 \;\; \subseteq \;\; \sqsubseteq^\pi, \;\;\; \preceq_2 \;\; \subseteq \;\; \sqsubseteq^\varpi,
+\]
+and
+\[
+\prec_1^\phi \;\; = \; \cD^{\phi \circ \pi} \; = \; \cD^{\varphi \circ \varpi} \; = \;\; \prec_2^\varphi,
+\]
+we have
+\[
+\big(r^\cW([4], \preceq_1), r^\cW([4], \preceq_2)\big) \in \RR.
+\]
+By Theorem \ref{thm-vague-compatibility} and the choice of $V$, there is some vague element $\preceq \; \subseteq \; \sqsubseteq$ satisfying
+\[
+\preceq^\pi \;\; = \;\; \preceq_1 \;\;\; \text{and} \;\;\; \preceq^\varpi \;\; = \;\; \preceq_2,
+\]
+so taking $t = r^\cW([n], \preceq)$ we get
+\[
+\big(r^\cW([4], \preceq_1), r^\cW([4], \preceq_2)\big) = (t^\pi, t^\varpi) \in \RR.
+\]
+Thus we can indeed apply Proposition \ref{prop-stable-generated} to conclude that $(f_\pi, f_\varpi) \in \RR$, so $\bS_\pi \cap \bS_\varpi \ne \emptyset$.
+
+Applying the strong form of the Helly axiom from Proposition \ref{prop-helly-axiom}, we see that
+\[
+\bigcap_{\pi : [n] \twoheadrightarrow [4]} \bS_\pi \ne \emptyset,
+\]
+so we can pick some stable element
+\[
+t_{\sqsubseteq, <_\bullet} \Yleft \bigcap_{\pi : [n] \twoheadrightarrow [4]} \bS_\pi \Yleft \cF_\cV([n]).
+\]
+By the definition of $\bS_\pi$, this choice of $t_{\sqsubseteq, <_\bullet}$ satisfies
+\[
+t_{\sqsubseteq, <_\bullet}^\pi = f_\pi
+\]
+for each $\pi : [n] \twoheadrightarrow [4]$, which completes the proof.
+\end{proof}
+
+\begin{thm}\label{thm-4-symmetric} If a locally finite variety $\cV$ has bounded width and has a binary symmetric term operation $s_2(x,y)$ and a ternary cyclic term operation $c_3(x,y,z)$, then $\cV$ has $4$-symmetric term operations of every arity.
+\end{thm}
+\begin{proof} For each $n$, we will construct a $4$-symmetric operation of arity $n$. We may as well assume that $n$ is a multiple of $20$. There is also no harm in assuming that $\cV$ is idempotent, by Corollary \ref{cor-height-one-rigid}.
+
+Define the strictly monotone preference $\sqsubseteq$ on $[n]$ by
+\[
+A \sqsubseteq B \;\;\; \iff \;\;\; |A| \le |B|.
+\]
+The plan is to augment this with a ``random'' symmetry-breaker $<_\bullet$, where the ``random'' choices are made in stages such that at each stage, the choices that are available fall into at most three equivalence classes with respect to taking $\pi$-minors, for any $\pi : [n] \twoheadrightarrow S$ with $|S| \le 4$. To break three-way ties, we will use the $3$-symmetric term operations which we have already constructed in Theorem \ref{thm-3-symmetric}.
+
+In order to avoid making unnecessary choices, we restrict our attention to symmetry-breakers $<_\bullet$ which satisfy the constraint
+\[
+a/\theta \sqsubset b/\theta \;\;\; \implies \;\;\; a/\theta <_\theta b/\theta.
+\]
+Additionally, we can make a fixed, arbitrary choice of total order $<_\theta$ for each $\theta$ with five or more equivalence classes, since these $<_\theta$s are irrelevant to the $4$-ary minors.
+
+If an equivalence relation $\theta$ on $[n]$ has two equivalence classes, then the only situation in which the ordering $<_\theta$ hasn't already been determined by $\sqsubseteq$ is the situation where both equivalence classes have size $\frac{n}{2}$. Define $N$ by
+\[
+N = \binom{n}{n/2}/2
+\]
+and let $\theta_1, ..., \theta_N$ be an enumeration of the equivalence relations on $[n]$ which have two equivalence classes each of size $\frac{n}{2}$. For any permutation $\sigma : [N] \xrightarrow{\sim} [N]$, we say that a sequence of sets $A_1, ..., A_N$ is a $\sigma$-sequence of equivalence classes if $A_i$ is one of the two equivalence classes of $\theta_{\sigma(i)}$ for each $i$. We say that a symmetry-breaker $<_\bullet$ is compatible with a choice of $\sigma$ and a choice of a $\sigma$-sequence of equivalence classes $A_\bullet$ if we have
+\[
+A_i <_{\theta_{\sigma(i)}} [n] \setminus A_i
+\]
+for all $i \in [N]$. Additionally, for each $\sigma$ and each $\sigma$-sequence of equivalence classes $A_\bullet$, we define a self-dual total ordering $\prec^{\sigma,A_\bullet}$ on the collection of subsets of $[n]$ of size $\frac{n}{2}$ by the rules
+\[
+A_i \prec^{\sigma,A_\bullet} [n]\setminus A_j
+\]
+and
+\[
+A_i \prec^{\sigma,A_\bullet} A_j \;\;\; \iff \;\;\; i < j \;\;\; \iff \;\;\; [n]\setminus A_j \prec^{\sigma,A_\bullet} [n]\setminus A_i
+\]
+for all $i,j \in [N]$.
+
+Now consider the orderings $<_\vartheta$ for equivalence relations $\vartheta$ having three equivalence classes of sizes $\frac{n}{2}, \frac{n}{4}$, and $\frac{n}{4}$. The number of such equivalence relations $\vartheta$ is
+\[
+M = \frac{n!}{2!\cdot(n/2)!(n/4)!(n/4)!}.
+\]
+We say that an enumeration $\vartheta_1, ..., \vartheta_M$ is compatible with the ordering $\prec^{\sigma,A_\bullet}$ if whenever we have
+\[
+|B| = |C| = \tfrac{n}{2} \;\;\; \text{and} \;\;\; B \prec^{\sigma,A_\bullet} C,
+\]
+we have
+\[
+B^2 \subseteq \vartheta_i, \; C^2 \subseteq \vartheta_j \;\;\; \implies \;\;\; i < j.
+\]
+Given an enumeration $\vartheta_\bullet$ compatible with $\prec^{\sigma,A_\bullet}$, we say that a sequence $U_1, ..., U_M$ is a $\vartheta_\bullet$-sequence of equivalence classes if each $U_i$ is an equivalence class of $\vartheta_i$ of size $|U_i| = \frac{n}{4}$. We say that $<_\bullet$ is compatible with the enumeration $\vartheta_\bullet$ and the $\vartheta_\bullet$-sequence of equivalence classes $U_i$ if for each $i$, $U_i$ is the $<_{\vartheta_i}$-least equivalence class of $\vartheta_i$.
+
+From $\sigma, A_\bullet, \vartheta_\bullet, U_\bullet$, we can also pin down a choice for the orderings $<_\Theta$ where $\Theta$ has four equivalence classes all of size $\frac{n}{4}$. We do this by finding the $\prec^{\sigma,A_\bullet}$-least union $X \cup Y$ of two equivalence classes $X,Y$ of $\Theta$, rename $X,Y$ such that
+\[
+X <_{\vartheta_{X,Y}} Y
+\]
+for $\vartheta_{X,Y}$ the equivalence relation corresponding to the partition $X,Y,[n]\setminus (X\cup Y)$, similarly name the remaining two equivalence classes $Z,W$ of $\Theta$ such that $Z <_{\vartheta_{Z,W}} W$, and choose the ordering
+\[
+X <_\Theta Y <_\Theta Z <_\Theta W.
+\]
+
+Next we consider the orderings $<_\eta$ for equivalence relations $\eta$ having three equivalence classes of sizes $\frac{n}{5}, \frac{2n}{5}$, and $\frac{2n}{5}$. The number of such equivalence relations $\eta$ is
+\[
+R = \frac{n!}{2!\cdot(n/5)!(2n/5)!(2n/5)!}.
+\]
+Fix any enumeration $\eta_1, ..., \eta_R$ of these equivalence relations. For any permutation $\rho : [R] \xrightarrow{\sim} [R]$, we say that a sequence of sets $V_1, ..., V_R$ is a $\rho$-sequence of equivalence classes if $V_i$ is one of the equivalence classes of $\eta_{\rho(i)}$ of size $\frac{2n}{5}$ for each $i$. We say that $<_\bullet$ is compatible with a choice of $\rho$ and a choice of a $\rho$-sequence of equivalence classes $V_\bullet$ if $V_i$ is the $<_{\eta_{\rho(i)}}$-greatest congruence class of $\eta_{\rho(i)}$ for each $i$.
+
+Finally, for every $k < \frac{n}{2}$ with $k \ne \frac{n}{4}, \frac{2n}{5}$, we simply fix an enumeration $W^k_1, ..., W^k_{\binom{n}{k}}$ of the subsets of $[n]$ of size $k$ and choose a permutation $\varsigma_k : [\binom{n}{k}] \xrightarrow{\sim} [\binom{n}{k}]$. We say that $<_\bullet$ is compatible with $\varsigma_k$ if for any $W^k_i, W^k_j$, we have
+\[
+W^k_i, W^k_j \text{ equivalence classes of } \zeta \text{ and } |[n]/\zeta| \le 4 \;\;\; \implies \;\;\; \big(W^k_i <_\zeta W^k_j \; \iff \; \varsigma(i) < \varsigma(j)\big).
+\]
+
+Putting it all together, we see that we can determine a symmetry-breaker $<_\bullet$ from each sequence of choices $\sigma, A_\bullet, \vartheta_\bullet, U_\bullet, \rho, V_\bullet, \varsigma_\bullet$. By Theorem \ref{thm-symmetry-breaker-4-ary}, to each symmetry-breaker $<_\bullet$ we can associate an $n$-ary term operation $t_{\sqsubseteq,<_\bullet}$ such that for every pair $\pi, \varpi : [n] \twoheadrightarrow S$ with $|S| \le 4$ we have
+\[
+\big(\sqsubseteq^\pi,<_\bullet^\pi\big) = \big(\sqsubseteq^\varpi,<_\bullet^\varpi\big) \;\;\; \implies \;\;\; t_{\sqsubseteq, <_\bullet}^\pi = t_{\sqsubseteq, <_\bullet}^\varpi.
+\]
+We now proceed as in the argument of Proposition \ref{prop-4-sym-arity-5}, recursively applying $3$-symmetric terms of high arity and the binary symmetric term $s_2$ until we get an $n$-ary term $t$ satisfying
+\[
+\sqsubseteq^\pi \;\; = \;\; \sqsubseteq^\varpi \;\;\; \implies \;\;\; t^\pi = t^\varpi
+\]
+for every pair $\pi, \varpi : [n] \twoheadrightarrow S$ with $|S| \le 4$. The details are left to the reader (it will be necessary to use Proposition \ref{prop-4-sym-4-sums}).
+\end{proof}
+
+
+%TODO: I think I can construct 4-symmetric terms of all arities, but writing it up is going to be a pain. Main idea is to first look at pairs of four-variable minors which are compatible, and apply the vague minion composed with itself + use stability to get operations which are mostly determined on their 4-variable minors just by an orientation of the Kneser graph K(n, n/4). Then we pick an ordering of the pairs of complementary edges of the Kneser graph, from that we get an ordering of the edges of the Kneser graph, and then from there we get an orientation of the Kneser graph by orienting edges one at a time. All of those random choices can be emulated by composing together many 3-symmetric operations. Oops - also need to handle the 2n/5 layer! For this, we can order overlapping pairs according to the ordering of their "ears", and for nonoverlapping pairs pick a random ordering of the collection of such pairs, then go in order and orient each pair by flipping a coin.
 
 
 
