@@ -2969,7 +2969,7 @@ The corresponding property on the CSP side of the picture is something known as 
 A relation of higher arity is said to have the parallelogram property if every way of grouping its coordinates into two groups gives a binary relation with the parallelogram property.
 \end{defn}
 
-\begin{thm} A finite algebraic structure $\bA$ has a Mal'cev term $p$ iff every relation $\RR \in \Inv(\bA)$ has the parallelogram property.
+\begin{thm}\label{thm-malcev-parallelogram} A finite algebraic structure $\bA$ has a Mal'cev term $p$ if and only if every relation $\RR \in \Inv(\bA)$ has the parallelogram property.
 \end{thm}
 \begin{proof} Suppose first that $\bA$ has a Mal'cev term $p$, let $\bB, \bC \in \cV(\bA)$ and let $\RR \le \bB\times \bC$ be a subalgebra of their product. Suppose that $(a,b), (c,b), (c,d) \in \RR$. Then
 \[
@@ -3028,7 +3028,7 @@ where $v_i = t_i(a_i,b_i,b_i)$. These terms will satisfy $t_i(y,y,x) \approx x$ 
 
 Essentially the same construction leads to the next result.
 
-\begin{prop} If an algebra $\bA$ has an idempotent ternary term operation $p(x,y,z)$ and a congruence $\theta$ such that $p$ satisfies the Mal'cev identities on the quotient $\bA/\theta$ and on each congruence class $a/\theta$ - that is, if we have
+\begin{prop}\label{prop-malcev-on-quotient} If an algebra $\bA$ has an idempotent ternary term operation $p(x,y,z)$ and a congruence $\theta$ such that $p$ satisfies the Mal'cev identities on the quotient $\bA/\theta$ and on each congruence class $a/\theta$ - that is, if we have
 \[
 p(x,y,y) \equiv_\theta x \equiv_\theta p(y,y,x)
 \]
@@ -5146,7 +5146,7 @@ r\left(\begin{bmatrix} y & y & x & z & \cdots & x & x & \cdots & x\\ \vdots & \v
 where the upper left $m\times 3$ block has all rows given by $y, y, x$, the lower left $n \times 3$ block has all rows given by $x,y,y$, and the right $k\times k$ block has $z$s on the diagonal and $x$s elsewhere.
 \end{defn}
 
-\begin{thm}[Edge term implies parallelogram terms \cite{parallelogram-terms}] For any $m,n > 0$ with $m+n = k$, a variety has a $k$-edge term $e$ iff it has an $m,n$-parallelogram term $r$.
+\begin{thm}[Edge term implies parallelogram terms \cite{parallelogram-terms}]\label{thm-parallelogram-terms} For any $m,n > 0$ with $m+n = k$, a variety has a $k$-edge term $e$ iff it has an $m,n$-parallelogram term $r$.
 \end{thm}
 \begin{proof} It's clear that every $m,n$-parallelogram term is a $\Delta$-cube term for
 \[
@@ -13215,7 +13215,7 @@ we have
 \[
 B^2 \subseteq \vartheta_i, \; C^2 \subseteq \vartheta_j \;\;\; \implies \;\;\; i < j.
 \]
-Given an enumeration $\vartheta_\bullet$ compatible with $\prec^{\sigma,A_\bullet}$, we say that a sequence $U_1, ..., U_M$ is a $\vartheta_\bullet$-sequence of equivalence classes if each $U_i$ is an equivalence class of $\vartheta_i$ of size $|U_i| = \frac{n}{4}$. We say that $<_\bullet$ is compatible with the enumeration $\vartheta_\bullet$ and the $\vartheta_\bullet$-sequence of equivalence classes $U_i$ if for each $i$, $U_i$ is the $<_{\vartheta_i}$-least equivalence class of $\vartheta_i$.
+Given an enumeration $\vartheta_\bullet$ compatible with $\prec^{\sigma,A_\bullet}$, we say that a sequence $U_1, ..., U_M$ is a $\vartheta_\bullet$-sequence of equivalence classes if each $U_i$ is an equivalence class of $\vartheta_i$ of size $|U_i| = \frac{n}{4}$. We say that $<_\bullet$ is compatible with the enumeration $\vartheta_\bullet$ and the $\vartheta_\bullet$-sequence of equivalence classes $U_\bullet$ if for each $i$, $U_i$ is the $<_{\vartheta_i}$-least equivalence class of $\vartheta_i$.
 
 From $\sigma, A_\bullet, \vartheta_\bullet, U_\bullet$, we can also pin down a choice for the orderings $<_\Theta$ where $\Theta$ has four equivalence classes all of size $\frac{n}{4}$. We do this by finding the $\prec^{\sigma,A_\bullet}$-least union $X \cup Y$ of two equivalence classes $X,Y$ of $\Theta$, rename $X,Y$ such that
 \[
@@ -13248,9 +13248,8 @@ We now proceed as in the argument of Proposition \ref{prop-4-sym-arity-5}, recur
 for every pair $\pi, \varpi : [n] \twoheadrightarrow S$ with $|S| \le 4$. The details are left to the reader (it will be necessary to use Proposition \ref{prop-4-sym-4-sums}).
 \end{proof}
 
-
-%TODO: I think I can construct 4-symmetric terms of all arities, but writing it up is going to be a pain. Main idea is to first look at pairs of four-variable minors which are compatible, and apply the vague minion composed with itself + use stability to get operations which are mostly determined on their 4-variable minors just by an orientation of the Kneser graph K(n, n/4). Then we pick an ordering of the pairs of complementary edges of the Kneser graph, from that we get an ordering of the edges of the Kneser graph, and then from there we get an orientation of the Kneser graph by orienting edges one at a time. All of those random choices can be emulated by composing together many 3-symmetric operations. Oops - also need to handle the 2n/5 layer! For this, we can order overlapping pairs according to the ordering of their "ears", and for nonoverlapping pairs pick a random ordering of the collection of such pairs, then go in order and orient each pair by flipping a coin.
-
+\begin{cor}[Main result of \cite{mui-symmetric}] If an algebra $\bA$ with $|\bA| \le 4$ has a binary symmetric term operation $s_2(x,y)$ and a ternary cyclic term operation $c_3(x,y,z)$, then $\bA$ has symmetric term operations of all arities.
+\end{cor}
 
 
 \chapter{Finite Taylor Algebras}\label{chapter-taylor}
@@ -13653,7 +13652,7 @@ for all $i \in \ZZ$.
 Since the only binary terms of a semilattice are $x, y,$ and $x \vee y$, we see by process of elimination that we must have $w_i(x,x,y) \approx w_i(y,x,x) \approx x \vee y$, and similar reasoning shows that $w_i(x,y,x) \approx w_{i+1}(x,x,y) \approx x \vee y$, so we are done.
 \end{proof}
 
-\begin{prop} If $\bA = (A,m)$ is a majority algebra, then in any sequence of daisy chain terms of $\bA$, each $w_i$ must be a majority term, that is, we have
+\begin{prop}\label{prop-daisy-chain-majority} If $\bA = (A,m)$ is a majority algebra, then in any sequence of daisy chain terms of $\bA$, each $w_i$ must be a majority term, that is, we have
 \[
 w_i(x,x,y) \approx w_i(x,y,x) \approx w_i(y,x,x) \approx x
 \]
@@ -13698,7 +13697,7 @@ w_i(x,y,z) \approx a_ix + b_iy + c_iz
 for some $a_i,b_i,c_i \in \ZZ/n$ such that $a_i + b_i + c_i \equiv 1 \pmod{n}$. The identity $w_i(x,x,y) \approx w(y,x,x)$ then implies that $a_i \equiv c_i$, so $b_i \equiv 1 - 2a_i$, while the identity $w_{i+1}(y,x,x) \approx w_i(x,y,x)$ implies that $a_{i+1} \equiv b_i \equiv 1 - 2a_i$.
 \end{proof}
 
-\begin{prop} If $\bA = (A,x-y+z)$ is an affine algebra such that $|A|$ is a power of $2$, then any sequence of daisy chain terms of $\bA$ must have
+\begin{prop}\label{prop-daisy-chain-exponent-2} If $\bA = (A,x-y+z)$ is an affine algebra such that $|A|$ is a power of $2$, then any sequence of daisy chain terms of $\bA$ must have
 \[
 w_i(x,y,z) \approx \frac{x+y+z}{3}
 \]
@@ -13737,7 +13736,7 @@ so $3^{k+1} \mid 1 - (-2)^i$ if and only if $3^k$ divides $i$.
 
 By going back to the original construction of the daisy chain terms from a huge cyclic term, we can simplify the situation slightly for affine algebras of odd order.
 
-\begin{prop} If $\bA$ is a minimal Taylor algebra, then it is possible to choose a sequence of daisy chain terms $w_i$ of $\bA$ such that for every affine $\bB \in HSP_{fin}(\bA)$ of odd order, the restriction of $w_1$ to $\bB$ is the Mal'cev operation $x-y+z$.
+\begin{prop}\label{prop-daisy-chain-malcev} If $\bA$ is a minimal Taylor algebra, then it is possible to choose a sequence of daisy chain terms $w_i$ of $\bA$ such that for every affine $\bB \in HSP_{fin}(\bA)$ of odd order, the restriction of $w_1$ to $\bB$ is the Mal'cev operation $x-y+z$.
 \end{prop}
 \begin{proof} Since there are only finitely many ternary terms $w_1 \in \Clo(\bA)$, it's enough to prove that for every finite $k$ we can find a $w_1$ that is part of a sequence of daisy chain terms of $\bA$, such that $w_1$ restricts to the Mal'cev operation $x-y+z$ on every affine $\bB \in HSP(\bA)$ such that $|\bB|$ is odd and $|\bB| \le k$.
 
@@ -13851,6 +13850,251 @@ Partial progress towards this conjecture was made in \cite{minimal-taylor}: if $
 A brute force search found no examples of size $3$ or $4$ - but this search was carried out by hand and never written up, so I may have made a mistake.
 
 %TODO: examples? Here or in the next section?
+
+
+\subsection{Minimal Mal'cev clones and minimal $3$-edge clones}
+
+By analogy to minimal Tylor clones, we define a minimal Mal'cev clone to be a clone which contains a Mal'cev operation, but such that no proper subclone contains a Mal'cev operation, and we define a minimal Mal'cev algebra to be an algebra whose clone is a minimal Mal'cev clone. Surprisingly, there is an analogue of Theorem \ref{minimal-taylor-subalg} for minimal Mal'cev algebras. The proof uses the same basic idea as the argument in Remark \ref{rem-malcev-construction} and Proposition \ref{prop-malcev-on-quotient}.
+
+\begin{thm}\label{minimal-malcev-subalg} If $\bA$ is a minimal Mal'cev algebra, then any $\bB \in HSP(\bA)$ is also a minimal Mal'cev algebra.
+
+In fact, if $S \subseteq \bB$ is a subset of $\bB$ (not assumed to be a subuniverse) and $t$ is any term operation of $\bA$ such that $S$ is closed under $t$ and $(S,t)$ is a Mal'cev algebra, then $S$ is actually a subuniverse of $\bB$, and the restriction of every term operation of $\bA$ to $S$ is in the clone generated by the restriction of $t$ to $S$.
+\end{thm}
+\begin{proof} Let $p$ be a Mal'cev term operation of $\bA$, and assume without loss of generality that the restriction of $t$ to $S$ is itself a Mal'cev operation. Define $q(x,y,z)$ by
+\[
+q(x,y,z) \coloneqq p(x, t(x,y,y), t(x,y,z)),
+\]
+and note that since $p$ is Mal'cev we have
+\[
+q(x,y,y) = p(x, t(x,y,y), t(x,y,y)) \approx x,
+\]
+and since the restriction of $t$ to $S$ is Mal'cev, we have
+\[
+x,y \in S \;\;\; \implies \;\;\; q(x,y,z) = p(x, x, t(x,y,z)) = t(x,y,z).
+\]
+
+Next define $r(x,y,z)$ by
+\[
+r(x,y,z) \coloneqq p(q(x,y,z), q(y,y,z), z),
+\]
+note that since $p$ is Mal'cev we have
+\[
+r(y,y,x) = p(q(y,y,x), q(y,y,x), x) \approx x,
+\]
+since $q$ satisfies $q(x,y,y) \approx x$ we have
+\[
+r(x,y,y) = p(q(x,y,y), q(y,y,y), y) \approx p(x,y,y) \approx x,
+\]
+and since $q$ has the same restriction to $S$ as $t$ and the restriction of $t$ to $S$ is Mal'cev, we have
+\begin{align*}
+x,y,z \in S \;\;\; \implies \;\;\; r(x,y,z) &= p(q(x,y,z), q(y,y,z), z)\\
+&= p(t(x,y,z), t(y,y,z), z)\\
+&= p(t(x,y,z), z, z) = t(x,y,z).
+\end{align*}
+Thus $r$ is a Mal'cev term operation of $\bA$ whose restriction to $S$ is exactly $t$ (in particular, $S$ is closed under $r$). Since $\bA$ is minimal Mal'cev, we must have $\Clo(\bA) = \Clo(r)$, so $S$ is a subuniverse of $\bB$, and the restriction of every term operation of $\bA$ to $S$ is in the clone generated by the restriction of $r$ to $S$, which is the same as the restriction of $t$ to $S$.
+\end{proof}
+
+Using this result, we get a beautiful theory of the local structure of any minimal Mal'cev algebra.
+
+\begin{thm}\label{minimal-malcev-edges} If $\bA$ is a minimal Mal'cev algebra, then for any $a \ne b \in \bA$ and for any maximal congruence $\theta \in \Con(\Sg_\bA\{a,b\})$, the quotient
+\[
+\Sg_\bA\{a,b\}/\theta
+\]
+is (up to term equivalence and isomorphism) the affine algebra $\ZZ/p^{\aff}$ for some prime $p$.
+\end{thm}
+\begin{proof} We may assume without loss of generality that $\bA$ is generated by $a,b$ and that $\bA$ is simple. Suppose, for the sake of contradiction, that $\bA$ is not abelian.
+
+It's enough to show that
+\[
+\begin{bmatrix} b & a\\ b & a\\ b & a\end{bmatrix} \stackrel{?}{\in} \Sg_{\bA^{3\times 2}}\left\{\begin{bmatrix} a & b\\ a & b\\ b & a\end{bmatrix}, \begin{bmatrix} a & b\\ b & a\\ a & b\end{bmatrix}, \begin{bmatrix} b & a\\ a & b\\ a & b\end{bmatrix}\right\},
+\]
+since in this case there will be some ternary term operation $t$ such that $\{a,b\}$ is closed under $t$ and $(\{a,b\}, t) \cong \ZZ/2^{\aff}$, and then we can apply Theorem \ref{minimal-malcev-subalg} to see that $\bA = \{a,b\}$ and $\bA$ is term equivalent to $(\{a,b\}, t) \cong \ZZ/2^{\aff}$, contradicting our assumption that $\bA$ is not abelian.
+
+By either Theorem \ref{rectangular-structure} or the argument of Theorem \ref{absorption-free}, we see that every simple nonabelian Mal'cev algebra is subdirectly simple. Thus we just need to check that
+\[
+\pi_{i,j}\left(\begin{bmatrix} b & a\\ b & a\\ b & a\end{bmatrix}\right) \stackrel{?}{\in} \pi_{i,j}\left(\Sg_{\bA^{3\times 2}}\left\{\begin{bmatrix} a & b\\ a & b\\ b & a\end{bmatrix}, \begin{bmatrix} a & b\\ b & a\\ a & b\end{bmatrix}, \begin{bmatrix} b & a\\ a & b\\ a & b\end{bmatrix}\right\}\right),
+\]
+for every $i = (i_1,i_2) \in [3]\times [2]$ and every $j = (j_1,j_2) \in [3]\times [2]$. For each choice of $i,j$, the reader can check that the left hand side forms a parallelogram with the three generators on the right hand side, so the left hand side is contained in the right hand side by our assumption that $\bA$ is Mal'cev. This completes our proof of a contradiction under the assumption that $\bA$ is not abelian.
+
+Thus $\bA$ must be abelian. By Theorem \ref{abelian-malcev}, $\bA$ must be affine, so in particular there is an abelian group structure on the underlying set $A$ of $\bA$ such that every Mal'cev term operation of $\bA$ is $x - y + z$. Since $\bA$ is minimal Mal'cev, the clone of $\bA$ is generated by the Mal'cev operation $x-y+z$, so $\bA$ is term equivalent to $(A, x-y+z)$. Since $\bA = \Sg_\bA\{a,b\}$, we must have
+\[
+(A, x-y+z) \cong (\ZZ/|A|, x-y+z)
+\]
+under the map sending $a$ to $0$ and $b$ to $1$. Then from the assumption that $\bA$ is simple we see that $|A|$ must be a prime $p$, so $(A, x-y+z) \cong \ZZ/p^{\aff}$.
+\end{proof}
+
+\begin{thm} Every minimal Mal'cev clone on a finite domain is also a minimal Taylor clone.
+\end{thm}
+\begin{proof} Let $\bA$ be a finite minimal Mal'cev algebra with underlying set $A$. We need to check that $\Clo(t)$ contains a Mal'cev term for every Taylor term $t \in \Clo(\bA)$. By Theorem \ref{haf-malcev}, we just need to check that $(A,t)$ is hereditarily absorption free.
+
+Suppose, for the sake of contradiction, that there is a proper subset $C \subset B$, $B \subseteq A$ and a term operation $f \in \Clo(\bA)$ such that $C$ absorbs $B$ with respect to $f$. Among all pairs of $c \in C$ and $b \in B\setminus C$, pick a pair $b,c$ minimizing the size of $\Sg_\bA\{b,c\}$, and let $\theta$ be any maximal congruence on $\Sg_\bA\{b,c\}$. By the choice of $b,c$, the set $C$ must be disjoint from $b/\theta$, so
+\[
+(C \cap \Sg_\bA\{b,c\})/\theta
+\]
+is a proper subset of $(B \cap \Sg_\bA\{b,c\})/\theta$ which absorbs $(B \cap \Sg_\bA\{b,c\})/\theta$ with respect to $f$. By Theorem \ref{minimal-malcev-edges}, the quotient $\Sg_\bA\{b,c\}/\theta$ is abelian, so by Theorem \ref{abelian-haf} all of its reducts are hereditarily absorption-free, which gives us our contradiction and completes the proof.
+\end{proof}
+
+\begin{comment}
+This doesn't seem to actually work:
+
+For any fixed $k$, it also makes sense to consider clones which are minimal among the collection of all clones containing a $k$-edge operation - we call such clones minimal $k$-edge clones. By mimicking the strategy of Horowitz's construction from Theorem \ref{thm-local-cube-terms}, we can prove an analogue of Theorem \ref{minimal-taylor-subalg} for minimal $k$-edge algebras. Actually, we can make the construction more explicit by using edge terms instead of cube terms.
+
+\begin{thm}\label{minimal-k-edge-subalg} If $\bA$ is a minimal $k$-edge algebra, then any $\bB \in HSP(\bA)$ is also a minimal $k$-edge algebra.
+
+In fact, if $S \subseteq \bB$ is a subset of $\bB$ (not assumed to be a subuniverse) and $t$ is any term operation of $\bA$ such that $S$ is closed under $t$ and $(S,t)$ has a $k$-edge term operation, then $S$ is actually a subuniverse of $\bB$, and the restriction of every term operation of $\bA$ to $S$ is in the clone generated by the restriction of $t$ to $S$.
+\end{thm}
+\begin{proof} Let $e$ be a $k$-edge term operation for $\bA$, and let $t_0 \in \Clo(t)$ be such that the restriction of $t_0$ to $S$ is a $k$-edge operation. We will define a sequence of operations $t_1, ..., t_k$, such that each $t_i$ has the same restriction to $S$ as $t_0$, and such that $t_i$ satisfies the first $i$ of the $k$-edge identities on $\bA$.
+
+We define $t_1$ by
+\[
+t_1(x_0, x_1, x_2, ..., x_k) \coloneqq e(t_0(x_0, x_0, x_2, ..., x_2), t_0(x_0, x_1, x_2, ..., x_k), x_2, ..., x_k).
+\]
+Since $e$ is a $k$-edge term, this satisfies
+\begin{align*}
+t_1(y, y, x, ..., x) &= e(t_0(y, y, x, ..., x), t_0(y, y, x, ..., x), x, ..., x) \approx x
+\end{align*}
+and
+\begin{align*}
+x_0, ..., x_k \in S \;\;\; \implies \;\;\; t_1(x_0, x_1, x_2, ..., x_k) &= e(t_0(x_0, x_0, x_2, ..., x_2), t_0(x_0, x_1, x_2, ..., x_k), x_2, ..., x_k)\\
+&= e(x_2, t_0(x_0, x_1, x_2, ..., x_k), x_2, ..., x_k).
+\end{align*}
+Ah, damn.
+\end{proof}
+\end{comment}
+
+For any fixed $k$, it also makes sense to consider clones which are minimal among the collection of all clones containing a $k$-edge operation - we call such clones minimal $k$-edge clones. By mimicking the strategy of Horowitz's construction from Theorem \ref{thm-local-cube-terms}, we can prove a special case of the analogue of Theorem \ref{minimal-taylor-subalg} for minimal $3$-edge algebras.
+
+\begin{thm}\label{minimal-3-edge-subalg} If $\bA$ is a minimal $3$-edge algebra, then for any $\bB \in HSP(\bA)$, if $a,b \in \bB$ and if $t$ is a ternary term operation of $\bA$ such that $\{a,b\}$ is closed under $t$ and
+\[
+(\{a,b\},t)
+\]
+is isomorphic to the two-element majority algebra, then $\{a,b\}$ is actually a subuniverse of $\bB$, and the restriction of every term operation of $\bA$ to $\{a,b\}$ is in the clone generated by the majority operation on $\{a,b\}$.
+\end{thm}
+\begin{proof} Let $e$ be a $3$-edge term operation for $\bA$. We start by finding a ternary term $m$ such that $m(x,x,y) \approx x$ and such that the restriction of $m$ to $\{a,b\}$ is the majority operation. We then define a sequence of $4$-ary operations $t_1, t_2$, such that each $t_i(w,x,y,z)$ has the same restriction to $\{a,b\}$ as $m(x,y,z)$, and such that $t_i$ satisfies $i+1$ of the $3$-edge identities on $\bA$.
+
+We define $m$ by
+\[
+m(x,y,z) \coloneqq e(t(x,x,z), t(x,y,z), x, y).
+\]
+Since $e$ is a $3$-edge term, this satisfies
+\[
+m(x,x,y) = e(t(x,x,y), t(x,x,y), x, x) \approx x.
+\]
+Since the restriction of $t$ to $\{a,b\}$ is the majority operation, we have
+\begin{align*}
+x, y, z \in \{a,b\} \;\;\; \implies \;\;\; m(x,y,z) &= e(t(x,x,z), t(x,y,z), x, y)\\
+&= e(x, t(x,y,z), x, y)\\
+&= \begin{cases} e(x, y, x, y) = y & \text{if }x = y\text{ or }y = z,\\ e(x, x, x, y) = x & \text{if }x = y\text{ or }x = z\end{cases}\\
+&= t(x, y, z),
+\end{align*}
+so the restriction of $m$ to $\{a,b\}$ is also the majority operation.
+
+We define $t_1$ by
+\[
+t_1(w, x, y, z) \coloneqq e(m(w, y, y), m(x, y, z), y, z).
+\]
+Since $e$ is a $3$-edge term, this satisfies
+\begin{align*}
+t_1(y, y, x, x) &= e(m(y, x, x), m(y, x, x), x, x) \approx x,
+\end{align*}
+and since $m$ satisfies $m(x, x, y) \approx x$ we have
+\begin{align*}
+t_1(x, x, x, y) &= e(m(x, x, x), m(x, x, y), x, y) \approx e(x, x, x, y) \approx x.
+\end{align*}
+When we restrict to $\{a,b\}$, we get
+\begin{align*}
+w, x, y, z \in \{a,b\} \;\;\; \implies \;\;\; t_1(w, x, y, z) &= e(m(w, y, y), m(x, y, z), y, z)\\
+&= e(y, m(x, y, z), y, z)\\
+&= \begin{cases} e(y, z, y, z) = z & \text{if }x = z\text{ or }y = z,\\ e(y, y, y, z) = y & \text{if }x = y\text{ or }y = z\end{cases}\\
+&= m(x, y, z).
+\end{align*}
+
+We define $t_2$ by
+\[
+t_2(w, x, y, z) \coloneqq e(t_1(w, x, w, x), x, t_1(w, x, y, z), z).
+\]
+Since $e$ is a $3$-edge term, this satisfies
+\begin{align*}
+t_2(y, x, y, x) &= e(t_1(y, x, y, x), x, t_1(y, x, y, x), x) \approx x,
+\end{align*}
+since $t_1$ satisfies $t_1(x, x, x, y) \approx x$, we have
+\begin{align*}
+t_2(x, x, x, y) &= e(t_1(x, x, x, x), x, t_1(x, x, x, y), y) \approx e(x, x, x, y) \approx x,
+\end{align*}
+and since $t_1$ satisfies $t_1(y, y, x, x) \approx x$, we have
+\begin{align*}
+t_2(y, y, x, x) &= e(t_1(y, y, y, y), y, t_1(y, y, x, x), x) \approx e(y, y, x, x) \approx x.
+\end{align*}
+When we restrict to $\{a,b\}$, we get
+\begin{align*}
+w, x, y, z \in \{a,b\} \;\;\; \implies \;\;\; t_2(w, x, y, z) &= e(t_1(w, x, w, x), x, t_1(w, x, y, z), z)\\
+&= e(m(x, w, x), x, m(x, y, z), z)\\
+&= e(x, x, m(x, y, z), z)\\
+&= \begin{cases} e(x, x, z, z) = z & \text{if }x = z\text{ or }y = z,\\ e(x, x, x, z) = x & \text{if }x = z\text{ or }x = y\end{cases}\\
+&= m(x, y, z).
+\end{align*}
+
+Since $\bA$ is a minimal $3$-edge algebra and $t_2$ is a $3$-edge term operation of $\bA$, we must have $\Clo(\bA) = \Clo(t_2)$. Since the restriction of $t_2(w,x,y,z)$ to $\{a,b\}$ is the same as the restriction of the majority operation $m(x,y,z)$ on $\{a,b\}$, every operation in $\Clo(\bA) = \Clo(t_2)$ preserves $\{a,b\}$ and restricts to an element of the clone generated by the majority operation on $\{a,b\}$.
+\end{proof}
+
+Although it looks weak, we can use Theorem \ref{minimal-3-edge-subalg} to get a beautiful theory of the local structure of minimal $3$-edge algebras.
+
+\begin{thm}\label{minimal-3-edge-edges} If $\bA$ is a minimal $3$-edge algebra and $\bB \in HSP(\bA)$, then for any $a \ne b \in \bB$ and for any maximal congruence $\theta \in \Con(\Sg_\bB\{a,b\})$, the quotient
+\[
+\Sg_\bB\{a,b\}/\theta
+\]
+is either a simple affine algebra or is term equivalent to a two-element majority algebra.
+\end{thm}
+\begin{proof} We may assume without loss of generality that $\bB$ is generated by $a,b$ and that $\bB$ is simple. By Theorem \ref{taylor-abelian} in the finite case, or Corollary \ref{cor-modular-abelian} in the infinite case, if $\bB$ is abelian then $\bB$ is affine, so we may as well assume that $\bB$ is not abelian.
+
+By Theorem \ref{thm-parallelogram-terms}, $\bB$ has $3$-parallelogram terms, so we can apply Theorem \ref{parallelogram-critical} to see that every critical relation in $\Inv(\bB)$ of arity $3$ or more must have the parallelogram property. Theorem \ref{rectangular-structure} shows that if $\bB$ is simple and nonabelian, then $\bB$ can't have any subdirect critical relations of arity $3$ or more with the parallelogram property. Thus every subdirect relation on $\bB$ must be the intersection of its binary projections.
+
+In particular, the $6$-ary relation
+\[
+\Sg_{\bB^{3\times 2}}\left\{\begin{bmatrix} a & b\\ a & b\\ b & a\end{bmatrix}, \begin{bmatrix} a & b\\ b & a\\ a & b\end{bmatrix}, \begin{bmatrix} b & a\\ a & b\\ a & b\end{bmatrix}\right\}
+\]
+must be the intersection of its binary projections, so we have
+\[
+\begin{bmatrix} a & b\\ a & b\\ a & b\end{bmatrix} \in \Sg_{\bB^{3\times 2}}\left\{\begin{bmatrix} a & b\\ a & b\\ b & a\end{bmatrix}, \begin{bmatrix} a & b\\ b & a\\ a & b\end{bmatrix}, \begin{bmatrix} b & a\\ a & b\\ a & b\end{bmatrix}\right\}.
+\]
+This means that there is some ternary term operation $t$ of $\bA$ such that $\{a,b\}$ is closed under $t$ and the restriction of $t$ to $\{a,b\}$ is the majority operation. Then by Theorem \ref{minimal-3-edge-subalg} we must have $\bB = \Sg_\bB\{a,b\} = \{a,b\}$, and $\bB$ must be term equivalent to the two-element majority algebra $(\{a,b\}, t)$.
+\end{proof}
+
+\begin{thm} Every minimal $3$-edge clone on a finite domain is also a minimal Taylor clone.
+\end{thm}
+\begin{proof} Let $\bA$ be a finite minimal $3$-edge algebra with underlying set $A$. We need to check that $\Clo(t)$ contains a $3$-edge term for every Taylor term $t \in \Clo(\bA)$. First we will prove that $\Clo(t)$ contains a $k$-edge term for some $k$ by checking that $(A,t)$ has no cube term blockers and applying Theorem \ref{thm-cube-term-blockers}, then we will reduce $k$ to $3$ using Theorem \ref{thm-cube-term-arity-crosses}.
+
+For the first step, suppose for the sake of contradiction that there is a cube term blocker $(P, t) < (B, t)$ with $(B, t) \le (A,t)$. Note that since $(B, t)$ is Taylor, Lemma \ref{lem-projective-bin-absorbing} shows that
+\[
+(P, t) < (B, t) \text{ projective} \;\;\; \implies \;\;\; (P,t) \lhd_{bin} (B,t).
+\]
+Pick $p \in P$ and $b \in B \setminus P$ such that $\Sg_\bA\{b,p\}$ is as small as possible, and pick any maximal congruence $\theta \in \Con(\Sg_\bA\{b,p\})$. By the choice of the pair $b,p$, the congruence class $b/\theta$ must not intersect $P$, so
+\[
+(P \cap \Sg_\bA\{b,p\})/\theta
+\]
+is a proper subset of $(B \cap \Sg_\bA\{b,p\})/\theta$ which is absorbed by some binary term operation $f \in \Clo(\bA)$.
+
+By Theorem \ref{minimal-3-edge-edges}, $\Sg_\bA\{b,p\}/\theta$ is either abelian or is term equivalent to a two-element majority algebra. If it is term equivalent to a two-element majority algebra, then it has no nontrivial binary term operations, so no proper subset can be absorbed by any binary term operation. Thus $\Sg_\bA\{b,p\}/\theta$ must be abelian, but then Theorem \ref{abelian-haf} implies that every reduct of $\Sg_\bA\{b,p\}/\theta$ must be hereditarily absorption-free, which gives us our contradiction to the assumption that $(A,t)$ had a cube-term blocker.
+
+Now we can apply Theorem \ref{thm-cube-term-blockers} to see that for every Taylor term $t \in \Clo(\bA)$, the algebra $(A, t)$ has few subpowers. In order to apply Theorem \ref{thm-cube-term-arity-crosses}, we just need to show that there is a \emph{ternary} term operation $w \in \Clo(t)$ such that $(A,w)$ also has few subpowers. By Proposition \ref{prop-daisy-chain-malcev}, it is possible to choose daisy chain term operations
+\[
+w_i \in \Clo(t)
+\]
+such that $w_1$ is the Mal'cev operation $x-y+z$ on every affine algebra $(B,t) \in HSP_{fin}(A,t)$ of odd order. We will take $w = w_1$ for this choice of daisy chain terms.
+
+{\bf Claim.} For any $a,b \in \bA$, and for every maximal congruence $\theta \in \Con(\Sg_\bA\{a,b\})$, the restriction of the daisy chain term $w_1$ to $\Sg_\bA\{a,b\}/\theta$ is a Taylor operation.
+
+{\bf Proof of claim.} By Theorem \ref{minimal-3-edge-edges}, $\Sg_\bA\{a,b\}/\theta$ is either a simple affine algebra or is term equivalent to a two-element majority algebra. If it is a two-element majority algebra, then by Proposition \ref{prop-daisy-chain-majority} $w_1$ must restrict to the majority operation on $\Sg_\bA\{a,b\}/\theta$, and the majority operation is Taylor. If $\Sg_\bA\{a,b\}/\theta$ is a simple affine algebra, then its size must be a prime power, and we can split into cases depending on whether the prime is even or odd.
+
+If the size of $\Sg_\bA\{a,b\}/\theta$ is odd, then by the choice of $w_1$ (and by the fact that every Taylor reduct of a finite affine algebra is also affine, by Theorem \ref{taylor-abelian}), the restriction of $w_1$ to $\Sg_\bA\{a,b\}/\theta$ is the Mal'cev operation $x - y + z$, and the Mal'cev operation is Taylor. If the size of $\Sg_\bA\{a,b\}/\theta$ is a power of $2$, then by Proposition \ref{prop-daisy-chain-exponent-2}, the restriction of $w_1$ to $\Sg_\bA\{a,b\}/\theta$ must be the symmetric operation
+\[
+\frac{x+y+z}{3},
+\]
+and symmetric operations are Taylor. This completes the proof of the claim.
+
+The claim implies that $(A,w_1)$ has no cube term blockers, by the same argument we used to show that $(A,t)$ had no cube term blockers (we just delay using the implication ``Taylor $+$ projective $\implies$ binary absorbing'' until after we get inside the $w_1$-reduct of $\Sg_\bA\{b,p\}/\theta$). Thus $(A, w_1)$ has few subpowers, and since $(A, w_1)$ has only a single basic operation of arity $3$, Theorem \ref{thm-cube-term-arity-crosses} implies that $(A,w_1)$ has a $3$-edge term.
+\end{proof}
+
 
 %\subsection{Minimal bounded width clones}
 % TODO
@@ -15171,7 +15415,7 @@ In Carbonnel's thesis \cite{carbonnel-thesis}, the strategy for solving the meta
 
 \begin{defn} Suppose that $\fA = (A,\Gamma)$ is a $3$-conservative CSP template. We define the \emph{associated multisorted template} $\fA_3$ to have a sort for each subset of $A$ of size at most $3$, with two types of relations:
 \begin{itemize}
-\item for each relation $R \in \Gamma$ of arity $m$, and for every triple of elements $u,v,w \in \RR$ (not necessarily distinct), we have a multisorted relation
+\item for each relation $R \in \Gamma$ of arity $m$, and for every triple of elements $u,v,w \in R$ (not necessarily distinct), we have a multisorted relation
 \[
 R \cap (\{u_1,v_1,w_1\} \times \cdots \times \{u_n,v_n,w_n\}) \subseteq \{u_1,v_1,w_1\} \times \cdots \times \{u_n,v_n,w_n\},
 \]
