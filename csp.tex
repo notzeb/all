@@ -3593,6 +3593,47 @@ p(x,y,z) &\coloneqq y \cdot g(y^{-1}x, y^{-1}z)\\
 &\approx (xy^{-1}z)\big((zy^{-1}x)^{-1}(xy^{-1}z)\big)^7.
 \end{align*}
 Note that $\bA = (A_5, p(x,y,z))$ will not be isomorphic to $(G, xy^{-1}z)$ for any group $G$, since $\bA$ has a subalgebra $(K,p(x,y,z))$ of size $|K| = 16$, and $16$ does not divide $|A_5| = 60$.
+
+The operation $p(x,y,z)$ constructed above is not the end of the story for $A_5$: the six-element set
+\[
+K_2 = \{\Id, (1\:2)(3\:4), (1\:3\:4), (1\:4\:3), (2\:3\:4), (2\:4\:3)\}
+\]
+is also a near-subgroup of $A_5$ (in fact, it's even a near-subgroup of $A_4$), but $K_2$ is not preserved by $p$. After testing many possibilities, we find that $K_2$ is closed under the operation
+\[
+g_2(x,y) \coloneqq y^{-1}x^2y^3x^{-1}y^{-1},
+\]
+which is congruent to $xy$ modulo commutators. The restriction of $g_2$ to $K_2$ can be laboriously computed to give us the following multiplication table:
+\begin{center}
+\begin{tabular}{c | c c c c c c} $g_2$ & $\Id$ & $(1\:2)(3\:4)$ & $(1\:3\:4)$ & $(1\:4\:3)$ & $(2\:3\:4)$ & $(2\:4\:3)$\\ \hline $\Id$ & $\Id$ & $(1\:2)(3\:4)$ & $(1\:3\:4)$ & $(1\:4\:3)$ & $(2\:3\:4)$ & $(2\:4\:3)$\\ $(1\:2)(3\:4)$ & $(1\:2)(3\:4)$ & $\Id$ & $(2\:4\:3)$ & $(2\:3\:4)$ & $(1\:4\:3)$ & $(1\:3\:4)$\\ $(1\:3\:4)$ & $(1\:3\:4)$ & $(1\:3\:4)$ & $(1\:4\:3)$ & $\Id$ & $(1\:2)(3\:4)$ & $(1\:4\:3)$\\ $(1\:4\:3)$ & $(1\:4\:3)$ & $(1\:4\:3)$ & $\Id$ & $(1\:3\:4)$ & $(1\:3\:4)$ & $(1\:2)(3\:4)$\\ $(2\:3\:4)$ & $(2\:3\:4)$ & $(2\:3\:4)$ & $(1\:2)(3\:4)$ & $(2\:4\:3)$ & $(2\:4\:3)$ & $\Id$\\ $(2\:4\:3)$ & $(2\:4\:3)$ & $(2\:4\:3)$ & $(2\:3\:4)$ & $(1\:2)(3\:4)$ & $\Id$ & $(2\:3\:4)$ \end{tabular}
+\end{center}
+The proof of Corollary \ref{near-subgroups-malcev} suggests that we should use the Mal'cev term
+\begin{align*}
+p_2(x,y,z) &\coloneqq y\cdot g_2(y^{-1}x, y^{-1}z)\\
+&\approx y\cdot z^{-1}y(y^{-1}x)^2(y^{-1}z)^3x^{-1}yz^{-1}y\\
+&\approx yz^{-1}xy^{-1}xy^{-1}zy^{-1}zy^{-1}zx^{-1}yz^{-1}y\\
+%&\approx (y(z^{-1}xy^{-1})(xy^{-1}z))y^{-1}z(y^{-1}z(x^{-1}yz^{-1}))y\\
+&\approx (yz^{-1}x)(yx^{-1}y)^{-1}\big((zy^{-1}z)(xz^{-1}y)^{-1}(yz^{-1}y)\big).
+\end{align*}
+Unfortunately, the new Mal'cev term $p_2$ doesn't preserve the original near-subgroup $K$ which we started with, since for $a,b \in K$ we have $g_2(a,b) = ab$. In order to unify $p$ and $p_2$, note that commutators in $A_4$ always have order $1$ or $2$, so $p(x,y,z)$ is the same as $zy^{-1}x$ on $A_4$. This inspires us to define $q \in \Clo(p)$ by
+\[
+q(x,y,z) \coloneqq p\big(p(y,z,x),p(y,x,y),p\big(p(z,y,z),p(x,z,y),p(y,z,y)\big)\big).
+\]
+This $q$ preserves both $K$ and $K_2$, and using
+\[
+p(x,y,x) \approx xy^{-1}x[y^{-1}x,y^{-1}x]^7 \approx xy^{-1}x,
+\]
+we can double-check that $q$ is Mal'cev:
+\begin{align*}
+q(x,y,y) &= p\big(p(y,y,x),p(y,x,y),p\big(p(y,y,y),p(x,y,y),p(y,y,y)\big)\big)\\
+&\approx p\big(x,p(y,x,y),p(y,x,y)\big)\\
+&\approx x,\\
+q(y,y,z) &= p\big(p(y,z,y),p(y,y,y),p\big(p(z,y,z),p(y,z,y),p(y,z,y)\big)\big)\\
+&\approx p\big(p(y,z,y),y,p(z,y,z)\big)\\
+&\approx p(yz^{-1}y, y, zy^{-1}z)\\
+&\approx z[z^{-1}y,y^{-1}zy^{-1}z]^7\\
+&\approx z.
+\end{align*}
+(Whether or not $q$ preserves \emph{all} near-subgroups of all powers of $A_5$ is still unclear.)
 \end{ex}
 
 
@@ -8866,7 +8907,7 @@ Similarly, we define $Q_k^\mp$ by swapping the roles of $*_+$ and $*_-$ in $Q_k^
 \]
 is essentially the same as the relation $R_{3,k}$ from Example \ref{ex-tree-formula-high-arity}, so we can use the same construction to show that there is no near-unanimity operation of arity $2^{2^n} = 2^{2^{|A^\pm| - 3}}$ which preserves $Q_k^\pm$ and $Q_k^\mp$ for all $k$. A near-unanimity operation of arity $2^{2^n} + 1$ which does preserve $Q_k^\pm, Q_k^\mp$ is the operation $u_\pm$ given by
 \[
-u_\pm(x_0, ..., x_{(m-1)^{2^n}}) = \begin{cases} n & \text{if }\;\#\{i \mid x_i \le n\} \; > \; 2^{2^n}\cdot \#\{i \mid x_i < n\},\\ n-1 & \text{otherwise, if }\;\#\{i \mid x_i \le n-1\} \; > \; 2^{2^{n-1}}\cdot \#\{i \mid x_i < n-1\},\\ \vdots & \vdots\\ 0 & \text{otherwise, if }\;\#\{i \mid x_i \le 0\} \; > \; 2\cdot \#\{i \mid x_i < 0\},\\ *_+ & \text{otherwise, if }\;\#\{i \mid x_i = *_+\} \; > \; \#\{i \mid x_i = *_-\},\\ *_- & \text{otherwise.}\end{cases}
+u_\pm(x_0, ..., x_{2^{2^n}}) = \begin{cases} n & \text{if }\;\#\{i \mid x_i \le n\} \; > \; 2^{2^n}\cdot \#\{i \mid x_i < n\},\\ n-1 & \text{otherwise, if }\;\#\{i \mid x_i \le n-1\} \; > \; 2^{2^{n-1}}\cdot \#\{i \mid x_i < n-1\},\\ \vdots & \vdots\\ 0 & \text{otherwise, if }\;\#\{i \mid x_i \le 0\} \; > \; 2\cdot \#\{i \mid x_i < 0\},\\ *_+ & \text{otherwise, if }\;\#\{i \mid x_i = *_+\} \; > \; \#\{i \mid x_i = *_-\},\\ *_- & \text{otherwise.}\end{cases}
 \]
 Note that $u_\pm$ preserves the equivalence relation $\theta$ which identifies $*_+$ with $*_-$, and that the quotient operation $u_\pm / \theta$ is exactly $u$. The proof of the fact that $u_\pm$ preserves $Q_k^\pm, Q_k^\mp$ is similar to the proof of the fact that $u$ preserves $R_{3,k}$, and can be found in \cite{near-unanimity-minimal}.
 \end{ex}
@@ -10236,7 +10277,7 @@ A+p \subseteq (A+p) + q = A.
 Thus we have $A = A+p$.
 \end{proof}
 
-\begin{ex} There is an example of an instance which satisfies (P1) and (P3), but which is not $pq$-consistent. As in the previous example, this instance will have just a single variable $x$ and a single binary constraint $\RR \le_{sd} \bA_x \times \bA_x$. We take the algebra $\bA_x$ to be the three-element dual discriminator algebra $(\{0,1,2\},d(x,y,z))$ from Example \ref{ex-dual-discriminator}. The binary relation $\RR$ is the 0/1/all constraint displayed below.
+\begin{ex}\label{ex-p1-p3} There is an example of an instance which satisfies (P1) and (P3), but which is not $pq$-consistent. As in the previous example, this instance will have just a single variable $x$ and a single binary constraint $\RR \le_{sd} \bA_x \times \bA_x$. We take the algebra $\bA_x$ to be the three-element dual discriminator algebra $(\{0,1,2\},d(x,y,z))$ from Example \ref{ex-dual-discriminator}. The binary relation $\RR$ is the 0/1/all constraint displayed below.
 \begin{center}
 \begin{tikzpicture}[scale=1]
   \node (a0) at (0,0) {$0$};
@@ -10602,7 +10643,7 @@ a \in \{a\} + j(p+q) + p - k(p+q).
 \]
 \end{itemize}
 
-\begin{lem} If $\fX$ is stably consistent and the variable domains $\bA_x$ are affine free and are not all singletons, then there is some arc-consistent reduction $\fX'$ of $\fX$ such that every variable domain of $\fX'$ is a stable subalgebra of the corresponding variable domain in $\fX$, and such that at least one variable domain shrinks.
+\begin{lem}\label{lem-stably-consistent-reduction} If $\fX$ is stably consistent and the variable domains $\bA_x$ are affine free and are not all singletons, then there is some arc-consistent reduction $\fX'$ of $\fX$ such that every variable domain of $\fX'$ is a stable subalgebra of the corresponding variable domain in $\fX$, and such that at least one variable domain shrinks.
 \end{lem}
 \begin{proof} Consider the directed graph with vertices given by pairs $(x,\bB)$ such that $\bB \Yleft \bA_x$ and $\bB \ne \bA_x, \emptyset$, with an edge from $(x,\bB)$ to $(y,\bB + p)$ for each path $p$ from $x$ to $y$ such that $\bB + p \ne \bA_y$. Note that by the propagation axiom and the assumption that $\fX$ is arc-consistent, we always have
 \[
@@ -10674,7 +10715,14 @@ Algebras which are stable in one step are almost the same thing as what Zhuk cal
 \end{thm}
 \begin{proof} We just need to verify the axioms for $\Yleft$. Obviously $\Yleft$ satisfies the subalgebra axiom, and by Corollary \ref{zhuk-four-cases} and the assumption that $\cV$ is strongly prepared $\Yleft$ satisfies ubiquity as well. Transitivity holds for $\Yleft$ by construction. The remaining axioms are intersection, propagation, and the Helly property.
 
-To verify the intersection axiom, suppose that $\bB, \bC \Yleft \bA$: we need to check that $\bB \cap \bC \Yleft \bB$. Inducting on $|\bA| + |\bB| + |\bC|$, we see that it's enough to prove this when $\bB$ and $\bC$ are both stable in one step. For this, we divide into four cases: either $\bC \lhd_Z \bA$ (1), $\bC$ contains a strongly absorbing subalgebra of $\bA$ (2), $\bB$ contains a centrally absorbing subalgebra of $\bA$ and $\bC$ is a PC subalgebra (3), or each of $\bB, \bC$ is a PC subalgebra (4). Case (1) follows from $\bB \cap \bC \lhd_Z \bB$. For case (2), we need a claim which we will also use elsewhere.
+To verify the intersection axiom, suppose that $\bB, \bC \Yleft \bA$: we need to check that $\bB \cap \bC \Yleft \bB$. Inducting on $|\bA| + |\bB| + |\bC|$, we see that it's enough to prove this when $\bB$ and $\bC$ are both stable in one step. For this, we divide into four cases:
+\begin{itemize}
+\item[(1)] $\bC$ centrally absorbs $\bA$,
+\item[(2)] $\bC$ contains a strongly absorbing subalgebra of $\bA$,
+\item[(3)] $\bB$ contains a centrally absorbing subalgebra of $\bA$ and $\bC$ is a PC subalgebra, or
+\item[(4)] each of $\bB, \bC$ is a PC subalgebra.
+\end{itemize}
+Case (1) follows from $\bB \cap \bC \lhd_Z \bB$. For case (2), we need a claim which we will also use elsewhere.
 
 {\bf Claim:} If $\bS \lhd_{str} \bA$ and $\bB \Yleft \bA$, then $\bB \cap \bS \ne \emptyset$ and $\bB \cap \bS \lhd_{str} \bB$.
 
@@ -10682,7 +10730,7 @@ To verify the intersection axiom, suppose that $\bB, \bC \Yleft \bA$: we need to
 
 {\bf Case (2) for intersection axiom:} Let $\bC'$ be a subalgebra of $\bC$ such that $\bC' \lhd_{str} \bA$. Then $\bC' \cap \bB \ne \emptyset$ and $\bB \cap \bC' \lhd_{str} \bB$, so $\bB \cap \bC$ contains a strongly absorbing subalgebra of $\bB$.
 
-{\bf Case (3) for intersection axiom:} Let $\bB'$ be a subalgebra of $\bB$ such that $\bB' \lhd_Z \bA$, and let $\theta$ be the PC congruence for $\bC$. Then $\bB'/\theta \lhd_Z \bA/\theta$ by Proposition \ref{prop-central-abs-quotient}, so since $\bA/\theta$ is central absorption-free, we must have $\bB'/\theta = \bA/\theta$. Since $\bB' \le \bB \le \bA$, we must have $\bB/\theta = \bA/\theta$ as well, so $\bC$ is a PC subalgebra of $\bB$ with PC congruence $\theta|_\bB$.
+{\bf Case (3) for intersection axiom:} Let $\bB'$ be a subalgebra of $\bB$ such that $\bB' \lhd_Z \bA$, and let $\theta$ be the PC congruence for $\bC$. Then $\bB'/\theta \lhd_Z \bA/\theta$ by Proposition \ref{prop-central-abs-quotient}, so since $\bA/\theta$ is central absorption-free, we must have $\bB'/\theta = \bA/\theta$. Since $\bB' \le \bB \le \bA$, we must have $\bB/\theta = \bA/\theta$ as well, so $\bB \cap \bC$ is a PC subalgebra of $\bB$ with PC congruence $\theta|_\bB$.
 
 {\bf Case (4) for intersection axiom:} Suppose that $\bB$ has PC congruence $\theta$ and $\bC$ has PC congruence $\psi$. We can consider $\bA/(\theta \wedge \psi)$ as a binary subdirect relation:
 \[
@@ -10692,7 +10740,7 @@ Since $\bA/\theta, \bA/\psi$ are both simple (all polynomially complete algebras
 \[
 \bA/(\theta \wedge \psi) = (\bA/\theta) \times (\bA/\psi),
 \]
-since neither $\bA/\theta$ nor $\bA/\psi$ has a binary or centrally absorbing subalgebras. Thus $\bB/\psi = \bA/\psi$, so $\bB \cap \bC$ is a PC subalgebra of $\bB$ with PC congruence $\psi|_\bB$.
+since neither $\bA/\theta$ nor $\bA/\psi$ has a binary or centrally absorbing subalgebra. Thus $\bB/\psi = \bA/\psi$, so $\bB \cap \bC$ is a PC subalgebra of $\bB$ with PC congruence $\psi|_\bB$.
 
 That completes the proof of the intersection axiom. For the propagation axiom, the pullback part is almost immediate from the definition. For the pushforward part of the propagation axiom, we can suppose that $\bA \twoheadrightarrow \bA/\theta$ and that $\bC$ is stable in one step in $\bA$. If $\bC \supseteq \bC' \lhd_{str} \bA$, then $\bC'/\theta \lhd_{str} \bA/\theta$. If $\bC \lhd_Z \bA$, then by Proposition \ref{prop-central-abs-quotient} we have $\bC/\theta \lhd_Z \bA/\theta$. The tricky case is the case where $\bC$ is a PC subalgebra of $\bA$ with PC congruence $\psi$. In this case, we consider $\bA/(\theta \wedge \psi)$ as a binary subdirect relation:
 \[
@@ -10893,7 +10941,7 @@ and let $\fX$ be the instance with a single variable $x$ which is supposed to sa
 The fact that examples like this exist seems to be a hint that vague solutions are nowhere near to being the last word on bounded width CSPs.
 \end{ex}
 
-\begin{prob} Does every finite bounded width algebra have a $7$-ary term operation $t$ satisfying
+\begin{prob}\label{prob-almost-cyclic} Does every finite bounded width algebra have a $7$-ary term operation $t$ satisfying
 \begin{align*}
 t(a,a,b,c,d,e,f) &\approx t(f,a,a,b,c,d,e) \approx t(e,f,a,a,b,c,d)?
 \end{align*}
@@ -10991,10 +11039,11 @@ The reader may check that this assignment vaguely satisfies every binary project
 
 As another illustration of the theory, we will show how the Loop Lemma \ref{loop-lemma} can be proved for finite bounded width algebras by constructing suitable vague solutions.
 
-%TODO: extend this to smooth digraphs such that every weakly connected component has algebraic length 1, and prove the converse - if there is any weakly connected component which doesn't have length 1, then there is a bounded width algebra such that we have no stable loops (although there may be unstable loops).
-\begin{thm} If $R \subseteq A_x \times A_x$ is a smooth, weakly connected digraph of algebraic length $1$, then the instance $\fX$ which consists of only the variable $x$ and the constraint $(x,x) \in R$ has a vague solution. As a consequence, the instance $\Sg(\fX)$ has a stable solution in any finite bounded width algebra.
+\begin{thm}\label{thm-stable-alg-length-one} If $R \subseteq_{sd} A_x \times A_x$ is a smooth digraph such that every weakly connected component of $R$ has algebraic length $1$, then the instance $\fX$ which consists of only the variable $x$ and the constraint $(x,x) \in R$ has a vague solution. As a consequence, the instance $\Sg(\fX)$ has a stable solution in any finite bounded width algebra.
 \end{thm}
-\begin{proof} We will attempt to find a function $f : [2] \times \cP_\emptyset(A_x) \rightarrow \QQ$ such that for each proper nonempty $S \subset A_x$ we have
+\begin{proof} We just need to construct a total ordering on $\cP_\emptyset(A_x)$ which vaguely satisfies $R$. If $R$ is not weakly connected, we can partition $A_x$ into the weakly connected components $U_1, ..., U_k$ of $R$, and if we can find total orderings on $\cP_\emptyset(U_i)$ vaguely satisfying $R \cap (U_i \times U_i)$ for each $i$ separately, then we can combine these to get a total ordering on $\cP_\emptyset(A_x)$ which vaguely satisfies $R$. Thus we may assume without loss of generality that $R$ is weakly connected.
+
+We will attempt to find a function $f : [2] \times \cP_\emptyset(A_x) \rightarrow \QQ$ such that for each proper nonempty $S \subset A_x$ we have
 \[
 |f(1,S) - f(2,S)| = 1,
 \]
@@ -11040,6 +11089,36 @@ so $T \cap U \ne \emptyset$.
 We handle strongly connected components which do not have any negative directed cycles similarly, looking at the negative of the minimum total weight instead of the maximum total weight, and taking $f(2,S) = f(1,S) + 1$ on such components.
 
 To finish, we pick any total order on the strongly connected components of $\cG$ which extends the reachability order, and we choose the constants $c_{\cC}$ for the various connected components $\cC$ according to this order, with sufficient distance between them that there is no interaction between the various strongly connected components of $\cG$.
+\end{proof}
+
+Surprisingly, Theorem \ref{thm-stable-alg-length-one} has a converse!
+
+\begin{prop}\label{prop-alg-length-one-necessary} Suppose that $R \subseteq A_x \times A_x$ is a finite digraph such that for any bounded width algebra $\bA$ with underlying set $A_x$, if we define $\fX$ to be the instance which consists of only the variable $x$ and the constraint $(x,x) \in R$, then the instance $\Sg_\bA(\fX)$ has a stable solution. Then $R$ must be smooth and every weakly connected component of $R$ must have algebraic length $1$.
+\end{prop}
+\begin{proof} First suppose for the sake of contradiction that $R$ is not smooth, with some element $a \in A_x$ not contained in $\pi_1(R) \cap \pi_2(R)$. Pick a total order $\le$ on $A_x$ largest element $a$, and let $\max$ be the associated join-semilattice operation. Then $\bA = (A_x, \max)$ has bounded width. Since $\max$ preserves the set $A_x \setminus \{a\}$, we have
+\[
+(a,a) \not\in \Sg_{\bA^2}(R).
+\]
+We claim that $a$ is the only stable element of $\bA$, for every stability concept on the variety generated by $\bA$. To see this, note that the subdirect ternary relation $\bT$ given by
+\[
+(x,y,z) \in \bT \;\;\; \iff \;\;\; x = a \vee y = a \vee z = a
+\]
+is preserved by $\max$, and although all binary projections of $\bT$ are full, the only element $x \in \bA$ such that $(x,x,x) \in T$ is $a$.
+
+Next suppose that $R$ has a weakly connected component $U \subseteq A_x$ such that $R \cap (U \times U)$ does not have algeraic length $1$. In this case there must be a digraph homomorphism $\varphi$ from $(U, R \cap U^2)$ to a directed cycle of length $k$, for some $k \ge 2$. Let $V_1, ..., V_k \subset U$ be the preimages under $\varphi$ of the vertices of the cycle, so we have
+\[
+R \subseteq (A \setminus U)^2 \cup (V_1 \times V_2) \cup \cdots \cup (V_{k-1} \times V_k) \cup (V_k \times V_1).
+\]
+We just need to construct a bounded width algebra $\bA$ with underlying set $A_x$ such that the right-hand of the displayed equation above is a subalgebra of $\bA^2$, and such that every stable element of $\bA$ is contained in $U$. Let $\theta$ be the equivalence relation on $A_x$ corresponding to the partition $A_x\setminus U, V_1, ..., V_k$, and let $\vartheta$ be the equivalence relation corresponding to the partition $A_x \setminus U, U$. Define a ternary operation $g(x,y,z)$ on $A_x$ with the following properties:
+\begin{itemize}
+\item $g$ satisfies the identities from Theorem \ref{bounded-width-term}, in order to guarantee that $\bA = (A_x,g)$ has bounded width,
+\item $g$ preserves the equivalence relations $\theta$ and $\vartheta$,
+\item if $A_x \ne U$, then $(A_x,g)/\vartheta$ is term-equivalent to a semilattice with neutral element $(A_x\setminus U)/\vartheta$ and absorbing element $U/\vartheta$,
+\item the quotient $(U, g)/\theta$ is isomorphic to the dual discriminator algebra on $k$ elements from Example \ref{ex-dual-discriminator}, in order to guarantee that it has a full automorphism group,
+\item if $A_x \ne U$, then for any $i \ne j \in [k]$, the union $(A_x\setminus U)\cup V_i \cup V_j$ is closed under $g$ and the quotient $((A_x\setminus U)\cup V_i \cup V_j, g)/\theta$ is isomorphic to the three-element algebra from Example \ref{ex-slippery}, and
+\item the value of $g(x,y,z)$ is always contained in the set $\{x,y,z\}$.
+\end{itemize}
+Then no element of $A_x\setminus U$ can be stable in $\bA = (A_x, g)$, by a similar argument to the one we used to show that $R$ must be smooth, and there is no $i$ such that $\Sg_{\bA^2}(R)$ meets $V_i \times V_i$, so $\Sg_{\bA^2}(R)$ has no stable loops.
 \end{proof}
 
 
@@ -11892,7 +11971,7 @@ We will solve this problem in the next section.
 
 The goal of this section is to show that every CSP which is solved by the basic linear programming relaxation is also \emph{robustly} solved by linear programming. This will follow once we prove that instances of such CSPs which satisfy the consistency conditions (P1) and (P2) always have solutions. Since we will be referring to these conditions frequently, we will give them a name.
 
-\begin{defn} An instance is called \emph{reversible} if it satisfies the consistency conditions (P1) and (P2) from Definition \ref{defn-weak-prague}.
+\begin{defn}\label{defn-reversible} An instance is called \emph{reversible} if it satisfies the consistency conditions (P1) and (P2) from Definition \ref{defn-weak-prague}.
 \end{defn}
 
 Recall that by Theorems \ref{lp-p1-p2} and \ref{lp-p1-p2-converse}, an instance is reversible if and only if every cycle in the instance has a linear programming solution of full support (on both the variables and the relations). However, we will need to have a characterization of reversibility which is more similar to to the characterization of condition (P3) from Proposition \ref{prop-prec-p3}. Since both the variable domains and the relation domains are equally relevant to the basic linear programming relaxation, this turns out to be most convenient if we adopt an alternative perspective on CSPs which puts relations and variables on the same footing.
@@ -11932,7 +12011,7 @@ In this way, we can transform any instance $\fX$ of any multisorted CSP into an 
 
 As it turns out, reversibility has a nice characterization in terms of orderings when we restrict to diagrammatic instances.
 
-\begin{prop} If an instance $\fX$ is arc-consistent and diagrammatic, then $\fX$ is reversible iff there is a quasiorder $\preceq$ on the collection of pairs $(x,B)$ with $B \subseteq \bA_x$ with the following properties:
+\begin{prop}\label{prop-diagram-reversible} If an instance $\fX$ is arc-consistent and diagrammatic, then $\fX$ is reversible iff there is a quasiorder $\preceq$ on the collection of pairs $(x,B)$ with $B \subseteq \bA_x$ with the following properties:
 \begin{itemize}
 \item[(a)] for any $B \subset C \subseteq \bA_x$, we have the strict inequality $(x,B) \prec (x,C)$, and
 \item[(b)] for any constraint of $\fX$ corresponding to a homomorphism $\pi : \bA_x \twoheadrightarrow \bA_y$, and for any $B \subseteq \bA_y$, $(y,B)$ and $(x,\pi^{-1}(B))$ are in the same equivalence class of $\preceq$.
@@ -12317,7 +12396,7 @@ In particular, if $\fA$ has a finite relational signature, then we can decide wh
 % TODO: prove these corollaries!
 
 
-\subsection{Constructing symmetric operations out of simpler operations}
+\subsection{Constructing $4$-symmetric operations out of simpler operations}
 
 While Corollary \ref{cor-lp-decidable} resolves the decidability of the meta-problem for finitely related structures, there are natural examples like Example \ref{lp-not-width-1} of algebraic structures $\bA$ with finitely many basic operations which have symmetric term operations of all arity, but which are not finitely related.
 
@@ -12962,7 +13041,7 @@ seem to have an equally valid claim to being associated to the orientation we we
 
 We've now gotten to a stage where we can't elegantly describe the combinatorial objects we are trying to associate to term operations of arity $n$ just in terms of a single binary relation on the power set $\cP([n])$ (whether that binary relation is a total order, an orientation of the complete graph satisfying some constraints, etc.). Rather than continue on with a horrible ad-hoc kludge, let's introduce a radically different concept.
 
-\begin{defn} A \emph{symmetry-breaker} $<_\bullet$ on a set $S$ is defined to be a function
+\begin{defn}\label{defn-symmetry-breaker} A \emph{symmetry-breaker} $<_\bullet$ on a set $S$ is defined to be a function
 \[
 <_\bullet \; : \theta \mapsto \; <_\theta
 \]
@@ -13250,6 +13329,475 @@ for every pair $\pi, \varpi : [n] \twoheadrightarrow S$ with $|S| \le 4$. The de
 
 \begin{cor}[Main result of \cite{mui-symmetric}] If an algebra $\bA$ with $|\bA| \le 4$ has a binary symmetric term operation $s_2(x,y)$ and a ternary cyclic term operation $c_3(x,y,z)$, then $\bA$ has symmetric term operations of all arities.
 \end{cor}
+\begin{proof} In order to apply Theorem \ref{thm-4-symmetric}, we just need to check that $\bA$ has bounded width, or equivalently that there is no affine algebra $\bB \in HS(\bA)$. Any such $\bB$ must have $|\bB| \le 4$, so the exponent of $\bB$ is either a power of $2$ or $3$. The binary symmetric term operation $s_2$ rules out the existence of affine algebras $\bB \in HSP(\bA)$ with exponent a power of $2$, and the ternary cyclic term operation $c_3$ rules out the existence of affine algebras $\bB \in HSP(\bA)$ with exponent a power of $3$, so no such $\bB$ can exist.
+\end{proof}
+
+Theorem \ref{thm-symmetry-breaker-4-ary} suggests a natural generalization.
+
+\begin{defn}\label{defn-liminal-minion} Define the \emph{liminal minion} $\mathscr{L}$ which takes a set $A$ to
+\begin{align*}
+\mathscr{L}(A) = \{(S, \sqsubseteq, <_\bullet) \mid \; &S \in \cP_\emptyset(A) \text{ and }\sqsubseteq\text{ is a strictly monotone preference on }S\\
+&\text{ and } <_\bullet \text{ is a symmetry-breaker on }S\},
+\end{align*}
+and which takes a map $\pi : A \rightarrow B$ to
+\[
+\mathscr{L}(\pi) : (S, \sqsubseteq, <_\bullet) \mapsto (\pi(S), \sqsubseteq^\pi, <_\bullet^\pi).
+\]
+\end{defn}
+
+\begin{prob}\label{prob-liminal-minion} Is there a (stable) rounding rule for the liminal minion $\mathscr{L}$ (defined as above) in every locally finite bounded width variety?
+\end{prob}
+
+
+\section{Scramble-consistency and the liminal minion}
+
+The last subsection hints that the minion of vague elements is not powerful enough to describe all situations where instances of bounded width CSPs are guaranteed to have (stable) solutions. For instances consisting of a single variable $x$ and a single binary relation $R$ applied to $(x,x)$, Theorem \ref{thm-stable-alg-length-one} and its converse Proposition \ref{prop-alg-length-one-necessary} showed that a necessary and sufficient condition to guarantee that $\Sg(R)$ has a stable loop is that every weakly connected component of $R$ (considered as a digraph) has algebraic length $1$.
+
+The fact that we needed to use Ramsey theory for the proof of Theorem \ref{thm-stable-alg-length-one} is strange, given that the proof of the Loop Lemma (Theorem \ref{loop-lemma}) is a direct induction argument. This indicates that weak consistency is unnecessarily restrictive - to understand how to get an improved consistency condition, we should start by trying to get a better understanding of digraphs with algebraic length $1$, in order to make it easy to prove Theorem \ref{thm-stable-alg-length-one} directly.
+
+\begin{defn} If $(A,R)$ is a smooth digraph (i.e. $R \subseteq_{sd} A \times A$), then we say that a nonempty proper subset $B \subset A$ is \emph{$R$-maximal} if $B$ is in a maximal strongly connected component of the digraph on $\cP_\emptyset(A)$ which has a directed edge $(C,D)$ whenever $C,D$ are nonempty proper subsets of $A$ with $D = C + R$ or $D = C - R$.
+\end{defn}
+
+\begin{prop}\label{prop-alg-length-one-maximal-sets} If $(A,R)$ is a finite smooth digraph, then the following are equivalent:
+\begin{itemize}
+\item every weakly connected component of $R$ has algebraic length $1$,
+\item for every $R$-maximal nonempty proper subset $B \subset A$, we have
+\[
+B \cap (B + R) \ne \emptyset,
+\]
+\item for every $R$-maximal nonempty proper subset $B \subset A$, we have
+\[
+B \cap (B + kR) \ne \emptyset
+\]
+for all $k \in \ZZ$.
+\end{itemize}
+\end{prop}
+\begin{proof} First suppose that there is a weakly connected component $W \subseteq A$ of $R$ which doesn't have algebraic length $1$, so that there is a homomorphism $\varphi$ from $(W, R|_W)$ to a directed cycle $\cC$ of length greater than $1$. Letting $B$ be the $\varphi$-preimage of any vertex of $\cC$, we see that $B + R$ is the $\varphi$-preimage of the next vertex of $\cC$, so
+\[
+B \cap (B + R) = \emptyset.
+\]
+Furthermore, this $B$ is $R$-maximal, since the collection of $\varphi$-preimages of vertices of $\cC$ is closed under the operations $+R$ and $-R$.
+
+Now suppose that there is an $R$-maximal nonempty proper $B \subset A$ and a $k \in \ZZ$ such that
+\[
+B \cap (B + kR) = \emptyset.
+\]
+Call any such $B$ a \emph{$k$-bad} set.
+
+{\bf Claim.} If $B$ is a $k$-bad set, then $B + R$ and $B - R$ are also $k$-bad sets.
+
+{\bf Proof of claim.} First, note that
+\[
+B \cap (B + kR) = \emptyset \;\;\; \iff \;\;\; B \cap (B - kR) = \emptyset,
+\]
+so we may assume that $k > 0$ without loss of generality.
+
+From the fact that $B + kR$ is disjoint from $B$, we see that $B+kR \ne A$, so in particular we have
+\[
+B + R \ne A,
+\]
+and similarly we have $B - R \ne A$. Let $C$ be either $B+R$ or $B-R$. Then by the assumption that $B$ was $R$-maximal, we see that there must be some $j \in \ZZ$ such that
+\[
+C + jR \subseteq B.
+\]
+But then we have
+\[
+(C + jR) \cap (C + jR + kR) \subseteq B \cap (B + kR) = \emptyset,
+\]
+so
+\[
+C \cap (C + jR + kR - jR) = \emptyset,
+\]
+and then from
+\[
+C + kR \subseteq C + jR + kR - jR
+\]
+we see that $C$ is also $k$-bad, proving the claim.
+
+By the claim, we see that if $B$ is $k$-bad, then
+\[
+B_{j_1,...,j_m} \coloneqq B + j_1R + j_2R + \cdots + j_mR
+\]
+is $k$-bad for every $j_1, ..., j_m \in \ZZ$. Since $B$ is contained in $B_{j_1,...,j_m}$ when $j_1 + \cdots + j_m = 0$, we see that
+\[
+j_1 + \cdots + j_m = 0 \;\;\; \implies \;\;\; (B + kR) \cap (B + j_1R + j_2R + \cdots + j_mR) = \emptyset,
+\]
+so for every $b \in B$ we have
+\[
+j_1 + \cdots + j_m = 0 \;\;\; \implies \;\;\; b \not\in \{b\} + j_1R + j_2R + \cdots + j_mR - kR,
+\]
+so no weakly connected component of $R$ which meets $B$ has algebraic length dividing $k$. In particular, if there is any $k$-bad set $B$, then $R$ must have a weakly connected component whose algebraic length is not $1$.
+\end{proof}
+
+\begin{exer} Use Proposition \ref{prop-alg-length-one-maximal-sets} and the properties of stable sets to give a direct inductive proof of the last sentence of Theorem \ref{thm-stable-alg-length-one}.
+\end{exer}
+
+It is very tempting to believe that as long as every cycle $p$ of an instance $\fX$ gives rise to a smooth digraph such that every weakly connected component has algebraic length $1$, then $\Sg(\fX)$ will have a (stable) solution in any bounded width algebra. Unfortunately, this fails even for 2-SAT!
+
+\begin{ex} Let $\bA = (\{0,1\}, \maj)$ and define the binary relations $\RR_0, \RR_1 \le_{sd} \bA \times \bA$ by
+\[
+(x,y) \in \RR_i \;\;\; \iff \;\;\; x = i \vee y = i.
+\]
+Then the instance of $\CSP(\bA)$ corresponding to the formula
+\[
+(x,x) \in \RR_0 \wedge (x,x) \in \RR_1
+\]
+has the property that for every cycle $p$, the associated digraph $\PP_p$ is smooth, weakly connected, and every strongly connected component contains a loop, but this instance has no solutions.
+\end{ex}
+
+\begin{ex}\label{ex-unscrambled-dual-discriminator} Let $\bA_3 = (\{0,1,2\}, d)$ be the dual discriminator algebra on the domain $\{0,1,2\}$ from Example \ref{ex-dual-discriminator}, and for every $i,j \in \{0,1,2\}$ define the subdirect 0/1/all constraint $\RR_{ij} \le_{sd} \bA\times \bA$ by
+\[
+(x,y) \in \RR_{ij} \;\;\; \iff \;\;\; x = i \vee y = j.
+\]
+Then the instance of $\CSP(\bA_3)$ corresponding to the formula
+\[
+(x,x) \in \RR_{01} \wedge (x,x) \in \RR_{12} \wedge (x,x) \in \RR_{20}
+\]
+has the property that for every cycle $p$, the associated digraph $\PP_p$ is smooth, weakly connected, and contains a loop, but this instance has no solutions despite each pair of constraints having a common stable solution.
+\end{ex}
+
+What went wrong? The issue is that there can be a set $B$ which is $p$-maximal for one cycle $p$, but such that another cycle $q$ takes $B$ to $B+q$ which is \emph{not} $p$-maximal (and which even has $(B+q) \cap (B+q+p) = \emptyset$). In order to avoid this situation, one approach is to impose an extra condition which ensures that every ``$p,q$-maximal'' set $B$ is also $p$-maximal (it would even be enough to ensure that every $p,q$-maximal set $B$ \emph{contains} some $p$-maximal set $B'$).
+
+So suppose that $B$ is ``$p,q$-maximal'' but not $p$-maximal. By replacing $p$ with some $p'$ of the form
+\[
+p' = k_1p - k_2p + \cdots \pm k_mp,
+\]
+we may assume that $B + p$ is $p$-maximal, and by replacing $q$ by some $q'$ built out of $p$s and $q$s we may assume that $B+p+q = B$. So we just need to ensure that when $B+p$ is $p$-maximal and $B+p+q = B$, then $B$ is also $p$-maximal. One way to guarantee this is to impose the condition
+\[
+B + p + q = B \;\;\; \implies \;\;\; B + p - p = B.
+\]
+By Proposition \ref{prop-p2*}, this is equivalent to the condition
+\[
+B + p = B \;\;\; \implies \;\;\; B - p = B,
+\]
+which is property (P2) from Definition \ref{defn-weak-prague}, aka reversibility from Definition \ref{defn-reversible}. This leads us to our next definition.
+
+\begin{defn}\label{defn-scramble} We say that an instance $\fX$ of a CSP is \emph{scramble-consistent} if for each variable $x$ and each cycle $p$ from $x$ to $x$, the associated digraph $\PP_p$ is smooth and every weakly connected component of $\PP_p$ is strongly connected with algebraic length $1$.
+\end{defn}
+
+\begin{prop} An instance $\fX$ is scramble-consistent iff for every variable $x$ with variable domain $A_x$ and for every cycle $p$ from $x$ to $x$, there is some $k > 0$ such that for every $a,b \in A_x$ we have
+\[
+b \in \{a\} + p \;\;\; \implies \;\;\; a \in \{b\} + kp
+\]
+and
+\[
+a \in \{a\} + (k+1)p - kp.
+\]
+In fact, every sufficiently large $k$ will work.
+\end{prop}
+\begin{proof} The implication $b \in \{a\} + p \implies a \in \{b\} + kp$ just says that the edge $(a,b)$ of $\PP_p$ is contained in a directed cycle of length $k+1$, and by taking $k+1$ a common multiple of the lengths of all cycles in $\PP_p$ we see that this implication can be made to hold for all $a,b \in A_x$ as long as each weakly connected component of $\PP_p$ is strongly connected.
+
+If $a \in \{a\} + (k+1)p - kp$, then the weakly connected component of $\PP_p$ containing $a$ has algebraic length $1$. For the other direction, note that if the weakly connected component of $\PP_p$ containing $a$ is strongly connected, then every cycle in this component can be reached by a directed path starting at $a$, and has another directed path returning back to $a$. Then as long as the greatest common divisor of the lengths of cycles in this component is $1$, we can find directed cycles through $a$ of every sufficiently large length, including $k+1$ and $k$ as long as $k$ is sufficiently large.
+\end{proof}
+
+\begin{prop} If $\fX$ is a scramble-consistent instance, and if the variable domains $A_x$ of $\fX$ are contained in algebras $\bA_x$ for each variable $x$, then $\Sg_\bA(\fX)$ is also scramble-consistent.
+\end{prop}
+
+In order to make our inductive strategy work, we introduce a slight weakening of scramble-consistency that only makes sense when we have a stability concept around.
+
+\begin{defn} Suppose that the variety generated by $\{\bA_x\}$ has a stability concept. An instance $\fX$ of $\CSP(\{\bA_x\})$ is \emph{stably scramble-consistent} if it is arc-consistent and if the instance $\fX^\text{stab}$ we get by restricting each variable domain $\bA_x$ to the set $S_x$ of stable elements of $\bA_x$ is scramble-consistent (note that $S_x$ might not be a subalgebra of $\bA_x$).
+\end{defn}
+
+\begin{lem} If the variety generated by $\{\bA_x\}$ has a stability concept and is affine-free, then every scramble-consistent instance of $\CSP(\{\bA_x\})$ is also stably scramble-consistent.
+\end{lem}
+\begin{proof} By the strong form of the propagation axiom (Proposition \ref{prop-propagation-axiom}) and the fact that every stable subalgebra contains a stable element (Proposition \ref{prop-stable-element}), for any subdirect $\RR \le_{sd} \bA \times \bB$ and for any stable element $a \Yleft \bA$, there is a stable element $b \Yleft \bB$ such that $(a,b) \in \RR$. In fact, this $(a,b)$ will automatically be a stable element of $\RR$. This fact immediately shows that $\fX^\text{stab}$ will be arc-consistent.
+
+The same fact also shows for any $a \Yleft \bA_x$, $b \Yleft \bA_y$, and any path $p$ from $x$ to $y$, if we let $p^\text{stab}$ be the corresponding path of the reduced instance $\fX^\text{stab}$, then we have
+\[
+b \in \{a\} + p \;\;\; \iff \;\;\; b \in \{a\} + p^\text{stab}.
+\]
+To see this, apply the fact above with $\bA = \PP_p \le_{sd} \bA_x \times \bA_y$ and $\bB$ the set of assignments to the intermediate variables $x_i$ occuring along the path $p$ which are consistent with the binary projections of the relevant constraints, and let $\RR \le_{sd} \bA \times \bB$ be the set of consistent assignments of variables to values along the whole path.
+\end{proof}
+
+\begin{lem} If $\fX$ is stably scramble-consistent of $\CSP(\{\bA_x\})$ and $\fX'$ is an arc-consistent stable reduction of $\fX$, then $\fX'$ is also stably scramble-consistent.
+\end{lem}
+\begin{proof} We just need to check that for any variables $x$, $y$ with corresponding variable domains $\bA_x' \Yleft \bA_x$ and $\bA_y' \Yleft \bA_y$ in $\fX' \Yleft \fX$, if $p$ is a path from $x$ to $y$ in $\fX$ and $p'$ is the corresponding path in $\fX'$, then for any $a \Yleft \bA_x'$ and any $b \Yleft \bA_y'$ we have
+\[
+b \in \{a\} + p \;\;\; \iff \;\;\; b \in \{a\} + p'.
+\]
+Let $\RR$ be the set of assignments of values in $\bA_{x_i}$ to all of the variables $x_i$ along the path $p$ from $x$ to $y$ which are consistent with the binary projections of the relevant constraints of $\fX$. Within $\RR$, define three stable subalgebras $\bB, \bC, \bD$:
+\begin{itemize}
+\item $\bB$ is the set of assignments of values in $\bA_{x_i}'$ which are consistent with the binary projections of the relevant constraints of $\fX'$,
+\item $\bC$ is the set of assignments which send $x$ to $a$, and
+\item $\bD$ is the set of assignments which send $y$ to $b$.
+\end{itemize}
+Then $\bB \cap \bC$ and $\bB \cap \bD$ are nonempty as long as $\fX'$ is arc-consistent, and $\bC \cap \bD$ is nonempty as long as $b \in \{a\} + p$, so by the Helly axiom we have $\bB \cap \bC \cap \bD \ne \emptyset$, which shows that $b \in \{a\} + p'$.
+\end{proof}
+
+\begin{lem} If $\fX$ is stably scramble-consistent and the variable domains $\bA_x$ are affine-free and at least one variable domain contains more than one stable element, then there is some arc-consistent reduction $\fX'$ of $\fX$ such that every variable domain of $\fX'$ is a stable subalgebra of the corresponding variable domain in $\fX$, and such that at least one variable domain shrinks.
+\end{lem}
+\begin{proof} Consider the directed graph with vertices given by pairs $(x,\bB)$ such that $\bB \Yleft \bA_x$ and $\bB$ does not contain all of the stable elements of $\bA_x$, with an edge from $(x,\bB)$ to $(y,\bB + p)$ for each path $p$ from $x$ to $y$ such that $\bB + p$ doesn't contain all of the stable elements in $\bA_y$. Note that by the propagation axiom and the assumption that $\fX$ is arc-consistent, we always have
+\[
+\bB \Yleft \bA_x \;\; \implies \bB + p \Yleft \bA_y.
+\]
+Let $\cS$ be a maximal strongly connected component of this directed graph.
+
+{\bf Claim:} For any $(x,\bB) \in \cS$ and any cycle $p$ from $x$ to $x$, we have $\bB \cap (\bB + p) \ne \emptyset$.
+
+{\bf Proof of claim:} Let $S_x$ is the set of stable elements of $\bA_x$. There must be some cycle $p'$ of the form
+\[
+p' = k_1p - k_2p + \cdots \pm k_mp
+\]
+from $x$ to $x$ such that
+\[
+(\bB + p') \cap S_x
+\]
+is $(\PP_p \cap S_x^2)$-maximal. Since $(x, \bB+p') \in \cS$, there must be some cycle $q$ such that
+\[
+\bB + p' + q = \bB.
+\]
+By the alternate characterization of reversibility from Proposition \ref{prop-p2*} applied to $\fX^\text{stab}$, we must have
+\[
+(\bB + p' - p') \cap S_x = \bB \cap S_x
+\]
+as well, so $\bB \cap S_x$ is also $(\PP_p \cap S_x^2)$-maximal. By Proposition \ref{prop-alg-length-one-maximal-sets}, this implies that
+\[
+\bB \cap (\bB + p) \ne \emptyset.
+\]
+From here on the proof is identical to the proof of Lemma \ref{lem-stably-consistent-reduction}.
+\end{proof}
+
+Putting the lemmas together, we get the following result.
+
+\begin{thm}\label{thm-scramble-consistency} If $\fX$ is a scramble-consistent instance of $\CSP(\{\bA_x\})$, where the $\bA_x$s are finite bounded width algebras, then $\fX$ has a stable solution.
+\end{thm}
+
+We can now solve Problem \ref{prob-liminal-minion}! Let's recall a few definitions (specifically, Definition \ref{defn-symmetry-breaker} and Definition \ref{defn-liminal-minion}) from the previous subsection: we defined a \emph{symmetry-breaker} $<_\bullet$ on a set $S$ to be a function
+\[
+<_\bullet \; : \theta \mapsto \; <_\theta
+\]
+which takes equivalence relations $\theta$ on $S$ to total orders $<_\theta$ on the corresponding quotients $S/\theta$. The \emph{liminal minion} $\mathscr{L}$ was then defined to be the functor which takes a set $A$ to
+\begin{align*}
+\mathscr{L}(A) = \{(S, \sqsubseteq, <_\bullet) \mid \; &S \in \cP_\emptyset(A) \text{ and }\sqsubseteq\text{ is a strictly monotone preference on }S\\
+&\text{ and } <_\bullet \text{ is a symmetry-breaker on }S\},
+\end{align*}
+and which takes a map $\pi : A \rightarrow B$ to
+\[
+\mathscr{L}(\pi) : (S, \sqsubseteq, <_\bullet) \mapsto (\pi(S), \sqsubseteq^\pi, <_\bullet^\pi).
+\]
+
+\begin{thm}\label{thm-liminal-rounding-rule} If $\cV$ is a locally finite bounded width variety, then there is a rounding rule for the liminal minion $\mathscr{L}$ on $\cV$, that is, there is a minion homomorphism
+\[
+r^\mathscr{L} : \mathscr{L} \rightarrow \cF_\cV.
+\]
+This minion homomorphism is stable, in the sense that it takes $(S, \sqsubseteq, <_\bullet) \in \mathscr{L}(A)$ to a stable element of $\cF_\cV(S)$.
+\end{thm}
+\begin{proof} We need to introduce an auxiliary minion $\mathscr{L}^\NN$ for the Ramsey-theoretic part of the proof. This minion is the functor which takes a set $A$ to
+\begin{align*}
+\mathscr{L}^\NN(A) = \{(S, f, <_\bullet) \mid \; &S \in \cP_\emptyset(A) \text{ and }f : \cP(S) \rightarrow \NN\text{ s.t. } U \subset V \subseteq S \implies f(U) < f(V)\\
+&\text{ and } <_\bullet \text{ is a symmetry-breaker on }S\},
+\end{align*}
+and which takes a map $\pi : A \rightarrow B$ to
+\[
+\mathscr{L}^\NN(\pi) : (S, f, <_\bullet) \mapsto (\pi(S), f \circ \pi^{-1}, <_\bullet^\pi).
+\]
+There is a surjective minion homomorphism
+\[
+\mathscr{L}^\NN \twoheadrightarrow \mathscr{L} : (S, f, <_\bullet) \mapsto (S, \sqsubseteq_f, <_\bullet),
+\]
+where $\sqsubseteq_f$ is defined by
+\[
+U \sqsubseteq_f V \;\;\; \iff \;\;\; f(U) \le f(V).
+\]
+Our strategy is to first find a stable rounding rule for $\mathscr{L}^\NN$, and then to apply Ramsey's theorem to get a stable rounding rule for $\mathscr{L}$.
+
+We define an infinite diagrammatic instance $\fX$ as follows:
+\begin{itemize}
+\item for each finite set $S$ and each tuple $(S, f, <_\bullet) \in \mathscr{L}^\NN(S)$, we introduce a variable $x_{(S, f, <_\bullet)}$ with variable domain equal to $S$, and
+\item for each surjective map $\pi : S \twoheadrightarrow T$ and for each $(S, f, <_\bullet) \in \mathscr{L}^\NN(S)$, we introduce the binary constraint
+\[
+x_{(T, f \circ \pi^{-1}, <_\bullet^\pi)} = \pi(x_{(S, f, <_\bullet)}).
+\]
+\end{itemize}
+We claim that $\fX$ is scramble-consistent. Arc-consistency of $\fX$ follows from the fact that each constraint is the graph of a surjective map. By the characterization of reversibility for diagrammatic instances (Proposition \ref{prop-diagram-reversible}), in order to check that $\fX$ is reversible we just need to construct a quasiorder $\sqsubseteq$ on the collection of pairs $(x_{(S,f, <_\bullet)}, U)$ such that
+\begin{itemize}
+\item for any $U \subset V \subseteq S$, we have the strict inequality $(x_{(S,f, <_\bullet)}, U) \sqsubset (x_{(S,f, <_\bullet)}, V)$, and
+\item for any surjective map $\pi : S \twoheadrightarrow T$, for each $(S, f, <_\bullet) \in \mathscr{L}^\NN(S)$, and for each $V \subseteq T$, the pairs $(x_{(T, f \circ \pi^{-1}, <_\bullet^\pi)}, V)$ and $(x_{(S, f, <_\bullet)}, \pi^{-1}(V))$ are in the same equivalence class of $\sqsubseteq$.
+\end{itemize}
+One such quasiorder is given by
+\[
+(x_{(S,f, <_\bullet)}, U) \sqsubseteq (x_{(T,g, \prec_\bullet)}, V) \;\;\; \iff \;\;\; f(U) \le g(V).
+\]
+So far we haven't made use of the symmetry-breaker: this will be used to check that each cycle $p$ of $\fX$ gives us a digraph whose weakly connected components all have algebraic length $1$.
+
+Suppose for the sake of contradiction that there is a cycle $p$ from $x_{(S,f,<_\bullet)}$ to itself in $\fX$ such that the associated digraph has a weakly connected component $U \subseteq S$ with algebraic length $k > 1$. Then there must be a partition
+\[
+U = U_1 \sqcup U_2 \sqcup \cdots \sqcup U_k
+\]
+such that
+\begin{align*}
+U_i + p &= U_{i+1},\\
+U_i - p &= U_{i-1},
+\end{align*}
+with indices taken modulo $k$, and since $U$ is a weakly connected component we must also have
+\begin{align*}
+(S\setminus U) + p = S\setminus U,\\
+(S\setminus U) - p = S\setminus U.
+\end{align*}
+Let $\theta$ be the equivalence relation on $S$ with equivalence classes $U_1, ..., U_k, S\setminus U$ (allowing the possibility that $S \setminus U$ is empty, in which case $\theta$ will only have $k$ equivalence classes). Decompose the path $p$ into a sequence of steps $p_1, ..., p_m$, i.e.
+\[
+p = p_1 + p_2 + \cdots + p_m,
+\]
+where each $p_i$ corresponds to a single binary constraint of $\fX$. For $V$ any equivalence class of $\theta$, from
+\[
+V + p - p = V
+\]
+we can conclude that
+\[
+V + (p_1 + \cdots + p_i) + p_{i+1} - p_{i+1} = V + (p_1 + \cdots + p_i)
+\]
+for every $i$, so $V + (p_1 + \cdots + p_i)$ is a union of linked components of $p_{i+1}$. Since this is true of any equivalence class $V$ of $\theta$, we may inductively define equivalence relations $\theta_i$ on the set
+\[
+S_i \coloneqq S + p_1 + \cdots + p_i,
+\]
+with $\theta_0 = \theta = \theta_m$, such that $p_{i+1}$ is the graph of an isomorphism between $S_i/\theta_i$ and $S_{i+1}/\theta_{i+1}$. If $x_{(S_i, f_i, <_\bullet^i)}$ is the $i$th variable along the path $p$, then we claim that for $a,b \in S_i$ we have
+\[
+a/\theta_i <_{\theta_i}^i b/\theta_i \;\;\; \iff \;\;\; (\{a\}+p_{i+1})/\theta_{i+1} <_{\theta_{i+1}}^{i+1} (\{b\}+p_{i+1})/\theta_{i+1}.
+\]
+There are two cases, based on whether $p_{i+1}$ is the graph of a map $\pi : S_i \twoheadrightarrow S_{i+1}$ or $-p_{i+1}$ is the graph of a map $\pi : S_{i+1} \twoheadrightarrow S_i$. The cases are similar, so assume that we are in the first case. Then by the definition of $\fX$ we must have $S_{i+1} = \pi(S_i)$, $f_{i+1} = f_i \circ \pi^{-1}$, and
+\[
+<_\bullet^{i+1} \; = \; <_\bullet^{i\pi},
+\]
+and by the definition of $<_\bullet^{i\pi}$ we have
+\[
+\pi(a)/\theta_{i+1} \; <_{\theta_{i+1}}^{i\pi} \; \pi(b)/\theta_{i+1} \;\;\; \iff \;\;\; a/\theta_i <_{\theta_i}^i b/\theta_i,
+\]
+since $\pi^{-1}(\theta_{i+1}) = \theta_i$. This completes the verification of the claim, and by applying the claim inductively we see that
+\[
+U_j/\theta_0 <_{\theta_0}^0 U_{j+1}/\theta_0 \;\;\; \iff \;\;\; (U_j + p)/\theta_m <_{\theta_m}^m (U_{j+1} + p)/\theta_m
+\]
+for each $j \le k$. From $\theta_0 = \theta = \theta_m$ and $<_\bullet^0 \; = \; <_\bullet \; = \; <_\bullet^m$, as well as $U_j + p = U_{j+1}$, we see that
+\[
+U_j/\theta <_\theta U_{j+1}/\theta \;\;\; \iff \;\;\; U_{j+1}/\theta <_\theta U_{j+2}/\theta
+\]
+for each $j \le k$, and since the indices are taken modulo $k$ we now see that the total order $<_\theta$ on $S/\theta$ must have a cycle of length $k$ if $k > 1$, which gives us a contradiction to the assumption that the digraph associated to $p$ had a weakly connected component of algebraic length $k > 1$. This completes the verification of the claim that the instance $\fX$ is scramble-consistent.
+
+Now consider each variable domain $S$ of each variable $x_{(S,f,<_\bullet)}$ of $\fX$ to be a subset of the free algebra $\cF_\cV(S)$, and consider the instance $\Sg(\fX)$ (which is the same thing as the result of applying the functor $\cF_\cV$ to the diagram $\fX$). Since $\fX$ was scramble-consistent, $\Sg(\fX)$ will also be scramble-consistent, so we can apply Theorem \ref{thm-scramble-consistency} to see that $\Sg(\fX)$ has a stable solution
+\[
+r^{\mathscr{L}^\NN} : x_{(S,f,<_\bullet)} \mapsto r^{\mathscr{L}^\NN}(S,f,<_\bullet) \Yleft \cF_\cV(S),
+\]
+which by definition of $\Sg(\fX)$ must satisfy
+\[
+r^{\mathscr{L}^\NN}(\pi(S),f\circ \pi^{-1},<_\bullet^\pi) = \cF_\cV(\pi)\big(r^{\mathscr{L}^\NN}(S,f,<_\bullet)\big).
+\]
+In other words, $r^{\mathscr{L}^\NN}$ is a stable rounding rule for the minion $\mathscr{L}^\NN$.
+
+Now for the Ramsey theory. Note that there is a natural way to replace $\NN$ by any subset $F \subseteq \NN$ in the definition of $\mathscr{L}^\NN$ to get a subminion $\mathscr{L}^F$, and furthermore for any order-preserving injective map $\varphi : F \hookrightarrow G$ we have an injective minion homomorphism
+\[
+\mathscr{L}^\varphi : \mathscr{L}^F \hookrightarrow \mathscr{L}^G,
+\]
+defined by
+\[
+\mathscr{L}^\varphi : (S, f, <_\bullet) \mapsto (S, \varphi \circ f, <_\bullet).
+\]
+Note additionally that if $F$ is a finite set, then $\mathscr{L}^F$ is an essentially finite minion, since a function $f : \cP(S) \rightarrow F$ can only satisfy the constraint
+\[
+U \subset V \subseteq S \;\;\; \implies \;\;\; f(U) < f(V)
+\]
+if $|S| < |F|$. Thus for $F$ finite there are only finitely many distinct rounding rules
+\[
+\mathscr{L}^F \rightarrow \cF_\cV.
+\]
+We can therefore color the finite subsets $F$ of $\NN$ based on the restriction $r^{\mathscr{L}^F}$ of the rounding rule $r^{\mathscr{L}^\NN}$ to the subminion $\mathscr{L}^F$, identifying the colors of $\mathscr{L}^F$ and $\mathscr{L}^G$ if $|F| = |G|$ and the unique order-preserving bijection $\varphi : F \rightarrow G$ satisfies
+\[
+r^{\mathscr{L}^F} = r^{\mathscr{L}^G} \circ \mathscr{L}^\varphi.
+\]
+Since there are only finitely many colors for each size of $|F|$, Ramsey's theorem tells us that for each $n$ we can find an infinite set $H_n \subseteq H_{n-1} \subseteq \NN$ such that for every finite subset $F \subset H_n$ with $|F| \le n$, the color of $F$ only depends on the size $|F|$. Now suppose that
+\[
+(S,\sqsubseteq,<_\bullet) \in \mathscr{L}(A)
+\]
+is such that the quasiorder $\sqsubseteq$ has at most $N$ equivalence classes. Then for any $n \ge N$, every $(S,f,<_\bullet) \in \mathscr{L}^{H_n}$ which maps to $(S,\sqsubseteq,<_\bullet)$ under the quotient map
+\[
+\mathscr{L}^{H_n} \twoheadrightarrow \mathscr{L}
+\]
+will be sent to the same element of $\cF_\cV(S)$ by the rounding rule $r^{\mathscr{L}^{H_n}}$. In this way we can build a rounding rule
+\[
+r^\mathscr{L} : \mathscr{L} \rightarrow \cF_\cV.
+\]
+This rounding rule will be stable since the rounding rule $r^{\mathscr{L}^\NN}$ we started with only took stable values.
+\end{proof}
+
+\begin{ex} In order to see that the Ramsey-theoretic part of the argument bought us something new, recall the instance $\fX$ from Example \ref{ex-p1-p3} of $\CSP(\bA_3)$, where $\bA_3 = (\{0,1,2\}, d)$ is the dual-discriminator algebra on three elements. Defining the 0/1/all relation $\RR_{21}$ as in Example \ref{ex-unscrambled-dual-discriminator} by
+\[
+(x,y) \in \RR_{21} \;\;\; \iff \;\;\; x = 2 \vee y = 1,
+\]
+the instance $\fX$ involves just a single variable $x$ and a single binary constraint
+\[
+(x,x) \in \RR_{21}.
+\]
+This instance $\fX$ is not reversible, and we can't even remove some edges from $\RR_{21}$ to make it reversible without shrinking the variable domain $\bA_3$, so $\fX$ is very far from being scramble-consistent.
+
+Nevertheless, we can construct a liminal solution to $\fX$ of full support as follows. First, we pick any total order $\prec$ on the elements of $\RR_{21}$ which has the property that the least two elements are the pairs $(1,1)$ and $(2,2)$ in some order. For concreteness, we make the following choice:
+\[
+(2,2) \prec (1,1) \prec (2,1) \prec (2,0) \prec (0,1).
+\]
+Then we define the total order $\sqsubseteq$ on $\cP(\RR_{21})$ to be the lexicographic order with respect to $\prec$, i.e.
+\[
+\emptyset \sqsubset \{(0,1)\} \sqsubset \{(2,0)\} \sqsubset \{(0,1),(2,0)\} \sqsubset \{(2,1)\} \sqsubset \{(0,1),(2,1)\} \sqsubset \cdots.
+\]
+Since $\sqsubseteq$ is a total order, we can also use it to define a symmetry-breaker $<_\bullet$ by the rule
+\[
+a/\theta <_\theta b/\theta \;\;\; \iff \;\;\; a/\theta \sqsubset b/\theta.
+\]
+(The fact that we didn't have any trouble constructing the symmetry-breaker corresponds to the fact that every cycle $p$ of the instance $\fX$ is linked and contains a loop, and therefore the digraph associated to $p$ automatically has algebraic length $1$.)
+
+Now from the choice of $\prec$, it is easy to check that both $\sqsubseteq^{\pi_1}$ and $\sqsubseteq^{\pi_2}$ are just the lexicographic ordering on $\cP(\{0,1,2\})$ corresponding to the ordering $2 \prec 1 \prec 0$ on $\{0,1,2\}$. Therefore we obtain a stable solution to $\fX$ by taking
+\[
+x = r^\mathscr{L}(\{0,1,2\}, \sqsubseteq^{\pi_1}, <_\bullet^{\pi_1})(0,1,2) = r^\mathscr{L}(\{0,1,2\}, \sqsubseteq^{\pi_2}, <_\bullet^{\pi_2})(0,1,2).
+\]
+Of course, the instance $\fX$ also has a vague solution, corresponding to exactly the same total order $\sqsubseteq$ on $\cP(\RR_{21})$.
+\end{ex}
+
+We can use Theorem \ref{thm-liminal-rounding-rule} to finally resolve Problem \ref{prob-almost-cyclic} about the existence of a $7$-ary ``almost cyclic'' operation.
+
+\begin{thm} If $\cV$ is a locally finite bounded width variety, then for every prime $p$ we can find a stable term operation $c_p \in \Clo(\cV)$ of arity $p$ satisfying
+\[
+|\{x_1, ..., x_p\}| < p \;\;\; \implies \;\;\; c_p(x_1, x_2, ..., x_p) \approx c_p(x_2, ..., x_p, x_1).
+\]
+\end{thm}
+\begin{proof} We will apply Theorem \ref{thm-liminal-rounding-rule}, even though we don't actually need the Ramsey theoretic parts of it (since we can get away with using a rounding rule for $\mathscr{L}^\NN$). Let $S = [p]$, and define a strictly monotone preference $\sqsubseteq$ on $S$ by
+\[
+U \sqsubseteq V \;\;\; \iff \;\;\; |U| \le |V|.
+\]
+All we need to do now is to specify a good symmetry-breaker $<_\bullet$.
+
+For any equivalence relation $\theta$ on $S = [p]$, define a $p$-tuple of numbers $(n_1, ..., n_p)$ by
+\[
+n_i = |i/\theta|.
+\]
+Note that as long as $\theta \ne 0_S, 1_S$ there will be at least two distinct values among the $n_i$s, since $p$ is prime. For $\theta \ne 0_S, 1_S$ consider the collection of cyclic permutations of $(n_1, ..., n_p)$, and let $\sigma_\theta$ be the permutation $\sigma \in \langle (1 \: 2 \: \cdots \: p) \rangle$ which minimizes the $p$-tuple
+\[
+(n_{\sigma(1)}, ..., n_{\sigma(p)}) = (|\sigma(1)/\theta|, ..., |\sigma(p)/\theta|)
+\]
+according to the lexicographic ordering. Take $\sigma_\theta$ to be the identity permutation when $\theta = 0_S, 1_S$. Then define $<_\theta$ by
+\[
+a/\theta <_\theta b/\theta \;\;\; \iff \;\;\; \min(\sigma_\theta^{-1}(a/\theta)) < \min(\sigma_\theta^{-1}(b/\theta)).
+\]
+
+In order to check that this construction works, we just need to check that for the cyclic permutation $\pi = (1 \: 2 \: \cdots \: p)$, we have
+\[
+<_\theta^\pi \; = \; <_\theta
+\]
+for every $\theta \ne 0_S$. Note that
+\[
+i/\pi^{-1}(\theta) = \pi^{-1}(\pi(i)/\theta),
+\]
+so for any permutation $\sigma$ we have
+\[
+|\sigma(i)/\pi^{-1}(\theta)| = |\pi(\sigma(i))/\theta|,
+\]
+so
+\[
+\sigma_{\pi^{-1}(\theta)} = \pi^{-1} \circ \sigma_\theta.
+\]
+Thus we have
+\begin{align*}
+i/\theta <_\theta^\pi j/\theta \;\;\; &\iff \;\;\; \pi^{-1}(i/\theta) <_{\pi^{-1}(\theta)} \pi^{-1}(j/\theta)\\
+&\iff \;\;\; \min(\sigma_{\pi^{-1}(\theta)}^{-1}(\pi^{-1}(i/\theta))) < \min(\sigma_{\pi^{-1}(\theta)}^{-1}(\pi^{-1}(j/\theta)))\\
+&\iff \;\;\; \min(\sigma_{\theta}^{-1}(i/\theta)) < \min(\sigma_{\theta}^{-1}(j/\theta))\\
+&\iff \;\;\; i/\theta <_\theta j/\theta.\qedhere
+\end{align*}
+\end{proof}
 
 
 \chapter{Finite Taylor Algebras}\label{chapter-taylor}
