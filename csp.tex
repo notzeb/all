@@ -1801,7 +1801,7 @@ s(b,x) = s(x,b) = x
 for all $x$. Every two-element semilattice has a neutral element and an absorbing element, and knowing which is which determines the semilattice operation. In general, every finite semilattice has an absorbing element, but might not have a neutral element (for instance, the free semilattice on two generators has absorbing element $s(x,y)$ and has no neutral element). In a meet semilattice, the absorbing element will be the bottom and the neutral element (if it exists) will be the top, while in a join semilattice, the absorbing element will be the top and the neutral element (if it exists) will be the bottom.
 \end{ex}
 
-\begin{ex} Consider the algebra $\bA = (\{0,1\}, \maj)$, and use the ternary function symbol $m$ to abbreviate $\maj$. Then it turns out that
+\begin{ex}\label{ex-median-variety} Consider the algebra $\bA = (\{0,1\}, \maj)$, and use the ternary function symbol $m$ to abbreviate $\maj$. Then it turns out that
 \[
 \cV(\bA) = HSP(\bA) = SP(\bA) = \cV(\mathcal{T}_{med}),
 \]
@@ -2147,7 +2147,7 @@ exactly as in the proof of Proposition \ref{erp-prop}. Each $\tilde{R}$ is pp-de
 \[
 g(\tilde{R}) \stackrel{?}{\subseteq} R
 \]
-for each basic relation $R$ of $\fB$. In fact, we can forget about the height 1 homomorphism $\xi_{|B|}$ and just search for $g : \fC \rightarrow \fB$ - in other words, we treat $\fC$ as an instance of $\CSP(\fB)$ with $|\Pol_{|B|}(\fA)|$ variables that actually participate in any constraints, and $\fA$ will pp-construct $\fB$ if and only if the instance $\fC$ has a solution.
+for each basic relation $R$ of $\fB$. In fact, we can forget about the height 1 homomorphism $\xi_{|B|}$ and just search for $g : \fC \rightarrow \fB$ - in other words, we treat $\fC$ as an instance of $\CSP(\fB)$ with only $|\Pol_{|B|}(\fA)|$ variables that actually participate in any constraints, and $\fA$ will pp-construct $\fB$ if and only if the instance $\fC$ has a solution.
 
 If $\fB$ has only finitely many basic relations, then we can test each candidate pp-construction in finite time, so in this case there is an effective procedure to decide whether or not $\fA$ pp-constructs $\fB$. (Note that each $\tilde{R}$ is determined by the collection of $|R|$-ary polymorphisms of $\fA$, so this argument also shows that in order to check that $\xi_{|B|}$ extends to a height 1 clone homomorphism from $\Pol(\fA)$ to $\Pol(\fB)$, we just need to check that it extends to a height 1 clone homomorphism from $\Pol_k(\fA)$ to $\Pol_k(\fB)$ for $k = \max |R|$ over the basic relations $R$ of $\fB$.)
 \end{rem}
@@ -2469,7 +2469,7 @@ We need to check that $f_k$ is a polymorphism of $\fA$. Suppose that $x_1, ..., 
 Finally, suppose that $\fA$ has totally symmetric polymorphisms $f_k$ of every arity, and let $\fB$ be a (finite) instance such that generalized arc-consistency stops after finding nonempty sets $S_v$ for every variable $v \in \fB$. Choose $k$ at least as large as the largest number of tuples in any relation that shows up in $\fB$, and let $f$ be the function on sets of size $\le k$ associated to $f_k$. We claim that the map $v \mapsto f(S_v)$ defines a homomorphism from $\fB$ to $\fA$. To see this, let $(v_1, ..., v_m)$ be a tuple with the constraint $R$ imposed, and let $X = R \cap (S_{v_1}, ..., S_{v_m}) = \{x_1, ..., x_k\}$ (possibly with repeated $x_i$s if $|X| < k$). Then $f_k(x_1, ..., x_k) = (f(\pi_1(X)), ..., f(\pi_m(X))) = (f(S_{v_1}), ... f(S_{v_m})) \in R$ since $f_k$ is a polymorphism.
 \end{proof}
 
-\begin{cor} A relational structure $\fA$ has width 1 iff it is homomorphically equivalent to a pp-power of HORN-SAT.
+\begin{cor}\label{cor-horn-sat-pp-construct} A relational structure $\fA$ has width 1 iff it is homomorphically equivalent to a pp-power of HORN-SAT.
 \end{cor}
 \begin{proof} Let $f$ be a set polymorphism of $\fA$, and let $f_k$ be the associated totally symmetric polymorphism of arity $k$. We define a height 1 clone homomorphism from $\langle \min \rangle \rightarrow \Pol(\fA)$ by sending $\min(x_1, ..., x_k)$ to $f_k(x_1, ..., x_k)$. Now apply the ERP Theorem \ref{erp-thm} and Proposition \ref{erp-prop} from the subsection on reflections.
 \end{proof}
@@ -2486,6 +2486,8 @@ and let $f_k$ be the associated totally symmetric polymorphism of arity $k$. We 
 R_{ab}(x,y,z) \coloneqq (x \in \{a,b\}) \wedge (x=a \implies y=z),
 \]
 and $R_{bc}, R_{ca}$ are defined similarly.
+
+By Corollary \ref{cor-horn-sat-pp-construct}, it should be possible to pp-construct $\Inv(f_3)$ from HORN-SAT. It is a good exercise to actually find such a pp-construction for yourself (if you are having trouble, see the pp-construction from the next example).
 \end{ex}
 
 \begin{ex}\label{width-1-not-finitely-gen} Here we give a more surprising example, of a width 1 clone such that no finitely generated subclone has width 1. Let $f$ be the idempotent set operation on $\{-1,0,1\}$ (which we stylize as $\{-,0,+\}$) given by
@@ -2503,6 +2505,30 @@ R_k(x_0, ..., x_k) \wedge R_k^-(x_0, ..., x_k)
 of $\CSP(\Inv(\langle f_k \rangle))$ is arc-consistent (since both $R_k$ and $R_k^-$ are subdirect) but has no solution.
 
 The relational clone $\Inv(\cO)$ corresponding to this example is generated by the unary relation $\{+\}$, the binary relations $x = -y$ and $x \le y$, and the ternary relation $(x \ge 0) \wedge (x = 0 \implies y = z)$. The clone $\cO$ is an example of a clone which is finitely related but not finitely generated.
+
+By Corollary \ref{cor-horn-sat-pp-construct}, it should be possible to pp-construct the relational structure
+\[
+\fA = (\{-,0,+\}, \{+\}, x = -y, x \le y, (x \ge 0) \wedge (x = 0 \implies y = z))
+\]
+from HORN-SAT. In order to do this, we first define a pp-power $\fB$ of HORN-SAT with the same signature as $\fA$ by
+\[
+\fB = (\{T,F\}^2, H_1, H_2, H_3, H_4),
+\]
+where the relations $H_i$ are defined by the Horn-formulas
+\begin{align*}
+x \in H_1 \;\;\; &\iff \;\;\; x_0 \wedge \neg x_1,\\
+(x,y) \in H_2 \;\;\; &\iff \;\;\; (x_0 \iff y_1) \wedge (x_1 \iff y_0),\\
+(x,y) \in H_3 \;\;\; &\iff \;\;\; (x_0 \implies y_0) \wedge (y_1 \implies x_1),\\
+(x,y,z) \in H_4 \;\;\; &\iff \;\;\; x_0 \wedge (x_1 \implies ((y_0 \iff z_0) \wedge (y_1 \iff z_1))).
+\end{align*}
+Then we can check that $\fA$ is homomorphically equivalent to $\fB$ via the homomorphisms $g : \fA \rightarrow \fB$ and $h : \fB \rightarrow \fA$ given by
+\[
+g(0) = (T,T), \;\;\; g(+) = (T,F), \;\;\; g(-) = (F,T)
+\]
+and
+\[
+h((T,T)) = h((F,F)) = 0, \;\;\; h((T,F)) = +, \;\;\; h((F,T)) = -.
+\]
 \end{ex}
 
 Note that one doesn't need to \emph{know} what the set polymorphism of $\fA$ is to apply the arc-consistency algorithm. If $\fA$ is a rigid core, we can use the self-reducibility of $\CSP(\fA)$ to find a solution to every solvable instance $\fB$ of $\CSP(\fA)$ in polynomial time. By applying this to $\cP_\emptyset(\fA)$, we can then \emph{find} a set polymorphism of $\fA$ - in time polynomial in the size of $\cP_\emptyset(\fA)$, which is sadly exponential in the size of $\fA$. The following problem is currently open.
@@ -2576,7 +2602,144 @@ We claim that assigning the value $a_{k+1} = t(a_{k+1}^1, ..., a_{k+1}^{l+1})$ t
 \begin{ex} 2-SAT has the ternary polymorphism $\maj$, which is a near-unanimity operation. Therefore 2-SAT has strict width $2$, a fact which also follows from Dechter's result above \cite{dechter}.
 \end{ex}
 
-\begin{ex}\label{ex-dual-discriminator} Generalizing 2-SAT, let $D$ be any domain, and let $d : D^3 \rightarrow D$ be given by
+\begin{ex}\label{ex-linear-median} Generalizing 2-SAT, for every $n$ we define the \emph{linear median algebra} to be $\bM_n = ([n], \med(x,y,z))$, where $\med(x,y,z)$ computes the median of its inputs. Each $\bM_n$ is a median algebra in the sense of Example \ref{ex-median-variety}, so
+\[
+\bM_n \in SP(\bM_2),
+\]
+where $\bM_2$ is isomorphic to the two-element majority algebra associated to 2-SAT. A remarkable feature of the linear median algebras is that every subset $S \subseteq [n]$ is a subuniverse of $\bM_n$, with
+\[
+(S, \med(x,y,z)) \cong \bM_{|S|}.
+\]
+So in order to understand the binary relations on linear median algebras, it's enough to understand the subdirect relations
+\[
+\RR \le_{sd} \bM_m \times \bM_n
+\]
+for various $m,n$. Drawing the graphs of these binary relations as subsets of $[m] \times [n]$ embedded in the plane, a bit of experimentation quickly reveals that a typical subdirect median-closed relation looks something like this:
+\begin{center}
+\begin{tikzpicture}[scale=0.5,rotate=90]
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (0,3) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (0,4) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (0,5) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (1,2) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (1,3) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (1,4) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (1,5) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (1,6) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (2,0) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (2,1) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (2,2) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (2,3) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (2,4) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (3,0) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (3,1) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (3,2) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (3,3) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (3,4) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (4,1) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (4,2) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (4,3) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (5,2) {};
+  \node [circle, minimum width=5pt, draw, inner sep=0pt] at (5,3) {};
+\end{tikzpicture}
+\end{center}
+In order to formalize the main feature of this picture, we can prove that the intersection of any subdirect binary relation $\RR \le_{sd} \bM_m \times \bM_n$ with any vertical or horizontal line must be an interval (the proof is left as an easy exercise).
+
+More generally, we can define a linear median algebra $\bM_{(S,<)}$ on any totally ordered set, such as $\bM_\QQ = (\QQ, \med(x,y,z))$ where $\QQ$ is the set of all rational numbers, and subdirect binary relations will still have the same feature. A simple example of a subdirect median-closed relation on $\bM_\QQ$ is the binary relation
+\[
+\{(x,y) \in \QQ^2 \mid x^2y^2 \le 1\},% \le_{sd} \bM_\QQ \times \bM_\QQ,
+\]
+whose graph resembles a four-pointed star.
+
+Returning to the finite case, the relational clone $\Inv(\bM_n)$ is generated by the family of binary relations $\RR_{ij}$ given by
+\[
+(x,y) \in \RR_{ij} \;\;\; \iff \;\;\; (x \le i) \vee (y \le j)
+\]
+together with the graph $\bS_\tau$ of the order-two automorphism $\tau$ given by
+\[
+(x,y) \in \bS_\tau \;\;\; \iff \;\;\; x + y = n + 1.
+\]
+\end{ex}
+
+\begin{ex} Here we will give an example of an algebra $\bA$ which is \emph{not} a median algebra, such that $\Inv(\bA)$ is pp-constructed by 2-SAT. Let $\bA = (\{a,b,c,d\}, m(x,y,z))$, where $m$ is the symmetric majority operation determined by
+\begin{align*}
+m(x,y,z) &\approx m(x,z,y) \approx m(y,z,x),\\
+m(x,x,y) &\approx x,\\
+m(a,x,y) &= a \;\;\; \text{for } x \ne y,\\
+m(b,c,d) &= d.
+\end{align*}
+To see that $\bA$ is not a median algebra, just note that $m$ fails to satisfy the four-variable identity
+\[
+m(x,w,m(y,w,z)) \stackrel{?}{\approx} m(m(x,w,y),w,z)
+\]
+which holds in all median algebras, since we have
+\[
+m(a,d,m(b,d,c)) = d \ne a = m(m(a,d,b),d,c).
+\]
+We need to figure out the corresponding relational clone. It helps to first classify some special subalgebras of $\bA$: by analogy with distributive lattices, we say that $\bB \le \bA$ is an \emph{ideal} if
+\[
+m(\bB, \bA, \bB) \subseteq \bB.
+\]
+Since $m$ is symmetric, it's easy to check that for any pair of ideals $\bB, \bC$ the binary relation $\RR_{\bB,\bC}$ defined by
+\[
+(x,y) \in \RR_{\bB,\bC} \;\;\; \iff \;\;\; x \in \bB \vee y \in \bC
+\]
+is preserved by $m$. With a bit of work, we find the following collection of proper ideals of $\bA$:
+\[
+\{a\}, \{b\}, \{c\}, \{d\}, \{a,b\}, \{a,c\}, \{a,d\}, \{a,b,d\}, \{a,c,d\}.
+\]
+In addition to the relations $\RR_{\bB,\bC}$, we have the unary relation $x \ne a$, the graph of the permutation
+\[
+\tau = (b \: c) \in \Aut(\bA),
+\]
+and the graph of the partial order $\preceq$ given by
+\[
+x \preceq y \;\;\; \iff \;\;\; x = a \vee x = y.
+\]
+A computer search (performed by Magnus Wahlström, personal communication) finds that the relations described above generate $\Inv(\bA)$, so we define the corresponding relational structure $\fA$ to be
+\[
+\fA = (\{a,b,c,d\}, (x \in \bB \vee y \in \bC)_{\bB,\bC\text{ ideals}}, x \ne a, x = \tau(y), x \preceq y).
+\]
+In order to prove that 2-SAT pp-constructs $\fA$, it's enough to show that $\fA$ is homomorphically equivalent to a median-closed relational structure defined in some median algebra $\bM$. We will use the two-dimensional median algebra $\bM$ given by
+\[
+\bM = (\{x \in \NN^2 \mid x_1 + x_2 \le 2\}, \med(x,y,z)).
+\]
+In order to describe the associated relational structure $\fM$, we will make use of a map $g$ from $\{a,b,c,d\}$ to the underlying set of $\bM$, defined as follows:
+\[
+g(a) = (0,0), \;\;\; g(b) = (0,2), \;\;\; g(c) = (2,0), \;\;\; g(d) = (1,1).
+\]
+For each ideal $\bB$ of $\bA$, we define an associated ideal $\bB^g$ of $\bM$ to be the smallest ideal of $\bM$ containing $g(\bB)$, so e.g.
+\begin{align*}
+\{a,b,d\}^g &= \{(0,0), (0,1), (1,0), (0,2), (1,1)\} = \bM \setminus \{g(c)\},\\
+\{a,d\}^g &= \{(0,0), (0,1), (1,0), (1,1)\} = \bM \setminus \{g(b),g(c)\},\\
+\{a,b\}^g &= \{(0,0), (0,1), (0,2)\} \subset \bM \setminus \{g(c), g(d)\}.
+\end{align*}
+Then for each pair $\bB, \bC$ of ideals of $\bA$, by definition $\bB^g, \bC^g$ will be ideals of $\bM$, so the relation $\RR_{\bB^g,\bC^g}$ defined by
+\[
+(x,y) \in \RR_{\bB^g,\bC^g} \;\;\; \iff \;\;\; x \in \bB^g \vee y \in \bC^g
+\]
+will be a median-closed relation on $\bM$ containing $g(\RR_{\bB,\bC})$. For the unary relation $x \ne a$, we have
+\[
+g(\{b,c,d\}) = \{(0,2), (1,1), (2,0)\} = \{x \in \bM \mid x_1 + x_2 = 2\},
+\]
+which is a subalgebra of $\bM$. We write $\tau^g$ for the automorphism of $\bM$ given by swapping the coordinates, and define the partial order $\preceq^g$ on $\bM$ by
+\[
+x \preceq^g y \;\;\; \iff \;\;\; x_1 \le y_1 \wedge x_2 \le y_2.
+\]
+Now we see that if we define a median-closed relational structure $\fM$ in the same signature as $\fA$ by
+\[
+\fM = (\{x \in \NN^2 \mid x_1 + x_2 \le 2\}, (x \in \bB^g \vee y \in \bC^g)_{\bB,\bC\text{ ideals of }\bA}, x_1 + x_2 = 2, x = \tau^g(y), x \preceq^g y),
+\]
+then $g$ defines a homomorphism from $\fA$ to $\fM$, and there is a homomorphism $h : \fM \rightarrow \fA$ given by
+\begin{align*}
+h((0,0)) &= h((0,1)) = h((1,0)) = a,\\
+h((0,2)) &= b,\\
+h((2,0)) &= c,\\
+h((1,1)) &= d.
+\end{align*}
+Thus $\fA$ is homomorphically equivalent to $\fM$, so 2-SAT pp-constructs $\fA$.
+\end{ex}
+
+\begin{ex}\label{ex-dual-discriminator} Generalizing 2-SAT in a different direction, let $D$ be any domain, and let $d : D^3 \rightarrow D$ be given by
 \[
 d(x,y,z) = \begin{cases}x & \text{if } y \ne z,\\ y & \text{if } y = z.\end{cases}
 \]
@@ -2630,15 +2793,55 @@ A binary relation $R \subseteq D^2$ is preserved by the dual discriminator iff i
 \end{center}
 
 For any $a$ in $D$, a generating set of binary relations for $\Inv(d)$ is given by the graphs of a pair of bijections which generate the symmetric group on $|D|$ elements, the unary relation $D \setminus\{a\}$, and the binary relation $x=a \vee y=a$.
+
+Note that for $|D| \ge 3$, the dual discriminator algebra $(D, d)$ has no ternary symmetric term operations, so by Proposition \ref{erp-prop} and Theorem \ref{erp-thm} the relational structure $\Inv(d)$ can't be pp-constructed by 2-SAT.
+
+More generally, for $p$ any prime we can prove that the relational clone generated by 0/1/all constraints on a domain of size $p$ is not pp-constructed by \emph{any} CSP with a Taylor polymorphism on a domain of size at most $p-1$. This follows from the fact that no $p$-ary ``cyclic'' operation $c$ satisfying the identity
+\[
+c(x_1, x_2, ..., x_p) \approx c(x_2, ..., x_p, x_1)
+\]
+can preserve the graph of a fixed-point-free permutation of order $p$, together with the fact that any Taylor algebra on a domain of size at most $p-1$ has a $p$-ary cyclic term (by Theorem \ref{cyclic-terms}, which we will prove later).%TODO: is there a more self-contained argument that larger dual-discriminators aren't pp-constructed by smaller ones?
 \end{ex}
 
-%TODO: pictures of binary relations on median algebras (as subsets of [n] \times [n]), and the remaining three element minimal majority algebra
+\begin{ex} Yet another example is given by the three-element majority algebra $\bA = (\{0,1,*\}, g(x,y,z))$, where $g$ is the cyclic majority operation determined by
+\begin{align*}
+g(x,y,z) &\approx g(y,z,x),\\
+g(x,x,y) &\approx x,\\
+g(*,0,1) &= 0,\\
+g(*,1,0) &= 1.
+\end{align*}
+The relational clone $\Inv(g)$ is generated by the congruence $\theta \in \Con(\bA)$ corresponding to the partition $\{0,1\}, \{*\}$, the graph of the automorphism
+\[
+\tau = (0 \: 1) \in \Aut(\bA),
+\]
+and the binary relations $x = 0 \vee y = 0$ and $x = * \vee y = *$.
 
-\begin{ex}\label{ex-strict-width-n} For every $n$, the relational structure $(\{0,1\}, \{0\}, \le, \{0,1\}^n\setminus\{(0,...,0)\})$ has strict width exactly $n$. A near-unanimity term for it is given by the threshold function
+The relational structure $(\{0,1,*\}, \Inv(g))$ can't be pp-constructed by 2-SAT, and more generally can't be pp-constructed by any of the dual-discriminator structures. The reason for this is that each dual-discriminator operation satisfies the identity
+\[
+d(x,y,z) \approx d(x,z,y)
+\]
+along with the majority identities. However, every majority operation $f \in \Clo(g)$ must have
+\[
+f(*,0,1) \in f(*,0,0)/\theta = 0/\theta = \{0,1\},
+\]
+so
+\[
+f(*,1,0) = f(\tau(*), \tau(0), \tau(1)) = \tau(f(*,0,1)) \ne f(*,0,1),
+\]
+so $f(x,y,z) \not\approx f(x,z,y)$.
+\end{ex}
+
+So far all of our examples of structures with bounded strict width have had strict width $2$. The next example gives us structures on the domain $\{0,1\}$ of arbitrarily large strict width.
+
+\begin{ex}\label{ex-strict-width-n} For every $n \ge 2$, the relational structure
+\[
+\fA_n = (\{0,1\}, \{0\}, \le, \{0,1\}^n\setminus\{(0,...,0)\})
+\]
+has strict width exactly $n$. A near-unanimity polymorphism for $\fA_n$ is given by the threshold function
 \[
 t_2^{n+1}(x_1, ..., x_{n+1}) = \begin{cases} 1 & \sum_i x_i \ge 2,\\ 0 & \sum_i x_i \le 1.\end{cases}
 \]
-To see that it doesn't have strict width less than $n$, note that the relation $\{0,1\}^n\setminus\{(0,...,0)\}$ is not the intersection of its projections onto $n-1$ coordinates. Note that this template also has width 1 (it is preserved by the semilattice operation $\max$), so the strict width algorithm is far from being the best way to solve it for $n$ large.
+To see that $\fA_n$ doesn't have strict width less than $n$, note that the relation $\{0,1\}^n\setminus\{(0,...,0)\}$ is not the intersection of its projections onto $n-1$ coordinates. Note that $\fA_n$ also has width 1 (it is preserved by the semilattice operation $\max$), so the strict width algorithm is far from being the fastest way to solve $\CSP(\fA_n)$ for $n$ large.
 \end{ex}
 
 Note that the existence of an $(l+1)$-ary near-unanimity operation in $\Pol(\fA)$ is equivalent to the solvability of the CSP instance $\Phi$ (of $\fA$ together with singleton unary relations) with variables indexed by elements of $\fA^{l+1}$ described by the primitive positive formula
@@ -2652,7 +2855,7 @@ This instance may be solved in polynomial time by the strict width $l$ algorithm
 
 The good news is that whether the structure is given as a finite relational structure or a finite algebraic structure, the existence of a near unanimity term is at least \emph{decidable} \cite{near-unanimity-maroti}, \cite{near-unanimity-congruence-distributive}, \cite{near-unanimity-zhuk}. The bad news is that the minimal arity of a near-unanimity term may be very large.
 
-\begin{thm}[Zhuk \cite{near-unanimity-zhuk}, Barto, Draganov \cite{near-unanimity-minimal}, Corollary \ref{cor-finitely-related-near-unanimity}, Examples \ref{ex-tree-formula-high-arity}, \ref{ex-tree-formula-binary}] For any relational structure $\fA$ with $|\fA| = n$ such that every basic relation of $\fA$ has arity at most $m$, if $\fA$ has bounded strict width, then $\fA$ has strict width at most
+\begin{thm}[Zhuk \cite{near-unanimity-zhuk}, Barto, Draganov \cite{near-unanimity-minimal}, Corollary \ref{cor-finitely-related-near-unanimity}, Examples \ref{ex-tree-formula-high-arity}, \ref{ex-tree-formula-binary}] For any relational structure $\fA$ with $|\fA| = n$ such that every basic relation of $\fA$ has arity at most $m$, if $\fA$ has bounded strict width, then $\fA$ has strict width bounded by
 \[
 %\frac{1}{2}(2m-2)^{3^n}.
 \max(m-1,2)^{3^n - 2^{n+1}} + 1.
@@ -4094,7 +4297,7 @@ p*p\left(\begin{bmatrix} x & y & z\\ 0 & y & 0\\ -y & 0 & 0\end{bmatrix}\right)
 in two ways: by rows we get $p(p(x,y,z),-y,-y) = p(x,y,z)$, and by columns we get $p(x-y,0,z) = x-y+z$.
 \end{proof}
 
-The method of visualizing algebraic arguments via the geometry of equivalence classes was extended to congruence modular varieties by Gumm in his book ``Geometrical methods in congruence modular algebras'' \cite{gumm-geometric}, where he used it to show that any abelian algebra in a congruence modular variety is affine. This was extended further by Hobby and McKenzie \cite{hobby-mckenzie}, who used tame congruence theory to show that any finite abelian algebra in a Taylor variety is affine (in the infinite case, Kearnes and Szendrei \cite{kearnes-taylor-affine} show that any abelian Taylor algebra is quasi-affine - the example $(\RR, \frac{x+y}{2})$ shows that an additional assumption is needed for it to be affine). Later we will go over a simpler proof of the fact that finite abelian Taylor algebras are affine, from \cite{pointing-no-absorption}.
+The method of visualizing algebraic arguments via the geometry of equivalence classes was extended to congruence modular varieties by Gumm in his book ``Geometrical methods in congruence modular algebras'' \cite{gumm-geometric}, where he used it to show that any abelian algebra in a congruence modular variety is affine (see Appendix \ref{a-commutator}). This was extended further by Hobby and McKenzie \cite{hobby-mckenzie}, who used tame congruence theory to show that any finite abelian algebra in a Taylor variety is affine (in the infinite case, Kearnes and Szendrei \cite{kearnes-taylor-affine} show that any abelian Taylor algebra is quasi-affine - the example $(\RR, \frac{x+y}{2})$ shows that an additional assumption is needed for it to be affine). Later we will go over a simpler proof of the fact that finite abelian Taylor algebras are affine, from \cite{pointing-no-absorption}.
 
 \begin{rem} If we leave the context of Taylor varieties, we can no longer expect abelian algebras to be affine, since they could fail to have any interesting operations at all. But we can still ask whether abelian algebras are quasi-affine. The following problem is open.
 \end{rem}
@@ -5063,7 +5266,7 @@ If a variety is congruence modular but \emph{not} congruence distributive, then 
 
 \begin{prop} If $\bA$ is a nontrivial finite module over a ring, then $c_\bA(n) \ge \frac{n^2-1}{4}$.
 \end{prop}
-\begin{proof} We may as well assume that $\bA$ is simple. Let $c$ be any nonzero element of $\bA$. For $n = 2m$, the span of the columns of the $n\times m$ matrix $\begin{bmatrix} cI\\ M\end{bmatrix}$ completely determines the $m \times m$ matrix $M$, so $c_\bA(2m) \ge m^2\log_2(|\bA|) \ge m^2$.
+\begin{proof} Let $e$ be the name of some nonzero element of $\bA$. For $n = 2m$, if we let $I$ be the $m\times m$ matrix which has $e$s along the diagonal and $0$s off the diagonal, then the span of the columns of the $n\times m$ matrix $\begin{bmatrix} I\\ M\end{bmatrix}$ completely determines the $m \times m$ matrix $M$ as long as every entry of $M$ is in $\{0,e\}$, so $c_\bA(2m) \ge m^2$. If $n = 2m+1$, then we use the same construction for $(m+1) \times m$ matrices $M$ with entries in $\{0,e\}$.
 \end{proof}
 
 \begin{cor} If $\bA$ is finite and $\cV(\bA)$ is congruence modular but not congruence distributive, then $c_{\bA}(n) = \Omega(n^2)$.
@@ -5425,7 +5628,9 @@ As the reader can see, there is no pair $\gamma,\delta \in \Con(\bC)$ such that 
 Thus, in any subdirect critical relation $\RR \le_{sd} \bA^k$ of arity $k > 2$, each $\pi_{i,j}(\RR)$ must be the congruence $0_\bA^*$, so $\RR$ will consist of the tuple $(a,...,a)$ together with some subalgebra of $\{b,c\}^k$. Since for any $\bS \le \{b,c\}^k$ the set $\bS \cup \{(a,...,a)\}$ will always be closed under $\varphi_2$, if $\RR$ is critical then so is $\RR \setminus \{(a,...,a)\}$, and it's easy to check that there are only two critical relations $\bS \le_{sd} \{b,c\}^k$. This completes the classification of critical relations in $\Inv_k(\bA)$ for $k > 2$.
 \end{ex}
 
-\begin{rem} Using the structure theorem \ref{rectangular-structure} and the fact that the centralizer of the monolith $(0:0^*)$ is automatically abelian for subdirectly irreducible algebras in residually small congruence modular varieties (Corollary \ref{residual-crit}), one can easily reduce the subpower membership problem \ref{subpower-membership} for residually small congruence modular varieties to the subpower membership problem for abelian groups by taking advantage of the properties of the Gumm difference term (see Corollary \ref{difference-graph}). For details of the reduction, see \cite{subpower-residually-small}.
+%TODO: talk about polynomial-size pp-definitions of relations
+
+\begin{rem} Using the structure theorem \ref{rectangular-structure} and the fact that the centralizer of the monolith $(0:0^*)$ is automatically abelian for subdirectly irreducible algebras in residually small congruence modular varieties (Corollary \ref{residual-crit}), one can reduce the subpower membership problem \ref{subpower-membership} for residually small congruence modular varieties to the subpower membership problem for abelian groups by taking advantage of the properties of the Gumm difference term (see Corollary \ref{difference-graph}). For details of the reduction, see \cite{subpower-residually-small}.
 \end{rem}
 
 \begin{ex} We give an example of a minimal algebra with few subpowers which does not generate a residually small variety. Let $\bA = (\{a,b,c,d\}, g)$, where $g$ is the idempotent ternary symmetric operation which is determined by that fact that it commutes with the cyclic permutation $\sigma = (a\ b\ c\ d)$ and satisfies
@@ -13329,7 +13534,7 @@ for every pair $\pi, \varpi : [n] \twoheadrightarrow S$ with $|S| \le 4$. The de
 
 \begin{cor}[Main result of \cite{mui-symmetric}] If an algebra $\bA$ with $|\bA| \le 4$ has a binary symmetric term operation $s_2(x,y)$ and a ternary cyclic term operation $c_3(x,y,z)$, then $\bA$ has symmetric term operations of all arities.
 \end{cor}
-\begin{proof} In order to apply Theorem \ref{thm-4-symmetric}, we just need to check that $\bA$ has bounded width, or equivalently that there is no affine algebra $\bB \in HS(\bA)$. Any such $\bB$ must have $|\bB| \le 4$, so the exponent of $\bB$ is either a power of $2$ or $3$. The binary symmetric term operation $s_2$ rules out the existence of affine algebras $\bB \in HSP(\bA)$ with exponent a power of $2$, and the ternary cyclic term operation $c_3$ rules out the existence of affine algebras $\bB \in HSP(\bA)$ with exponent a power of $3$, so no such $\bB$ can exist.
+\begin{proof} We may assume without loss of generality that $\bA$ is idempotent. In order to apply Theorem \ref{thm-4-symmetric}, we just need to check that $\bA$ has bounded width, or equivalently that there is no affine algebra $\bB \in HS(\bA)$. Any such $\bB$ must have $|\bB| \le 4$, so the exponent of $\bB$ is either a power of $2$ or $3$. The binary symmetric term operation $s_2$ rules out the existence of idempotent affine algebras $\bB \in HSP(\bA)$ with exponent a power of $2$, and the ternary cyclic term operation $c_3$ rules out the existence of idempotent affine algebras $\bB \in HSP(\bA)$ with exponent a power of $3$, so no such $\bB$ can exist.
 \end{proof}
 
 Theorem \ref{thm-symmetry-breaker-4-ary} suggests a natural generalization.
@@ -15587,8 +15792,9 @@ The relationships between the various types of consistency introduced so far are
 %  \node (5b) [style={align=center}] at (-2,1) {subdirect\\ solution set};
   \node (6) at (0,-1.3) {(P1), (P3)};
   \node (7) at (1.9,0.7) {SDP-relaxation};
-  \node (8) at (2.2,-0.6) {LP-relaxation};
-  \node (9) [style={align=center}] at (1.4,-1.4) {reversible\\ (P1), (P2)};
+  \node (8) at (2.3,-0.6) {LP-relaxation};
+  \node (9) [style={align=center}] at (1.6,-1.6) {reversible\\ (P1), (P2)};
+  \node (9a) [style={align=center}] at (1.2,-0.9) {scramble\\ consistent};
   \node (10) [style={align=center}] at (0.8,-2.4) {arc-consistent\\ (P1)};
   \node (11) at (0, -1.8) {weakly consistent};
   \draw (1) -- (2) -- (3) -- (4) -- (5) -- (1);
@@ -15597,7 +15803,7 @@ The relationships between the various types of consistency introduced so far are
   \draw (5) -- (5a);
 %  \draw (5) -- (5b);
 %  \draw (5a) -- (5b);
-  \draw (3) -- (7) -- (8) -- (9) -- (3);
+  \draw (3) -- (7) -- (8) -- (9) -- (9a) -- (3);
   \draw (9) -- (10) -- (11) -- (6);
 \end{tikzpicture}
 \end{center}
