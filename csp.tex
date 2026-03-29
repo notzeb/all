@@ -1863,7 +1863,7 @@ so we have $h_{k(1-a)} \in \langle h_{1-a} \rangle \subseteq \langle f_a \rangle
 \[
 h_1(x,y,z) \equiv x - y + z \pmod{p}
 \]
-is contained in $\langle h_a \rangle$, which is contained in $\langle f_a \rangle$.
+is contained in $\langle h_{1-a} \rangle$, which is contained in $\langle f_a \rangle$.
 
 Finally, suppose that $f$ is any affine combination of its arguments (modulo $p$) which is not a projection. Writing
 \[
@@ -2052,7 +2052,7 @@ In this section we briefly return to the relational point of view, and the conce
 
 The prototypical example of homomorphic equivalence is a (non-surjective) endomorphism from a relational structure to itself, providing a homomorphic equivalence between the original relational structure and the restriction of the relational structure to a proper subset of its domain. On the algebraic side, this manifests as a unary operation which is not invertible. The algebraic implications of such unary operations in the polynomial clone of an algebra are at the heart of the subject called ``tame congruence theory'', which was introduced to give the first structure theory for finite algebras in the book by Hobby and McKenzie \cite{hobby-mckenzie}.
 
-\begin{ex} Consider the relational structure $\fA$ corresponding to the binary implication algebra $\bA = (\{0,1\}, \to)$. This relational structure has as basic relations $R_n = \{0,1\}^n \setminus \{(0, ..., 0)\} = x_1 \vee \cdots \vee x_n$. The unary algebraic operation $\operatorname{\to}(x,x)$ of $\bA$ takes every element to $1$, and defines an endomorphism of relational structures $\fA \rightarrow \fA$ whose image is $\{1\}$. Together with the inclusion relation, we get a homomorphic equivalence between $\fA$ and the one-element relational structure with domain $\{1\}$ and relations $R_n \mid_{\{1\}^n} = \{1\}^n$, whose CSP is clearly trivial.
+\begin{ex} Consider the relational structure $\fA$ corresponding to the binary implication algebra $\bA = (\{0,1\}, \thinsupset)$. This relational structure has as basic relations $R_n = \{0,1\}^n \setminus \{(0, ..., 0)\} = x_1 \vee \cdots \vee x_n$. The unary algebraic operation $\operatorname{\thinsupset}(x,x)$ of $\bA$ takes every element to $1$, and defines an endomorphism of relational structures $\fA \rightarrow \fA$ whose image is $\{1\}$. Together with the inclusion relation, we get a homomorphic equivalence between $\fA$ and the one-element relational structure with domain $\{1\}$ and relations $R_n \mid_{\{1\}^n} = \{1\}^n$, whose CSP is clearly trivial.
 \end{ex}
 
 As the example shows, non-surjective endomorphisms provide trivial ways to simplify CSPs.
@@ -3203,6 +3203,8 @@ and
 \end{align*}
 and consists of a $21$-element domain together with a pair of binary relations, each binary relation corresponding to one of the identities above. The three sets of variables $\{x_1, ..., x_5\}, \{y_1, ..., y_6\}$, and $\{z_{1,2}, ..., z_{4,5}\}$ correspond to the three primitive group actions of $A_5$ (up to isomorphism of sets with an $A_5$-action) - or, equivalently, to the three conjugacy classes of maximal subgroups of $A_5$ (these maximal subgroups are isomorphic to $A_4, D_5$, and $S_3$).
 
+Later in these notes we will prove that if there is no $\bB \in HS(\bA)$ such that $\Aut(\bB)$ has no common fixed point, then $\bA$ has symmetric term operations of all arities - see Theorem \ref{thm-sym-no-fixpoint-free}.
+
 
 \section{Mal'cev algebras}
 
@@ -3950,7 +3952,7 @@ This is a special case of the Subpower Membership Problem \ref{subpower-membersh
 \end{rem}
 
 
-\subsection{Near-subgroups}
+\subsection{Near-subgroups of finite groups}
 
 In this subsection, we will describe the maximal polynomial-time solvable extension $\fG^*$ of the relational clone $\fG$ of cosets of subgroups of $\bG^m$, where $\bG$ is a finite group. The relational clone $\fG^*$ will turn out to have a Mal'cev polymorphism, so the algorithm for Mal'cev algebras can be used to prove the dichotomy for extensions of $\fG$.
 
@@ -6608,7 +6610,7 @@ To rule out the second possibility, note that if $s^l <_{lex} s$ and $(s_j^l, s_
 \end{ex}
 
 
-\section{Cube term blockers: projective subalgebras and crosses}
+\section{Cube term blockers: projective subalgebras and crosses}\label{s-cube-term-blockers}
 
 The goal of this section is to describe a criterion for the existence of an edge term operation of low arity, based on the nonexistence of certain families of relations or special types of subalgebras. The forbidden type of subalgebra was originally called a cube term blocker in \cite{cube-term-blockers}, but now it is slightly more common to see it referred to as a projective subalgebra.
 
@@ -8650,7 +8652,7 @@ As we will see later, for finite majority algebras $\bB \lhd_J \bA$ implies that
 
 Like ideals of majority algebras, absorbing subalgebras play nice with primitive positive formulas.
 
-\begin{prop} Suppose that a relation $\RR$ is defined by a primitive positive formula $\Phi$ involving the relations $\RR_1, ..., \RR_k$. If we replace each $\RR_i$ with an absorbing subalgebra $\RR_i' \lhd \RR_i$ to make a primitive positive formula $\Phi'$, then the relation $\RR'$ which is defined by $\Phi'$ is an absorbing subalgebra of $\RR$. The same is true with ``absorbing'' replaced by ``J\'onsson absorbing''.
+\begin{prop}\label{prop-absorption-pp-formula} Suppose that a relation $\RR$ is defined by a primitive positive formula $\Phi$ involving the relations $\RR_1, ..., \RR_k$. If we replace each $\RR_i$ with an absorbing subalgebra $\RR_i' \lhd \RR_i$ to make a primitive positive formula $\Phi'$, then the relation $\RR'$ which is defined by $\Phi'$ is an absorbing subalgebra of $\RR$. The same is true with ``absorbing'' replaced by ``J\'onsson absorbing''.
 \end{prop}
 \begin{proof} Since only finitely many relations $\RR_i$ show up in $\Phi$, we can find a single absorbing term (or J\'onsson chain) which witnesses all absorptions $\RR_i' \lhd \RR_i$ (or $\RR_i' \lhd_J \RR_i$) simultaneously. From here the proof is similar to the proof in the case of ideals of majority algebras.
 \end{proof}
@@ -8990,7 +8992,7 @@ We leave the following generalization as an exercise to the reader.
 
 Now we move our focus to finding a simpler characterization of $\bB \lhd \bA$, without restricting to terms of a particular arity. We'll use the notation $r_k(m)$ for the multicolored Ramsey number $R(m,...,m)$ (with $k$ copies of $m$), defined as the least number $n$ such that any edge coloring of $K_n$ with $k$ colors must have a monochromatic copy of $K_m$.
 
-\begin{thm} If $\bA$ is finite and idempotent, then $\bB \lhd \bA$ iff there do \emph{not} exist $a \in \bA$ and $b,c \in \bB$ such that for every $m$, we have
+\begin{thm}\label{thm-absorption-ramsey} If $\bA$ is finite and idempotent, then $\bB \lhd \bA$ iff there do \emph{not} exist $a \in \bA$ and $b,c \in \bB$ such that for every $m$, we have
 \[
 \Sg_{\bA^m}\left\{\begin{bmatrix} a & b & b & \cdots & b\\ c & a & b & \cdots & b\\ c & c & a & \cdots & b\\ \vdots & \vdots & \vdots & \ddots & \vdots\\ c & c & c & \cdots & a\end{bmatrix}\right\} \cap \bB^m = \emptyset.
 \]
@@ -9039,6 +9041,278 @@ Taking $n = \lceil e\cdot |\bB|!\rceil$ is good enough to find $i,j,k$ with $b_{
 \end{prob}
 
 The dual discriminator algebra from Example \ref{ex-dual-discriminator} shows that we always have $m(k) \ge k+2$, while the previous result shows that $m(k) \le \lceil e\cdot k!\rceil$. For $k = 1,2$ we have $m(1) = 3, m(2) = 4$. Could it be that we have $m(k) = k+2$ for every $k$?
+
+
+\subsection{Absorption is equivalent to J\'onsson absorption and no $\bB$-blockers}\label{ss-no-blocker-jonsson}
+
+The goal of this subsection is to get a criterion for absorption $\bB \lhd \bA$ which can be checked in finite time from tables of the basic operations of $\bA$ (assuming that the algebraic signature of $\bA$ is finite). The idea is to start from the fact that J\'onsson absorption $\bB \lhd_J \bA$ can be checked efficiently using Theorem \ref{local-jonsson}, so we just need to find an extra condition which makes J\'onsson absorption equivalent to absorption. The extra condition, found by Barto and Kazda \cite{deciding-absorption}, will be to avoid a slight variation on the \emph{cube term blockers} from Section \ref{s-cube-term-blockers}.
+
+\begin{defn} Suppose that $\bB \le \bA$. A pair $(\PP, \bC)$ of subalgebras of $\bA$ with $\PP < \bC \le \bA$ is called a \emph{$\bB$-blocker} if
+\begin{itemize}
+\item $\bB \cap \bC \ne \emptyset$,
+\item $\bB \cap \PP = \emptyset$, and
+\item $\PP$ is a projective subalgebra of $\bC$ (see Definition \ref{defn-projective}), or equivalently (by Proposition \ref{prop-cube-term-blocker-relational}) for every $n$ the $n$-ary relation $R_n$ defined by
+\[
+(x_1, ..., x_n) \in R_n \;\;\; \iff \;\;\; \bigwedge_{i \in [n]} x_i \in \bC \wedge \bigvee_{j \in [n]} x_j \in \PP
+\]
+is a subalgebra of $\bA^n$.
+\end{itemize}
+\end{defn}
+
+\begin{prop} If $\bB \le \bA$ and there is a $\bB$-blocker $\PP < \bC \le \bA$, then $\bB$ does not absorb $\bA$.
+\end{prop}
+\begin{proof} Pick any $b \in \bB \cap \bC$ and any $a \in \PP$. Then for every $m$ we have
+\[
+\Sg_{\bA^m}\left\{\begin{bmatrix} a & b & b & \cdots & b\\ b & a & b & \cdots & b\\ b & b & a & \cdots & b\\ \vdots & \vdots & \vdots & \ddots & \vdots\\ b & b & b & \cdots & a\end{bmatrix}\right\} \subseteq R_m = \bC^m \setminus (\bC \setminus \PP)^m
+\]
+and $R_m \cap \bB^m = \emptyset$, so $\bB$ can't absorb $\bA$ with respect to any term operation of arity $m$.
+\end{proof}
+
+Our goal is to prove that if $\bB$ J\'onsson absorbs $\bA$ and if there are no $\bB$-blockers in $\bA$, then $\bB$ absorbs $\bA$. The first step is a strengthening of Theorem \ref{thm-absorption-ramsey} in the case where $\bB$ J\'onsson absorbs $\bA$.
+
+\begin{lem}[Barto and Kazda \cite{deciding-absorption}]\label{lem-jonsson-absorption-ramsey} If $\bA$ is finite and idempotent and $\bB \lhd_J \bA$, then $\bB \lhd \bA$ iff there do \emph{not} exist $a \in \bA$ and $b \in \bB$ such that for every $m$, we have
+\[
+\Sg_{\bA^m}\left\{\begin{bmatrix} a & b & b & \cdots & b\\ b & a & b & \cdots & b\\ b & b & a & \cdots & b\\ \vdots & \vdots & \vdots & \ddots & \vdots\\ b & b & b & \cdots & a\end{bmatrix}\right\} \cap \bB^m = \emptyset.
+\]
+\end{lem}
+\begin{proof} Assume that no such $a \in \bA$ and $b \in \bB$ exist. We will prove by induction on the size of $\Sg_\bA\{b,c\}$ that for any $b,c \in \bB$ there is some $m$ such that for all $a_1, ..., a_m \in \bA$ we have
+\[
+\Sg_{\bA^m}\left\{\begin{bmatrix} a_1 & b & b & \cdots & b\\ c & a_2 & b & \cdots & b\\ c & c & a_3 & \cdots & b\\ \vdots & \vdots & \vdots & \ddots & \vdots\\ c & c & c & \cdots & a_m\end{bmatrix}\right\} \cap \bB^m \ne \emptyset,
+\]
+which will allow us to apply Theorem \ref{thm-absorption-ramsey} to conclude that $\bB \lhd \bA$. Note that by the pigeonhole principle, we only need to consider the case where the $a_i$ all have some common value $a$, at the cost of worsening the bound on $m$ by a factor of $|\bA|$. The case where $\Sg_\bA\{b,c\}$ has size 1 - or equivalently, the case where $b = c$ - follows our assumption.
+
+In order to avoid getting bogged down in numerical details, it is convenient to consider the infinitary relation $\RR \le \bA^\ZZ$ which is generated by the set of shifts of the (infinite) tuple
+\[
+(..., b, b, b, a, c, c, c, ...)
+\]
+for any particular $a \in \bA$, and to try to prove that $\RR$ contains an element of $\bB^\ZZ$ (we will write tuples in $\RR$ as row vectors due to their length). Note that $\RR$ is invariant under shifting, and every element of $\RR$ has a prefix consisting of infinitely many $b$s and a suffix consisting of infinitely many $c$s, since every element of $\RR$ is generated in finitely many steps from finitely many shifts of the tuple above.
+
+The strategy for the inductive step is to try to find $d, e \in \bB$ such that $\Sg_\bA\{b,d\}$ and $\Sg_\bA\{e,c\}$ are both smaller than $\Sg_\bA\{b,c\}$, and such that for all $i,j \ge 0$ there are $x, z \in \bA$ and $y \in \bB$ such that
+\[
+(..., b, b, b, \exists x \in \bA, \underbrace{d, d, ..., d, d}_i, \exists y \in \bB, \underbrace{e, e, ..., e, e}_j, \exists z \in \bA, c, c, c, ...) \in \RR.
+\]
+If we can find such $d,e$, then we can complete the proof as follows: first, for each $j \ge 0$ we apply the inductive hypothesis to the pair $b,d \in \bB$ to conclude that there is some large enough $m$ and some $w_1, ..., w_m \in \bB$ such that
+\[
+(..., b, b, b, \exists w_1 \in \bB, ..., \exists w_m \in \bB, \exists y \in \bB, \underbrace{e, e, ..., e, e}_j, \exists z \in \bA, c, c, c, ...) \in \RR.
+\]
+(We do not need the $y,z$ here to be the same as the ones from the previous displayed equation.) Next, we apply the inductive hypothesis to the pair $e,c \in \bB$ to conclude that there is some large enough $n$ and some $v_1, ..., v_n \in \bB$ such that
+\[
+(..., b, b, b, \exists w_1 \in \bB, ..., \exists w_m \in \bB, \exists y \in \bB, \exists v_1 \in \bB, ..., \exists v_n \in \bB, c, c, c, ...) \in \RR,
+\]
+proving that $\RR$ contains an element of $\bB^\ZZ$. What remains is to prove the existence of such $d,e \in \bB$.
+
+So far we haven't made use of the fact that $\bB$ J\'onsson absorbs $\bA$. We do that now, by defining two directed graphs with vertex set $\Sg_\bA\{b,c\}$: the first graph $\bE$ consists of all pairs $d,e \in \Sg_\bA\{b,c\}$ such that for all $i,j \ge 0$ there are $x, z \in \bA$ and $y \in \bB$ such that
+\[
+(..., b, b, b, \exists x \in \bA, \underbrace{d, d, ..., d, d}_i, \exists y \in \bB, \underbrace{e, e, ..., e, e}_j, \exists z \in \bA, c, c, c, ...) \in \RR.
+\]
+The second graph $\bF$ consists of all pairs $d,e \in \Sg_\bA\{b,c\}$ such that for all $i,j \ge 0$ there are $x, y, z \in \bA$ such that
+\[
+(..., b, b, b, \exists x \in \bA, \underbrace{d, d, ..., d, d}_i, \exists y \in \bA, \underbrace{e, e, ..., e, e}_j, \exists z \in \bA, c, c, c, ...) \in \RR,
+\]
+so the only difference between $\bE$ and $\bF$ is whether or not we require $y \in \bB$. By Proposition \ref{prop-absorption-pp-formula}, we have
+\[
+\bE \lhd_J \bF,
+\]
+so we can hope to apply Theorem \ref{absorbing-directed-path}: by the definition of $\RR$, we have
+\[
+(b,b), (c,c) \in \bE,
+\]
+taking $x = b, y = b, z = a$ in the first case and $x = a, y = c, z = c$ in the second case, and we have
+\[
+(b,c) \in \bF
+\]
+by taking $x = b, y = a, z = c$. Thus by Theorem \ref{absorbing-directed-path} there is a directed path from $b$ to $c$ in $\bE$. Consider any shortest path
+\[
+b = d_0, d_1, ..., d_k = c \;\;\; \text{s.t.} \;\;\; \forall i < k,\ (d_i, d_{i+1}) \in \bE,
+\]
+and note that $k \ge 1$ since $b \ne c$. We claim that for each $0 \le i < j \le k$, the subalgebra $\Sg_\bA\{b, d_i\}$ is disjoint from $\Sg_\bA\{d_j, c\}$, allowing us to use our inductive strategy with $d = d_i, e = d_{i+1}$ for any $i < k$ to finish the proof. The claim follows from the fact that
+\begin{align*}
+(b,b), (b,d_i) \in \bE^{\circ i} \;\;\; &\implies \;\;\; \{b\} \times \Sg_\bA\{b, d_i\} \subseteq \bE^{\circ i},\\
+(d_j,c), (c,c) \in \bE^{\circ (k-j)} \;\;\; &\implies \;\;\; \Sg_\bA\{d_j, c\} \times \{c\} \subseteq \bE^{\circ (k-j)},
+\end{align*}
+so if $\Sg_\bA\{b, d_i\}$ intersected $\Sg_\bA\{d_j, c\}$ then there would be a directed path connecting $b$ to $c$ of length $i + k-j < k$ in $\bE$, contradicting the assumption that $d_0, ..., d_k$ was a shortest path from $b$ to $c$.
+\end{proof}
+
+\begin{thm}[Barto and Kazda \cite{deciding-absorption}] If $\bA$ is finite and idempotent, then $\bB \lhd \bA$ if and only if $\bB \lhd_J \bA$ and $\bA$ has no $\bB$-blockers.
+\end{thm}
+\begin{proof} Suppose that $\bB \lhd_J \bA$ but $\bB$ does not absorb $\bA$ - we just need to prove that $\bA$ has a $\bB$-blocker in this case. By Lemma \ref{lem-jonsson-absorption-ramsey}, there are $a \in \bA$ and $b \in \bB$ such that for every $m$, we have
+\[
+\Sg_{\bA^m}\left\{\begin{bmatrix} a & b & b & \cdots & b\\ b & a & b & \cdots & b\\ b & b & a & \cdots & b\\ \vdots & \vdots & \vdots & \ddots & \vdots\\ b & b & b & \cdots & a\end{bmatrix}\right\} \cap \bB^m = \emptyset.
+\]
+Pick such a pair $a,b$ such that $\Sg_\bA\{a,b\}$ is minimal - we will show that $\Sg_\bA\{a,b\}$ has a projective subalgebra $\PP$ which is disjoint from $\bB$, making
+\[
+\PP < \Sg_\bA\{a,b\} \le \bA
+\]
+a $\bB$-blocker. Since $\bB \cap \Sg_\bA\{a,b\} \lhd_J \Sg_\bA\{a,b\}$ and since the choice of $a,b$ ensures that $\bB \cap \Sg_\bA\{a,b\}$ does not absorb $\Sg_\bA\{a,b\}$, we may assume without loss of generality that $\bA$ is generated by $a,b$.
+
+As in the previous argument, it is convenient to consider an infinitary relation: this time, we consider the relation $\RR \le \bA^\NN$ which is generated by all permutations of the (infinite) tuple
+\[
+(a, b, b, b, ...).
+\]
+The relation $\RR$ is a symmetric $\bB$-essential relation, and every tuple in $\RR$ has all but finitely many entries equal to $b$. The idea is to find primitive positive definitions of relations of the form $\bA^m \setminus (\bA \setminus \PP)^m$ by restricting some of the coordinates of $\RR$ to be in certain subalgebras $\bC_i \le \bA$ and restricting all but $m$ of the rest of the coordinates of $\RR$ to be in $\bB$. We need some notation for this: using the natural isomorphism
+\[
+\bA^\NN \cong \bA^k \times \bA^\NN,
+\]
+for any $k$-ary relation $\bS \le \bA^k$ we can define $\bS + \RR$ by
+\[
+\bS + \RR \coloneqq \{(x_0, x_1, ...) \mid \exists s \in \bS \text{ s.t. } (s_1, ..., s_k, x_0, x_1, ...) \in \RR\}.
+\]
+This definition ensures that $\bS + \RR$ is automatically symmetric if $\RR$ is symmetric, and has the strange feature that for any $\bS \le \bA^k$, $\bT \le \bA^l$, we have
+\[
+\bS + (\bT + \RR) = (\bS \times \bT) + \RR.
+\]
+Additionally, from the definition of $\RR$ we have
+\[
+\{b\} + \RR = \RR.
+\]
+We also make the definition
+\[
+\bB^{k+\NN} - \RR \coloneqq \{(x_1, ..., x_k) \mid \exists (y_0, y_1, ...) \in \bB^\NN \text{ s.t. } (x_1, ..., x_k, y_0, y_1, ...) \in \RR\},
+\]
+which defines a $k$-ary relation (note that $k$ needs to be specified in this case).
+
+Pick a finite collection of subalgebras $\bC_1, ..., \bC_k \le \bA$ such that
+\[
+(\bC_1 \times \cdots \times \bC_k) + \RR
+\]
+is still $\bB$-essential, and such that the subalgebra $\PP < \bA$ defined by
+\[
+\PP \coloneqq \bB^{1+\NN} - ((\bC_1 \times \cdots \times \bC_k) + \RR)
+\]
+is maximal subject to the constraint that $(\bC_1 \times \cdots \times \bC_k) + \RR$ is $\bB$-essential. Note that any such $\PP$ must be disjoint from $\bB$ (otherwise $(\bC_1 \times \cdots \times \bC_k) + \RR$ contains a tuple in $\bB^\NN$). To simplify the notation, we write
+\[
+\bC = \bC_1 \times \cdots \times \bC_k,
+\]
+so $\PP = \bB^{1+\NN} - (\bC + \RR)$. We will aim to prove that
+\[
+\bB^{m+\NN} - (\bC + \RR) \stackrel{?}{=} \bA^m \setminus (\bA \setminus \PP)^m
+\]
+for all $m \ge 1$. We start by showing that the left hand side is large.
+
+{\bf Claim 1.} There are $p,q \in \PP$ such that $(p,q) \in \bB^{2+\NN} - (\bC + \RR)$.
+
+{\bf Proof of Claim 1.} This step will use the fact that $\bB$ J\'onsson absorbs $\bA$, so define the graphs $\bS, \bT \le \bA^2$ by
+\begin{align*}
+\bS &\coloneqq \bB^{2+\NN} - (\bC + \RR) = \bB^{2+\NN} - ((\bC \times \bB) + \RR),\\
+\bT &\coloneqq \bB^{2+\NN} - ((\bC \times \bA) + \RR).
+\end{align*}
+By Proposition \ref{prop-absorption-pp-formula}, we have
+\[
+\bS \lhd_J \bT,
+\]
+by the definition of $\PP$ and the fact that $\bC + \RR = \bC + (\{b\} + \RR) = (\bC \times \{b\}) + \RR$ we have
+\[
+(p,b), (b,p) \in \bS
+\]
+for any $p \in \PP$, and since $\bC + \RR$ is $\bB$-essential we see that $(\bC \times \bA) + \RR$ contains a tuple from $\bB^\NN$ with all but finitely many entries equal to $b$, so
+\[
+(b,b) \in \bT.
+\]
+Since $b,p \in \pi_1(\bS)$ are linked in $\bT$, we can apply Theorem \ref{absorbing-linked} to see that $b,p$ are linked in $\bS$. In particular, since $\bS$ is symmetric, the containment
+\[
+\PP \subseteq \PP + \bS + \bS
+\]
+must be proper. Setting
+\[
+\bC_{k+1} \coloneqq \PP + \bS,
+\]
+we see that
+\[
+\bB^{1+\NN} - ((\bC \times \bC_{k+1}) + \RR) = \bC_{k+1} + \bS = \PP + \bS + \bS
+\]
+properly contains $\PP$, and if $(\bC \times \bC_{k+1}) + \RR$ is not $\bB$-essential then $\bC_{k+1}$ must contain some element of $\bB + \bS = \PP$, which proves the claim.
+
+{\bf Claim 2.} For any $p \in \PP$, we have $\Sg_\bA\{b,p\} = \bA$.
+
+{\bf Proof of Claim 2.} By the definition of $\PP$, the symmetric $\bB$-essential relation $\bC + \RR$ contains a tuple of the form
+\[
+(p, y_0 \in \bB, ..., y_n \in \bB, b, b, b, ...),
+\]
+so the symmetric relation generated by all permutations of $(p, b, b, b, ...)$ must also be $\bB$-essential. By our choice of $a,b$ we must have $\Sg_\bA\{b,p\} = \Sg_\bA\{a,b\} = \bA$.
+
+{\bf Claim 3.} The symmetric relation $\bS = \bB^{2+\NN} - (\bC + \RR)$ contains $\PP \times \bA$.
+
+{\bf Proof of Claim 3.} By Claim 1, there are $p,q \in \PP$ such that $(p,q) \in \bS$, and by the definition of $\PP$ we also have $(b,q) \in \bS$, so
+\[
+\Sg_\bA\{b,p\} \times \{q\} \subseteq \bS.
+\]
+By Claim 2, we see that $\bA \times \{q\} \subseteq \bS$, so in particular every $p' \in \PP$ has $(p',q) \in \bS$. A symmetric argument shows that we have
+\[
+\{p'\} \times \Sg_\bA\{b,q\} = \{p'\} \times \bA \subseteq \bS
+\]
+for all $p' \in \PP$, so we have $\PP \times \bA \subseteq \bS$.
+
+{\bf Claim 4.} For every $m \ge 1$, the symmetric relation $\bB^{m+\NN} - (\bC + \RR)$ contains $\PP \times \bA^{m-1}$.
+
+{\bf Proof of Claim 4.} We prove this by induction on $m$. For $m = 2$, this is just Claim 3, so suppose that $m \ge 3$. The inductive hypothesis gives us
+\[
+\bB^{m-1+\NN} - (\bC + \RR) \supseteq \PP \times \bA^{m-2},
+\]
+and since each tuple in $\RR$ contains infinitely many coordinates equal to $b$, this implies that
+\[
+\bB^{m+\NN} - (\bC + \RR) \supseteq \PP \times \bA^{m-2} \times \{b\}.
+\]
+Using the symmetry of $\bB^{m+\NN} - (\bC + \RR)$ and the fact that $m-2 \ge 1$, we see that
+\[
+\bB^{m+\NN} - (\bC + \RR) \supseteq \PP \times \bA^{m-3} \times \{(a,b), (b,b), (b,a)\}.
+\]
+To finish the proof of the claim, we just note that
+\[
+\Sg_{\bA^2}\{(a,b), (b,b), (b,a)\} = \pi_{1,2}(\RR) \supseteq \bS \cup \{(b,b)\} \supseteq \{b,p\} \times \{b,p\}
+\]
+for any $p \in \PP$ by Claim 3, and therefore by Claim 2 we have
+\[
+\Sg_{\bA^2}\{(a,b), (b,b), (b,a)\} = \bA^2,
+\]
+so
+\[
+\bB^{m+\NN} - (\bC + \RR) \supseteq \PP \times \bA^{m-3} \times \bA^2 = \PP \times \bA^{m-1}.
+\]
+
+To finish the proof of the theorem we check that every tuple in $\bB^{m+\NN} - (\bC + \RR)$ has at least one coordinate in $\PP$, by induction on $m$. Suppose, for the sake of contradiction, that we had
+\[
+(x_1, ..., x_m) \in \bB^{m+\NN} - (\bC + \RR)
+\]
+with all $x_i \not\in \PP$, and write
+\[
+\bC' = \bC \times \{x_1\} \times \cdots \times \{x_{m-1}\}.
+\]
+By the inductive hypothesis we have
+\[
+(x_1, ..., x_{m-1}) \not\in \bB^{m-1+\NN} - (\bC + \RR),
+\]
+so $\bC' + \RR$ must be $\bB$-essential. Defining $\PP'$ by
+\[
+\PP' \coloneqq \bB^{1+\NN} - (\bC' + \RR),
+\]
+we have $x_m \in \PP'$. Claim 4 tells us that
+\[
+\{x_1\} \times \cdots \times \{x_{m-1}\} \times \PP\ \subseteq\ \bA^{m-1} \times \PP\ \subseteq\ \bB^{m+\NN} - (\bC + \RR),
+\]
+so $\PP \subseteq \PP'$ and we see that $\PP'$ is strictly larger than $\PP$, contradicting our choice of $\bC = \bC_1 \times \cdots \times \bC_k$.
+\end{proof}
+
+Barto and Kazda \cite{deciding-absorption} give Algorithm \ref{alg-B-blocker} for testing whether an algebra $\bA$ has a $\bB$-blocker. This algorithm has the undesirable feature that it only runs in polynomial time if the product of the arities of the basic operations of $\bA$ is bounded. Unfortunately, this seems to be unavoidable: Barto and Kazda \cite{deciding-absorption} also show that even if we restrict our attention to congruence distributive varieties and only consider the case where $\bB = \{b\}$ is a singleton, it is NP-hard to decide if there is a $\bB$-blocker in $\bA$ when the number of basic operations of $\bA$ is unbounded.
+
+\begin{algorithm}
+\caption{Algorithm for finding a $\bB$-blocker $\PP < \bC \le \bA$, from \cite{deciding-absorption}.}\label{alg-B-blocker}
+\begin{algorithmic}[1]
+\State Let $f_1, ..., f_k$ be the basic operations of $\bA$, with arities $\arity(f_i)$.
+\ForAll{$a \in \bA \setminus \bB$ and $b \in \bB$}
+\State Set $\bC \gets \Sg_{\bA}\{a,b\}$.
+\ForAll{assignments $c : i \mapsto [\arity(f_i)]$} \Comment{See Proposition \ref{prop-projective-basic}}
+\State Set $\PP \gets \{a\}$.
+\While{there is some $i \le k$ such that $f_i(\underbrace{\bC, ..., \bC}_{c(i)-1}, \PP, \underbrace{\bC, ..., \bC}_{\arity(f_i)-c(i)}) \not\subseteq \PP$}
+\State Set $\PP \gets \PP \cup f_i(\underbrace{\bC, ..., \bC}_{c(i)-1}, \PP, \underbrace{\bC, ..., \bC}_{\arity(f_i)-c(i)})$.
+\EndWhile
+\If{$\PP \cap \bB = \emptyset$}
+\State \Return $(\PP,\bC)$.
+\EndIf
+\EndFor
+\EndFor
+\State \Return ``$\bA$ has no $\bB$-blockers.''
+\end{algorithmic}
+\end{algorithm}
 
 
 \subsection{Finitely related implies J\'onsson absorption is equivalent to absorption}\label{ss-finitely-related-jonsson}
@@ -11324,7 +11598,7 @@ Of course, this all hinged on the existence of a stability concept: we still nee
 
 \begin{prop} Every locally finite variety of idempotent bounded width algebras has a strongly prepared, bounded width reduct.
 \end{prop}
-\begin{proof} This follows by repeatedly applying Proposition \ref{bin-abs-semi} and Proposition \ref{semilattice-preparation}, and using the fact that the set of two-variable terms can only be shrunk finitely many times if the free algebra on two generators is finite.
+\begin{proof} This follows by repeatedly applying Proposition \ref{bin-abs-semi} and Proposition \ref{semilattice-preparation}, using the fact that an algebra has bounded width if and only if it has ternary term operations $f,g$ satisfying the two-variable height $1$ identities from Theorem \ref{bounded-width-terms}, and using the fact that the set of two-variable terms can only be shrunk finitely many times if the free algebra on two generators is finite.
 \end{proof}
 
 To finish the proof of Theorem \ref{thm-stability}, we only need to construct stability concepts on pseudovarieties of idempotent, strongly prepared Taylor algebras.
@@ -14491,7 +14765,7 @@ for all subsets $I \subseteq [n]$ such that $\pi_{ij}(\RR)$ is linked for all $i
 Our assumption on $\RR$ implies that $\fX$ is reversible by Theorem \ref{lp-p1-p2}. Since any composition of linked binary relations is linked, Proposition \ref{prop-alg-length-linked} shows that $\fX$ is scramble-consistent, so we can apply Theorem \ref{thm-scramble-consistency} to see that $\fX$ has a solution. In fact, we can even check that $\fX$ satisfies the consistency condition (P3), so $\fX$ is also a weak Prague instance (left as an exercise to the reader).
 \end{proof}
 
-\begin{thm} If $\bA$ is a finite idempotent algebra, then the following are equivalent:
+\begin{thm}\label{thm-sym-no-fixpoint-free} If $\bA$ is a finite idempotent algebra, then the following are equivalent:
 \begin{itemize}
 \item $\bA$ has symmetric term operations of all arities,
 \item for every simple $\bB \in HS(\bA)$, there is an element $b \in \bB$ which is fixed by the action of $\Aut(\bB)$ on $\bB$.
@@ -14694,13 +14968,13 @@ Now we are finally ready to prove one of the main results of \cite{cyclic}, whic
 \begin{thm}[Finite Taylor algebras have cyclic terms \cite{cyclic}, refined by Zhuk]\label{cyclic-terms} Suppose $\bA$ is a finite idempotent Taylor algebra and that $p$ is prime. Then one of the following is true:
 \begin{itemize}
 \item[(a)] either $\bA$ has a cyclic term operation of arity $p$, or
-\item[(b)] there is some simple $\bB \in HS(\bA)$ and some automorphism $\sigma \in \Aut(\bB)$ such that $\sigma^p = 1$ and $\sigma$ has no fixed points.
+\item[(b)] there is some simple $\bB \in HS(\bA)$, generated by at most $p$ elements, and some automorphism $\sigma \in \Aut(\bB)$ such that $\sigma^p = 1$ and $\sigma$ has no fixed points.
 \end{itemize}
 In particular, if $p > |\bA|$ then $\bA$ has a cyclic term operation of arity $p$.
 \end{thm}
 \begin{proof} We prove this by induction on $|\bA|$. Suppose that there is no $\bB \in HS(\bA), \sigma \in \Aut(\bB)$ as in (b), and let $\RR \le \bA^p$ be any $p$-ary cyclic relation. It's enough to show that $\RR$ contains a constant tuple.
 
-If $\pi_1(\RR) \ne \bA$, then since $\RR$ is cyclic we have $\RR \le \pi_1(\RR)^p$, so we can apply the induction hypothesis to the algebra $\pi_1(\RR)$ to see that $\RR$ has a constant tuple. Thus we may assume without loss of generality that $\RR$ is subdirect in $\bA^p$.
+If $\pi_1(\RR) \ne \bA$, then since $\RR$ is cyclic we have $\RR \le \pi_1(\RR)^p$, so we can apply the induction hypothesis to the algebra $\pi_1(\RR)$ to see that $\RR$ has a constant tuple. Thus we may assume without loss of generality that $\RR$ is subdirect in $\bA^p$. We may also assume that $\RR$ is generated by $p$ cyclic shifts of a single tuple, in which case $\bA$ is generated by at most $p$ elements.
 
 If $\bA$ has a nontrivial congruence $\theta \in \Con(\bA)$, then $\RR/\theta^p \le (\bA/\theta)^p$ is a cyclic relation on $\bA/\theta$, so by the induction hypothesis applied to $\bA/\theta$ there is some congruence class $a/\theta$ such that $\RR \cap (a/\theta)^p \ne \emptyset$. Setting $\RR' = \RR \cap (a/\theta)^p$, we see that $\RR'$ is a cyclic relation on $a/\theta$, so by the induction hypothesis applied to $a/\theta$ we see that $\RR'$ (and therefore also $\RR$) has a constant tuple. Thus we may assume that $\bA$ is simple.
 
@@ -15108,7 +15382,7 @@ We can also limit the collection of affine algebras which may show up in $HSP(\b
 \end{prop}
 \begin{proof} First we show that every $n$ such that $\ZZ/n^{\aff} \in HSP(\bA)$ has $n \le |\bA|^{|\bA|^2}$. To see this, note that $\ZZ/n^{\aff}$ is generated by two elements (to be more specific, it is generated by $0$ and $1$), so if $\ZZ/n^{\aff} \in HSP(\bA)$ then $\ZZ/n^{\aff}$ must be a quotient of the free algebra on two generators $\cF_\bA(x,y) \le \bA^{\bA^2}$.
 
-Next, note that if $p$ is prime and $\ZZ/p^{\aff} \in HSP(\bA)$, then $\bA$ can't have any cyclic term operation of arity $p$, since $\ZZ/p^{\aff}$ has an automorphism of order $p$ with no fixed points. Thus by Theorem \ref{cyclic-terms} there is no prime $p > |\bA|$ such that $\ZZ/p^{\aff} \in HSP(\bA)$.
+Next, note that if $p$ is prime and $\ZZ/p^{\aff} \in HSP(\bA)$, then in fact $\ZZ/p^{\aff} \in HS(\bA)$ by Lemma \ref{strictly-simple-hs} and the fact that $\ZZ/p^{\aff}$ is strictly simple, so $p \le |\bA|$.%then $\bA$ can't have any cyclic term operation of arity $p$, since $\ZZ/p^{\aff}$ has an automorphism of order $p$ with no fixed points. Thus by Theorem \ref{cyclic-terms} there is no prime $p > |\bA|$ such that $\ZZ/p^{\aff} \in HSP(\bA)$.
 \end{proof}
 
 We will end this section by characterizing Zhuk's centrally absorbing subalgebras in the case of minimal Taylor algebras, and using them to naturally produce majority subquotients of minimal Taylor algebras. First, we need a quick detour to show that (up to term equivalence) we can put any minimal Taylor algebra into a minimal Taylor variety which also contains a majority algebra.
@@ -15191,7 +15465,7 @@ Partial progress towards this conjecture was made in \cite{minimal-taylor}: if $
 \begin{prob} Is there any minimal Taylor algebra which is simple, is generated by two elements, has size at least $3$, and is not affine?
 \end{prob}
 
-A brute force search found no examples of size $3$ or $4$ - but this search was carried out by hand and never written up, so I may have made a mistake.
+A brute force search found no examples of size $3$ or $4$.
 
 %TODO: examples? Here or in the next section?
 
