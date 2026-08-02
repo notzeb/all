@@ -1738,9 +1738,9 @@ We prove the claim by downward induction on $|P|$. The base case of the inductio
 \]
 and for any $x_1, ..., x_{m-1} \in \ZZ/p$ we have
 \[
-\begin{bmatrix} x_1\\ x_2\\ \vdots\\ x_{m-1}\\ \sum_i a_ix_i + b \end{bmatrix} = \begin{bmatrix} 0^{m-1}\\ b \end{bmatrix} + \sum_{i \in [m-1]} x_i \Big(\begin{bmatrix} e_i\\ a_i+b \end{bmatrix} - \begin{bmatrix} 0^{m-1}\\ b \end{bmatrix}\Big) \in R,
+\begin{bmatrix} x_1\\ x_2\\ \vdots\\ x_{m-1}\\ \sum_i a_ix_i + b \end{bmatrix} = \begin{bmatrix} 0^{(m-1)}\\ b \end{bmatrix} + \sum_{i \in [m-1]} x_i \Big(\begin{bmatrix} e_i\\ a_i+b \end{bmatrix} - \begin{bmatrix} 0^{(m-1)}\\ b \end{bmatrix}\Big) \in R,
 \]
-where $e_i \in (\ZZ/p)^{m-1}$ is the $i$th basis vector. Since the map $\pi_{[m-1]} : R \twoheadrightarrow P$ is one-to-one, this implies that we must have
+where $e_i \in (\ZZ/p)^{m-1}$ is the $i$th basis vector and $0^{(m-1)} \in (\ZZ/p)^{m-1}$ is the all-$0$s vector. Since the map $\pi_{[m-1]} : R \twoheadrightarrow P$ is one-to-one, this implies that we must have
 \[
 x_m \equiv \sum_{i \in [m-1]} a_ix_i + b \pmod{p}
 \]
@@ -2607,7 +2607,7 @@ A relational structure $\fA$ has \emph{tree duality} if for every $\fB$, there i
 \begin{proof} If generalized arc-consistency shows that there is no homomorphism $\fB \rightarrow \fA$, then we can make a proof tree that shows that some set $S_v$ eventually becomes empty. Each node of the proof tree corresponds to the fact that some variable $w$ of $\fB$ takes values from a set $S_w$, and the hyperedges of the proof tree are labeled by relations of $\fB$. So the proof tree is actually a relational structure with a map to $\fB$, and the same sequence of generalized arc-consistency deductions apply to the proof tree to show that it has no map to $\fA$.
 \end{proof}
 
-\begin{rem} Essentially the same arguments apply for any width $(l,k)$, with ``trees'' replaced by ``$(l,k)$-trees'' (definition left as an exercise to readers who are familiar with the concept of tree-width). Note that $(l,k)$-trees have tree-width $k-1$. When studying \emph{relational} width, we replace ``trees'' by ``$(l,k)$-reltrees'' (defined in \cite{no-pure-width-2} for $k = l$).
+\begin{rem} Essentially the same arguments apply for any width $(l,k)$, with ``trees'' replaced by ``$(l,k)$-trees'' (definition left as an exercise to readers who are familiar with tree-width). Note that $(l,k)$-trees have tree-width $k-1$. When studying \emph{relational} width, we replace ``trees'' by ``$(l,k)$-reltrees'' (defined in \cite{no-pure-width-2} for $k = l$).
 \end{rem}
 
 \begin{rem} Dalmau has shown that any CSP with relational width $(2,2)$ is also solved by generalized arc-consistency \cite{no-pure-width-2}. 2-SAT is an example of a CSP with width $(2,3)$ which is \emph{not} solved by arc-consistency, so Dalmau's result is best possible.
@@ -2796,7 +2796,7 @@ So in order to understand the binary relations on linear median algebras, it's e
 \[
 \RR \le_{sd} \bM_m \times \bM_n
 \]
-for various $m,n$. Drawing the graphs of these binary relations as subsets of $[m] \times [n]$ embedded in the plane, a bit of experimentation quickly reveals that a typical subdirect median-closed relation looks something like this:
+for various $m,n$. Drawing the graphs of these binary relations as subsets of $[m] \times [n]$ embedded in the plane, a bit of experimentation quickly reveals that a typical subdirect median-closed relation looks like a rectangle with a bite taken out of each corner (following rotated versions of the rules of the game Chomp):
 \begin{center}
 \begin{tikzpicture}[scale=0.5,rotate=90]
   \node [circle, minimum width=5pt, draw, inner sep=0pt] at (0,3) {};
@@ -2824,7 +2824,7 @@ for various $m,n$. Drawing the graphs of these binary relations as subsets of $[
   \node [circle, minimum width=5pt, draw, inner sep=0pt] at (5,3) {};
 \end{tikzpicture}
 \end{center}
-In order to formalize the main feature of this picture, we can prove that the intersection of any subdirect binary relation $\RR \le_{sd} \bM_m \times \bM_n$ with any vertical or horizontal line must be an interval (the proof is left as an easy exercise).
+In particular, the intersection of any subdirect binary relation $\RR \le_{sd} \bM_m \times \bM_n$ with any vertical or horizontal line is an interval, and if $(a,b) \not\in \RR$ then one of the four corners $\{x \ge a \wedge y \ge b\}$, $\{x \ge a \wedge y \le b\}$, etc. must be entirely missing from $\RR$ (proof left as an easy exercise).
 
 More generally, we can define a linear median algebra $\bM_{(S,<)}$ on any totally ordered set, such as $\bM_\QQ = (\QQ, \med(x,y,z))$ where $\QQ$ is the set of all rational numbers, and subdirect binary relations will still have the same feature. A simple example of a subdirect median-closed relation on $\bM_\QQ$ is the binary relation
 \[
@@ -3244,6 +3244,19 @@ ab = ba.
 \]
 \end{rem}
 
+\begin{rem} An algebraic structure $(G, p(x,y,z))$ is called a \emph{heap} if the ternary operation $p(x,y,z)$ satisfies the identities
+\begin{align*}
+p(x,y,y) &\approx x \approx p(y,y,x),\\
+p(p(x,y,z),u,v) &\approx p(x,y,p(z,u,v)).
+\end{align*}
+In any group, the term operation $p(x,y,z) \coloneqq xy^{-1}z$ will always satisfy the heap identities, and conversely, if $(G, p(x,y,z))$ is a heap and $e \in G$ is any element, then the operations
+\begin{align*}
+x\cdot y &\coloneqq p(x,e,y),\\
+x^{-1} &\coloneqq p(e,x,e)
+\end{align*}
+define a group with identity element $e$, satisfying $p(x,y,z) = x \cdot y^{-1} \cdot z$. We can think of heaps as groups which have forgotten which of their elements is supposed to be the identity element.
+\end{rem}
+
 The idempotent operation $(x,y,z) \mapsto xy^{-1}z$ was isolated by universal algebraists who wanted to understand the underlying reason for the fact that normal subgroups commute: if $K,N\lhd G$ are normal subgroups of a group $G$, then
 \[
 KN = NK
@@ -3505,7 +3518,7 @@ The algebra $\bA$ can even be written as a product of a pair of two-element alge
 \[
 \begin{bmatrix} (0,0)\\ (0,0) \end{bmatrix} \not\in \Sg_{\bA^2}\Big\{\begin{bmatrix} (0,0)\\ (1,1) \end{bmatrix}, \begin{bmatrix} (1,1)\\ (1,1) \end{bmatrix}, \begin{bmatrix} (1,1)\\ (0,0) \end{bmatrix}\Big\},
 \]
-so $\bA$ has no Mal'cev term.
+so $\bA$ has no Mal'cev term. (If this example makes you sad, then Proposition \ref{prop-few-subpowers-composition} and its corollaries may cheer you up.)
 \end{ex}
 
 Now let's try to understand the structure of relations which have the parallelogram property.
@@ -6992,7 +7005,7 @@ S_m = \{j+1\} \sqcup S_w \;\;\; \implies \;\;\; v_{j+1}^{S_w}(d_n, c_n) = d_n, \
 and $v_{j+1}^{S_m}(d_\ell,e_\ell) = e_\ell = t_{a_1b_1\cdots a_jb_j}^{\ell-1}(v_{j+1}^{S_1}(d_\ell,c_\ell), ...)$.
 \end{proof}
 
-\begin{defn}[\cite{cube-terms-chipped-cubes}, \cite{cube-terms-crosses}] A relation $\RR \le \bA_1 \times \cdots \times \bA_k$ is called a $k$-dimensional \emph{chipped cube} if there are subalgebras $\PP_i < \bB_i \le \bA_i$ such that
+\begin{defn}[\cite{cube-terms-chipped-cubes}, \cite{cube-terms-crosses}]\label{defn-chipped-cube} A relation $\RR \le \bA_1 \times \cdots \times \bA_k$ is called a $k$-dimensional \emph{chipped cube} if there are subalgebras $\PP_i < \bB_i \le \bA_i$ such that
 \[
 (x_1, ..., x_k) \in \RR \;\;\; \iff \;\;\; \bigwedge_{i \le k} x_i \in \bB_i \wedge \bigvee_{j \le k} x_j \in \PP_j,
 \]
@@ -8861,7 +8874,7 @@ The third bullet point can also be stated in the equivalent form: $\Sg\{a,b,c\}/
 
 In this section we'll give a relational description of absorption, as well as a first simplification via Ramsey theory. The relational description is a generalization of the way relations over near-unanimity algebras decompose.
 
-\begin{defn} Suppose $\bB \le \bA$. We say that a relation $\RR \le \bA^m$ is $\bB$-\emph{essential} if for every $1 \le i \le n$ we have
+\begin{defn}\label{defn-essential-relation} Suppose $\bB \le \bA$. We say that a relation $\RR \le \bA^m$ is $\bB$-\emph{essential} if for every $1 \le i \le n$ we have
 \[
 \RR \cap (\bB^{i-1} \times \bA \times \bB^{n-i}) \ne \emptyset,
 \]
@@ -9299,7 +9312,6 @@ Barto and Kazda \cite{deciding-absorption} give Algorithm \ref{alg-B-blocker} fo
 \begin{algorithmic}[1]
 \State Let $f_1, ..., f_k$ be the basic operations of $\bA$, with arities $\arity(f_i)$.
 \ForAll{$a \in \bA \setminus \bB$ and $b \in \bB$}
-\State Set $\bC \gets \Sg_{\bA}\{a,b\}$.
 \ForAll{assignments $c : i \mapsto [\arity(f_i)]$} \Comment{See Proposition \ref{prop-projective-basic}}
 \State Set $\PP \gets \{a\}$.
 \While{there is some $i \le k$ such that $f_i(\underbrace{\bC, ..., \bC}_{c(i)-1}, \PP, \underbrace{\bC, ..., \bC}_{\arity(f_i)-c(i)}) \not\subseteq \PP$}
@@ -9521,7 +9533,7 @@ For the other direction, suppose that there are $x_0, ..., x_{|\bD|} \in \bD$ su
 Since $\bC \subseteq \bD$, we see that $\PP \cap \bC^2$ contains the diagonal $\Delta_\bC$, so $\bS \cap \bC^2$ is subdirect in $\bC \times \bC$ and J\'onsson absorbs the diagonal $\Delta_\bC$. Thus by Theorem \ref{absorbing-diagonal} there is some $x \in \bC$ such that $(x,x) \in \bS$.
 \end{proof}
 
-\begin{thm}[Barto, Bul\'in \cite{deciding-absorption-relational}, generalizing Zhuk \cite{near-unanimity-zhuk}] If $\bB \lhd_J \bA$, and if $\Phi$ is a primitive positive formula over relations $\RR_i \le \bA^{m_i}$ which defines a $\bB$-essential relation $\RR$, then there is a tree formula $\Phi'$ over the same relations $\RR_i$ together with some unary relations $\bD_j \le \bA$ which defines a $\bB$-essential relation $\RR'$ of the same arity as $\RR$.
+\begin{thm}[Barto, Bul\'in \cite{deciding-absorption-relational}, generalizing Zhuk \cite{near-unanimity-zhuk}]\label{thm-unravel-to-tree} If $\bB \lhd_J \bA$, and if $\Phi$ is a primitive positive formula over relations $\RR_i \le \bA^{m_i}$ which defines a $\bB$-essential relation $\RR$, then there is a tree formula $\Phi'$ over the same relations $\RR_i$ together with some unary relations $\bD_j \le \bA$ which defines a $\bB$-essential relation $\RR'$ of the same arity as $\RR$.
 \end{thm}
 \begin{proof} Let $n$ be the arity of $\RR$. As in the proof of Theorem \ref{thm-tree-to-comb}, we may as well assume that each free variable of $\Phi$ occurs in just one constraint of $\Phi$. Furthermore, by splitting variables into copies and adding equality constraints between the copies, we may as well assume that $\Phi$ is defined by starting with a (quantifier-free) tree formula $\Psi$, adding a bunch of equality constraints between variables of $\Psi$, and then existentially quantifying, i.e.
 \[
@@ -9529,25 +9541,25 @@ Since $\bC \subseteq \bD$, we see that $\PP \cap \bC^2$ contains the diagonal $\
 \]
 for some $E \subseteq [k] \times [k]$.
 
-For any $(i_0,j_0) \in E$, we can unravel a cycle of $\Phi$ to produce the formula $\Phi_{(i_0,j_0)}$ with $n\cdot (|\bA|+1)$ free variables, which is defined by
+For any $(i_0,j_0) \in E$, we can unravel a cycle of $\Phi$ to produce the formula $\Phi_{(i_0,j_0)}$ with $n\cdot |\bA|$ free variables, which is defined by
 \begin{align*}
-\Phi_{(i_0,j_0)}(x_1^0, ..., x_n^{|\bA|}) = \exists y_1^0, ..., y_k^{|\bA|} \text{ s.t. } &\bigwedge_{0 \le l \le |\bA|} \Big(\Psi(x^l,y^l) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i^l = y_j^l\Big)\\
-&\wedge \bigwedge_{0 \le l < |\bA|} y_{i_0}^{l+1} = y_{j_0}^l \in \bD_{i_0},
+\Phi_{(i_0,j_0)}(x_1^1, ..., x_n^{|\bA|}) = \exists y_1^1, ..., y_k^{|\bA|} \text{ s.t. } &\bigwedge_{1 \le l \le |\bA|} \Big(\Psi(x^l,y^l) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i^l = y_j^l\Big)\\
+&\wedge \bigwedge_{1 \le l < |\bA|} y_{i_0}^{l+1} = y_{j_0}^l \wedge \bigwedge_{1 \le l \le |\bA|} y_{i_0}^l,y_{j_0}^l \in \bD_{i_0},
 \end{align*}
 where
 \[
 \bD_{i_0} = \Big\{y_{i_0} \mid \exists x_1, ..., x_n, y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j\Big\}.
 \]
 
-{\bf Claim.} For any $(i_0, j_0) \in E$, the formula $\Phi_{(i_0,j_0)}$ defines a relation $\RR_{(i_0,j_0)} \le \big(\bA^{|\bA|+1}\big)^n$ which is $\bB^{|\bA|+1}$-essential.
+{\bf Claim.} For any $(i_0, j_0) \in E$, the formula $\Phi_{(i_0,j_0)}$ defines a relation $\RR_{(i_0,j_0)} \le \big(\bA^{|\bA|}\big)^n$ which is $\bB^{|\bA|}$-essential.
 
 {\bf Proof of claim.} By the assumption that the original relation $\RR$ was $\bB$-essential, for each $i \le n$ there is some tuple $(x_1, ..., x_n) \in \RR$ such that $x_j \in \bB$ for all $j \ne i$. Thus there are $y_1, ..., y_k$ such that
 \[
 \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j,
 \]
-and taking $x^l_j = x_j$ and $y^l_j = y_j$ for all $j$ shows that $\RR_{(i_0,j_0)}$ contains a tuple in $\big(\bB^{|\bA|+1}\big)^{i-1}\times\bA^{|\bA|+1}\times \big(\bB^{|\bA|+1}\big)^{n-i}$.
+and taking $x^l_j = x_j$ and $y^l_j = y_j$ for all $j$ shows that $\RR_{(i_0,j_0)}$ contains a tuple in $\big(\bB^{|\bA|}\big)^{i-1}\times\bA^{|\bA|}\times \big(\bB^{|\bA|}\big)^{n-i}$.
 
-To finish the proof of the claim, we just need to check that $\RR_{(i_0,j_0)}$ doesn't contain any tuple in $\big(\bB^{|\bA|+1}\big)^n$. Define binary relations $\bS \lhd_J \PP \le \bA\times \bA$ by
+To finish the proof of the claim, we just need to check that $\RR_{(i_0,j_0)}$ doesn't contain any tuple in $\big(\bB^{|\bA|}\big)^n$. Define binary relations $\bS \lhd_J \PP \le \bA\times \bA$ by
 \begin{align*}
 (y_{i_0},y_{j_0}) \in \PP \;\;\; &\iff \;\;\; \exists x_1, ..., x_n \in \bA, \exists y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i = y_j,\\
 (y_{i_0},y_{j_0}) \in \bS \;\;\; &\iff \;\;\; \exists x_1, ..., x_n \in \bB, \exists y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i = y_j.
@@ -9556,15 +9568,15 @@ Then we have
 \[
 \bD_{i_0} = \{y_{i_0} \mid (y_{i_0}, y_{i_0}) \in \PP\},
 \]
-and $\RR_{(i_0,j_0)}$ contains a tuple in $\big(\bB^{|\bA|+1}\big)^n$ iff
+and $\RR_{(i_0,j_0)}$ contains a tuple in $\big(\bB^{|\bA|}\big)^n$ iff
 \[
-\exists y_{i_0}^0, ..., y_{i_0}^{|\bA|+1} \in \bD_{i_0} \text{ s.t. } \bigwedge_{0 \le l < |\bA|} (y_{i_0}^l, y_{i_0}^{l+1}) \in \bS.
+\exists y_{i_0}^1, ..., y_{i_0}^{|\bA|+1} \in \bD_{i_0} \text{ s.t. } \bigwedge_{1 \le l \le |\bA|} (y_{i_0}^l, y_{i_0}^{l+1}) \in \bS.
 \]
 By Lemma \ref{lem-jonsson-unravelling}, this is equivalent to the existence of a loop $(y_{i_0}, y_{i_0}) \in \bS$, which is equivalent to $\RR$ containing a tuple from $\bB^n$ - which can't happen by our assumption that $\RR$ is $\bB$-essential.
 
-Now by Lemma \ref{essential-groups}, we can find $\bD_i^l \in \{\bA,\bB\}$ and a set $I \subseteq [n]\times[|\bA|+1]$ with $|I| = n$ and
+Now by Lemma \ref{essential-groups}, we can find $\bD_i^l \in \{\bA,\bB\}$ and a set $I \subseteq [n]\times[|\bA|]$ with $|I| = n$ and
 \[
-\big|I \cap \{i\} \times [|\bA|+1]\big| = 1
+\big|I \cap \{i\} \times [|\bA|]\big| = 1
 \]
 for all $i$, such that
 \[
@@ -14730,7 +14742,7 @@ contains an element $b \in \bB$ which is fixed by the action of $\bG$,
 
 The main result of the paper \cite{mui-symmetric} was a confirmation that we can replace $SP_{fin}(\bA)$ by $HS(\bA)$ in Proposition \ref{prop-sym-poly}(c) when $\bA$ is idempotent and $|\bA| \le 4$ (see Corollary \ref{cor-4-element-symmetric}, although the proof in \cite{mui-symmetric} used a much more direct argument). Our aim in this section is to confirm that we can replace $SP_{fin}(\bA)$ by $HS(\bA)$ for all finite idempotent algebras $\bA$. First we need to show that all such algebras are Taylor and affine-free.
 
-\begin{prop} If $\bA$ is a finite idempotent algebra such that there is no $\bB \in HS(\bA)$ with a fixed-point-free automorphism of order two, then $\bA$ is Taylor.
+\begin{prop} If $\bA$ is a finite idempotent algebra such that there is no simple $\bB \in HS(\bA)$ with a fixed-point-free automorphism of order two, then $\bA$ is Taylor.
 \end{prop}
 \begin{proof} This follows directly from Corollary \ref{cor-taylor-no-set}, which shows that we can find a $\bB \in HS(\bA)$ of size $2$ which has no nontrivial term operations (and therefore has $\Aut(\bB) \cong S_2$) when $\bA$ is not Taylor.
 \end{proof}
@@ -17744,4 +17756,628 @@ with $s$ witnessing the binary absorption. But then we are in position to apply 
 \end{itemize}
 Note that $\bA$ is $2$-conservative (i.e., every two-element subset of $\bA$ is closed under $g$), and it is not too hard to check that $\bA$ is also minimal Taylor. The reader should be able to find a polynomial time algorithm which solves $\CSP(\bA)$ without much difficulty.
 \end{ex}
+
+
+\section{Valeriote's Edinburgh conjecture: finitely related algebras in congruence modular varieties have few subpowers}
+
+It was difficult to find a good place to put this section. Although Valeriote's conjecture is a statement about algebras with few subpowers, Barto's \cite{barto-valeriote-conjecture} proof of Valeriote's conjecture uses ideas from absorption theory heavily, and closely follows the structure of the proof (due to Barto and Bul\'in \cite{deciding-absorption-relational}, based on the argument of Zhuk \cite{near-unanimity-zhuk}) of the fact that J\'onsson absorption implies absorption in finitely related algebras. The proof also uses the linked case of the Loop Lemma (Lemma \ref{loop-linked}), so I can't put this material immediately after Subsection \ref{ss-finitely-related-jonsson} either. Well, here it is.
+
+The main idea of Barto's proof \cite{barto-valeriote-conjecture} is to show that we can't primitively positively define a high-arity chipped cube (see Definition \ref{defn-chipped-cube}) from low-arity relations in a congruence modular variety, and then to apply Theorem \ref{thm-cube-term-blockers}. Barto \cite{barto-valeriote-conjecture} makes use of a variation of chipped cubes in his proof in order for the inductive strategy to work out - I am making a ``multisorted'' generalization of his definition here in order to eventually apply Theorem \ref{thm-chipped-cubes} and get a bound on the arity of the $k$-edge term.
+
+\begin{defn}\label{defn-ctb-relation} If $\PP < \bB \le \bA$, then we say that $(\PP, \bB)$ is a \emph{CTB-pair} of $\bA$ if there is some $\PP' < \bB' \le \bA$ such that the binary relation defined by
+\[
+x \in \bB \wedge y \in \bB' \wedge \big(x \in \PP \vee y \in \PP'\big)
+\]
+is a subalgebra of $\bA^2$. We say that the CTB-pair $(\PP, \bB)$ is \emph{minimal} if we have
+\[
+b \in \bB\setminus \PP, \; p \in \PP \;\;\; \implies \;\;\; \bB = \Sg\{b,p\}.
+\]
+
+If $\PP_i < \bB_i \le \bA$ and $(\PP_i,\bB_i)$ is a minimal CTB-pair for all $i \le n$, then a relation $\RR \le \bA^n$ is called a \emph{CTB-relation} for the CTB-pairs $(\PP_i,\bB_i)$ if
+\[
+(x_1, ..., x_n) \in \RR \;\;\; \implies \;\;\; \bigwedge_{i \in [n]} x_i \in \bB_i \wedge \bigvee_{j \in [n]} x_j \in \PP_i,
+\]
+and there are elements $p_i \in \PP_i$ for $i \le n$ such that
+\[
+\bigwedge_{i \in [n]} x_i \in \bB_i \wedge \bigvee_{j \in [n]} x_j = p_j \;\;\; \implies \;\;\; (x_1, ..., x_n) \in \RR.
+\]
+\end{defn}
+
+\begin{rem} If $(\PP, \bB)$ is a CTB-pair, then it is not necessarily the case that $\PP$ is a projective subalgebra of $\bB$ or that $\PP$ centrally absorbs $\bB$. This concept ends up being just barely strong enough for our purposes in this section - the main useful property of CTB-pairs is Proposition \ref{prop-ctb-pair} below.
+\end{rem}
+
+Following a similar strategy to Subsection \ref{ss-finitely-related-jonsson}, we'll start by ruling out the possibility of a high-arity CTB-relation $\RR \le \prod_i \bB_i$ for a collection of minimal CTB-pairs $(\PP_i, \bB_i)$ which is defined by a ``comb formula'' $\Phi$ over a collection of ternary relations $\RR_i \le \bA \times \bB_i \times \bA$ in the following way:
+\[
+(x_1, ..., x_n) \in \RR \;\;\; \iff \;\;\; \exists y_0, ..., y_n \in \bA \text{ s.t. } \bigwedge_{i \in [n]} (y_{i-1}, x_i, y_i) \in \RR_i.
+\]
+We call this a comb formula because the diagram we get by drawing the projection maps from $\RR_i$ to $\bA, \bB_i$ looks like a comb:
+\begin{center}
+\begin{tikzpicture}[scale=2]
+  \node (R1) at (-1.5,0) {$\RR_1$};
+  \node (R2) at (-0.5,0) {$\RR_2$};
+  \node (R3) at (0.5,0) {$\RR_3$};
+  \node (R4) at (1.5,0) {$\RR_4$};
+  \node (ay0) at (-2,0.1) {$\bA$};
+  \node (ay1) at (-1,0.1) {$\bA$};
+  \node (ay2) at (0,0.1) {$\bA$};
+  \node (ay3) at (1,0.1) {$\bA$};
+  \node (ay4) at (2,0.1) {$\bA$};
+  \node (ax1) at (-1.5,-0.5) {$\bB_1$};
+  \node (ax2) at (-0.5,-0.5) {$\bB_2$};
+  \node (ax3) at (0.5,-0.5) {$\bB_3$};
+  \node (ax4) at (1.5,-0.5) {$\bB_4$};
+  \draw (R1) [->] -- (ay0);
+  \draw (R1) [->] -- (ax1);
+  \draw (R1) [->] -- (ay1);
+  \draw (R2) [->] -- (ay1);
+  \draw (R2) [->] -- (ax2);
+  \draw (R2) [->] -- (ay2);
+  \draw (R3) [->] -- (ay2);
+  \draw (R3) [->] -- (ax3);
+  \draw (R3) [->] -- (ay3);
+  \draw (R4) [->] -- (ay3);
+  \draw (R4) [->] -- (ax4);
+  \draw (R4) [->] -- (ay4);
+\end{tikzpicture}
+\end{center}
+For each $i$, if we pick any $b_i \in \bB_i \setminus \PP_i$, then for $\RR$ to be a CTB-relation we must have
+\[
+(b_1, ..., b_n) \not\in \RR
+\]
+and
+\[
+(b_1, ..., b_{i-1}, p_i, b_{i+1}, ..., b_n) \in \RR
+\]
+for each $i \le n$. For each $i$, if we define $\bS_i(a)$ by
+\[
+\bS_i(a) \coloneqq \pi_{1,3}(\RR_i \cap \bA \times \{a\} \times \bA),
+\]
+then this means that we must have
+\[
+\bS_1(b_1) \circ \cdots \circ \bS_n(b_n) = \emptyset
+\]
+and
+\[
+\bS_1(b_1) \circ \cdots \circ \bS_{i-1}(b_{i-1}) \circ \bS_i(p_i) \circ \bS_{i+1}(b_{i+1}) \circ \cdots \circ \bS_n(b_n) \ne \emptyset
+\]
+for each $i \le n$. For each $0 \le i \le n$, if we define $\bC_i, \bD_i \le \bA$ by
+\begin{align*}
+\bC_i &\coloneqq \bA + \bS_1(b_1) \circ \cdots \circ \bS_i(b_i),\\
+\bD_i &\coloneqq \bA - \bS_{i+1}(b_{i+1}) \circ \cdots \circ \bS_n(b_n),
+\end{align*}
+then we must have
+\[
+\bC_i \cap \bD_i = \emptyset
+\]
+for each $i$ and
+\[
+(\bC_i \times \bD_j) \cap (\bS_{i+1}(b_{i+1}) \circ \cdots \circ \bS_{j-1}(b_{j-1}) \circ \bS_j(p_j)) \ne \emptyset
+\]
+for each $0 \le i < j \le n$ in order for $\RR$ to be a CTB-relation. In particular we have $\bC_i, \bD_i \ne \emptyset$ for all $1 \le i \le n-1$, so since the number of disjoint pairs of nonempty subsets of $\bA$ is $3^{|\bA|} - 2^{|\bA|+1} + 1$, we see by the pigeonhole principle that if $n \ge 3^{|\bA|} - 2^{|\bA|+1} + 3$ then there must be some pair $i < j \in [n-1]$ such that $\bC_i = \bC_j, \bD_i = \bD_j$.
+
+Defining the ternary relation $\RR_{i,j}$ by
+\[
+%(y_i,x_j,y_j) \in \RR_{i,j} \;\;\; \iff \;\;\; \exists x_{i+1}, ..., x_{j-1}, y_{i+1}, ..., y_{j-1} \in \bA \text{ s.t. } \bigwedge_{k \in [i+1,j]} (y_{k-1}, x_k, y_k) \in \RR_k,
+(y_i,x_j,y_j) \in \RR_{i,j} \;\;\; \iff \;\;\; \exists y_{i+1}, ..., y_{j-1} \in \bA \text{ s.t. } \bigwedge_{k \in [i+1,j-1]} (y_{k-1}, b_k, y_k) \in \RR_k \wedge (y_{j-1},x_j,y_j) \in \RR_j,
+%(y_i,x_j,y_j) \in \RR_{i,j} \;\;\; \iff \;\;\; \exists y_{j-1} \in \bA \text{ s.t. } (y_i,y_{j-1}) \in \bS_{i+1}(b_{i+1}) \circ \cdots \circ \bS_{j-1}(b_{j-1}) \wedge (y_{j-1},x_j,y_j) \in \RR_j,
+\]
+and defining the binary relations $\bS_{i,j}(a)$ by
+\[
+\bS_{i,j}(a) \coloneqq \pi_{1,3}(\RR_{i,j} \cap \bA \times \{a\} \times \bA),
+\]
+we see that we've reached the following situation:
+\begin{align*}
+\bC_i \cap \bD_i &= \emptyset,\\
+\bC_i + \bS_{i,j}(b_j) &= \bC_i,\\
+\bD_i - \bS_{i,j}(b_j) &= \bD_i,\\
+(\bC_i \times \bD_i) \cap \bS_{i,j}(p_j) &\ne \emptyset.
+\end{align*}
+We would like to prove that this state of affairs is impossible when $(\PP_j, \bB_j)$ is a minimal CTB-pair.
+
+We must at some point in our proof use the fact that our algebras lie in a congruence modular variety. We use the characterization of congruence modular varieties in terms of \emph{directed Gumm terms} from \cite{directed-gumm} (see Theorem \ref{directed-gumm-terms} from Appendix \ref{a-commutator}): a variety $\cV$ is congruence modular if and only if it has ternary terms $f_1, ..., f_m, q$ satisfying the identities
+\begin{align*}
+f_1(x,x,y) &\approx x,\\
+f_i(x,y,x) &\approx x\text{ for all }i,\\
+f_i(x,y,y) &\approx f_{i+1}(x,x,y)\text{ for all }i < m,\\
+f_m(x,y,y) &\approx q(x,y,y),\\
+q(x,x,y) &\approx y
+\end{align*}
+for some $m$. We fix such terms for the rest of this section. Since directed Gumm terms are automatically idempotent, we may also assume that $\bA$ is idempotent without loss of generality (in fact, we may assume that the directed Gumm terms are the basic operations of $\bA$).
+
+In congruence modular varieties, CTB-pairs interact with the Mal'cev-like operation $q$ in a particular way which we will frequently exploit.
+
+\begin{prop}[DDE Lemma from \cite{barto-valeriote-conjecture}]\label{prop-ctb-pair} If $q(x,x,y) \approx y$ on $\bA$, then for $\PP < \bB \le \bA$, if $(\PP,\bB)$ is a CTB-pair then we have
+\[
+q(\bB, \bB, \PP) \subseteq \PP.
+\]
+As a special case, we have
+\[
+b \in \bB, p \in \PP \;\;\; \implies \;\;\; q(b, p, p) \in \PP.
+\]
+\end{prop}
+\begin{proof} By the definition of a CTB-pair we can pick some $\PP' < \bB' \le \bA$ such that the binary relation $\RR$ defined by
+\[
+\begin{bmatrix} x\\ y \end{bmatrix} \in \RR \;\;\; \iff \;\;\; x \in \bB \wedge y \in \bB' \wedge \big(x \in \PP \vee y \in \PP'\big)
+\]
+is a subalgebra of $\bA^2$. Picking any $b' \in \bB'\setminus \PP', p' \in \PP'$, we have
+\[
+\begin{bmatrix} b'\\ q(\bB,\bB,\PP) \end{bmatrix} = q\left(\begin{bmatrix} p' & p' & b'\\ \bB & \bB & \PP \end{bmatrix}\right) \subseteq q(\RR, \RR, \RR) \subseteq \RR,
+\]
+so by the definition of $\RR$ we see that $q(\bB,\bB,\PP)$ must be contained in $\PP$.
+\end{proof}
+
+\begin{lem}[Lemma 3.8 of \cite{barto-valeriote-conjecture}]\label{lem-gumm-projective-path} Suppose that $\bA$ is an idempotent algebra with directed Gumm terms, $\PP < \bB \le \bA$ are such that $(\PP,\bB)$ is a minimal CTB-pair, and $\RR \le \bA \times \bB \times \bA$ is a ternary relation. Then when we define binary relations $\bS(a) \le \bA\times \bA$ by
+\[
+\bS(a) \coloneqq \pi_{1,3}(\RR \cap \bA \times \{a\} \times \bA),
+\]
+there do not exist $b \in \bB \setminus \PP$, $p \in \PP$, and $\bC,\bD \le \bA$ satisfying
+\begin{align*}
+\bC \cap \bD &= \emptyset,\\
+\bC + \bS(b) &= \bC,\\
+\bD - \bS(b) &= \bD,\\
+(\bC \times \bD) \cap \bS(p) &\ne \emptyset.
+\end{align*}
+\end{lem}
+\begin{proof} Suppose for the sake of contradiction that such $b,p,\bC,\bD$ exist. An easy cycle-finding argument (see Proposition \ref{prop-directed-cycle}) shows that there is some $k > 0$, $c \in \bC$, and $d \in \bD$ such that
+\begin{align*}
+(c,c), (d,d) &\in \bS(b)^{\circ k},\\
+(c,d) &\in \bS(b)^{\circ k-1} \circ \bS(p),
+\end{align*}
+and by replacing $\bS(a)$ by $\bS'(a) = \bS(b)^{\circ k-1} \circ \bS(a)$, we may assume without loss of generality that $k = 1$. In fact, we might as well assume that $\bS(b)$ is transitively closed, and even that
+\[
+\bS(a) = \bS(b) \circ \bS(a)
+\]
+for all $a \in \bB$. Then from
+\[
+\begin{bmatrix} c\\ b\\ c \end{bmatrix}, \begin{bmatrix} c\\ p\\ d \end{bmatrix}, \begin{bmatrix} d\\ b\\ d \end{bmatrix} \in \RR,
+\]
+for any directed Gumm terms $f_1, ..., f_m, q$ we get
+\[
+\begin{bmatrix} f_i(c,c,d)\\ b\\ f_{i+1}(c,c,d) \end{bmatrix} = f_i\left(\begin{bmatrix} c & c & d\\ b & p & b\\ c & d & d \end{bmatrix}\right) \in \RR
+\]
+for $i < m$, and
+\[
+\begin{bmatrix} f_m(c,c,d)\\ b\\ q(c,d,d) \end{bmatrix} = f_m\left(\begin{bmatrix} c & c & d\\ b & p & b\\ c & d & d \end{bmatrix}\right) \in \RR,
+\]
+so from $f_1(c,c,d) = c$  and the definition of $\bS(b)$ we get
+\[
+(c, q(c,d,d)) \in \bS(b)^{\circ m} = \bS(b).
+\]
+We also have
+\[
+\begin{bmatrix} c\\ q(b,p,p)\\ q(c,d,d) \end{bmatrix} = q\left(\begin{bmatrix} c & c & c\\ b & p & p\\ c & d & d \end{bmatrix}\right) \in \RR,
+\]
+and by Proposition \ref{prop-ctb-pair} we have
+\[
+q(b,p,p) \in \PP.
+\]
+By the minimality of the CTB-pair $(\PP,\bB)$, we see that $b$ and $q(b,p,p)$ generate $\bB$, so (using the idempotence of $\bA$) we have the implication
+\[
+\begin{bmatrix} c\\ b\\ q(c,d,d) \end{bmatrix}, \begin{bmatrix} c\\ q(b,p,p)\\ q(c,d,d) \end{bmatrix} \in \RR \implies \begin{bmatrix} c\\ p\\ q(c,d,d) \end{bmatrix} \in \RR,
+\]
+so we also have
+\[
+(c, q(c,d,d)) \in \bS(p).
+\]
+Introducing the abbreviation
+\[
+c' = q(c,d,d),
+\]
+what we've shown so far can be summarized as $(c,c') \in \bS(b) \cap \bS(p)$. Applying $q$, we have
+\begin{align*}
+\begin{bmatrix} c\\ b\\ q(d,c',c') \end{bmatrix} &= q\left(\begin{bmatrix} c & c & c\\ p & p & b\\ d & c' & c' \end{bmatrix}\right) \in \RR,\\
+\begin{bmatrix} c'\\ q(p,b,b)\\ d \end{bmatrix} &= q\left(\begin{bmatrix} c & d & d\\ p & b & b\\ d & d & d \end{bmatrix}\right) \in \RR,\\
+\begin{bmatrix} c'\\ b\\ c' \end{bmatrix} &= q\left(\begin{bmatrix} c & d & d\\ b & b & b\\ c & d & d \end{bmatrix}\right) \in \RR,
+\end{align*}
+and applying the directed Gumm terms in reverse order we get
+\[
+\begin{bmatrix} q(d,c',c')\\ b\\ f_m(d,d,c') \end{bmatrix} = f_m\left(\begin{bmatrix} d & c' & c'\\ b & q(p,b,b) & b\\ d & d & c' \end{bmatrix}\right) \in \RR
+\]
+and
+\[
+\begin{bmatrix} f_{i+1}(d,d,c')\\ b\\ f_i(d,d,c') \end{bmatrix} = f_i\left(\begin{bmatrix} d & c' & c'\\ b & q(p,b,b) & b\\ d & d & c' \end{bmatrix}\right) \in \RR
+\]
+for $i < m$, so from $f_1(d,d,c') = d$ we get
+\[
+(q(d,c',c'), d) \in \bS(b)^{\circ m} = \bS(b),
+\]
+and now from
+\[
+(c,q(d,c',c')), (q(d,c',c'), d) \in \bS(b) \;\;\; \implies \;\;\; (c,d) \in \bS(b)
+\]
+we get a contradiction.
+\end{proof}
+
+\begin{cor} If $\RR \le \prod_i \bB_i$ is a CTB-relation for a collection of minimal CTB-pairs $(\PP_i, \bB_i)$ which is defined by a comb formula over a family of ternary relations $\RR_i \le \bA \times \bB_i \times \bA$, then the arity of $\RR$ is bounded by
+\[
+\arity(\RR) < 3^{|\bA|} - 2^{|\bA|+1} + 3.
+\]
+\end{cor}
+
+\begin{lem} Suppose that the primitive positive formula $\Phi$ is a tree formula over relations $\RR_i \le \bA^{m_i}$, with all $m_i \le m$, which defines a CTB-relation $\RR$ for a collection of minimal CTB-pairs $(\PP_i, \bB_i)$ of arity at least
+\[
+\max(m-1,2)^{n-3} + 2.
+\]
+Then there is a collection of ternary relations $\RR_i' \le \bA^3$, for $1 \le i \le n$, such that the $n$-ary relation $\RR'$ defined by the comb formula
+\[
+(x_1, ..., x_n) \in \RR' \;\;\; \iff \;\;\; \exists y_0, ..., y_n \in \bA \text{ s.t. } \bigwedge_{i \in [n]} (y_{i-1}, x_i, y_i) \in \RR_i'
+\]
+is also a CTB-relation.
+\end{lem}
+\begin{proof} This is almost identical to the proof of Theorem \ref{thm-tree-to-comb}, the only difference is that in this case we will fix the values of unused variables to be specific elements $b_i \in \bB_i \setminus \PP_i$.
+\end{proof}
+
+\begin{cor}\label{cor-gumm-tree-formula-bound} If $\RR \le \prod_i \bB_i$ is a CTB-relation for a collection of minimal CTB-pairs $(\PP_i, \bB_i)$ which is defined by a tree formula over a family of relations $\RR_i \le \bA^{m_i}$, with all $m_i \le m$, then the arity of $\RR$ is bounded by
+\[
+\arity(\RR) < \max(m-1,2)^{3^{|\bA|} - 2^{|\bA|+1}} + 2.
+\]
+\end{cor}
+
+To finish the proof, we need to show that if a CTB-relation $\RR$ is defined by an arbitrary formula $\Phi$ over a family of low-arity relations, then we can ``unravel'' the formula $\Phi$ to produce a tree formula $\Phi'$ over the same low-arity relations which defines a (probably different) CTB-relation $\RR'$ of the same arity. The plan is to start by unravelling a single cycle, and then to use the graph-theoretic argument of Theorem \ref{thm-unravel-to-tree} to show that by repeatedly unravelling cycles and pruning unneeded components we can eventually unravel the whole formula.
+
+Let $n$ be the arity of $\RR$. We may as well assume that each free variable of $\Phi$ occurs in just one constraint of $\Phi$. Furthermore, by splitting variables into copies and adding equality constraints between the copies, we may as well assume that $\Phi$ is defined by starting with a (quantifier-free) tree formula $\Psi$, adding a bunch of equality constraints between variables of $\Psi$, and then existentially quantifying, i.e.
+\[
+\Phi(x_1, ..., x_n) = \exists y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j
+\]
+for some $E \subseteq [k] \times [k]$.
+
+For any $(i_0,j_0) \in E$, we can unravel a cycle of $\Phi$ to produce the formula $\Phi_{(i_0,j_0)}$ with $n\cdot |\bA|$ free variables, which is defined by
+\begin{align*}
+\Phi_{(i_0,j_0)}(x_1^1, ..., x_n^{|\bA|}) = \exists y_1^1, ..., y_k^{|\bA|} \text{ s.t. } &\bigwedge_{1 \le l \le |\bA|} \Big(\Psi(x^l,y^l) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i^l = y_j^l\Big)\\
+&\wedge \bigwedge_{1 \le l < |\bA|} y_{i_0}^{l+1} = y_{j_0}^l \wedge \bigwedge_{1 \le l \le |\bA|} y_{i_0}^l, y_{j_0}^l \in \bC_{i_0},
+\end{align*}
+where
+\[
+\bC_{i_0} = \Big\{y_{i_0} \mid \exists x_1, ..., x_n, y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j\Big\}.
+\]
+We would like to derive a CTB-relation of arity $n$ from the formula $\Phi_{(i_0,j_0)}$ by existentially quantifying most of its free variables (after restricting them to lie in certain subalgebras). We won't be able to do this directly, as we did in the proof of Theorem \ref{thm-unravel-to-tree} for essential relations: first we will show that the $n$-ary relation defined by the formula
+\[
+\Phi_{(i_0,j_0)}^=(x_1, ..., x_n) = \exists x_1^1, ..., x_n^{|\bA|} \text{ s.t. } \Phi_{(i_0,j_0)}(x_1^1, ..., x_n^{|\bA|}) \wedge \bigwedge_{i,l} x_i^l = x_i
+\]
+is a CTB-relation, and then we will use that fact to extract a formula defining an $n$-ary CTB-relation \emph{without} introducing extra equality constraints to $\Phi_{(i_0,j_0)}$.
+
+For the sake of showing that $\Phi_{(i_0,j_0)}^=(x_1, ..., x_n)$ defines a CTB-relation, it helps to consider the family of binary relations $\bS_{(i_0,j_0)}(x_1, ..., x_n) \le \bC_{i_0} \times \bC_{i_0}$, defined by
+\[
+(y_{i_0}, y_{j_0}) \in \bS_{(i_0,j_0)}(x) \;\;\; \iff \;\;\; \exists y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i = y_j \wedge y_{i_0}, y_{j_0} \in \bC_{i_0},
+\]
+and to note that
+\[
+\Phi_{(i_0,j_0)}^=(x) \;\;\; \iff \;\;\; \bS_{(i_0,j_0)}(x)^{\circ |\bA|} \ne \emptyset,
+\]
+and this occurs if and only if $\bS_{(i_0,j_0)}(x)$ contains a directed cycle. By the definition of $\bC_{i_0}$, we also know that every $c \in \bC_{i_0}$ is a loop of some $\bS_{(i_0,j_0)}(x_c)$ for some $x_c \in \prod_i \bB_i$, and our goal is to show that if $\bS_{(i_0,j_0)}(x)$ contains a directed cycle for an $x \in \prod_i (\bB_i \setminus \PP_i)$, then there is some $x' \in \prod_i (\bB_i \setminus \PP_i)$ such that $\bS_{(i_0,j_0)}(x')$ contains a loop, contradicting our assumption that $\Phi(x)$ defined a CTB-relation.
+
+We will need to generalize the arguments used in the proof of Lemma \ref{lem-gumm-projective-path} to construct paths in digraphs using the directed Gumm terms. Barto \cite{barto-valeriote-conjecture} introduces a variation of J\'onsson absorption, which he calls ``Gumm absorption'', for this purpose.
+
+\begin{defn} We say that $\bB$ \emph{Gumm absorbs} $\bA$ with respect to the directed Gumm terms $f_1, ..., f_m, q$ if we have
+\[
+f_i(\bB, \bA, \bB) \subseteq \bB
+\]
+for all $i \le m$. In this case we write $\bB \lhd_G \bA$.
+\end{defn}
+
+\begin{comment}
+Is there an easy way to combine Gumm absorption chains?
+\begin{align*}
+f(x,x,y) &\approx x,\\
+f(\bC, \bB, \bC) &\subseteq \bC,\\
+f(x,y,y) &\approx p(x,y,y),\\
+p(x,x,y) &\approx y,\\
+g(x,x,y) &\approx x,\\
+g(\bB, \bA, \bB) &\subseteq \bB,\\
+g(x,y,y) &\approx q(x,y,y),\\
+q(x,x,y) &\approx y,\\
+f(x,g(x,x,y),y) &\approx f(x,x,y) \approx x,\\
+f(\bC, g(\bC, \bA, \bC), \bC) &\subseteq f(\bC, g(\bB, \bA, \bB), \bC) \subseteq f(\bC, \bB, \bC) \subseteq \bC,\\
+f(x,g(x,y,y),y) &\approx f(x, q(x,y,y), y),\\
+f(x, q(x,x,y), y) &\approx f(x,y,y) \approx p(x,y,y)...
+\end{align*}
+\end{comment}
+
+\begin{prop}[Forced Absorption Lemma from \cite{barto-valeriote-conjecture}] If we fix directed Gumm terms for a congruence modular variety $\cV$, then for $\bA, \bB, \bC \in \cV$ we have:
+\begin{itemize}
+\item[(a)] if $a \in \bA$, then $\{a\} \lhd_G \bA$,
+\item[(b)] if $\bB, \bC \lhd_G \bA$, then $\bB \cap \bC \lhd_G \bA$,
+\item[(c)] if $\RR \le \bA \times \bC$ and $\bB \lhd_G \bA$, then $\bB + \RR \lhd_G \bA + \RR$.
+\end{itemize}
+\end{prop}
+
+\begin{prop}[Rectangularity Lemma from \cite{barto-valeriote-conjecture}]\label{prop-bipartite-malcev-rectangular} If there is a ternary term operation $q$ which satisfies the identity $q(x,x,y) \approx y$ on $\bA$ and satisfies the identity $q(x,y,y) \approx x$ on $\bB$, then every binary relation $\RR \le \bA \times \bB$ is rectangular.
+\end{prop}
+\begin{proof} If $(a_1,b_1), (a_1, b_2), (a_2, b_2) \in \RR$, then
+\[
+\begin{bmatrix} a_2\\ b_1 \end{bmatrix} = q\left(\begin{bmatrix} a_1 & a_1 & a_2\\ b_1 & b_2 & b_2 \end{bmatrix}\right) \in \RR.\qedhere
+\]
+\end{proof}
+
+\begin{prop}[Directed Walking Lemma from \cite{barto-valeriote-conjecture}]\label{prop-gumm-directed-walking} If we fix directed Gumm terms $f_1, ..., f_m, q$ for a congruence modular variety $\cV$, then if $\bA \in \cV$, $\bS, \RR \le \bA \times \bA$ are binary relations with $\bS \lhd_G \RR$ and $a,b \in \bA$ satisfy
+\begin{itemize}
+\item $(a,a), (b,b) \in \bS$ and
+\item $(a,b) \in \RR$,
+\end{itemize}
+then we have
+\begin{align*}
+(a, q(a,b,b)) &\in \bS^{\circ m},\\
+(q(b,a,a), b) &\in \bS^{\circ m}.
+\end{align*}
+\end{prop}
+\begin{proof} We have
+\[
+\begin{bmatrix} f_i(a,a,b)\\ f_{i+1}(a,a,b) \end{bmatrix} = f_i\left(\begin{bmatrix} a & a & b\\ a & b & b \end{bmatrix}\right) \in f_i(\bS, \RR, \bS) = \bS
+\]
+for each $i < m$, and
+\[
+\begin{bmatrix} f_m(a,a,b)\\ q(a,b,b) \end{bmatrix} = f_m\left(\begin{bmatrix} a & a & b\\ a & b & b \end{bmatrix}\right) \in f_m(\bS, \RR, \bS) = \bS,
+\]
+so from $f_1(a,a,b) = b$ we see that $(a, q(a,b,b)) \in \bS^{\circ m}$. The same argument applied to $\bS^- \lhd_G \RR^-$ shows that $(b, q(b,a,a)) \in \bS^{-\circ m}$, so $(q(b,a,a), b) \in \bS^{\circ m}$.
+\end{proof}
+
+\begin{cor}[Bipartite Walking Lemma from \cite{barto-valeriote-conjecture}]\label{cor-gumm-bipartite-walking} If we fix directed Gumm terms $f_1, ..., f_m, q$ for a congruence modular variety $\cV$, then if $\bA, \bB \in \cV$, $\bS, \RR \le \bA \times \bB$ are binary relations with $\bS \lhd_G \RR$ and $a,b \in \pi_1(\bS)$ are linked in $\RR$, then $a$ and $q(a,b,b)$ are linked in $\bS$.
+\end{cor}
+\begin{proof} Apply the Directed Walking Lemma (Proposition \ref{prop-gumm-directed-walking}) to $\bS \circ \bS^- \lhd_G \RR \circ \RR^-$.
+\end{proof}
+
+\begin{cor}[Edge Absorption Lemma from \cite{barto-valeriote-conjecture}]\label{cor-gumm-edge-absorption} If we fix directed Gumm terms $f_1, ..., f_m, q$ for a congruence modular variety $\cV$, then if $\bA, \bB \in \cV$, $\bS, \RR \le \bA \times \bB$ are binary relations with $\bS \lhd_G \RR$ and $\RR$ is linked, then $q$ is a Mal'cev term on
+\[
+\pi_1(\bS)/\link_1(\bS) \times \pi_2(\bS)/\link_2(\bS),
+\]
+where $\link_i(\bS) \in \Con(\pi_i(\bS))$ is the $i$th linking congruence of $\bS$.
+\end{cor}
+
+\begin{lem}[Vertex Absorption Lemma from \cite{barto-valeriote-conjecture}]\label{lem-gumm-vertex-absorption} Fix directed Gumm terms $f_1, ..., f_m, q$ for a congruence modular variety $\cV$ and suppose that $\bA, \bB \in \cV$, that $\RR \le_{sd} \bA \times \bB$ is linked, and that $\bC \lhd_G \bA$. Then
+\[
+\bS = \RR \cap (\bC \times (\bC + \RR))
+\]
+is also linked.
+\end{lem}
+\begin{proof} Note that since $\RR$ is linked, if $\bC \ne \bA$ then $\bC + \RR - \RR$ will be strictly larger than $\bC$, so by reverse induction on $|\bC| + |\bC + \RR|$ we can reduce to the case where $\bC + \RR = \bB$. For any fork $(a,b_1), (a,b_2) \in \RR$ we can pick some $c \in b_1 - \bS = (b_1 - \RR) \cap \bC$ by the assumption $\bC + \RR = \bB$, and we have
+\[
+\begin{bmatrix} c\\ q(b_2,b_1,b_1) \end{bmatrix} = q\left(\begin{bmatrix} a & a & c\\ b_2 & b_1 & b_1 \end{bmatrix}\right) \in \RR \cap (\bC \times (\bC + \RR)) = \bS,
+\]
+so $b_1, q(b_2,b_1,b_1)$ are linked by $\bS$. Since $\bS = \pi_1^{-1}(\bC)$ in $\RR$, we have $\bS \lhd_G \RR$, so the Bipartite Walking Lemma (Corollary \ref{cor-gumm-bipartite-walking}) shows that $q(b_2,b_1,b_1)$ and $b_2$ are also linked in $\bS$. Thus any pair of elements of $\bB$ which are linked by $\RR$ will also be linked by $\bS$.
+\end{proof}
+
+\begin{prop}\label{prop-ctb-pair-malcev} Fix directed Gumm terms $f_1, ..., f_m, q$ for an idempotent congruence modular variety $\cV$ and suppose that $\PP < \bB \in \cV$ and that $(\PP,\bB)$ is a minimal CTB-pair. Then there is no nontrivial quotient $\bB/\theta$ of $\bB$ such that $q$ is Mal'cev on $\bB$.
+
+As a consequence, for any $\bC \in \cV$ and any $\bS \lhd_G \RR \le_{sd} \bB \times \bC$ such that $\pi_1(\bS) = \bB$, if $\RR$ is linked then $\bS$ will also be linked.
+\end{prop}
+\begin{proof} Let $\theta \in \Con(\bB)$, and note that by the minimality of $(\PP,\bB)$ no congruence class of $\theta$ can meet both $\PP$ and $\bB\setminus \PP$, so $\PP/\theta$ is disjoint from $(\bB\setminus \PP)/\theta$. To see that $q$ does not satisfy the identity $q(x,y,y) \approx x$ on $\bB/\theta$, pick any $p \in \PP, b \in \bB\setminus \PP$, and note that by the Proposition \ref{prop-ctb-pair} we have
+\[
+q(b/\theta, p/\theta, p/\theta) \in \PP/\theta,
+\]
+and $b/\theta \not\in \PP/\theta$.
+\end{proof}
+
+\begin{lem}[Lemma 3.4 of \cite{barto-valeriote-conjecture}] Fix directed Gumm terms $f_1, ..., f_m, q$ for an idempotent congruence modular variety $\cV$, and suppose that $\bC, \bB_i \in \cV$ are finite and $\PP_i < \bB_i$ are such that each $(\PP_i,\bB_i)$ is a minimal CTB-pair. Suppose that we have a relation $\bT \le \bC \times \bC \times \prod_{i \le n} \bB_i$, and for $a \in \prod_{i \le n} \bB_i$ define a directed graph $\bS(a) \le \bC \times \bC$ by
+\[
+(c_1, c_2) \in \bS(a) \;\;\; \iff \;\;\; (c_1,c_2,a_1, ..., a_n) \in \bT.
+\]
+If $\pi_{12}(\bT) \le \bC \times \bC$ contains the loop $(c,c)$ for every $c \in \bC$, and if there is a tuple
+\[
+b = (b_1, ..., b_n) \in \prod_{i \le n} (\bB_i\setminus \PP_i)
+\]
+such that $\bS(b)$ contains a directed cycle, then there is some $b' \in \prod_{i \le n} (\bB_i\setminus \PP_i)$ such that $\bS(b')$ contains a loop.
+\end{lem}
+\begin{proof} Since $\bS(b)$ contains a directed cycle, its smooth part is nonempty and pp-definable, with vertex set $\bC' \le \bC$. We may assume without loss of generality that $\bC = \bC'$ by intersecting $\bT$ with $(\bC')^2\times \prod_{i \le n} \bB_i$ if necessary. This is equivalent to $\bS(b) \le \bC \times \bC$ being subdirect.
+
+Now since $\pi_{12}(\bT)$ contains the diagonal, every linked component of $\pi_{12}(\bT)$ is a smooth digraph, and in particular any directed cycle of $\bS(b)$ is contained within a linked component of $\pi_{12}(\bT)$, with some vertex set $\bC' \le \bC$. Once again we may assume without loss of generality that $\bC = \bC'$, in which case $\pi_{12}(\bT)$ is linked and $\bS(b)$ is subdirect.
+
+A first attempt at continuing from here is to note that $\{b\} \lhd_G \prod_i \bB_i$ implies $\bS(b) \lhd_G \pi_{12}(\bT)$, so the Edge Absorption Lemma (Corollary \ref{cor-gumm-edge-absorption}) shows that $q$ acts as a Mal'cev operation modulo the linking congruences of $\bS(b)$, and we might try to exploit the fact that $q$ satisfies $q(\bB_i, \bB_i, \PP_i) \subseteq \PP_i$ to show that every class of $\pi_{12}(\bT)/(\link_1(\bS(b))\times \link_2(\bS(b)))$ will meet some element of $\prod_i (\bB_i \setminus \PP_i)$ in $\bT$.
+
+The problem we face now is that the set $\prod_i (\bB_i \setminus \PP_i)$ will usually not be a subalgebra of $\prod_i \bB_i$, so it's hard to usefully reason about it. We would like to replace it by a product $\prod_i \bQ_i$, with each $\bQ_i \subseteq \bB_i \setminus \PP_i$ and $\bQ_i \lhd_G \bB_i$, such that we can guarantee that every class of $\pi_{12}(\bT)/(\link_1(\bS(b))\times \link_2(\bS(b)))$ will meet some element of $\prod_i \bQ_i$ in $\bT$.
+
+{\bf Claim.} Let $\RR = \pi_{[3,n+2]}(\bT) \le \prod_{i \le n} \bB_i$. Suppose that we inductively define the sequence of subalgebras $\bQ_i \lhd_G \bB_i$ by
+\[
+\bQ_i = \begin{cases} \pi_i\big(\RR \cap \big(\bQ_1 \times \cdots \times \bQ_{i-1} \times \prod_{j \ge i} \bB_j\big)\big) & \text{if it is contained in }\bB_i \setminus \PP_i,\\ \{b_i\} & \text{otherwise}. \end{cases}
+\]
+Then for any algebra $\bM \in \cV$ such that $q$ is Mal'cev on $\bM$, and for any subdirect binary relation $\bT' \le_{sd} \RR \times \bM$, we have
+\[
+\bQ + \bT' = \bM,
+\]
+where $\bQ = \RR \cap \prod_i \bQ_i$.
+
+{\bf Proof of Claim.} Note that since $b \in \RR$, we will always have $b_i \in \bQ_i$. We prove that
+\[
+\big(\RR \cap \big(\bQ_1 \times \cdots \times \bQ_i \times \prod_{j > i} \bB_j\big)\big) + \bT' = \bM
+\]
+by induction on $i$. In the case where $\bQ_i = \pi_i\big(\RR \cap \big(\bQ_1 \times \cdots \times \bQ_{i-1} \times \prod_{j \ge i} \bB_j\big)\big)$ this follows directly from the induction hypothesis, so suppose that there is some
+\[
+p_i \in \PP_i \cap \pi_i\big(\RR \cap \big(\bQ_1 \times \cdots \times \bQ_{i-1} \times \prod_{j \ge i} \bB_j\big)\big),
+\]
+and let $\bT'' = \pi_{i,n+1}(\bT')$. We just need to show that
+\[
+b_i + \bT'' \stackrel{?}{=} \bM
+\]
+in this case. Pick any elements $u,v \in \bM$ such that
+\[
+(b_i,u), (p_i,v) \in \bT''.
+\]
+Then we have
+\[
+\begin{bmatrix} q(b_i,p_i,p_i)\\ u \end{bmatrix} = q\left(\begin{bmatrix} b_i & p_i & p_i\\ u & v & v \end{bmatrix}\right) \in \bT'',
+\]
+and $q(b_i,p_i,p_i) \in \PP_i$ by Proposition \ref{prop-ctb-pair}. Then since $b_i$ and $q(b_i,p_i,p_i)$ are both contained in $u - \bT''$, by the minimality of the CTB-pair $(\PP_i, \bB_i)$ we have
+\[
+\bB_i \subseteq u - \bT''.
+\]
+Now for any $w \in \bM$, if $(a_i,w) \in \bT''$, then we have
+\[
+\begin{bmatrix} b_i\\ w \end{bmatrix} = q\left(\begin{bmatrix} a_i & a_i & b_i\\ w & u & u \end{bmatrix}\right) \in \bT'',
+\]
+so $b_i + \bT'' = \bM$, finishing the inductive step and proving the claim.
+
+Defining $\bS(\bQ)$ to be the union of $\bS(q)$ over $q \in \bQ$, we see that
+\[
+\bS(\bQ) \lhd_G \pi_{12}(\bT),
+\]
+so we can apply the Edge Absorption Lemma (Corollary \ref{cor-gumm-edge-absorption}) to see that $q$ acts as a Mal'cev operation modulo the linking congruences of $\bS(\bQ)$, and now the Claim shows that every class of $\pi_{12}(\bT)/(\link_1(\bS(\bQ))\times \link_2(\bS(\bQ)))$ meets some element of $\bQ$ in $\bT$ and therefore contains some element of $\bS(\bQ)$. Thus our assumption that $\pi_{12}(\bT)$ is linked implies that $\bS(\bQ)$ must also be linked. Now we can apply the linked case of the Loop Lemma \ref{loop-linked} to see that $\bS(\bQ)$ contains a loop, and by the definition of $\bS(\bQ)$ that loop will be contained in $\bS(b')$ for some $b' \in \bQ \subseteq \prod_i (\bB_i \setminus \PP_i)$.
+\end{proof}
+
+\begin{cor} Suppose that a formula $\Phi$ with $n$ free variables is defined by starting with a (quantifier-free) tree formula $\Psi$ over some relations in a congruence modular variety, adding a bunch of equality constraints between variables of $\Psi$, and then existentially quantifying, i.e.
+\[
+\Phi(x_1, ..., x_n) = \exists y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j
+\]
+for some $E \subseteq [k] \times [k]$. For any $(i_0,j_0) \in E$, define the formula $\Phi_{(i_0,j_0)}^=$ with $n$ free variables by
+\begin{align*}
+\Phi_{(i_0,j_0)}^=(x_1, ..., x_n) = \exists y_1^1, ..., y_k^{|\bA|} \text{ s.t. } &\bigwedge_{1 \le l \le |\bA|} \Big(\Psi(x,y^l) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i^l = y_j^l\Big)\\
+&\wedge \bigwedge_{1 \le l < |\bA|} y_{i_0}^{l+1} = y_{j_0}^l \wedge \bigwedge_{1 \le l \le |\bA|} y_{i_0}^l, y_{j_0}^l \in \bC_{i_0},
+\end{align*}
+where
+\[
+\bC_{i_0} = \Big\{y_{i_0} \mid \exists x_1, ..., x_n, y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j\Big\}.
+\]
+Then $\Phi(x_1, ..., x_n)$ defines a CTB-relation if and only if $\Phi_{(i_0,j_0)}^=(x_1, ..., x_n)$ defines a CTB-relation.
+\end{cor}
+
+To finish the unravelling construction, we need to remove the extra equalities we introduced between the variables of $\Phi_{(i_0,j_0)}^=(x_1, ..., x_n)$ to get a CTB-relation out of $\Phi_{(i_0,j_0)}(x_1^1, ..., x_n^{|\bA|})$. The next lemma is the key.
+
+\begin{lem}[Lemma 4.13 of \cite{barto-valeriote-conjecture}] Fix directed Gumm terms $f_1, ..., f_m, q$ for an idempotent congruence modular variety $\cV$, and suppose that $\bB_i \in \cV$ and $\PP_i < \bB_i$ are such that each $(\PP_i,\bB_i)$ is a minimal CTB-pair.
+
+Let $\RR \le \bB_1 \times \bB_1 \times \bB_2 \times \cdots \times \bB_n$ be such that the $n$-ary relation $\RR^=$ defined by
+\[
+(a_1, a_2, ..., a_n) \in \RR^= \;\;\; \iff \;\;\; (a_1, a_1, a_2, ..., a_n) \in \RR
+\]
+is a CTB-relation (with $n \ge 2$). Then either $\pi_{1,3,...,n+1}(\RR)$ is a CTB-relation or $\pi_{2,3,...,n+1}\big(\RR \cap \big(\{b_1\} \times \prod_i \bB_i\big)\big)$ is a CTB-relation for some $b_1 \in \bB_1 \setminus \PP_1$.
+\end{lem}
+\begin{proof} By the definition of a CTB-relation, there must be elements $p_i \in \PP_i$ such that
+\[
+\bigvee_{i \le n} a_i = p_i \;\;\; \implies \;\;\; (a_1, ..., a_n) \in \RR^=,
+\]
+fix these for the rest of the proof.
+
+Our first goal is to show that $\RR$ does not contain any element of $(\bB_1\setminus\PP_1)^2 \times \prod_{i \ge 2} (\bB_i\setminus \PP_i)$. Suppose for the sake of contradiction that this is false, that is, that there is a tuple
+\[
+(b_1,b_1',b_2, ..., b_n) \in \RR
+\]
+with $b_1, b_1' \not\in \PP_1$ and $b_i \not\in \PP_i$ for all $i \ge 2$. Write $b_{[2,n]}$ for the tuple $(b_2, ..., b_n)$, and define the directed graph $\bS(b_{[2,n]}) \le \bB_1 \times \bB_1$ by
+\[
+(a_1, a_1') \in \bS(b_{[2,n]}) \;\;\; \iff \;\;\; (a_1,a_1',b_2, ..., b_n) \in \RR.
+\]
+We have
+\begin{align*}
+\bS(b_{[2,n]}) &\lhd_G \pi_{12}(\RR),\\
+(b_1,b_1') &\in \bS(b_{[2,n]}),
+\end{align*}
+and since $\RR^=$ is a CTB-relation we have
+\begin{align*}
+(p_1,p_1) &\in \bS(b_{[2,n]}),\\
+(a,a) &\in \pi_{12}(\RR)
+\end{align*}
+for every $a \in \bB_1$ (using $n \ge 2$ here to see that $(a,a,p_2,...) \in \RR$). We just need to find some $b'' \in \bB_1\setminus \PP_1$ with $(b'', b'') \in \bS(b_{[2,n]})$ to get a contradiction with the assumption that $R^=$ is a CTB-relation.
+
+{\bf Case 1.} Suppose $\pi_{12}(\RR)$ contains any edge connecting $\bB_1\setminus \PP_1$ to $\PP_1$. In this case the minimality of $(\PP_1,\bB_1)$ ensures that $\pi_{12}(\RR)$ must be linked. Since we also have
+\[
+\bB_1 = \Sg_{\bB_1}\{b_1,p_1\} \subseteq \pi_1(\bS(b_{[2,n]}))
+\]
+we can apply Proposition \ref{prop-ctb-pair-malcev} to see that $\bS(b_{[2,n]})$ is also linked. By the minimality of $(\PP_1,\bB_1)$, any $b'' \in \bB_1 \setminus \PP_1$ which meets both $\bB_1\setminus \PP_1$ and $\PP_1$ in $\bS(b_{[2,n]})$ meets every element of $\bB_1$, and such a $b''$ can be found along some path connecting $b_1$ to $p_1$ through edges of $\bS(b_{[2,n]})$ (considered as a bipartite graph). In particular, we will have $(b'',b'') \in \bS(b_{[2,n]})$, contradicting our assumption that $R^=$ is a CTB-relation.
+
+{\bf Case 2.} Suppose that $\pi_{12}(\RR) \subseteq (\bB_1\setminus \PP_1)^2 \cup \PP_1^2$. Since $\pi_{12}(\RR)$ contains the diagonal, its left and right linking congruences are equal - let $\bC_1 \le \bB_1$ be the linked component of $\pi_{12}(\RR)$ containing $b_1,b_1'$. Since $\bC_1$ can be defined by
+\[
+\bC_1 = b_1 + (\pi_{12}(\RR) \circ \pi_{12}(\RR)^-)^{\circ k}
+\]
+for some sufficiently large $k$, we have $\bC_1 \lhd_G \bB_1$ and $\bC_1 \subseteq \bB_1 \setminus \PP_1$. Define $\RR_{\bC_1}$, $\bS_{\bC_1}(b_{[2,n]})$ by
+\begin{align*}
+\RR_{\bC_1} &\coloneqq \RR \cap \big(\bC_1 \times \bC_1 \times \prod_{i \ge 2} \bB_i\big),\\
+\bS_{\bC_1}(b_{[2,n]}) &\coloneqq \bS(b_{[2,n]}) \cap (\bC_1 \times \bC_1).
+\end{align*}
+Since $(p_1,p_1)$ meets every element of $\prod_{i \ge 2} \bB_i$ under $\RR$, we see that $\RR$ is linked when considered as a binary relation between $\pi_{12}(\RR)$ and $\prod_{i \ge 2} \bB_i$. The Vertex Absorption Lemma \ref{lem-gumm-vertex-absorption} shows that $\RR_{\bC_1}$ is also linked, when considered as a binary relation between $\pi_{12}(\RR_{\bC_1})$ and $\pi_{[3,n+1]}(\RR_{\bC_1})$.
+
+Since $\bC_1$ is a linked component of $\pi_{12}(\RR)$, the binary relation $\pi_{12}(\RR_{\bC_1}) \le \bC_1 \times \bC_1$ is linked. Since $\bS_{\bC_1}(b_{[2,n]})$ Gumm absorbs $\pi_{12}(\RR_{\bC_1})$, we can apply the Edge Absorption Lemma (Corollary \ref{cor-gumm-edge-absorption}) to see that $q$ is a Mal'cev operation on
+\[
+\pi_{12}(\RR_{\bC_1})/(\link_1(\bS_{\bC_1}(b_{[2,n]})) \times \link_2(\bS_{\bC_1}(b_{[2,n]}))).
+\]
+By the Rectangularity Lemma (Proposition \ref{prop-bipartite-malcev-rectangular}) we see that $\RR_{\bC_1}/(\link_1(\bS_{\bC_1}(b_{[2,n]})) \times \link_2(\bS_{\bC_1}(b_{[2,n]})))$ is rectangular when considered as a binary relation between $\pi_{12}$ and $\pi_{[3,n+1]}$, and since it is also linked it must be the full relation between those projections. In particular, we see that every class of $\pi_{12}(\RR_{\bC_1})/(\link_1(\bS_{\bC_1}(b_{[2,n]})) \times \link_2(\bS_{\bC_1}(b_{[2,n]})))$ meets $b_{[2,n]}$, and therefore contains some element of $\bS_{\bC_1}(b_{[2,n]})$. Then since $\pi_{12}(\RR_{\bC_1})$ is linked we see that $\bS_{\bC_1}(b_{[2,n]})$ is also linked, and we can apply the linked case of the Loop Lemma \ref{loop-linked} to conclude that there is some $b'' \in \bC_1 \subseteq \bB_1\setminus \PP_1$ with $(b'',b'') \in \bS(b_{[2,n]})$, contradicting our assumption that $R^=$ is a CTB-relation.
+
+So far we have shown that $\RR$ contains no tuples from $(\bB_1\setminus\PP_1)^2 \times \prod_{i \ge 2} (\bB_i\setminus \PP_i)$. If $\pi_{1,3,...,n+1}(\RR)$ doesn't contain any tuples from $\prod_i (\bB_i \setminus \PP_i)$, then it will be a CTB-relation and we will be done. Otherwise, there must be some tuple
+\[
+(b_1, p_1', b_2, ..., b_n) \in \RR
+\]
+with $b_1 \in \bB_1\setminus \PP_1$, $p_1' \in \PP_1$, and $b_i \in \bB_i\setminus \PP_i$ for all $i \ge 2$. In this case we will show that $\pi_{2,3,...,n+1}\big(\RR \cap \big(\{b_1\} \times \prod_i \bB_i\big)\big)$ is a CTB-relation to complete the proof. For this we just need to check that
+\[
+a_1 = p_1' \vee \bigvee_{i \ge 2} a_i = p_i \;\;\; \stackrel{?}{\implies} \;\;\; (b_1, a_1, a_2, ..., a_n) \in \RR.
+\]
+
+First consider the case where $a_i = p_i$ for some $i \ge 2$. Defining $\bS(a_{[2,n]})$ as before, we see that
+\[
+(a_1',a_1') \in \bS(a_{[2,n]})
+\]
+for all $a_1' \in \bB_1$ since $\RR^=$ is a CTB-relation and $a_i = p_i$. Since $\bS(a_{[2,n]}) \lhd_G \pi_{12}(\RR)$ and $\pi_{12}(\RR)$ contains $(b_1,p_1')$, the Directed Walking Lemma (Proposition \ref{prop-gumm-directed-walking}) shows that there is a directed path from $b_1$ to $q(b_1, p_1', p_1')$ in $\bS(a_{[2,n]})$. Since $b_1 \in \bB_1\setminus \PP_1$ and $q(b_1, p_1', p_1') \in \PP_1$, there must be some edge
+\[
+(b_1'', p_1'') \in \bS(a_{[2,n]})
+\]
+along that directed path with $b_1'' \in \bB_1\setminus \PP_1, p_1'' \in \PP_1$. Then by the minimality of $(\PP_1,\bB_1)$ and $(p_1'',p_1'') \in \bS(a_{[2,n]})$ we have
+\[
+\bB_1 = \Sg_{\bB_1}\{b_1'',p_1''\} \subseteq p_1'' - \bS(a_{[2,n]}),
+\]
+so $(b_1, p_1'') \in \bS(a_{[2,n]})$, and similarly by the minimality of $(\PP_1,\bB_1)$ and $(b_1, b_1) \in \bS(a_{[2,n]})$ we have
+\[
+\bB_1 = \Sg_{\bB_1}\{b_1,p_1''\} \subseteq b_1 + \bS(a_{[2,n]}),
+\]
+so $(b_1,a_1) \in \bS(a_{[2,n]})$. We have proved that
+\[
+\bigvee_{i \ge 2} a_i = p_i \;\;\; \implies \;\;\; (b_1, a_1, a_2, ..., a_n) \in \RR.
+\]
+
+Finally consider the case where $a_1 = p_1'$. By assumption we have
+\[
+(b_1, p_1', b_2, ..., b_n) \in \RR,
+\]
+and by the previous case we have
+\[
+(b_1, p_1', a_2, ..., a_{i-1}, p_i, b_{i+1}, ..., b_n) \in \RR
+\]
+for every $i \ge 2$. To finish the proof, just note that the minimality of $(\PP_i,\bB_i)$ implies that $p_i,b_i$ generate $\bB_i$ for each $i \ge 2$, so by induction on $i$ we have
+\begin{align*}
+(b_1, p_1', a_2, ..., a_{i-1}, a_i, b_{i+1}, ..., b_n) \in \Sg\{&(b_1, p_1', a_2, ..., a_{i-1}, p_i, b_{i+1}, ..., b_n),\\
+&(b_1, p_1', a_2, ..., a_{i-1}, b_i, b_{i+1}, ..., b_n)\} \subseteq \RR.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{cor}\label{cor-gumm-unravel} Suppose that a formula $\Phi$ with $n$ free variables is defined by starting with a (quantifier-free) tree formula $\Psi$ over some relations in a congruence modular variety, adding a bunch of equality constraints between variables of $\Psi$, and then existentially quantifying, i.e.
+\[
+\Phi(x_1, ..., x_n) = \exists y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j
+\]
+for some $E \subseteq [k] \times [k]$. For any $(i_0,j_0) \in E$, define the unravelled formula $\Phi_{(i_0,j_0)}$ with $n\cdot |\bA|$ free variables by
+\begin{align*}
+\Phi_{(i_0,j_0)}(x_1^1, ..., x_n^{|\bA|}) = \exists y_1^1, ..., y_k^{|\bA|} \text{ s.t. } &\bigwedge_{1 \le l \le |\bA|} \Big(\Psi(x^l,y^l) \wedge \bigwedge_{(i,j) \in E\setminus (i_0,j_0)} y_i^l = y_j^l\Big)\\
+&\wedge \bigwedge_{1 \le l < |\bA|} y_{i_0}^{l+1} = y_{j_0}^l \wedge \bigwedge_{1 \le l \le |\bA|} y_{i_0}^l, y_{j_0}^l \in \bC_{i_0},
+\end{align*}
+where
+\[
+\bC_{i_0} = \Big\{y_{i_0} \mid \exists x_1, ..., x_n, y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j\Big\}.
+\]
+Then if $\Phi(x_1, ..., x_n)$ defines a CTB-relation, we can find $l_i \le |\bA|$ and $\bC_i^l$ such that the formula
+\[
+\exists x_1^1, ..., x_n^{|\bA|} \text{ s.t. } \bigwedge_{i \le n} x_i = x_i^{l_i} \wedge \Phi_{(i_0,j_0)}(x_1^1, ..., x_n^{|\bA|}) \wedge \bigwedge_{i \le n, l \le |\bA|} x_i^l \in \bC_i^l
+\]
+defines an $n$-ary CTB-relation.
+\end{cor}
+
+Putting it all together, we get our main result.
+
+\begin{thm}[Slight refinement of Barto \cite{barto-valeriote-conjecture}] If $\bA$ is an algebra with directed Gumm terms, and if $\{\RR_i\}_{i \in I}$ are a collection of $m_i$-ary relations $\RR_i \le \bA^{m_i}$ with $m_i \le m$ for all $i \in I$, then the relational structure
+\[
+(\bA, \{\RR_i\}_{i \in I})
+\]
+has a $k$-edge polymorphism with
+\[
+k \le \max(m-1,2)^{3^{|\bA|} - 2^{|\bA|+1}} + 2.
+\]
+\end{thm}
+\begin{proof} Suppose, for the sake of contradiction, that $(\bA, \{\RR_i\}_{i \in I})$ has no $k$-edge polymorphism with $k = \max(m-1,2)^{3^{|\bA|} - 2^{|\bA|+1}} + 2$, and assume without loss of generality that $\bA$ is idempotent and that all unary relations which correspond to subalgebras $\bC \le \bA$ are among the $\RR_i$s. By Theorem \ref{thm-chipped-cubes}, there must be a primitive positive formula $\Phi(x_1, ..., x_k)$ over the relations $\{\RR_i\}_{i \in I}$ such that
+\[
+\Phi(x_1, ..., x_k) \;\;\; \iff \;\;\; \bigwedge_{i \le k} x_i \in \bB_i \wedge \bigvee_{i \le k} x_i \in \PP_i,
+\]
+for some $\PP_i < \bB_i \le \bA$. We may assume without loss of generality that each pair $(\PP_i,\bB_i)$ is minimal, in the sense that for every $b_i \in \bB_i \setminus \PP_i$ and $p_i \in \PP_i$ we have
+\[
+\Sg_{\bA}\{b_i, p_i\} = \bB_i,
+\]
+by adding the constraint $x_i \in \Sg\{b_i,p_i\}$ to $\Phi$ if $\Sg\{b_i,p_i\} \ne \bB_i$. Since $k \ge 2$, each pair $(\PP_i, \bB_i)$ will be a CTB-pair (consider binary projections of the relation defined by $\Phi(x_1, ..., x_k)$ after restricting all but two of the $x_i$s to be equal to some specific elements $b_i$ of $\bB_i \setminus \PP_i$). Thus $\Phi(x_1, ..., x_k)$ defines a CTB-relation.
+
+We may assume without loss of generality that $\Phi$ is defined by starting with a (quantifier-free) tree formula $\Psi$ over $\{\RR_i\}_{i \in I}$, adding a bunch of equality constraints between variables of $\Psi$, and then existentially quantifying, i.e.
+\[
+\Phi(x_1, ..., x_n) = \exists y_1, ..., y_k \text{ s.t. } \Psi(x,y) \wedge \bigwedge_{(i,j) \in E} y_i = y_j
+\]
+for some $E \subseteq [k] \times [k]$. We can apply Corollary \ref{cor-gumm-unravel} to unravel individual cycles in the formula $\Phi$, and by following the same graph-theoretic argument as in Theorem \ref{thm-unravel-to-tree} we can eventually find a tree formula $\Phi'(x_1, ..., x_k)$ over $\{\RR_i\}_{i \in I}$ which also defines a CTB-relation. Finally, we apply Corollary \ref{cor-gumm-tree-formula-bound} to get a contradiction.
+\end{proof}
+
 
