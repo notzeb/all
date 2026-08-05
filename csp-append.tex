@@ -1890,7 +1890,7 @@ This gives us a large collection of (compositionally) idempotent unary polynomia
 \begin{defn} For any algebra $\bA$, we define $E(\bA)$ to be the set of unary polynomials $e \in \Pol_1(\bA)$ such that $e \circ e = e$. Elements of $E(\bA)$ might be called the \emph{idempotents} or \emph{projections} of $\bA$.
 \end{defn}
 
-Recall from Section \ref{s-partial-semi} that for any idempotent $e \in E(\bA)$, the clone of restrictions to $e(\bA)$ of polynomial operations of $\bA$ which preserve $e(\bA)$ is essentially the same as the clone of operations of the form
+Recall from Section \ref{s-splat} that for any idempotent $e \in E(\bA)$, the clone of restrictions to $e(\bA)$ of polynomial operations of $\bA$ which preserve $e(\bA)$ is essentially the same as the clone of operations of the form
 \[
 (x_1, ..., x_n) \mapsto e(f(e(x_1), ..., e(x_n))),
 \]
@@ -2744,40 +2744,40 @@ So far we have classified the traces of tame congruence quotients, by classifyin
 \begin{defn} A finite algebra $\bA$ is called $(\alpha,\beta)$-\emph{minimal}, for $\alpha < \beta \in \Con(\bA)$, if for every unary polynomial $f \in \Pol_1(\bA)$, either $f$ is a permutation or $f(\beta) \subseteq \alpha$.
 \end{defn}
 
-By Proposition \ref{prop-tame-quotient}, an algebra $\bA$ is $(\alpha,\beta)$-minimal iff $\bA/\alpha$ is $(0_{\bA/\alpha}, \beta/\alpha)$-minimal, and for each $(\alpha,\beta)$-trace $N$ there is a corresponding $(0_{\bA/\alpha},\beta/\alpha)$-trace $N/\alpha$ of the same type, so we can often reduce to the case $\alpha = 0$ without loss of generality. We can simplify some of the arguments of \cite{hobby-mckenzie} about types \textbf{3}, \textbf{4}, and \textbf{5} by using the concept of a partial semilattice operation from Section \ref{s-partial-semi}.
+By Proposition \ref{prop-tame-quotient}, an algebra $\bA$ is $(\alpha,\beta)$-minimal iff $\bA/\alpha$ is $(0_{\bA/\alpha}, \beta/\alpha)$-minimal, and for each $(\alpha,\beta)$-trace $N$ there is a corresponding $(0_{\bA/\alpha},\beta/\alpha)$-trace $N/\alpha$ of the same type, so we can often reduce to the case $\alpha = 0$ without loss of generality. We can simplify some of the arguments of \cite{hobby-mckenzie} about types \textbf{3}, \textbf{4}, and \textbf{5} by using the concept of a splat from Section \ref{s-splat}.
 
-\begin{defn} We say that an idempotent binary operation $s$ is a \emph{partial semilattice} if it satisfies the identity
+\begin{defn} We say that an idempotent binary operation $s$ is a \emph{splat} if it satisfies the identity
 \[
 s(x,s(x,y)) \approx s(s(x,y),x) \approx s(x,y).
 \]
-Equivalently, $s$ is a partial semilattice if for all $x,y$, the set $\{x,s(x,y)\}$ is closed under $s$, and acts like a semilattice subalgebra with absorbing element $s(x,y)$ under $s$.
+Equivalently, $s$ is a splat if for all $x,y$, the set $\{x,s(x,y)\}$ is closed under $s$, and acts like a semilattice subalgebra with absorbing element $s(x,y)$ under $s$.
 
-We write $a \rightarrow_s b$ if $s$ is a partial semilattice and $s(a,b) = b$.
+We write $a \rightarrow_s b$ if $s$ is a splat and $s(a,b) = b$.
 \end{defn}
 
-\begin{prop}\label{prop-tame-partial-semi} If $\bA$ is $(\alpha,\beta)$-minimal and has a trace $N$ of type \textbf{3}, \textbf{4}, or \textbf{5} (that is, of either boolean, lattice, or semilattice type), then $\bA$ has a partial semilattice polynomial $s \in \Pol_2(\bA)$ such that $N$ is closed under $s$, and such that $(N/\alpha, s)$ is a two-element semilattice.
+\begin{prop}\label{prop-tame-splat} If $\bA$ is $(\alpha,\beta)$-minimal and has a trace $N$ of type \textbf{3}, \textbf{4}, or \textbf{5} (that is, of either boolean, lattice, or semilattice type), then $\bA$ has a splat polynomial $s \in \Pol_2(\bA)$ such that $N$ is closed under $s$, and such that $(N/\alpha, s)$ is a two-element semilattice.
 
-Furthermore, if $N$ has type  \textbf{3} or \textbf{4} (i.e. boolean or lattice type), then there is another partial semilattice $s' \in \Pol_2(\bA)$ such that $(N, s, s')$ is a two-element lattice.
+Furthermore, if $N$ has type  \textbf{3} or \textbf{4} (i.e. boolean or lattice type), then there is another splat $s' \in \Pol_2(\bA)$ such that $(N, s, s')$ is a two-element lattice.
 
-If $s$ is a partial semilattice term and $a,b \in N$ have $s(a,b) \not\equiv_\alpha a$, then $a \rightarrow_s x$ for all $x \in \bA$ and $a/\alpha = \{a\}$.
+If $s$ is a splat term and $a,b \in N$ have $s(a,b) \not\equiv_\alpha a$, then $a \rightarrow_s x$ for all $x \in \bA$ and $a/\alpha = \{a\}$.
 \end{prop}
-\begin{proof} Let $t \in \Pol_2(\bA)$ be such that $N$ is closed under $t$ and $(N/\alpha, t)$ is a two-element semilattice. Since the unary polynomial $t(x,x)$ is not constant on $N/\alpha$, $(\alpha,\beta)$-minimality implies the unary polynomial $t(x,x)$ must be invertible, so we may assume without loss of generality that $t$ is idempotent. Then we may apply the semilattice iteration argument from Proposition \ref{prop-semilattice-iteration} to produce a partial semilattice polynomial $s \in \Clo(t)$ such that the restriction of $s$ and $t$ to $N/\alpha$ agree.
+\begin{proof} Let $t \in \Pol_2(\bA)$ be such that $N$ is closed under $t$ and $(N/\alpha, t)$ is a two-element semilattice. Since the unary polynomial $t(x,x)$ is not constant on $N/\alpha$, $(\alpha,\beta)$-minimality implies the unary polynomial $t(x,x)$ must be invertible, so we may assume without loss of generality that $t$ is idempotent. Then we may apply the semilattice iteration argument from Proposition \ref{prop-semilattice-iteration} to produce a splat polynomial $s \in \Clo(t)$ such that the restriction of $s$ and $t$ to $N/\alpha$ agree.
 
 For the last statement, if $a,b \in N$ have $s(a,b) \not\equiv_\alpha s(a,a) = a$, then by $(\alpha,\beta)$-minimality the unary polynomial $x \mapsto s(a,x)$ must be a permutation, and since $s(a,s(a,x)) = s(a,x)$, it must be the identity, so $s(a,x) = x$ for all $x \in \bA$. If $a' \in a/\alpha$, then the same argument shows that $s(a',x) = x$ for all $x$, so $a \rightarrow_s a'$ and $a' \rightarrow_s a$, which is only possible if $a' = a$.
 \end{proof}
 
-Hobby and McKenzie \cite{hobby-mckenzie} like to think of their semilattices as meet-semilattices, so they call the partial semilattice polynomial $s$ from Proposition \ref{prop-tame-partial-semi} a \emph{pseudo-meet} operation. If the type is \textbf{3} or \textbf{4}, then they call the second partial semilattice operation $s'$ a \emph{pseudo-join} operation. If the type is \textbf{3} (i.e. boolean), then you can additionally find a unary polynomial $f$ which preserves $N$ and swaps the elements of $N$, and any such $f$ will be invertible. We can assume without loss of generality that this $f$ has order a power of $2$, and we might call such an $f$ a \emph{pseudo-negation} operation.
+Hobby and McKenzie \cite{hobby-mckenzie} like to think of their semilattices as meet-semilattices, so they call the splat polynomial $s$ from Proposition \ref{prop-tame-splat} a \emph{pseudo-meet} operation. If the type is \textbf{3} or \textbf{4}, then they call the second splat operation $s'$ a \emph{pseudo-join} operation. If the type is \textbf{3} (i.e. boolean), then you can additionally find a unary polynomial $f$ which preserves $N$ and swaps the elements of $N$, and any such $f$ will be invertible. We can assume without loss of generality that this $f$ has order a power of $2$, and we might call such an $f$ a \emph{pseudo-negation} operation.
 
 \begin{prop}\label{prop-single-trace} If $\bA$ is $(\alpha,\beta)$-minimal and has at least two different $(\alpha,\beta)$-traces, then all of the $(\alpha,\beta)$-traces have type \textbf{1} or \textbf{2} (that is, they all have either unary or affine type).
 \end{prop}
-\begin{proof} We assume without loss of generality that $\alpha = 0_\bA$. Suppose that $N$ is a $(0_\bA,\beta)$-trace of type \textbf{3}, \textbf{4}, or \textbf{5} (that is, of either boolean, lattice, or semilattice type). Then $N$ has two elements, call them $a,b$, and by Proposition \ref{prop-tame-partial-semi} there is some partial semilattice polynomial $s \in \Pol_2(\bA)$ such that $N = \{a,b\}$ is closed under $s$ and such that $s$ acts as a semilattice operation on $\{a,b\}$, say with $s(a,b) = b$. By the second part of Proposition \ref{prop-tame-partial-semi}, we then have $s(a,x) = s(x,a) = x$ for all $x \in \bA$.
+\begin{proof} We assume without loss of generality that $\alpha = 0_\bA$. Suppose that $N$ is a $(0_\bA,\beta)$-trace of type \textbf{3}, \textbf{4}, or \textbf{5} (that is, of either boolean, lattice, or semilattice type). Then $N$ has two elements, call them $a,b$, and by Proposition \ref{prop-tame-splat} there is some splat polynomial $s \in \Pol_2(\bA)$ such that $N = \{a,b\}$ is closed under $s$ and such that $s$ acts as a semilattice operation on $\{a,b\}$, say with $s(a,b) = b$. By the second part of Proposition \ref{prop-tame-splat}, we then have $s(a,x) = s(x,a) = x$ for all $x \in \bA$.
 
 Now suppose, for the sake of a contradiction, that $K$ is a different $(0_\bA,\beta)$-trace. Since $s(a,b) = s(b,b) = b$, $(0_\bA,\beta)$-minimality implies that the unary polynomial $f : x \mapsto s(x,b)$ has $f(\beta) \subseteq 0_\bA$, so $s(K,b)$ is a singleton. Thus there must be some $c \in K$ such that $s(c,b) \ne c$. Since $s(c,a) = c \ne s(c,b)$, the unary polynomial $g : x \mapsto s(c,x)$ must be a permutation by $(0_\bA,\beta)$-minimality. However, we have $g(K) = s(c,K) \subseteq s(c,c)/\beta = c/\beta = K$ and $g(N) = s(c,N) \subseteq s(c,a)/\beta = c/\beta = K$, so $g$ can't be a permutation, which is a contradiction.
 \end{proof}
 
 \begin{prop}\label{prop-abelian-minimal-set} If $\bA$ is $(\alpha,\beta)$-minimal, then $\beta$ is abelian over $\alpha$ if and only if all of the $(\alpha,\beta)$-traces have type \textbf{1} or \textbf{2} (i.e., unary or affine type).
 \end{prop}
-\begin{proof} We assume without loss of generality that $\alpha = 0_\bA$. If some $(\alpha,\beta)$-trace $N$ has type \textbf{3}, \textbf{4}, or \textbf{5} (i.e., boolean, lattice, or semilattice), then there is a partial semilattice polynomial $s \in \Pol_2(\bA)$ which acts nontrivially on $N$ by Proposition \ref{prop-tame-partial-semi}. Since semilattices aren't abelian, $\bA|_N$ is not abelian, and therefore $\beta$ isn't abelian either (since $N$ is a congruence class of $\beta$).
+\begin{proof} We assume without loss of generality that $\alpha = 0_\bA$. If some $(\alpha,\beta)$-trace $N$ has type \textbf{3}, \textbf{4}, or \textbf{5} (i.e., boolean, lattice, or semilattice), then there is a splat polynomial $s \in \Pol_2(\bA)$ which acts nontrivially on $N$ by Proposition \ref{prop-tame-splat}. Since semilattices aren't abelian, $\bA|_N$ is not abelian, and therefore $\beta$ isn't abelian either (since $N$ is a congruence class of $\beta$).
 
 Now suppose for contradiction that all the traces have type \textbf{1} or \textbf{2}, but that $\beta$ is not abelian. The plan is to transport the nonabelianness of $\beta$ into one of the $(0_\bA,\beta)$-traces to contradict the fact that traces of type \textbf{1} or \textbf{2} must be abelian. Recall that $\beta$ not being abelian means that there is some polynomial $g \in \Pol(\bA)$ and some $(u,v), (a_1,b_1), ..., (a_n,b_n) \in \beta$ such that
 \[
@@ -3359,7 +3359,7 @@ We leave the proof of the next result as an exercise to the reader.
 
 \section{Snags and (strong) solvability}\label{a-sec-snags}
 
-Recall that Theorem \ref{type-abelian} says that a tame congruence quotient $(\alpha,\beta)$ of $\bA$ is abelian iff it has type \textbf{1} or \textbf{2}. Since the type of a tame congruence quotient is determined by the collection of binary polynomials $\Pol_2(\bA)$, we should be able to tell if $(\alpha,\beta)$ is abelian by examining $\Pol_2(\bA)$. We can make this more explicit by recalling that minimal sets of congruence quotients of type \textbf{3}, \textbf{4}, and \textbf{5} all have a binary pseudo-meet polynomial $s$, by Proposition \ref{prop-tame-partial-semi}. This naturally leads to the concept of a \emph{snag}.
+Recall that Theorem \ref{type-abelian} says that a tame congruence quotient $(\alpha,\beta)$ of $\bA$ is abelian iff it has type \textbf{1} or \textbf{2}. Since the type of a tame congruence quotient is determined by the collection of binary polynomials $\Pol_2(\bA)$, we should be able to tell if $(\alpha,\beta)$ is abelian by examining $\Pol_2(\bA)$. We can make this more explicit by recalling that minimal sets of congruence quotients of type \textbf{3}, \textbf{4}, and \textbf{5} all have a binary pseudo-meet polynomial $s$, by Proposition \ref{prop-tame-splat}. This naturally leads to the concept of a \emph{snag}.
 
 \begin{defn} If $\bA$ is an algebra, then an ordered pair of elements $(a,b) \in \bA^2$ is a \emph{2-snag} if there is a binary polynomial $s \in \Pol_2(\bA)$ such that
 \[
@@ -3436,7 +3436,7 @@ b' \in b/\gamma, \;\;\; a' \not\in b/\gamma.
 \]
 We clearly have $(a',b') \in \beta \setminus \gamma \subseteq \beta \setminus \alpha$, so we just need to check that $(a',b')$ is a snag of the same type as $(a,b)$.
 
-If $(\gamma, \eta)$ has type \textbf{3}, \textbf{4}, or \textbf{5} (which must always occur if $(a,b)$ is a 2-snag), then by Proposition \ref{prop-tame-partial-semi} we see that $b' = b$, and that $\bA|_U$ has a partial semilattice polynomial $s$ such that $b \rightarrow_s x$ for all $x \in U$. In particular, $(a',b') = (a',b)$ is a 2-snag via $s$.
+If $(\gamma, \eta)$ has type \textbf{3}, \textbf{4}, or \textbf{5} (which must always occur if $(a,b)$ is a 2-snag), then by Proposition \ref{prop-tame-splat} we see that $b' = b$, and that $\bA|_U$ has a splat polynomial $s$ such that $b \rightarrow_s x$ for all $x \in U$. In particular, $(a',b') = (a',b)$ is a 2-snag via $s$.
 
 If $(\gamma, \eta)$ has type \textbf{2} (which may only occur if $(a,b)$ is a 1-snag), then by Lemma \ref{lem-pseudo-malcev} we see that $\bA|_U$ has a pseudo-Mal'cev operation $p$ which satisfies
 \[
@@ -3845,9 +3845,9 @@ and by Proposition \ref{gen-commutator}(c) we see that if $\beta$ is nonabelian 
 For the more general statement, note that by the argument above every $\gamma$ which satisfies $\beta \wedge \gamma = \alpha$ also satisfies $\gamma \le (\alpha : \beta)$. If $\beta \wedge (\alpha : \beta) \ne \alpha$, then picking any $\delta$ with $\alpha \prec \delta \le \beta \wedge (\alpha : \beta)$ we see that $C(\delta, \beta; \alpha)$ holds, so $\delta$ is abelian over $\alpha$ by Proposition \ref{gen-commutator}(c).
 \end{proof}
 
-In \cite{hobby-mckenzie}, the following alternative tame congruence theoretic characterization of the weak pseudocomplement of $\beta$ over $\alpha$ is given, based on Proposition \ref{prop-tame-partial-semi}.
+In \cite{hobby-mckenzie}, the following alternative tame congruence theoretic characterization of the weak pseudocomplement of $\beta$ over $\alpha$ is given, based on Proposition \ref{prop-tame-splat}.
 
-\begin{prop} Suppose $(\alpha,\beta)$ is a nonabelian prime congruence quotient on a finite algebra $\bA$. Let $U \in M_\bA(\alpha,\beta)$ be any $(\alpha,\beta)$-minimal set, and as in Proposition \ref{prop-tame-partial-semi} let $a \in U$ be an element of the unique $(\alpha,\beta)$-trace $N$, such that there is a partial semilattice polynomial $s \in \Pol(\bA|_U)$ with $s(a,x) = x$ for all $x \in U$.
+\begin{prop} Suppose $(\alpha,\beta)$ is a nonabelian prime congruence quotient on a finite algebra $\bA$. Let $U \in M_\bA(\alpha,\beta)$ be any $(\alpha,\beta)$-minimal set, and as in Proposition \ref{prop-tame-splat} let $a \in U$ be an element of the unique $(\alpha,\beta)$-trace $N$, such that there is a splat polynomial $s \in \Pol(\bA|_U)$ with $s(a,x) = x$ for all $x \in U$.
 
 Then the weak pseudocomplement of $\beta$ over $\alpha$ is equal to the largest congruence $\delta \in \Con(\bA)$ such that $\delta|_U$ has $\{a\}$ as a congruence class (and this $\delta$ exists).
 \end{prop}
@@ -3870,7 +3870,7 @@ There is a corresponding result for dual weak pseudocomplements, as long as we e
 
 \begin{prop}\label{prop-dual-weak-pseudo} Suppose $(\alpha,\beta)$ is a prime congruence quotient of type \textbf{3} or \textbf{4} (i.e. boolean or lattice type) on a finite algebra $\bA$, and let $N$ be any $(\alpha,\beta)$-trace. Then the dual weak pseudocomplement of $\alpha$ under $\beta$ exists and is equal to $\Cg_\bA(N^2)$.
 \end{prop}
-\begin{proof} By Proposition \ref{prop-tame-partial-semi}, $|N| = 2$, and by Lemma \ref{lem-idempotent-surjective-lattice}, the restriction map $\llbracket 0_\bA, \beta \rrbracket \rightarrow \Con(\bA|_N)$ is a surjective lattice homomorphism. Since $|N| = 2$ we have $\alpha|_N = 0_{\bA|_N}$, so we have
+\begin{proof} By Proposition \ref{prop-tame-splat}, $|N| = 2$, and by Lemma \ref{lem-idempotent-surjective-lattice}, the restriction map $\llbracket 0_\bA, \beta \rrbracket \rightarrow \Con(\bA|_N)$ is a surjective lattice homomorphism. Since $|N| = 2$ we have $\alpha|_N = 0_{\bA|_N}$, so we have
 \begin{align*}
 \alpha \vee \gamma = \beta \;\; &\implies \;\; \gamma \in \llbracket 0_\bA, \beta \rrbracket \text{ and } 0_{\bA|_N} \vee \gamma|_N = 1_{\bA|_N}\\
 &\implies \;\; \gamma \le \beta \text{ and } N^2 \subseteq \gamma\\

@@ -6904,7 +6904,7 @@ and any term $t$ witnessing this is an $n$-cube term.
 \begin{cor}[Markovi{\'c}, Mar{\'o}ti, McKenzie \cite{cube-term-blockers}]\label{cor-inherently-finitely-related} A finite idempotent algebra $\bA$ has few subpowers if and only if every (idempotent) expansion of $\bA$ is finitely related.
 \end{cor}
 
-One of the reasons for the interest in Corollary \ref{cor-inherently-finitely-related} was that it was seen as indirect support for the following conjecture due to Matthew Valeriote, which was eventually settled by Barto \cite{barto-valeriote-conjecture}.
+One of the reasons for the interest in Corollary \ref{cor-inherently-finitely-related} was that it was seen as indirect support for the following conjecture due to Matthew Valeriote, which was eventually settled by Barto \cite{barto-valeriote-conjecture} (see Theorem \ref{thm-valeriote-conjecture}).
 
 \begin{conj}[Valeriote's Edinburgh conjecture \cite{csp-comparing-solution-sets}] A finite algebra $\bA$ has few subpowers if and only if $\bA$ is finitely related and generates a congruence modular variety.
 \end{conj}
@@ -7536,7 +7536,7 @@ Now suppose that $\bA$ is simple. Since $\bA$ is Mal'cev, every binary relation 
 Varieties which are both congruence distributive and congruence permutable are known as \emph{arithmetical} varieties. The name arithmetical comes from the theory of arithmetical rings, which are rings where the ``Chinese remainder condition'' holds: for any ideals $I_1, ..., I_n$ and elements $a_1, ..., a_n$ with $a_i \equiv a_j \pmod{I_i + I_j}$ for all $i,j$, there exists some $x$ with $x \equiv a_i \pmod{I_i}$ for all $i$.
 
 
-\section{Partial semilattice operations and the digraph of semilattice subalgebras}\label{s-partial-semi}
+\section{Splats and the digraph of semilattice subalgebras}\label{s-splat}
 
 In this section we will go over a binary analogue of a standard result about iterating unary functions to make (compositionally) idempotent functions, that is, functions satisfying $e \circ e = e$. First we review the case of unary iteration.
 
@@ -7598,18 +7598,18 @@ As a special case of the general result relating reflections to height $1$ ident
 
 Note that identities which involve nesting functions may not survive the process of passing from $\bA$ to the reduct $\bA_e$.
 
-Now we return to the world of idempotent operations, and describe a surprisingly powerful binary analogue of unary iteration. Rather than (compositionally) idempotent operations, we will produce a type of binary operation which I call a \emph{partial semilattice} operation.
+Now we return to the world of idempotent operations, and describe a surprisingly powerful binary analogue of unary iteration. Rather than (compositionally) idempotent operations, we will produce a type of binary operation which I call a \emph{splat}.
 
-\begin{defn}\label{defn-partial-semilattice} We say that an idempotent binary operation $s$ is a \emph{partial semilattice} if it satisfies the identity
+\begin{defn}\label{defn-splat} We say that an idempotent binary operation $s$ is a \emph{splat}\footnote{Previous versions of these notes used the name \emph{partial semilattice} instead of \emph{splat}. On top of being a mouthful, that name is already used in the literature on partial algebras for a different concept.} if it satisfies the identity
 \[
 s(x,s(x,y)) \approx s(s(x,y),x) \approx s(x,y).
 \]
-Equivalently, $s$ is a partial semilattice if for all $x,y$, the set $\{x,s(x,y)\}$ is closed under $s$, and acts like a semilattice subalgebra with absorbing element $s(x,y)$ under $s$.
+Equivalently, $s$ is a splat if for all $x,y$, the set $\{x,s(x,y)\}$ is closed under $s$, and acts like a semilattice subalgebra with absorbing element $s(x,y)$ under $s$.
 \end{defn}
 
-Note that unlike semilattices and $2$-semilattices, partial semilattices are \emph{not necessarily} Taylor operations. The binary projection $\pi_1$ is an extreme example of a partial semilattice operation which is not Taylor. This is a necessary feature of the definition, since we will show that \emph{any} idempotent binary operation can be used to produce a partial semilattice operation (in a nontrivial way).
+Note that unlike semilattices and $2$-semilattices, splats are \emph{not necessarily} Taylor operations. The binary projection $\pi_1$ is an extreme example of a splat operation which is not Taylor. This is a necessary feature of the definition, since we will show that \emph{any} idempotent binary operation can be used to produce a splat operation (in a nontrivial way).
 
-In order to produce partial semilattice operations, we will start by treating our binary operation as a unary function of the second variable, with the first variable treated as a (constant) parameter.
+In order to produce splat operations, we will start by treating our binary operation as a unary function of the second variable, with the first variable treated as a (constant) parameter.
 
 \begin{defn} If $t : \bA^2 \rightarrow \bA$ is a binary function and $\bA$ is finite (or profinite), then we define $t^\infty$ to be the pointwise limit
 \[
@@ -7625,7 +7625,7 @@ t^\infty(x,t^\infty(x,y)) \approx t^\infty(x,y).
 If $t$ is idempotent, then so is $t^\infty$.
 \end{prop}
 
-The function $t^\infty$ now satisfies one of the two defining identities for a partial semilattice. Note that $t^\infty$ can be computed from $t$ in time linear in $|A|^2$. To find a term $u$ which satisfies the second identity $u(u(x,y),x) \approx u(x,y)$, we plug $t^\infty$ into itself in a surprisingly counterintuitive way.
+The function $t^\infty$ now satisfies one of the two defining identities for a splat. Note that $t^\infty$ can be computed from $t$ in time linear in $|A|^2$. To find a term $u$ which satisfies the second identity $u(u(x,y),x) \approx u(x,y)$, we plug $t^\infty$ into itself in a surprisingly counterintuitive way.
 
 \begin{prop} If $f$ is an idempotent binary term which satisfies the identity
 \[
@@ -7651,7 +7651,7 @@ u(u(x,y),x) \approx f(u(x,y),f(x,u(x,y))) \approx f(u(x,y),u(x,y)) \approx u(x,y
 \]
 \end{proof}
 
-Finally, to get a term which satisfies \emph{both} defining identities of a partial semilattice, we iterate the function $u$ on its second variable.
+Finally, to get a term which satisfies \emph{both} defining identities of a splat, we iterate the function $u$ on its second variable.
 
 \begin{prop} If $u$ is an idempotent binary term which satisfies the identity
 \[
@@ -7675,17 +7675,17 @@ for any $m,n$.
 
 The full process, going from $t$ to $f = t^\infty$ to $u(x,y) = f(x,f(y,x))$ to $s = u^\infty$, is functorial, and the final function $s : A^2 \rightarrow A$ can be computed from $t$ in time linear in $|A|^2$. Since $s$ was defined from $t$ in a nontrivial way, we get the following result.
 
-\begin{prop}\label{prop-semilattice-iteration} If $t$ is a binary idempotent term and $a,b$ are such that $t(a,b) = t(b,a) = b$, then the partial semilattice term $s \in \Clo(t)$ defined by the above process also satisfies $s(a,b) = s(b,a) = b$.
+\begin{prop}\label{prop-semilattice-iteration} If $t$ is a binary idempotent term and $a,b$ are such that $t(a,b) = t(b,a) = b$, then the splat term $s \in \Clo(t)$ defined by the above process also satisfies $s(a,b) = s(b,a) = b$.
 
 More generally, if $B,C$ are subsets of $\bA$ such that for any $x \in B\cup C$ and any $y \in C$ we have $t(x,y), t(y,x) \in C$, then the same holds for $s$.
 \end{prop}
 
-\begin{cor} If $(b,b) \in \Sg_{\bA^2}\{(a,b), (b,a)\}$, then there is a partial semilattice term $s \in \Clo(\bA)$ such that $s(a,b) = s(b,a) = b$.
+\begin{cor} If $(b,b) \in \Sg_{\bA^2}\{(a,b), (b,a)\}$, then there is a splat term $s \in \Clo(\bA)$ such that $s(a,b) = s(b,a) = b$.
 \end{cor}
 
-Once we have a partial semilattice term $s$ with $s(a,b) = s(b,a) = b$, we can use it to preprocess the inputs to other $n$-ary functions to force them to preserve the subset $\{a,b\}$ and act like the $n$-ary semilattice operation on this subset. To do this, we first need to find terms $s_n \in \Clo(s)$ which act like the $n$-ary semilattice operation.
+Once we have a splat term $s$ with $s(a,b) = s(b,a) = b$, we can use it to preprocess the inputs to other $n$-ary functions to force them to preserve the subset $\{a,b\}$ and act like the $n$-ary semilattice operation on this subset. To do this, we first need to find terms $s_n \in \Clo(s)$ which act like the $n$-ary semilattice operation.
 
-\begin{prop}\label{higher-semilattice} If $s$ is a partial semilattice operation, then for all $n$ there are terms $s_n \in \Clo(s)$ of arity $n$ such that if $\{x,x_2, ..., x_n\} = \{x,y\}$, then
+\begin{prop}\label{higher-semilattice} If $s$ is a splat operation, then for all $n$ there are terms $s_n \in \Clo(s)$ of arity $n$ such that if $\{x,x_2, ..., x_n\} = \{x,y\}$, then
 \[
 s_n(x,x_2, ..., x_n) \approx s(x,y).
 \]
@@ -7704,7 +7704,7 @@ f_s(x_1, ..., x_n) = f(s_n(x_1, ..., x_n), s_n(x_2, ..., x_n, x_1), ..., s_n(x_n
 \]
 As in the case of unary operations, we will consider the reduct $\bA_s$ with basic operations $f_s$ for every term $f$ of $\bA$. This reduct will be simpler in the sense that for any $a,b$ with $s(a,b) = s(b,a) = b$, each term $f_s$ will act like the $n$-ary semilattice operation on $\{a,b\}$. Additionally, every two-variable height $1$ identity which holds in $\bA$ will also hold in $\bA_s$.
 
-\begin{prop}\label{semilattice-preparation} Let $\bA = (A, (f^i)_{i \in I})$ be a finite idempotent algebra, and let $\Sigma$ be the set of all two-variable height $1$ identities which involve both variables on each side and are satisfied in $\bA$. Then the operations $(f^i_s)_{i \in I}$ of $\bA_s$ will also satisfy the identities in $\Sigma$.
+\begin{prop}\label{semilattice-orientation} Let $\bA = (A, (f^i)_{i \in I})$ be a finite idempotent algebra, and let $\Sigma$ be the set of all two-variable height $1$ identities which involve both variables on each side and are satisfied in $\bA$. Then the operations $(f^i_s)_{i \in I}$ of $\bA_s$ will also satisfy the identities in $\Sigma$.
 
 Additionally, if $\bB, \bC$ are subalgebras of $\bA$ such that for any $x \in \bB$ and any $y \in \bC$ we have $s(x,y), s(y,x) \in \bC$, then for any $n$-ary term $f$ of $\bA$ and any $x_1, ..., x_n \in \bB \cup \bC$ such that at least one $x_i \in \bC$, we have $f_s(x_1, ..., x_n) \in \bC$.
 \end{prop}
@@ -7737,7 +7737,7 @@ f_n^s(x_1, ..., x_n) \coloneqq f_{n!}(s_n(x_{\sigma_1(1)}, ..., x_{\sigma_1(n)})
 Then $f_n^s$ is a symmetric term operation of arity $n$.
 \end{proof}
 
-\begin{prop}\label{prop-totally-symmetric-preparation} If $\bA$ has totally symmetric terms $f_n$ of every arity, then it has totally symmetric terms $f_n^s$ which act like the semilattice operation on each set $\{a,b\}$ with $s(a,b) = s(b,a) = b$.
+\begin{prop}\label{prop-totally-symmetric-orientation} If $\bA$ has totally symmetric terms $f_n$ of every arity, then it has totally symmetric terms $f_n^s$ which act like the semilattice operation on each set $\{a,b\}$ with $s(a,b) = s(b,a) = b$.
 \end{prop}
 \begin{proof} Fix $n$. For every $m \ge 1$, let $S^n_m$ be the set of $n$-ary terms $t$ of $\bA$ such that there exist variables $y_1, ..., y_l$ with $\{y_1, ..., y_l\} = \{x_1, ..., x_n\}$ and such that for each $i$, the number of $j$ with $y_j = x_i$ is at least $m$, and
 \[
@@ -7770,7 +7770,7 @@ defines a subalgebra of $\bA^3$ iff $B \cup C$ is a subalgebra of $\bA$, and for
 
 We can summarize the previous results in the following proposition, which shows that binary absorption and strong absorption are very nearly the same thing.
 
-\begin{prop}\label{bin-abs-semi} If $\bC \lhd_{bin} \bB$, then there is a partial semilattice term $s$ with $s(\bB,\bC), s(\bC,\bB) \subseteq \bC$, and in the reduct $\bA_s$ the subalgebras $\bB_s, \bC_s$ satisfy $\bC_s \lhd_{str} \bB_s$. Furthermore, $\bC \lhd_{str} \bB$ iff the ternary relation $(x \in \bB) \wedge (x \not\in \bC \implies y = z)$ defines a subalgebra of $\bA^3$ (and $\bC \le \bB$).
+\begin{prop}\label{bin-abs-semi} If $\bC \lhd_{bin} \bB$, then there is a splat term $s$ with $s(\bB,\bC), s(\bC,\bB) \subseteq \bC$, and in the reduct $\bA_s$ the subalgebras $\bB_s, \bC_s$ satisfy $\bC_s \lhd_{str} \bB_s$. Furthermore, $\bC \lhd_{str} \bB$ iff the ternary relation $(x \in \bB) \wedge (x \not\in \bC \implies y = z)$ defines a subalgebra of $\bA^3$ (and $\bC \le \bB$).
 \end{prop}
 
 In general, a binary absorbing subalgebra of a binary absorbing subalgebra might not be binary absorbing (consider the $4$ element lattice $(\{0,1\}^2, \wedge, \vee)$ and the sequence $\{(0,1)\} \lhd_{bin} \{(0,0),(0,1)\} \lhd_{bin} \{0,1\}^2$), and similarly for strongly absorbing subalgebras (consider the idempotent commutative groupoid $(\{a,b,c\},\cdot)$ given by $ab = ac = b, bc = c$ and the sequence $\{c\} \lhd_{str} \{b,c\} \lhd_{str} \{a,b,c\}$). However, we can always chain together binary and strong absorption in one particular order.
@@ -7792,21 +7792,21 @@ u(a,c) \in t(\bB,t(c,\bB)) \subseteq t(\bB,\bC) \subseteq \bC,
 and similarly $u(c,a) \in \bC$.
 \end{proof}
 
-By iteratively replacing $\bA$ with reducts $\bA_s$ for partial semilattice terms $s$ quadratically many times, we can reduce to the case where for all $a,b$, we have $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$ iff $\{a,b\}$ is a semilattice subalgebra of $\bA$ with absorbing element $b$.
+By iteratively replacing $\bA$ with reducts $\bA_s$ for splat terms $s$ quadratically many times, we can reduce to the case where for all $a,b$, we have $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$ iff $\{a,b\}$ is a semilattice subalgebra of $\bA$ with absorbing element $b$.
 
-\begin{defn}\label{defn-prepared} We say that an idempotent algebra $\bA$ has been \emph{prepared} if for every pair $a,b$ such that
+\begin{defn}\label{defn-oriented} We say that an idempotent algebra $\bA$ has been \emph{oriented}\footnote{Previous versions of these notes used the word \emph{prepared} instead of \emph{oriented}.} if for every pair $a,b$ such that
 \[
 \begin{bmatrix} b\\ b\end{bmatrix} \in \Sg_{\bA^2}\Big\{\begin{bmatrix} a\\ b\end{bmatrix},\begin{bmatrix} b\\ a\end{bmatrix}\Big\},
 \]
-the set $\{a,b\}$ is a semilattice subalgebra of $\bA$ (in the sense that the restriction of any $k$-ary basic operation of $\bA$ to $\{a,b\}$ is the $k$-ary semilattice operation on $\{a,b\}$ with absorbing element $b$).% We say that $\bA$ is \emph{fully prepared} if for all $\bC \lhd_{bin} \bB \le \bA$ we have $\bC \lhd_{str} \bB$.
+the set $\{a,b\}$ is a semilattice subalgebra of $\bA$ (in the sense that the restriction of any $k$-ary basic operation of $\bA$ to $\{a,b\}$ is the $k$-ary semilattice operation on $\{a,b\}$ with absorbing element $b$).% We say that $\bA$ is \emph{fully oriented} if for all $\bC \lhd_{bin} \bB \le \bA$ we have $\bC \lhd_{str} \bB$.
 \end{defn}
 
-For algebras which have been prepared, it makes sense to define a digraph whose edges correspond to semilattice subalgebras of $\bA$.
+For algebras which have been oriented, it makes sense to define a digraph whose edges correspond to semilattice subalgebras of $\bA$.
 
-\begin{defn} If $s$ is a partial semilattice operation and $a,b$ have $s(a,b) = b$, then we write $a \rightarrow_s b$, or just $a \rightarrow b$ if $s$ is understood (or if the algebra has been prepared).
+\begin{defn} If $s$ is a splat operation and $a,b$ have $s(a,b) = b$, then we write $a \rightarrow_s b$, or just $a \rightarrow b$ if $s$ is understood (or if the algebra has been oriented).
 \end{defn}
 
-\begin{thm} Let $s$ be a fixed nontrivial partial semilattice term operation of an idempotent algebra $\bA$. If $\bA$ is prepared, then the following are equivalent.
+\begin{thm} Let $s$ be a fixed nontrivial splat term operation of an idempotent algebra $\bA$. If $\bA$ is oriented, then the following are equivalent.
 \begin{itemize}
 \item[(a)] $s(a,b) = b$, that is, $a \rightarrow b$,
 
@@ -7818,16 +7818,16 @@ For algebras which have been prepared, it makes sense to define a digraph whose 
 
 \item[(e)] there is a binary term $t$ of $\bA$ with $t(a,b) = t(b,a) = b$,
 
-\item[(f)] there is a partial semilattice term $s'$ of $\bA$ with $s'(a,b) = b$,
+\item[(f)] there is a splat term $s'$ of $\bA$ with $s'(a,b) = b$,
 
 \item[(g)] for every $n$ and every $n$-ary term $f \in \Clo_n(\bA)$ which depends on all its inputs, the restriction of $f$ to $\{a,b\}$ acts like the $n$-ary semilattice operation on $\{a,b\}$ with absorbing element $b$,
 
 \item[(h)] the ternary relation $(x \in \{a,b\}) \wedge (x = a \implies y = z)$ defines a subalgebra of $\bA^3$.
 \end{itemize}
-If $\bA$ has not been prepared, then (a), (b), (c) are equivalent to each other, (d), (e), (f) are equivalent to each other, (g), (h) are equivalent to each other, and (g) implies (a) implies (d).
+If $\bA$ has not been oriented, then (a), (b), (c) are equivalent to each other, (d), (e), (f) are equivalent to each other, (g), (h) are equivalent to each other, and (g) implies (a) implies (d).
 \end{thm}
 
-\begin{prop}\label{prepared-bin-abs} If $\bA$ is prepared, then the following hold:
+\begin{prop}\label{oriented-bin-abs} If $\bA$ is oriented, then the following hold:
 \begin{itemize}
 \item[(a)] for $\bB \lhd_{bin} \bA$ and any $a \in \bA$, there is some $b \in \bB$ such that $a \rightarrow b$,
 \item[(b)] if $\bB \lhd_{bin} \bA$ and $a \in \bA$, $b \in \bB$ have $b \rightarrow a$, then $a \in \bB$,
@@ -7836,9 +7836,9 @@ If $\bA$ has not been prepared, then (a), (b), (c) are equivalent to each other,
 \end{itemize}
 In particular, there is a unique minimal binary absorbing subalgebra $\bB \lhd_{bin} \bA$, and this $\bB$ has no proper binary absorbing subalgebra.
 \end{prop}
-\begin{proof} Part (a) follows from the existence of a partial semilattice term $s$ with $s(\bA,\bB) \subseteq \bB$ and part (b) follows from part (g) of the previous proposition.
+\begin{proof} Part (a) follows from the existence of a splat term $s$ with $s(\bA,\bB) \subseteq \bB$ and part (b) follows from part (g) of the previous proposition.
 
-For part (c), choose a partial semilattice term $s$ with $s(\bB,\bC), s(\bC,\bB) \subseteq \bC$, and choose any binary term $t$ with $t(\bA,\bB), t(\bB,\bA) \subseteq \bB$. Define a binary term $u$ by
+For part (c), choose a splat term $s$ with $s(\bB,\bC), s(\bC,\bB) \subseteq \bC$, and choose any binary term $t$ with $t(\bA,\bB), t(\bB,\bA) \subseteq \bB$. Define a binary term $u$ by
 \[
 u(x,y) \coloneqq s(s(t(x,y),y),s(t(y,x),x)).
 \]
@@ -7851,11 +7851,11 @@ and similarly $u(c,a) \in \bC$.
 For part (d), pick $b_1 \in \bB_1$, then by part (a) there is some $b_2 \in \bB_2$ with $b_1 \rightarrow b_2$, and then by part (b) we have $b_2 \in \bB_1$, so $b_2 \in \bB_1 \cap \bB_2$. Then from $\bB_2 \lhd_{bin} \bA$ we have $\bB_1 \cap \bB_2 \lhd_{bin} \bB_1$, and we can apply part (c) to finish.
 \end{proof}
 
-\begin{prop}\label{arrow-partial} If $\bA$ has been prepared and $a,b,c \in \bA$ have $c \in \Sg\{a,b\}$ with $a \rightarrow c$, then $\bA$ has a partial semilattice term $s$ with $s(a,b) = c$.
+\begin{prop}\label{arrow-partial} If $\bA$ has been oriented and $a,b,c \in \bA$ have $c \in \Sg\{a,b\}$ with $a \rightarrow c$, then $\bA$ has a splat term $s$ with $s(a,b) = c$.
 \end{prop}
-\begin{proof} Let $s'$ be an arbitrary nontrivial partial semilattice term operation of $\bA$, and choose $p$ a binary term operation of $\bA$ with $p(a,b) = c$. Then take $s(x,y) = s'(x,p(x,y))$. We clearly have $s(a,b) = s'(a,p(a,b)) = s'(a,c) = c$, so we just have to check that $s$ is a partial semilattice.
+\begin{proof} Let $s'$ be an arbitrary nontrivial splat term operation of $\bA$, and choose $p$ a binary term operation of $\bA$ with $p(a,b) = c$. Then take $s(x,y) = s'(x,p(x,y))$. We clearly have $s(a,b) = s'(a,p(a,b)) = s'(a,c) = c$, so we just have to check that $s$ is a splat.
 
-If $p$ is second projection then $s = s'$ and we are done. Otherwise, since $\bA$ has been prepared, $p$ and $s'$ both act as the semilattice operation on $\{x,s'(x,p(x,y))\} = \{x,s(x,y)\}$, so $s$ also acts as the semilattice operation on $\{x,s(x,y)\}$.
+If $p$ is second projection then $s = s'$ and we are done. Otherwise, since $\bA$ has been oriented, $p$ and $s'$ both act as the semilattice operation on $\{x,s'(x,p(x,y))\} = \{x,s(x,y)\}$, so $s$ also acts as the semilattice operation on $\{x,s(x,y)\}$.
 \end{proof}
 
 In any digraph, the strongly connected components have a natural partial order.
@@ -7864,26 +7864,26 @@ In any digraph, the strongly connected components have a natural partial order.
 \begin{defn} We say that $b$ is \emph{reachable} from $a$ if there is a sequence $a = a_0, a_1, ..., a_k = b$ such that $a_i \rightarrow a_{i+1}$ for $i = 0, ..., k-1$.
 \end{defn}
 
-\begin{prop} If $\bA$ is prepared and $s^1, ..., s^k$ are partial semilattice terms of $\bA$, then for any $n$-ary term $f \in \langle s^1, ..., s^k\rangle$, $f(x_1, ..., x_n)$ is always reachable from at least one of the variables $x_1, ..., x_n$.
+\begin{prop} If $\bA$ is oriented and $s^1, ..., s^k$ are splat terms of $\bA$, then for any $n$-ary term $f \in \langle s^1, ..., s^k\rangle$, $f(x_1, ..., x_n)$ is always reachable from at least one of the variables $x_1, ..., x_n$.
 \end{prop}
 
-\begin{defn} We say that a subset $S$ of an algebra $\bA$ which has a partial semilattice operation $s$ is \emph{upwards closed} if whenever $a\in S$ and $a' \in \bA$ have $a \rightarrow_s a'$, we also have $a' \in S$.
+\begin{defn} We say that a subset $S$ of an algebra $\bA$ which has a splat operation $s$ is \emph{upwards closed} if whenever $a\in S$ and $a' \in \bA$ have $a \rightarrow_s a'$, we also have $a' \in S$.
 \end{defn}
 
 \begin{defn} We say that a set $A$ is \emph{strongly connected} if for every subset $S \subset A$ with $S\ne \emptyset, A$ there is an $a \in S$ and a $b \in A\setminus S$ such that $a \rightarrow b$. We say that a set $A$ is a \emph{maximal strongly connected component} of an algebra $\bA$ if $A$ is a strongly connected subset which is upwards closed (note that every finite upwards closed set contains at least one maximal strongly connected component). Finally, we call an element of an algebra $\bA$ \emph{maximal} if it is contained in any maximal strongly connected component of $\bA$.
 \end{defn}
 
-The main application of partial semilattice terms to CSPs is the following general idea: if a solvable instance of a CSP is arc-consistent (i.e. all relations are subdirect), then it probably has a solution where each variable is assigned a value in a maximal strongly connected component of the corresponding domain. So a basic case to try to understand is the case where every domain is a strongly connected algebra.
+The main application of splat terms to CSPs is the following general idea: if a solvable instance of a CSP is arc-consistent (i.e. all relations are subdirect), then it probably has a solution where each variable is assigned a value in a maximal strongly connected component of the corresponding domain. So a basic case to try to understand is the case where every domain is a strongly connected algebra.
 
-\begin{rem} The digraph considered in this section is the same as the set of ``thin red edges'' of Andrei Bulatov's colored graph \cite{colored-graph} attached to any Taylor algebra. Bulatov has a different construction of a partial semilattice operation $s$ from a binary term $t$, which is still based on the couterintuitive idea of taking a function $f$ which satisfies $f(x,f(x,y)) \approx f(x,y)$ and plugging in $f(x,f(y,x))$.
+\begin{rem} The digraph considered in this section is the same as the set of ``thin red edges'' of Andrei Bulatov's colored graph \cite{colored-graph} attached to any Taylor algebra. Bulatov has a different construction of a splat operation $s$ from a binary term $t$, which is still based on the couterintuitive idea of taking a function $f$ which satisfies $f(x,f(x,y)) \approx f(x,y)$ and plugging in $f(x,f(y,x))$.
 \end{rem}
 
 
 \section{Maximal strongly connected components and polynomial completeness}
 
-In this section we prove a few results of Andrei Bulatov \cite{bulatov-bounded} about the way maximal strongly connected components of partial semilattice algebras interact with binary and ternary relations. A consequence of the results of this section is that simple, strongly connected algebras are always polynomially complete. Throughout this section, we will always fix a partial semilattice operation $s$.
+In this section we prove a few results of Andrei Bulatov \cite{bulatov-bounded} about the way maximal strongly connected components of splat algebras interact with binary and ternary relations. A consequence of the results of this section is that simple, strongly connected algebras are always polynomially complete. Throughout this section, we will always fix a splat operation $s$.
 
-\begin{thm}\label{strong-binary} Fix a partial semilattice operation $s$. Suppose $\RR \le_{sd} \bA \times \bB$ is subdirect and $A,B$ are maximal strongly connected subsets of $\bA, \bB$, respectively.
+\begin{thm}\label{strong-binary} Fix a splat operation $s$. Suppose $\RR \le_{sd} \bA \times \bB$ is subdirect and $A,B$ are maximal strongly connected subsets of $\bA, \bB$, respectively.
 \begin{itemize}
 \item[(a)] The set of $a$ such that $(\{a\} \times B) \cap \RR \ne \emptyset$ is upwards closed. In particular, if $(A\times B)\cap \RR$ is nonempty, then it is subdirect in $A\times B$.
 
@@ -7919,7 +7919,7 @@ Now suppose that $A \times A \not\subseteq \RR\circ \RR^-$. From the finiteness 
 \begin{cor} If we start with any arc-consistent instance of $\CSP(\bA_1, ..., \bA_n)$ and replace every domain and every relation by the subalgebra generated by its maximal elements, then the resulting instance will still be arc-consistent.
 \end{cor}
 
-\begin{cor}\label{strong-simple} Fix a partial semilattice operation $s$. Suppose that $\RR \le_{sd} \bA\times \bB$ is a subdirect product of finite algebras $\bA, \bB$, and that $\bB$ is simple and $\bB = \Sg(B)$, with $B$ a maximal strongly connected component of $\bB$. Then:
+\begin{cor}\label{strong-simple} Fix a splat operation $s$. Suppose that $\RR \le_{sd} \bA\times \bB$ is a subdirect product of finite algebras $\bA, \bB$, and that $\bB$ is simple and $\bB = \Sg(B)$, with $B$ a maximal strongly connected component of $\bB$. Then:
 \begin{itemize}
 \item[(a)] if $\bA$ is also simple and $\bA = \Sg(A)$ with $A$ a maximal strongly connected component of $\bA$, and if $\RR \cap (A\times B) \ne \emptyset$, then $\RR$ is either the graph of an isomorphism or is $\bA\times \bB$, and
 
@@ -7929,7 +7929,7 @@ Now suppose that $A \times A \not\subseteq \RR\circ \RR^-$. From the finiteness 
 \begin{proof} If $\bB$ is simple, then the linking congruence of $\RR$ on $\bB$ must either be the trivial congruence $0_\bB$, in which case $\RR$ is the graph of a homomorphism from $\bA$ to $\bB$, or the full congruence $1_\bB$, in which case $\RR$ is linked. In the second case, the results follow from Theorem \ref{strong-binary}(c).
 \end{proof}
 
-\begin{thm}\label{strong-ternary} Fix a partial semilattice operation $s$. Suppose $R \subseteq A \times B \times C$ is closed under $s$, $A$ is strongly connected, $\pi_{23}(R)$ is strongly connected, $\pi_{12}(R) = A \times B$, $\pi_{13}(R) = A\times C$, and $A,B,C$ are finite. Then $R = A \times \pi_{23}(R)$.
+\begin{thm}\label{strong-ternary} Fix a splat operation $s$. Suppose $R \subseteq A \times B \times C$ is closed under $s$, $A$ is strongly connected, $\pi_{23}(R)$ is strongly connected, $\pi_{12}(R) = A \times B$, $\pi_{13}(R) = A\times C$, and $A,B,C$ are finite. Then $R = A \times \pi_{23}(R)$.
 \end{thm}
 \begin{proof} By Theorem \ref{strong-binary}(c), we just need to show that $R$ is linked as a subset of $A \times \pi_{23}(R)$. We will do this by showing that for any $a \rightarrow a'$ in $A$, some fork of $R$ links $a$ to $a'$ in one step.
 
@@ -7955,13 +7955,13 @@ Thus both $a$ and $a'$ meet $(b',c') \in \pi_{23}(R)$.
 \begin{rem} The proof of Theorem \ref{strong-ternary} actually proves something slightly more general: if $R \subseteq A\times B \times C$ is closed under $s$, $\pi_{12}(R) = A\times B, \pi_{13}(R) = A\times C$, and $A$ is weakly connected, then $R$ is linked when considered as a subalgebra of $A \times \pi_{23}(R)$.
 \end{rem}
 
-\begin{cor} Fix a partial semilattice operation $s$. Suppose $R \subseteq A_1 \times \cdots \times A_n$ is closed under $s$, $A_1$ is strongly connected, $\pi_{[2,n]}(R)$ is strongly connected, $\pi_{1i}(R) = A_1 \times A_i$ for $i \in [2,n]$, and $A_i$ are finite for all $i$. Then $R = A_1 \times \pi_{[2,n]}(R)$.
+\begin{cor} Fix a splat operation $s$. Suppose $R \subseteq A_1 \times \cdots \times A_n$ is closed under $s$, $A_1$ is strongly connected, $\pi_{[2,n]}(R)$ is strongly connected, $\pi_{1i}(R) = A_1 \times A_i$ for $i \in [2,n]$, and $A_i$ are finite for all $i$. Then $R = A_1 \times \pi_{[2,n]}(R)$.
 \end{cor}
 
-\begin{cor}\label{strong-product} Fix a partial semilattice operation $s$. Suppose $R \subseteq A_1 \times \cdots \times A_n$ is closed under $s$, all $A_i$ are strongly connected, $\pi_{ij}(R) = A_i \times A_j$ for all $i \ne j$, and $A_i$ are finite for all $i$. Then $R = A_1 \times \cdots \times A_n$.
+\begin{cor}\label{strong-product} Fix a splat operation $s$. Suppose $R \subseteq A_1 \times \cdots \times A_n$ is closed under $s$, all $A_i$ are strongly connected, $\pi_{ij}(R) = A_i \times A_j$ for all $i \ne j$, and $A_i$ are finite for all $i$. Then $R = A_1 \times \cdots \times A_n$.
 \end{cor}
 
-\begin{cor}\label{simple-strong-poly} Fix a partial semilattice operation $s$. If $\bA$ is simple and is generated by a finite maximal strongly connected component $A$, then $\bA$ is polynomially complete.
+\begin{cor}\label{simple-strong-poly} Fix a splat operation $s$. If $\bA$ is simple and is generated by a finite maximal strongly connected component $A$, then $\bA$ is polynomially complete.
 \end{cor}
 \begin{proof} We just need to show that every relation $\RR \le \bA^n$ which contains the set of constant tuples $\Delta_n = \{(a, ..., a) \mid a \in \bA\}$ is an intersection of equality relations. First consider the case $n = 2$. From the assumption that $\bA$ is simple we see that either $\RR$ is the equality relation, or $\RR$ is linked. If $\RR$ is linked, then Theorem \ref{strong-binary}(c) and the fact that $\RR$ contains $\Delta_2$ implies that $A \times A \subseteq \RR$, and from the assumption $\bA = \Sg(A)$ we see that $\RR = \bA \times \bA$.
 
@@ -8013,12 +8013,12 @@ As in the previous example, we will consider a congruence $\theta$ on a six-elem
   \node [fit=(c1)(c2),draw,dotted,rounded corners] {};
 \end{tikzpicture}
 \end{center}
-Given the above digraph structure and the assumption that there is a congruence $\theta$ corresponding to the partition $\{a_1,a_2\},\{b_1,b_2\},\{c_1,c_2\}$, there is only one way to fill in the values of the partial semilattice operation $s$. The reader can check that the congruence $\theta$, considered as a subalgebra of $\bA^2$, has two maximal strongly connected components which are both isomorphic to $\bA$.
+Given the above digraph structure and the assumption that there is a congruence $\theta$ corresponding to the partition $\{a_1,a_2\},\{b_1,b_2\},\{c_1,c_2\}$, there is only one way to fill in the values of the splat operation $s$. The reader can check that the congruence $\theta$, considered as a subalgebra of $\bA^2$, has two maximal strongly connected components which are both isomorphic to $\bA$.
 \end{ex}
 
 Despite the above examples, we do at least have the following result, which is important for understanding how restricting to maximal strongly connected components interacts with cycle-consistency.
 
-\begin{thm}\label{strong-diagonal} Fix a partial semilattice operation $s$. Suppose that $R \subseteq A \times A$ is closed under $s$, $A$ is finite and strongly connected, and $R$ contains the diagonal $\Delta_A = \{(a,a) \mid a \in A\}$. Then $R$ has a maximal strongly connected component which contains $\Delta_A$.
+\begin{thm}\label{strong-diagonal} Fix a splat operation $s$. Suppose that $R \subseteq A \times A$ is closed under $s$, $A$ is finite and strongly connected, and $R$ contains the diagonal $\Delta_A = \{(a,a) \mid a \in A\}$. Then $R$ has a maximal strongly connected component which contains $\Delta_A$.
 \end{thm}
 \begin{proof} Since $\Delta_A$ is strongly connected, it's enough to show that if $(a,b)$ is reachable from $(a,a)$ in $R$, then some element $(c,c)$ of $\Delta_A$ is reachable from $(a,b)$ in $R$. We will define a unary polynomial $\phi$ of $R$ such that $\phi((a,a)) = (a,b)$ and such that $\phi(x)$ is reachable from $x$ in $R$ for all $x \in R$.
 
@@ -8051,7 +8051,7 @@ For any algebra $\bA$, let $\bA^{\max}$ denote the subalgebra of $\bA$ generated
 \end{proof}
 
 \begin{comment}
-\begin{lem} Fix a partial semilattice operation $s$. If $\RR \le_{sd} \bA\times \bB\times \bB$ is finite, $\bA$ is simple and generated by a maximal strongly connected component $A$, $\Delta_\bB \subseteq \pi_{23}(\RR)$, and $\RR \cap (A \times \Delta_\bB) \ne \emptyset$, then $\RR \cap (\bA\times \Delta_\bB)$ is subdirect in $\bA\times \Delta_\bB$, that is, for every $a \in \bA$ there exists a $b \in \bB$ such that $(a,b,b) \in \RR$.
+\begin{lem} Fix a splat operation $s$. If $\RR \le_{sd} \bA\times \bB\times \bB$ is finite, $\bA$ is simple and generated by a maximal strongly connected component $A$, $\Delta_\bB \subseteq \pi_{23}(\RR)$, and $\RR \cap (A \times \Delta_\bB) \ne \emptyset$, then $\RR \cap (\bA\times \Delta_\bB)$ is subdirect in $\bA\times \Delta_\bB$, that is, for every $a \in \bA$ there exists a $b \in \bB$ such that $(a,b,b) \in \RR$.
 \end{lem}
 \begin{proof} First suppose that one of $\pi_{12}(\RR), \pi_{13}(\RR)$ is the graph of a homomorphism $\pi : \bB \twoheadrightarrow \bA$. Then for any $a \in \bA$, if we take any $b \in \pi^{-1}(a)$, then there must exist some $a' \in \bA$ such that $(a',b,b) \in \RR$ by assumption, and we must have $a' = \pi(b) = a$. Thus we may assume that $\pi_{12}(\RR)$ and $\pi_{13}(\RR)$ are both linked.
 
@@ -8062,13 +8062,13 @@ Let $R$ be a maximal strongly connected component of $\RR$ which contains some e
 
 \section{$2$-semilattices, spirals, and ancestral algebras}
 
-In this section we'll discuss a pretty general class of partial semilattice algebras which are nice enough for the associated CSP to have bounded width, due to Bulatov \cite{colored-graph-prelim}. Following the strategy of replacing domains of variables with the subalgebras generated by their maximal elements, and noting that many of the structural results proved in the preceeding section apply best to strongly connected algebras, we see that it would be quite convenient if every domain of every variable in our CSP has a unique maximal strongly connected component. The most straightforward examples of algebras with this property are $2$-semilattices.
+In this section we'll discuss a pretty general class of splat algebras which are nice enough for the associated CSP to have bounded width, due to Bulatov \cite{colored-graph-prelim}. Following the strategy of replacing domains of variables with the subalgebras generated by their maximal elements, and noting that many of the structural results proved in the preceeding section apply best to strongly connected algebras, we see that it would be quite convenient if every domain of every variable in our CSP has a unique maximal strongly connected component. The most straightforward examples of algebras with this property are $2$-semilattices.
 
 \begin{defn} A binary operation $s$ is a $2$-\emph{semilattice} operation if it satisfies the identities
 \[
 s(x,y) \approx s(y,x), \;\;\; s(x,s(x,y)) \approx s(x,y), \;\;\; s(x,x) \approx x.
 \]
-In other words, a $2$-semilattice is a partial semilattice operation which is also commutative.
+In other words, a $2$-semilattice is a splat operation which is also commutative.
 \end{defn}
 
 \begin{prop} An algebra $\bA = (A,s)$ is a $2$-semilattice iff for all $a,b \in \bA$, the subalgebra $\Sg_{\bA}\{a,b\}$ is a semilattice under $s$.
@@ -8081,7 +8081,7 @@ In other words, a $2$-semilattice is a partial semilattice operation which is al
 
 The first difficult results about bounded width CSPs were proved for $2$-semilattices. However, the proofs only depended on the fact that every $2$-semilattice has a unique maximal strongly connected component. Bulatov \cite{colored-graph-prelim} calls this the ``maximal red component condition''. I've chosen to call such algebras ``ancestral'' instead, because they can be equivalently defined as follows.
 
-\begin{defn} An idempotent algebra $\bA$ with a fixed partial semilattice operation $s$ is called \emph{ancestral} if for all $a,b \in \bA$, there is some $c \in \Sg_{\bA}\{a,b\}$ which is reachable from both $a$ and $b$. We call any such $c$ a \emph{common ancestor} of $a$ and $b$.
+\begin{defn} An idempotent algebra $\bA$ with a fixed splat operation $s$ is called \emph{ancestral} if for all $a,b \in \bA$, there is some $c \in \Sg_{\bA}\{a,b\}$ which is reachable from both $a$ and $b$. We call any such $c$ a \emph{common ancestor} of $a$ and $b$.
 \end{defn}
 
 \begin{prop}\label{ancestral-maximal} A finite idempotent algebra $\bA$ is ancestral iff every proper subalgebra of $\bA$ has a unique maximal strongly connected component.
@@ -8113,7 +8113,7 @@ Every proper subalgebra of $\bA_6$ is a $2$-semilattice - in fact, every pair of
 The reader may check that any nonempty subset $S$ of $\bA_6$ which is closed under multiplication by $a$ and by $b$ must necessarily contain all four of $c,d,e,f$ - using this observation, it is easy to check that $\Clo(\bA_6)$ contains no nontrivial proper subclones.
 \end{ex}
 
-\begin{thm} If $\bA = (A,f)$ is a spiral, then for any partial semilattice term $s \in \Clo(f)$ which is defined nontrivially in terms of $f$, the reduct $\bA_s = (A,s)$ is ancestral.
+\begin{thm} If $\bA = (A,f)$ is a spiral, then for any splat term $s \in \Clo(f)$ which is defined nontrivially in terms of $f$, the reduct $\bA_s = (A,s)$ is ancestral.
 \end{thm}
 \begin{proof} We prove this by induction on the size of $A$. Let $a,b$ be any two elements of $A$. If $\Sg_\bA\{a,b\}$ has size two, then since $f$ is commutative we must either have $a \rightarrow b$ or $b \rightarrow a$, so one of $a,b$ is a common ancestor of $a$ and $b$.
 
@@ -8122,7 +8122,7 @@ Otherwise, by the definition of a spiral, there is a surjective homomorphism $\a
 Since $S$ is a binary absorbing subalgebra of $\bA$ with respect to $f$ and $s \in \Clo(f)$ is defined nontrivially, we must have $s(a,b), s(b,a) \in S$. Since $|S| \le |A|-2$, we can apply the inductive hypothesis to see that $s(a,b),s(b,a)$ have a common ancestor in $\Sg_{(S,s)}\{s(a,b),s(b,a)\} \subseteq \Sg_{\bA_s}\{a,b\}$.
 \end{proof}
 
-\begin{ex}\label{ex-ancestral-strong} An example of an ancestral algebra which is not a $2$-semilattice or a spiral is the algebra $\bA_4 = (\{a,b,c,d\},s)$, where $s$ is the partial semilattice operation described below.
+\begin{ex}\label{ex-ancestral-strong} An example of an ancestral algebra which is not a $2$-semilattice or a spiral is the algebra $\bA_4 = (\{a,b,c,d\},s)$, where $s$ is the splat operation described below.
 \begin{center}
 \begin{tabular}{cc}%{p{4.0cm} p{3.4cm}}
 \begin{tabular}{c|cccc} $s$ & $a$ & $b$ & $c$ & $d$\\ \hline $a$ & $a$ & $b$ & $b$ & $a$\\ $b$ & $b$ & $b$ & $c$ & $c$\\ $c$ & $d$ & $c$ & $c$ & $d$\\ $d$ & $a$ & $a$ & $d$ & $d$\end{tabular} & 
@@ -8139,7 +8139,7 @@ The algebra $\bA_4$ has the cyclic automorphism $(a\ b\ c\ d)$, and is generated
 \[
 s'(x,y) \coloneqq s(x,s(y,x))
 \]
-is another (nontrivial) partial semilattice term operation of $\bA_4$, such that $s'(a,c) = a, s'(c,a) = c$. So the reduct $(\{a,b,c,d\},s')$ of $\bA_4$ is \emph{not} an ancestral algebra, as it has the subalgebra $(\{a,c\},s')$ which has the two maximal strongly components $\{a\}$ and $\{c\}$.
+is another (nontrivial) splat term operation of $\bA_4$, such that $s'(a,c) = a, s'(c,a) = c$. So the reduct $(\{a,b,c,d\},s')$ of $\bA_4$ is \emph{not} an ancestral algebra, as it has the subalgebra $(\{a,c\},s')$ which has the two maximal strongly components $\{a\}$ and $\{c\}$.
 
 It is easy to check that $\bA_4$ is simple, and every proper subalgebra of $\bA_4$ is a two element semilattice. By Corollary \ref{simple-strong-poly}, $\bA_4$ is polynomially complete, and in fact Theorem \ref{strong-binary} and Theorem \ref{strong-ternary} imply that every subdirect relation $\RR \le_{sd} \bA_4^n$ can be written as an intersection of two variable relations, each of which is the graph of an automorphism of $\bA_4$. In particular, if we consider the ternary relation
 \[
@@ -8158,7 +8158,7 @@ g'(x,x,y) \approx g'(x,y,x) \approx g'(y,x,x) \approx s'(y,x).
 \begin{prop} Every quotient of an ancestral algebra is ancestral.
 \end{prop}
 
-\begin{thm} If $\bA_1, ..., \bA_n$ are ancestral algebras with partial semilattice operation $s$, then so is $\bA_1 \times \cdots \times \bA_n$.
+\begin{thm} If $\bA_1, ..., \bA_n$ are ancestral algebras with splat operation $s$, then so is $\bA_1 \times \cdots \times \bA_n$.
 \end{thm}
 \begin{proof} We prove this by induction on $n$. Let $a,b \in \bA_1 \times \cdots \times \bA_n$. Since $\bA_1$ is ancestral, there is some $c_1 \in \Sg_{\bA_1}\{a_1,b_1\}$ which is reachable from both $a_1$ and $b_1$. Lifting the path from $a_1$ to $c_1$ to a path from $a$ to some element $c' \in \Sg\{a,b\}$ with $c_1' = c_1$, and lifting the path from $b_1$ to $c_1$ to a path from $b$ to some $c'' \in \Sg\{a,b\}$ with $c_1'' = c_1$, we see that we just need to find a common ancestor of $c'$ and $c''$. Since $c_1' = c_1''$ and $\bA_1$ is idempotent, we see that $c',c''$ have a common ancestor so long as $\bA_2 \times \cdots \times \bA_n$ is ancestral, which follows from the inductive hypothesis.
 \end{proof}
@@ -8166,9 +8166,9 @@ g'(x,x,y) \approx g'(x,y,x) \approx g'(y,x,x) \approx s'(y,x).
 \begin{cor} If $\bA$ is ancestral and $\bB \in HSP_{fin}(\bA)$, then $\bB$ is also ancestral.
 \end{cor}
 
-It turns out that ancestral algebras can be defined entirely in terms of collections of partial semilattice operations.
+It turns out that ancestral algebras can be defined entirely in terms of collections of splat operations.
 
-\begin{thm}\label{ancestral-terms} A finite idempotent algebra $\bA$ with a fixed partial semilattice operation $s$ is ancestral iff for some $m \ge n \ge 0$ it has a sequence of partial semilattice terms $p_1, p_2, ..., p_m$ such that
+\begin{thm}\label{ancestral-terms} A finite idempotent algebra $\bA$ with a fixed splat operation $s$ is ancestral iff for some $m \ge n \ge 0$ it has a sequence of splat terms $p_1, p_2, ..., p_m$ such that
 \begin{itemize}
 \item $a \rightarrow_s p_i(a,b)$ for all $a,b \in \bA$ and all $i$,
 \item $a \rightarrow_s b$ implies $p_i(a,b) = b$ for all $i$, and
@@ -8183,14 +8183,14 @@ for $i \ge 1$, then $f_m(x,y) \approx f_n(y,x)$.
 
 For the converse direction, let $\bF = \cF_{\bA}(x,y) \le \bA^{\bA^2}$ be the free algebra on two generators in the variety generated by $\bA$. Since $\bF \in SP_{fin}(\bA)$, $\bF$ is ancestral, so there is some sequence of elements $f_0, ..., f_n \in \bF$ with $f_0(x,y) = s(x,y)$, such that each $f_{i-1} \rightarrow_s f_i$, each $f_i \in \Sg_{\bF}\{f_{i-1}(x,y),f_{i-1}(x,y)\}$, and such that the subset $S$ of elements of the subalgebra $\bS = \Sg_{\bF}\{f_n(x,y),f_n(y,x)\}$ which are reachable from $f_n$ in $\bS$ is minimal given these constraints. Then $S$ must be strongly connected, and for every $g \in S$ we must have $\bS = \Sg_{\bF}\{g(x,y), g(y,x)\}$. Thus we can extend our sequence $f_0, ..., f_n$ by $f_{n+1}, ..., f_m$ such that each $f_{i-1} \rightarrow_s f_i$, and $f_m(x,y) \approx f_n(y,x)$, and we will automatically have $f_i \in \Sg_{\bF}\{f_{i-1}(x,y),f_{i-1}(x,y)\}$ for each $i$.
 
-Note that $f_{i-1} \rightarrow_s f_i$ and $f_i \in \Sg_{\bF}\{f_{i-1}(x,y),f_{i-1}(x,y)\}$ implies the existence of a binary term $p_i$ such that $x \rightarrow_s p_i(x,y)$ and $f_i(x,y) = p_i(f_{i-1}(x,y), f_{i-1}(y,x))$, by the argument of Proposition \ref{arrow-partial}. Note that the reduct with basic operations $s, f_i$ is ancestral, and has the property that $a \rightarrow_s b$ implies $f_i(a,b) = f_i(b,a) = b$ for all $i$, so $\{a,b\}$ is a semilattice subalgebra with respect to any nontrivial binary term in $\Clo(f_0, ..., f_m)$. Thus we may assume without loss of generality that $a \rightarrow_s b$ implies $p_i(a,b) = b$ for all $i$, and then the argument of Proposition \ref{arrow-partial} implies that each $p_i$ is a partial semilattice term.
+Note that $f_{i-1} \rightarrow_s f_i$ and $f_i \in \Sg_{\bF}\{f_{i-1}(x,y),f_{i-1}(x,y)\}$ implies the existence of a binary term $p_i$ such that $x \rightarrow_s p_i(x,y)$ and $f_i(x,y) = p_i(f_{i-1}(x,y), f_{i-1}(y,x))$, by the argument of Proposition \ref{arrow-partial}. Note that the reduct with basic operations $s, f_i$ is ancestral, and has the property that $a \rightarrow_s b$ implies $f_i(a,b) = f_i(b,a) = b$ for all $i$, so $\{a,b\}$ is a semilattice subalgebra with respect to any nontrivial binary term in $\Clo(f_0, ..., f_m)$. Thus we may assume without loss of generality that $a \rightarrow_s b$ implies $p_i(a,b) = b$ for all $i$, and then the argument of Proposition \ref{arrow-partial} implies that each $p_i$ is a splat term.
 \end{proof}
 
-In fact, we can go further: every ancestral algebra has an ancestral reduct which is prepared. Recall that $\bA$ is \emph{prepared} if for all $a,b \in \bA$, we have $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$ iff $\{a,b\}$ is a semilattice subalgebra of $\bA$ with $a \rightarrow b$.%, and that the associated digraph of semilattice subalgebras does not depend on the choice of (nontrivial) partial semilattice operation for a prepared algebra.
+In fact, we can go further: every ancestral algebra has an ancestral reduct which is oriented. Recall that $\bA$ is \emph{oriented} if for all $a,b \in \bA$, we have $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$ iff $\{a,b\}$ is a semilattice subalgebra of $\bA$ with $a \rightarrow b$.%, and that the associated digraph of semilattice subalgebras does not depend on the choice of (nontrivial) splat operation for a oriented algebra.
 
-\begin{thm} Every finite ancestral algebra $\bA$ has a reduct which is prepared and ancestral.
+\begin{thm} Every finite ancestral algebra $\bA$ has a reduct which is oriented and ancestral.
 \end{thm}
-\begin{proof} Let $s, f_i$ be as in Theorem \ref{ancestral-terms}, and assume without loss of generality that these are the basic operations of $\bA$. Suppose there is a pair $a,b \in \bA$ with $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$ but $s(a,b) \ne b$. Let $s'$ be a partial semilattice term with $s'(a,b) = b$. Then $c \rightarrow_{s} d$ implies $c \rightarrow_{s'} d$, and if we define
+\begin{proof} Let $s, f_i$ be as in Theorem \ref{ancestral-terms}, and assume without loss of generality that these are the basic operations of $\bA$. Suppose there is a pair $a,b \in \bA$ with $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$ but $s(a,b) \ne b$. Let $s'$ be a splat term with $s'(a,b) = b$. Then $c \rightarrow_{s} d$ implies $c \rightarrow_{s'} d$, and if we define
 \[
 f_0'(x,y) \coloneqq s'(x,y)
 \]
@@ -8206,11 +8206,11 @@ Due to the structural simplifications we can obtain by passing to reducts, it ma
 \begin{defn} A finite algebra $\bA$ is called a \emph{minimal ancestral} algebra if $\bA$ is ancestral, and no proper reduct of $\bA$ is ancestral.
 \end{defn}
 
-Since every minimal ancestral algebra is automatically prepared, we don't need to specify a particular choice of partial semilattice operation to define the digraph of semilattice subalgebras.
+Since every minimal ancestral algebra is automatically oriented, we don't need to specify a particular choice of splat operation to define the digraph of semilattice subalgebras.
 
 \begin{prop} Every finite ancestral algebra has a reduct which is a minimal ancestral algebra.
 \end{prop}
-\begin{proof} Whether an algebra is ancestral only depends on the collection of partial semilattice operations in its clone. Since there are only finitely many partial semilattice operations on a given finite set, we don't need to worry about infinite descending chains of smaller and smaller ancestral reducts.
+\begin{proof} Whether an algebra is ancestral only depends on the collection of splat operations in its clone. Since there are only finitely many splat operations on a given finite set, we don't need to worry about infinite descending chains of smaller and smaller ancestral reducts.
 \end{proof}
 
 \begin{prop} If $\bA$ is a minimal ancestral algebra and $\bB \in HSP_{fin}(\bA)$, then $\bB$ is also a minimal ancestral algebra.
@@ -8227,7 +8227,7 @@ we see that these terms $f_0', ..., f_m', f_{m+1}', ...$ generate the same reduc
 \begin{proof} Choose terms $f_i$ as in Theorem \ref{ancestral-terms}. Let $\bF = \cF_\bA(x,y)$ be the free algebra on two generators in the variety generated by $\bA$. Pick any element $g(x,y)$ in the maximal strongly connected component of $\bF$, and note that since $g(x,y)$ is reachable from both $x$ and $y$ in $\bF$, every term $t(x_1, ..., x_k) \in \Clo(g)$ which depends on all its inputs has the property that $t(x_1, ..., x_k)$ is reachable from each $x_i$ in $\cF_\bA(x_1, ..., x_k)$.
 % Note that $\Clo(\bA) = \Clo(f_0, ..., f_m)$ by the assumption that $\bA$ is minimal ancestral, so every term $t(x_1, ..., x_k) \in \Clo(\bA)$ which depends on all its inputs has the property that $t(x_1, ..., x_n)$ is reachable from some $x_i$ in $\cF_{\bA}(x_1, ..., x_n)$.
 
-Applying the semilattice iteration argument, we get a partial semilattice term $s'(x,y) \in \Clo(g)$, which is reachable from each of $x$, $y$, and $g(x,y)$ in $\bF$. In particular, we see that $s'(x,y)$ is contained in the maximal strongly connected component of $\bF$, and if we define terms $f_i'$ by
+Applying the semilattice iteration argument, we get a splat term $s'(x,y) \in \Clo(g)$, which is reachable from each of $x$, $y$, and $g(x,y)$ in $\bF$. In particular, we see that $s'(x,y)$ is contained in the maximal strongly connected component of $\bF$, and if we define terms $f_i'$ by
 \[
 f_0'(x,y) \coloneqq s'(x,y)
 \]
@@ -8252,7 +8252,7 @@ Later we will see that the above result implies that a minimal ancestral algebra
 
 \begin{thm} If $\bA$ is a minimal ancestral algebra such that for all $a,b$ the subalgebra $\Sg_{\bA}\{a,b\}$ has no strongly connected quotient, then $\bA$ is term equivalent to a spiral.
 \end{thm}
-\begin{proof} Let $s$ be a nontrivial partial semilattice operation on $\bA$. Define a sequence of terms $f_i$ inductively by $f_0 \coloneqq s$ and
+\begin{proof} Let $s$ be a nontrivial splat operation on $\bA$. Define a sequence of terms $f_i$ inductively by $f_0 \coloneqq s$ and
 \[
 f_{i+1}(x) \coloneqq f_i(s(x,y),s(y,x)).
 \]
@@ -8501,7 +8501,7 @@ In fact, for any variable $v$ of $\fX$ and any value $a \in \bA_v$, the instance
 \begin{proof} For the second statement, we note that if $|\bA_v| > 1$, then $(v,\{a\}) \in \mathcal{I}$, so there is some maximal element $(x,\bA_x') \in \mathcal{I}$ such that $(v,\{a\}) \preceq (x,\bA_x')$, and we define the reduction $\fX'$ in terms of the maximal element $(x,\bA_x')$. If $v$ is proper, then from $(v,\{a\}) \preceq (x,\bA_x') \preceq (v,\bA_v')$ we must have $a \in \bA_v'$, and if $v$ is not proper then we have $a \in \bA_v = \bA_v'$. Either way, we see by induction that the reduced instance $\fX'$ has a solution in which the variable $v$ is assigned the value $a$.
 \end{proof}
 
-\begin{cor} Suppose $\bA$ is an algebra with a partial semilattice term $s$ and a ternary term $g$ such that for any subalgebra $\bB \le \bA$, the restriction of $g$ to $\Sg(\bB^{\max})$ is a majority operation. Then every cycle-consistent instance of $\CSP(\bA)$ has a solution.
+\begin{cor} Suppose $\bA$ is an algebra with a splat term $s$ and a ternary term $g$ such that for any subalgebra $\bB \le \bA$, the restriction of $g$ to $\Sg(\bB^{\max})$ is a majority operation. Then every cycle-consistent instance of $\CSP(\bA)$ has a solution.
 \end{cor}
 \begin{proof} By Corollary \ref{cycle-consistency-maximal}, if we start with a cycle-consistent instance $\fX$ and restrict all the variable domains $\bA_i$ to $\Sg(\bA_i^{\max})$ to create a new instance $\fX'$, then $\fX'$ will still be cycle-consistent, and by assumption $\fX'$ will be preserved by the majority operation $g$. Then by the previous theorem, $\fX'$ will have a solution.
 \end{proof}
@@ -8513,7 +8513,7 @@ g(0,-,+) &= g(-,-,+) = -,\\
 g(0,0,+) &= g(0,+,+) = +,\\
 g(0,+,-) &= g(-,+,+) = +.
 \end{align*}
-This can be described more succinctly as follows: the permutation $(-\ +)$ is an automorphism of $\bA$, $\{-,+\}$ is a majority subalgebra of $\bA$, and $\{0,-\}, \{0,+\}$ are semilattice subalgebras of $\bA$ with $0 \rightarrow -,+$. The term $s(x,y) \coloneqq g(x,x,y)$ is a partial semilattice, and $s,g$ satisfy the assumptions of the Corollary above, so every cycle-consistent instance of $\CSP(\bA)$ has a solution. We give a table for $s$ and draw the graph of two element subalgebras of $\bA$ (with undirected edges for majority subalgebras and directed edges for semilattice subalgebras) below.
+This can be described more succinctly as follows: the permutation $(-\ +)$ is an automorphism of $\bA$, $\{-,+\}$ is a majority subalgebra of $\bA$, and $\{0,-\}, \{0,+\}$ are semilattice subalgebras of $\bA$ with $0 \rightarrow -,+$. The term $s(x,y) \coloneqq g(x,x,y)$ is a splat, and $s,g$ satisfy the assumptions of the Corollary above, so every cycle-consistent instance of $\CSP(\bA)$ has a solution. We give a table for $s$ and draw the graph of two element subalgebras of $\bA$ (with undirected edges for majority subalgebras and directed edges for semilattice subalgebras) below.
 \begin{center}
 \begin{tabular}{cc}%{p{4.0cm} p{3.4cm}}
 \begin{tabular}{c|ccc} $s$ & $-$ & $0$ & $+$\\ \hline $-$ & $-$ & $-$ & $-$\\ $0$ & $-$ & $0$ & $+$\\ $+$ & $+$ & $+$ & $+$\end{tabular} & 
@@ -10412,27 +10412,27 @@ Putting these three results together, we see that central absorption is a good a
 \begin{prop} The absorption concept $\lhd_Z$, restricted to finite idempotent algebras, is compatible with pp-formulas, is transitively closed, and transfers connectivity.
 \end{prop}
 
-\begin{rem}\label{rem-bin-abs} Annoyingly, binary absorption fails to be transitively closed or compatible with pp-formulas (the intersection of two binary absorbing subalgebras might not be binary absorbing). However, if we restrict ourselves to finite idempotent algebras which are \emph{prepared}, that is, such that $(b,b) \in \Sg\{(a,b),(b,a)\}$ implies that $\{a,b\}$ is a semilattice subalgebra with absorbing element $b$, then binary absorption becomes compatible with pp-formulas and transitively closed (see Proposition \ref{prepared-bin-abs}).
+\begin{rem}\label{rem-bin-abs} Annoyingly, binary absorption fails to be transitively closed or compatible with pp-formulas (the intersection of two binary absorbing subalgebras might not be binary absorbing). However, if we restrict ourselves to finite idempotent algebras which are \emph{oriented}, that is, such that $(b,b) \in \Sg\{(a,b),(b,a)\}$ implies that $\{a,b\}$ is a semilattice subalgebra with absorbing element $b$, then binary absorption becomes compatible with pp-formulas and transitively closed (see Proposition \ref{oriented-bin-abs}).
 \end{rem}
 
-In some cases central absorption implies binary absorption. To describe a criterion for when this happens, we will exploit partial semilattice operations.
+In some cases central absorption implies binary absorption. To describe a criterion for when this happens, we will exploit splat operations.
 
-\begin{prop}\label{prop-central-closed} Suppose that $\bC \lhd_Z \bA$ and that $s$ is any partial semilattice operation. Then $s(\bC,\bA) \subseteq \bC$.
+\begin{prop}\label{prop-central-closed} Suppose that $\bC \lhd_Z \bA$ and that $s$ is any splat operation. Then $s(\bC,\bA) \subseteq \bC$.
 \end{prop}
-\begin{proof} Suppose $c \in \bC$ and $a \in \bA$, and let $b = s(c,a)$. Then $s(c,b) = s(b,c) = b$ by the defining property of partial semilattice operations, so $(b,b) \in \Sg(\{b\}\times \bC \cup \bC \times \{b\})$. Thus by the definition of central absorption, we have $b \in \bC$, that is, $s(c,a) \in \bC$.
+\begin{proof} Suppose $c \in \bC$ and $a \in \bA$, and let $b = s(c,a)$. Then $s(c,b) = s(b,c) = b$ by the defining property of splat operations, so $(b,b) \in \Sg(\{b\}\times \bC \cup \bC \times \{b\})$. Thus by the definition of central absorption, we have $b \in \bC$, that is, $s(c,a) \in \bC$.
 \end{proof}
 
-\begin{prop}\label{bin-central-criterion} Suppose that $\bC \lhd_Z \bA$ in a finite idempotent algebra $\bA$, or just that $s(\bC,\bA) \subseteq \bC$ for all partial semilattice terms $s \in \Clo(\bA)$. Then the following are equivalent:
+\begin{prop}\label{bin-central-criterion} Suppose that $\bC \lhd_Z \bA$ in a finite idempotent algebra $\bA$, or just that $s(\bC,\bA) \subseteq \bC$ for all splat terms $s \in \Clo(\bA)$. Then the following are equivalent:
 \begin{itemize}
 \item[(a)] $\bC$ binary absorbs $\bA$,
 \item[(b)] for all $a \in \bA\setminus \bC$ and all $c \in \bC$, the subalgebra $\Sg\{a,c\}$ has a proper binary absorbing subalgebra,
 \item[(c)] for all $a \in \bA$ and all $c \in \bC$, there is a sequence of elements $a = a_0, a_1, ..., a_n \in \Sg\{a,c\}$ with $a_n \in \bC$ such that $(a_i,a_i) \in \Sg\{(a_{i-1},a_i),(a_i,a_{i-1})\}$ for all $i$.
 \end{itemize}
-If $\bA$ is prepared, then the third condition is equivalent to the assumption that for all $a$ and for all $c \in \bC$, the subalgebra $\Sg\{a,c\}$ contains a directed path from $a$ to $\bC$.
+If $\bA$ is oriented, then the third condition is equivalent to the assumption that for all $a$ and for all $c \in \bC$, the subalgebra $\Sg\{a,c\}$ contains a directed path from $a$ to $\bC$.
 \end{prop}
-\begin{proof} To see that (a) implies (b), note that $\bC \lhd_{bin} \bA$ implies that $\bC \cap \Sg\{a,c\} \lhd_{bin} \Sg\{a,c\}$. To see that (b) implies (c), we induct on the size of $\Sg\{a,c\}$. Let $\bB$ be a proper binary absorbing subalgebra of $\Sg\{a,c\}$, and let $s$ be a partial semilattice term that witnesses this absorption (such an $s$ exists by Proposition \ref{bin-abs-semi}). Then for any $b \in \bB$ we have $s(a,b) \in \bB$, and if we take $a_1 = s(a,b)$ then $(a_1,a_1) \in \Sg\{(a,a_1),(a_1,a)\}$. Let $c_1 = s(c,b)$, then $c_1 \in \bB \cap \bC$, and so $\Sg\{a_1,c_1\} \subseteq \bB < \Sg\{a,c\}$, so by the inductive hypothesis we can complete this to a sequence $a_1, ..., a_n \in \Sg\{a_1,c_1\}$ as in (c).
+\begin{proof} To see that (a) implies (b), note that $\bC \lhd_{bin} \bA$ implies that $\bC \cap \Sg\{a,c\} \lhd_{bin} \Sg\{a,c\}$. To see that (b) implies (c), we induct on the size of $\Sg\{a,c\}$. Let $\bB$ be a proper binary absorbing subalgebra of $\Sg\{a,c\}$, and let $s$ be a splat term that witnesses this absorption (such an $s$ exists by Proposition \ref{bin-abs-semi}). Then for any $b \in \bB$ we have $s(a,b) \in \bB$, and if we take $a_1 = s(a,b)$ then $(a_1,a_1) \in \Sg\{(a,a_1),(a_1,a)\}$. Let $c_1 = s(c,b)$, then $c_1 \in \bB \cap \bC$, and so $\Sg\{a_1,c_1\} \subseteq \bB < \Sg\{a,c\}$, so by the inductive hypothesis we can complete this to a sequence $a_1, ..., a_n \in \Sg\{a_1,c_1\}$ as in (c).
 
-Now suppose that (c) holds. For each $a,c$ with $c \in \bC$, we will construct a binary function $f_{ac}$ such that $f_{ac}(a,c) \in \bC$ and $f_{ac}(\bC,\bA) \subseteq \bC$. Then by cyclically composing the functions $f_{ac}$ together, we can produce a binary term which absorbs $\bC$. To construct $f_{ac}$, we pick a sequence of partial semilattice terms $s_i$ such that $s_i(a_{i-1},a_i) = a_i$ as well as binary terms $t_i$ such that $t_i(a,c) = a_i$. We set
+Now suppose that (c) holds. For each $a,c$ with $c \in \bC$, we will construct a binary function $f_{ac}$ such that $f_{ac}(a,c) \in \bC$ and $f_{ac}(\bC,\bA) \subseteq \bC$. Then by cyclically composing the functions $f_{ac}$ together, we can produce a binary term which absorbs $\bC$. To construct $f_{ac}$, we pick a sequence of splat terms $s_i$ such that $s_i(a_{i-1},a_i) = a_i$ as well as binary terms $t_i$ such that $t_i(a,c) = a_i$. We set
 \[
 f_{ac}(x,y) \coloneqq s_n(\cdots s_2(s_1(x,t_1(x,y)),t_2(x,y))\cdots,t_n(x,y)).
 \]
@@ -11605,17 +11605,17 @@ Of course, this all hinged on the existence of a stability concept: we still nee
 \begin{proof} This is an application of K\"onig's Lemma: for each algebra $\bA$ in $\cV$ with $|\bA| > 1$ which has no affine quotients, we need to choose at least one proper subalgebra $\bB$ to be a stable subalgebra of $\bA$. Since there are only a finite number of choices for $\bB$ for each finite $\bA$, if we can make a consistent set of choices for every finite collection of algebras $\bA_1, ..., \bA_n$, then there exists a globally consistent set of choices.
 \end{proof}
 
-\begin{defn} We say that a pseudovariety is \emph{strongly prepared} if every binary absorbing algebra $\bB \lhd_{bin} \bA \in \cV$ is also strongly absorbing.
+\begin{defn} We say that a pseudovariety is \emph{strongly oriented} if every binary absorbing algebra $\bB \lhd_{bin} \bA \in \cV$ is also strongly absorbing.
 \end{defn}
 
-\begin{prop} Every locally finite variety of idempotent bounded width algebras has a strongly prepared, bounded width reduct.
+\begin{prop} Every locally finite variety of idempotent bounded width algebras has a strongly oriented, bounded width reduct.
 \end{prop}
-\begin{proof} This follows by repeatedly applying Proposition \ref{bin-abs-semi} and Proposition \ref{semilattice-preparation}, using the fact that an algebra has bounded width if and only if it has ternary term operations $f,g$ satisfying the two-variable height $1$ identities from Theorem \ref{bounded-width-terms}, and using the fact that the set of two-variable terms can only be shrunk finitely many times if the free algebra on two generators is finite.
+\begin{proof} This follows by repeatedly applying Proposition \ref{bin-abs-semi} and Proposition \ref{semilattice-orientation}, using the fact that an algebra has bounded width if and only if it has ternary term operations $f,g$ satisfying the two-variable height $1$ identities from Theorem \ref{bounded-width-terms}, and using the fact that the set of two-variable terms can only be shrunk finitely many times if the free algebra on two generators is finite.
 \end{proof}
 
-To finish the proof of Theorem \ref{thm-stability}, we only need to construct stability concepts on pseudovarieties of idempotent, strongly prepared Taylor algebras.
+To finish the proof of Theorem \ref{thm-stability}, we only need to construct stability concepts on pseudovarieties of idempotent, strongly oriented Taylor algebras.
 
-\begin{defn}\label{defn-strong-stable} If $\cV$ is a pseudovariety of finite idempotent strongly prepared Taylor algebras, then we say that $\bB \Yleft \bA$ if there is a sequence of subalgebras
+\begin{defn}\label{defn-strong-stable} If $\cV$ is a pseudovariety of finite idempotent strongly oriented Taylor algebras, then we say that $\bB \Yleft \bA$ if there is a sequence of subalgebras
 \[
 \bA = \bA_0 \ge \bA_1 \ge \cdots \ge \bA_n = \bB
 \]
@@ -11630,9 +11630,9 @@ We say that $\bB$ is \emph{stable in one step} if we can take $n = 1$ in the abo
 
 Algebras which are stable in one step are almost the same thing as what Zhuk calls \emph{strong} subalgebras in \cite{zhuk-strong} - the only difference is in how we handle the case of binary absorption.
 
-\begin{thm} If $\cV$ is a pseudovariety of finite idempotent strongly prepared Taylor algebras, then the binary relation $\Yleft$ on $\cV$ from Definition \ref{defn-strong-stable} is a stability concept.
+\begin{thm} If $\cV$ is a pseudovariety of finite idempotent strongly oriented Taylor algebras, then the binary relation $\Yleft$ on $\cV$ from Definition \ref{defn-strong-stable} is a stability concept.
 \end{thm}
-\begin{proof} We just need to verify the axioms for $\Yleft$. Obviously $\Yleft$ satisfies the subalgebra axiom, and by Corollary \ref{zhuk-four-cases} and the assumption that $\cV$ is strongly prepared $\Yleft$ satisfies ubiquity as well. Transitivity holds for $\Yleft$ by construction. The remaining axioms are intersection, propagation, and the Helly property.
+\begin{proof} We just need to verify the axioms for $\Yleft$. Obviously $\Yleft$ satisfies the subalgebra axiom, and by Corollary \ref{zhuk-four-cases} and the assumption that $\cV$ is strongly oriented $\Yleft$ satisfies ubiquity as well. Transitivity holds for $\Yleft$ by construction. The remaining axioms are intersection, propagation, and the Helly property.
 
 To verify the intersection axiom, suppose that $\bB, \bC \Yleft \bA$: we need to check that $\bB \cap \bC \Yleft \bB$. Inducting on $|\bA| + |\bB| + |\bC|$, we see that it's enough to prove this when $\bB$ and $\bC$ are both stable in one step. For this, we divide into four cases:
 \begin{itemize}
@@ -11645,7 +11645,7 @@ Case (1) follows from $\bB \cap \bC \lhd_Z \bB$. For case (2), we need a claim w
 
 {\bf Claim:} If $\bS \lhd_{str} \bA$ and $\bB \Yleft \bA$, then $\bB \cap \bS \ne \emptyset$ and $\bB \cap \bS \lhd_{str} \bB$.
 
-{\bf Proof of claim:} We just need to check this when $\bB$ is stable in one step. If $\bB$ contains a strongly absorbing subalgebra of $\bA$, we can apply Proposition \ref{prepared-bin-abs}. If $\bB \lhd_Z \bA$, then we can apply Proposition \ref{prepared-bin-abs} and Proposition \ref{prop-central-closed}. If $\bB$ is a PC subalgebra with PC congruence $\theta$, then $\bS/\theta \lhd_{str} \bA/\theta$ implies that $\bS/\theta = \bA/\theta$, so $\bS$ meets every congruence class of $\theta$, and in particular $\bB \cap \bS \ne \emptyset$.
+{\bf Proof of claim:} We just need to check this when $\bB$ is stable in one step. If $\bB$ contains a strongly absorbing subalgebra of $\bA$, we can apply Proposition \ref{oriented-bin-abs}. If $\bB \lhd_Z \bA$, then we can apply Proposition \ref{oriented-bin-abs} and Proposition \ref{prop-central-closed}. If $\bB$ is a PC subalgebra with PC congruence $\theta$, then $\bS/\theta \lhd_{str} \bA/\theta$ implies that $\bS/\theta = \bA/\theta$, so $\bS$ meets every congruence class of $\theta$, and in particular $\bB \cap \bS \ne \emptyset$.
 
 {\bf Case (2) for intersection axiom:} Let $\bC'$ be a subalgebra of $\bC$ such that $\bC' \lhd_{str} \bA$. Then $\bC' \cap \bB \ne \emptyset$ and $\bB \cap \bC' \lhd_{str} \bB$, so $\bB \cap \bC$ contains a strongly absorbing subalgebra of $\bB$.
 
@@ -11665,7 +11665,7 @@ That completes the proof of the intersection axiom. For the propagation axiom, t
 \[
 \bA/(\theta \wedge \psi) \le_{sd} (\bA/\theta) \times (\bA/\psi).
 \]
-Since $\bA/\psi$ is simple, this binary relation is either the graph of a homomorphism $(\bA/\theta) \twoheadrightarrow (\bA/\psi)$ or is linked. If it is the graph of a homomorphism, then we must have $\theta \le \psi$, so $\bC/\theta$ is a PC subalgebra of $\bA/\theta$ with PC congruence $\psi/\theta$. Now suppose that it is linked, and let $\bS$ be a minimal strongly absorbing subalgebra of $\bA/\theta$, which exists by Proposition \ref{prepared-bin-abs}. Then by Theorem \ref{absorbing-linked}, the binary relation
+Since $\bA/\psi$ is simple, this binary relation is either the graph of a homomorphism $(\bA/\theta) \twoheadrightarrow (\bA/\psi)$ or is linked. If it is the graph of a homomorphism, then we must have $\theta \le \psi$, so $\bC/\theta$ is a PC subalgebra of $\bA/\theta$ with PC congruence $\psi/\theta$. Now suppose that it is linked, and let $\bS$ be a minimal strongly absorbing subalgebra of $\bA/\theta$, which exists by Proposition \ref{oriented-bin-abs}. Then by Theorem \ref{absorbing-linked}, the binary relation
 \[
 \bA/(\theta \wedge \psi) \cap (\bS \times (\bA/\psi)) \le_{sd} \bS \times (\bA/\psi)
 \]
@@ -15161,9 +15161,9 @@ c'(x_1, ..., x_p) \equiv_\theta u(x_1, ..., x_p) \in S.
 Thus $c'$ preserves $S$ as well as the equivalence relation $\theta$, and the restriction of $c'$ to $(S,t)/\theta$ is the same as the restriction of $u$ to $(S,t)/\theta$. Since $c'$ generates $\Clo(\bA)$, this finishes the proof.
 \end{proof}
 
-An immediate consequence of Theorem \ref{minimal-taylor-subalg} is that minimal Taylor algebras are \emph{prepared} in the sense of Definition \ref{defn-prepared}.
+An immediate consequence of Theorem \ref{minimal-taylor-subalg} is that minimal Taylor algebras are \emph{oriented} in the sense of Definition \ref{defn-oriented}.
 
-\begin{prop}\label{prop-minimal-prepared} If $\bA$ is a minimal Taylor algebra, then $a, b \in \bA$ have
+\begin{prop}\label{prop-minimal-oriented} If $\bA$ is a minimal Taylor algebra, then $a, b \in \bA$ have
 \[
 \begin{bmatrix} b\\ b\end{bmatrix} \in \Sg_{\bA^2}\left\{\begin{bmatrix} a\\ b\end{bmatrix}, \begin{bmatrix} b\\ a\end{bmatrix}\right\}
 \]
@@ -15747,7 +15747,7 @@ Note that a semilattice edge might not be a subalgebra, and similarly the set $a
 
 We could have also defined ``weak semilattice edges'' in a similar way to the way we defined weak majority edges, but this is unnecessary.
 
-\begin{prop}\label{prop-weak-semilattice-edge} If there is a congruence $\theta$ on $\Sg\{a,b\}$ and an idempotent binary term $t$ such that $t(a,b) \equiv_\theta t(b,a) \equiv_\theta b$, then there is some $b' \in \Sg\{a,b\}$ such that $b' \equiv_\theta b$ and a partial semilattice term $s \in \Clo(t)$ such that $s(a,b') = s(b',a) = b'$.
+\begin{prop}\label{prop-weak-semilattice-edge} If there is a congruence $\theta$ on $\Sg\{a,b\}$ and an idempotent binary term $t$ such that $t(a,b) \equiv_\theta t(b,a) \equiv_\theta b$, then there is some $b' \in \Sg\{a,b\}$ such that $b' \equiv_\theta b$ and a splat term $s \in \Clo(t)$ such that $s(a,b') = s(b',a) = b'$.
 \end{prop}
 
 Bulatov defines his colored graph by coloring the semilattice edges red, coloring the majority edges yellow, and coloring the affine edges blue (I don't know why these particular colors were chosen).
@@ -15973,7 +15973,7 @@ is independent of $i$, and completely determines the colored graph of $\bA$. In 
 \[
 s(x,y) \coloneqq f(x,f(y,x))
 \]
-is a partial semilattice term operation of $\bA$.
+is a splat term operation of $\bA$.
 \end{prop}
 \begin{proof} Note that every pair of distinct elements $a,b \in \bA$ must form an edge of the colored graph of $\bA$ if $\bA$ is a $2$-conservative Taylor algebra. By our analysis of daisy chain terms on the basic two-element minimal Taylor algebras, we see that:
 \begin{itemize}
@@ -16229,7 +16229,7 @@ From here on, we just need to classify the minimal Taylor algebras on the set $\
 \end{prop}
 \begin{proof} Suppose for contradiction that $\bA$ is generated by $a$ and $b$, but that $c \rightarrow a$. Let $g$ be a ternary cyclic term operation of $\bA$, which exists by Theorem \ref{thm-minimal-no-cyclic}.
 
-First suppose that we do not also have $c \rightarrow b$. We will initially attempt to prove that $(a,a) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$, so that by Proposition \ref{prop-minimal-prepared} $\{a,b\}$ will be a two-element semilattice subalgebra with $b \rightarrow a$, which will contradict the assumption that $a$ and $b$ generate $\bA$. Let $s \in \Clo(g)$ be a partial semilattice term operation of $\bA$ with $s(a,c) = s(c,a) = a$. Since by assumption we do not have $a \rightarrow b$, we have $s(a,b) = a$ as well, and since we assumed that $\{b,c\}$ is a subalgebra and that we do not have $c \rightarrow b$, we have $s(c,b) = c$. Define $\bS$ by
+First suppose that we do not also have $c \rightarrow b$. We will initially attempt to prove that $(a,a) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$, so that by Proposition \ref{prop-minimal-oriented} $\{a,b\}$ will be a two-element semilattice subalgebra with $b \rightarrow a$, which will contradict the assumption that $a$ and $b$ generate $\bA$. Let $s \in \Clo(g)$ be a splat term operation of $\bA$ with $s(a,c) = s(c,a) = a$. Since by assumption we do not have $a \rightarrow b$, we have $s(a,b) = a$ as well, and since we assumed that $\{b,c\}$ is a subalgebra and that we do not have $c \rightarrow b$, we have $s(c,b) = c$. Define $\bS$ by
 \[
 \bS = \Sg_{\bA^2}\Big\{\begin{bmatrix}a\\ b\end{bmatrix},\begin{bmatrix}b\\ a\end{bmatrix}\Big\}.
 \]
@@ -16275,11 +16275,11 @@ t(a,a,b) = g(s(c,a), s(c,a), s(c,b)) = g(a,a,c) = a.
 \]
 Either way, $\{a,b\}$ is closed under $t$, which gives us a contradiction.
 
-Now suppose that we have both $c \rightarrow a$ and $c \rightarrow b$. Consider the binary relation $\bS = \Sg_{\bA^2}\{(a,b), (b,a)\}$ as we did before - if either $(a,c)$ or $(b,c)$ are in $\bS$, then we easily see that one of $(a,a), (b,b)$ is in $\bS$, which together with Proposition \ref{prop-minimal-prepared} would contradict the assumption that $\bA$ is generated by $a$ and $b$. Thus the only way to immediately avoid a contradiction is for $\bS$ to be given by
+Now suppose that we have both $c \rightarrow a$ and $c \rightarrow b$. Consider the binary relation $\bS = \Sg_{\bA^2}\{(a,b), (b,a)\}$ as we did before - if either $(a,c)$ or $(b,c)$ are in $\bS$, then we easily see that one of $(a,a), (b,b)$ is in $\bS$, which together with Proposition \ref{prop-minimal-oriented} would contradict the assumption that $\bA$ is generated by $a$ and $b$. Thus the only way to immediately avoid a contradiction is for $\bS$ to be given by
 \[
 \bS = \Big\{\begin{bmatrix}a\\ b\end{bmatrix},\begin{bmatrix}b\\ a\end{bmatrix},\begin{bmatrix}c\\ c\end{bmatrix}\Big\}.
 \]
-In particular, there must be some binary term $f \in \Clo(g)$ such that $f(a,b) = f(b,a) = c$, and since $\bA$ is prepared by Proposition \ref{prop-minimal-prepared}, this $f$ must be the commutative binary operation described in the following table.
+In particular, there must be some binary term $f \in \Clo(g)$ such that $f(a,b) = f(b,a) = c$, and since $\bA$ is oriented by Proposition \ref{prop-minimal-oriented}, this $f$ must be the commutative binary operation described in the following table.
 \begin{center}
 \begin{tabular}{c|ccc} $f$ & $a$ & $b$ & $c$\\ \hline $a$ & $a$ & $c$ & $a$\\ $b$ & $c$ & $b$ & $b$\\ $c$ & $a$ & $b$ & $c$\end{tabular}
 \end{center}
@@ -16292,11 +16292,11 @@ It is easy to check that this $t$ is symmetric, and that $\{a,b\}$ is closed und
 
 \begin{prop} If $\bA$ is a minimal Taylor algebra with underlying set $\{a,b,c\}$ such that $\bA$ is generated by $a$ and $b$, and if $\bA$ has a semilattice subalgebra of the form $a \rightarrow c$, then $\bA$ is isomorphic to a subdirect product of its two-element subalgebras $\{a,c\}$ and $\{b,c\}$.
 \end{prop}
-\begin{proof} By assumption, we do not have $b \rightarrow a$ or $c \rightarrow a$, so $s(\{b,c\},\bA) \subseteq \{b,c\}$ for every partial semilattice term $s \in \Clo(\bA)$. Since $a \rightarrow c$ and $c \in \Sg_\bA\{a,b\}$, we can apply Proposition \ref{bin-central-criterion} to see that $\{b,c\}$ is a binary absorbing subalgebra of $\bA$. Then by Proposition \ref{prop-minimal-binary-strong}, we see that there is a congruence $\theta$ on $\bA$ corresponding to the partition $\{a\}, \{b,c\}$, such that $\bA/\theta \cong \{a,c\}$ is a two-element semilattice. To finish, we just need to show that the equivalence relation $\psi$ on $\bA$ corresponding to the partition $\{a,c\}, \{b\}$ is also a congruence of $\bA$.
+\begin{proof} By assumption, we do not have $b \rightarrow a$ or $c \rightarrow a$, so $s(\{b,c\},\bA) \subseteq \{b,c\}$ for every splat term $s \in \Clo(\bA)$. Since $a \rightarrow c$ and $c \in \Sg_\bA\{a,b\}$, we can apply Proposition \ref{bin-central-criterion} to see that $\{b,c\}$ is a binary absorbing subalgebra of $\bA$. Then by Proposition \ref{prop-minimal-binary-strong}, we see that there is a congruence $\theta$ on $\bA$ corresponding to the partition $\{a\}, \{b,c\}$, such that $\bA/\theta \cong \{a,c\}$ is a two-element semilattice. To finish, we just need to show that the equivalence relation $\psi$ on $\bA$ corresponding to the partition $\{a,c\}, \{b\}$ is also a congruence of $\bA$.
 
 If $b \rightarrow c$, then the same argument as in the last paragraph shows that $\{a,c\}$ is a binary absorbing subalgebra of $\bA$ and that $\psi$ is a congruence of $\bA$ - in this case, $\bA$ is the free semilattice on two generators. Additionally, the previous proposition shows that we can't have $c \rightarrow b$. Thus the only remaining cases are the case where $\{b,c\}$ is a majority algebra and the case where $\{b,c\}$ is $\ZZ/2^{\aff}$, and we assume from here on that we are in one of these two cases.
 
-Consider the binary relation $\bS = \Sg_{\bA^2}\{(a,b),(b,a)\}$. Letting $s$ be a partial semilattice operation of $\bA$ with $s(a,c) = c$, we must have $s(a,b) \equiv s(a,c) = c \pmod{\theta}$, so since we do not have $a \rightarrow b$ we must have $s(a,b) = c$. Then by our assumption that we do not have $b \rightarrow c$, we have
+Consider the binary relation $\bS = \Sg_{\bA^2}\{(a,b),(b,a)\}$. Letting $s$ be a splat operation of $\bA$ with $s(a,c) = c$, we must have $s(a,b) \equiv s(a,c) = c \pmod{\theta}$, so since we do not have $a \rightarrow b$ we must have $s(a,b) = c$. Then by our assumption that we do not have $b \rightarrow c$, we have
 \[
 s\left(\begin{bmatrix} a\\ b\end{bmatrix}, \begin{bmatrix} b\\ a\end{bmatrix}\right) = \begin{bmatrix} c\\ b\end{bmatrix},
 \]
@@ -16304,7 +16304,7 @@ so
 \[
 \bS \supseteq \Big\{\begin{bmatrix} a\\ b\end{bmatrix},\begin{bmatrix} b\\ a\end{bmatrix},\begin{bmatrix} b\\ c\end{bmatrix},\begin{bmatrix} c\\ b\end{bmatrix}\Big\}.
 \]
-If this containment is an equality, then the linking congruence of $\bS$ is $\psi$, which would prove that $\psi$ is a congruence of $\bA$ and finish the proof. Otherwise, since $(a,a), (b,b)$ are not contained in $\bS$ by Proposition \ref{prop-minimal-prepared}, at least one of $(a,c), (c,a)$ or $(c,c)$ must be an element of $\bS$. Since $a \rightarrow c$ and $\bS$ is symmetric, in each case we see that $(c,c) \in \bS$. From here on we assume that $(c,c) \in \bS$.
+If this containment is an equality, then the linking congruence of $\bS$ is $\psi$, which would prove that $\psi$ is a congruence of $\bA$ and finish the proof. Otherwise, since $(a,a), (b,b)$ are not contained in $\bS$ by Proposition \ref{prop-minimal-oriented}, at least one of $(a,c), (c,a)$ or $(c,c)$ must be an element of $\bS$. Since $a \rightarrow c$ and $\bS$ is symmetric, in each case we see that $(c,c) \in \bS$. From here on we assume that $(c,c) \in \bS$.
 
 From $(b,c), (c,c), (c,b) \in \bS$ but $(b,b) \not\in \bS$, we see that $\{b,c\}$ can't be $\ZZ/2^{\aff}$ (since the parallelogram property fails for a binary relation on $\{b,c\}$). We are left with the case where $\{b,c\}$ is a majority algebra. Let $g$ be a cyclic ternary term on $\bA$, which exists by Theorem \ref{thm-minimal-no-cyclic}, and let $f$ be a binary term with $f(a,b) = f(b,a) = c$, which must exist if $(c,c) \in \bS$. Define a ternary term $t$ by
 \[
@@ -16390,7 +16390,7 @@ First we show that $f(a,b) \ne b$. If $f(a,b) = b$, then we have $f(a,f(a,b)) = 
 \[
 f(b,f(b,a)) = f(f(a,b),f(b,a)) = f(a,b) = b,
 \]
-so $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$, and then by Proposition \ref{prop-minimal-prepared} we have $a \rightarrow b$, which contradicts the assumption that $\bA$ is generated by $a$ and $b$.
+so $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$, and then by Proposition \ref{prop-minimal-oriented} we have $a \rightarrow b$, which contradicts the assumption that $\bA$ is generated by $a$ and $b$.
 
 Now suppose that $f(a,b) = f(b,a) = c$. Let $t$ be the ternary term defined by
 \[
@@ -16427,7 +16427,7 @@ Thus $\{a,b\}$ is closed under $t$, contradicting the assumption that $\bA$ is a
 
 \begin{prop} Suppose that $\bA$ is a minimal Taylor algebra with underlying set $\{a,b,c\}$ which is generated by $a$ and $b$, that $\{a,c\}$ is a $\ZZ/2^{\aff}$-subalgebra, and that $\{b,c\}$ is a majority subalgebra of $\bA$. Then $\bA$ is the same as the algebra described in Example \ref{ex-few-subpowers}, up to isomorphism and term equivalence. In particular, $\{a,c\}$ is a centrally absorbing subalgebra of $\bA$, and $\bA$ has a congruence $\theta$ corresponding to the partition $\{a\},\{b,c\}$ such that $\bA/\theta \cong \{a,c\}$ is $\ZZ/2^{\aff}$.
 \end{prop}
-\begin{proof} Let $\bS = \Sg_{\bA^2}\{(a,b),(b,a)\}$, and let $g$ be a ternary cyclic term operation of $\bA$, which exists by Theorem \ref{thm-minimal-no-cyclic}. By Proposition \ref{prop-minimal-prepared}, we have $(a,a),(b,b) \not\in \bS$. If $(c,c) \in \bS$, then we have
+\begin{proof} Let $\bS = \Sg_{\bA^2}\{(a,b),(b,a)\}$, and let $g$ be a ternary cyclic term operation of $\bA$, which exists by Theorem \ref{thm-minimal-no-cyclic}. By Proposition \ref{prop-minimal-oriented}, we have $(a,a),(b,b) \not\in \bS$. If $(c,c) \in \bS$, then we have
 \[
 \begin{bmatrix}a\\c\end{bmatrix} = g\left(\begin{bmatrix}a\\b\end{bmatrix},\begin{bmatrix}c\\c\end{bmatrix},\begin{bmatrix}c\\c\end{bmatrix}\right) \in \bS,
 \]
@@ -17261,7 +17261,7 @@ in time polynomial in the sum of the sizes of the compact representations of $\R
 \begin{prob} Given black box access to the subalgebra restriction oracle $\cO_\RR$ for an unknown relation $\RR \le \bA_1 \times \cdots \times \bA_n$ of high arity, not necessarily an M-constraint, together with a $k$-edge term $e$ for the algebras $\bA_i/\theta_i$, can we implement the M-restriction oracle $\cO^\cM_\RR$ using only polynomially many calls to $\cO_\RR$?
 \end{prob}
 
-Let's table this question for now, and move on to describing Mar\'oti's algorithm, assuming that we have been provided with M-restriction oracles for each constraint relation. We start with an easier case than the general case: let's assume that for each $a_x \in \bA_x$, the congruence class $a_x/\theta_x$ has totally symmetric polymorphisms of all arities, so that $\CSP(a_x/\theta_x)$ is solved by arc-consistency. Note that a minor variation of the proof of Proposition \ref{prop-totally-symmetric-preparation} implies that in this case, the multisorted problem $\CSP(\{a_x/\theta_x\})$ is also solved by arc-consistency.%TODO: add a proof of this fact to the section on arc-consistency
+Let's table this question for now, and move on to describing Mar\'oti's algorithm, assuming that we have been provided with M-restriction oracles for each constraint relation. We start with an easier case than the general case: let's assume that for each $a_x \in \bA_x$, the congruence class $a_x/\theta_x$ has totally symmetric polymorphisms of all arities, so that $\CSP(a_x/\theta_x)$ is solved by arc-consistency. Note that a minor variation of the proof of Proposition \ref{prop-totally-symmetric-orientation} implies that in this case, the multisorted problem $\CSP(\{a_x/\theta_x\})$ is also solved by arc-consistency.%TODO: add a proof of this fact to the section on arc-consistency
 
 \begin{defn} Suppose that $\bA_i, \theta_i$ have the Mal'cev-on-top property. We say that an instance of $\CSP(\{\bA_i\})$ is \emph{M-arc-consistent} if for each constraint relation $\RR_i \le \bA_X = \prod_x \bA_x$ and each tuple of congruences
 \[
@@ -17676,14 +17676,14 @@ or in other words, such that $\{\bA_1\} \cup \cA$ is closed under taking retract
 Suppose additionally that $\bA_1$ can be eliminated, in the sense of Definition \ref{defn-tree-on-top-eliminated}. Then $\CSP(\{\bA_1\} \cup \cA)$ can be solved in polynomial time.
 \end{thm}
 
-Mar\'oti went on to prove that in many cases, algebras $\bA$ with a semilattice quotient $\bA/\theta$ can be eliminated. Recall that an element $a$ of a semilattice with basic operation $s$ is called \emph{neutral} if we have $s(a,x) = x$ for all $x$. We extend this definition to partial semilattices (where partial semilattices are defined as in Definition \ref{defn-partial-semilattice}).
+Mar\'oti went on to prove that in many cases, algebras $\bA$ with a semilattice quotient $\bA/\theta$ can be eliminated. Recall that an element $a$ of a semilattice with basic operation $s$ is called \emph{neutral} if we have $s(a,x) = x$ for all $x$. We extend this definition to splats (where splats are defined as in Definition \ref{defn-splat}).
 
-\begin{defn} We say that an element $a$ is a \emph{neutral element} of a partial semilattice operation $s$ on $A$ if we have $s(a,x) = x$ for all $x \in A$.
+\begin{defn} We say that an element $a$ is a \emph{neutral element} of a splat operation $s$ on $A$ if we have $s(a,x) = x$ for all $x \in A$.
 \end{defn}
 
-\begin{prop}[Mar\'oti \cite{tree-on-top-of-malcev}, slight variation] If $\bA$ is a finite idempotent algebra with a partial semilattice term operation $s$ and a quotient $\bA/\theta$ such that $(A/\theta, s)$ is a semilattice with at least two elements, and if $s$ has no neutral element on $\bA$, then $\bA$ can be eliminated.
+\begin{prop}[Mar\'oti \cite{tree-on-top-of-malcev}, slight variation] If $\bA$ is a finite idempotent algebra with a splat term operation $s$ and a quotient $\bA/\theta$ such that $(A/\theta, s)$ is a semilattice with at least two elements, and if $s$ has no neutral element on $\bA$, then $\bA$ can be eliminated.
 \end{prop}
-\begin{proof} By the definition of a partial semilattice, $s$ satisfies the identity $s(x,s(x,y)) \approx s(x,y)$. Since $s$ has no neutral element by assumption, for every $a \in \bA$ there is some $x \in \bA$ with
+\begin{proof} By the definition of a splat, $s$ satisfies the identity $s(x,s(x,y)) \approx s(x,y)$. Since $s$ has no neutral element by assumption, for every $a \in \bA$ there is some $x \in \bA$ with
 \[
 s(a,x) \ne x.
 \]
@@ -17705,7 +17705,7 @@ s(c/\theta, c/\theta) \subseteq c/\theta
 by idempotence, so $s_c : x \mapsto s(x,c)$ can't be a permutation for any $c \not\in a/\theta$. Since $a/\theta$ is a subalgebra of $\bA$, it can't generate $\bA$, so $\bA$ can be eliminated.
 \end{proof}
 
-On the other hand, if we have a prepared algebra $\bA$ (as in Definition \ref{defn-prepared}) with a partial semilattice term $s$ which has a neutral element $a$ on $\bA$, then every binary term operation $t$ of $\bA$ which depends on both of its arguments will have $t(a,x) = x$ for all $x \in \bA$. So the previous result is essentially the best result of its kind when it comes to algebras with semilattices as quotients.
+On the other hand, if we have a oriented algebra $\bA$ (as in Definition \ref{defn-oriented}) with a splat term $s$ which has a neutral element $a$ on $\bA$, then every binary term operation $t$ of $\bA$ which depends on both of its arguments will have $t(a,x) = x$ for all $x \in \bA$. So the previous result is essentially the best result of its kind when it comes to algebras with semilattices as quotients.
 
 \begin{ex} The simplest algebra which the results we have proved so far still can't handle is the 4-element algebra $\bA = (\{0,1,2,*\}, \cdot)$, where $\cdot$ is the commutative binary operation given by
 \begin{center}
@@ -17729,9 +17729,9 @@ e\circ f(a_1, ..., a_k) = e(e(b)) = e(b) = f(a_1, ..., a_k).
 Thus we have $f^{e(\bA)} = f|_{e(\bA)}$ for each basic operation $f$ of $\bA$, so $e(\bA)$ is exactly the subalgebra of $\bA$ with underlying set $e(A)$.
 \end{proof}
 
-\begin{prop}[Bulatov \cite{bulatov-conservative-rerevisited}] If $\bA$ is a finite conservative algebra with a partial semilattice term operation $s$ such that $s$ has no neutral element on $\bA$ and such that there is at least one pair of elements $a \ne b \in \bA$ with $s(a,b) = b$, then $\bA$ can be eliminated.
+\begin{prop}[Bulatov \cite{bulatov-conservative-rerevisited}] If $\bA$ is a finite conservative algebra with a splat term operation $s$ such that $s$ has no neutral element on $\bA$ and such that there is at least one pair of elements $a \ne b \in \bA$ with $s(a,b) = b$, then $\bA$ can be eliminated.
 \end{prop}
-\begin{proof} By the definition of a partial semilattice, $s$ satisfies the identity $s(x,s(x,y)) \approx s(x,y)$. Since $s$ has no neutral element by assumption, we just need to check that $\bA$ is not generated by the collection of elements $c \in \bA$ such that $s_c : x \mapsto s(x,c)$ is a permutation. For the pair $a \ne b$ with $s(a,b) = b$ we have
+\begin{proof} By the definition of a splat, $s$ satisfies the identity $s(x,s(x,y)) \approx s(x,y)$. Since $s$ has no neutral element by assumption, we just need to check that $\bA$ is not generated by the collection of elements $c \in \bA$ such that $s_c : x \mapsto s(x,c)$ is a permutation. For the pair $a \ne b$ with $s(a,b) = b$ we have
 \[
 s_b(a) = s_b(b) = b,
 \]
@@ -17740,7 +17740,7 @@ so $s_b$ is not a permutation, and since $\bA$ is conservative $\bA \setminus \{
 
 Recall that by Theorem \ref{thm-swap-gmm}, any conservative Taylor algebra with no semilattice edges has a ternary generalized majority-minority operation, and can therefore be solved by the few subpowers algorithm. It's easy to check that any finite collection of conservative algebras with no semilattice edges also has a ternary operation whose restriction to each conservative algebra is gmm - and that such an operation can be algorithmically constructed in polynomial time - so if we could eliminate every conservative algebra which had a semilattice edge then we could simply apply the few subpowers algorithm to finish. The only difficulty we face is the case where some of our variable domains have neutral elements.
 
-Note that if $\bA$ is conservative and $s$ is a partial semilattice term operation with a neutral element $a$ on $\bA$, then we have
+Note that if $\bA$ is conservative and $s$ is a splat term operation with a neutral element $a$ on $\bA$, then we have
 \[
 \bA\setminus\{a\} \lhd_{bin} \bA,
 \]
@@ -18354,7 +18354,7 @@ defines an $n$-ary CTB-relation.
 
 Putting it all together, we get our main result.
 
-\begin{thm}[Slight refinement of Barto \cite{barto-valeriote-conjecture}] If $\bA$ is an algebra with directed Gumm terms, and if $\{\RR_i\}_{i \in I}$ are a collection of $m_i$-ary relations $\RR_i \le \bA^{m_i}$ with $m_i \le m$ for all $i \in I$, then the relational structure
+\begin{thm}[Slight refinement of Barto \cite{barto-valeriote-conjecture}]\label{thm-valeriote-conjecture} If $\bA$ is an algebra with directed Gumm terms, and if $\{\RR_i\}_{i \in I}$ are a collection of $m_i$-ary relations $\RR_i \le \bA^{m_i}$ with $m_i \le m$ for all $i \in I$, then the relational structure
 \[
 (\bA, \{\RR_i\}_{i \in I})
 \]
