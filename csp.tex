@@ -7455,7 +7455,7 @@ As far as relations go, the main impact of polynomial completeness is that it st
 
 We conclude this section with a few classical results about polynomial completeness.
 
-\begin{defn} The ternary \emph{discriminator} function is the function $t$ defined by
+\begin{defn}\label{defn-discriminator} The ternary \emph{discriminator} function is the function $t$ defined by
 \[
 t(x,y,z) = \begin{cases} z & x = y,\\ x & x \ne y.\end{cases}
 \]
@@ -7550,7 +7550,7 @@ Varieties which are both congruence distributive and congruence permutable are k
 
 In this section we will go over a binary analogue of a standard result about iterating unary functions to make (compositionally) idempotent functions, that is, functions satisfying $e \circ e = e$. First we review the case of unary iteration.
 
-\begin{defn} If $f : A \rightarrow A$ is a unary function, we define $f^{\circ n}$ to be $f \circ \cdots \circ f$, with $n$ copies of $f$. If $(A,f)$ is either finite or profinite, we define $f^{\infty}$ by
+\begin{defn} If $f : A \rightarrow A$ is a unary function, we define $f^{\circ n}$ to be $f \circ \cdots \circ f$, with $n$ copies of $f$. If $(A,f)$ is finite (or profinite), we define $f^{\infty}$ by
 \[
 f^{\infty}(x) \coloneqq \lim_{n \rightarrow \infty} f^{\circ n!}(x).
 \]
@@ -7560,7 +7560,7 @@ f^{\infty - 1}(x) \coloneqq \lim_{n \rightarrow \infty} f^{\circ (n! - 1)}(x).
 \]
 \end{defn}
 
-\begin{prop} If $(A,f)$ is profinite, then the limit defining $f^{\infty}$ exists, and $f^{\infty}$ satisfies the identity
+\begin{prop} If $(A,f)$ is finite (or profinite), then the limit defining $f^{\infty}$ exists, and $f^{\infty}$ satisfies the identity
 \[
 f^{\infty}(f^{\infty}(x)) \approx f^{\infty}(x).
 \]
@@ -7775,15 +7775,39 @@ Recall that for any $a,b$, the set $\{a,b\}$ is a semilattice subalgebra of $\bA
 defines a subalgebra of $\bA^3$ iff $B \cup C$ is a subalgebra of $\bA$, and for any $n$, any $n$-ary term $f \in \Clo_n(\bA)$ which depends on all of its inputs, and any $x_1, ..., x_n \in B\cup C$ such that at least one $x_i \in C$, we have $f(x_1, ..., x_n) \in C$.
 \end{prop}
 
-\begin{defn} If $\bC \le \bB$ are subalgebras of $\bA$ such that there exists a term $t$ with $t(\bB,\bC), t(\bC,\bB) \subseteq \bC$, then we say that $\bC$ \emph{binary absorbs} $\bB$, and write $\bC \lhd_{bin} \bB$. If for any $n$, any $n$-ary term $f \in \Clo_n(\bA)$ which depends on all of its inputs, and any $x_1, ..., x_n \in \bB$ such that at least one $x_i \in \bC$, we have $f(x_1, ..., x_n) \in \bC$, then we say that $\bC$ \emph{strongly absorbs} $\bB$, and write $\bC \lhd_{str} \bB$.
+\begin{defn} If $\bC \le \bB$ are subalgebras of $\bA$ such that there exists a term $t$ with
+\[
+t(\bB,\bC), t(\bC,\bB) \subseteq \bC,
+\]
+then we say that $\bC$ \emph{binary absorbs} $\bB$, and write $\bC \lhd_{bin} \bB$.
+
+If for any $n$, any $n$-ary term $f \in \Clo_n(\bA)$ which depends on all of its inputs, and any $x_1, ..., x_n \in \bB$ such that at least one $x_i \in \bC$, we have $f(x_1, ..., x_n) \in \bC$, then we say that $\bC$ \emph{strongly absorbs} $\bB$, and write $\bC \lhd_{str} \bB$.
 \end{defn}
 
 We can summarize the previous results in the following proposition, which shows that binary absorption and strong absorption are very nearly the same thing.
 
-\begin{prop}\label{bin-abs-semi} If $\bC \lhd_{bin} \bB$, then there is a splat term $s$ with $s(\bB,\bC), s(\bC,\bB) \subseteq \bC$, and in the reduct $\bA_s$ the subalgebras $\bB_s, \bC_s$ satisfy $\bC_s \lhd_{str} \bB_s$. Furthermore, $\bC \lhd_{str} \bB$ iff the ternary relation $(x \in \bB) \wedge (x \not\in \bC \implies y = z)$ defines a subalgebra of $\bA^3$ (and $\bC \le \bB$).
+\begin{prop}\label{bin-abs-semi} If $\bC \lhd_{bin} \bB$, then there is a splat term $s$ with
+\[
+s(\bB,\bC), s(\bC,\bB) \subseteq \bC,
+\]
+and in the reduct $\bA_s$ the subalgebras $\bB_s, \bC_s$ satisfy $\bC_s \lhd_{str} \bB_s$.
+
+Furthermore, $\bC \lhd_{str} \bB$ iff the ternary relation
+\[
+(x \in \bB) \wedge (x \not\in \bC \implies y = z)
+\]
+defines a subalgebra of $\bA^3$ (and $\bC \le \bB$).
 \end{prop}
 
-In general, a binary absorbing subalgebra of a binary absorbing subalgebra might not be binary absorbing (consider the $4$ element lattice $(\{0,1\}^2, \wedge, \vee)$ and the sequence $\{(0,1)\} \lhd_{bin} \{(0,0),(0,1)\} \lhd_{bin} \{0,1\}^2$), and similarly for strongly absorbing subalgebras (consider the idempotent commutative groupoid $(\{a,b,c\},\cdot)$ given by $ab = ac = b, bc = c$ and the sequence $\{c\} \lhd_{str} \{b,c\} \lhd_{str} \{a,b,c\}$). However, we can always chain together binary and strong absorption in one particular order.
+In general, a binary absorbing subalgebra of a binary absorbing subalgebra might not be binary absorbing in the original algebra: consider the $4$ element lattice $(\{0,1\}^2, \wedge, \vee)$ and the sequence
+\[
+\{(0,1)\} \lhd_{bin} \{(0,0),(0,1)\} \lhd_{bin} \{0,1\}^2.
+\]
+Similarly, strong absorption is not always transitively closed: consider the idempotent commutative groupoid $(\{a,b,c\},\cdot)$ given by $ab = ac = b$, $bc = c$ and the sequence
+\[
+\{c\} \lhd_{str} \{b,c\} \lhd_{str} \{a,b,c\}.
+\]
+However, we can always chain together binary and strong absorption in one particular order.
 
 \begin{prop}\label{prop-bin-str-trans} If $\bC \lhd_{bin} \bB \lhd_{str} \bA$, then $\bC \lhd_{bin} \bA$. Applying this repeatedly, we see that if
 \[
@@ -7808,15 +7832,59 @@ By iteratively replacing $\bA$ with reducts $\bA_s$ for splat terms $s$ quadrati
 \[
 \begin{bmatrix} b\\ b\end{bmatrix} \in \Sg_{\bA^2}\Big\{\begin{bmatrix} a\\ b\end{bmatrix},\begin{bmatrix} b\\ a\end{bmatrix}\Big\},
 \]
-the set $\{a,b\}$ is a semilattice subalgebra of $\bA$ (in the sense that the restriction of any $k$-ary basic operation of $\bA$ to $\{a,b\}$ is the $k$-ary semilattice operation on $\{a,b\}$ with absorbing element $b$).% We say that $\bA$ is \emph{fully oriented} if for all $\bC \lhd_{bin} \bB \le \bA$ we have $\bC \lhd_{str} \bB$.
+the set $\{a,b\}$ is a semilattice subalgebra of $\bA$ (in the sense that the restriction of any $k$-ary basic operation of $\bA$ to $\{a,b\}$ is the $k$-ary semilattice operation on $\{a,b\}$ with absorbing element $b$).
 \end{defn}
+
+\begin{prop}\label{prop-oriented-products} If $\bA_i$ are oriented for $i \in I$, then so is $\prod_{i \in I} \bA_i$.
+\end{prop}
+
+\begin{prop}\label{prop-oriented-variety} If $\bA$ is a finite oriented algebra and $\bB \in HSP(\bA)$, then $\bB$ is oriented.
+\end{prop}
+\begin{comment}
+% This proof only covers the case where B is in HSP_{fin}(A):
+\begin{proof} Since products and subalgebras of oriented algebras are oriented, we just need to check this when $\bB = \bA/\theta$ for some $\theta$. Suppose that for some $a,b \in \bA$ we have
+\[
+\begin{bmatrix} b/\theta\\ b/\theta\end{bmatrix} \in \Sg_{\bB^2}\Big\{\begin{bmatrix} a/\theta\\ b/\theta \end{bmatrix},\begin{bmatrix} b/\theta\\ a/\theta \end{bmatrix}\Big\},
+\]
+and pick $b_0 \in b/\theta$ such that $\Sg_\bA\{a,b_0\}$ is minimal among subalgebras of $\bA$ that contain $a$ and meet $b/\theta$. Then there must be some $b_1, b_2 \in b/\theta$ such that
+\[
+\begin{bmatrix} b_1\\ b_2 \end{bmatrix} \in \Sg_{\bA^2}\Big\{\begin{bmatrix} a\\ b_0 \end{bmatrix},\begin{bmatrix} b_0\\ a \end{bmatrix}\Big\},
+\]
+and then since $b_0 \in \Sg_{\bA}\{a,b_1\}$ by the choice of $b_0$ we have
+\[
+\begin{bmatrix} b_0\\ b_3 \end{bmatrix} \in \Sg_{\bA^2}\Big\{\begin{bmatrix} a\\ b_0 \end{bmatrix},\begin{bmatrix} b_1\\ b_2 \end{bmatrix}\Big\} \subseteq \Sg_{\bA^2}\Big\{\begin{bmatrix} a\\ b_0 \end{bmatrix},\begin{bmatrix} b_0\\ a \end{bmatrix}\Big\}
+\]
+for some $b_3 \in \Sg_{\bA}\{b_0, b_2\} \subseteq b/\theta$. Finally from $b_0 \in \Sg_\bA\{a, b_3\}$ by the choice of $b_0$ we have
+\[
+\begin{bmatrix} b_0\\ b_0 \end{bmatrix} \in \Sg_{\bA^2}\Big\{\begin{bmatrix} b_0\\ a \end{bmatrix},\begin{bmatrix} b_0\\ b_3 \end{bmatrix}\Big\} \subseteq \Sg_{\bA^2}\Big\{\begin{bmatrix} a\\ b_0 \end{bmatrix},\begin{bmatrix} b_0\\ a \end{bmatrix}\Big\},
+\]
+so $\{a, b_0\}$ must be a semilattice subalgebra of $\bA$ with absorbing element $b_0$ by our assumption that $\bA$ is oriented. Thus
+\[
+\{a/\theta, b/\theta\} \cong \{a,b_0\}/\theta
+\]
+is a semilattice subalgebra of $\bB = \bA/\theta$ with absorbing element $b/\theta$.
+\end{proof}
+\end{comment}
+\begin{proof} Suppose that $a,b \in \bB$ and that there is a binary term $t$ such that
+\[
+t^\bB(a,b) = t^\bB(b,a) = b.
+\]
+By Proposition \ref{prop-semilattice-iteration} there is a splat term operation $s^\bA \in \Clo(t^\bA)$ satisfying $s^\bB(a,b) = s^\bB(b,a) = b$. Since $\bA$ is oriented and $s$ is a splat, for every $c,d \in \bA$ we see that $\{c, s(c,d)\}$ is a semilattice subalgebra of $\bA$ with absorbing element $s(c,d)$. Thus every $k$-ary basic operation $f$ of $\bA$ satisfies all identities of the form
+\[
+\{u_1(x,y), ..., u_k(x,y)\} = \{x, s(x,y)\} \;\;\; \implies \;\;\; f(u_1(x,y), ..., u_k(x,y)) \approx s(x,y),
+\]
+on $\bA$, so all of these identities must also hold on $\bB$ as $\bB \in HSP(\bA)$. Thus every basic operation of $\bB$ acts as the semilattice operation with absorbing element $b$ on
+\[
+\{a, s^\bB(a,b)\} = \{a,b\}.\qedhere
+\]
+\end{proof}
 
 For algebras which have been oriented, it makes sense to define a digraph whose edges correspond to semilattice subalgebras of $\bA$.
 
 \begin{defn} If $s$ is a splat operation and $a,b$ have $s(a,b) = b$, then we write $a \rightarrow_s b$, or just $a \rightarrow b$ if $s$ is understood (or if the algebra has been oriented).
 \end{defn}
 
-\begin{thm} Let $s$ be a fixed nontrivial splat term operation of an idempotent algebra $\bA$. If $\bA$ is oriented, then the following are equivalent.
+\begin{thm}\label{thm-oriented-digraph} Let $s$ be a fixed nontrivial splat term of a finite idempotent algebra $\bA$. If $\bA$ is oriented, then the following are equivalent.
 \begin{itemize}
 \item[(a)] $s(a,b) = b$, that is, $a \rightarrow b$,
 
@@ -7861,7 +7929,7 @@ and similarly $u(c,a) \in \bC$.
 For part (d), pick $b_1 \in \bB_1$, then by part (a) there is some $b_2 \in \bB_2$ with $b_1 \rightarrow b_2$, and then by part (b) we have $b_2 \in \bB_1$, so $b_2 \in \bB_1 \cap \bB_2$. Then from $\bB_2 \lhd_{bin} \bA$ we have $\bB_1 \cap \bB_2 \lhd_{bin} \bB_1$, and we can apply part (c) to finish.
 \end{proof}
 
-\begin{prop}\label{arrow-partial} If $\bA$ has been oriented and $a,b,c \in \bA$ have $c \in \Sg\{a,b\}$ with $a \rightarrow c$, then $\bA$ has a splat term $s$ with $s(a,b) = c$.
+\begin{prop}\label{arrow-splat} If $\bA$ has been oriented and $a,b,c \in \bA$ have $c \in \Sg\{a,b\}$ with $a \rightarrow c$, then $\bA$ has a splat term $s$ with $s(a,b) = c$.
 \end{prop}
 \begin{proof} Let $s'$ be an arbitrary nontrivial splat term operation of $\bA$, and choose $p$ a binary term operation of $\bA$ with $p(a,b) = c$. Then take $s(x,y) = s'(x,p(x,y))$. We clearly have $s(a,b) = s'(a,p(a,b)) = s'(a,c) = c$, so we just have to check that $s$ is a splat.
 
@@ -7871,16 +7939,16 @@ If $p$ is second projection then $s = s'$ and we are done. Otherwise, since $\bA
 In any digraph, the strongly connected components have a natural partial order.
 
 %, written $b \succeq a$,
-\begin{defn} We say that $b$ is \emph{reachable} from $a$ if there is a sequence $a = a_0, a_1, ..., a_k = b$ such that $a_i \rightarrow a_{i+1}$ for $i = 0, ..., k-1$.
+\begin{defn}\label{defn-semi-reachable} We say that $b$ is \emph{reachable} from $a$ if there is a sequence $a = a_0, a_1, ..., a_k = b$ such that $a_i \rightarrow a_{i+1}$ for $i = 0, ..., k-1$.
 \end{defn}
 
 \begin{prop} If $\bA$ is oriented and $s^1, ..., s^k$ are splat terms of $\bA$, then for any $n$-ary term $f \in \langle s^1, ..., s^k\rangle$, $f(x_1, ..., x_n)$ is always reachable from at least one of the variables $x_1, ..., x_n$.
 \end{prop}
 
-\begin{defn} We say that a subset $S$ of an algebra $\bA$ which has a splat operation $s$ is \emph{upwards closed} if whenever $a\in S$ and $a' \in \bA$ have $a \rightarrow_s a'$, we also have $a' \in S$.
+\begin{defn}\label{defn-semi-upwards-closed} We say that a subset $S$ of an algebra $\bA$ which has a splat operation $s$ is \emph{upwards closed} if whenever $a\in S$ and $a' \in \bA$ have $a \rightarrow_s a'$, we also have $a' \in S$.
 \end{defn}
 
-\begin{defn} We say that a set $A$ is \emph{strongly connected} if for every subset $S \subset A$ with $S\ne \emptyset, A$ there is an $a \in S$ and a $b \in A\setminus S$ such that $a \rightarrow b$. We say that a set $A$ is a \emph{maximal strongly connected component} of an algebra $\bA$ if $A$ is a strongly connected subset which is upwards closed (note that every finite upwards closed set contains at least one maximal strongly connected component). Finally, we call an element of an algebra $\bA$ \emph{maximal} if it is contained in any maximal strongly connected component of $\bA$.
+\begin{defn}\label{defn-semi-strongly-connected} We say that a set $A$ is \emph{strongly connected} if for every subset $S \subset A$ with $S\ne \emptyset, A$ there is an $a \in S$ and a $b \in A\setminus S$ such that $a \rightarrow b$. We say that a set $A$ is a \emph{maximal strongly connected component} of an algebra $\bA$ if $A$ is a strongly connected subset which is upwards closed (note that every finite upwards closed set contains at least one maximal strongly connected component). Finally, we call an element of an algebra $\bA$ \emph{maximal} if it is contained in any maximal strongly connected component of $\bA$.
 \end{defn}
 
 The main application of splat terms to CSPs is the following general idea: if a solvable instance of a CSP is arc-consistent (i.e. all relations are subdirect), then it probably has a solution where each variable is assigned a value in a maximal strongly connected component of the corresponding domain. So a basic case to try to understand is the case where every domain is a strongly connected algebra.
@@ -8091,7 +8159,7 @@ In other words, a $2$-semilattice is a splat operation which is also commutative
 
 The first difficult results about bounded width CSPs were proved for $2$-semilattices. However, the proofs only depended on the fact that every $2$-semilattice has a unique maximal strongly connected component. Bulatov \cite{colored-graph-prelim} calls this the ``maximal red component condition''. I've chosen to call such algebras ``ancestral'' instead, because they can be equivalently defined as follows.
 
-\begin{defn} An idempotent algebra $\bA$ with a fixed splat operation $s$ is called \emph{ancestral} if for all $a,b \in \bA$, there is some $c \in \Sg_{\bA}\{a,b\}$ which is reachable from both $a$ and $b$. We call any such $c$ a \emph{common ancestor} of $a$ and $b$.
+\begin{defn}\label{defn-ancestral} An idempotent algebra $\bA$ with a fixed splat operation $s$ is called \emph{ancestral} if for all $a,b \in \bA$, there is some $c \in \Sg_{\bA}\{a,b\}$ which is reachable from both $a$ and $b$. We call any such $c$ a \emph{common ancestor} of $a$ and $b$.
 \end{defn}
 
 \begin{prop}\label{ancestral-maximal} A finite idempotent algebra $\bA$ is ancestral iff every proper subalgebra of $\bA$ has a unique maximal strongly connected component.
@@ -8099,7 +8167,7 @@ The first difficult results about bounded width CSPs were proved for $2$-semilat
 
 A nice generalization of $2$-semilattices is the collection of algebras which I call ``spirals''. Spirals are defined in terms of a single commutative binary operation, so they can be described more rapidly than general ancestral algebras. As we will see later, a minimal Taylor clone is ancestral if and only if it is a minimal spiral, so we would not lose too much generality by restricting the study of ancestral algebras to the study of spirals.
 
-\begin{defn} An algebra $\bA = (A,f)$ is a \emph{spiral} if $f$ is a commutative idempotent binary operation and every subalgebra of $\bA$ which is generated by two elements either has size two or has a surjective homomorphism to the free semilattice on two generators.
+\begin{defn}\label{defn-spiral} An algebra $\bA = (A,f)$ is a \emph{spiral} if $f$ is a commutative idempotent binary operation and every subalgebra of $\bA$ which is generated by two elements either has size two or has a surjective homomorphism to the free semilattice on two generators.
 \end{defn}
 
 \begin{ex} Here we give an example of a minimal spiral $\bA_6$ which is not a $2$-semilattice.
@@ -8193,7 +8261,7 @@ for $i \ge 1$, then $f_m(x,y) \approx f_n(y,x)$.
 
 For the converse direction, let $\bF = \cF_{\bA}(x,y) \le \bA^{\bA^2}$ be the free algebra on two generators in the variety generated by $\bA$. Since $\bF \in SP_{fin}(\bA)$, $\bF$ is ancestral, so there is some sequence of elements $f_0, ..., f_n \in \bF$ with $f_0(x,y) = s(x,y)$, such that each $f_{i-1} \rightarrow_s f_i$, each $f_i \in \Sg_{\bF}\{f_{i-1}(x,y),f_{i-1}(x,y)\}$, and such that the subset $S$ of elements of the subalgebra $\bS = \Sg_{\bF}\{f_n(x,y),f_n(y,x)\}$ which are reachable from $f_n$ in $\bS$ is minimal given these constraints. Then $S$ must be strongly connected, and for every $g \in S$ we must have $\bS = \Sg_{\bF}\{g(x,y), g(y,x)\}$. Thus we can extend our sequence $f_0, ..., f_n$ by $f_{n+1}, ..., f_m$ such that each $f_{i-1} \rightarrow_s f_i$, and $f_m(x,y) \approx f_n(y,x)$, and we will automatically have $f_i \in \Sg_{\bF}\{f_{i-1}(x,y),f_{i-1}(x,y)\}$ for each $i$.
 
-Note that $f_{i-1} \rightarrow_s f_i$ and $f_i \in \Sg_{\bF}\{f_{i-1}(x,y),f_{i-1}(x,y)\}$ implies the existence of a binary term $p_i$ such that $x \rightarrow_s p_i(x,y)$ and $f_i(x,y) = p_i(f_{i-1}(x,y), f_{i-1}(y,x))$, by the argument of Proposition \ref{arrow-partial}. Note that the reduct with basic operations $s, f_i$ is ancestral, and has the property that $a \rightarrow_s b$ implies $f_i(a,b) = f_i(b,a) = b$ for all $i$, so $\{a,b\}$ is a semilattice subalgebra with respect to any nontrivial binary term in $\Clo(f_0, ..., f_m)$. Thus we may assume without loss of generality that $a \rightarrow_s b$ implies $p_i(a,b) = b$ for all $i$, and then the argument of Proposition \ref{arrow-partial} implies that each $p_i$ is a splat term.
+Note that $f_{i-1} \rightarrow_s f_i$ and $f_i \in \Sg_{\bF}\{f_{i-1}(x,y),f_{i-1}(x,y)\}$ implies the existence of a binary term $p_i$ such that $x \rightarrow_s p_i(x,y)$ and $f_i(x,y) = p_i(f_{i-1}(x,y), f_{i-1}(y,x))$, by the argument of Proposition \ref{arrow-splat}. Note that the reduct with basic operations $s, f_i$ is ancestral, and has the property that $a \rightarrow_s b$ implies $f_i(a,b) = f_i(b,a) = b$ for all $i$, so $\{a,b\}$ is a semilattice subalgebra with respect to any nontrivial binary term in $\Clo(f_0, ..., f_m)$. Thus we may assume without loss of generality that $a \rightarrow_s b$ implies $p_i(a,b) = b$ for all $i$, and then the argument of Proposition \ref{arrow-splat} implies that each $p_i$ is a splat term.
 \end{proof}
 
 In fact, we can go further: every ancestral algebra has an ancestral reduct which is oriented. Recall that $\bA$ is \emph{oriented} if for all $a,b \in \bA$, we have $(b,b) \in \Sg_{\bA^2}\{(a,b),(b,a)\}$ iff $\{a,b\}$ is a semilattice subalgebra of $\bA$ with $a \rightarrow b$.%, and that the associated digraph of semilattice subalgebras does not depend on the choice of (nontrivial) splat operation for a oriented algebra.
@@ -8253,14 +8321,14 @@ for $i \ge 1$, then the reduct with basic operations $f_i'$ is an ancestral alge
 
 There is a sense in which even the class of minimal ancestral algebras is unnecessarily large: it contains algebras such as the algebra $\bA_4$ from Example \ref{ex-ancestral-strong} which have proper Taylor reducts with two element majority or affine subalgebras.
 
-\begin{thm} Suppose $\bA$ is a minimal ancestral algebra which is generated by $a$ and $b$, is strongly connected, and is simple. Then there are ternary terms $g,g' \in \Clo(\bA)$ such that $\{a,b\}$ is closed under $g$ and $g'$, $(\{a,b\},g)$ is a two element majority algebra, and $(\{a,b\},g')$ is a two element affine algebra.
+\begin{thm}\label{minimal-ancestral-strongly-connected} Suppose $\bA$ is a minimal ancestral algebra which is generated by $a$ and $b$, is strongly connected, and is simple. Then there are ternary terms $g,g' \in \Clo(\bA)$ such that $\{a,b\}$ is closed under $g$ and $g'$, $(\{a,b\},g)$ is a two element majority algebra, and $(\{a,b\},g')$ is a two element affine algebra.
 \end{thm}
 \begin{proof} Let $\bS = \Sg_{\bA^2}\{(a,b),(b,a)\}$. If $\bS$ is linked, then by Theorem \ref{strong-binary}(c) we must have $(b,b) \in \bS$, so $a \rightarrow b$, a contradiction. Otherwise, $\bS$ is the graph of an automorphism swapping $a$ and $b$. In this case, the ternary relation $\RR = \Sg_{\bA^3}\{(a,a,b),(a,b,a),(b,a,a)\}$ has $(a,a),(a,b),(b,a) \in \pi_{i,j}(\RR)$ for each $i,j$, so by Theorem \ref{strong-binary}(c) we have $\pi_{i,j}(\RR) = \bA^2$, and then by Theorem \ref{strong-ternary} we have $\RR = \bA^3$. Thus $(a,a,a) \in \RR$ and $(b,b,b) \in \RR$, and we can take $g,g'$ to be ternary terms of $\bA$ which witness these facts.% Let $\theta \in \Con(\bA)$ be the linking congruence of $\bS$. Then $\bS/(\theta\times \theta)$ is the graph of an automorphism of $\bA/\theta$
 \end{proof}
 
-Later we will see that the above result implies that a minimal ancestral algebra which is both strongly connected and generated by two elements has a proper Taylor reduct (and, in fact, has a proper bounded width reduct). For now we will show that minimal ancestral algebras which avoid this situation are actually spirals.
+Later we will see that the above result implies that a minimal ancestral algebra which is both strongly connected and generated by two elements has a proper Taylor reduct (and, in fact, has a proper bounded width reduct - see Theorem \ref{thm-minimal-bounded-width-subalg}). For now we will show that minimal ancestral algebras which avoid this situation are actually spirals.
 
-\begin{thm} If $\bA$ is a minimal ancestral algebra such that for all $a,b$ the subalgebra $\Sg_{\bA}\{a,b\}$ has no strongly connected quotient, then $\bA$ is term equivalent to a spiral.
+\begin{thm}\label{minimal-ancestral-spiral} If $\bA$ is a minimal ancestral algebra such that for all $a,b$ the subalgebra $\Sg_{\bA}\{a,b\}$ has no strongly connected quotient, then $\bA$ is term equivalent to a spiral.
 \end{thm}
 \begin{proof} Let $s$ be a nontrivial splat operation on $\bA$. Define a sequence of terms $f_i$ inductively by $f_0 \coloneqq s$ and
 \[
@@ -8408,7 +8476,7 @@ so in particular for every $a \in \bA_v'$ we have $\{a\} \times \prod_{i \in I \
 
 Thus the reduced instance $\fX'$ is cycle-consistent. Since we can iteratively shrink our instance whenever some variable $x$ has $\bA_x \ne \Sg(\bA_x^{\max})$ or has $\bA_x = \Sg(\bA_x^{\max})$ but $|\bA_x| > 1$, we see that we eventually reach a situation where each $\bA_x$ consists of a single element, and then arc-consistency proves that this collection of single elements gives a solution to the original instance. We have proved our main result.
 
-\begin{thm} If $\fX$ is a cycle-consistent instance of an ancestral CSP, then $\fX$ has a solution.
+\begin{thm}\label{thm-ancestral-cycle-consistentcy} If $\fX$ is a cycle-consistent instance of an ancestral CSP, then $\fX$ has a solution.
 
 In fact, for any variable $x$ of $\fX$, and for any element $a \in \bA_x$ such that there is a sequence of subalgebras $\bA_x \supseteq \bA_0 \supseteq \cdots \supseteq \bA_n = \{a\}$ with $\bA_0 = \Sg(\bA_x^{\max})$ and such that for each $i$, there is a maximal congruence $\theta_i \in \Con(\bA_i)$ and a congruence class $\bA_i'$ of $\theta_i$ with $\bA_{i+1} = \Sg(\bA_i'^{\max})$, there is a solution to the instance $\fX$ in which $x$ is assigned the value $a$.
 \end{thm}
@@ -8539,7 +8607,7 @@ This can be described more succinctly as follows: the permutation $(-\ +)$ is an
 
 The relational clone $\Inv(g)$ is generated by the unary relation $x \ne 0$, the binary relation $x = -y$, the binary relation $x \le y$, and the ternary relation $x = 0 \implies y = z$.
 
-The clone $\langle g \rangle$ is properly contained in the clone $\langle s_2 \rangle$ from Example \ref{lp-not-width-1}, and it does not contain any proper subclone with a Taylor operation. In some sense the algebra considered in this example is the prototypical example of a bounded width algebra: Bulatov \cite{bulatov-bounded} has shown that in every minimal bounded width clone, the maximal strongly connected components behave as if there is a majority operation preserving them, and for every pair of maximal strongly connected components there is a two-element majority subalgebra which connects them.
+The clone $\langle g \rangle$ is properly contained in the clone $\langle s_2 \rangle$ from Example \ref{lp-not-width-1}, and it does not contain any proper subclone with a Taylor operation. In some sense the algebra considered in this example is the prototypical example of a bounded width algebra: Bulatov \cite{bulatov-bounded} has shown that in every minimal bounded width clone, the maximal strongly connected components behave as if there is a majority operation preserving them, and for every pair of maximal strongly connected components there is a two-element majority subalgebra which connects them (see Theorem \ref{thm-yellow-connected}).
 \end{ex}
 
 \begin{rem} It's tempting to try to generalize Theorem \ref{ideal-diagonal} to near-unanimity operations. We say that a subalgebra $\bB$ \emph{absorbs} $\bA$ with respect to a near-unanimity operation $t$ if
@@ -11430,7 +11498,7 @@ The identities satisfied by the term $g$ of Theorem \ref{bounded-width-term} hav
 
 For small examples of bounded width algebras $\bA$ which do not contain large majority subalgebras, most of the structure of a bounded width algebra seems to be controlled by the binary term $f$ from Theorem \ref{bounded-width-term}, with the exact values of the ternary term $g$ only playing an important role on the majority subalgebras. I have also conjectured a very strong refinement of Theorem \ref{bounded-width-term}, which would give a much more explicit structure theory for bounded width algebras.
 
-\begin{conj} A finite idempotent algebra $\bA$ has bounded relational width if and only if it has a ternary term $m$ and an associated binary term $s(x,y) \coloneqq m(x,x,y)$, which satisfy the identities
+\begin{conj}[Conjecture 1 of \cite{minimal-bounded-width}] A finite idempotent algebra $\bA$ has bounded relational width if and only if it has a ternary term $m$ and an associated binary term $s(x,y) \coloneqq m(x,x,y)$, which satisfy the identities
 \[
 m(x,x,y) \approx m(x,y,x) \approx m(y,x,x) \approx s(x,y)
 \]
@@ -11615,7 +11683,7 @@ Of course, this all hinged on the existence of a stability concept: we still nee
 \begin{proof} This is an application of K\"onig's Lemma: for each algebra $\bA$ in $\cV$ with $|\bA| > 1$ which has no affine quotients, we need to choose at least one proper subalgebra $\bB$ to be a stable subalgebra of $\bA$. Since there are only a finite number of choices for $\bB$ for each finite $\bA$, if we can make a consistent set of choices for every finite collection of algebras $\bA_1, ..., \bA_n$, then there exists a globally consistent set of choices.
 \end{proof}
 
-\begin{defn} We say that a pseudovariety is \emph{strongly oriented} if every binary absorbing algebra $\bB \lhd_{bin} \bA \in \cV$ is also strongly absorbing.
+\begin{defn}\label{defn-strongly-oriented} We say that a pseudovariety is \emph{strongly oriented} if every binary absorbing algebra $\bB \lhd_{bin} \bA \in \cV$ is also strongly absorbing.
 \end{defn}
 
 \begin{prop} Every locally finite variety of idempotent bounded width algebras has a strongly oriented, bounded width reduct.
@@ -15746,8 +15814,1272 @@ The claim implies that $(A,w_1)$ has no cube term blockers, by the same argument
 \end{proof}
 
 
-%\subsection{Minimal bounded width clones}
-% TODO
+\subsection{Minimal bounded width clones}
+
+The main goal of this subsection will be to try to prove an analogue of Theorem \ref{minimal-taylor-subalg} for minimal bounded width clones - that is, clones such that no proper subclone also has bounded width. This was first proved by the author of these notes in \cite{minimal-bounded-width}, by generalizing a technique used by Bulatov in \cite{colored-graph} to prove the special case of Theorem \ref{minimal-taylor-subalg} where $(S,t)$ is a two-element majority algebra. The core of the technique is the following theorem about reducts.
+
+\begin{thm}[Based on Bulatov's \cite{colored-graph}]\label{thm-connected-reduct} Suppose that $\bA, \bB$ are algebraic structures sharing the same signature, and that $(S, \cO_S)/\theta$ is an algebraic structure with the following properties:
+\begin{itemize}
+\item $S \subseteq \bB$, and every operation $t \in \cO_S$ is the restriction to $S$ of a term operation of $\bB$ which preserves $S$, and
+\item $\theta$ is a congruence on $(S, \cO_S)$, and every congruence class of $\theta$ is closed under all binary term operations $f \in \Clo_2(\bB)$.
+\end{itemize}
+Define a reduct $\bA'$ of $\bA$ whose basic operations consist of all term operations $t^\bA \in \Clo(\bA)$ such that the corresponding term operation $t^\bB \in \Clo(\bB)$ preserves $S$ and $\theta$ and has
+\[
+t^\bB\mid_{S/\theta} \in \Clo\big((S, \cO_S)/\theta\big).
+\]
+Then for every subalgebra $\bC \le \bA'$ there is a congruence $\theta'$ on $\bC$ such that $\bC/\theta'$ is term equivalent to some algebra $\bC_{\theta'}$ with
+\[
+\bC_{\theta'} \in \cV\big((S,\cO_S)/\theta\big),
+\]
+and such that for every pair of $\theta'$-related elements $a \equiv_{\theta'} b \in \bC$, there is a sequence $a = a_1, a_2, ..., a_n = b$ such that for all $i$ we have the containment of underlying sets
+\[
+\Sg_\bA\{a_i,a_{i+1}\} \subseteq \bC.
+\]
+\end{thm}
+\begin{proof} Define the graph $E \subseteq \bC^2$ to be the set of all pairs
+\[
+\big(t_1(c_1, ..., c_m), t_2(c_1, ..., c_m)\big) \in \bC^2
+\]
+such that $c_1, ..., c_m \in \bC$ and $t_1, t_2$ are terms of $\bA'$ satisfying
+\[
+t_1^\bB\mid_{S/\theta} = t_2^\bB\mid_{S/\theta}.
+\]
+It's easy to see that $E$ is closed under all unary polynomials of $\bC$, so the transitive closure $\theta'$ of $E$ is a congruence on $\bC$. By the definition of $E$, for every pair $t_1,t_2$ of terms of $\bA'$ whose restrictions to $S/\theta$ agree, the restrictions of $t_1, t_2$ to $\bC/\theta'$ agree, so if we define the reduct $\bC_{\theta'}$ of $\bC/\theta'$ with the same signature as $(S, \cO_S)$ by picking as basic operations one representative term operation $t^\bA\mid_{\bC/\theta'}$ for each basic operation $t^\bB\mid_S$ of $(S, \cO_S)$, we see that $\bC/\theta'$ and $\bC_{\theta'}$ are term equivalent, and that $\bC_{\theta'}$ satisfies every identity which holds on $(S,\cO_S)/\theta$.
+
+To finish the proof, it's enough to check that for every $(a,b) \in E$ we have
+\[
+\Sg_{\bA}\{a,b\} \stackrel{?}{\subseteq} \bC.
+\]
+So suppose that
+\[
+(a,b) = \big(t_1(c_1, ..., c_m), t_2(c_1, ..., c_m)\big),
+\]
+where $t_1,t_2$ are terms of $\bA'$ satisfying $t_1^\bB\mid_{S/\theta} = t_2^\bB\mid_{S/\theta}$. For any $c \in \Sg_\bA\{a,b\}$, pick a binary term operation $f^\bA$ of $\bA$ such that $f^\bA(a,b) = c$, and define a term $t_3$ by
+\[
+t_3(x_1, ..., x_m) \coloneqq f\big(t_1(x_1, ..., x_m), t_2(x_1, ..., x_m)\big).
+\]
+Then for any $b_1, ..., b_m \in S$, by our assumption that every congruence class of $\theta$ is closed under all binary term operations $f^\bB \in \Clo_2(\bB)$ we have
+\begin{align*}
+t_1^\bB(b_1, ..., b_m)/\theta = t_2^\bB(b_1, ..., b_m)/\theta \;\;\; \implies t_3^\bB(b_1, ..., b_m) &\in f^\bB\big(t_1^\bB(b_1, ..., b_m)/\theta, t_1^\bB(b_1, ..., b_m)/\theta\big)\\
+&\subseteq t_1^\bB(b_1, ..., b_m)/\theta,
+\end{align*}
+so $t_3^\bB$ preserves $S$ and $\theta$ and
+\[
+t_3^\bB\mid_{S/\theta} = t_1^\bB\mid_{S/\theta} \in \Clo\big((S,\cO_S)/\theta\big).
+\]
+Thus $t_3^\bA$ is a basic operation of $\bA'$, so from $\bC \le \bA'$ we have
+\[
+c = t_3^\bA(c_1, ..., c_m) \in \bC.\qedhere
+\]
+\end{proof}
+
+Bulatov \cite{colored-graph} applied the technique of Theorem \ref{thm-connected-reduct}, together with some tame congruence theory \cite{hobby-mckenzie}, a result on skew congruences in simple idempotent algebras due to Kearnes \cite{kearnes-simple}, and Szendrei's classification of finite idempotent strictly simple algebras \cite{strictly-simple} to show that an analogue of Theorem \ref{minimal-taylor-subalg} holds in bounded width algebras when $(S,t)$ is a two-element majority or semilattice algebra. Bulatov made heavy use of this fact in \cite{bulatov-bounded} to build up a local structure theory for minimal bounded width algebras, in order to prove that affine-free Taylor algebras have bounded width.
+
+We will give a very different argument, instead making use of the ternary terms $g,h$ satisfying
+\[
+g(x,x,y) \approx g(x,y,x) \approx g(y,x,x) \approx h(x,x,y) \approx h(x,y,x) \approx h(x,y,y)
+\]
+which must exist in any bounded width algebra by Theorem \ref{bounded-width-terms}. Note that our proof of the existence of these terms relies on Kozik's $pq$-consistency result (Theorem \ref{affine-free-pq} from \cite{pq-consistency}), which wasn't available to Bulatov.
+
+The main difficult step is to prove that every bounded width algebra has a bounded width reduct such that the graph of two-element majority and semilattice subalgebras is connected. Once we have achieved this, we can apply the following analogue of Theorem \ref{minimal-taylor-subalg}.
+
+\begin{thm}\label{thm-minimal-bounded-width-subalg} Suppose that $\bA$ is a finite idempotent algebra such that every subalgebra of $\bA$ has a connected graph of two-element majority and semilattice subalgebras.
+
+Let $\bB$ be an algebra with the same signature as $\bA$, and suppose that $S \subseteq \bB$ is a subset of $\bB$ (not assumed to be a subalgebra), $g^\bA \in \Clo(\bA)$ is a term operation of $\bA$, and $\theta$ is an equivalence relation on $S$ such that
+\begin{itemize}
+\item the set $S$ is closed under $g^\bB$,
+\item every equivalence class of $\theta$ is a subalgebra of $\bB$,
+\item the equivalence relation $\theta$ is a congruence of the algebraic structure $(S,g^\bB\mid_S)$, and
+\item the quotient $(S,g^\bB\mid_S)/\theta$ is a finite idempotent affine-free Taylor algebra.
+\end{itemize}
+Define a reduct $\bA'$ of $\bA$ whose basic operations consist of all term operations $t^\bA \in \Clo(\bA)$ such that the corresponding term operation $t^\bB \in \Clo(\bB)$ preserves $S$ and $\theta$ and has
+\[
+t^\bB\mid_{S/\theta} \in \Clo\big(g^\bB\mid_{S/\theta}\big).
+\]
+Then $\bA'$ is an affine-free Taylor algebra.
+\end{thm}
+\begin{proof} First we check that every two-element majority or semilattice subalgebra $\{a,b\} \le \bA$ remains a majority or semilattice subalgebra of $\bA'$. For this we make use of cyclic terms just as in Theorem \ref{minimal-taylor-subalg}: by Theorem \ref{cyclic-terms}, for any prime $p > |S|$ there is a $p$-ary term operation $t^\bB \in \Clo(g^\bB)$ such that the restriction $t^\bB\mid_{S/\theta}$ is cyclic on $S/\theta$, and there is a $p$-ary term operation $u^\bA \in \Clo(\bA)$ such that the restriction $u^\bA\mid_{\{a,b\}}$ is cyclic on $\{a,b\}$. Defining a $p$-ary term $c$ by
+\[
+c(x_1, ..., x_p) \coloneqq u\big(t(x_1, ..., x_p), t(x_2, ...,x_p, x_1), ..., t(x_p, x_1, ..., x_{p-1})\big),
+\]
+we see that $c^\bA\mid_{\{a,b\}}$ is cyclic on $\{a,b\}$, that $c^\bB$ preserves $S, \theta$, and that
+\[
+c^\bB\mid_{S/\theta} = t^\bB\mid_{S/\theta} \in \Clo\big(g^\bB\mid_{S/\theta}\big),
+\]
+so $c^\bA$ is a basic operation of $\bA'$. Thus $\{a,b\}$ defines a Taylor subalgebra of $\bA'$, and since majority clones and semilattice clones on a two-element set have no nontrivial proper subclones, $\{a,b\}$ must be a majority or semilattice subalgebra of $\bA'$.
+
+Now let $\bC$ be any subalgebra of $\bA'$, and suppose for the sake of contradiction that there is some congruence $\psi \in \Con(\bC)$ such that $\bC/\psi$ is abelian and nontrivial. Applying Theorem \ref{thm-connected-reduct}, we see that there is a $\theta' \in \Con(\bC)$ such that $\bC/\theta'$ is term equivalent to $\bC_{\theta'}$ satisfying
+\[
+\bC_{\theta'} \in \cV\big((S,g^\bB\mid_S)/\theta\big),
+\]
+which implies that $\bC/\theta'$ is also a finite idempotent affine-free Taylor algebra by Lemma \ref{strictly-simple-hs} (which states that every strictly simple algebra in $HS(\bC_{\theta'})$ must also show up as a subquotient of $(S,g^\bB\mid_S)/\theta$) and the fact that every nontrivial affine algebra has a nontrivial strictly simple subalgebra. Additionally, Theorem \ref{thm-connected-reduct} tells us that we may choose this $\theta'$ such that every congruence class of $\theta'$ is connected through pairs $a,b$ satisfying
+\[
+\Sg_{\bA}\{a,b\} \subseteq \bC,
+\]
+which by our assumption on $\bA$ implies that every congruence class of $\theta'$ has a connected graph of two-element majority and semilattice subalgebras. If $\psi \vee \theta'$ is not a full congruence, then
+\[
+\bC/(\psi \vee \theta')
+\]
+would be simultaneously a finite affine-free Taylor algebra and a nontrivial abelian algebra, which is impossible by Theorem \ref{taylor-abelian}. Otherwise, if $\psi \vee \theta' = 1_\bC$, then some congruence class of $\theta'$ must intersect at least two distinct congruence classes of $\psi$, so connectedness of the graph of two-element subalgebras of $\theta'$ implies that there must be some $\{a,b\} \le \bC$ such that
+\[
+a/\psi \ne b/\psi
+\]
+and such that $\{a,b\}$ is a majority or semilattice subalgebra of $\bC$. Then we get a contradiction from
+\[
+\{a,b\} \cong \{a,b\}/\psi \le \bC/\psi,
+\]
+since $\{a,b\}/\psi$ is a subalgebra of an abelian algebra, and nontrivial majority or semilattice algebras are not abelian.
+
+Since no subquotient of $\bA'$ is a nontrivial abelian algebra, we see that $\bA'$ is Taylor by Corollary \ref{cor-taylor-no-set} (since any algebra with only projections as terms is automatically abelian), and $\bA'$ is affine-free by the fact that every affine algebra is abelian.
+\end{proof}
+
+Now we must prove the connectedness result. We will actually prove a refinement of the basic connectedness result we need - in order to state the refinement, we need a name for the two-variable minors of the ternary operations $g, h$ from Theorem \ref{bounded-width-terms}.
+
+\begin{defn}\label{defn-major-op} We say that an idempotent binary operation $f$ is a \emph{major operation} of the algebra $\bA$ if there are a pair of ternary term operations $g, h \in \Clo_3(\bA)$ satisfying the identities
+\begin{align*}
+f(x,y) &\approx g(x,x,y) \approx g(x,y,x) \approx g(y,x,x)\\
+&\approx h(x,x,y) \approx h(x,y,x) \approx h(x,y,y).
+\end{align*}
+In this case, we say that $g, h$ are \emph{witnesses} for the major operation $f$.
+
+Similarly, we say that $f$ is a \emph{semi-major operation} of $\bA$ with witness $h \in \Clo_3(\bA)$ if it satisfies the identities
+\[
+f(x,y) \approx h(x,x,y) \approx h(x,y,x) \approx h(x,y,y).
+\]
+\end{defn}
+
+Any pair of witnessing operations $g,h$ for a major operation $f$ of $\bA$ generate a bounded width clone by Theorem \ref{bounded-width-terms}, so if $\bA$ is a minimal bounded width algebra then $\Clo(\bA)$ must be generated by $g, h$. We may therefore assume that every minimal bounded width algebra has the form
+\[
+\bA = (A, f, g, h),
+\]
+with $g, h$ witnesses for a major operation $f$. When it comes to two-element subalgebras of $\bA$, the major operation $f$ tells us everything we need to know.
+
+\begin{prop}\label{prop-major-op-types} If $g, h$ are witnesses for a major operation $f$ of $\bA$, then for any $a,b \in \bA$, the set $\{a,b\}$ is closed under $g$ and $h$ if and only if $\{a,b\}$ is closed under $f$.
+
+In this case, the algebra $(\{a,b\}, f, g, h)$ is determined by the restriction $f\mid_{\{a,b\}}$ as follows:
+\begin{itemize}
+\item if $(\{a,b\}, f)$ is a semilattice, then $g,h$ both restrict to the ternary semilattice operation $f(x,f(y,z))$ on $\{a,b\}$,
+\item if $f$ restricts to first projection on $\{a,b\}$, then $g$ restricts to the majority operation and $h$ restricts to first projection on $\{a,b\}$,
+\item if $f$ restricts to second projection on $\{a,b\}$, then $g$ restricts to the minority operation and $h(y,z,x)$ restricts to the discriminator operation from Definition \ref{defn-discriminator}, so $(\{a,b\}, f, g, h)$ is subdirectly simple.
+\end{itemize}
+\end{prop}
+
+The case of a two-element subdirectly simple algebra can be ruled out by finding a major operation which satisfies the identity
+\[
+f(f(x,y), f(y,x)) \approx f(x,y),
+\]
+as in Theorem \ref{bounded-width-term}. Since we will make repeated use of the construction, we record it as a proposition below.
+
+\begin{prop} If $f_1$ is a major operation of $\bA$ and $f_2$ is a semi-major operation of $\bA$, then the operation $f_3$ defined by the cyclic composition
+\[
+f_3(x,y) \coloneqq f_1(f_2(x,y), f_2(y,x))
+\]
+is also a major operation of $\bA$.
+\end{prop}
+\begin{proof} Let $g_1,h_1$ be witnesses for $f_1$, and let $h_2$ be a witness for $t_2$. Define $g_3, h_3 \in \Clo_3(\bA)$ by
+\begin{align*}
+g_3(x,y,z) &\approx g_1(h_2(x,y,z), h_2(y,z,x), h_2(z,x,y)),\\
+h_3(x,y,z) &\approx h_1(h_2(x,y,z), h_2(y,z,x), h_2(z,x,y)).
+\end{align*}
+Then we have
+\begin{align*}
+g_3(x,x,y) &\approx g_1(f_2(x,y), f_2(x,y), f_2(y,x))\\
+&\approx f_1(f_2(x,y), f_2(y,x))\\
+&\approx f_3(x,y),
+\end{align*}
+and similarly for $g_3(x,y,x), g_3(y,x,x)$,
+\begin{align*}
+h_3(x,x,y) &\approx h_1(f_2(x,y), f_2(x,y), f_2(y,x))\\
+&\approx f_1(f_2(x,y), f_2(y,x))\\
+&\approx f_3(x,y),
+\end{align*}
+and similarly for $h_3(x,y,x)$, and finally
+\begin{align*}
+h_3(x,y,y) &\approx h_1(f_2(x,y), f_2(y,x), f_2(y,x))\\
+&\approx f_1(f_2(x,y), f_2(y,x))\\
+&\approx f_3(x,y).
+\end{align*}
+Thus $g_3, h_3$ are witnesses for $f_3$ being a major operation of $\bA$.
+\end{proof}
+
+\begin{cor}\label{cor-major-iteration} If $f$ is a major operation of a finite algebra $\bA$, and if we define a sequence of operations $f^i$ by $f^1 = f$ and
+\[
+f^{i+1}(x,y) \coloneqq f(f^i(x,y), f^i(y,x)),
+\]
+then each $f^i$ is also a major operation of $\bA$, and if we choose $N$ such that $f^{2N} \approx f^N$ then $f^N$ will be a major operation of $\bA$ which additionally satisfies the identity
+\[
+f^N(f^N(x,y), f^N(y,x)) \approx f^N(x,y).
+\]
+In particular, every two-element subalgebra of a minimal bounded width algebra is either a majority algebra or a semilattice algebra.
+\end{cor}
+
+\begin{cor}[Special case of Proposition \ref{semilattice-orientation}]\label{cor-semimajor-splat} Every splat term operation $s$ (as in Definition \ref{defn-splat}) is a semi-major operation by Proposition \ref{higher-semilattice}, so for any major operation $f$ of $\bA$ the operation $f_s$ given by
+\[
+f_s(x,y) \coloneqq f(s(x,y), s(y,x))
+\]
+is also a major operation of $\bA$. In particular, every minimal bounded width algebra is oriented (see Definition \ref{defn-oriented}) and strongly oriented (see Definition \ref{defn-strongly-oriented}).
+\end{cor}
+
+We need one more major construction before we prove our connectivity result. To motivate it, consider the possibility that we have a major operation $f$ which satisfies the extra identity $f(f(x,y), f(y,x)) \approx f(x,y)$, but such that $f$ is affine, say
+\[
+f(x,y) \approx ax + (1-a)y
+\]
+in a module over a ring. In this case, the extra identity $f(f(x,y), f(y,x)) \approx f(x,y)$ is equivalent to
+\[
+a(ax + (1-a)y) + (1-a)(ay + (1-a)x) \approx ax + (1-a)y,
+\]
+and assuming that the action of the ring on the module is faithful, this is equivalent to the equation
+\[
+(1-a)(1-2a) = 0.
+\]
+If $a = 1$, then $f$ will be first projection, and the witnessing operation $g$ will be a majority operation. We would like to rule out the possibility that $2a = 1$, so suppose for the sake of concreteness that
+\[
+f(x,y) = \frac{x+y}{2} \pmod{p}
+\]
+for some odd prime $p$. Note that the constructions we have so far will be useless in this case. The next construction will show that
+\[
+t^{i,p-1} : (x,y) \mapsto \frac{x+y}{2} + \frac{y-x}{2^{i+1}} \pmod{p}
+\]
+will also be a major operation for each $i \ge 1$, and taking $i = p-1$ we will see that the major operation $t^{p-1,p-1}$ is second projection, allowing us to find a major operation which generates a smaller clone.
+
+\begin{lem}\label{lem-major-weird-iteration} Suppose that $f$ is a major operation of a finite algebra $\bA$ which additionally satisfies the identity
+\[
+f(f(x,y), f(y,x)) \approx f(x,y).
+\]
+If we define a sequence of operations $f_i$ by $f_0(x,y) = y$, $f_1(x,y) = f(x,y)$, and
+\[
+f_{i+1}(x,y) \coloneqq f(x, f_i(x,y)),
+\]
+then for every $i, j \ge 1$ satisfying
+\[
+f_{i+j} \approx f_i,
+\]
+the operation $t^{i,j}$ defined by
+\[
+t^{i,j}(x,y) \coloneqq f(f_i(x,y), f_{i-1}(y, f_j(x,y)))
+\]
+is a major operation of $\bA$.
+\end{lem}
+\begin{proof} Define a sequence of ternary terms $g_i$ inductively by $g_0(x,y,z) = z$, $g_1(x,y,z) = g(x,y,z)$, and
+\[
+g_{i+1}(x,y,z) \coloneqq g(x,y,g_i(x,y,z)).
+\]
+By induction on $i$ we see that if $(\{a,b\}, g)$ is a majority algebra, then we have
+\[
+x,y \in \{a,b\} \;\;\; \implies \;\;\; g_i(x,y,x) = g_i(y,x,x) = x
+\]
+for all $i \ge 0$. Defining an auxiliary ternary term $u^{i,j}$ for $i,j \ge 1$ by
+\[
+u^{i,j}(x,y,z) \coloneqq f_{i-1}(x, g_{j-1}(f(y,z), f(z,y), g(x,y,z))),
+\]
+we see that since $(\{f(x,y), f(y,x)\}, g)$ is always a majority algebra when $f$ satisfies the identity $f(f(x,y), f(y,x)) \approx f(x,y)$, we have
+\begin{align*}
+u^{i,j}(x,x,y) &\approx f_{i-1}(x, g_{j-1}(f(x,y), f(y,x), f(x,y)))\\
+&\approx f_{i-1}(x, f(x,y))\\
+&\approx f_i(x,y),
+\end{align*}
+and similarly for $u^{i,j}(x,y,x)$, while
+\begin{align*}
+u^{i,j}(y,x,x) &\approx f_{i-1}(y, g_{j-1}(x, x, f(x,y)))\\
+&\approx f_{i-1}(y, f_j(x,y)).
+\end{align*}
+Thus if we define $g^{i,j}$ by
+\[
+g^{i,j}(x,y,z) \coloneqq g(u^{i,j}(x,y,z), u^{i,j}(y,z,x), u^{i,j}(z,x,y)),
+\]
+then we have
+\begin{align*}
+g^{i,j}(x,x,y) \approx g^{i,j}(x,y,x) \approx g^{i,j}(y,x,x) &\approx f(f_i(x,y), f_{i-1}(y, f_j(x,y)))\\
+&\approx t^{i,j}(x,y).
+\end{align*}
+
+Now defining another auxiliary term $v^{i,j}$ by
+\[
+v^{i,j}(x,y,z) \coloneqq f_{i-1}(y, f_{j-1}(x, f(f(x,y), h(x,y,z)))),
+\]
+we have
+\begin{align*}
+v^{i,j}(x,x,y) &\approx f_{i-1}(x, f_{j-1}(x, f(x, f(x,y))))\\
+&\approx f_{i+j}(x,y)\\
+&\approx f_i(x,y)
+\end{align*}
+by the choice of $i,j$, while
+\begin{align*}
+v^{i,j}(x,y,x) &\approx f_{i-1}(y, f_{j-1}(x, f(f(x,y), f(x,y))))\\
+&\approx f_{i-1}(y, f_{j-1}(x, f(x,y)))\\
+&\approx f_{i-1}(y, f_j(x,y))
+\end{align*}
+and similarly
+\begin{align*}
+v^{i,j}(x,y,y) &\approx f_{i-1}(y, f_{j-1}(x, f(f(x,y), f(x,y))))\\
+&\approx f_{i-1}(y, f_j(x,y)).
+\end{align*}
+Thus if we define $h^{i,j}$ by
+\[
+h^{i,j}(x,y,z) \coloneqq h(f_{i-1}(x, h(x,y,z)), v^{i,j}(x,y,z), v^{i,j}(x,z,y)),
+\]
+then we have
+\begin{align*}
+h^{i,j}(x,x,y) \approx h^{i,j}(x,y,x) \approx h^{i,j}(x,y,y) &\approx f(f_i(x,y), f_{i-1}(y, f_j(x,y)))\\
+&\approx t^{i,j}(x,y),
+\end{align*}
+so $g^{i,j}, h^{i,j}$ are witnesses for $t^{i,j}$ being a major operation of $\bA$.
+\end{proof}
+
+\begin{thm}[Theorem 6 of \cite{minimal-bounded-width}]\label{thm-minimal-bounded-width-connected} Suppose that $f$ is a major operation of a finite algebra $\bA$, and let $\bA_f$ be the reduct of $\bA$ with $f$ as its only basic operation. If some subalgebra $\bB \le \bA_f$ does not have a connected graph of two-element subalgebras, then we can find another major operation
+\[
+f' \in \Clo(f)
+\]
+of $\bA$ such that strictly more two-element subsets of $\bA$ are closed under $f'$ than $f$.
+\end{thm}
+\begin{proof} Suppose for the sake of contradiction that there is some $\bB \le \bA_f$ with a disconnected graph of two-element subalgebras, but that for every major operation $f' \in \Clo(f)$, every two-element subset of $\bA$ which is closed under $f'$ is also closed under $f$.
+
+{\bf Claim 0.} $\bB$ is oriented, in the sense of Definition \ref{defn-oriented}.
+
+{\bf Proof of Claim 0.} Suppose that $a,b \in \bB$ satisfy
+\[
+\begin{bmatrix} b\\ b \end{bmatrix} \in \Sg_{\bA_f^2}\left\{\begin{bmatrix} a\\ b \end{bmatrix}, \begin{bmatrix} b\\ a \end{bmatrix}\right\},
+\]
+and let $t \in \Clo(f)$ be a binary term satisfying $t(a,b) = t(b,a) = b$. By Proposition \ref{prop-semilattice-iteration} we can find a splat term $s \in \Clo(t) \subseteq \Clo(f)$ such that
+\[
+s(a,b) = s(b,a) = b,
+\]
+and then we can apply Corollary \ref{cor-semimajor-splat} to see that
+\[
+f_s(x,y) \coloneqq f(s(x,y), s(y,x))
+\]
+is a major operation of $\bA$ with $f_s \in \Clo(f)$. Since $\{a,b\}$ is closed under $f_s$, our assumption on $f$ implies that $\{a,b\}$ must also be closed under $f$, and since $f_s \in \Clo(f)$ restricts to a semilattice on $\{a,b\}$ with absorbing element $b$, $f$ must also restrict to a semilattice on $\{a,b\}$ with absorbing element $b$.
+
+For $a,b \in \bB$ we write
+\[
+a \sim b
+\]
+when $a,b$ are in the same connected component of the graph of two-element subalgebras of $\bB$. We may assume without loss of generality that every proper subalgebra of $\bB$ has a connected graph of two-element subalgebras, in which case we must have
+\[
+a \not\sim b \;\;\; \implies \;\;\; \Sg_{\bA_f}\{a,b\} = \bB
+\]
+for all $a, b \in \bB$. For any disconnected pair $a \not\sim b \in \bB$ we define the symmetric subdirect relation $\bS_{ab} \le_{sd} \bB^2$ by
+\[
+\bS_{ab} \coloneqq \Sg_{\bA_f^2}\left\{\begin{bmatrix} a\\ b \end{bmatrix}, \begin{bmatrix} b\\ a \end{bmatrix}\right\}.
+\]
+
+{\bf Claim 1.} If $a \not\sim b$ and $\{c,d\} \le \bB$, then
+\[
+\{c,d\} + \bS_{ab} \ne \bB.
+\]
+In particular, $\{c,d\} + \bS_{ab}$ is contained within a single connected component of the graph of two-element subsets of $\bB$.
+
+{\bf Proof of Claim 1.} Suppose for the sake of contradiction that $\{c,d\} + \bS_{ab} = \bB$. Since $a \not\sim b$, at least one of $a \not\sim c$ or $b \not\sim c$ must be true, assume without loss of generality that
+\[
+a \not\sim c \sim d,
+\]
+where $c \sim d$ follows from $\{c,d\} \le \bB$. Then from $b \in \{c,d\} + \bS_{ab}$, we see that at least one of $(c,b), (d,b)$ is in $\bS_{ab}$, and we may assume without loss of generality that
+\[
+(c,b) \in \bS_{ab}.
+\]
+Then from $(a,b), (c,b) \in \bS_{ab}$ and $a \not\sim c$, we see that
+\[
+%\begin{bmatrix} \bA_f\\ b \end{bmatrix} \subseteq \Sg_{\bA_f^2}\left\{\begin{bmatrix} a\\ b \end{bmatrix}, \begin{bmatrix} c\\ b \end{bmatrix}\right\} \subseteq \bS_{ab},
+\{b\} - \bS_{ab} \supseteq \Sg_{\bA_f}\{a,c\} = \bA_f,
+\]
+so $(b,b) \in \bS_{ab}$. Then by Claim 0 we see that $\{a,b\}$ is a semilattice subalgebra of $\bB$, contradicting $a \not\sim b$.
+
+Applying Claim 1 repeatedly, we see that for any fixed $a \not\sim b$ we have
+\[
+c \sim d \;\;\; \implies \;\;\; \{c\} + \bS_{ab} \sim \{d\} + \bS_{ab},
+\]
+so the linking congruence of $\bS_{ab}$ must be contained in $\sim$, and $\bS_{ab}$ defines a permutation on the equivalence classes of $\sim$.
+
+By Corollary \ref{cor-major-iteration} we can find a major operation $f' \in \Clo(f)$ which satisfies the identity
+\[
+f'(f'(x,y), f'(y,x)) \approx f'(x,y).
+\]
+Fix such an $f' \in \Clo(f)$, and note that $\{f'(a,b), f'(b,a)\}$ is closed under $f'$ and must therefore also be closed under $f$ by our assumption on $f$.
+
+{\bf Claim 2.} For any $a,b \in \bB$, we have
+\[
+a \not\sim b \;\;\; \implies \;\;\; a \not\sim f'(a,b).
+\]
+
+{\bf Proof of Claim 2.} Since $(a,b)$ and $(f'(a,b), f'(b,a))$ are both in $\bS_{ab}$, we have
+\[
+a \sim f'(a,b) \;\;\; \iff \;\;\; b \sim f'(b,a).
+\]
+Since $\{f'(a,b), f'(b,a)\}$ is closed under $f$, we have $f'(a,b) \sim f'(b,a)$, so $a \sim f'(a,b)$ would imply
+\[
+a \sim f'(a,b) \sim f'(b,a) \sim b,
+\]
+contradicting $a \not\sim b$.
+
+Inductively defining a sequence of binary operations $f_i'$ by $f_0'(x,y) = y$, $f_1'(x,y) = f'(x,y)$, and
+\[
+f_{i+1}'(x,y) \coloneqq f'(x,f_i'(x,y)),
+\]
+we see by repeatedly applying Claim 2 that
+\[
+a \not\sim b \;\;\; \implies \;\;\; a \not\sim f_i'(a,b)
+\]
+for all $i \ge 0$. Picking $N \ge 1$ such that
+\[
+f_{2N}' \approx f_N',
+\]
+we have
+\[
+f_N'(x,f_N'(x,y)) \approx f_N'(x,y),
+\]
+so if we set $b' = f_N'(a,b)$ then we have
+\[
+f_N'(a,b') = b',
+\]
+and $a \not\sim b'$ if $a \not\sim b$. Applying Lemma \ref{lem-major-weird-iteration} with $i = j = N$, we see that the binary operation $t \in \Clo(f') \subseteq \Clo(f)$ defined by
+\[
+t(x,y) \coloneqq f'(f_N'(x,y), f_{N-1}'(y, f_N'(x,y)))
+\]
+is a major operation of $\bA$. Additionally, from $f_N'(a,b') = b'$ we see that
+\begin{align*}
+t(a,b') &= f'(f_N'(a,b'), f_{N-1}'(b', f_N'(a,b')))\\
+&= f'(b', f_{N-1}'(b', b'))\\
+&= b',
+\end{align*}
+where the last line follows from idempotence of $f$. More generally, the same argument shows that we have the identity
+\[
+t(x, f_N'(x,y)) \approx f_N'(x,y).
+\]
+
+{\bf Claim 3.} If we inductively define a sequence of major operations $t^i \in \Clo(t) \subseteq \Clo(f)$ by $t^1 = t$,
+\[
+t^{i+1}(x,y) \coloneqq t(t^i(x,y), t^i(y,x)),
+\]
+then for each $i \ge 1$ we have
+\[
+t(a,b') = b' \;\;\; \implies \;\;\; t^i(a,b') \in \{b'\} + \bS_{ab'}^{\circ (i-1)}.
+\]
+
+{\bf Proof of Claim 3.} We induct on $i$. When $i = 1$ this follows from $t(a,b') = b' \in \{b'\}$. Now assume we know the claim is true for $i$ and we will prove it for $i+1$. The inductive hypothesis, together with $(t^i(a,b'), t^i(b',a)) \in \bS_{ab'}$, tells us that
+\begin{align*}
+t^i(a,b') &\in \{b'\} + \bS_{ab'}^{\circ (i-1)} \subseteq \{a\} + \bS_{ab'} + \bS_{ab'}^{\circ (i-1)} = \{a\} + \bS_{ab'}^{\circ i},\\
+t^i(b',a) &\in \{t^i(a,b')\} + \bS_{ab'} \subseteq \{b'\} + \bS_{ab'}^{\circ (i-1)} + \bS_{ab'} = \{b'\} + \bS_{ab'}^{\circ i},
+\end{align*}
+so
+\begin{align*}
+t^{i+1}(a,b') = t(t^i(a,b'), t^i(b',a)) &\in t\big(\{a\} + \bS_{ab'}^{\circ i}, \{b'\} + \bS_{ab'}^{\circ i}\big)\\
+&\subseteq \{t(a,b')\} + \bS_{ab'}^{\circ i} = \{b'\} + \bS_{ab'}^{\circ i}.
+\end{align*}
+
+Now pick $N \ge 1$ such that
+\[
+t^{2N} \approx t^N,
+\]
+and note that the identity
+\[
+t^N(t^N(x,y), t^N(y,x)) \approx t^N(x,y)
+\]
+implies that $\{t^N(a,b'), t^N(b',a)\}$ is closed under the major operation $t^N \in \Clo(f)$, so by our assumption on $f$ it must also be closed under $f$. Thus we have
+\[
+t^N(a,b') \sim t^N(b',a),
+\]
+and by Claim 3 we have
+\[
+t^N(a,b') \in \{b'\} + \bS_{ab'}^{\circ (N-1)}.
+\]
+Since $\bS_{ab'}$ is symmetric and has linking congruence contained in $\sim$, we see that
+\[
+t^N(a,b') \sim \begin{cases} a & N \text{ even},\\ b' & N \text{ odd}. \end{cases}
+\]
+Assuming without loss of generality that we chose $N$ to be even (since we can replace $N$ by $2N$ otherwise), by the same reasoning we used in Claim 2 we get
+\[
+a \sim t^N(a,b') \sim t^N(b',a) \sim b',
+\]
+which contradicts $a \not\sim b'$ and completes the proof.
+\end{proof}
+
+\begin{cor} In any finite idempotent minimal bounded width algebra $\bA$, every subalgebra of $\bA$ has a connected graph of two-element majority and semilattice subalgebras. In particular, the analogue of Theorem \ref{minimal-taylor-subalg} for minimal bounded width algebras holds.
+\end{cor}
+
+We would also like to characterize central absorption in minimal bounded width clones: specifically, we would like to have an analogue of Theorem \ref{thm-minimal-central} stating that the witnessing operations $g,h$ can be chosen such that for all $\bC \lhd_Z \bA$ we have
+\begin{align*}
+g(\bC,\bC,\bA), g(\bC,\bA,\bC), g(\bA,\bC,\bC) &\stackrel{?}{\subseteq} \bC,\\
+h(\bC,\bA,\bA) &\stackrel{?}{\subseteq} \bC.
+\end{align*}
+This would imply an analogue of Corollary \ref{cor-minimal-central-majority}: if $\bC, \bD \lhd_Z \bA$, then $\bC \cup \bD$ would be closed under $g,h$. Unfortunately, all we can currently say about a centrally absorbing subalgebra $\bC \lhd_Z \bA$, aside from the fact that it is a ternary absorbing subalgebra, is that for any semilattice subalgebra $\{a,b\}$ with $a \in \bC$ and $a \rightarrow b$, we will also have $b \in \bC$ (see Proposition \ref{prop-central-closed}).
+
+Since idempotent minimal bounded width algebra are oriented, it makes sense to study the digraph of semilattice subalgebras. We adopt the terminology of Section \ref{s-splat}: we say that $b$ is \emph{reachable} from $a$ if there is a directed sequence of semilattice subalgebras
+\[
+a = a_0 \rightarrow a_1 \rightarrow \cdots \rightarrow a_n = b
+\]
+as in Definition \ref{defn-semi-reachable}, we say that a set is \emph{upwards closed} if it is closed under following semilattice edges as in Definition \ref{defn-semi-upwards-closed} (so all centrally absorbing subalgebras are upwards closed), and we define the \emph{maximal strongly connected components} of $\bA$ to be the upwards closed strongly connected components as in Definition \ref{defn-semi-strongly-connected}. We can also apply these definitions to $\Clo_k(\bA)$, considered as a subalgebra of $\bA^{\bA^k}$ (note that any subpower of an oriented algebra will also be oriented).
+
+\begin{prop}\label{prop-reachable-semimajor} In a finite oriented algebra $\bA$, every binary term operation $f(x,y)$ which is reachable from $x$ is a semi-major operation. In this case, the witnessing term operation $h(x,y,z)$ can also be chosen to be reachable from $x$.
+\end{prop}
+\begin{proof} Choose a sequence of binary term operations $f_i(x,y)$ with
+\[
+x \approx f_0(x,y) \rightarrow f_1(x,y) \rightarrow \cdots \rightarrow f_n(x,y) \approx f(x,y).
+\]
+By applying Proposition \ref{prop-semilattice-iteration} to any nontrivial binary term operation $t$, we can find a nontrivial splat term operation $s \in \Clo_2(\bA)$. For $i \ge j$ we will inductively construct ternary term operations $h_{i,j}(x,y,z)$, each reachable from $x$, satisfying
+\begin{align*}
+h_{i,j}(x,y,y) \approx h_{i,j}(x,y,x) &\approx f_i(x,y),\\
+%h_{i,j}(x,y,x) &\approx f_i(x,y),\\
+h_{i,j}(x,x,y) &\approx f_j(x,y).
+\end{align*}
+When $j = 0$, we define $h_{i,0}$ by
+\[
+h_{i,0}(x,y,z) \coloneqq f_i(x,y),
+\]
+which is reachable from $x$ since $f_i(x,y)$ is reachable from $x$. For $0 < j < i$, we define $h_{i,j}$ by
+\[
+h_{i,j}(x,y,z) \coloneqq s\big(h_{i,j-1}(x,y,z), h_{i-1,j}(x,y,z)\big).
+\]
+By Theorem \ref{thm-oriented-digraph}, we have $h_{i,j-1}(x,y,z) \rightarrow h_{i,j}(x,y,z)$, and therefore by the induction hypothesis $h_{i,j}(x,y,z)$ will be reachable from $x$. From $f_{i-1}(x,y) \rightarrow f_i(x,y)$, $f_{j-1}(x,y) \rightarrow f_j(x,y)$, and the inductive hypothesis, we have
+\begin{align*}
+h_{i,j}(x,y,y) \approx h_{i,j}(x,y,x) &\approx s(f_i(x,y), f_{i-1}(x,y)) \approx f_i(x,y),\\
+h_{i,j}(x,x,y) &\approx s(f_{j-1}(x,y), f_j(x,y)) \approx f_j(x,y).
+\end{align*}
+Finally, for $0 < j = i$, we define $h_{i,j}$ by
+\[
+h_{i,i}(x,y,z) \coloneqq s\big(h_{i,i-1}(x,y,z), h_{i,i-1}(x,z,y)\big).
+\]
+As before, we have $h_{i,i-1}(x,y,z) \rightarrow h_{i,i}(x,y,z)$, so $h_{i,i}(x,y,z)$ is reachable from $x$, and
+\begin{align*}
+h_{i,i}(x,y,y) &\approx s(f_i(x,y), f_i(x,y)) \approx f_i(x,y)\\
+h_{i,i}(x,y,x) &\approx s(f_i(x,y), f_{i-1}(x,y)) \approx f_i(x,y),\\
+h_{i,i}(x,x,y) &\approx s(f_{i-1}(x,y), f_i(x,y)) \approx f_i(x,y).
+\end{align*}
+Taking $h = h_{n,n}$ finishes the proof.
+\end{proof}
+
+\begin{prop}\label{prop-reachable-major} If $f(x,y)$ is a semi-major operation of $\bA$ such that
+\[
+\big\{f(x,y), f(y,x)\big\}
+\]
+is a two-element majority subalgebra of $\Clo_2(\bA)$, then $f$ is a major operation of $\bA$.
+
+If additionally $\bA$ is finite and oriented and $f(x,y)$ is reachable from $x$, then we can choose the witnessing terms $g,h$ such that for all $\bC \lhd_Z \bB \in HSP_{fin}(\bA)$ we have
+\begin{align*}
+g(\bC,\bC,\bB), g(\bC,\bB,\bC), g(\bB,\bC,\bC) &\subseteq \bC,\\
+h(\bC,\bB,\bB) &\subseteq \bC.
+\end{align*}
+\end{prop}
+\begin{proof} Let $t(x,y,z)$ be any term which acts as the majority operation on $\{f(x,y), f(y,x)\}$, let $h$ witness the fact that $f$ is a semi-major operation, and define $g$ by
+\[
+g(x,y,z) \coloneqq t\big(h(x,y,z), h(y,z,x), h(z,x,y)\big).
+\]
+Then we have
+\[
+g(x,x,y) \approx t\big(f(x,y), f(x,y), f(y,x)\big) \approx f(x,y),
+\]
+and similarly for $g(x,y,x), g(y,x,x)$, so $g,h$ witness the fact that $f$ is a major operation of $\bA$.
+
+If $f(x,y)$ is reachable from $x$, then by Proposition \ref{prop-reachable-semimajor} we may choose $h(x,y,z)$ to be reachable from $x$, in which case we have
+\[
+h(\bC, \bB, \bB) \subseteq \bC
+\]
+whenever $\bC$ is upwards closed in $\bB$. Additionally, by the finiteness of $\bA$ we may apply Corollary \ref{cor-central-ternary} to assume that $t$ satisfies
+\[
+g(\bC,\bC,\bB), g(\bC,\bB,\bC), g(\bB,\bC,\bC) \subseteq \bC
+\]
+for all $\bC \lhd_Z \bB \in HSP_{fin}(\bA)$. With this choice of $t$, using the fact that $\bC \lhd_Z \bB$ implies that $\bC$ is upwards closed in $\bB$, we have
+\[
+b,c \in \bC, a \in \bB \;\;\; \implies \;\;\; h(b,c,a), h(c,a,b) \in \bC,
+\]
+so
+\[
+g(a,b,c) = t\big(h(a,b,c), h(b,c,a), h(c,a,b)\big) \in t(\bB, \bC, \bC) \subseteq \bC
+\]
+for any $b,c \in \bC, a \in \bB$. Thus we have
+\[
+g(\bB, \bC, \bC) \subseteq \bC,
+\]
+and symmetric arguments show that $g(\bC, \bB, \bC), g(\bC, \bC, \bB) \subseteq \bC$ as well.
+\end{proof}
+
+We see that our understanding of central absorption in minimal bounded width algebras will be significantly improved if we can prove that there is always a major operation $f(x,y)$ of $\bA$ which is reachable from $x$, since then the iterated operations $f^i(x,y)$ defined by
+\[
+f^{i+1}(x,y) \coloneqq f(f^i(x,y), f^i(y,x))
+\]
+would also be major operations reachable from $x$, and taking $N$ such that $f^{2N} = f^N$ would allow us to apply Proposition \ref{prop-reachable-major} to $f^N(x,y)$. In this case, we would also get a better connectedness result for $\bA$: from any $a,b \in \bA$, it would be possible to find a path connecting $a,b$ of the form
+\[
+a \rightarrow \cdots \rightarrow f^N(a,b) \relbar f^N(b,a) \leftarrow \cdots \leftarrow b,
+\]
+where the undirected edge in $f^N(a,b) \relbar f^N(b,a)$ indicates that $\{f^N(a,b), f^N(b,a)\}$ is a majority subalgebra. Bulatov \cite{bulatov-bounded} says that an algebra $\bA$ satisfies the \emph{yellow connectivity property} if every pair of elements $a,b$ can be connected by such a path (he considers majority subalgebras to be yellow), and he proves that every bounded width algebra has a reduct satisfying the yellow connectivity property as a main step in his proof of the fact that $(2,3)$-consistency solves $\CSP(\bA)$.
+
+We will prove a slight refinement of Bulatov's yellow-connectivity result, which applies to the $f$-reduct $\bA_f = (A, f)$. If $\bA$ has any majority subalgebras then $\bA_f$ will not even be Taylor, but $\bA_f$ will at least be oriented when $\bA$ is a minimal bounded width algebra.
+
+\begin{defn}\label{defn-paired-ancestors} We say that an oriented algebra $\bA = (A, f)$ \emph{has $\pi_1$-paired ancestors} if for every subalgebra $\bB \le \bA$ and every pair of subsets $U, V \subseteq \bB$ which are upwards closed in $\bB$, there are $u \in U$ and $v \in V$ such that $f$ acts as first projection on $\{u,v\}$.
+
+We also say that elements $a', b' \in \bA$ are \emph{$\pi_1$-paired ancestors for $a,b \in \bA$} if $f$ acts as first projection on $\{a',b'\}$, $a'$ is reachable from $a$ in $\Sg_\bA\{a,b\}$, and $b'$ is reachable from $b$ in $\Sg_\bA\{a,b\}$.
+\end{defn}
+
+\begin{prop}\label{prop-semi-upwards-closed} If $\bA, \bB$ are finite oriented algebras and $\RR \le \bA \times \bB$, and if $U \subseteq \bA$ is upwards closed in $\bA$ and $S \subseteq \RR$ is upwards closed in $\RR$, then
+\[
+U + S \subseteq \bA + \RR
+\]
+is upwards closed in $\bA + \RR$.
+\end{prop}
+\begin{proof} By Theorem \ref{thm-oriented-digraph}, if $s$ is any nontrivial splat term of $\bA \times \bB$ then $U$ is upwards closed in $\bA$ if and only if we have
+\[
+s(U, \bA) \subseteq U,
+\]
+and similarly for $S \subseteq \RR$ and $U + S \subseteq \bA+\RR$. For any $v \in U+S$ and any $b \in \bA+\RR$, pick any $u \in U$ with $(u,v) \in S$ and $a \in \bA$ with $(a,b) \in \RR$, and note that
+\[
+\begin{bmatrix} s(u,a)\\ s(v,b) \end{bmatrix} = s\left(\begin{bmatrix} u\\ v \end{bmatrix}, \begin{bmatrix} a\\ b \end{bmatrix}\right) \in s(S,\RR) \subseteq S
+\]
+and $s(u,a) \in U$, so $s(v,b) \in U + S$. Thus $s(U+S, \bA+\RR) \subseteq U+S$, so $U+S$ is upwards closed in $\bA+\RR$.
+\end{proof}
+
+\begin{prop}\label{prop-paired-ancestor-variety} If $\bA_i = (A_i, f)$ are finite oriented algebras with $\pi_1$-paired ancestors for all $i \in I$, then any $\bB \in HSP_{fin}(\{\bA_i\}_{i \in I})$ also has $\pi_1$-paired ancestors.
+\end{prop}
+\begin{proof} Note that $\bB$ will automatically be oriented by Propositions \ref{prop-oriented-products} and \ref{prop-oriented-variety}. First consider the case of a subproduct: if
+\[
+\bB \le \bA_1 \times \bA_2
+\]
+and $U, V$ are upwards closed in $\bB$, then
+\[
+\pi_1(U), \pi_1(V) \subseteq \pi_1(\bB)
+\]
+are upwards closed in $\pi_1(\bB) \le \bA_1$, so we can find $u_1 \in \pi_1(U_1), v_1 \in \pi_1(V_1)$ such that $f$ acts as first projection on $\{u_1,v_1\}$ by the assumption that $\bA_1$ has $\pi_1$-paired ancestors. Then each of $\{u_1\}, \{v_1\}$ is upwards closed in $\{u_1, v_1\}$, so
+\[
+\{u_1\} + U, \{v_1\} + V \subseteq \{u_1, v_1\} + \bB
+\]
+are upwards-closed subsets of $\{u_1, v_1\} + \bB \le \bA_2$, so we can find $u_2 \in \{u_1\} + U$ and $v_2 \in \{v_1\} + V$ such that $f$ acts as first projection on $\{u_2, v_2\}$ by the assumption that $\bA_2$ has $\pi_1$-paired ancestors. Now we set $u = (u_1, u_2) \in U$ and $v = (v_1, v_2) \in V$, and note that $f$ acts as first projection on $\{u, v\}$.
+
+To finish the proof, consider the case of a quotient: suppose that $\bB = \bA/\theta$ where $\bA$ has $\pi_1$-paired ancestors, and let $\pi : \bA \twoheadrightarrow \bB$ be the quotient map. If $U, V \subseteq \bB$ are upwards closed in $\bB$, then
+\[
+\pi^{-1}(U), \pi^{-1}(V) \subseteq \bA
+\]
+will be upwards closed in $\bA$ (since every semilattice subalgebra of $\bA$ is mapped under $\pi$ to a semilattice subalgebra of $\bB$), so there must be $\bar{u} \in \pi^{-1}(U)$ and $\bar{v} \in \pi^{-1}(V)$ such that $f$ acts as first projection on $\{\bar{u}, \bar{v}\}$ by the assumption that $\bA$ has $\pi_1$-paired ancestors. Then taking $u = \bar{u}/\theta \in U$ and $v = \bar{v}/\theta \in V$ we see that $f$ acts as first projection on $\{u,v\} = \{\bar{u}, \bar{v}\}/\theta$.
+\end{proof}
+
+\begin{lem}[Lemma 4 of \cite{minimal-bounded-width}]\label{lem-strong-majority} If $\bA$ is a finite oriented algebra with $\bA = \Sg_\bA\{a,b\}$ and $\RR \le_{sd} \bA^3$ has
+\[
+\RR \supseteq \Sg_{\bA^3}\left(\begin{bmatrix} a\\ a\\ b \end{bmatrix}, \begin{bmatrix} a\\ b\\ a \end{bmatrix}, \begin{bmatrix} b\\ a\\ a \end{bmatrix}\right),
+\]
+then for any maximal strongly connected components $U, V, W \subseteq \bA$ we have
+\[
+\RR \cap (U \times V \times W) \ne \emptyset \;\;\; \implies \;\;\; \RR \supseteq U \times V \times W.
+\]
+\end{lem}
+\begin{proof} Since $\pi_{12}(\RR)$ contains $(a,a), (a,b), (b,a)$, we see that $\pi_{12}(\RR)$ has $a$ in its left and right centers and is therefore linked, so by Theorem \ref{strong-binary}(c) we have
+\[
+U \times V \subseteq \pi_{12}(\RR).
+\]
+Considering $\RR$ as a subdirect product of $\pi_{12}(\RR)$ and $\bA$, we can apply Theorem \ref{strong-binary}(a) to see that
+\[
+\RR \cap ((U \times V) \times W) \subseteq_{sd} (U \times V) \times W
+\]
+maps surjectively onto $U \times V$. Defining $R = \RR \cap (U \times V \times W)$, we see that
+\[
+\pi_{12}(R) = U \times V,
+\]
+and similarly $\pi_{13}(R) = U \times W$ and $\pi_{23}(R) = V \times W$. Now we can apply Theorem \ref{strong-ternary} to see that
+\[
+R = U \times V \times W.\qedhere
+\]
+\end{proof}
+
+\begin{prop}\label{prop-maximal-pair} If $\bA$ is a finite oriented algebra and $a,b \in \bA$, then there is a term operation $t(x,y) \in \Clo_2(\bA)$ which is reachable from $x$ such that, if we define $a',b'$ by
+\[
+a' \coloneqq t(a,b), \;\;\; b' \coloneqq t(b,a),
+\]
+then $(a',b')$ is contained in a maximal strongly connected component of $\Sg_{\bA^2}\{(a',b'), (b',a')\}$, and furthermore such that for every $(c,d)$ which is reachable from $(a',b')$ in $\Sg_{\bA^2}\{(a',b'), (b',a')\}$ we have
+\[
+\Sg_{\bA^2}\left\{\begin{bmatrix} c\\ d \end{bmatrix}, \begin{bmatrix} d\\ c \end{bmatrix}\right\} = \Sg_{\bA^2}\left\{\begin{bmatrix} a'\\ b' \end{bmatrix}, \begin{bmatrix} b'\\ a' \end{bmatrix}\right\}.
+\]
+\end{prop}
+\begin{proof} Pick $(a_1,b_1)$ reachable from $(a,b)$ in $\Sg_{\bA^2}\{(a,b), (b,a)\}$ such that $\Sg_{\bA^2}\{(a_1,b_1), (b_1,a_1)\}$ is minimal among reachable pairs $(a_1,b_1)$, and let $t_1(x,y) \in \Clo_2(\bA)$ be a term operation which is reachable from $x$ and satisfies
+\[
+a_1 = t_1(a,b), \;\;\; b_1 = t_1(b,a).
+\]
+Find $t_2(x,y) \in \Clo_2(\bA)$ reachable from $x$ such that, setting
+\[
+a' \coloneqq t_2(a_1, b_1), \;\;\; b' \coloneqq t_2(b_1,a_1),
+\]
+we have $(a',b')$ contained in a maximal strongly connected component of $\Sg_{\bA^2}\{(a_1,b_1), (b_1,a_1)\}$. Then we take
+\[
+t'(x,y) \coloneqq t_2(t_1(x,y), t_1(y,x)),
+\]
+and note that $t'(x,y)$ is reachable from $t_1(x,y)$, which is reachable from $x$. For any $(c,d)$ reachable from $(a',b')$ in $\Sg_{\bA^2}\{(a',b'), (b',a')\}$, we see that $(c,d)$ is reachable from $(a,b)$ in $\Sg_{\bA^2}\{(a,b), (b,a)\}$ and
+\[
+\Sg_{\bA^2}\left\{\begin{bmatrix} c\\ d \end{bmatrix}, \begin{bmatrix} d\\ c \end{bmatrix}\right\} \subseteq \Sg_{\bA^2}\left\{\begin{bmatrix} a'\\ b' \end{bmatrix}, \begin{bmatrix} b'\\ a' \end{bmatrix}\right\} \subseteq \Sg_{\bA^2}\left\{\begin{bmatrix} a_1\\ b_1 \end{bmatrix}, \begin{bmatrix} b_1\\ a_1 \end{bmatrix}\right\},
+\]
+so by the choice of $(a_1,b_1)$ we have
+\[
+\Sg_{\bA^2}\left\{\begin{bmatrix} c\\ d \end{bmatrix}, \begin{bmatrix} d\\ c \end{bmatrix}\right\} = \Sg_{\bA^2}\left\{\begin{bmatrix} a'\\ b' \end{bmatrix}, \begin{bmatrix} b'\\ a' \end{bmatrix}\right\} = \Sg_{\bA^2}\left\{\begin{bmatrix} a_1\\ b_1 \end{bmatrix}, \begin{bmatrix} b_1\\ a_1 \end{bmatrix}\right\}.\qedhere
+\]
+\end{proof}
+
+\begin{defn} If $\bA$ is an oriented algebra, then we say that $a,b \in \bA$ are a \emph{maximal pair} if $(a,b)$ is contained in a maximal strongly connected component of
+\[
+\Sg_{\bA^2}\left\{\begin{bmatrix} a\\ b \end{bmatrix}, \begin{bmatrix} b\\ a \end{bmatrix}\right\},
+\]
+and we say that $a,b$ are a \emph{very maximal pair} if additionally for all $(c,d)$ reachable from $(a,b)$ in $\Sg_{\bA^2}\{(a,b), (b,a)\}$ we have
+\[
+\Sg_{\bA^2}\left\{\begin{bmatrix} c\\ d \end{bmatrix}, \begin{bmatrix} d\\ c \end{bmatrix}\right\} = \Sg_{\bA^2}\left\{\begin{bmatrix} a\\ b \end{bmatrix}, \begin{bmatrix} b\\ a \end{bmatrix}\right\}.
+\]
+\end{defn}
+
+\begin{lem}\label{lem-maximal-pair-majority} Suppose $\bA$ is a finite oriented algebra with a major operation $f$, and let $\bA_f = (A,f)$ be the $f$-reduct of $\bA$.
+
+If $a,b \in \bA_f$ are a maximal pair of $\bA_f$ and if $c,d$ have $\pi_1$-paired ancestors in $\bA_f$ for every $c$ reachable from $a$ and every $d$ reachable from $b$ in $\Sg_{\bA_f}\{a,b\}$, then there is a ternary term operation $t \in \Clo_3(\bA)$ such that $\{a,b\}$ is closed under $t$ and such that $t$ acts as the majority operation on $\{a,b\}$.
+\end{lem}
+\begin{proof} Let $g,h$ be witnesses for $f$ being a major operation of $\bA$, and let $a',b'$ be $\pi_1$-paired ancestors for $a,b$ in $\bA_f$. Set $\bB = \Sg_{\bA_f}\{a,b\}$, define a symmetric binary subdirect relation $\bS \le_{sd} \bB \times \bB$ by
+\[
+\bS \coloneqq \Sg_{\bB^2}\left\{\begin{bmatrix} a\\ b \end{bmatrix}, \begin{bmatrix} b\\ a \end{bmatrix}\right\},
+\]
+define $a_2, b_2 \in \bS$ by
+\[
+a_2 \coloneqq (a,b), \;\;\; b_2 \coloneqq (b,a),
+\]
+and define a symmetric ternary subdirect relation $\RR \le_{sd} \bS^3$ by
+\[
+\RR \coloneqq \Sg_{\bA^{3\times 2}}\left\{\begin{bmatrix} a_2\\ a_2\\ b_2 \end{bmatrix}, \begin{bmatrix} a_2\\ b_2\\ a_2 \end{bmatrix}, \begin{bmatrix} b_2\\ a_2\\ a_2 \end{bmatrix}\right\} \cap \bS^3.
+\]
+Our goal is to prove that $(a_2,a_2,a_2) \in \RR$. First we will check that $a_2, b_2$ have $\pi_1$-paired ancestors in $\bS$. For this we use the fact that since $a'$ is reachable from $a$, there must be some $d$ reachable from $b$ such that
+\[
+(a',d) \in \bS
+\]
+and such that $(a',d)$ is reachable from $(a,b)$ in $\bS$, and similarly we can find $c$ reachable from $a$ such that $(b',c) \in \bS$ is reachable from $(b,a)$ in $\bS$. By Proposition \ref{prop-semi-upwards-closed} we see that $\{a'\} + \bS$ and $\{b'\} + \bS$ are upwards closed subsets of
+\[
+\{a',b'\} + \bS \supseteq \Sg_\bB\{c,d\}
+\]
+containing $c,d$, respectively. Then for any $\pi_1$-paired ancestors $c',d'$ of $c,d$ in $\bA_f$ we have
+\[
+a_2' \coloneqq (a',d'), \;\;\; b_2' \coloneqq (b',c') \in \bS,
+\]
+we see that $f$ acts as first projection on $\{a_2', b_2'\}$, and $a_2', b_2'$ are reachable from $a_2,b_2$ respectively.
+
+Since $a_2, b_2$ are a maximal pair of $\bA_f$, $a_2,b_2$ must be contained in maximal strongly connected components $U,V$ of $\bS$. By Lemma \ref{lem-strong-majority} we have
+\[
+U\times U \times V \subseteq \RR,
+\]
+so $(a_2',a_2',b_2') \in \RR$. Since $g$ acts as the majority operation on $\{a_2',b_2'\}$ we have
+\[
+\begin{bmatrix} a_2'\\ a_2'\\ a_2' \end{bmatrix} = g\left(\begin{bmatrix} a_2'\\ a_2'\\ b_2' \end{bmatrix}, \begin{bmatrix} a_2'\\ b_2'\\ a_2' \end{bmatrix}, \begin{bmatrix} b_2'\\ a_2'\\ a_2' \end{bmatrix}\right) \in \RR,
+\]
+and then by Lemma \ref{lem-strong-majority} again we have
+\[
+U \times U \times U \subseteq \RR,
+\]
+so $(a_2, a_2, a_2) \in \RR$. Taking $t$ to be any ternary term operation witnessing $(a_2,a_2,a_2) \in \RR$, we see that $t$ acts as majority on $\{a,b\}$.
+\end{proof}
+
+\begin{thm}[Bulatov's yellow connectivity property \cite{bulatov-bounded}, slightly refined in \cite{minimal-bounded-width}]\label{thm-yellow-connected} Suppose that $\bA$ is a finite oriented algebra with a major operation $f$ witnessed by $g,h$ as in Definition \ref{defn-major-op}, and let $\bA_f = (A,f)$ be the $f$-reduct of $\bA$.
+
+If $\bA_f$ does not have $\pi_1$-paired ancestors as in Definition \ref{defn-paired-ancestors}, then we can find another major operation
+\[
+f' \in \Clo(g,h)
+\]
+of $\bA$ such that $f'$ acts as first projection on strictly more two-element subsets of $\bA$ than $f$ does.
+\end{thm}
+\begin{proof} We may assume without loss of generality that the major operation $f$ and the witnesses $g,h$ are chosen such that for every major operation $f' \in \Clo(g,h)$, if $f'$ acts as first projection on some two-element subset of $\bA$ then so does $f$. Assume also that $\bA = (A,f,g,h)$, so $\Clo(\bA) = \Clo(g,h)$ and every two-element subset of $\bA$ which is closed under $f$ is a subalgebra of $\bA$. We will prove that every $\bB \le \bA_f$ has $\pi_1$-paired ancestors by induction on $\bB$, so we assume inductively that every proper subalgebra of $\bB$ has $\pi_1$-paired ancestors.
+
+By Proposition \ref{prop-maximal-pair}, for any upwards closed subsets $U, V \subseteq \bB$ of $\bB$ there is a (very) maximal pair $a,b$ of $\bB$ with $a \in U, b \in V$. Therefore it is enough to show that for every (very) maximal pair $a,b$, $f$ acts as first projection on $\{a,b\}$.
+
+{\bf Claim 0.} If $a,b$ is a maximal pair of $\bB$ and $a,b$ have $\pi_1$-paired ancestors $a',b'$ in $\bB$, then $\{a,b\}$ is a majority subalgebra of $\bA$.
+
+{\bf Proof of Claim 0.} First we check that we can apply Lemma \ref{lem-maximal-pair-majority}. For any $c$ reachable from $a$ and any $d$ reachable from $b$ in $\bB$, either $\Sg_\bB\{c,d\} = \bB$, in which case $a',b'$ are $\pi_1$-paired ancestors of $c,d$, or $\Sg_\bB\{c,d\} \ne \bB$, in which case $c,d$ have $\pi_1$-paired ancestors by the induction hypothesis applied to $\Sg_\bB\{c,d\}$. Thus by Lemma \ref{lem-maximal-pair-majority} there is a ternary term operation $t \in \Clo_3(\bA)$ which acts as majority on $\{a,b\}$.
+
+By Theorems \ref{thm-minimal-bounded-width-subalg} and \ref{thm-minimal-bounded-width-connected}, the reduct $\bA'$ of $\bA$ with basic operations consisting of all operations which preserve $\{a,b\}$ and have restriction to $\{a,b\}$ contained in $\Clo(t|_{\{a,b\}})$ must have bounded width. Thus by Theorem \ref{bounded-width-terms} $\bA'$ must have a major operation
+\[
+f' \in \Clo(\bA') \subseteq \Clo(g,h),
+\]
+and $f'$ must act as first projection on $\{a,b\}$ since otherwise the witnessing operations $g',h' \in \Clo(\bA')$ would not restrict to elements of $\Clo(t|_{\{a,b\}})$ by Proposition \ref{prop-major-op-types}. By our assumption on $f$, $f$ also acts as first projection on $\{a,b\}$, so $\{a,b\}$ is a majority subalgebra of $\bA$. This completes the proof of Claim 0.
+
+For every $a,b \in \bB$, define the symmetric relation $\bS_{ab} \le \bB^2$ by
+\[
+\bS_{ab} \coloneqq \Sg_{\bB^2}\left\{\begin{bmatrix} a\\ b \end{bmatrix}, \begin{bmatrix} b\\ a \end{bmatrix}\right\}.
+\]
+If $\{a,b\}$ is not a semilattice subalgebra of $\bB$ then $\bS_{ab}$, then $(a,a), (b,b) \not\in \bS_{ab}$ by our assumption that $\bA$ is oriented. If $\Sg_\bB\{a,b\} = \bB$, then $\bS_{ab}$ will be subdirect in $\bB \times \bB$.
+
+{\bf Claim 1.} Suppose that $a,b$ is a maximal pair of $\bB$ and that $\theta$ is a proper congruence on $\bB$ such that, for some ternary operation $g' \in \Clo(\bA)$, we have
+\begin{align*}
+x \in a/\theta, y \in b/\theta \;\;\; \implies \;\;\; g'(x,x,y), g'(x,y,x), g'(y,x,x) &\in a/\theta,\\
+g'(y,y,x), g'(y,x,y), g'(x,y,y) &\in b/\theta,
+\end{align*}
+and all three minors $g'(x,x,y), g'(x,y,x), g'(y,x,x)$ are in $\Clo(f)$. Then there is a ternary term operation $t \in \Clo_3(\bA)$ which acts as majority on $\{a,b\}$.
+
+{\bf Proof of Claim 1.} By reordering the inputs to $g'$, we may assume without loss of generality that either $g'$ acts as majority on every two-element majority subalgebra of $\bA$ or that $g'$ acts as first projection on every two-element majority subalgebra of $\bA$.
+
+Define $a_2, b_2 \in \bS_{ab}$ by
+\[
+a_2 \coloneqq (a,b), \;\;\; b_2 \coloneqq (b,a).
+\]
+Let $\theta_2 \in \Con(\bS_{ab})$ be the congruence defined by
+\[
+(x,y) \in \theta_2 \;\;\; \iff \;\;\; (\pi_1(x), \pi_1(y)) \in \theta \wedge (\pi_2(x), \pi_2(y)) \in \theta,
+\]
+and note that by our assumption on $g'$ we have
+\[
+x \in a_2/\theta_2, y \in b_2/\theta_2 \;\;\; \implies \;\;\; g'(x,x,y), g'(x,y,x), g'(y,x,x) \in a_2/\theta_2.
+\]
+Note that the congruence class $a_2/\theta_2$ is a subproduct of the congruence classes $a/\theta$ and $b/\theta$, so by the inductive hypothesis and Proposition \ref{prop-paired-ancestor-variety} the congruence class $a_2/\theta_2$ has $\pi_1$-paired ancestors. Define $U$ to be the maximal strongly connected component of $\bS_{ab}$ which contains $a_2$, and note that $U \cap (a_2/\theta_2)$ is upwards closed in $a_2/\theta_2$.
+
+Since $a_2$ is maximal in $\bS_{ab}$, $a_2/\theta_2$ is maximal in $\bS_{ab}/\theta_2$, so any element $c \in \bS_{ab}$ which is reachable from some element of the congruence class $a_2/\theta_2$ can also reach an element of the congruence class $a_2/\theta_2$. Therefore, any maximal strongly connected component $V$ of $\bS_{ab}$ which is reachable from any element of the congruence class $a_2/\theta_2$ satisfies
+\[
+V \cap (a_2/\theta_2) \ne \emptyset,
+\]
+and $V \cap (a_2/\theta_2)$ is upwards closed in $a_2/\theta_2$. In particular, for any such $V$ we can find $u \in U \cap (a_2/\theta_2)$ and $v \in V \cap (a_2/\theta_2)$ such that $f$ acts as first projection on $\{u,v\}$.
+
+Define a symmetric ternary subdirect relation $\RR \le_{sd} \bS_{ab}^3$ by
+\[
+\RR \coloneqq \Sg_{\bA^{3\times 2}}\left\{\begin{bmatrix} a_2\\ a_2\\ b_2 \end{bmatrix}, \begin{bmatrix} a_2\\ b_2\\ a_2 \end{bmatrix}, \begin{bmatrix} b_2\\ a_2\\ a_2 \end{bmatrix}\right\} \cap \bS_{ab}^3.
+\]
+Note that $\bS_{ab}$ has an automorphism
+\[
+\iota : (x_1, x_2) \mapsto (x_2, x_1)
+\]
+which swaps $a_2$ and $b_2$. For any $v \in \bS_{ab}$ we have
+\[
+\begin{bmatrix} a_2\\ v\\ \iota(v) \end{bmatrix} \in \Sg_{\bB^{3\times 2}}\left\{\begin{bmatrix} a_2\\ a_2\\ b_2 \end{bmatrix}, \begin{bmatrix} a_2\\ b_2\\ a_2 \end{bmatrix}\right\} \subseteq \RR,
+\]
+so for any maximal strongly connected component $V$ of $\bS_{ab}$ we have
+\[
+U \times V \times \iota(V) \subseteq \RR
+\]
+by Lemma \ref{lem-strong-majority}.
+
+Applying $g'$ to the generators of $\RR$, we have
+\[
+g'\left(\begin{bmatrix} a_2\\ a_2\\ b_2 \end{bmatrix}, \begin{bmatrix} a_2\\ b_2\\ a_2 \end{bmatrix}, \begin{bmatrix} b_2\\ a_2\\ a_2 \end{bmatrix}\right) \in \RR \cap (a_2/\theta_2)^3,
+\]
+so $\RR \cap (a_2/\theta_2)^3$ is not empty. Since $\RR \le_{sd} \bS_{ab}^3$ is subdirect, every maximal element of $\RR$ has all coordinates maximal in $\bS_{ab}$, so there must be some maximal strongly connected components $V_1, V_2, V_3$, all reachable from the congruence class $a_2/\theta_2$, such that $\RR \cap (V_1 \times V_2 \times V_3) \ne \emptyset$. By Lemma \ref{lem-strong-majority} we have
+\[
+V_1 \times V_2 \times V_3 \subseteq \RR.
+\]
+Pick $u \in U \cap (a_2/\theta_2)$ and $v_1 \in V_1 \cap (a_2/\theta_2)$ such that $f$ acts as first projection on $\{u, v_1\}$, and pick any $v_2 \in V_2 \cap (a_2/\theta_2), v_3 \in V_3 \cap (a_2/\theta_2)$. Then since $U \times V_2 \times \iota(V_2)$ and $U \times \iota(V_3) \times V_3$ are contained in $\RR$, we have
+\[
+\begin{bmatrix} u\\ v_2'\\ v_3' \end{bmatrix} = g'\left(\begin{bmatrix} u\\ v_2\\ \iota(v_2) \end{bmatrix}, \begin{bmatrix} u\\ \iota(v_3)\\ v_3 \end{bmatrix}, \begin{bmatrix} v_1\\ v_2\\ v_3 \end{bmatrix}\right) \in \RR \cap (a_2/\theta_2)^3,
+\]
+where $g'(u,u,v_1) = u$ since $g'$ is either majority or first projection on $\{u,v_1\}$ and $v_2', v_3' \in a_2/\theta_2$ since $v_2,v_3 \in a_2/\theta_2$ and $\iota(v_2), \iota(v_3) \in b_2/\theta_2$.
+
+Picking a maximal element of $\RR$ reachable from $(u,v_2',v_3')$, we can apply Lemma \ref{lem-strong-majority} to see that there are strongly connected components $W_2$ reachable from $v_2' \in a_2/\theta_2$ and $W_3$ reachable from $v_3' \in a_2/\theta_2$ with
+\[
+U \times W_2 \times W_3 \subseteq \RR.
+\]
+Pick $u' \in U \cap (a_2/\theta_2)$ and $w_2 \in W_2 \cap (a_2/\theta_2)$ such that $f$ acts as first projection on $\{u',w_2\}$, and pick any $w_3 \in W_3 \cap (a_2/\theta_2)$. Since $U \times U \times \iota(U) \subseteq \RR$, we have
+\[
+\begin{bmatrix} u'\\ u'\\ w_3' \end{bmatrix} = g'\left(\begin{bmatrix} u'\\ u'\\ b_2 \end{bmatrix}, \begin{bmatrix} u'\\ w_2\\ w_3 \end{bmatrix}, \begin{bmatrix} w_2\\ u'\\ w_3 \end{bmatrix}\right) \in \RR \cap (a_2/\theta_2)^3,
+\]
+where $g'(u',u',w_2) = g'(u', w_2, u') = u'$ since $g'$ is either majority or first projection on $\{u',w_2\}$ and $w_3' \in a_2/\theta_2$ since $w_3 \in a_2/\theta_2$ and $b_2 \in b_2/\theta_2$.
+
+Picking any maximal strongly connected component $X$ reachable from $w_3' \in a_2/\theta_2$, we have
+\[
+U \times U \times X \subseteq \RR.
+\]
+Picking $u'' \in U \cap (a_2/\theta_2)$ and $x \in X \cap (a_2/\theta_2)$ such that $f$ acts as first projection on $\{u'', x\}$, we have
+\[
+\begin{bmatrix} u''\\ u''\\ u'' \end{bmatrix} = g\left(\begin{bmatrix} u''\\ u''\\ x \end{bmatrix}, \begin{bmatrix} u''\\ x\\ u'' \end{bmatrix}, \begin{bmatrix} x\\ u''\\ u'' \end{bmatrix}\right) \in \RR \cap (a_2/\theta_2)^3,
+\]
+where $g(u'',u'',x) = g(u'',x,u'') = g(x,u'',u'') = u''$ since $g$ acts as majority on $\{u'',x\}$. Thus by Lemma \ref{lem-strong-majority} we have
+\[
+U \times U \times U \subseteq \RR,
+\]
+so $(a_2, a_2, a_2) \in \RR$, and any ternary term operation $t$ witnessing this will act as majority on $\{a,b\}$. This completes the proof of Claim 1.
+
+By the special case of Claim 1 with $g' = g$, we see that if $\bB$ has any proper congruence $\theta$ such that $\bB/\theta$ has $\pi_1$-paired ancestors, then $\bB$ will also have $\pi_1$-paired ancestors.
+
+{\bf Claim 2.} Suppose that $a,b$ is a maximal pair of $\bB$, and define $a_2, b_2 \in \bS_{ab}$ as in the proof of Claim 1. If there is some $c_2 \in \bS_{ab}$ such that $f$ acts as first projection on
+\[
+\{a_2,c_2\}
+\]
+and some $b_2'$ reachable from $b_2$ and maximal $c_2'$ reachable from $c_2$ such that $f$ acts as first projection on
+\[
+\{b_2', c_2'\},
+\]
+then there is a ternary term operation $t \in \Clo_3(\bA)$ which acts as majority on $\{a,b\}$.
+
+{\bf Proof of Claim 2.} Defining the symmetric ternary relation $\RR \le_{sd} \bS_{ab}^3$ and the automorphism $\iota$ of $\bS_{ab}$ as in the proof of Claim 1, we have $(a_2, c_2, \iota(c_2)) \in \RR$, so
+\[
+\begin{bmatrix} a_2\\ a_2\\ \iota(c_2) \end{bmatrix} = g\left(\begin{bmatrix} a_2\\ a_2\\ b_2 \end{bmatrix}, \begin{bmatrix} a_2\\ c_2\\ \iota(c_2) \end{bmatrix}, \begin{bmatrix} c_2\\ a_2\\ \iota(c_2) \end{bmatrix}\right) \in \RR,
+\]
+where $g(a_2, a_2, c_2) = g(a_2, c_2, a_2) = a_2$ since $g$ acts as majority on $\{a_2, c_2\}$ and $g(b_2, \iota(c_2), \iota(c_2)) = \iota(c_2)$ since $g$ acts as majority on $\{b_2, \iota(c_2)\} = \iota(\{a_2, c_2\})$.
+
+Since $\RR$ is subdirect and $\iota(c_2')$ is reachable from $\iota(c_2)$ there is some element of $\RR$ which is reachable from $(a_2, a_2, \iota(c_2))$ where the third coordinate is equal to $\iota(c_2')$. Letting $U$ be the maximal strongly connected component of $\bS_{ab}$ containing $a_2$ and $V$ be the maximal strongly connected component of $\bS_{ab}$ containing $c_2'$, by Lemma \ref{lem-strong-majority} we have
+\[
+U \times U \times \iota(V) \subseteq \RR.
+\]
+In particular, we have $(\iota(b_2'),\iota(b_2'),\iota(c_2')) \in \RR$, so
+\[
+\begin{bmatrix} \iota(b_2')\\ \iota(b_2')\\ \iota(b_2') \end{bmatrix} = g\left(\begin{bmatrix} \iota(b_2')\\ \iota(b_2')\\ \iota(c_2') \end{bmatrix}, \begin{bmatrix} \iota(b_2')\\ \iota(c_2')\\ \iota(b_2') \end{bmatrix}, \begin{bmatrix} \iota(c_2')\\ \iota(b_2')\\ \iota(b_2') \end{bmatrix}\right) \in \RR
+\]
+where $g$ acts as majority on $\{\iota(b_2'), \iota(c_2')\} = \iota(\{b_2', c_2'\})$ by our assumption that $f$ acts as first projection on $\{b_2',c_2'\}$. Applying Lemma \ref{lem-strong-majority} again, we have
+\[
+U \times U \times U \subseteq \RR,
+\]
+so $(a_2, a_2, a_2) \in \RR$, and any ternary term operation $t$ witnessing this will act as majority on $\{a,b\}$. This completes the proof of Claim 2.
+
+From here on the argument will not directly make use of the operations $g,h$. The next few claims will rule out the possibility of $\bS_{ab}$ being linked when $a,b$ are a very maximal pair of $\bB$.
+
+{\bf Claim 3.} Suppose that $a,b$ is a very maximal pair of $\bB$ and that $\bS_{ab}$ has a nonempty center. Then $\{a,b\}$ is a majority subalgebra of $\bA$.
+
+{\bf Proof of Claim 3.} If $\bS_{ab}$ has a nonempty center, then the center contains a maximal element $e$ of $\Sg_\bB\{a,b\}$ by Theorem \ref{strong-binary}(b) and the fact that $\Sg_\bB\{a,b\}$ is generated by the maximal elements $a,b$. If $b \in \Sg_\bB\{a,e\}$ then we have
+\[
+\begin{bmatrix} b\\ b \end{bmatrix} \in \Sg_{\bB^2}\left\{\begin{bmatrix} a\\ b \end{bmatrix}, \begin{bmatrix} e\\ b \end{bmatrix}\right\},
+\]
+so $a \rightarrow b$ as $\bA$ is oriented, implying $a = b$ as $a,b$ is a maximal pair. Thus we may assume without loss of generality that
+\[
+b \not\in \Sg_\bB\{a,e\},
+\]
+and similarly that $a \not\in \Sg_\bB\{b,e\}$. Applying the inductive hypothesis and Proposition \ref{prop-paired-ancestor-variety}, we see that
+\[
+\Sg_\bB\{a,e\} \times \Sg_\bB\{b,e\} \subseteq \bS_{ab}
+\]
+has $\pi_1$-paired ancestors, so there is some $(a',b')$ reachable from $(a,b)$ and $(e',e'')$ reachable from $(e,e)$ with $f$ acting as first projection on
+\[
+\left\{\begin{bmatrix} a'\\ b'\end{bmatrix}, \begin{bmatrix} e'\\ e''\end{bmatrix}\right\}.
+\]
+The pair $a',b'$ is maximal in $\bB$ since $\bS_{a'b'} = \bS_{ab}$, by the assumption that $a,b$ is very maximal. Additionally, $(e',e'')$ is reachable from $(e'',e')$ in $\bS_{a'b'} = \bS_{ab}$ by Theorem \ref{strong-binary}(b). Now by Claim 2 with $(a,b)$ replaced by $(a',b')$, $c_2 = (e',e'')$, and $c_2' = (e'',e')$, $b_2' = (b',a')$, we see that $\{a',b'\}$ is a majority subalgebra of $\bA$. By Claim 0 we see that $\{a,b\}$ is also a majority subalgebra of $\bA$.
+
+{\bf Claim 4.} Suppose that $a,b$ is a very maximal pair of $\bB$ and that there is $b'$ reachable from $b$ and some $e \in \bB$ with $f$ acting as first projection on $\{b',e\}$ such that
+\[
+\{b',e\} + \bS_{ab} = \bB.
+\]
+Then $\{a,b\}$ is a majority subalgebra of $\bA$.
+
+{\bf Proof of Claim 4.} If
+\[
+\bF \coloneqq \bS_{ab} \cap (\{b',e\} \times \bB) \le_{sd} \{b',e\} \times \bB
+\]
+is the graph of a homomorphism from $\bB$ to $\{b',e\}$, then we can apply Claim 1 with $g' = g$ to see that $\{a,b\}$ is a majority subalgebra of $\bA$. Otherwise we may assume that $\bF$ is linked, and note that in this case $\bS_{ab}$ is also linked.
+
+Since $\{b'\}$ and $\{e\}$ are upwards closed in $\{b',e\}$, we can apply Proposition \ref{prop-semi-upwards-closed} to see that
+\[
+\{b'\} + \bF, \;\;\; \{e\} + \bF
+\]
+are upwards closed subalgebras of $\bB = \{b',e\} + \bF$. By Claim 3, we may assume without loss of generality that $\bS_{ab}$ has no center, so in particular $\{b'\} + \bF$ and $\{e\} + \bF$ are proper subalgebras of $\bB$. Since $\bF$ is linked, the intersection
+\[
+(\{b'\} + \bF) \cap (\{e\} + \bF)
+\]
+is nonempty and upwards closed, so it contains some maximal strongly connected component $D$ of $\bB$. Let $U,V$ be maximal strongly connected components of $\bB$ containing $a,b$, respectively, and let $E$ be any maximal strongly connected component of $\bB$ which is reachable from $e$. Each of $U, V$ is contained in one of the subalgebras $\{b'\} + \bF, \{e\} + \bF$, and both subalgebras contain $D$, so
+\[
+\Sg_\bB(D \cup U), \Sg_\bB(D \cup V) \ne \bB,
+\]
+and we may apply the inductive hypothesis to see that they both have $\pi_1$-paired ancestors, so there are $d, d' \in D$ and $a' \in U, b''\in V$ such that $f$ acts as first projection on each of
+\[
+\{d,a'\}, \;\;\; \{d',b''\}.
+\]
+Next we will show that $\Sg_\bB(E \cup U) \ne \bB$ by checking that $(b',e) \in \bS_{ab}$. For this we note that since
+\[
+b' \in \{b',e\} + \bS_{ab}
+\]
+we must either have $(b',b') \in \bS_{ab}$ or $(e,b') \in \bS_{ab}$, and $(b',b') \in \bS_{ab}$ would imply $(b,b) \in \bS_{ab}$ by Theorem \ref{strong-binary}(c), which would imply that $a \rightarrow b$ since $\bA$ is oriented and then that $a = b$ since $a,b$ are a maximal pair. Thus we must have $(b',e) \in \bS_{ab}$, so
+\[
+\Sg_\bB(E \cup U) \subseteq \{b'\} + \bF \ne \bB
+\]
+and we may apply the inductive hypothesis to find $e' \in E$ and $a'' \in U$ such that $f$ acts as first projection on
+\[
+\{e', a''\}.
+\]
+Applying Theorem \ref{strong-binary}(c) we see that $U \times V, D \times E \subseteq \bS_{ab}$, so
+\[
+\begin{bmatrix} a'\\ b' \end{bmatrix}, \begin{bmatrix} b''\\ a'' \end{bmatrix}, \begin{bmatrix} d'\\ e' \end{bmatrix} \in \bS_{ab}
+\]
+and $(d', e')$ is reachable from $(d, e)$. By the choice of $d,a',d',b'',e',a''$ we see that $f$ acts as first projection on the two-element sets
+\[
+\left\{\begin{bmatrix} a'\\ b' \end{bmatrix}, \begin{bmatrix} d\\ e \end{bmatrix}\right\}, \;\;\; \left\{\begin{bmatrix} d'\\ e' \end{bmatrix}, \begin{bmatrix} b''\\ a'' \end{bmatrix}\right\} \subseteq \bS_{ab}.
+\]
+From $\bS_{a'b'} = \bS_{ab}$ we see that $a',b'$ is also a maximal pair in $\bB$, so we can apply Claim 2 to see that $\{a',b'\}$ is a majority subalgebra of $\bA$, and then by Claim 0 we see that $\{a,b\}$ is also a majority subalgebra of $\bA$.
+
+{\bf Claim 5.} If $a,b$ is a very maximal pair of $\bB$ and $\bS_{ab}$ is linked, then $\{a,b\}$ is a majority subalgebra of $\bA$.
+
+{\bf Proof of Claim 5.} By Claim 0 and the inductive hypothesis we may assume without loss of generality that $\Sg_\bB\{a,b\} = \bB$. Let $U,V$ be the maximal strongly connected components of $\bB$ containing $a,b$, respectively. If $\bS_{ab}$ is linked then there is some $n$ such that
+\[
+b \in \{a\} + (\bS_{ab} - \bS_{ab})^{\circ n} = \{a\} + \bS_{ab}^{\circ 2n},
+\]
+so there is a path of even length from $U$ to $V$ in the graph $\bS_{ab}$. Since the collection of $\bS_{ab}$-paths of length $2n$ forms a subdirect subalgebra of $\bB^{2n+1}$, we can find a maximal path of length $2n$ which is reachable from our original path, and this will be a path from $U$ to $V$ such that every intermediate vertex is contained in a maximal strongly connected component of $\bB$. In other words, we can find a sequence
+\[
+d_0, ..., d_{2n}
+\]
+with $(d_{i-1}, d_i) \in \bS_{ab}$ for all $i$, each $d_i$ in a maximal strongly connected component $D_i$, and
+\[
+U = D_0, \;\;\; D_{2n} = V.
+\]
+
+Now suppose that there is an $i$ such that for every $u \in U$ and every $d \in D_i$ we have
+\[
+\Sg_\bB\{u, d\} = \bB,
+\]
+but that there are $v \in V$ and $e \in D_{i \pm 1}$ such that
+\[
+\Sg_\bB\{v, e\} \ne \bB.
+\]
+Applying the inductive hypothesis to $\Sg_\bB\{v,e\}$, we see that we can find $b' \in V$ and $e' \in D_{i \pm 1}$ such that $f$ acts as first projection on $\{b', e'\}$, and since $b'$ is reachable from $b$ and $(b,a) \in \bS_{ab}$ there is some $a' \in U$ with $(b', a') \in \bS_{ab}$, and similarly there is some $d' \in D_i$ with $(e', d') \in \bS_{ab}$. Then we have
+\[
+\{b', e'\} + \bS_{ab} \supseteq \Sg_\bB\{a', d'\} = \bB.
+\]
+Since $a,b$ is a very maximal pair, we have $\bS_{a'b'} = \bS_{ab}$, so $a',b'$ is also a very maximal pair, and we can apply Claim 4 to see that $\{a',b'\}$ is a majority subalgebra of $\bA$, and by Claim 0 this implies that $\{a,b\}$ is also a majority subalgebra of $\bA$.
+
+The preceding argument also works with the roles of $U,V$ reversed. So if we say that $D_i$ is \emph{$U$-full} if $\Sg_\bB\{u,d\} = \bB$ for all $u \in U, d \in D_i$, then we have proved that if $D_i$ is $U$-full and $D_{i\pm 1}$ is not $V$-full, then $\{a,b\}$ must be a majority subalgebra of $\bA$, and similarly with the roles of $U,V$ reversed. If we assume for the sake of contradiction that $\{a,b\}$ is not a majority subalgebra of $\bA$, then we have
+\[
+D_0 \text{ is $U$-full} \;\;\; \iff \;\;\; D_1 \text{ is $V$-full} \;\;\; \iff \;\;\; \cdots \;\;\; \iff D_{2n-1} \text{ is $V$-full} \;\;\; \iff D_{2n} \text{ is $U$-full}.
+\]
+Then since $D_0 = U$ is definitely not $U$-full, $D_{2n} = V$ must also not be $U$-full, and we see that there are $a' \in U$ and $b' \in V$ such that
+\[
+\Sg_\bB\{a',b'\} \ne \bB.
+\]
+Since $\bS_{ab}$ is linked, we can apply Theorem \ref{strong-binary}(c) to see that $U \times V \subseteq \bS_{ab}$, so $(a',b') \in \bS_{ab}$ and since $a,b$ is a very maximal pair we must have $\bS_{a'b'} = \bS_{ab}$. In particular we have $\Sg_\bB\{a,b\} = \Sg_\bB\{a',b'\} \ne \bB$, contradicting our assumption that $\Sg_\bB\{a,b\} = \bB$. This completes the proof of Claim 5.
+
+We can now prove a variation of Claim 2 which drops the $2$s in the subscripts and doesn't involve $\bS_{ab}$.
+
+{\bf Claim 6.} Suppose that $a,b$ is a very maximal pair of $\bB$. If there is some $c$ such that $f$ acts as first projection on
+\[
+\{a,c\}
+\]
+and some $b'$ reachable from $b$ and maximal $c'$ reachable from $c$ such that $f$ acts as first projection on
+\[
+\{b',c'\},
+\]
+then $\{a,b\}$ is a majority subalgebra of $\bA$.
+
+{\bf Proof of Claim 6.} By Claim 4, we may assume without loss of generality that
+\[
+\{a,c\} + \bS_{ab} \ne \bB.
+\]
+By Proposition \ref{prop-semi-upwards-closed}, $\{a\} + \bS_{ab}$ and $\{c\} + \bS_{ab}$ are upwards closed subsets of $\{a,c\} + \bS_{ab}$, and applying the induction hypothesis to $\{a,c\} + \bS_{ab}$ we see that there is some $b'' \in \{a\} + \bS_{ab}$ reachable from $b$ and some $d \in \{c\} + \bS_{ab}$ such that $f$ acts as first projection on
+\[
+\{b'',d\}.
+\]
+Similarly, we can apply Claim 4 again to assume without loss of generality that
+\[
+\{b',c'\} + \bS_{ab} \ne \bB,
+\]
+and then find $a' \in \{b'\} + \bS_{ab}$ reachable from $a$ and $d' \in \{c'\} + \bS_{ab}$ with $(c',d')$ maximal in $\bS_{ab}$ and reachable from $(c,d)$ such that $f$ acts as first projection on
+\[
+\{a',d'\}.
+\]
+Then $f$ acts as first projection on the sets
+\[
+\left\{\begin{bmatrix} a\\ b'' \end{bmatrix}, \begin{bmatrix} c\\ d \end{bmatrix}\right\}, \left\{\begin{bmatrix} b'\\ a' \end{bmatrix}, \begin{bmatrix} c'\\ d' \end{bmatrix}\right\} \subseteq \bS_{ab}
+\]
+and $a,b''$ are a maximal pair with $\bS_{ab''} = \bS_{ab}$ so we can apply Claim 2 to see that $\{a,b''\}$ is a majority subalgebra of $\bA$, which implies that $\{a,b\}$ is also a majority subalgebra by Claim 0. This completes the proof of Claim 6.
+
+Define a relation $\sim$ on maximal elements of $\bB$ by $a \sim b$ if $a,b$ have $\pi_1$-paired ancestors in $\bB$. As a direct consequence of Claim 6, the relation $\sim$ is an equivalence relation on the maximal elements of $\bB$.
+
+{\bf Claim 7.} If there are proper congruences $\theta, \theta'$ on $\bB$ such that $\theta \vee \theta' = 1_\bB$, then $\bB$ has $\pi_1$-paired ancestors.
+
+{\bf Proof of Claim 7.} Any pair of maximal $a,b$ elements of $\bB$ which are contained in a common congruence class of $\theta$ or $\theta'$ have $a \sim b$ by the inductive hypothesis. If $a,b$ are any maximal elements of $\bB$, then we can join $a,b$ by a path of some length $n$ through $\theta \circ \theta'$, and by considering the set of paths of length $2n$ which alternate between $\theta$-edges and $\theta'$-edges as a subdirect subalgebra of $\bB^{2n+1}$, we can find a maximal path reachable from our original path which joined $a$ to $b$, giving us a path
+\[
+a' = d_0, ... d_{2n} = b'
+\]
+with $a'$ reachable from $a$, $b'$ reachable from $b$, each $d_i$ maximal in $\bB$, and
+\[
+(d_i, d_{i+1}) \in \begin{cases} \theta & i \text{ even},\\ \theta' & i \text{ odd}. \end{cases}
+\]
+Then we have $d_i \sim d_{i+1}$ for all $i$, so by repeated application of Claim 6 we have $a' \sim b'$, which is equivalent to $a \sim b$. This completes the proof of Claim 7.
+
+By Claim 7, we may assume that $\bB$ has a unique maximal congruence $\theta$. For any very maximal pair $a,b$ of $\bB$ with $\{a, b\}$ not a majority subalgebra of $\bA$, Claim 5 tells us that $\bS_{ab}$ has linking congruence contained in the maximal congruence $\theta$, so $\bB/\theta$ has an automorphism which swaps $a/\theta$ with $b/\theta$. In particular, if $\bB$ does not have $\pi_1$-paired ancestors then by composing such swaps we can see that the automorphism group of $\bB/\theta$ must act transitively on the collection of maximal strongly connected components of $\bB/\theta$.
+
+{\bf Claim 8.} Suppose that $a,b$ are a very maximal pair in $\bB$. If there is $c \in \bB$ and a proper congruence $\theta$ of $\bB$ such that $c/\theta \rightarrow a/\theta$ and $b/\theta$ is reachable from $c/\theta$, then $\{a,b\}$ is a majority subalgebra of $\bA$.
+
+{\bf Proof of Claim 8.} Assume without loss of generality that $\Sg_\bB\{a,b\} = \bB$. By Claim 7, we may assume that $\theta$ is the unique maximal congruence of $\bB$. By Claim 5, we may assume that the linking congruence of $\bS_{ab}$ is contained in $\theta$, so $\bB/\theta$ has an automorphism $\iota$ of order two which swaps $a/\theta$ with $b/\theta$.
+
+Define a symmetric ternary subdirect relation $\RR \le_{sd} (\bB/\theta)^3$ by
+\[
+\RR \coloneqq \Sg_{(\bB/\theta)^3}\left\{\begin{bmatrix} a/\theta\\ a/\theta\\ b/\theta \end{bmatrix}, \begin{bmatrix} a/\theta\\ b/\theta\\ a/\theta \end{bmatrix}, \begin{bmatrix} b/\theta\\ a/\theta\\ a/\theta \end{bmatrix}\right\}.
+\]
+Since $c \in \Sg_\bB\{a,b\}$, we have
+\[
+\begin{bmatrix} a/\theta\\ c/\theta\\ \iota(c/\theta) \end{bmatrix} \in \Sg_{(\bB/\theta)^3}\left\{\begin{bmatrix} a/\theta\\ a/\theta\\ b/\theta \end{bmatrix}, \begin{bmatrix} a/\theta\\ b/\theta\\ a/\theta \end{bmatrix}\right\} \subseteq \RR.
+\]
+Since $c/\theta \rightarrow a/\theta$, we have
+\[
+\begin{bmatrix} a/\theta\\ a/\theta\\ \iota(c/\theta) \end{bmatrix} = f\left(\begin{bmatrix} a/\theta\\ c/\theta\\ \iota(c/\theta) \end{bmatrix}, \begin{bmatrix} c/\theta\\ a/\theta\\ \iota(c/\theta) \end{bmatrix}\right) \subseteq \RR.
+\]
+Since $b/\theta$ is reachable from $c/\theta$, $a/\theta = \iota(b/\theta)$ must be reachable from $\iota(c/\theta)$, so if $U$ is the maximal strongly connected component of $\bB/\theta$ which contains $a/\theta$ then we have
+\[
+U \times U \times U \subseteq \RR
+\]
+by Lemma \ref{lem-strong-majority}. In particular, we have $(a/\theta, a/\theta, a/\theta) \in \RR$, and any ternary term operation $g' \in \Clo(f)$ witnessing this must act as majority on $\{a/\theta, b/\theta\}$. By Claim 1, there is a ternary term operation $t$ which acts as majority on $\{a,b\}$, so $\{a,b\}$ is a majority subalgebra of $\bA$.
+
+{\bf Claim 9.} Suppose that $a,b$ are a very maximal pair in $\bB$. If there is $c \in \bB$ and a maximal congruence $\theta$ of $\bB$ such that $c/\theta \rightarrow a/\theta$ and $c/\theta$ is \emph{not} maximal in $\bB/\theta$, then $\{a,b\}$ is a majority subalgebra of $\bA$.
+
+{\bf Proof of Claim 9.} First suppose that $\Sg_\bB\{b,c\} \ne \bB$. By the inductive hypothesis there is some $b'$ reachable from $b$ and $c'$ reachable from $c$ such that $f$ acts as first projection on
+\[
+\{b', c'\}.
+\]
+By Claim 8 applied to $a$ and any maximal element of $\bB$ which is reachable from $c'$, we see that there is $a'$ reachable from $a$ and a maximal $c''$ reachable from $c'$ such that $f$ acts as first projection on
+\[
+\{a', c''\}.
+\]
+Then by Claim 6 we have $b' \sim a'$, and then by Claim 0 we can conclude that $\{a,b\}$ is a majority subalgebra of $\bA$.
+
+Now suppose that $\Sg_\bB\{b,c\} = \bB$. By the inductive hypothesis we may also assume that $\Sg_\bB\{a,b\} = \bB$, so $b$ is maximal in $\bB$. Since no automorphism of $\bB/\theta$ can swap the maximal element $b/\theta$ with the non-maximal element $c/\theta$, the linking congruence of $\bS_{bc}$ can't be contained in $\theta$, so by Claim 7 we may assume that $\bS_{bc}$ is linked.
+
+If $\bS_{bc}$ doesn't have a center, then the link tolerance $\bS_{bc} - \bS_{bc}$ of $\bS_{bc}$ is connected and is not the full relation (since $(a,b) \in \bS_{bc} - \bS_{bc}$ would imply that there is some $e$ with $(a,e), (b,e) \in \bS_{bc}$, in which case $e$ would be in the center of $\bS_{bc}$ by our assumption that $\Sg_\bB\{a,b\} = \bB$). Suppose
+\[
+(a,b) \in (\bS_{bc} - \bS_{bc})^{\circ n},
+\]
+and considering the set of paths of length $n$ through $\bS_{bc} - \bS_{bc}$ as a subdirect subalgebra of $\bB^{n+1}$, we see that there is a maximal path of length $n$ between the strongly connected components containing $a$ and $b$. This gives us a sequence of maximal elements of $\bB$ such that each consecutive pair is contained in a proper subalgebra of $\bB$, so we can apply the inductive hypothesis together with Claim 6 to see that $a \sim b$.
+
+Thus we may assume that there is some $e \in \bB$ which is contained in the center of $\bS_{bc}$, and since $\bB$ is generated by the maximal elements $a,b$ we may assume that $e$ is maximal in $\bB$ by Theorem \ref{strong-binary}(b). We will now attempt to show that we can assume $\Sg_\bB\{b,e\}$ and $\Sg_\bB\{c,e\}$ are proper subalgebras of $\bB$ in order to set ourselves up to show that $b \sim e \sim c'' \sim a$ for some maximal element $c''$ reachable from $c$. First, if we had $c \in \Sg_\bB\{b,e\}$ then we would have
+\[
+\begin{bmatrix} c\\ c \end{bmatrix} \in \Sg_{\bB^2}\left\{\begin{bmatrix} b\\ c \end{bmatrix}, \begin{bmatrix} e\\ c \end{bmatrix}\right\} \subseteq \bS_{bc},
+\]
+in which case we would have $b \rightarrow c$ since $\bA$ is oriented, contradicting our assumption that $c$ was not maximal. By the inductive hypothesis applied to $\Sg_\bB\{b,e\}$, we get
+\[
+b \sim e.
+\]
+Second, if we had $b \in \Sg_\bB\{c,e\}$ then we would have
+\[
+\begin{bmatrix} b\\ b \end{bmatrix} \in \Sg_{\bB^2}\left\{\begin{bmatrix} c\\ b \end{bmatrix}, \begin{bmatrix} e\\ b \end{bmatrix}\right\} \subseteq \bS_{bc},
+\]
+in which case we would have $c \rightarrow b$ since $\bA$ is oriented, and then we would be able to apply Claim 8 to see that $\{a,b\}$ is a majority subalgebra of $\bA$. Thus we may assume $b \not\in \Sg_\bB\{c,e\}$, so by the inductive hypothesis there is some $e'$ reachable from $e$ and $c'$ reachable from $c$ such that $f$ acts as first projection on
+\[
+\{c',e'\}.
+\]
+Picking any maximal $c''$ which is reachable from $c'$ in $\bB$, we can apply Claim 8 to see that
+\[
+a \sim c'',
+\]
+and then by Claim 6 we see that
+\[
+e' \sim a,
+\]
+so $b \sim e \sim a$, so $a \sim b$ by Claim 6 again, which implies that $\{a,b\}$ is a majority subalgebra of $\bA$ by Claim 0. This concludes the proof of Claim 9.
+
+Let $\theta$ be the unique maximal congruence of $\bB$, which we may assume exists by Claim 7. If $\bB/\theta$ has any non-maximal element $c/\theta$ and maximal element $a$ with $c/\theta \rightarrow a/\theta$, then Claim 9 shows that $a \sim b$ for all maximal elements $b$, in which case Claim 6 shows that $\bB$ has $\pi_1$-paired ancestors. Otherwise, every element of $\bB/\theta$ must be maximal. Since $\bB$ has a connected graph of two-element subalgebras by Theorem \ref{thm-minimal-bounded-width-connected}, $\bB/\theta$ also has a connected graph of two-element subalgebras, and for any two-element subalgebra
+\[
+\{a/\theta, b/\theta\}
+\]
+of $\bB/\theta$ we see that
+\[
+\Sg_\bB\{a,b\} \subseteq (a/\theta) \cup (b/\theta)
+\]
+is either a proper subalgebra of $\bB$, in which case we get $a' \sim b'$ for any maximal $a' \in a/\theta$ and $b' \in b/\theta$ from the inductive hypothesis, or $\bB/\theta$ is a two-element algebra with $f$ acting as first projection, in which case we can apply Claim 1 with $g' = g$ to get the same result. By Claim 6, this shows that $\bB$ has $\pi_1$-paired ancestors, finally completing the proof of the theorem.
+\end{proof}
+
+\begin{thm}\label{thm-bounded-width-reachable-terms} If $\bA$ is a finite oriented algebra with bounded width, then $\bA$ has a major operation $f$ (as in Definition \ref{defn-major-op}) such that $f(x,y)$ is reachable from $x$ in $\Clo_2(\bA)$.
+
+In fact, we can choose the major operation $f$ such that $f(x,y)$ is reachable from $x$ in $\Clo_2(\bA_f)$, where $\bA_f = (A,f)$ is the $f$-reduct of $\bA$, and such that $f$ also satisfies the extra identity
+\[
+f(f(x,y), f(y,x)) \approx f(x,y).
+\]
+\end{thm}
+\begin{proof} By Theorem \ref{bounded-width-terms} $\bA$ has at least one major operation. Pick some major operation $f_0$ of $\bA$ with witnesses $g_0,h_0$ such that $\Clo_2(f_0)$ is minimal among clones generated by major operations of $\bA$. By Theorem \ref{thm-yellow-connected}, the reduct $\bA_{f_0} = (A, f_0)$ has $\pi_1$-paired ancestors. By Proposition \ref{prop-paired-ancestor-variety}, the same thing is true for any algebra in $HSP_{fin}(\bA_{f_0})$, and in particular this is true in the $f_0$-reduct of $\Clo_2(\bA)$, thought of as a subalgebra of $\bA_{f_0}^{A^2}$.
+
+Letting $\bB \le \bA_{f_0}^{A^2}$ be $\Clo_2(f_0)$ viewed as an $f_0$-subalgebra of $\Clo_2(\bA)$, we can apply Proposition \ref{prop-maximal-pair} see that there is some $f \in \bB = \Clo_2(f_0)$ such that $f(x,y)$ is reachable from $x$ and such that $f(x,y),f(y,x)$ is a maximal pair of $\bB$. Then by Lemma \ref{lem-maximal-pair-majority} we see that there is a ternary term $t$ such that the set
+\[
+\{f(x,y), f(y,x)\} \subseteq \bB
+\]
+is closed under $t$ and such that $t$ acts as majority on this set. By Theorems \ref{thm-minimal-bounded-width-subalg} and \ref{thm-minimal-bounded-width-connected} and the choice of $f_0$ we see that $g_0$ must also act as majority on $\{f(x,y), f(y,x)\}$. Now we apply Proposition \ref{prop-reachable-major} (to the $f_0,g_0,h_0$-reduct of $\bA$) to see that $f$ is a major operation of $\bA$. By the choice of $f_0$, we have $\Clo_2(f) = \Clo_2(f_0)$, so $f(x,y)$ is also reachable from $x$ in $\Clo_2(\bA_f)$. The extra identity follows from the fact that $f_0$ acts as first projection on $\{f(x,y), f(y,x)\}$.
+\end{proof}
+
+We can now finally prove an analogue of Theorem \ref{thm-minimal-central} for minimal bounded width algebras.
+
+\begin{thm}\label{thm-minimal-bounded-width-central} Suppose that $\bA$ is a finite idempotent minimal bounded width algebra, and that there is a majority algebra $\bM$ on the domain $\{0,1\}$ (with the same signature as $\bA$) such that $\bA \times \bM$ is also minimal bounded width. For any $\bC \le \bA$, the following are equivalent:
+\begin{itemize}
+\item[(a)] $\bC$ is a ternary absorbing subalgebra of $\bA$,
+\item[(b)] there is a major operation $f$ of $\bA \times \bM$ (as in Definition \ref{defn-major-op}) witnessed by term operations $g,h$ such that
+\begin{align*}
+g(\bC,\bC,\bA), g(\bC,\bA,\bC), g(\bA,\bC,\bC) &\subseteq \bC,\\
+h(\bC,\bA,\bA) &\subseteq \bC,
+\end{align*}
+\item[(c)] the binary relation $\RR \subseteq \bA \times \bM$ given by
+\[
+\RR = (\bA \times \{0\}) \cup (\bC \times \{0,1\})
+\]
+is a subalgebra of $\bA \times \bM$,
+\item[(d)] $\bC$ centrally absorbs $\bA$,
+\item[(e)] every ternary term operation $w$ which acts as the majority operation on $\bM$ witnesses the fact that $\bC$ ternary absorbs $\bA$.
+\end{itemize}
+\end{thm}
+\begin{proof} For (a) implies (b): we follow the argument of Proposition \ref{prop-reachable-major}, with a minor tweak since $\bC$ is only assumed to be ternary absorbing. Let $t$ a ternary term operation witnesses the absorption $\bC \lhd \bA$, and let $m$ be any ternary term operation which restricts to the majority operation on $\bM$. Defining $u$ by
+\[
+u(x,y,z) \coloneqq m(t(x,y,z), t(y,z,x), t(z,x,y)),
+\]
+we see that $u$ also witnesses the absorption $\bC \lhd \bA$ and $u$ restricts to the majority operation on $\bM$. By Theorem \ref{thm-bounded-width-reachable-terms} there is a major operation $f$ of $\bA \times \bM$ such that $f(x,y)$ is reachable from $x$ and such that
+\[
+\{f(x,y), f(y,x)\}
+\]
+is a majority algebra. By Proposition \ref{prop-reachable-semimajor} we can find a term operation $h$ witnessing the fact that $f$ is semimajor such that $h(x,y,z)$ is reachable from $x$. Since any absorbing subalgebra of $\bA$ is upwards closed if $\bA$ is oriented, we have
+\[
+h(\bC,\bA,\bA) \subseteq \bC.
+\]
+Now define a term operation $g$ by
+\[
+g(x,y,z) \coloneqq u(h(x,y,z), h(y,z,x), h(z,x,y)),
+\]
+and note that
+\[
+g(x,x,y) = u(f(x,y), f(x,y), f(y,x)) = f(x,y)
+\]
+since $u$ acts as the majority operation on the majority algebra $\{f(x,y), f(y,x)\}$ and
+\[
+g(\bC,\bC,\bA) \subseteq u(\bC, \bC, \bA) \subseteq \bC
+\]
+since $u$ witnesses the absorption $\bC \lhd \bA$, and similarly for cyclic permutations of the inputs to $g$.
+
+For (b) implies (c): we use the fact that the terms $f,g,h$ as in part (b) must generate $\Clo(\bA \times \bM)$, so we just need to check that $\RR$ is closed under $f,g,h$, which is an easy direct argument.
+
+That (c) implies (d) follows from Zhuk's Corollary \ref{zhuk-center}, since the relation $\RR$ has $\bC$ as its left center and $\bM$ has no proper binary absorbing subalgebra.
+
+That (c) implies (e) is a direct computation:
+\[
+\begin{bmatrix} w(\bC,\bC,\bA)\\ 1 \end{bmatrix} = w\left(\begin{bmatrix} \bC\\ 1 \end{bmatrix}, \begin{bmatrix} \bC\\ 1 \end{bmatrix}, \begin{bmatrix} \bA\\ 0 \end{bmatrix}\right) \in \RR,
+\]
+so $w(\bC, \bC, \bA) \subseteq \bC$, and the same argument works if we permute the arguments of $w$.
+
+That (e) implies (a) is immediate, and (d) implies (a) by Zhuk's Corollary \ref{center-ternary}.
+\end{proof}
+
+\begin{cor}\label{cor-minimal-bounded-width-central-majority} Suppose that $\bA$ is a finite idempotent minimal bounded width algebra and that $\bC, \bD \lhd_Z \bA$ are two ternary absorbing subalgebras of $\bA$. Then $\bC \cup \bD$ is a subalgebra of $\bA$.
+
+If $\bC \cap \bD = \emptyset$, then the equivalence relation $\theta$ on $\bC \cup \bD$ with parts $\bC$ and $\bD$ is a congruence on $\bC \cup \bD$, and $(\bC \cup \bD)/\theta$ is isomorphic to the two element majority algebra.
+\end{cor}
+\begin{proof} This follows from Theorem \ref{thm-minimal-bounded-width-central} by the same argument as Corollary \ref{cor-minimal-central-majority}.
+\end{proof}
+
+Later we will use Corollary \ref{cor-minimal-bounded-width-central-majority} to prove that every minimal bounded width algebra is also a minimal Taylor algebra (see Theorem \ref{thm-minimal-bounded-width-minimal-taylor}).
+
+We can prove stronger structure theorems for minimal bounded width algebras if we disallow either type of two-element subalgebra. If there are no semilattice subalgebras we end up just getting a majority algebra.
+
+\begin{thm} If $\bA$ is a finite idempotent bounded width algebra such that for all $a \ne b \in \bA$ we have
+\[
+\begin{bmatrix} b\\ b \end{bmatrix} \not\in \Sg_{\bA^2}\left\{\begin{bmatrix} a\\ b \end{bmatrix}, \begin{bmatrix} b\\ a \end{bmatrix}\right\},
+\]
+then $\bA$ has a ternary majority term operation.
+\end{thm}
+\begin{proof} Note that $\bA$ is vacuously oriented. By Theorem \ref{thm-bounded-width-reachable-terms}, we can find a major operation $f(x,y)$ of $\bA$ witnessed by term operations $g,h$, such that $f(x,y)$ is reachable from $x$. Since $\bA$ has no nontrivial semilattice subalgebras, we must have
+\[
+f(x,y) \approx x,
+\]
+so $g(x,y,z)$ is a ternary majority term operation.
+\end{proof}
+
+The situation is more interesting in the case where there are no majority edges. Recall from Definition \ref{defn-spiral} that we say an idempotent algebra $\bA = (A,f)$ is a \emph{spiral} if $f$ satisfies
+\[
+f(x,y) \approx f(y,x)
+\]
+and every subalgebra of $\bA$ which is generated by two elements either has size two or has a surjective homomorphism to the free semilattice on two generators.
+
+\begin{thm} If $\bA$ is a finite idempotent minimal bounded width algebra which has no two-element majority subalgebras, then $\bA$ is term equivalent to a spiral.
+\end{thm}
+\begin{proof} By Corollary \ref{cor-semimajor-splat} $\bA$ is oriented, so we can apply Theorem \ref{thm-bounded-width-reachable-terms}, we can find a major operation $f(x,y)$ of $\bA$, such that $f(x,y)$ is reachable from $x$ in $\Clo_2(\bA_f)$ and such that $f$ satisfies the extra identity
+\[
+f(f(x,y), f(y,x)) \approx f(x,y).
+\]
+If there was any pair $a, b$ such that $f(a,b) \ne f(b,a)$, then
+\[
+\{f(a,b), f(b,a)\}
+\]
+would be a two-element majority subalgebra of $\bA$, contradicting our assumption on $\bA$. Thus $f$ satisfies the identity
+\[
+f(x,y) \approx f(y,x).
+\]
+In particular, we see that the $f$-reduct $\bA_f$ is an \emph{ancestral} algebra as in Definition \ref{defn-ancestral}: for any $a,b \in \bA$, $f(a,b) = f(b,a)$ is reachable from both $a$ and $b$ in $\Sg_{\bA_f}\{a,b\}$.
+
+Since every subalgebra of $\bA_f$ has a connected graph of two-element semilattice subalgebras, we see that $\bA_f$ has no nontrivial abelian subquotients, so the reduct $\bA_f$ has bounded width (alternatively, we could use the fact that cycle-consistency solves ancestral CSPs by Theorem \ref{thm-ancestral-cycle-consistentcy}). Thus $\bA$ is term equivalent to $\bA_f$. To simplify the notation, from here on we assume that
+\[
+\bA = \bA_f = (A, f).
+\]
+
+To finish the proof, we need to show that every subalgebra of $\bA$ which is generated by two elements $a,b$ either has size two or has a surjective homomorphism to the free semilattice on two generatos. By Theorem \ref{minimal-ancestral-strongly-connected}, if $\Sg_\bA\{a,b\}$ is strongly connected then there is a ternary term operation $t$ of $\bA$ such that $t$ acts as the majority operation on
+\[
+\{a,b\},
+\]
+in which case $\bA$ has a proper bounded width reduct by Theorem \ref{thm-minimal-bounded-width-subalg}. Thus we may assume that $\Sg_\bA\{a,b\}$ is not strongly connected for all $a \ne b$. Since subquotients of $\bA$ are also minimal bounded width algebras by Theorem \ref{thm-minimal-bounded-width-subalg}, we see that $\Sg_\bA\{a,b\}$ has no nontrivial strongly connected quotient for all $a \ne b$, so we can apply the argument of Theorem \ref{minimal-ancestral-spiral} to see that $\bA = (A, f)$ is a spiral.
+\end{proof}
+
+%TODO: examples, and maybe try to prove the existence of a major splat
 
 
 \section{Bulatov's colored graph}
@@ -15911,10 +17243,6 @@ Suppose that $\bC \lhd_Z \bA$ is a proper centrally absorbing subalgebra of $\bA
 %TODO: edges have unique maximal congruences on minimal Taylor algebras
 
 %TODO: simpler absorption theory proof, and counterexamples to the stronger version with no congruences on the edges.
-
-%\subsection{Bulatov's yellow connectivity property for minimal bounded width algebras}
-
-%TODO
 
 
 \section{Conservative Taylor algebras}\label{s-conservative}
@@ -18407,7 +19735,7 @@ We've hit a weird situation: while our current toolkit is apparently not strong 
 
 This situation gives us a reason to try to get a better understanding of the algebraic structure of minimal Taylor algebras - this will allow us to construct interesting examples more easily, and the more algebraic structure we can find the simpler our algorithms can be. We focus on minimal Taylor algebras, rather than all Taylor algebras, because we have already seen that they have a number of surprising algebraic properties that are not shared by all Taylor algebras: by Proposition \ref{prop-minimal-binary-strong} binary absorption is equivalent to strong absorption, and by Corollary \ref{cor-minimal-central-majority} the union of two ternary absorbing subalgebras will always be a subalgebra.
 
-In this section we will show some strong results characterising absorbing subalgebras of minimal Taylor algebras, following the argument of \cite{minimal-taylor}. We start by showing that any absorbing subset $B$ of $\bA$ will automatically be a subuniverse of $\bA$. For this, we will need to exploit the fact that every operation in a minimal Taylor clone can be written as a minor of a cyclic operation.
+In this section we will show some strong results characterising absorbing subalgebras of minimal Taylor algebras, following \cite{minimal-taylor}. We start by showing that any absorbing subset $B$ of $\bA$ will automatically be a subuniverse of $\bA$. For this, we will need to exploit the fact that every operation in a minimal Taylor clone can be written as a minor of a cyclic operation.
 
 \begin{prop}[Proposition 9.1 of \cite{minimal-taylor}]\label{prop-cyclic-minor} If $\bA$ is a finite minimal Taylor algebra and $t \in \Clo(\bA)$ is a term operation of $\bA$, then there is a cyclic term operation $c \in \Clo(\bA)$ such that $t$ is a minor of $c$ (that is, $t$ is defined by identifying and permuting inputs of $c$, as well as adding dummy inputs).
 \end{prop}
@@ -18603,7 +19931,13 @@ if at least one of $x,y$ is in $\bB$.
 \]
 is a subalgebra of $\bA^2$. The implication $\RR \le \bA^2 \implies \bC \lhd_Z \bA$ holds in any finite Taylor algebra.
 \end{prop}
-\begin{proof} By Proposition \ref{prop-minimal-product} we may assume without loss of generality that there is a two-element majority algebra $\bM$ on the domain $\{0,1\}$ with the same signature as $\bA$ such that $\bA \times \bM$ is also a minimal Taylor algebra. By Theorem \ref{thm-minimal-central} the binary relation $\bS$ defined by
+\begin{proof} If $\bC \lhd_Z \bA$, then $\RR$ is the union of the two centrally absorbing subalgebras
+\[
+\pi_1^{-1}(\bC), \pi_2^{-1}(\bC) \lhd_Z \bA^2,
+\]
+so $\RR$ is a subalgebra of $\bA^2$ by Corollary \ref{cor-minimal-central-majority}.
+\begin{comment}
+By Proposition \ref{prop-minimal-product} we may assume without loss of generality that there is a two-element majority algebra $\bM$ on the domain $\{0,1\}$ with the same signature as $\bA$ such that $\bA \times \bM$ is also a minimal Taylor algebra. By Theorem \ref{thm-minimal-central} the binary relation $\bS$ defined by
 \[
 \bS = (\bA \times \{0\}) \cup (\bC \times \{0,1\})
 \]
@@ -18612,6 +19946,7 @@ will be a subalgebra of $\bA \times \bM$ if and only if $\bC \lhd_Z \bA$. Thus i
 \RR = \bS \circ \left\{\begin{bmatrix} 0\\ 1 \end{bmatrix}, \begin{bmatrix} 1\\ 0 \end{bmatrix}\right\} \circ \bS^-
 \]
 we see that $\RR$ will be a subalgebra of $\bA^2$.
+\end{comment}
 
 For the other direction, suppose that $\RR \le \bA^2$, by Corollary \ref{siggers-term} let $s \in \Clo_4(\bA)$ be a 4-ary Siggers term satisfying
 \[
@@ -18941,9 +20276,9 @@ By Claim 2, $\PP$ is a projective subalgebra of $\bA$ which doesn't contain $b$,
 then $\{b\}$ is a centrally absorbing subalgebra of $\bA$.
 \end{cor}
 
-Finally, we will refine Corollary \ref{not-sd-simple} by showing that in a minimal Taylor algebra which is generated by two elements, either there is an affine quotient or one of the generators is contained in a centrally absorbing subalgebra. This fact will be crucial to showing that minimal Taylor clones can always be generated by a single ternary operation. We will use a variation on Proposition \ref{prop-free-semilattice-recognition}, which characterized copies of the free semilattice on three generators in minimal Taylor algebras.
+Finally, we will refine Corollary \ref{not-sd-simple} by showing that in a minimal Taylor algebra which is generated by two elements, either there is an affine quotient or one of the generators is contained in a centrally absorbing subalgebra. This fact will be crucial to showing that minimal Taylor clones can always be generated by a single ternary operation. We will also prove that the next two results hold for minimal bounded width algebras, in order to show that minimal bounded width algebras are always minimal Taylor algebras. We will use a variation on Proposition \ref{prop-free-semilattice-recognition}, which characterized copies of the free semilattice on three generators in minimal Taylor algebras.
 
-\begin{lem}[Lemma 9.15 of \cite{minimal-taylor}]\label{lem-center-free-semilattice-quotient} If $\bA$ is a finite minimal Taylor algebra which is generated by two elements $a,b \in \bA$, and if there is a proper centrally absorbing subalgebra $\bC \lhd_Z \bA$ satisfying
+\begin{lem}[Lemma 9.15 of \cite{minimal-taylor}]\label{lem-center-free-semilattice-quotient} If $\bA$ is either a finite minimal Taylor algebra or a finite idempotent minimal bounded width algebra which is generated by two elements $a,b \in \bA$, and if there is a proper centrally absorbing subalgebra $\bC \lhd_Z \bA$ satisfying
 \[
 \bC \lhd_{bin} (\bC \cup \{a\}) \;\;\; \text{and} \;\;\; \bC \lhd_{bin} (\bC \cup \{b\}),
 \]
@@ -18970,18 +20305,19 @@ Since $\bS \cap (\bC \times \bD) \ne \emptyset$, by the definition of $\bS$ ther
 \[
 f(a,b) \in \bC \;\;\; \text{and} \;\;\; f(b,a) \in \bD.
 \]
-If either of $a, b$ is contained in either of $\bC, \bD$ then $\bA$ has a proper binary absorbing subalgebra, so we are done by Proposition \ref{prop-minimal-binary-strong}. Otherwise, consider the equivalence relation $\theta$ on $S = \{a,b\} \cup \bC \cup \bD$ with parts
+If either of $a, b$ is contained in either of $\bC, \bD$ then $\bA$ has a proper binary absorbing subalgebra, so we are done by Proposition \ref{prop-minimal-binary-strong} (or its analogue in minimal bounded width algebras, which has the same proof). Otherwise, consider the equivalence relation $\theta$ on $S = \{a,b\} \cup \bC \cup \bD$ with parts
 \[
 \{a\}, \{b\}, \bC \cup \bD.
 \]
-By Corollary \ref{cor-minimal-central-majority} $\bC \cup \bD$ is a subalgebra of $\bA$, so all the parts of $\theta$ are subalgebras of $\bA$. By construction, the binary operation $f$ preserves $S$ and is compatible with the equivalence relation $\theta$, and the three-element algebra $(S, f)/\theta$ is isomorphic to a free semilattice on two generators. Now we can apply Theorem \ref{minimal-taylor-subalg} to see that $S$ is a subuniverse of $\bA$ (which must be all of $\bA$ since it contains $a,b$), that $\theta$ is a congruence on $\bA$, and that $\bA/\theta$ is isomorphic to the free semilattice on two generators.
+By Corollary \ref{cor-minimal-central-majority} (or Corollary \ref{cor-minimal-bounded-width-central-majority} if $\bA$ is a minimal bounded width algebra) $\bC \cup \bD$ is a subalgebra of $\bA$, so all the parts of $\theta$ are subalgebras of $\bA$. By construction, the binary operation $f$ preserves $S$ and is compatible with the equivalence relation $\theta$, and the three-element algebra $(S, f)/\theta$ is isomorphic to a free semilattice on two generators. Now we can apply Theorem \ref{minimal-taylor-subalg} (or Theorem \ref{thm-minimal-bounded-width-subalg} if $\bA$ is a minimal bounded width algebra) to see that $S$ is a subuniverse of $\bA$ (which must be all of $\bA$ since it contains $a,b$), that $\theta$ is a congruence on $\bA$, and that $\bA/\theta$ is isomorphic to the free semilattice on two generators.
 \end{proof}
 
-\begin{thm}[Theorem 9.16 of \cite{minimal-taylor}]\label{thm-minimal-two-generated-center} If $\bA$ is a finite minimal Taylor algebra which is generated by two elements $a,b \in \bA$, then either
+\begin{thm}[Theorem 9.16 of \cite{minimal-taylor}]\label{thm-minimal-two-generated-center} If $\bA$ is either a finite minimal Taylor algebra or a finite idempotent minimal bounded width algebra which is generated by two elements $a,b \in \bA$, then either
 \begin{itemize}
 \item[(a)] one of the generators $a,b$ is contained in a proper centrally absorbing subalgebra of $\bA$, or
 \item[(b)] $\bA$ has a nontrivial affine quotient.
 \end{itemize}
+If $\bA$ has bounded width, then (b) never occurs.
 \end{thm}
 \begin{proof} We may assume without loss of generality that $\bA$ is simple. Assume for the sake of contradiction that $\bA$ is not abelian and that neither of the generators $a,b$ is contained in a proper centrally absorbing subalgebra of $\bA$. In particular, $\bA$ is not a semilattice, so by Proposition \ref{prop-minimal-binary-strong} $\bA$ can't have any proper binary absorbing subalgebras.
 
@@ -19019,7 +20355,7 @@ Now we apply the claim to the symmetric binary relation
 \[
 \bS \coloneqq \Sg_{\bA^2}\left\{\begin{bmatrix} a\\ b \end{bmatrix}, \begin{bmatrix} b\\ a \end{bmatrix}\right\}.
 \]
-Since $\{a,b\}$ is not a two-element semilattice, we have $(b,b) \not\in \bS$, so the claim tells us that $\bS$ must be the graph of an automorphism of $\bA$ which swaps $a$ and $b$. By Proposition \ref{prop-recognition-with-automorphism}, $\{a,b\}$ will be a majority algebra if
+Since $\{a,b\}$ is not a two-element semilattice, we have $(b,b) \not\in \bS$, so the claim tells us that $\bS$ must be the graph of an automorphism of $\bA$ which swaps $a$ and $b$. By Proposition \ref{prop-recognition-with-automorphism} (or its analogue in minimal bounded width algebras, which follows from Theorem \ref{thm-minimal-bounded-width-subalg}), $\{a,b\}$ will be a majority algebra if
 \[
 \begin{bmatrix} a\\ a\\ a\end{bmatrix} \stackrel{?}{\in} \RR \coloneqq \Sg_{\bA^3}\left\{\begin{bmatrix} a\\ a\\ b\end{bmatrix}, \begin{bmatrix} a\\ b\\ a\end{bmatrix}, \begin{bmatrix} b\\ a\\ a\end{bmatrix}\right\}.
 \]
@@ -19032,6 +20368,29 @@ so we can apply Corollary \ref{cor-strong-absorption-linked} to the symmetric re
 x \in B \;\;\; \iff \;\;\; \{x\} + \RR \text{ is linked}
 \]
 is a nonempty strongly absorbing subuniverse of $\bA$. Since $\bA$ is nonabelian and has no proper binary absorbing subalgebra, we must have $B = \bA$, so in particular $\{a\} + \RR$ is linked. Since $\{a\} + \RR$ contains $(a,b)$ and $(b,a)$, we can apply the claim again to see that $\{a\} + \RR = \bA \times \bA$, so $(a,a,a) \in \RR$. Now we can apply Proposition \ref{prop-recognition-with-automorphism} to see that $\{a,b\}$ must be a majority algebra, contradicting our assumption that $a$ is not contained in a proper centrally absorbing subalgebra of $\bA$.
+\end{proof}
+
+\begin{thm}\label{thm-minimal-bounded-width-minimal-taylor} Every finite idempotent minimal bounded width algebra is a minimal Taylor algebra.
+\end{thm}
+\begin{proof} Suppose $\bA$ is a minimal bounded width algebra, and let $\bA'$ be a Taylor reduct of $\bA$. Suppose for the sake of contradiction that $\bA'$ has a nontrivial affine subquotient, say
+\[
+\Sg_{\bA'}\{a,b\}/\theta
+\]
+for some congruence $\theta$ of $\Sg_{\bA'}\{a,b\}$. Choose $a,b$ such that $\Sg_{\bA'}\{a,b\}$ has minimal size among subalgebras that meet at least two congruence classes of $\theta$.
+
+By Theorem \ref{thm-minimal-two-generated-center}, at least one of $a,b$ is contained in a proper centrally absorbing subalgebra
+\[
+\bC \lhd_Z \Sg_\bA\{a,b\}.
+\]
+Suppose without loss of generality that $a \in \bC$ and $b \not\in \bC$. We will show that the congruence class $b/\theta$ has a nontrivial intersection with $\bC$, contradicting the choice of $a,b$. The binary relation $\RR$ on $\Sg_\bA\{a,b\}^2$ defined by
+\[
+(x,y) \in \RR \;\;\; \iff \;\;\; x \in \bC \vee y \in \bC
+\]
+is the union of the two centrally absorbing subalgebras $\pi_1^{-1}(\bC), \pi_2^{-1}(\bC)$, so by Corollary \ref{cor-minimal-bounded-width-central-majority} $\RR$ is a subalgebra of $\Sg_\bA\{a,b\}^2$. Then $\RR$ is also closed under the operations of the reduct $\bA'$. If $p(x,y,z)$ is a Mal'cev term operation on $\Sg_{\bA'}\{a,b\}/\theta$, then we have
+\[
+\begin{bmatrix} b/\theta\\ b/\theta \end{bmatrix} = p\left(\begin{bmatrix} a/\theta\\ b/\theta \end{bmatrix}, \begin{bmatrix} a/\theta\\ a/\theta \end{bmatrix}, \begin{bmatrix} b/\theta\\ a/\theta \end{bmatrix}\right) \in p(\RR/\theta, \RR/\theta, \RR/\theta) \subseteq \RR/\theta,
+\]
+so $b/\theta$ intersects $\bC$, contradicting the choice of $a,b$. This completes the proof.
 \end{proof}
 
 
