@@ -11496,9 +11496,9 @@ The identities satisfied by the term $g$ of Theorem \ref{bounded-width-term} hav
 \begin{prop} Suppose that $g$ is a ternary term as in Theorem \ref{bounded-width-term}, and that $f$ is the associated binary term. Then for any $a,b$, either $f(a,b) = f(b,a)$, or the set $\{f(a,b), f(b,a)\}$ is closed under $g$, and $(\{f(a,b),f(b,a)\},g)$ is isomorphic to a two-element majority algebra.
 \end{prop}
 
-For small examples of bounded width algebras $\bA$ which do not contain large majority subalgebras, most of the structure of a bounded width algebra seems to be controlled by the binary term $f$ from Theorem \ref{bounded-width-term}, with the exact values of the ternary term $g$ only playing an important role on the majority subalgebras. I have also conjectured a very strong refinement of Theorem \ref{bounded-width-term}, which would give a much more explicit structure theory for bounded width algebras.
+For small examples of bounded width algebras $\bA$ which do not contain large majority subalgebras, most of the structure of a bounded width algebra seems to be controlled by the binary term $f$ from Theorem \ref{bounded-width-term}, with the exact values of the ternary term $g$ only playing an important role on the majority subalgebras. I conjectured in \cite{minimal-bounded-width} a very strong refinement of Theorem \ref{bounded-width-term}, which would give a much more explicit structure theory for bounded width algebras.
 
-\begin{conj}[Conjecture 1 of \cite{minimal-bounded-width}] A finite idempotent algebra $\bA$ has bounded relational width if and only if it has a ternary term $m$ and an associated binary term $s(x,y) \coloneqq m(x,x,y)$, which satisfy the identities
+\begin{conj}[Conjecture 1 of \cite{minimal-bounded-width}]\label{conj-major-splat} A finite idempotent algebra $\bA$ has bounded relational width if and only if it has a ternary term $m$ and an associated binary term $s(x,y) \coloneqq m(x,x,y)$, which satisfy the identities
 \[
 m(x,x,y) \approx m(x,y,x) \approx m(y,x,x) \approx s(x,y)
 \]
@@ -11507,6 +11507,8 @@ and
 s(x,s(x,y)) \approx s(s(x,y),x) \approx s(x,y).
 \]
 \end{conj}
+
+We will prove Conjecture \ref{conj-major-splat} later in these notes (see Theorem \ref{thm-major-splat}).
 
 % \subsection{Hardness of the meta-problem for non-core structures}
 
@@ -15814,7 +15816,170 @@ The claim implies that $(A,w_1)$ has no cube term blockers, by the same argument
 \end{proof}
 
 
-\subsection{Minimal bounded width clones}
+\section{Bulatov's colored graph}
+
+In Bulatov's approach to the CSP dichotomy conjecture \cite{bulatov-dichotomy}, the theory of absorbing subalgebras isn't used. Instead, Bulatov introduces a colored graph in \cite{colored-graph-prelim} and \cite{colored-graph}, and uses connectivity properties of this graph to analyze finite Taylor algebras.
+
+\begin{defn}\label{defn-thick-edges} Suppose $\bA$ is a finite idempotent algebra, and $a, b$ are any pair of distinct elements of $\bA$.
+\begin{itemize}
+\item We say that $(a,b)$ is a \emph{semilattice edge} if there is a binary term $t$ such that $t(a,b) = t(b,a) = b$.
+\item We say that $\{a,b\}$ is a \emph{weak majority edge} if there is a congruence $\theta$ on $\Sg\{a,b\}$ and a ternary term $m$ such that $\{a/\theta,b/\theta\}$ is closed under $m$ and $(\{a/\theta,b/\theta\},m)$ is a two-element majority algebra.
+\item We say that $\{a,b\}$ is a \emph{weak affine edge} if there is a congruence $\theta$ on $\Sg\{a,b\}$ and a term $p$ such that $(\Sg\{a,b\}/\theta, p)$ is an affine algebra.
+\end{itemize}
+We drop the modifier ``weak'' on an edge if $\theta$ is a maximal congruence on $\Sg\{a,b\}$, and for any $a', b' \in \Sg\{a,b\}$ such that $a' \equiv_\theta a$ and $b' \equiv_\theta b$, we have $\Sg\{a,b\} = \Sg\{a',b'\}$. Note that semilattice edges are directed, while majority and affine edges are undirected.
+\end{defn}
+
+Note that a semilattice edge might not be a subalgebra, and similarly the set $a/\theta \cup b/\theta$ might not be a subalgebra if $\{a,b\}$ is a majority edge. If $\bA$ is a \emph{minimal} Taylor algebra, however, then Theorem \ref{minimal-taylor-subalg} shows that $a/\theta \cup b/\theta$ is a subalgebra if $(a,b)$ is a weak majority edge, and similarly for semilattice edges. In \cite{bulatov-dichotomy}, Bulatov calls an algebra \emph{sm-smooth} if this special case of Theorem \ref{minimal-taylor-subalg} applies to it (in later papers, he just calls such algebras \emph{smooth}).%TODO: find a good reference where Bulatov calls these "smooth"
+
+We could have also defined ``weak semilattice edges'' in a similar way to the way we defined weak majority edges, but this is unnecessary.
+
+\begin{prop}\label{prop-weak-semilattice-edge} If there is a congruence $\theta$ on $\Sg\{a,b\}$ and an idempotent binary term $t$ such that $t(a,b) \equiv_\theta t(b,a) \equiv_\theta b$, then there is some $b' \in \Sg\{a,b\}$ such that $b' \equiv_\theta b$ and a splat term $s \in \Clo(t)$ such that $s(a,b') = s(b',a) = b'$.
+\end{prop}
+
+Bulatov defines his colored graph by coloring the semilattice edges red, coloring the majority edges yellow, and coloring the affine edges blue (I don't know why these particular colors were chosen).
+
+\begin{defn} We say that a finite idempotent algebra $\bA$ has a \emph{hereditarily connected colored graph} if for all $\bB \le \bA$, the colored graph of $\bB$ is connected (ignoring the directions on the semilattice edges).
+\end{defn}
+
+For the purposes of checking if an algebra is hereditarily connected, weak edges are interchangeable with edges by the following result.
+
+\begin{prop} Let $\bA$ be a finite idempotent algebra. If the colored graph of weak edges of $\bA$ is hereditarily connected, then the colored graph of edges of $\bA$ is also hereditarily connected.
+\end{prop}
+\begin{proof} Suppose that $\{a,b\}$ is a weak edge of $\bA$, with corresponding congruence $\theta$. We will prove by induction on $|\Sg\{a,b\}|$ that $a$ and $b$ are connected in the colored graph of edges of $\Sg\{a,b\}$. We may enlarge $\theta$ to a maximal congruence on $\Sg\{a,b\}$ without loss of generality, since any congruence of $\Sg\{a,b\}$ which identifies $a$ and $b$ is the full congruence. If $(a,b)$ is not an edge, then we may pick $a' \in a/\theta$ and $b' \in b/\theta$ such that $\Sg\{a',b'\}$ is strictly smaller than $\Sg\{a,b\}$, and by the inductive hypothesis we see that $a',b'$ are connected in the colored graph of edges of $\Sg\{a,b\}$. Since $\Sg\{a,a'\} \subseteq a/\theta$ and $\Sg\{b,b'\} \subseteq b/\theta$, we also see by the inductive hypothesis that $a$ is connected to $a'$ and $b$ is connected to $b'$ in the colored graph of edges of $\Sg\{a,b\}$.
+\end{proof}
+
+Algebras with hereditarily connected colored graphs are closed under the usual algebraic operations.
+
+\begin{prop}\label{hereditarily-connected-product} If $\bA, \bB$ are finite idempotent algebras (of the same signature) with hereditarily connected colored graphs, then so is $\bA \times \bB$. More generally, if $\bA$ is a finite idempotent algebra and $\theta \in \Con(\bA)$ is such that $\bA/\theta$ is hereditarily connected and every congruence class of $\theta$ is also hereditarily connected, then $\bA$ is hereditarily connected.
+\end{prop}
+\begin{proof} We prove the more general statement. Let $a,b \in \bA$ be any pair of elements. We will show that $a$ and $b$ are connected by weak edges in $\Sg\{a,b\}$. If $a/\theta = b/\theta$, then $\Sg\{a,b\}$ is contained in a congruence class of $\theta$, so $a,b$ are connected by edges of $\Sg\{a,b\}$. Otherwise, since $a/\theta, b/\theta$ are connected by edges in $\Sg\{a,b\}/\theta$, we can find a sequence of elements $a = a_0, a_1, ..., a_n = b$ such that $(a_i/\theta,a_{i+1}/\theta)$ is an edge of $\bA/\theta$ for all $i$. Then each $(a_i,a_{i+1})$ will be a weak edge of $\Sg\{a,b\}$, with the corresponding congruence containing $\theta$.
+\end{proof}
+
+\begin{prop} If $\bA$ is a finite idempotent algebra with a hereditarily connected colored graph and $\theta \in \Con(\bA)$, then $\bA/\theta$ also has a hereditarily connected colored graph.
+\end{prop}
+\begin{proof} We just need to show that if $(a,b)$ is an edge of $\bA$ with $a/\theta \ne b/\theta$, then $a/\theta$ is connected to $b/\theta$ within the subalgebra they generate. We will induct on the size of $|\Sg\{a,b\}|$. If $(a,b)$ is a semilattice edge, then $(a/\theta,b/\theta)$ will automatically be a semilattice edge as well. Otherwise, let $\eta$ be the maximal congruence on $\Sg\{a,b\}$ corresponding to the edge $(a,b)$.
+
+Since every congruence class of $\eta$ is a proper subalgebra of $\Sg\{a,b\}$, we see by induction that if $c \equiv_\eta d$, then $c/\theta$ and $d/\theta$ are connected in the subalgebra they generate, which is contained in $\Sg\{a/\theta,b/\theta\}$. Thus if the restriction of $\theta$ to $\Sg\{a,b\}$ is not contained in the maximal congruence $\eta$, then $a/\theta$ must be connected to $b/\theta$ in the subalgebra $\Sg\{a/\theta,b/\theta\}$. Otherwise, if the restriction of $\theta$ to $\Sg\{a,b\}$ \emph{is} contained in $\eta$, then $(a/\theta,b/\theta)$ is an edge, with witnessing congruence $\eta/\theta$.
+\end{proof}
+
+\begin{cor} If $\bA$ is a finite idempotent algebra with a hereditarily connected colored graph, then $\bA$ is Taylor.
+\end{cor}
+
+Bulatov's main result in \cite{colored-graph-prelim} and \cite{colored-graph} is that the converse to the above corollary holds. Since Bulatov didn't have the theory of absorbing subalgebras available to him, he proved this by using tame congruence theory. We will give a different proof, using a pair of consecutive daisy chain terms (whose existence followed from the existence of a cyclic term), and the fact that abelian Taylor algebras are affine.% We will give two proofs of Bulatov's result: one using absorption theory, and one using a pair of consecutive daisy chain terms (whose existence followed from the existence of a cyclic term).
+
+\begin{thm}[Bulatov \cite{colored-graph-prelim}, \cite{colored-graph}]\label{colored-graph} A finite idempotent algebra $\bA$ is Taylor if and only if it has a hereditarily connected colored graph.
+\end{thm}
+
+We will prove Theorem \ref{colored-graph} by induction on $|\bA|$. A minimal counterexample $\bA$ must be simple by Proposition \ref{hereditarily-connected-product}, and every proper subalgebra of a minimal counterexample must have a hereditarily connected colored graph.
+
+\begin{defn} If $\bA$ is any algebra, we define the \emph{hypergraph of proper subalgebras} of $\bA$ to be the hypergraph with vertex set equal to the underlying set of $\bA$, and with a hyperedge $\bB$ for every proper subalgebra $\bB \le \bA$. We say that $\bA$ is \emph{disconnected} if the hypergraph of proper subalgebras of $\bA$ is not connected.
+
+We define the connected component equivalence relation $\sim_\bA$ (or just $\sim$ if $\bA$ is clear from context) on $\bA$ by $a \sim_\bA b$ if $a$ is connected to $b$ by a sequence of proper subalgebras of $\bA$ (note that in general, $\sim_\bA$ will \emph{not} be a congruence).
+\end{defn}
+
+\begin{prop} If $\bA$ is a disconnected algebra, then for any $a \not\sim_\bA b$ we have $\Sg\{a,b\} = \bA$.
+\end{prop}
+
+\begin{prop}\label{colored-claim-0} Suppose that $\bA$ is finite, idempotent, simple, and disconnected. For any binary relation $\RR \le \bA \times \bA$ with $\pi_2(\RR) = \bA$, either $\RR$ is the graph of an automorphism of $\bA$ or there is some $a \in \bA$ such that $\{a\} \times \bA \subseteq \RR$.
+\end{prop}
+\begin{proof} If $\RR$ is not the graph of an automorphism, then the linking congruence must be nontrivial, hence full (since $\bA$ is simple). Thus there is some $a \in \bA$ such that $(a,b),(a,c) \in \bA$ for some pair of elements $b,c$ with $b \not\sim c$, and from $\Sg_{\bA}\{b,c\} = \bA$ and idempotence, we see that $\{a\}\times \bA \subseteq \RR$.
+\end{proof}
+
+\begin{prop}\label{colored-claim-1} Suppose that $\bA$ is finite, idempotent, simple, and disconnected, and that $a \not\sim_\bA b$ are such that neither $(a,b)$ nor $(b,a)$ are semilattice edges. Then the binary relation
+\[
+\bS_{ab} \coloneqq \Sg_{\bA^2}\left\{\begin{bmatrix} a\\ b\end{bmatrix}, \begin{bmatrix} b\\ a\end{bmatrix}\right\}
+\]
+is the graph of an automorphism of order two which interchanges $a$ and $b$.
+\end{prop}
+\begin{proof} Assume not. Then by Proposition \ref{colored-claim-0}, there is some $c \in \bA$ with $\{c\}\times \bA \subseteq \bS_{ab}$. Since $a,b$ are in different connected components of $\bA$, at least one of them is in a different component than $c$, so we may suppose that $a$ and $c$ are in different connected components of $\bA$ without loss of generality. Then since $(b,a), (b,c) \in \bS_{ab}$ and $b \in \Sg_{\bA}\{a,c\} = \bA$, we have $(b,b) \in \bS_{ab}$, so $(a,b)$ is a semilattice edge.
+\end{proof}
+
+\begin{defn} Define the equivalence relation $\sim^s_\bA$ by $a \sim^s_\bA b$ if $a$ can be connected to $b$ by a chain of proper subalgebras and semilattice edges.
+\end{defn}
+
+\begin{cor}\label{colored-claim-1-cor} If $\bA$ is finite, idempotent, and simple, and if $\sim^s_\bA$ is not the full equivalence relation $\bA \times \bA$, then $\Aut(\bA)$ acts transitively on $\bA$.
+\end{cor}
+\begin{proof} For any pair $a,b \in \bA$, either $a \not\sim^s_\bA b$, or there is some $c \in \bA$ such that $a \not\sim^s_\bA c$ and $c \not\sim^s_\bA b$.
+\end{proof}
+
+\begin{prop}\label{colored-claim-2} Suppose that $\bA$ is finite, idempotent, and simple. For any $a \not\sim^s_\bA b$, if the ternary relation
+\[
+\RR_{ab} \coloneqq \Sg_{\bA^3}\left\{\begin{bmatrix} b\\ a\\ a\end{bmatrix}, \begin{bmatrix} a\\ b\\ a\end{bmatrix}, \begin{bmatrix} a\\ a\\ b\end{bmatrix}\right\}
+\]
+contains $(a,a,a)$ or $(b,a,b)$, then $\{a,b\}$ is a majority edge.
+\end{prop}
+\begin{proof} Suppose that there is some ternary term $t$ witnessing the presence of one of those tuples in $\RR_{ab}$. By Proposition \ref{colored-claim-1}, we see that $\{a,b\}$ is closed under $t$, and the restriction of $t$ to $\{a,b\}$ is either a majority operation or a Pixley operation. Either way, the ternary term $t(x,t(x,y,z),z)$ acts like a majority operation on $\{a,b\}$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{colored-graph}] We only need to show that if $\bA$ is a finite idempotent Taylor algebra, then $\bA$ has a connected colored graph. Suppose that $\bA$ is a counterexample of minimal size, and note that $\bA$ must be simple by Proposition \ref{hereditarily-connected-product}.
+
+Our aim is to show that for any $a \not\sim^s_\bA b$ such that $\{a,b\}$ is not a majority edge, the ternary relation
+\[
+\RR_{ab} \coloneqq \Sg_{\bA^3}\left\{\begin{bmatrix} b\\ a\\ a\end{bmatrix}, \begin{bmatrix} a\\ b\\ a\end{bmatrix}, \begin{bmatrix} a\\ a\\ b\end{bmatrix}\right\}
+\]
+must satisfy the conditions of Proposition \ref{ternary-abelian}, which will imply that $\bA$ is affine. Note that $a \not\sim_\bA b$ implies that $\RR_{ab}$ is subdirect.
+
+The first step to proving that $\RR_{ab}$ satisfies the conditions of Proposition \ref{ternary-abelian} is showing that $\pi_{12}(\RR_{ab}) = \bA \times \bA$. Since $\pi_{12}(\RR_{ab})$ contains $(a,a), (a,b)$, and $(b,a)$, we need to check that $(b,b) \in \pi_{12}(\RR_{ab})$. So it is natural to study the set of tuples in $\RR_{ab}$ such that two of the coordinates are equal.
+
+The next claim is the main place where we will use the fact that $\bA$ is Taylor.
+
+{\bf Claim 1:} If we define $\bD_{ab} \le \bA\times\bA$ to be the set of pairs $(c,d)$ such that $(c,d,c) \in \RR_{ab}$, then $\pi_1(\bD_{ab}) \cap \pi_2(\bD_{ab}) \ne \emptyset$.
+
+{\bf Proof of Claim 1:} Let $p,q$ be consecutive daisy chain terms, i.e. $p$ and $q$ are ternary terms satisfying the identities
+\begin{align*}
+p(x,x,y) &\approx p(y,x,x),\\
+q(x,x,y) &\approx q(y,x,x) \approx p(x,y,x).
+\end{align*}
+If we set $c = p(a,a,b), d = p(a,b,a) = q(a,a,b)$, and $e = q(a,b,a)$, then we have
+\[
+p\left(\begin{bmatrix} b & a & a\\ a & b & a\\ a & a & b\end{bmatrix}\right) = \begin{bmatrix} c\\ d\\ c\end{bmatrix}
+\]
+and
+\[
+q\left(\begin{bmatrix} b & a & a\\ a & b & a\\ a & a & b\end{bmatrix}\right) = \begin{bmatrix} d\\ e\\ d\end{bmatrix},
+\]
+so $(c,d), (d,e) \in \bD_{ab}$, and $d \in \pi_1(\bD_{ab}) \cap \pi_2(\bD_{ab})$.
+
+{\bf Claim 2:} The binary relation $\bD_{ab}$ from Claim 1 has $\pi_1(\bD_{ab}) = \bA$.
+
+{\bf Proof of Claim 2:} Suppose not. First consider the case where neither $\pi_1(\bD_{ab}), \pi_2(\bD_{ab})$ are equal to $\bA$. Then if $c \in \pi_1(\bD_{ab}) \cap \pi_2(\bD_{ab})$, we see that both $\{a,c\}$ and $\{b,c\}$ are contained in proper subalgebras of $\bA$, so $a \sim c \sim b$, contradicting the assumption $a \not\sim b$.
+
+Suppose now that $\pi_1(\bD_{ab}) \ne \bA$ but $\pi_2(\bD_{ab}) = \bA$. Then by Proposition \ref{colored-claim-0}, there is some $c \in \bA$ such that $\{c\} \times \bA \subseteq \bD_{ab}$. By Corollary \ref{colored-claim-1-cor}, there is an automorphism $\sigma \in \Aut(\bA)$ with $\sigma(a) = c$, and from $(\sigma(a),\sigma(b)) \in \{c\}\times\bA \subseteq \bD_{ab}$, we see that $(\sigma(a),\sigma(b),\sigma(a)) \in \RR_{ab}$, so in fact $\sigma(\RR_{ab}) \subseteq \RR_{ab}$, and so $\sigma(\bD_{ab}) = \bD_{ab}$. Thus $(a,a) = \sigma^{-1}(c,c) \in \bD_{ab}$, so by Proposition \ref{colored-claim-2} this contradicts the assumption that $\{a,b\}$ is not a majority edge.
+
+{\bf Claim 3:} We have $\pi_{1,2}(\RR_{ab}) = \bA\times \bA$.
+
+{\bf Proof of Claim 3:} By Claim 2, there is some $c$ such that $(b,c) \in \bD_{ab}$. Thus $(a,a),(a,b),(b,a),(b,b) \in \pi_{1,2}(\RR_{ab})$, and these four elements generate $\bA^2$.
+
+{\bf Claim 4:} For any $c$, the binary relation $\RR_{ab}^c \le \bA^2$ defined as the set of pairs $(d,e)$ such that $(c,d,e) \in \RR_{ab}$ is the graph of an automorphism of order two.
+
+{\bf Proof of Claim 4:} Suppose not. Note that by Claim 3, the relation $\RR_{ab}^c$ is subdirect. Thus if $\RR_{ab}^c$ is not the graph of an automorphism, then by Proposition \ref{colored-claim-0} there is some $d$ such that $\{d\}\times \bA \subseteq \RR_{ab}^c$.
+
+First suppose that $c = a$, so $(a,b) \in \RR_{ab}^a$. Then either $a \not\sim d$ or $b \not\sim d$. If $a \not\sim d$, then from $(a,b),(d,b) \in \RR_{ab}^a$ we see that $(b,b) \in \RR_{ab}^a$, contradicting Proposition \ref{colored-claim-2}. Similarly if $b \not\sim d$, then from $(a,b),(a,d) \in \RR_{ab}^a$ we see that $(a,a) \in \RR_{ab}^a$, contradicting Proposition \ref{colored-claim-2}.
+
+Now suppose that $c \ne a$. There is some $e \ne a$ such that $d \not\sim e$ (if not, then $\sim$ has just two equivalence classes, which are interchanged by the automorphism $\bS_{ab}$, and which both have size $1$, reducing us to the case $|\bA| = 2$). Then $\bS_{de}$ is the graph of an automorphism of order two which interchanges $d$ and $e$, and from $(d,e), (e,d) \in \RR_{ab}^c$ we see $\bS_{de} \subseteq \RR_{ab}^c$. Then since $e \ne a$ there is some $f \ne d$ such that $(a,f) \in \bS_{de} \subseteq \RR_{ab}^c$. Then from $(a,d), (a,f) \in \RR_{ab}^c$ we see that $(c,d), (c,f) \in \RR_{ab}^a$, contradicting the fact that $\RR_{ab}^a$ is the graph of an automorphism of order two.
+
+To finish the proof, note that Claim 4 shows that the relation $\RR_{ab}$ satisfies the assumptions of Proposition \ref{ternary-abelian}, so $\bA$ must be abelian. Thus we can apply Theorem \ref{taylor-abelian} to see that $\bA$ must be affine.
+\end{proof}
+\begin{comment}
+For the absorption theoretic proof, we need to understand the interaction between centrally absorbing subalgebras and edges.
+
+\begin{lem} If $\bA$ is a finite idempotent algebra and $\bC \lhd_Z \bA$ is a centrally absorbing subalgebra with ternary absorbing operation $t$, then for any $a \in \bA \setminus \bC$, there exists some $c \in \bC$ such that either $(a,c)$ is a semilattice edge, or such that $\Sg\{a,c\}$ has an automorphism of order two which interchanges $a$ and $c$.
+\end{lem}
+
+\begin{proof}[Absorption theory proof] Suppose that $\bA$ is a counterexample of minimal size. Then $\bA$ must be simple by Proposition \ref{hereditarily-connected-product}. Additionally, if $a,b \in \bA$ are not connected, then we must have $\bA = \Sg\{a,b\}$ by the choice of $\bA$. By Zhuk's four cases (Corollary \ref{zhuk-four-cases}), we see that either $\bA$ is affine, $\bA$ is subdirectly simple, or $\bA$ has a proper binary or centrally absorbing subalgebra.
+
+If $\bA$ is affine, then we are done. If $\bA$ is subdirectly simple, then we can argue as in Corollary \ref{not-sd-simple} to see that either $\Sg\{(a,b),(b,a)\} = \bA^2$ and $(a,b)$ is a semilattice edge, or $\Sg\{(a,b),(b,a)\}$ is the graph of an automorphism of $\bA$ and $(a,b)$ is a majority edge. If $\bA$ has a proper binary absorbing subalgebra $\bB$, then each of $a,b$ is either contained in $\bB$ or has a semilattice edge to $\bB$, and by the inductive hypothesis $\bB$ is connected.
+
+Suppose that $\bC \lhd_Z \bA$ is a proper centrally absorbing subalgebra of $\bA$. We just need to show that $a$ is connected to $\bC$, since then a similar argument will show that $b$ is also connected to $\bC$. If $\Sg\{(a,c),(c',a)\} \cap \bC\times\bC \ne \emptyset$ for all $c,c' \in \bC$, 
+\end{proof}
+\end{comment}
+
+%TODO: edges have unique maximal congruences on minimal Taylor algebras
+
+%TODO: simpler absorption theory proof, and counterexamples to the stronger version with no congruences on the edges.
+
+
+\subsection{Minimal bounded width clones and Bulatov's yellow connectivity property}
 
 The main goal of this subsection will be to try to prove an analogue of Theorem \ref{minimal-taylor-subalg} for minimal bounded width clones - that is, clones such that no proper subclone also has bounded width. This was first proved by the author of these notes in \cite{minimal-bounded-width}, by generalizing a technique used by Bulatov in \cite{colored-graph} to prove the special case of Theorem \ref{minimal-taylor-subalg} where $(S,t)$ is a two-element majority algebra. The core of the technique is the following theorem about reducts.
 
@@ -17076,173 +17241,309 @@ To finish the proof, we need to show that every subalgebra of $\bA$ which is gen
 \[
 \{a,b\},
 \]
-in which case $\bA$ has a proper bounded width reduct by Theorem \ref{thm-minimal-bounded-width-subalg}. Thus we may assume that $\Sg_\bA\{a,b\}$ is not strongly connected for all $a \ne b$. Since subquotients of $\bA$ are also minimal bounded width algebras by Theorem \ref{thm-minimal-bounded-width-subalg}, we see that $\Sg_\bA\{a,b\}$ has no nontrivial strongly connected quotient for all $a \ne b$, so we can apply the argument of Theorem \ref{minimal-ancestral-spiral} to see that $\bA = (A, f)$ is a spiral.
+in which case $\bA$ has a proper bounded width reduct by Theorem \ref{thm-minimal-bounded-width-subalg}. Thus we may assume that $\Sg_\bA\{a,b\}$ is not strongly connected for all $a \ne b$. Since subquotients of $\bA$ are also minimal bounded width algebras by Theorem \ref{thm-minimal-bounded-width-subalg}, we see that $\Sg_\bA\{a,b\}$ never has a nontrivial strongly connected quotient, so we can apply the argument of Theorem \ref{minimal-ancestral-spiral} to see that $\bA = (A, f)$ is a spiral.
 \end{proof}
 
-%TODO: examples, and maybe try to prove the existence of a major splat
+%TODO: examples
 
+\begin{prop} If $\bA = (A,f)$ is an oriented algebra and $f(x,y)$ is reachable from $x$, then every upwards closed subset of $\bA$ is a subalgebra of $\bA$.
+\end{prop}
 
-\section{Bulatov's colored graph}
-
-In Bulatov's approach to the CSP dichotomy conjecture \cite{bulatov-dichotomy}, the theory of absorbing subalgebras isn't used. Instead, Bulatov introduces a colored graph in \cite{colored-graph-prelim} and \cite{colored-graph}, and uses connectivity properties of this graph to analyze finite Taylor algebras.
-
-\begin{defn}\label{defn-thick-edges} Suppose $\bA$ is a finite idempotent algebra, and $a, b$ are any pair of distinct elements of $\bA$.
+\begin{prop}\label{prop-paired-ancestors-binary-absorbing} If $\bA = (A,f)$ is a finite oriented algebra with $\pi_1$-paired ancestors such that $f(x,y)$ is reachable from $x$, then $\bA$ has a unique minimal binary absorbing subalgebra $\bB \lhd_{bin} \bA$. Explicitly, $\bB$ is the smallest subset of $\bA$ such that
 \begin{itemize}
-\item We say that $(a,b)$ is a \emph{semilattice edge} if there is a binary term $t$ such that $t(a,b) = t(b,a) = b$.
-\item We say that $\{a,b\}$ is a \emph{weak majority edge} if there is a congruence $\theta$ on $\Sg\{a,b\}$ and a ternary term $m$ such that $\{a/\theta,b/\theta\}$ is closed under $m$ and $(\{a/\theta,b/\theta\},m)$ is a two-element majority algebra.
-\item We say that $\{a,b\}$ is a \emph{weak affine edge} if there is a congruence $\theta$ on $\Sg\{a,b\}$ and a term $p$ such that $(\Sg\{a,b\}/\theta, p)$ is an affine algebra.
+\item every maximal element of $\bA$ is contained in $\bB$,
+\item if $b \in \bB$, $a \in \bA$, and $b \rightarrow a$, then $a \in \bB$, and
+\item if $b \in \bB$, $a \in \bA$, and $f$ acts as first projection on $\{a,b\}$, then $a \in \bB$.
 \end{itemize}
-We drop the modifier ``weak'' on an edge if $\theta$ is a maximal congruence on $\Sg\{a,b\}$, and for any $a', b' \in \Sg\{a,b\}$ such that $a' \equiv_\theta a$ and $b' \equiv_\theta b$, we have $\Sg\{a,b\} = \Sg\{a',b'\}$. Note that semilattice edges are directed, while majority and affine edges are undirected.
+\end{prop}
+
+\begin{defn} Suppose that $\bA = (A,f)$ with $f$ binary. We say that a ternary relation $\RR \le \bA^3$ is \emph{weakly major-closed} if whenever $a_i, b_i \in \bA$ are such that $f$ acts as first projection on the sets
+\[
+\{a_i, b_i\},
+\]
+we have the implication
+\[
+\begin{bmatrix} a_1\\ a_2\\ b_3 \end{bmatrix}, \begin{bmatrix} a_1\\ b_2\\ a_3 \end{bmatrix}, \begin{bmatrix} b_1\\ a_2\\ a_3 \end{bmatrix} \in \RR \;\;\; \implies \;\;\; \begin{bmatrix} a_1\\ a_2\\ a_3 \end{bmatrix} \in \RR.
+\]
 \end{defn}
 
-Note that a semilattice edge might not be a subalgebra, and similarly the set $a/\theta \cup b/\theta$ might not be a subalgebra if $\{a,b\}$ is a majority edge. If $\bA$ is a \emph{minimal} Taylor algebra, however, then Theorem \ref{minimal-taylor-subalg} shows that $a/\theta \cup b/\theta$ is a subalgebra if $(a,b)$ is a weak majority edge, and similarly for semilattice edges. In \cite{bulatov-dichotomy}, Bulatov calls an algebra \emph{sm-smooth} if this special case of Theorem \ref{minimal-taylor-subalg} applies to it (in later papers, he just calls such algebras \emph{smooth}).%TODO: find a good reference where Bulatov calls these "smooth"
-
-We could have also defined ``weak semilattice edges'' in a similar way to the way we defined weak majority edges, but this is unnecessary.
-
-\begin{prop}\label{prop-weak-semilattice-edge} If there is a congruence $\theta$ on $\Sg\{a,b\}$ and an idempotent binary term $t$ such that $t(a,b) \equiv_\theta t(b,a) \equiv_\theta b$, then there is some $b' \in \Sg\{a,b\}$ such that $b' \equiv_\theta b$ and a splat term $s \in \Clo(t)$ such that $s(a,b') = s(b',a) = b'$.
-\end{prop}
-
-Bulatov defines his colored graph by coloring the semilattice edges red, coloring the majority edges yellow, and coloring the affine edges blue (I don't know why these particular colors were chosen).
-
-\begin{defn} We say that a finite idempotent algebra $\bA$ has a \emph{hereditarily connected colored graph} if for all $\bB \le \bA$, the colored graph of $\bB$ is connected (ignoring the directions on the semilattice edges).
-\end{defn}
-
-For the purposes of checking if an algebra is hereditarily connected, weak edges are interchangeable with edges by the following result.
-
-\begin{prop} Let $\bA$ be a finite idempotent algebra. If the colored graph of weak edges of $\bA$ is hereditarily connected, then the colored graph of edges of $\bA$ is also hereditarily connected.
-\end{prop}
-\begin{proof} Suppose that $\{a,b\}$ is a weak edge of $\bA$, with corresponding congruence $\theta$. We will prove by induction on $|\Sg\{a,b\}|$ that $a$ and $b$ are connected in the colored graph of edges of $\Sg\{a,b\}$. We may enlarge $\theta$ to a maximal congruence on $\Sg\{a,b\}$ without loss of generality, since any congruence of $\Sg\{a,b\}$ which identifies $a$ and $b$ is the full congruence. If $(a,b)$ is not an edge, then we may pick $a' \in a/\theta$ and $b' \in b/\theta$ such that $\Sg\{a',b'\}$ is strictly smaller than $\Sg\{a,b\}$, and by the inductive hypothesis we see that $a',b'$ are connected in the colored graph of edges of $\Sg\{a,b\}$. Since $\Sg\{a,a'\} \subseteq a/\theta$ and $\Sg\{b,b'\} \subseteq b/\theta$, we also see by the inductive hypothesis that $a$ is connected to $a'$ and $b$ is connected to $b'$ in the colored graph of edges of $\Sg\{a,b\}$.
-\end{proof}
-
-Algebras with hereditarily connected colored graphs are closed under the usual algebraic operations.
-
-\begin{prop}\label{hereditarily-connected-product} If $\bA, \bB$ are finite idempotent algebras (of the same signature) with hereditarily connected colored graphs, then so is $\bA \times \bB$. More generally, if $\bA$ is a finite idempotent algebra and $\theta \in \Con(\bA)$ is such that $\bA/\theta$ is hereditarily connected and every congruence class of $\theta$ is also hereditarily connected, then $\bA$ is hereditarily connected.
-\end{prop}
-\begin{proof} We prove the more general statement. Let $a,b \in \bA$ be any pair of elements. We will show that $a$ and $b$ are connected by weak edges in $\Sg\{a,b\}$. If $a/\theta = b/\theta$, then $\Sg\{a,b\}$ is contained in a congruence class of $\theta$, so $a,b$ are connected by edges of $\Sg\{a,b\}$. Otherwise, since $a/\theta, b/\theta$ are connected by edges in $\Sg\{a,b\}/\theta$, we can find a sequence of elements $a = a_0, a_1, ..., a_n = b$ such that $(a_i/\theta,a_{i+1}/\theta)$ is an edge of $\bA/\theta$ for all $i$. Then each $(a_i,a_{i+1})$ will be a weak edge of $\Sg\{a,b\}$, with the corresponding congruence containing $\theta$.
-\end{proof}
-
-\begin{prop} If $\bA$ is a finite idempotent algebra with a hereditarily connected colored graph and $\theta \in \Con(\bA)$, then $\bA/\theta$ also has a hereditarily connected colored graph.
-\end{prop}
-\begin{proof} We just need to show that if $(a,b)$ is an edge of $\bA$ with $a/\theta \ne b/\theta$, then $a/\theta$ is connected to $b/\theta$ within the subalgebra they generate. We will induct on the size of $|\Sg\{a,b\}|$. If $(a,b)$ is a semilattice edge, then $(a/\theta,b/\theta)$ will automatically be a semilattice edge as well. Otherwise, let $\eta$ be the maximal congruence on $\Sg\{a,b\}$ corresponding to the edge $(a,b)$.
-
-Since every congruence class of $\eta$ is a proper subalgebra of $\Sg\{a,b\}$, we see by induction that if $c \equiv_\eta d$, then $c/\theta$ and $d/\theta$ are connected in the subalgebra they generate, which is contained in $\Sg\{a/\theta,b/\theta\}$. Thus if the restriction of $\theta$ to $\Sg\{a,b\}$ is not contained in the maximal congruence $\eta$, then $a/\theta$ must be connected to $b/\theta$ in the subalgebra $\Sg\{a/\theta,b/\theta\}$. Otherwise, if the restriction of $\theta$ to $\Sg\{a,b\}$ \emph{is} contained in $\eta$, then $(a/\theta,b/\theta)$ is an edge, with witnessing congruence $\eta/\theta$.
-\end{proof}
-
-\begin{cor} If $\bA$ is a finite idempotent algebra with a hereditarily connected colored graph, then $\bA$ is Taylor.
-\end{cor}
-
-Bulatov's main result in \cite{colored-graph-prelim} and \cite{colored-graph} is that the converse to the above corollary holds. Since Bulatov didn't have the theory of absorbing subalgebras available to him, he proved this by using tame congruence theory. We will give a different proof, using a pair of consecutive daisy chain terms (whose existence followed from the existence of a cyclic term), and the fact that abelian Taylor algebras are affine.% We will give two proofs of Bulatov's result: one using absorption theory, and one using a pair of consecutive daisy chain terms (whose existence followed from the existence of a cyclic term).
-
-\begin{thm}[Bulatov \cite{colored-graph-prelim}, \cite{colored-graph}]\label{colored-graph} A finite idempotent algebra $\bA$ is Taylor if and only if it has a hereditarily connected colored graph.
+\begin{thm}\label{thm-weakly-major-closed-binary-absorption} Suppose that $\bA = (A,f)$ is a finite oriented algebra with $\pi_1$-paired ancestors such that $f(x,y)$ is reachable from $x$. If $a \in \bA$ and
+\[
+\bU \le \bA
+\]
+is the subalgebra of elements of $\bA$ which are reachable from $a$, and if
+\[
+\bB \lhd_{bin} \bU
+\]
+is the unique minimal binary absorbing subalgebra of $\bU$, then for any weakly major-closed symmetric ternary relation $\RR \le \bA^3$ such that
+\[
+\{a\} \times \bU \subseteq \pi_{12}(\RR)
+\]
+we have
+\[
+\bB \times \bB \times \bB \subseteq \RR.
+\]
 \end{thm}
+\begin{proof} We prove this in a series of escalating claims, each proving that $\RR$ must contain more and more tuples. Assume without loss of generality that $\bA = \pi_1(\RR)$, and let $\bM \le \bB$ be the subalgebra of maximal elements of $\bA$ which are reachable from $a$.
 
-We will prove Theorem \ref{colored-graph} by induction on $|\bA|$. A minimal counterexample $\bA$ must be simple by Proposition \ref{hereditarily-connected-product}, and every proper subalgebra of a minimal counterexample must have a hereditarily connected colored graph.
-
-\begin{defn} If $\bA$ is any algebra, we define the \emph{hypergraph of proper subalgebras} of $\bA$ to be the hypergraph with vertex set equal to the underlying set of $\bA$, and with a hyperedge $\bB$ for every proper subalgebra $\bB \le \bA$. We say that $\bA$ is \emph{disconnected} if the hypergraph of proper subalgebras of $\bA$ is not connected.
-
-We define the connected component equivalence relation $\sim_\bA$ (or just $\sim$ if $\bA$ is clear from context) on $\bA$ by $a \sim_\bA b$ if $a$ is connected to $b$ by a sequence of proper subalgebras of $\bA$ (note that in general, $\sim_\bA$ will \emph{not} be a congruence).
-\end{defn}
-
-\begin{prop} If $\bA$ is a disconnected algebra, then for any $a \not\sim_\bA b$ we have $\Sg\{a,b\} = \bA$.
-\end{prop}
-
-\begin{prop}\label{colored-claim-0} Suppose that $\bA$ is finite, idempotent, simple, and disconnected. For any binary relation $\RR \le \bA \times \bA$ with $\pi_2(\RR) = \bA$, either $\RR$ is the graph of an automorphism of $\bA$ or there is some $a \in \bA$ such that $\{a\} \times \bA \subseteq \RR$.
-\end{prop}
-\begin{proof} If $\RR$ is not the graph of an automorphism, then the linking congruence must be nontrivial, hence full (since $\bA$ is simple). Thus there is some $a \in \bA$ such that $(a,b),(a,c) \in \bA$ for some pair of elements $b,c$ with $b \not\sim c$, and from $\Sg_{\bA}\{b,c\} = \bA$ and idempotence, we see that $\{a\}\times \bA \subseteq \RR$.
-\end{proof}
-
-\begin{prop}\label{colored-claim-1} Suppose that $\bA$ is finite, idempotent, simple, and disconnected, and that $a \not\sim_\bA b$ are such that neither $(a,b)$ nor $(b,a)$ are semilattice edges. Then the binary relation
+{\bf Claim 0.} If $\bX_1, \bX_2 \le \bM$ are maximal strongly connected components of $\bA$ which are reachable from $a$ and $\bY \le \bA$ is any maximal strongly connected component of $\bA$, then
 \[
-\bS_{ab} \coloneqq \Sg_{\bA^2}\left\{\begin{bmatrix} a\\ b\end{bmatrix}, \begin{bmatrix} b\\ a\end{bmatrix}\right\}
+\RR \cap (\bX_1 \times \bX_2 \times \bY) \ne \emptyset \;\;\; \implies \;\;\; \RR \supseteq \bX_1 \times \bX_2 \times \bY.
 \]
-is the graph of an automorphism of order two which interchanges $a$ and $b$.
-\end{prop}
-\begin{proof} Assume not. Then by Proposition \ref{colored-claim-0}, there is some $c \in \bA$ with $\{c\}\times \bA \subseteq \bS_{ab}$. Since $a,b$ are in different connected components of $\bA$, at least one of them is in a different component than $c$, so we may suppose that $a$ and $c$ are in different connected components of $\bA$ without loss of generality. Then since $(b,a), (b,c) \in \bS_{ab}$ and $b \in \Sg_{\bA}\{a,c\} = \bA$, we have $(b,b) \in \bS_{ab}$, so $(a,b)$ is a semilattice edge.
-\end{proof}
 
-\begin{defn} Define the equivalence relation $\sim^s_\bA$ by $a \sim^s_\bA b$ if $a$ can be connected to $b$ by a chain of proper subalgebras and semilattice edges.
-\end{defn}
-
-\begin{cor}\label{colored-claim-1-cor} If $\bA$ is finite, idempotent, and simple, and if $\sim^s_\bA$ is not the full equivalence relation $\bA \times \bA$, then $\Aut(\bA)$ acts transitively on $\bA$.
-\end{cor}
-\begin{proof} For any pair $a,b \in \bA$, either $a \not\sim^s_\bA b$, or there is some $c \in \bA$ such that $a \not\sim^s_\bA c$ and $c \not\sim^s_\bA b$.
-\end{proof}
-
-\begin{prop}\label{colored-claim-2} Suppose that $\bA$ is finite, idempotent, and simple. For any $a \not\sim^s_\bA b$, if the ternary relation
+{\bf Proof of Claim 0.} Since $\{a\} \times \bX_1$ and $\{a\} \times \bX_2$ are contained in $\pi_{ij}(\RR)$ by our assumption on $\RR$, $\bX_1$ and $\bX_2$ are contained in linked components of each binary projection of $\RR$, so by Theorem \ref{strong-binary}(c) we have
 \[
-\RR_{ab} \coloneqq \Sg_{\bA^3}\left\{\begin{bmatrix} b\\ a\\ a\end{bmatrix}, \begin{bmatrix} a\\ b\\ a\end{bmatrix}, \begin{bmatrix} a\\ a\\ b\end{bmatrix}\right\}
+\pi_{12}(\RR) \supseteq \bX_1 \times \bX_2, \;\;\; \pi_{13}(\RR) \supseteq \bX_1 \times \bY, \;\;\; \pi_{23}(\RR) \supseteq \bX_2 \times \bY.
 \]
-contains $(a,a,a)$ or $(b,a,b)$, then $\{a,b\}$ is a majority edge.
-\end{prop}
-\begin{proof} Suppose that there is some ternary term $t$ witnessing the presence of one of those tuples in $\RR_{ab}$. By Proposition \ref{colored-claim-1}, we see that $\{a,b\}$ is closed under $t$, and the restriction of $t$ to $\{a,b\}$ is either a majority operation or a Pixley operation. Either way, the ternary term $t(x,t(x,y,z),z)$ acts like a majority operation on $\{a,b\}$.
+Define $\RR'$ by
+\[
+\RR' = \RR \cap (\bX_1 \times \bX_2 \times \bY).
+\]
+Viewing $\RR$ as a binary relation on $\pi_{ij}(\RR) \times \pi_k(\RR)$ for each permutation $i,j,k$ of $1,2,3$, we can apply Theorem \ref{strong-binary}(a) to get
+\[
+\pi_{12}(\RR') \supseteq \bX_1 \times \bX_2, \;\;\; \pi_{13}(\RR') \supseteq \bX_1 \times \bY, \;\;\; \pi_{23}(\RR') \supseteq \bX_2 \times \bY.
+\]
+Now Theorem \ref{strong-ternary} tells us that
+\[
+\RR' = \bX_1 \times \bX_2 \times \bY,
+\]
+and this completes the proof of Claim 0.
+
+{\bf Claim 1.} We have
+\[
+\bU \times \bU \subseteq \pi_{12}(\RR).
+\]
+
+{\bf Proof of Claim 1.} We just need to check that the set of elements $b \in \bU$ which are reachable from $a$ and which satisfy
+\[
+\{b\} \times \bU \subseteq \pi_{12}(\RR)
+\]
+is upwards closed. Suppose that $b$ is such an element and that $b \rightarrow c$. Then $\{c\}$ is an upwards closed subset of $\{b,c\}$, so by Proposition \ref{prop-semi-upwards-closed}
+\[
+\{c\} + \pi_{12}(\RR) \text{ is upwards closed in } \{b,c\} + \pi_{12}(\RR).
+\]
+Since $(c,a) \in \bU \times \{a\} \subseteq \pi_{12}(\RR)$, we see that $(\{c\} + \pi_{12}(\RR)) \cap \bU$ is an upwards closed subset of $\bU$ which contains $a$, so
+\[
+\{c\} + \pi_{12}(\RR) \supseteq \bU.
+\]
+This completes the proof of Claim 1.
+
+{\bf Claim 2.} If $\bX \le \bM$ is a maximal strongly connected component of $\bA$ which is reachable from $a$, then
+\[
+\bX \times \bX \times \bX \subseteq \RR.
+\]
+
+{\bf Proof of Claim 2.} By Claim 1, we have $\bX \times \bX \subseteq \pi_{12}(\RR)$. By Proposition \ref{prop-semi-upwards-closed} we see that $(\bX \times \bX) + \RR$ contains some maximal strongly connected component $\bY$ of $\bA$. By Claim 0 we have
+\[
+\bX \times \bX \times \bY \subseteq \RR.
+\]
+Since $\bA$ has $\pi_1$-paired ancestors, there is some $u \in \bX$ and $v \in \bY$ such that $f$ acts as first projection on $\{u,v\}$. By our assumption that $\RR$ is weakly major-closed we have
+\[
+\begin{bmatrix} u\\ u\\ v \end{bmatrix}, \begin{bmatrix} u\\ v\\ u \end{bmatrix}, \begin{bmatrix} v\\ u\\ u \end{bmatrix} \in \RR \;\;\; \implies \;\;\; \begin{bmatrix} u\\ u\\ u \end{bmatrix} \in \RR.
+\]
+Thus $\RR$ contains some element of $\bX \times \bX \times \bX$, and by Claim 0 this completes the proof of Claim 2.
+
+{\bf Claim 3.} If $\bX_1, \bX_2 \le \bM$ are maximal strongly connected components of $\bA$ which are reachable from $a$, then
+\[
+\bX_1 \times \bX_1 \times \bX_2 \subseteq \RR.
+\]
+
+{\bf Proof of Claim 3.} By Claim 1, we have $\bX_1 \times \bX_2 \subseteq \pi_{12}(\RR)$. By Proposition \ref{prop-semi-upwards-closed} we see that $(\bX_1 \times \bX_2) + \RR$ contains some maximal strongly connected component $\bY$ of $\bA$. By Claim 0 we have
+\[
+\bX_1 \times \bX_2 \times \bY \subseteq \RR,
+\]
+and by Claim 2 we have
+\[
+\bX_1 \times \bX_1 \times \bX_1 \subseteq \RR.
+\]
+Since $\bA$ has $\pi_1$-paired ancestors, there is some $u_1 \in \bX_1$ and $v \in \bY$ such that $f$ acts as first projection on $\{u_1,v\}$, and there is some $u_1' \in \bX_1$ and $u_2 \in \bX_2$ such that $f$ acts as first projection on $\{u_1', u_2\}$. By our assumption that $\RR$ is weakly major-closed we have
+\[
+\begin{bmatrix} u_1\\ u_1\\ u_1' \end{bmatrix}, \begin{bmatrix} u_1\\ v\\ u_2 \end{bmatrix}, \begin{bmatrix} v\\ u_1\\ u_2 \end{bmatrix} \in \RR \;\;\; \implies \;\;\; \begin{bmatrix} u_1\\ u_1\\ u_2 \end{bmatrix} \in \RR.
+\]
+Thus $\RR$ contains some element of $\bX_1 \times \bX_1 \times \bX_2$, and by Claim 0 this completes the proof of Claim 3.
+
+{\bf Claim 4.} We have
+\[
+\bM \times \bM \times \bM \subseteq \RR.
+\]
+
+{\bf Proof of Claim 4.} Since every element of $\bM$ is contained in a maximal strongly connected component of $\bA$ which is reachable from $a$, it's enough to prove that
+\[
+\bX_1 \times \bX_2 \times \bX_3 \stackrel{?}{\subseteq} \RR
+\]
+for any three maximal strongly connected components $\bX_1, \bX_2, \bX_3 \le \bM$ which are reachable from $a$. By Claim 3 we have
+\[
+\bX_i \times \bX_i \times \bX_j \subseteq \RR
+\]
+for each pair $i,j \in \{1,2,3\}$. Since $\bA$ has $\pi_1$-paired ancestors, for each pair $i,j$ we can find $u_{ij} \in \bX_i$ and $v_{ji} \in \bX_j$ such that $f$ acts as first projection on $\{u_{ij}, v_{ji}\}$. By our assumption that $\RR$ is weakly major-closed we have
+\[
+\begin{bmatrix} u_{12}\\ u_{23}\\ v_{13} \end{bmatrix}, \begin{bmatrix} u_{12}\\ v_{32}\\ u_{31} \end{bmatrix}, \begin{bmatrix} v_{21}\\ u_{23}\\ u_{31} \end{bmatrix} \in \RR \;\;\; \implies \;\;\; \begin{bmatrix} u_{12}\\ u_{23}\\ u_{31} \end{bmatrix} \in \RR.
+\]
+Thus $\RR$ contains some element of $\bX_1 \times \bX_2 \times \bX_3$, and by Claim 0 this completes the proof of Claim 4.
+
+For the next few claims, it will be convenient to say that a set of elements $S$ of $\bU$ is \emph{$\pi_1$-closed in $\bU$} if whenever $s \in S$ and $t \in \bU$ are such that $f$ acts as first projection on $\{s,t\}$, we also have $t \in S$. By Proposition \ref{prop-paired-ancestors-binary-absorbing}, if a subset $S$ of $\bU$ contains $\bM$, is upwards closed, and is $\pi_1$-closed in $\bU$, then $S$ contains $\bB$.
+
+{\bf Claim 5.} We have
+\[
+\bB \times \bM \times \bM \subseteq \RR.
+\]
+
+{\bf Proof of Claim 5.} Let $\bS \le \bU$ be the subalgebra of elements $s \in \bU$ such that
+\[
+\{s\} \times \bM \times \bM \subseteq \RR.
+\]
+By Claim 4, we have $\bM \subseteq \bS$. By Theorem \ref{strong-binary}(b), $\bS$ is upwards closed. To finish the proof of the claim we just need to check that $\bS$ is $\pi_1$-closed, so suppose that $s \in \bS$ and $t \in \bU$ are such that $f$ acts as first projection on
+\[
+\{s,t\}.
+\]
+Since $\bM$ is a union of maximal strongly connected components, it's enough to check that
+\[
+\{t\} \times \bX_1 \times \bX_2 \stackrel{?}{\subseteq} \RR
+\]
+for any two maximal strongly connected components $\bX_1, \bX_2 \le \bM$ which are reachable from $a$. By Claim 1 we have
+\[
+\{t\} \times \bX_1, \{t\} \times \bX_2 \subseteq \pi_{12}(\RR),
+\]
+so there must be some $u_i \in \bX_i$ and $v_i \in \bA$ such that
+\[
+(t,u_1,v_2), (t,v_1,u_2) \in \RR.
+\]
+Since $\bA^2$ has $\pi_1$-paired ancestors by Proposition \ref{prop-paired-ancestor-variety}, we see that $(u_1,v_2), (v_1,u_2)$ must have some $\pi_1$-paired ancestors
+\[
+\begin{bmatrix} u_1'\\ v_2' \end{bmatrix}, \begin{bmatrix} v_1'\\ u_2' \end{bmatrix} \in \Sg_{\bA^2}\left\{\begin{bmatrix} u_1\\ v_2 \end{bmatrix}, \begin{bmatrix} v_1\\ u_2 \end{bmatrix}\right\}.
+\]
+Since $u_i'$ is reachable from $u_i$, we have $u_i' \in \bX_i$, so from $s \in \bS$ we have $(s,u_1',u_2') \in \RR$. By our assumption that $\RR$ is weakly major-closed we have
+\[
+\begin{bmatrix} t\\ u_1'\\ v_2' \end{bmatrix}, \begin{bmatrix} t\\ v_1'\\ u_2' \end{bmatrix}, \begin{bmatrix} s\\ u_1'\\ u_2' \end{bmatrix} \in \RR \;\;\; \implies \;\;\; \begin{bmatrix} t\\ u_1'\\ u_2' \end{bmatrix} \in \RR.
+\]
+This shows that $\RR$ has a nonempty intersection with $\{t\} \times \bX_1 \times \bX_2$. Since $\{t\}$ is upwards closed in $\{s,t\}$, we can apply Proposition \ref{prop-semi-upwards-closed} to see that
+\[
+\{t\} + \RR \text{ is upwards closed in } \{s,t\} + \RR,
+\]
+and since $\{s\} + \RR$ contains $\bX_1 \times \bX_2$ we have
+\[
+\{t\} \times \bX_1 \times \bX_2 \subseteq \RR,
+\]
+which completes the proof of Claim 5.
+
+{\bf Claim 6.} We have
+\[
+\bB \times \bB \times \bM \subseteq \RR.
+\]
+
+{\bf Proof of Claim 6.} Let $\bS_1 \le \bB$ be the subalgebra of elements $s_1 \in \bU$ such that
+\[
+\{s_1\} \times \bB \times \bM \subseteq \RR.
+\]
+By Claim 5, we have $\bM \subseteq \bS_1$. We need to check that $\bS_1$ is upwards closed and $\pi_1$-closed in $\bB$, so suppose that $t_1 \in \bB$ and either $s_1 \rightarrow t_1$ or $f$ acts as first projection on $\{s_1,t_1\}$. Either way, $\{t_1\}$ is upwards closed in $\{s_1, t_1\}$, so
+\[
+\{t_1\} + \RR \text{ is upwards closed in } \{s_1,t_1\} + \RR.
+\]
+Letting $\bS_2 \le \bB$ be the subalgebra of elements $s_2 \in \bB$ such that
+\[
+\{t_1\} \times \{s_2\} \times \bM \subseteq \RR,
+\]
+we see that $\bS_2$ is upwards closed in $\bB$. By Claim 5, we also have $\bM \subseteq \bS_2$, so we only need to check that $\bS_2$ is $\pi_1$-closed in $\bB$ to prove the claim. Suppose that $t_2 \in \bB$ is such that $f$ acts as first projection on $\{s_2,t_2\}$. By $s_1 \in \bS_1$, we have
+\[
+\{s_1\} \times \{t_2\} \times \bM \subseteq \RR.
+\]
+If we had $s_1 \rightarrow t_1$, then we would immediately have $\{t_1\} \times \{t_2\} \times \bM \subseteq \RR$ by Proposition \ref{prop-semi-upwards-closed}, so suppose that $f$ acts as first projection on $\{s_1,t_1\}$. By Claim 1 there is some $v \in \bA$ such that
+\[
+(t_1, t_2, v) \in \RR.
+\]
+For any $u \in \bM$, let $\bX$ be the maximal strongly connected component of $\bA$ which contains $u$. Let $u', v'$ be $\pi_1$-paired ancestors of $u,v$. Since $\{(t_1,t_2)\}$ is upwards closed in $\{(t_1,t_2), (s_1,t_2)\}$ and $v'$ is reachable from $v$ in $\Sg_\bA\{u,v\}$, we can apply Proposition \ref{prop-semi-upwards-closed} to see that
+\[
+(t_1, t_2, v') \in \RR.
+\]
+By our assumption that $\RR$ is weakly major-closed we have
+\[
+\begin{bmatrix} t_1\\ t_2\\ v' \end{bmatrix}, \begin{bmatrix} t_1\\ s_2\\ u' \end{bmatrix}, \begin{bmatrix} s_1\\ t_2\\ u' \end{bmatrix} \in \RR \;\;\; \implies \;\;\; \begin{bmatrix} t_1\\ t_2\\ u' \end{bmatrix} \in \RR,
+\]
+so $\RR$ contains some element of $\{t_1\} \times \{t_2\} \times \bX$. Applying Proposition \ref{prop-semi-upwards-closed} again we see that $\{(t_1,t_2)\} + \RR$ is upwards closed in $\{(s_1,t_2)\} + \RR$, so
+\[
+\{t_1\} \times \{t_2\} \times \bX \subseteq \RR,
+\]
+and since this is true for every maximal strongly connected component $\bX \le \bM$ which is reachable from $a$, we see that $t_2 \in \bS_2$. This completes the proof of
+\[
+\bB \subseteq \bS_2,
+\]
+so $t_1 \in \bS_1$, completing the proof of Claim 6.
+
+{\bf Claim 7.} We have
+\[
+\bB \times \bB \times \bB \subseteq \RR.
+\]
+
+{\bf Proof of Claim 7.} Let $\bS_1 \le \bB$ be the subalgebra of elements $s_1 \in \bU$ such that
+\[
+\{s_1\} \times \bB \times \bB \subseteq \RR.
+\]
+By Claim 6, we have $\bM \subseteq \bS_1$. We need to check that $\bS_1$ is upwards closed and $\pi_1$-closed in $\bB$, so suppose that $t_1 \in \bB$ and either $s_1 \rightarrow t_1$ or $f$ acts as first projection on $\{s_1,t_1\}$. Let $\bS_2 \le \bB$ be the subalgebra of elements $s_2 \in \bB$ such that
+\[
+\{t_1\} \times \{s_2\} \times \bB \subseteq \RR,
+\]
+by Claim 6 again we have $\bM \subseteq \bS_2$. We need to check that $\bS_2$ is upwards closed and $\pi_1$-closed in $\bB$, so suppose that $t_2 \in \bB$ and either $s_2 \rightarrow t_2$ or $f$ acts as first projection on $\{s_2,t_2\}$. Again, let $\bS_3 \le \bB$ be the subalgebra of elements $s_3 \in \bB$ such that
+\[
+(t_1, t_2, s_3) \in \RR,
+\]
+by Claim 6 again we have $\bM \subseteq \bS_3$, we need to check that $\bS_3$ is upwards closed and $\pi_1$-closed in $\bB$, so suppose that $t_3 \in \bB$ and either $s_3 \rightarrow t_3$ or $f$ acts as first projection on $\{s_3,t_3\}$. If we have $s_i \rightarrow t_i$ for any $i$ then Proposition \ref{prop-semi-upwards-closed} will show that $(t_1,t_2,t_3) \in \RR$. Otherwise by our assumption that $\RR$ is weakly major-closed we have
+\[
+\begin{bmatrix} t_1\\ t_2\\ s_3 \end{bmatrix}, \begin{bmatrix} t_1\\ s_2\\ t_3 \end{bmatrix}, \begin{bmatrix} s_1\\ t_2\\ t_3 \end{bmatrix} \in \RR \;\;\; \implies \;\;\; \begin{bmatrix} t_1\\ t_2\\ t_3 \end{bmatrix} \in \RR,
+\]
+which shows that $t_3 \in \bS_3$, so we have $\bB \subseteq \bS_3$, so $t_2 \in \bS_2$, so we have $\bB \subseteq \bS_2$, so $t_1 \in \bS_1$, so we have $\bB \subseteq \bS_1$, completing the proof.
 \end{proof}
 
-\begin{proof}[Proof of Theorem \ref{colored-graph}] We only need to show that if $\bA$ is a finite idempotent Taylor algebra, then $\bA$ has a connected colored graph. Suppose that $\bA$ is a counterexample of minimal size, and note that $\bA$ must be simple by Proposition \ref{hereditarily-connected-product}.
-
-Our aim is to show that for any $a \not\sim^s_\bA b$ such that $\{a,b\}$ is not a majority edge, the ternary relation
-\[
-\RR_{ab} \coloneqq \Sg_{\bA^3}\left\{\begin{bmatrix} b\\ a\\ a\end{bmatrix}, \begin{bmatrix} a\\ b\\ a\end{bmatrix}, \begin{bmatrix} a\\ a\\ b\end{bmatrix}\right\}
-\]
-must satisfy the conditions of Proposition \ref{ternary-abelian}, which will imply that $\bA$ is affine. Note that $a \not\sim_\bA b$ implies that $\RR_{ab}$ is subdirect.
-
-The first step to proving that $\RR_{ab}$ satisfies the conditions of Proposition \ref{ternary-abelian} is showing that $\pi_{12}(\RR_{ab}) = \bA \times \bA$. Since $\pi_{12}(\RR_{ab})$ contains $(a,a), (a,b)$, and $(b,a)$, we need to check that $(b,b) \in \pi_{12}(\RR_{ab})$. So it is natural to study the set of tuples in $\RR_{ab}$ such that two of the coordinates are equal.
-
-The next claim is the main place where we will use the fact that $\bA$ is Taylor.
-
-{\bf Claim 1:} If we define $\bD_{ab} \le \bA\times\bA$ to be the set of pairs $(c,d)$ such that $(c,d,c) \in \RR_{ab}$, then $\pi_1(\bD_{ab}) \cap \pi_2(\bD_{ab}) \ne \emptyset$.
-
-{\bf Proof of Claim 1:} Let $p,q$ be consecutive daisy chain terms, i.e. $p$ and $q$ are ternary terms satisfying the identities
+\begin{thm}\label{thm-major-splat} If $\bA$ is a finite idempotent algebra, then $\bA$ has bounded width if and only if it has a ternary term operation $m \in \Clo_3(\bA)$ and a binary term operation $s \in \Clo_2(\bA)$ satisfying the major-splat identities
 \begin{align*}
-p(x,x,y) &\approx p(y,x,x),\\
-q(x,x,y) &\approx q(y,x,x) \approx p(x,y,x).
+s(x,y) &\approx m(x,x,y) \approx m(x,y,x) \approx m(y,x,x)\\
+&\approx s(x,s(x,y)) \approx s(s(x,y),x).
 \end{align*}
-If we set $c = p(a,a,b), d = p(a,b,a) = q(a,a,b)$, and $e = q(a,b,a)$, then we have
+\end{thm}
+\begin{proof} For the easy direction, note that by Corollary \ref{cor-semimajor-splat} any splat term operation $s$ is a semimajor operation, and apply Theorem \ref{bounded-width-terms} to see that if $\bA$ has a major-splat operation then $\bA$ has bounded width.
+
+Now suppose that $\bA$ has bounded width. By taking a reduct, we may assume that $\bA$ is also oriented. By Theorem \ref{thm-bounded-width-reachable-terms}, we can find a major operation $f(x,y)$ of $\bA$, such that $f(x,y)$ is reachable from $x$ in $\Clo_2(\bA_f)$ (where $\bA_f$ is the $f$-reduct of $\bA$) and such that $f$ satisfies the extra identity
 \[
-p\left(\begin{bmatrix} b & a & a\\ a & b & a\\ a & a & b\end{bmatrix}\right) = \begin{bmatrix} c\\ d\\ c\end{bmatrix}
+f(f(x,y), f(y,x)) \approx f(x,y).
 \]
-and
+In particular, for any $a,b \in \bA_f$, $f(a,b)$ and $f(b,a)$ are $\pi_1$-paired ancestors of $a,b$, so $\bA_f$ has $\pi_1$-paired ancestors. By Proposition \ref{prop-paired-ancestor-variety}, the free algebra
 \[
-q\left(\begin{bmatrix} b & a & a\\ a & b & a\\ a & a & b\end{bmatrix}\right) = \begin{bmatrix} d\\ e\\ d\end{bmatrix},
+\bF_f \coloneqq \cF_{\cV(\bA_f)}(x,y) \le \bA_f^{A^2}
 \]
-so $(c,d), (d,e) \in \bD_{ab}$, and $d \in \pi_1(\bD_{ab}) \cap \pi_2(\bD_{ab})$.
-
-{\bf Claim 2:} The binary relation $\bD_{ab}$ from Claim 1 has $\pi_1(\bD_{ab}) = \bA$.
-
-{\bf Proof of Claim 2:} Suppose not. First consider the case where neither $\pi_1(\bD_{ab}), \pi_2(\bD_{ab})$ are equal to $\bA$. Then if $c \in \pi_1(\bD_{ab}) \cap \pi_2(\bD_{ab})$, we see that both $\{a,c\}$ and $\{b,c\}$ are contained in proper subalgebras of $\bA$, so $a \sim c \sim b$, contradicting the assumption $a \not\sim b$.
-
-Suppose now that $\pi_1(\bD_{ab}) \ne \bA$ but $\pi_2(\bD_{ab}) = \bA$. Then by Proposition \ref{colored-claim-0}, there is some $c \in \bA$ such that $\{c\} \times \bA \subseteq \bD_{ab}$. By Corollary \ref{colored-claim-1-cor}, there is an automorphism $\sigma \in \Aut(\bA)$ with $\sigma(a) = c$, and from $(\sigma(a),\sigma(b)) \in \{c\}\times\bA \subseteq \bD_{ab}$, we see that $(\sigma(a),\sigma(b),\sigma(a)) \in \RR_{ab}$, so in fact $\sigma(\RR_{ab}) \subseteq \RR_{ab}$, and so $\sigma(\bD_{ab}) = \bD_{ab}$. Thus $(a,a) = \sigma^{-1}(c,c) \in \bD_{ab}$, so by Proposition \ref{colored-claim-2} this contradicts the assumption that $\{a,b\}$ is not a majority edge.
-
-{\bf Claim 3:} We have $\pi_{1,2}(\RR_{ab}) = \bA\times \bA$.
-
-{\bf Proof of Claim 3:} By Claim 2, there is some $c$ such that $(b,c) \in \bD_{ab}$. Thus $(a,a),(a,b),(b,a),(b,b) \in \pi_{1,2}(\RR_{ab})$, and these four elements generate $\bA^2$.
-
-{\bf Claim 4:} For any $c$, the binary relation $\RR_{ab}^c \le \bA^2$ defined as the set of pairs $(d,e)$ such that $(c,d,e) \in \RR_{ab}$ is the graph of an automorphism of order two.
-
-{\bf Proof of Claim 4:} Suppose not. Note that by Claim 3, the relation $\RR_{ab}^c$ is subdirect. Thus if $\RR_{ab}^c$ is not the graph of an automorphism, then by Proposition \ref{colored-claim-0} there is some $d$ such that $\{d\}\times \bA \subseteq \RR_{ab}^c$.
-
-First suppose that $c = a$, so $(a,b) \in \RR_{ab}^a$. Then either $a \not\sim d$ or $b \not\sim d$. If $a \not\sim d$, then from $(a,b),(d,b) \in \RR_{ab}^a$ we see that $(b,b) \in \RR_{ab}^a$, contradicting Proposition \ref{colored-claim-2}. Similarly if $b \not\sim d$, then from $(a,b),(a,d) \in \RR_{ab}^a$ we see that $(a,a) \in \RR_{ab}^a$, contradicting Proposition \ref{colored-claim-2}.
-
-Now suppose that $c \ne a$. There is some $e \ne a$ such that $d \not\sim e$ (if not, then $\sim$ has just two equivalence classes, which are interchanged by the automorphism $\bS_{ab}$, and which both have size $1$, reducing us to the case $|\bA| = 2$). Then $\bS_{de}$ is the graph of an automorphism of order two which interchanges $d$ and $e$, and from $(d,e), (e,d) \in \RR_{ab}^c$ we see $\bS_{de} \subseteq \RR_{ab}^c$. Then since $e \ne a$ there is some $f \ne d$ such that $(a,f) \in \bS_{de} \subseteq \RR_{ab}^c$. Then from $(a,d), (a,f) \in \RR_{ab}^c$ we see that $(c,d), (c,f) \in \RR_{ab}^a$, contradicting the fact that $\RR_{ab}^a$ is the graph of an automorphism of order two.
-
-To finish the proof, note that Claim 4 shows that the relation $\RR_{ab}$ satisfies the assumptions of Proposition \ref{ternary-abelian}, so $\bA$ must be abelian. Thus we can apply Theorem \ref{taylor-abelian} to see that $\bA$ must be affine.
+also has $\pi_1$-paired ancestors. This free algebra is an $f$-subalgebra of the larger free algebra
+\[
+\bF \coloneqq \cF_{\cV(\bA)}(x,y) \le \bA^{A^2}.
+\]
+Define a symmetric subdirect ternary relation $\RR \le_{sd} \bF_f^3$ by
+\[
+\RR \coloneqq \Sg_{\bF^3}\left\{\begin{bmatrix} x\\ x\\ y \end{bmatrix}, \begin{bmatrix} x\\ y\\ x \end{bmatrix}, \begin{bmatrix} y\\ x\\ x \end{bmatrix}\right\} \cap \bF_f^3,
+\]
+and note that $\RR$ will be weakly major-closed since $f$ is a major operation of $\bA$. Let
+\[
+\bU \le \bF_f
+\]
+be the set of elements of $\bF_f$ which are reachable from $x$, and let
+\[
+\bB \lhd_{bin} \bU
+\]
+be the unique minimal binary absorbing subalgebra of $\bU$. Since
+\[
+\{x\} \times \bU \subseteq \Sg_{\bF_f^2}\{(x,x), (x,y)\} \subseteq \pi_{12}(\RR),
+\]
+we can apply Theorem \ref{thm-weakly-major-closed-binary-absorption} to see that
+\[
+\bB \times \bB \times \bB \subseteq \RR.
+\]
+Since $\bU$ is oriented, $x \in \bU$, and $\bB \lhd_{bin} \bU$, we can apply Proposition \ref{oriented-bin-abs} to see that there must be some $s(x,y) \in \bB$ such that $x \rightarrow s(x,y)$, which is equivalent to the identities
+\[
+s(x,s(x,y)) \approx s(s(x,y),x) \approx s(x,y).
+\]
+Since $s(x,y) \in \bB$ and $\bB^3 \subseteq \RR$, there must be a witnessing ternary term $m(x,y,z)$ of $\bA$ such that
+\[
+s(x,y) \approx m(x,x,y) \approx m(x,y,x) \approx m(y,x,x).\qedhere
+\]
 \end{proof}
-\begin{comment}
-For the absorption theoretic proof, we need to understand the interaction between centrally absorbing subalgebras and edges.
 
-\begin{lem} If $\bA$ is a finite idempotent algebra and $\bC \lhd_Z \bA$ is a centrally absorbing subalgebra with ternary absorbing operation $t$, then for any $a \in \bA \setminus \bC$, there exists some $c \in \bC$ such that either $(a,c)$ is a semilattice edge, or such that $\Sg\{a,c\}$ has an automorphism of order two which interchanges $a$ and $c$.
-\end{lem}
-
-\begin{proof}[Absorption theory proof] Suppose that $\bA$ is a counterexample of minimal size. Then $\bA$ must be simple by Proposition \ref{hereditarily-connected-product}. Additionally, if $a,b \in \bA$ are not connected, then we must have $\bA = \Sg\{a,b\}$ by the choice of $\bA$. By Zhuk's four cases (Corollary \ref{zhuk-four-cases}), we see that either $\bA$ is affine, $\bA$ is subdirectly simple, or $\bA$ has a proper binary or centrally absorbing subalgebra.
-
-If $\bA$ is affine, then we are done. If $\bA$ is subdirectly simple, then we can argue as in Corollary \ref{not-sd-simple} to see that either $\Sg\{(a,b),(b,a)\} = \bA^2$ and $(a,b)$ is a semilattice edge, or $\Sg\{(a,b),(b,a)\}$ is the graph of an automorphism of $\bA$ and $(a,b)$ is a majority edge. If $\bA$ has a proper binary absorbing subalgebra $\bB$, then each of $a,b$ is either contained in $\bB$ or has a semilattice edge to $\bB$, and by the inductive hypothesis $\bB$ is connected.
-
-Suppose that $\bC \lhd_Z \bA$ is a proper centrally absorbing subalgebra of $\bA$. We just need to show that $a$ is connected to $\bC$, since then a similar argument will show that $b$ is also connected to $\bC$. If $\Sg\{(a,c),(c',a)\} \cap \bC\times\bC \ne \emptyset$ for all $c,c' \in \bC$, 
-\end{proof}
-\end{comment}
-
-%TODO: edges have unique maximal congruences on minimal Taylor algebras
-
-%TODO: simpler absorption theory proof, and counterexamples to the stronger version with no congruences on the edges.
+%TODO: finish!
 
 
 \section{Conservative Taylor algebras}\label{s-conservative}
